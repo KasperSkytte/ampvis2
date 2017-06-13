@@ -34,9 +34,13 @@ amp_subset_taxa <- function(data, ...) {
   
 
   #subset tax table based on ... and only keep rows in abund and metadata matching the rows in the subsetted tax table
-  data$tax <- subset(tax, ...)
-  data$abund <- abund[rownames(data$tax), , drop=FALSE]
-  data$metadata <- metadata[colnames(data$abund), , drop=FALSE]
+  #data$tax <- subset(tax, ...)
+  
+  data$tax <- subset(tax, Kingdom == "k__Bacteria")
+  
+  data$abund <- abund[as.character(data$tax$OTU),]
+  #data$abund <- subset(data$abund, data$abund$OTU %in% data$tax$OTU)
+  #data$metadata <- metadata[colnames(data$abund), , drop=FALSE]
   
   if(any(names(data) == "refseq")){
     data$refseq <- data$refseq[names(data$refseq) %in% rownames(data$abund), ]

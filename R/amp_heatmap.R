@@ -87,10 +87,10 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
   suppressWarnings(
     if (group != "Sample"){
       if (length(group) > 1){
-        grp <- data.frame(Sample = rownames(sample), Group = apply(sample[,group], 1, paste, collapse = " ")) 
+        grp <- data.frame(Sample = sample$SeqID, Group = apply(sample[,group], 1, paste, collapse = " ")) 
         oldGroup <- unique(cbind.data.frame(sample[,group], Group = grp$Group))
       } else{
-        grp <- data.frame(Sample = rownames(sample), Group = sample[,group]) 
+        grp <- data.frame(Sample = sample$SeqID, Group = sample[,group]) 
       }
       abund3$Group <- grp$Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3
@@ -206,8 +206,8 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
       tdata <- mutate(abund7, 
                       Abundance = ifelse(Abundance < min.abundance, min.abundance, Abundance),
                       Abundance = ifelse(Abundance > max.abundance, max.abundance, Abundance))
-      #tdata <- dcast(tdata, Display~Group, value.var = "Abundance") #is this working?
-      tdata <- spread(tdata, key = Group, value = Abundance) 
+      tdata <- dcast(tdata, Display~Group, value.var = "Abundance") #is this working?
+      #tdata <- spread(tdata, key = Group, value = Abundance) 
       rownames(tdata) <- tdata$Display
       tdata2 <- tdata[,-1]
       tclust <- hclust(dist(tdata2))
@@ -233,8 +233,8 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
       tdata <- mutate(abund7, 
                       Abundance = ifelse(Abundance < min.abundance, min.abundance, Abundance),
                       Abundance = ifelse(Abundance > max.abundance, max.abundance, Abundance))
-      #tdata <- dcast(tdata, Display~Group, value.var = "Abundance") #is this working?
-      tdata <- spread(tdata, key = Group, value = Abundance) 
+      tdata <- dcast(tdata, Display~Group, value.var = "Abundance") #is this working?
+      #tdata <- spread(tdata, key = Group, value = Abundance) 
       rownames(tdata) <- tdata$Display
       tdata2 <- tdata[,-1]
       tclust <- hclust(dist(t(tdata2)))

@@ -79,10 +79,10 @@ amp_timeseries <- function(data, time, group = "Sample", split = F, tax.show = 5
   suppressWarnings(
     if (group != "Sample"){
       if (length(group) > 1){
-        grp <- data.frame(Sample = rownames(sample), Group = apply(sample[,group], 1, paste, collapse = " ")) 
+        grp <- data.frame(Sample = sample$SeqID, Group = apply(sample[,group], 1, paste, collapse = " ")) 
         oldGroup <- unique(cbind.data.frame(sample[,group], Group = grp$Group))
       } else{
-        grp <- data.frame(Sample = rownames(sample), Group = sample[,group]) 
+        grp <- data.frame(Sample = sample$SeqID, Group = sample[,group]) 
       }
       abund5 <- merge(abund4, grp)
     } else{ abund5 <- data.frame(abund4, Group = "Sample")}

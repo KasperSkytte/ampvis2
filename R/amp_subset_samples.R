@@ -40,7 +40,7 @@ amp_subset_samples <- function(data, ..., minreads = 1) {
   #subset metadata based on ... and only keep columns in otutable matching the rows in the subsetted metadata
   data$metadata <- subset(metadata, ...)
   data$metadata <- droplevels(data$metadata)
-  data$abund <- abund[, rownames(data$metadata), drop=FALSE]
+  data$abund <- abund[, data$metadata$SeqID, drop=FALSE]
   data$abund <- data$abund[!apply(data$abund, 1, function(row) all(row <= 0)),] #remove low abundant OTU's 
   data$tax <- data$tax[rownames(data$abund),] #same with taxonomy
   

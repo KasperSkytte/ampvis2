@@ -67,12 +67,17 @@ amp_alpha <- function (data, measures = NULL, rarefy = 10000) {
   
   rich = do.call("cbind", outlist)
   namechange = intersect(colnames(rich), names(renamevec))
+  
   colnames(rich)[colnames(rich) %in% namechange] <- renamevec[namechange]
+  
   colkeep = sapply(paste0("(se\\.){0,}", measures), grep, 
                    colnames(rich), ignore.case = TRUE)
+  
   rich = rich[, sort(unique(unlist(colkeep))), drop = FALSE]
-  rich <- as.data.frame(rich)
-  combined <- cbind.data.frame(metadata, Reads, rich) %>% arrange(Reads)
+  
+  rich <- data.frame(Reads = Reads, rich, SeqID = rownames(abund))
+  
+  combined <- merge(metadata, rich, by = "SeqID") %>% arrange(Reads)
   return(combined)
 }
 

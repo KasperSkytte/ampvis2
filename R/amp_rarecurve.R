@@ -42,7 +42,7 @@ amp_rarecurve <- function (data, step = 1000, color = NULL){
     df <- rbind.data.frame(df, tdf)
   }
   
-  dfm <- merge(metadata, df, by = "SeqID") # Could add a check if this coloumn is correct
+  dfm <- merge(sample, df, by = "SeqID") # Could add a check if this coloumn is correct
   
   ## Plot the data
   p <- ggplot(dfm, aes_string(x = "Reads", y = "Species", group = "SeqID", color = color)) +

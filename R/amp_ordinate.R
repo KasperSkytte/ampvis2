@@ -85,7 +85,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
   data$abund <- data$abund[!apply(data$abund, 1, function(row) all(row <= filter_species)),] #remove low abundant OTU's 
   rownames(data$tax) <- data$tax$OTU
   data$tax <- data$tax[rownames(data$abund),] #same with taxonomy
-  data$metadata <- data$metadata[colnames(data$abund),] #same with metadata
+  #data$metadata <- data$metadata[colnames(data$abund),] #same with metadata
   
   #to fix user argument characters, so fx PCoA/PCOA/pcoa are all valid
   type <- tolower(type)
@@ -207,7 +207,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
     }
   } else if(type == "mmds" | type == "pcoa") {
     #make the model
-    model <- pcoa(inputmatrix, ...)
+    model <- betadisper(inputmatrix, ...)
     
     #axis (and data column) names
     x_axis_name <- paste0("PCo", x_axis)
@@ -417,6 +417,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
   
   #Sample point labels
   if(!is.null(sample_label)) {
+    
     if (repel == T){plot <- plot + geom_text_repel(aes_string(label = sample_label),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
     else{plot <- plot + geom_text(aes_string(label = sample_label),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
   }
