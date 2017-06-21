@@ -27,7 +27,7 @@ amp_normalise <- function(data) {
   }
   
   # Normalise data to percent
-  data$abund <- apply(data$abund,2, function(x) 100*x/sum(x)) 
+  data$abund <- apply(data$abund,2, function(x) 100*x/sum(x)) %>% as.data.frame() 
 
   return(data)
 }
