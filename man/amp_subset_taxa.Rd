@@ -9,10 +9,10 @@ amp_subset_taxa(data, ...)
 \arguments{
 \item{data}{(required) A object.}
 
-\item{...}{(required) Additional data is passed on to the R subset function. The samples can be subset based on any variable in the taxonomy.}
+\item{tax_vector}{(required) a vector with taxonomic groups e.g. c("p__Chloroflexi","p__Actinobacteria")}
 }
 \value{
-A phyloseq object.
+A list object.
 }
 \description{
 Subset data based on taxonomy.

@@ -313,6 +313,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
                             shape = sample_shape))
   
   #Generate a color frame around the chosen color group
+  
   if(sample_colorframe == TRUE) {
     if(is.null(sample_color)) stop("Please provide the argument sample_color")
     splitData <- split(dsites, dsites[, sample_color]) %>% 
@@ -546,6 +547,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
           ylab("Eigenvalue in percent of total inertia")
       }
     }
+    
   return(list(plot = plot,
               screeplot = screeplot,
               model = model,
@@ -553,6 +555,6 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
               dspecies = dspecies,
               evf_factor_model = evf_factor_model,
               evf_numeric_model = evf_numeric_model)
-         ) 
+         )
   }
 }

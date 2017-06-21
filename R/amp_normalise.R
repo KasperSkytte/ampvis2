@@ -2,7 +2,7 @@
 #'
 #' Normalise data.
 #'
-#' @usage amp_subset_taxa(data)
+#' @usage amp_normalise(data)
 #'
 #' @param data (required) A object.
 #' 
@@ -26,7 +26,7 @@ amp_normalise <- function(data) {
     stop("The data must be a list with three dataframes named abund, tax and metadata")
   }
   
-  # Normalise data to %
+  # Normalise data to percent
   data$abund <- apply(data$abund,2, function(x) 100*x/sum(x)) 
 
   return(data)
