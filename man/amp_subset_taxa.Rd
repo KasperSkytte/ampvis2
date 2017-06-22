@@ -4,15 +4,15 @@
 \alias{amp_subset_taxa}
 \title{Subset data based on taxonomy.}
 \usage{
-amp_subset_taxa(data, ...)
+amp_subset_taxa(data, tax_vector)
 }
 \arguments{
-\item{data}{(required) A object.}
+\item{data}{(required) A list object with 4 dataframes: abund, tax, metadata and refseq.}
 
 \item{tax_vector}{(required) a vector with taxonomic groups e.g. c("p__Chloroflexi","p__Actinobacteria")}
 }
 \value{
-A list object.
+A list object with 4 dataframes: abund, tax, metadata and refseq.
 }
 \description{
 Subset data based on taxonomy.
