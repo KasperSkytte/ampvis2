@@ -7,12 +7,12 @@
 amp_subset_taxa(data, tax_vector)
 }
 \arguments{
-\item{data}{(required) A list object with 4 dataframes: abund, tax, metadata and refseq.}
+\item{data}{(required) A list object with 3 dataframes: abund, tax, and metadata.}
 
 \item{tax_vector}{(required) a vector with taxonomic groups e.g. c("p__Chloroflexi","p__Actinobacteria")}
 }
 \value{
-A list object with 4 dataframes: abund, tax, metadata and refseq.
+A list object with 3 dataframes: abund, tax, and metadata.
 }
 \description{
 Subset data based on taxonomy.

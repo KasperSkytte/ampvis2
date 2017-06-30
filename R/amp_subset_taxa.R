@@ -4,10 +4,10 @@
 #'
 #' @usage amp_subset_taxa(data, tax_vector)
 #'
-#' @param data (required) A list object with 4 dataframes: abund, tax, metadata and refseq.
+#' @param data (required) A list object with 3 dataframes: abund, tax, and metadata.
 #' @param tax_vector (required) a vector with taxonomic groups e.g. c("p__Chloroflexi","p__Actinobacteria")
 #' 
-#' @return A list object with 4 dataframes: abund, tax, metadata and refseq.
+#' @return A list object with 3 dataframes: abund, tax, and metadata.
 #' 
 #' @export
 #' 
@@ -20,13 +20,11 @@ amp_subset_taxa<- function(data, tax_vector=c("p__Chloroflexi","p__Actinobacteri
      !any(names(data) == "abund") |
      !any(names(data) == "tax") | 
      !any(names(data) == "metadata") | 
-     !any(names(data) == "refseq") | 
      !is.data.frame(data[["abund"]]) |
      !is.data.frame(data[["tax"]]) |
-     !is.data.frame(data[["refseq"]]) |
      !is.data.frame(data[["metadata"]])
   ) {
-    stop("The data must be a list with four dataframes named abund, tax, metadata, and refseq")
+    stop("The data must be a list with three dataframes named abund, tax and metadata")
   }
   
   # Make selection
@@ -38,14 +36,18 @@ amp_subset_taxa<- function(data, tax_vector=c("p__Chloroflexi","p__Actinobacteri
                which(data$tax$Genus %in% tax_vector),
                which(data$tax$Species %in% tax_vector),
                which(data$tax$OTU %in% tax_vector)
-  )
+               )
   
   # Make new list
   d1<-data$abund[selection,]
   d2<-data$tax[selection,]
   d3<-data$metadata
-  d4<-data$refseq[selection]
-  data<- list(abund = d1, tax = d2, metadata = d3, refseq = d4)
-  
+  if (any(names(data) == "refseq")) {
+    d4<-data$refseq[selection]
+    data<- list(abund = d1, tax = d2, metadata = d3, refseq = d4)
+  } else {
+    data<- list(abund = d1, tax = d2, metadata = d3)
+  }
+
   return(data)
 }
