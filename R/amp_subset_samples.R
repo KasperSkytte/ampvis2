@@ -41,7 +41,7 @@ amp_subset_samples <- function(data, ..., minreads = 1) {
   data$metadata <- subset(metadata, ...)
   data$metadata <- droplevels(data$metadata)
   data$abund <- abund[, data$metadata$SeqID, drop=FALSE]
-  data$abund <- data$abund[!apply(data$abund, 1, function(row) all(row <= 0)),] #remove low abundant OTU's 
+  data$abund <- data$abund[!apply(data$abund, 1, function(row) all(row <= 0)), , drop=FALSE] #remove low abundant OTU's 
   data$tax <- data$tax[rownames(data$abund),] #same with taxonomy
   
   if(any(names(data) == "refseq")){
