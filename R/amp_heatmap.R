@@ -261,7 +261,7 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
   p <- ggplot(abund7, aes_string(x = "Group", y = "Display", label = formatC("Abundance", format = "f", digits = 1))) +     
     geom_tile(aes(fill = Abundance), colour = "white", size = 0.5) +
     theme(axis.text.y = element_text(size = 12, color = "black", vjust = 0.4),
-          axis.text.x = element_text(size = 10, color = "black", vjust = 0.5, angle = 90),
+          axis.text.x = element_text(size = 10, color = "black", vjust = 0.5, angle = 90, hjust = 1),
           axis.title = element_blank(),
           text = element_text(size = 8, color = "black"),
           axis.ticks.length = unit(1, "mm"),
