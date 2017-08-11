@@ -1,0 +1,76 @@
+---
+title: "Introduction to ampvis2"
+---
+
+Below is a small guide to the basics of ampvis2 and how the data is loaded, aswell as a few basic visualisation functions using example data. A full explanation of all functions, their purpose and different arguments can be found in the Reference tab. First, install ampvis2 as described on the front page.
+
+## Loading data
+The most notable change with ampvis2 is that phyloseq is no longer used to handle the data, which makes it simpler to understand and work with. The data is simply stored as a list containing 3 dataframes named "metadata", "otutable" and "tax" (short for taxonomy). The data ampvis2 needs is an OTU-table generated with [workflow scipts v.4+](https://github.com/MadsAlbertsen/16S-analysis/tree/master/data.generation) and a metadata sheet containing information about the samples. The OTU-table is a raw CSV-table with OTU names/ID's in rows and sample ID's in columns, where numbers in the corresponding cells represent the read counts of the particular OTU in each sample. The last 7 columns are expected to be the taxonomy of the corresponding OTU's (Kingdom->Species). The metadata needs to have the same sample ID's as in the OTU-table in the first column and then the remaining columns contain information about the samples, for example where the sample was taken, date, pH, temperature etc. First, import your data into R dataframes using an appropriate read function:
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+library(ampvis2)
+```
+
+```{r, eval = FALSE}
+myotutable <- read.csv2("data/otutable.csv", 
+                        #sep = "\t",
+                        #dec = ".",
+                        header = TRUE,
+                        stringsAsFactors = FALSE,
+                        check.names = FALSE,
+                        row.names = 1) %>% as.data.frame()
+mymetadata <- read_excel("data/metadata.xlsx",
+                         col_names = TRUE) %>% as.data.frame()
+```
+Note that `read.csv2()` treats semicolon ";" as the default separator and comma "," as decimal, which is the standard in some regions. To change the separator to fx a comma you can provide the argument `sep = ","`. See more in the documentation with `?read.table`.
+
+After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID's and that the first column in the metadata are the sample ID's.
+Now the data can be loaded using `amp_load()`, which checks the data and combines it into one object, which makes it easier to manipulate, filter and subset all elements of the data at once before analysis:
+```{r, eval = FALSE}
+library(ampvis2)
+d <- amp_load(otutable = myotutable,
+              metadata = mymetadata)
+
+#The reference sequences can optionally be loaded with readDNAStringSet() from the biostrings package:
+#d <- amp_load(otutable = myotutable,
+#              metadata = mymetadata,
+#              refseq = readDNAStringSet("data/otus.fa", format = "fasta"))
+```
+
+The individual dataframes in the list can be explored with `View(d$metadata)`.
+
+## Filtering and subsetting
+With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with `data("MiD")`. The loaded data can be subsetted based on variables in the metadata using the `amp_subset_samples()` function, which can then be stored as a new object and analysed separately:
+```{r, warning = FALSE}
+data("MiD")
+ds <- amp_subset_samples(d, Plant %in% c("Aalborg West", "Aalborg East"))
+```
+
+or for a more complex subset, you can subset based on two or more variables using "&" to separate the conditions. The "!" (logical NOT operator) can be thought of as "except" and is useful to remove fx outliers. Furthermore, the `minreads = 20000` argument removes any sample(s) with total amount of reads below the chosen threshold:
+```{r}
+ds <- amp_subset_samples(d, Plant %in% c("Aalborg West", "Aalborg East") & !SeqID %in% c("16SAMP-749"), minreads = 20000)
+```
+
+The `amp_subset_taxa()` function instead subsets based on the taxonomy, where you simply provide a vector with the taxa you are interested in, separated by a comma:
+
+```{r}
+d_Chloroflexi_Actinobacteria <- amp_subset_taxa(d, tax_vector=c("p__Chloroflexi", "p__Actinobacteria"))
+```
+
+The taxonomic rank is indicated by fx "p__" for phylum and "g__" for genus etc, followed by the name of the taxon (case-sensitive, first letter almost always capital). 
+
+# Heatmap
+All ampvis2 plots are generated using the [ggplot2](http://ggplot2.tidyverse.org/) package. You can change the look of the plots to suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots. See the [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) for more information.
+```{r}
+amp_heatmap(ds, group = "Plant")
+```
+
+`amp_heatmap()` by default aggregates to phylum level and shows the top 10 phyla. You can manually select the level at which to aggregate, how many to show, add additional taxonomic information, group the samples differently by the metadata and much more:
+
+```{r}
+amp_heatmap(ds,
+            group = c("Plant", "Year"),
+            tax.aggregate = "Genus",
+            tax.add = "Phylum",
+            tax.show = 25)
+```

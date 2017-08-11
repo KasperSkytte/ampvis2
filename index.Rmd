@@ -1,0 +1,24 @@
+#Tools for visualising amplicon data
+ampvis is an R-package to visualise amplicon data. more more more
+
+##Installing ampvis2
+First, install [R](https://mirrors.dotsrc.org/cran/) (and for Windows also [RTools](https://mirrors.dotsrc.org/cran/bin/windows/Rtools/)) and [RStudio](https://www.rstudio.com/products/rstudio/download/#download). Then open RStudio and install the following required packages from the console. It can be a good idea to run RStudio as administrator, so the packages are available to all users on the computer. 
+```{r, message = FALSE, warning = FALSE, eval=FALSE}
+install.packages("devtools")
+source("http://bioconductor.org/biocLite.R")
+biocLite("Biostrings")
+biocLite("DESeq2")
+biocLite("munsell")
+biocLite("stringi")
+biocLite("chron")
+biocLite("permute")
+biocLite("assertthat")
+biocLite("rmarkdown")
+biocLite("reshape")
+```
+
+Now ampvis2 can be installed from github. If you get an error with a missing package, just use `install.packages("packagename")` to install it. If that doesn't work, try with `biocLite("packagename")` instead.
+```{r, message = FALSE, warning = FALSE}
+devtools::install_github("MadsAlbertsen/ampvis2")
+library(ampvis2)
+```

@@ -1,0 +1,38 @@
+url: https://github.com/MadsAlbertsen/ampvis2
+
+template:
+  params:
+    bootswatch: yeti
+
+reference:
+  - title: Data and filtering
+    desc: Functions for loading, exporting and subsetting the data.
+    contents:
+    - amp_load
+    - amp_export_fasta
+    - amp_export_otutable
+    - amp_normalise
+    - amp_alpha
+    - amp_subset_samples
+    - amp_subset_taxa
+  - title: Plotting functions
+    desc: Functions for visualising amplicon data.
+    contents:
+    - amp_rarecurve
+    - amp_boxplot
+    - amp_core
+    - amp_frequency
+    - amp_heatmap
+    - amp_function
+    - amp_ordinate
+    - amp_otu_network
+    - amp_rankabundance
+    - amp_test_species
+    - amp_timeseries
+    - amp_venn
+
+navbar:
+  title: "ampvis2"
+  right:
+  - icon: fa-github
+    href: https://github.com/MadsAlbertsen/ampvis2
