@@ -32,11 +32,13 @@ amp_subset_samples <- function(data, ..., minreads = 1) {
     stop(paste("Cannot subset samples with minimum", minreads, "total reads, when highest number of reads in any sample is", max(colSums(data$abund))))
   }
   
-  #For printing number of removed samples
-  nsamplesbefore <- nrow(d$metadata) %>% as.numeric()
+  #For printing removed samples and OTUs
+  nsamplesbefore <- nrow(data$metadata) %>% as.numeric()
+  nOTUsbefore <- nrow(data$abund) %>% as.numeric()
   
   #Subset metadata based on ...
   data$metadata <- subset(data$metadata, ...)
+  data$metadata <- droplevels(data$metadata) #Drop unused factor levels or fx heatmaps will show a "NA" column
   #And only keep columns in otutable that match the rows in the subsetted metadata
   data$abund <- data$abund[, rownames(data$metadata), drop = FALSE]
   
@@ -50,11 +52,13 @@ amp_subset_samples <- function(data, ..., minreads = 1) {
     data$refseq <- data$refseq[names(data$refseq) %in% rownames(data$abund), ]
   }
   
-  nsamplesafter <- as.numeric(nrow(data$metadata))
+  #Print number of removed samples
+  nsamplesafter <- nrow(data$metadata) %>% as.numeric()
+  nOTUsafter <- nrow(data$abund) %>% as.numeric()
   if (nsamplesbefore == nsamplesafter) {
     print("0 samples have been filtered.")
   } else {
-    cat(paste(nsamplesbefore-nsamplesafter, "samples have been filtered \nBefore:", nsamplesbefore, "samples\nAfter:", nsamplesafter, "samples"))
+    cat(paste(nsamplesbefore-nsamplesafter, "samples and", nOTUsbefore-nOTUsafter,"OTUs have been filtered \nBefore:", nsamplesbefore, "samples and", nOTUsbefore, "OTUs\nAfter:", nsamplesafter, "samples and", nOTUsafter, "OTUs"))
   }
   
   return(data)

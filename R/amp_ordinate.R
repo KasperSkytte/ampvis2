@@ -201,13 +201,13 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
     #Speciesscores may not be available with MDS
     sitescores <- scores(model, display = "sites")
     if(!length(model$species) > 1) {
-      speciesscores <- warning("Speciesscores are not available.")
+      speciesscores <- warning("Speciesscores are not available with nMDS or mMDS/PCoA.")
     } else {
       speciesscores <- scores(model, display = "species", choices = c(x_axis, y_axis))
     }
   } else if(type == "mmds" | type == "pcoa") {
     #make the model
-    model <- betadisper(inputmatrix, ...)
+    model <- pcoa(inputmatrix, ...)
     
     #axis (and data column) names
     x_axis_name <- paste0("PCo", x_axis)
@@ -221,7 +221,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
     #Speciesscores are not available with pcoa
     sitescores <- as.data.frame(model$vectors)
     colnames(sitescores) <- c(paste0("PCo", seq(1:length(sitescores))))
-    speciesscores <- warning("Speciesscores are not available.")
+    speciesscores <- warning("Speciesscores are not available with nMDS or mMDS/PCoA.")
   } else if(type == "ca") {
     #make the model
     model <- cca(inputmatrix, ...)
