@@ -97,7 +97,7 @@ amp_heatmap(ds,
         legend.position="right")
 ```
 
-# Boxplots
+# Boxplot
 `amp_boxplot()` generates boxplots, again ordered by mean read abundance across all samples:
 
 ```{r}
@@ -143,8 +143,4 @@ ordinationresult <- amp_ordinate(ds,
 ordinationresult$plot
 ```
 
-Notice that the plot can be saved as a more detailed object (`output = "detailed"`), so additional details about the ordination result can be obtained:
-```{r}
-ordinationresult$model
-```
-
+Notice that the plot can be saved as a more detailed object (`output = "detailed"`), so additional details about the ordination result can be obtained for evaluation, fx a screeplot by `ordinationresult$screeplot` or some more raw data by `ordinationresult$model`. 

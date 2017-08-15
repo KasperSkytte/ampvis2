@@ -132,9 +132,9 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
         <span class="dt">legend.position=</span><span class="st">"right"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
-<div id="boxplots" class="section level1">
+<div id="boxplot" class="section level1">
 <h1 class="hasAnchor">
-<a href="#boxplots" class="anchor"></a>Boxplots</h1>
+<a href="#boxplot" class="anchor"></a>Boxplot</h1>
 <p><code><a href="../reference/amp_boxplot.html">amp_boxplot()</a></code> generates boxplots, again ordered by mean read abundance across all samples:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(ds,
             <span class="dt">tax.show =</span> <span class="dv">20</span>)</code></pre></div>
@@ -170,7 +170,7 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
              <span class="dt">output =</span> <span class="st">"detailed"</span>)
 ordinationresult$plot</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<p>Notice that the plot can be saved as a more detailed object (<code>output = "detailed"</code>), so additional details about the ordination result can be obtained:</p>
+<p>Notice that the plot can be saved as a more detailed object (<code>output = "detailed"</code>), so additional details about the ordination result can be obtained for evaluation:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ordinationresult$model</code></pre></div>
 <pre><code>## Call: cca(formula = inputmatrix ~ Period, data = data$metadata)
 ## 
@@ -188,6 +188,8 @@ ordinationresult$plot</code></pre></div>
 ##     CA1     CA2     CA3     CA4     CA5     CA6     CA7     CA8 
 ## 0.09566 0.05239 0.02088 0.01384 0.01193 0.01123 0.00923 0.00768 
 ## (Showed only 8 of all 46 unconstrained eigenvalues)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ordinationresult$screeplot</code></pre></div>
+<p><img src="ampvis2_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 </div>
 </div>
   </div>
@@ -200,7 +202,7 @@ ordinationresult$plot</code></pre></div>
 <li><a href="#loading-data">Loading data</a></li>
       <li><a href="#filtering-and-subsetting">Filtering and subsetting</a></li>
       <li><a href="#heatmap">Heatmap</a></li>
-      <li><a href="#boxplots">Boxplots</a></li>
+      <li><a href="#boxplot">Boxplot</a></li>
       <li><a href="#ordination">Ordination</a></li>
       </ul>
 </div>
