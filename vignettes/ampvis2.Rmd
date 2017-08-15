@@ -134,6 +134,5 @@ amp_ordinate(ds,
              distmeasure = "bray",
              sample_color = "Plant",
              sample_colorframe = TRUE,
-             sample_colorframe_label = "Plant",
-             sample_plotly = c("Year", "SeqID"))
+             sample_colorframe_label = "Plant")
 ```
