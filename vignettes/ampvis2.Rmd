@@ -2,13 +2,24 @@
 title: "Introduction to ampvis2"
 ---
 
-Below is a small guide to the basics of ampvis2 and how the data is loaded, aswell as a few basic visualisation functions using example data. A full explanation of all functions, their purpose and different arguments can be found in the [Reference](/reference/index.html) tab. First, install ampvis2 as described on the front page.
+This is a short guide to the basics of ampvis2, how to load data, aswell as a few basic visualisation functions using example data. A full explanation of all functions, their purpose and different arguments can be found in the [Reference](reference/index.html) tab. First, install ampvis2 as described on the front page.
 
 ## Loading data
-The most notable change with ampvis2 is that phyloseq is no longer used to handle the data, which makes it simpler to understand and work with. The data is simply stored as a list containing 3 dataframes named "metadata", "otutable" and "tax" (short for taxonomy). The data ampvis2 needs is an OTU-table generated with [workflow scipts v.4+](https://github.com/MadsAlbertsen/16S-analysis/tree/master/data.generation) and a metadata sheet containing information about the samples. The OTU-table is a raw CSV-table with OTU names/ID's in rows and sample ID's in columns, where numbers in the corresponding cells represent the read counts of the particular OTU in each sample. The last 7 columns are expected to be the taxonomy of the corresponding OTU's (Kingdom->Species). The metadata needs to have the same sample ID's as in the OTU-table in the first column and then the remaining columns contain information about the samples, for example where the sample was taken, date, pH, temperature etc. First, import your data into R dataframes using an appropriate read function:
+The most notable change with ampvis2 is that phyloseq is no longer used to handle the data, which makes it simpler to understand and work with, and lighter. The data is simply stored as a list containing 3 dataframes (4 if reference sequences are provided) named "metadata", "otutable" and "tax" (short for taxonomy). The data ampvis2 needs is an OTU-table generated with fx [workflow scipts v.4+](https://github.com/MadsAlbertsen/16S-analysis/tree/master/data.generation) and a metadata sheet containing information about the samples. 
+
+More precisely, the OTU-table provided is expected to be a raw CSV-table with OTU names/ID's in rows and sample ID's in columns, where numbers in the corresponding cells represent the read counts of the particular OTU in each sample. The last 7 columns of the OTU-table are expected to be the taxonomy of the corresponding OTU's (Kingdom->Species). The metadata needs to have the same sample ID's as in the OTU-table in the first column and then the remaining columns contain information about the samples, for example where the sample was taken, date, pH, temperature etc. First, import your data into R dataframes using an appropriate read function:
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 library(ampvis2)
+#A nice function to source all .R files so we dont have to commit twice by first updating functions AND build pkgdown page afterwards!
+sourceDir <- function(path) {
+  for (f in list.files(path, pattern = "[.][RrSsQq]$")) {
+    source(file.path(path, f))
+    cat(f, "\n")
+  }
+}
+#it doesn't work though
+#sourceDir("./../R/")
 ```
 
 ```{r, eval = FALSE}
@@ -23,10 +34,10 @@ mymetadata <- read_excel("data/metadata.xlsx",
                          col_names = TRUE) %>% as.data.frame()
 ```
 
-Note that `read.csv2()` treats semicolon ";" as the default separator and comma "," as decimal, which is the standard in some regions. To change the separator to fx a comma you can provide the argument `sep = ","`. See more in the documentation with `?read.table`.
+Note that `read.csv2()` treats semicolon ";" as the default separator and comma "," as decimal, which is the standard in some regions. To change the separator to fx a comma you can adjust with the argument `sep = ","`. Refer to the documentation with `?read.table`.
 
 After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID's and that the first column in the metadata are the sample ID's.
-Now the data can be loaded using `amp_load()`, which checks the data and combines it into one object, which makes it easier to manipulate, filter and subset all elements of the data at once before analysis:
+Now combine the data using `amp_load()`, which checks the data and combines it into one object, making it easier to manipulate, filter and subset all elements of the data at once for analysis:
 
 ```{r, eval = FALSE}
 library(ampvis2)
@@ -64,13 +75,13 @@ d_Chloroflexi_Actinobacteria <- amp_subset_taxa(d, tax_vector=c("p__Chloroflexi"
 The taxonomic rank is indicated by fx "p__" for phylum and "g__" for genus etc, followed by the name of the taxon (case-sensitive, first letter almost always capital). To filter individual OTUs simply provide the OTU name(s) as-is in a vector, fx `c("OTU_1206")`.
 
 # Heatmap
-All ampvis2 plots are generated using the [ggplot2](http://ggplot2.tidyverse.org/) package. You can change the look of the plots to better suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots if needed. See the [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) for more information.
+All ampvis2 plots are generated using the [ggplot2](http://ggplot2.tidyverse.org/) package. You can change the look of the plots to better suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots if needed. Refer to the [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) for more information. `amp_heatmap()` by default aggregates to phylum level and shows the top 10 phyla, ordered by mean read abundance across all samples:
 
 ```{r}
 amp_heatmap(ds, group = "Plant")
 ```
 
-`amp_heatmap()` by default aggregates to phylum level and shows the top 10 phyla, ordered by mean read abundance across all samples. There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with "+" after the actual ampvis2 function, again refer to the [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) if needed):
+There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with "+" after the actual ampvis2 function):
 
 ```{r}
 amp_heatmap(ds,
@@ -87,7 +98,7 @@ amp_heatmap(ds,
 ```
 
 # Boxplots
-`amp_boxplot()` generates boxplots, again ordered by mean read abundance across all samples. 
+`amp_boxplot()` generates boxplots, again ordered by mean read abundance across all samples:
 
 ```{r}
 amp_boxplot(ds,
@@ -104,7 +115,7 @@ amp_boxplot(ds,
 ```
 
 # Ordination
-The `amp_ordinate()` function has been expanded to support numerous ordination methods, data transformations and interactive plots by using [Plotly](https://plot.ly/). By default any OTU with an abundance no higher than 0.1% in any sample is removed, which drastically improves the calculation time. You can of course adjust this threshold manually by changing the `filter_species = 0.1` argument. Other than this, there are only four main arguments that are involved in the actual calculations, the rest are just plotting options. These four are `type = ""`, `transform = ""`, `metric = ""`, and `constrain = ""`.
+The `amp_ordinate()` function has been expanded to support 7 different ordination methods, various data transformations and interactive plots by using [Plotly](https://plot.ly/). By default any OTU with an abundance no higher than 0.1% in any sample is removed, which drastically improves the calculation time. You can of course adjust this threshold manually by changing the `filter_species = 0.1` argument. Other than this, there are only four main arguments that are involved in the actual calculations, the rest are just various plotting features. These four are `type = ""`, `transform = ""`, `distmeasure = ""`, and `constrain = ""` for constrained ordination (only used in Redundancy Analysis (RDA) or Canonical Correspondence Analysis (CCA)).
 
 ```{r}
 amp_ordinate(ds, 
@@ -115,4 +126,14 @@ amp_ordinate(ds,
              sample_colorframe_label = "Plant") + theme(legend.position = "blank")
 ```
 
-When analysing community composition data it is recommended to use the Hellinger transformation (see [Legendre et al, 2001](https://doi.org/10.1007/s004420100716) or [Numerical Ecology](https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0) for details) for most types of ordination methods except the distance-based ordination methods like Principal Coordinates Analysis (PCoA) and non-Metric Multidimensional Scaling (nMDS), where you also have to select a distance measure manually by the `metric = ""` argument. 
+When analysing microbial community composition data it is recommended to use the Hellinger transformation (see [Legendre et al, 2001](https://doi.org/10.1007/s004420100716) or [Numerical Ecology](https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0) for details) for most types of ordination methods except the distance-based ordination methods (Principal Coordinates Analysis (PCoA) and non-Metric Multidimensional Scaling (nMDS)), where you also have to select a distance measure manually by the `distmeasure = ""` argument, for example Bray-Curtis dissimilarities:
+
+```{r, message=FALSE, warning=FALSE}
+amp_ordinate(ds, 
+             type = "pcoa",
+             distmeasure = "bray",
+             sample_color = "Plant",
+             sample_colorframe = TRUE,
+             sample_colorframe_label = "Plant",
+             sample_plotly = c("Year", "SeqID"))
+```
