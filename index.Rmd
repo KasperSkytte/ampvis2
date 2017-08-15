@@ -18,7 +18,7 @@ biocLite("reshape")
 ```
 
 Now ampvis2 can be installed from github. If you get an error with a missing package, just use `install.packages("packagename")` to install it. If that doesn't work, try with `biocLite("packagename")` instead.
-```{r, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, eval = FALSE}
 devtools::install_github("MadsAlbertsen/ampvis2")
 library(ampvis2)
 ```
