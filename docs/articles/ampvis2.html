@@ -170,26 +170,7 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
              <span class="dt">output =</span> <span class="st">"detailed"</span>)
 ordinationresult$plot</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<p>Notice that the plot can be saved as a more detailed object (<code>output = "detailed"</code>), so additional details about the ordination result can be obtained for evaluation:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ordinationresult$model</code></pre></div>
-<pre><code>## Call: cca(formula = inputmatrix ~ Period, data = data$metadata)
-## 
-##               Inertia Proportion Rank
-## Total         0.35213    1.00000     
-## Constrained   0.03536    0.10042    3
-## Unconstrained 0.31676    0.89958   46
-## Inertia is mean squared contingency coefficient 
-## 
-## Eigenvalues for constrained axes:
-##     CCA1     CCA2     CCA3 
-## 0.025575 0.005931 0.003854 
-## 
-## Eigenvalues for unconstrained axes:
-##     CA1     CA2     CA3     CA4     CA5     CA6     CA7     CA8 
-## 0.09566 0.05239 0.02088 0.01384 0.01193 0.01123 0.00923 0.00768 
-## (Showed only 8 of all 46 unconstrained eigenvalues)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ordinationresult$screeplot</code></pre></div>
-<p><img src="ampvis2_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
+<p>Notice that the plot can be saved as a more detailed object (<code>output = "detailed"</code>), so additional details about the ordination result can be obtained for evaluation, fx a screeplot by <code>ordinationresult$screeplot</code> or some more raw data by <code>ordinationresult$model</code>.</p>
 </div>
 </div>
   </div>
