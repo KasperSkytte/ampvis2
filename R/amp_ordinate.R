@@ -7,7 +7,7 @@
 #' @param data (required) Data list loaded with amp_load() containing the elements: abund, metadata and tax.
 #' @param filter_species Remove low abundant OTU's across all samples below this threshold in percent. Recommended minimum: 0.1 pct (default: 0.1). 
 #' @param type Ordination type; Principal Components Analysis(PCA), Redundancy Analysis(RDA), non-metric Multidimensional Scaling(NMDS), metric Multidimensional Scaling(MMDS, aka PCoA), Correspondence Analysis(CA), Canonical Correspondence Analysis(CCA) or Detrended Correspondence Analysis(DCA) (Default: PCA)
-#' @param metric Distance metric used for the distance-based ordination methods (nMDS/PCoA), any of the following: "manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower", "jsd" (Jensen-Shannon Divergence), "altGower", "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis" or simply "none" or "sqrt". See details in ?vegdist, and for JSD http://enterotype.embl.de/enterotypes.html.
+#' @param distmeasure Distance measure used for the distance-based ordination methods (nMDS/PCoA), any of the following: "manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower", "jsd" (Jensen-Shannon Divergence), "altGower", "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis" or simply "none" or "sqrt". See details in ?vegdist, and for JSD http://enterotype.embl.de/enterotypes.html.
 #' @param transform Transform the abundance table with the decostand() function, fx "normalize", "chi.square", "hellinger" or "sqrt", see details in ?decostand. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (learn about the double-zero problem).
 #' @param constrain Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx c("Year", "Temperature"), but keep in mind the more variables the more the result will be similar to unconstrained analysis.
 #' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the $screeplot with output = "detailed" to validate axes (default: 1).
@@ -57,7 +57,7 @@
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL, transform = NULL, constrain = NULL, x_axis = 1, y_axis = 2, 
+amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = NULL, transform = NULL, constrain = NULL, x_axis = 1, y_axis = 2, 
                         sample_color = NULL, sample_color_order = NULL, sample_shape = NULL, sample_colorframe = FALSE, sample_colorframe_label = NULL, 
                         sample_label = NULL, sample_label_size = 4, sample_label_segment_color = "black", sample_trajectory = NULL, sample_trajectory_group = sample_trajectory, sample_plotly = NULL,
                         species_plot = FALSE, species_nlabels = 0, species_label_taxonomy = "Genus", species_label_size = 3, species_label_color = "grey10", species_rescale = FALSE, species_size = 2, species_shape = 20, species_plotly = F,
@@ -66,10 +66,10 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
   
   #Sanity check of options
   if(species_plotly == T & !is.null(sample_plotly)){
-    stop("You can not use plotly for both species and samples in the same plot.")
+    stop("You can not use plotly for both species and samples in the same plot.\n")
   }
   if(species_plotly == T | !is.null(sample_plotly)){
-    warning("Forcing repel = F in order to plotly to work.")
+    warning("Forcing repel = FALSE in order to plotly to work.\n")
     repel <- F
   }
   
@@ -91,13 +91,13 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
   type <- tolower(type)
   output <- tolower(output)
   
-  if(!is.null(metric)) {
-    metric <- tolower(metric)
-  } else if(is.null(metric)) {
+  if(!is.null(distmeasure)) {
+    distmeasure <- tolower(distmeasure)
+  } else if(is.null(distmeasure)) {
     if(type == "nmds" | type == "mmds" | type == "pcoa" | type == "dca") {
-      warning("No distance metric selected, using raw data. If this is not deliberate, please provide one with the argument: metric")
+      warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure\n")
     }
-    metric <- "none"
+    distmeasure <- "none"
   }
   
   #data transformation with decostand()
@@ -111,9 +111,9 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
   } 
   
   #Calculate distance matrix with vegdist()
-  if (metric == "none") {
+  if (distmeasure == "none") {
     inputmatrix <- t(data$abund)
-  } else if(metric == "jsd") {
+  } else if(distmeasure == "jsd") {
     #This is based on http://enterotype.embl.de/enterotypes.html
     #Abundances of 0 will be set to the pseudocount value to avoid 0-value denominators
     dist.JSD <- function(inMatrix, pseudocount=0.000001) {
@@ -138,8 +138,8 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
       return(resultsMatrix) 
     }
     inputmatrix <- dist.JSD(data$abund)
-  } else if(any(metric == c("manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower", "altGower", "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis"))) {
-    inputmatrix <- vegdist(t(data$abund), method = metric)
+  } else if(any(distmeasure == c("manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower", "altGower", "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis"))) {
+    inputmatrix <- vegdist(t(data$abund), method = distmeasure)
   }
   #################################### end of block ####################################
   
@@ -161,7 +161,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
     
   } else if(type == "rda") {
     if(is.null(constrain)) 
-      stop("Argument constrain must be provided when performing constrained/canonical analysis.")
+      stop("Argument constrain must be provided when performing constrained/canonical analysis.\n")
     #make the model
     codestring <- paste0("rda(inputmatrix~", paste(constrain, collapse = "+"), ", data$metadata, ...)") #function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
     model <-  eval(parse(text = codestring))
@@ -201,7 +201,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
     #Speciesscores may not be available with MDS
     sitescores <- scores(model, display = "sites")
     if(!length(model$species) > 1) {
-      speciesscores <- warning("Speciesscores are not available with nMDS or mMDS/PCoA.")
+      speciesscores <- warning("Speciesscores are not available with nMDS or mMDS/PCoA.\n")
     } else {
       speciesscores <- scores(model, display = "species", choices = c(x_axis, y_axis))
     }
@@ -221,7 +221,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
     #Speciesscores are not available with pcoa
     sitescores <- as.data.frame(model$vectors)
     colnames(sitescores) <- c(paste0("PCo", seq(1:length(sitescores))))
-    speciesscores <- warning("Speciesscores are not available with nMDS or mMDS/PCoA.")
+    speciesscores <- warning("Speciesscores are not available with nMDS or mMDS/PCoA.\n")
   } else if(type == "ca") {
     #make the model
     model <- cca(inputmatrix, ...)
@@ -238,7 +238,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
     speciesscores <- scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if(type == "cca") {
     if(is.null(constrain)) 
-      stop("Argument constrain must be provided when performing constrained/canonical analysis.")
+      stop("Argument constrain must be provided when performing constrained/canonical analysis.\n")
     #make the model
     codestring <- paste0("cca(inputmatrix~", paste(constrain, collapse = "+"), ", data$metadata, ...)") #function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
     model <-  eval(parse(text = codestring))
@@ -315,7 +315,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
   #Generate a color frame around the chosen color group
   
   if(sample_colorframe == TRUE) {
-    if(is.null(sample_color)) stop("Please provide the argument sample_color")
+    if(is.null(sample_color)) stop("Please provide the argument sample_color\n")
     splitData <- split(dsites, dsites[, sample_color]) %>% 
       lapply(function(df) {
         df[chull(df[, x_axis_name], df[, y_axis_name]), ]
@@ -447,7 +447,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
       else{plot <- plot + geom_text(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_color, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
     }
     if (nrow(evf_factor_data) == 0) {
-      warning("No environmental variables fit below the chosen significant level.")
+      warning("No environmental variables fit below the chosen significant level.\n")
     }
   } else {
     evf_factor_model <- NULL
@@ -488,7 +488,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", metric = NULL,
         )
     } 
     if (nrow(evf_numeric_data) == 0) {
-      warning("No environmental variables fit below the chosen significant level.")
+      warning("No environmental variables fit below the chosen significant level.\n")
     }
   } else {
     evf_numeric_model <- NULL
