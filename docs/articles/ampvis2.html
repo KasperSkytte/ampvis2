@@ -149,22 +149,45 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
 <div id="ordination" class="section level1">
 <h1 class="hasAnchor">
 <a href="#ordination" class="anchor"></a>Ordination</h1>
-<p>The <code><a href="../reference/amp_ordinate.html">amp_ordinate()</a></code> function has been expanded to support 7 different ordination methods, various data transformations and interactive plots by using <a href="https://plot.ly/">Plotly</a>. By default any OTU with an abundance no higher than 0.1% in any sample is removed, which drastically improves the calculation time. You can of course adjust this threshold manually by changing the <code>filter_species = 0.1</code> argument. Other than this, there are only four main arguments that are involved in the actual calculations, the rest are just various plotting features. These four are <code>type = ""</code>, <code>transform = ""</code>, <code>distmeasure = ""</code>, and <code>constrain = ""</code> for constrained ordination (only used in Redundancy Analysis (RDA) or Canonical Correspondence Analysis (CCA)).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(ds, 
-             <span class="dt">transform =</span> <span class="st">"hellinger"</span>,
-             <span class="dt">type =</span> <span class="st">"PCA"</span>,
-             <span class="dt">sample_color =</span> <span class="st">"Plant"</span>,
-             <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,
-             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>) +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"blank"</span>)</code></pre></div>
-<p><img src="ampvis2_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p>The <code><a href="../reference/amp_ordinate.html">amp_ordinate()</a></code> function has been expanded to support 7 different ordination methods, various data transformations and interactive plots by using <a href="https://plot.ly/">Plotly</a>. By default any OTU with an abundance no higher than 0.1% in any sample is removed, which drastically improves the calculation time. You can of course adjust this threshold manually by changing the <code>filter_species = 0.1</code> argument. Other than this, there are only four main arguments that are involved in the actual calculations, the rest are just various plotting features. These four are <code>type = ""</code>, <code>transform = ""</code>, <code>distmeasure = ""</code>, and lastly <code>constrain = ""</code> for constrained ordination (only used in Redundancy Analysis (RDA) or Canonical Correspondence Analysis (CCA)).</p>
 <p>When analysing microbial community composition data it is recommended to use the Hellinger transformation (see <a href="https://doi.org/10.1007/s004420100716">Legendre et al, 2001</a> or <a href="https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0">Numerical Ecology</a> for details) for most types of ordination methods except the distance-based ordination methods (Principal Coordinates Analysis (PCoA) and non-Metric Multidimensional Scaling (nMDS)), where you also have to select a distance measure manually by the <code>distmeasure = ""</code> argument, for example Bray-Curtis dissimilarities:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(ds, 
              <span class="dt">type =</span> <span class="st">"pcoa"</span>,
              <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,
              <span class="dt">sample_color =</span> <span class="st">"Plant"</span>,
              <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,
-             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>)</code></pre></div>
+             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>) +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"blank"</span>)</code></pre></div>
+<p><img src="ampvis2_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p>And lastly an example of constrained ordination by Canonical Correspondence Analysis (CCA), which in this case reveals how samples taken at different seasonal periods (<code>constrain = "Period"</code>) of the year can explain the data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ordinationresult &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(ds, 
+             <span class="dt">type =</span> <span class="st">"CCA"</span>,
+             <span class="dt">constrain =</span> <span class="st">"Period"</span>,
+             <span class="dt">transform =</span> <span class="st">"Hellinger"</span>,
+             <span class="dt">sample_color =</span> <span class="st">"Period"</span>,
+             <span class="dt">sample_shape =</span> <span class="st">"Plant"</span>,
+             <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,
+             <span class="dt">sample_colorframe_label =</span> <span class="st">"Period"</span>,
+             <span class="dt">output =</span> <span class="st">"detailed"</span>)
+ordinationresult$plot</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p>Notice that the plot can be saved as a more detailed object (<code>output = "detailed"</code>), so additional details about the ordination result can be obtained:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ordinationresult$model</code></pre></div>
+<pre><code>## Call: cca(formula = inputmatrix ~ Period, data = data$metadata)
+## 
+##               Inertia Proportion Rank
+## Total         0.35213    1.00000     
+## Constrained   0.03536    0.10042    3
+## Unconstrained 0.31676    0.89958   46
+## Inertia is mean squared contingency coefficient 
+## 
+## Eigenvalues for constrained axes:
+##     CCA1     CCA2     CCA3 
+## 0.025575 0.005931 0.003854 
+## 
+## Eigenvalues for unconstrained axes:
+##     CA1     CA2     CA3     CA4     CA5     CA6     CA7     CA8 
+## 0.09566 0.05239 0.02088 0.01384 0.01193 0.01123 0.00923 0.00768 
+## (Showed only 8 of all 46 unconstrained eigenvalues)</code></pre>
 </div>
 </div>
   </div>

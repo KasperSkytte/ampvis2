@@ -115,16 +115,7 @@ amp_boxplot(ds,
 ```
 
 # Ordination
-The `amp_ordinate()` function has been expanded to support 7 different ordination methods, various data transformations and interactive plots by using [Plotly](https://plot.ly/). By default any OTU with an abundance no higher than 0.1% in any sample is removed, which drastically improves the calculation time. You can of course adjust this threshold manually by changing the `filter_species = 0.1` argument. Other than this, there are only four main arguments that are involved in the actual calculations, the rest are just various plotting features. These four are `type = ""`, `transform = ""`, `distmeasure = ""`, and `constrain = ""` for constrained ordination (only used in Redundancy Analysis (RDA) or Canonical Correspondence Analysis (CCA)).
-
-```{r}
-amp_ordinate(ds, 
-             transform = "hellinger",
-             type = "PCA",
-             sample_color = "Plant",
-             sample_colorframe = TRUE,
-             sample_colorframe_label = "Plant") + theme(legend.position = "blank")
-```
+The `amp_ordinate()` function has been expanded to support 7 different ordination methods, various data transformations and interactive plots by using [Plotly](https://plot.ly/). By default any OTU with an abundance no higher than 0.1% in any sample is removed, which drastically improves the calculation time. You can of course adjust this threshold manually by changing the `filter_species = 0.1` argument. Other than this, there are only four main arguments that are involved in the actual calculations, the rest are just various plotting features. These four are `type = ""`, `transform = ""`, `distmeasure = ""`, and lastly `constrain = ""` for constrained ordination (only used in Redundancy Analysis (RDA) or Canonical Correspondence Analysis (CCA)).
 
 When analysing microbial community composition data it is recommended to use the Hellinger transformation (see [Legendre et al, 2001](https://doi.org/10.1007/s004420100716) or [Numerical Ecology](https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0) for details) for most types of ordination methods except the distance-based ordination methods (Principal Coordinates Analysis (PCoA) and non-Metric Multidimensional Scaling (nMDS)), where you also have to select a distance measure manually by the `distmeasure = ""` argument, for example Bray-Curtis dissimilarities:
 
@@ -134,5 +125,26 @@ amp_ordinate(ds,
              distmeasure = "bray",
              sample_color = "Plant",
              sample_colorframe = TRUE,
-             sample_colorframe_label = "Plant")
+             sample_colorframe_label = "Plant") + theme(legend.position = "blank")
 ```
+
+And lastly an example of constrained ordination by Canonical Correspondence Analysis (CCA), which in this case reveals how samples taken at different seasonal periods (`constrain = "Period"`) of the year can explain the data:
+
+```{r, message=FALSE, warning=FALSE}
+ordinationresult <- amp_ordinate(ds, 
+             type = "CCA",
+             constrain = "Period",
+             transform = "Hellinger",
+             sample_color = "Period",
+             sample_shape = "Plant",
+             sample_colorframe = TRUE,
+             sample_colorframe_label = "Period",
+             output = "detailed")
+ordinationresult$plot
+```
+
+Notice that the plot can be saved as a more detailed object (`output = "detailed"`), so additional details about the ordination result can be obtained:
+```{r}
+ordinationresult$model
+```
+
