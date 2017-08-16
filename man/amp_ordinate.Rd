@@ -2,12 +2,12 @@
 % Please edit documentation in R/amp_ordinate.R
 \name{amp_ordinate}
 \alias{amp_ordinate}
-\title{Generate an ordination plot of amplicon data}
+\title{Generate ordination plots of amplicon data}
 \usage{
 amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 }
 \arguments{
-\item{data}{(required) Data list as loaded with amp_load().}
+\item{data}{(required) Data list as loaded with \code{amp_load()}.}
 
 \item{filter_species}{Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 drastically increases the computation time. (Default: `0.1`)}
 
@@ -108,7 +108,7 @@ The `amp_ordinate()` function is mainly based on two packages; vegan, which perf
 }
 \examples{
 data("AalborgWWTPs")
-amp_ordinate(AalborgWWTPs, sample_color_by = "Plant")
+amp_ordinate(AalborgWWTPs, type = "PCA", transform = "hellinger", sample_color_by = "Plant", sample_colorframe = TRUE)
 
 }
 \author{

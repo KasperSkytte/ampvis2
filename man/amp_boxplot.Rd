@@ -11,37 +11,37 @@ amp_boxplot(data)
 
 \item{group}{Group the data based on a sample variable.}
 
-\item{order.group}{A vector defining the order of groups.}
+\item{order_group}{A vector defining the order of groups.}
 
-\item{tax.show}{The number of taxa to show or a vector of taxa names (default: 50).}
+\item{tax_show}{The number of taxa to show or a vector of taxa names (default: 50).}
 
-\item{tax.clean}{Replace the phylum Proteobacteria with the respective Classes instead (default: T).}
+\item{tax_clean}{Replace the phylum Proteobacteria with the respective Classes instead (default: T).}
 
-\item{plot.log}{Log10 scale the data (default: F)}
+\item{plot_log}{Log10 scale the data (default: F)}
 
 \item{output}{Either "plot" or "complete" (default: "plot").}
 
-\item{tax.add}{Additional taxonomic levels to display for each entry (default: "Phylum")}
+\item{tax_add}{Additional taxonomic levels to display for each entry (default: "Phylum")}
 
-\item{tax.aggregate}{The taxonomic level that the data should be aggregated to (defualt: "Genus")}
+\item{tax_aggregate}{The taxonomic level that the data should be aggregated to (defualt: "Genus")}
 
-\item{tax.empty}{Either "remove" OTUs without taxonomic information, "rename" with best classification or add the "OTU" name (default: rename).}
+\item{tax_empty}{Either "remove" OTUs without taxonomic information, "rename" with best classification or add the "OTU" name (default: rename).}
 
-\item{tax.class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
+\item{tax_class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
 
-\item{point.size}{Size of points (default: 1).}
+\item{point_size}{Size of points (default: 1).}
 
-\item{plot.flip}{Flip the axis of the plot (default: F).}
+\item{plot_flip}{Flip the axis of the plot (default: F).}
 
-\item{sort.by}{Sort the boxplot by either "median", "mean" or "total" (default = "median").}
+\item{sort_by}{Sort the boxplot by either "median", "mean" or "total" (default = "median").}
 
-\item{adjust.zero}{Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.}
+\item{adjust_zero}{Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.}
 
-\item{order.y}{A vector to order the y-axis by.}
+\item{order_y}{A vector to order the y-axis by.}
 
 \item{raw}{Display raw input instead of converting to percentages (default: F).}
 
-\item{plot.type}{Show data using boxplot or points (default: boxplot).}
+\item{plot_type}{Show data using boxplot or points (default: boxplot).}
 }
 \value{
 A ggplot2 object

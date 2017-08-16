@@ -102,7 +102,7 @@ amp_heatmap(ds,
 
 ```{r}
 amp_boxplot(ds,
-            tax.show = 20)
+            tax_show = 20)
 ```
 
 The arguments you can provide are similar to those used in `amp_heatmap()` and other ampvis2 functions:
@@ -110,8 +110,8 @@ The arguments you can provide are similar to those used in `amp_heatmap()` and o
 ```{r}
 amp_boxplot(ds,
             group = "Period",
-            tax.show = 5,
-            tax.add = "Phylum")
+            tax_show = 5,
+            tax_add = "Phylum")
 ```
 
 # Ordination

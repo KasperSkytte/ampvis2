@@ -1,10 +1,10 @@
-#' Generate an ordination plot of amplicon data
+#' Generate ordination plots of amplicon data
 #'
 #' A wrapper around the vegan package to generate beautiful ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.
 #'
 #' @usage amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 #'
-#' @param data (required) Data list as loaded with amp_load().
+#' @param data (required) Data list as loaded with \code{amp_load()}.
 #' @param filter_species Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 drastically increases the computation time. (Default: `0.1`)
 #' @param type (required) Type of ordination method. One of:
 #'   * `"PCA"`: (default) Principal Components Analysis
@@ -67,7 +67,7 @@
 #' 
 #' @examples 
 #' data("AalborgWWTPs")
-#' amp_ordinate(AalborgWWTPs, sample_color_by = "Plant")
+#' amp_ordinate(AalborgWWTPs, type = "PCA", transform = "hellinger", sample_color_by = "Plant", sample_colorframe = TRUE)
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
