@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate an ordination plot of amplicon data — amp_ordinate â€¢ ampvis2</title>
+<title>Generate ordination plots of amplicon data — amp_ordinate â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,7 +83,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate an ordination plot of amplicon data</h1>
+    <h1>Generate ordination plots of amplicon data</h1>
     </div>
 
     
@@ -97,42 +97,43 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(required) Data list as loaded with amp_load().</p></td>
+      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
     </tr>
     <tr>
       <th>filter_species</th>
-      <td><p>Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 drastically increases the computation time. (Default: `0.1`)</p></td>
+      <td><p>Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 drastically increases the computation time. (<em>default</em>: <code>0.1</code>)</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>(required) Type of ordination method. One of:
-* `"PCA"`: (default) Principal Components Analysis
-* `"RDA": Redundancy Analysis
-* `"NMDS": non-metric Multidimensional Scaling
-* `"PCOA" or `"MMDS"`: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)
-* `"CA"`: Correspondence Analysis
-* `"CCA"`: Canonical Correspondence Analysis
-* `"DCA"`: Detrended Correspondence Analysis</p></td>
+      <td><p>(<em>required</em>) Type of ordination method. One of:</p><ul>
+<li><p><code>"PCA"</code>: (<em>default</em>) Principal Components Analysis</p></li>
+<li><p><code>"RDA"</code>: Redundancy Analysis</p></li>
+<li><p><code>"NMDS"</code>: non-metric Multidimensional Scaling</p></li>
+<li><p><code>"PCOA"</code> or <code>"MMDS"</code>: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)</p></li>
+<li><p><code>"CA"</code>: Correspondence Analysis</p></li>
+<li><p><code>"CCA"</code>: Canonical Correspondence Analysis</p></li>
+<li><p><code>"DCA"</code>: Detrended Correspondence Analysis</p></li>
+</ul><p><em>Note that PCoA is not performed by the vegan package, but the <code>pcoa</code> function from the APE package.</em></p></td>
     </tr>
     <tr>
       <th>distmeasure</th>
-      <td><p>(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: `"manhattan"`, `"euclidean"`, `"canberra"`, `"bray"`, `"kulczynski"`, `"jaccard"`, `"gower"`, `"jsd"` (Jensen-Shannon Divergence), `"altGower"`, `"morisita"`, `"horn"`, `"mountford"`, `"raup"`, `"binomial"`, `"chao"`, `"cao"`, `"mahalanobis"` or simply `"none"` or `"sqrt"`. See details in `?vegdist`. JSD is stolen from <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>.</p></td>
+      <td><p>(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"jsd"</code> (Jensen-Shannon Divergence), <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code> or simply <code>"none"</code> or <code>"sqrt"</code>. See details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/vegdist'>vegdist</a></code>. JSD is based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>.</p></td>
     </tr>
     <tr>
       <th>transform</th>
-      <td><p>(recommended) Transforms the abundances before ordination, choose one of the following: `"total"`, `"max"`, `"freq"`, `"normalize"`, `"range"`, `"standardize"`, `"pa"` (presence/absense), `"chi.square"`, `"hellinger"`, `"log"`, or `"sqrt"`, see details in ?decostand. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem).</p></td>
+      <td><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/decostand'>decostand</a></code>. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology).</p></td>
     </tr>
     <tr>
       <th>constrain</th>
-      <td><p>(required for RDA and CCA) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx c("Year", "Temperature"), but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.</p></td>
+      <td><p>(<em>required for RDA and CCA</em>) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx <code>c("Year", "Temperature")</code>, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.</p></td>
     </tr>
     <tr>
       <th>x_axis</th>
-      <td><p>Which axis from the ordination results to plot as the first axis. Have a look at the `$screeplot` with `detailed_output = TRUE` to validate axes. (default: `1`)</p></td>
+      <td><p>Which axis from the ordination results to plot as the first axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     <tr>
       <th>y_axis</th>
-      <td><p>Which axis from the ordination results to plot as the second axis. Have a look at the `$screeplot` with `detailed_output = TRUE` to validate axes. (default: `2`)</p></td>
+      <td><p>Which axis from the ordination results to plot as the second axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. (<em>default:</em> <code>2</code>)</p></td>
     </tr>
     <tr>
       <th>sample_color_by</th>
@@ -140,7 +141,7 @@
     </tr>
     <tr>
       <th>sample_color_order</th>
-      <td><p>Order the colors in `sample_color_by` by the order in a vector.</p></td>
+      <td><p>Order the colors in <code>sample_color_by</code> by the order in a vector.</p></td>
     </tr>
     <tr>
       <th>sample_shape_by</th>
@@ -148,7 +149,7 @@
     </tr>
     <tr>
       <th>sample_colorframe</th>
-      <td><p>(logical) Frame the points with a polygon colored by the sample_color_by argument or not. (default: `FALSE`)</p></td>
+      <td><p>(<em>logical</em>) Frame the points with a polygon colored by the sample_color_by argument or not. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>sample_colorframe_label</th>
@@ -160,11 +161,11 @@
     </tr>
     <tr>
       <th>sample_label_size</th>
-      <td><p>Sample labels text size. (default: `4`)</p></td>
+      <td><p>Sample labels text size. (<em>default:</em> <code>4</code>)</p></td>
     </tr>
     <tr>
       <th>sample_label_segment_color</th>
-      <td><p>Sample labels repel-segment color. (default: `"black"`)</p></td>
+      <td><p>Sample labels repel-segment color. (<em>default:</em> <code>"black"</code>)</p></td>
     </tr>
     <tr>
       <th>sample_trajectory</th>
@@ -172,113 +173,132 @@
     </tr>
     <tr>
       <th>sample_trajectory_group</th>
-      <td><p>Make a trajectory between sample points by the `sample_trajectory` argument, but within individual groups.</p></td>
+      <td><p>Make a trajectory between sample points by the <code>sample_trajectory</code> argument, but within individual groups.</p></td>
     </tr>
     <tr>
       <th>sample_plotly</th>
-      <td><p>Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the variables to show or `"all"` to display.</p></td>
+      <td><p>Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the variables to show or <code>"all"</code> to display.</p></td>
     </tr>
     <tr>
       <th>species_plot</th>
-      <td><p>(logical) Plot species points or not. (default: `FALSE`)</p></td>
+      <td><p>(<em>logical</em>) Plot species points or not. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>species_nlabels</th>
-      <td><p>Number of the most extreme species labels to plot. Only makes sense with PCA/RDA</p></td>
+      <td><p>Number of the most extreme species labels to plot. Only makes sense with PCA/RDA.</p></td>
     </tr>
     <tr>
       <th>species_label_taxonomy</th>
-      <td><p>Taxonomic level by which to label the species points. (default: `"Genus"`)</p></td>
+      <td><p>Taxonomic level by which to label the species points. (<em>default:</em> <code>"Genus"</code>)</p></td>
     </tr>
     <tr>
       <th>species_label_size</th>
-      <td><p>Size of the species text labels. (default: `3`)</p></td>
+      <td><p>Size of the species text labels. (<em>default:</em> <code>3</code>)</p></td>
     </tr>
     <tr>
       <th>species_label_color</th>
-      <td><p>Color of the species text labels. (default: `"grey10`)</p></td>
+      <td><p>Color of the species text labels. (<em>default:</em> <code>"grey10"</code>)</p></td>
     </tr>
     <tr>
       <th>species_rescale</th>
-      <td><p>(logical) Rescale species points or not. Basically they will be multiplied by 0.8, for visual convenience only. (default: `FALSE`)</p></td>
+      <td><p>(<em>logical</em>) Rescale species points or not. Basically they will be multiplied by 0.8, for visual convenience only. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>species_size</th>
-      <td><p>Size of the species points. (default: `2`)</p></td>
+      <td><p>Size of the species points. (<em>default:</em> <code>2</code>)</p></td>
     </tr>
     <tr>
       <th>species_shape</th>
-      <td><p>The shape of the species points, fx 1 for hollow circles or 20 for dots. (default: `20`)</p></td>
+      <td><p>The shape of the species points, fx <code>1</code> for hollow circles or <code>20</code> for dots. (<em>default:</em> <code>20</code>)</p></td>
     </tr>
     <tr>
       <th>species_plotly</th>
-      <td><p>(logical) Enable interactive species points so that they can be hovered to show complete taxonomic information about the OTU. (default: `FALSE`)</p></td>
+      <td><p>(<em>logical</em>) Enable interactive species points so that they can be hovered to show complete taxonomic information about the OTU. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>envfit_factor</th>
-      <td><p>A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in `?envfit`.</p></td>
+      <td><p>A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/envfit'>envfit</a></code>.</p></td>
     </tr>
     <tr>
       <th>envfit_numeric</th>
-      <td><p>A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in `?envfit`.</p></td>
+      <td><p>A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/envfit'>envfit</a></code>.</p></td>
     </tr>
     <tr>
       <th>envfit_signif_level</th>
-      <td><p>The significance threshold for displaying the results of `envfit_factor` or `envfit_numeric`. (default: `0.001`)</p></td>
+      <td><p>The significance threshold for displaying the results of <code>envfit_factor</code> or <code>envfit_numeric</code>. (<em>default:</em> <code>0.001</code>)</p></td>
     </tr>
     <tr>
       <th>envfit_textsize</th>
-      <td><p>Size of the envfit text on the plot. (default: `3`)</p></td>
+      <td><p>Size of the envfit text on the plot. (<em>default:</em> <code>3</code>)</p></td>
     </tr>
     <tr>
       <th>envfit_color</th>
-      <td><p>Color of the envfit text on the plot. (default: `"darkred"`)</p></td>
+      <td><p>Color of the envfit text on the plot. (<em>default:</em> <code>"darkred"</code>)</p></td>
     </tr>
     <tr>
       <th>envfit_numeric_arrows_scale</th>
-      <td><p>Scale the size of the numeric arrows. (default: `1`)</p></td>
+      <td><p>Scale the size of the numeric arrows. (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     <tr>
       <th>envfit_show</th>
-      <td><p>(logical) Show the results on the plot or not. (default: `TRUE`)</p></td>
+      <td><p>(<em>logical</em>) Show the results on the plot or not. (<em>default:</em> <code>TRUE</code>)</p></td>
     </tr>
     <tr>
       <th>repel</th>
-      <td><p>(logical) Repel all labels to prevent cluttering of the plot. (default: `TRUE`)</p></td>
+      <td><p>(<em>logical</em>) Repel all labels to prevent cluttering of the plot. (<em>default:</em> <code>TRUE</code>)</p></td>
     </tr>
     <tr>
       <th>opacity</th>
-      <td><p>Opacity of all plotted points and sample_colorframe. 0: invisible, 1: opaque. (default: 0.8)</p></td>
+      <td><p>Opacity of all plotted points and sample_colorframe. <code>0</code>: invisible, <code>1</code>: opaque. (<em>default:</em> <code>0.8</code>)</p></td>
     </tr>
     <tr>
       <th>tax_empty</th>
-      <td><p>How to show OTUs without taxonomic information. One of the following:
-* `"remove"`: Remove OTUs without taxonomic information.
-* `"best"`: (default) Use the best classification possible. 
-* `"OTU"`: Display the OTU name.</p></td>
+      <td><p>How to show OTUs without taxonomic information. One of the following:</p><ul>
+<li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
+<li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
+<li><p><code>"OTU"</code>: Display the OTU name.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>detailed_output</th>
-      <td><p>(logical) Return additional details or not (model, scores, inputmatrix, screeplot etc). If `TRUE`, it is recommended to save to an object and then access the additional data by `View(object$data)`. (default: `FALSE`)</p></td>
+      <td><p>(<em>logical</em>) Return additional details or not (model, scores, inputmatrix, screeplot etc). If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code>View(object$data)</code>. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Pass additional arguments to the vegan ordination functions, fx rda(...), cca(...), metaMDS(...), see vegan documentation.</p></td>
+      <td><p>Pass additional arguments to the vegan ordination functions, fx the <code><a href='http://www.rdocumentation.org/packages/vegan/topics/cca'>rda</a></code>, <code><a href='http://www.rdocumentation.org/packages/vegan/topics/cca'>cca</a></code>, <code><a href='http://www.rdocumentation.org/packages/vegan/topics/metaMDS'>metaMDS</a></code> functions, see the documentation.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object. If `detailed_output = TRUE` a list with a ggplot2 object and additional data.</p>
+    <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The `amp_ordinate()` function is mainly based on two packages; vegan, which performs the actual ordination, and ggplot2 to generate the plot.</p>
+    <p>The <code>amp_ordinate()</code> function is mainly based on two packages; <code><a href='http://www.rdocumentation.org/packages/vegan/topics/vegan-package'>vegan-package</a></code>, which performs the actual ordination, and <code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot2-package'>ggplot2-package</a></code> to generate the plot.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): <a href='https://mb3is.megx.net/gustame'>https://mb3is.megx.net/gustame</a></p>  
+<p>Legendre, Pierre &amp; Legendre, Louis (2012). Numerical Ecology. Elsevier Science. ISBN: 9780444538680</p>  
+<p>Legendre, P., &amp; Gallagher, E. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia, 129(2), 271-280. <a href='http://doi.org/10.1007/s004420100716'>http://doi.org/10.1007/s004420100716</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
-<span class='fu'>amp_ordinate</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_ordinate-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>amp_ordinate</span>(<span class='no'>AalborgWWTPs</span>,
+             <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"PCA"</span>,
+             <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>,
+             <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
+             <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+             )</div><div class='img'><img src='amp_ordinate-16.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'>amp_ordinate</span>(<span class='no'>AalborgWWTPs</span>,
+             <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"CCA"</span>,
+             <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"Hellinger"</span>,
+             <span class='kw'>constrain</span> <span class='kw'>=</span> <span class='st'>"Period"</span>,
+             <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='st'>"Period"</span>,
+             <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+             <span class='kw'>sample_colorframe_label</span> <span class='kw'>=</span> <span class='st'>"Period"</span>
+             ) + <span class='fu'>theme</span>(<span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>"blank"</span>)</div><div class='img'><img src='amp_ordinate-17.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -289,6 +309,8 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

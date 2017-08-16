@@ -120,13 +120,13 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with “+” after the actual ampvis2 function):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(ds,
-            <span class="dt">group =</span> <span class="kw">c</span>(<span class="st">"Plant"</span>, <span class="st">"Year"</span>),
-            <span class="dt">tax.aggregate =</span> <span class="st">"Genus"</span>,
-            <span class="dt">tax.add =</span> <span class="st">"Phylum"</span>,
-            <span class="dt">tax.show =</span> <span class="dv">25</span>,
-            <span class="dt">color.vector =</span> <span class="kw">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>),
-            <span class="dt">plot.colorscale =</span> <span class="st">"log10"</span>,
-            <span class="dt">plot.numbers =</span> <span class="ot">FALSE</span>) +
+            <span class="dt">group_by =</span> <span class="kw">c</span>(<span class="st">"Plant"</span>, <span class="st">"Year"</span>),
+            <span class="dt">tax_aggregate =</span> <span class="st">"Genus"</span>,
+            <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>,
+            <span class="dt">tax_show =</span> <span class="dv">25</span>,
+            <span class="dt">color_vector =</span> <span class="kw">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>),
+            <span class="dt">plot_colorscale =</span> <span class="st">"log10"</span>,
+            <span class="dt">plot_values =</span> <span class="ot">FALSE</span>) +
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">vjust =</span> <span class="dv">1</span>),
         <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>),
         <span class="dt">legend.position=</span><span class="st">"right"</span>)</code></pre></div>
@@ -137,13 +137,13 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
 <a href="#boxplot" class="anchor"></a>Boxplot</h1>
 <p><code><a href="../reference/amp_boxplot.html">amp_boxplot()</a></code> generates boxplots, again ordered by mean read abundance across all samples:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(ds,
-            <span class="dt">tax.show =</span> <span class="dv">20</span>)</code></pre></div>
+            <span class="dt">tax_show =</span> <span class="dv">20</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <p>The arguments you can provide are similar to those used in <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> and other ampvis2 functions:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(ds,
             <span class="dt">group =</span> <span class="st">"Period"</span>,
-            <span class="dt">tax.show =</span> <span class="dv">5</span>,
-            <span class="dt">tax.add =</span> <span class="st">"Phylum"</span>)</code></pre></div>
+            <span class="dt">tax_show =</span> <span class="dv">5</span>,
+            <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
 <div id="ordination" class="section level1">
@@ -154,7 +154,7 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(ds, 
              <span class="dt">type =</span> <span class="st">"pcoa"</span>,
              <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,
-             <span class="dt">sample_color =</span> <span class="st">"Plant"</span>,
+             <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,
              <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,
              <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>) +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"blank"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
@@ -163,13 +163,13 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
              <span class="dt">type =</span> <span class="st">"CCA"</span>,
              <span class="dt">constrain =</span> <span class="st">"Period"</span>,
              <span class="dt">transform =</span> <span class="st">"Hellinger"</span>,
-             <span class="dt">sample_color =</span> <span class="st">"Period"</span>,
-             <span class="dt">sample_shape =</span> <span class="st">"Plant"</span>,
+             <span class="dt">sample_color_by =</span> <span class="st">"Period"</span>,
+             <span class="dt">sample_shape_by =</span> <span class="st">"Plant"</span>,
              <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,
              <span class="dt">sample_colorframe_label =</span> <span class="st">"Period"</span>,
              <span class="dt">detailed_output =</span> <span class="ot">TRUE</span>)
 ordinationresult$plot</code></pre></div>
-<pre><code>## &lt;environment: 0x000000003c3733c8&gt;</code></pre>
+<p><img src="ampvis2_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>Notice that the plot can be saved as a more detailed object (<code>detailed_output = TRUE</code>), so additional details about the ordination result can be obtained for evaluation, fx a screeplot by <code>ordinationresult$screeplot</code> or some more raw data by <code>ordinationresult$model</code>.</p>
 </div>
 </div>
