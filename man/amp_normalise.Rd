@@ -7,7 +7,7 @@
 amp_normalise(data)
 }
 \arguments{
-\item{data}{(required) A object.}
+\item{data}{(required) Data list as loaded with `amp_load()`.}
 }
 \value{
 A list object.

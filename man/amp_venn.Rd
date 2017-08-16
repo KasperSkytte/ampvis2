@@ -7,7 +7,7 @@
 amp_venn(data)
 }
 \arguments{
-\item{data}{(required) A phyloseq object.}
+\item{data}{(required) Data list as loaded with `amp_load()`.}
 
 \item{group}{Group the data based on a sample variable.}
 

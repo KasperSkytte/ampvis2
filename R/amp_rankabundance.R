@@ -4,7 +4,7 @@
 #'
 #' @usage amp_rankabundance(data)
 #'
-#' @param data (required) A phyloseq object.
+#' @param data (required) Data list as loaded with `amp_load()`.
 #' @param group Group the data based on a sample variable.
 #' @param order.group A vector defining the order of groups.
 #' @param tax.clean Replace the phylum Proteobacteria with the respective Classes instead (default: T).

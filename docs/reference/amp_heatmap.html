@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate a heatmap from amplicon data — amp_heatmap â€¢ ampvis2</title>
+<title>Generate a heatmap of amplicon data — amp_heatmap â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,123 +83,126 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate a heatmap from amplicon data</h1>
+    <h1>Generate a heatmap of amplicon data</h1>
     </div>
 
     
-    <p>Generate a heatmap in ggplot2 format from amplicon data in ampvis format. Use sample metadata to aggregate samples and taxonomy to aggregate OTUs.</p>
+    <p>Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs.</p>
     
 
-    <pre class="usage"><span class='fu'>amp_heatmap</span>(<span class='no'>data</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_heatmap</span>(<span class='no'>data</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(required) A ampvis object.</p></td>
+      <td><p>(required) Data list as loaded with `amp_load()`.</p></td>
     </tr>
     <tr>
-      <th>group</th>
-      <td><p>A variable from the associated sample data to group samples by.</p></td>
+      <th>group_by</th>
+      <td><p>A variable from the associated metadata to group the samples by.</p></td>
     </tr>
     <tr>
-      <th>facet</th>
-      <td><p>A variable to facet the plot by.</p></td>
+      <th>facet_by</th>
+      <td><p>A variable from the associated metadata to facet the samples by.</p></td>
     </tr>
     <tr>
-      <th>normalise</th>
-      <td><p>A specific sample or group to normalise the counts to, or "relative".</p></td>
+      <th>normalise_by</th>
+      <td><p>A specific sample or variable in the metadata to normalise the counts by.</p></td>
     </tr>
     <tr>
-      <th>scale</th>
-      <td><p>A variable from the associated sample data to scale the abundance by.</p></td>
+      <th>scale_by</th>
+      <td><p>A variable from the associated metadata to scale the abundance by.</p></td>
     </tr>
     <tr>
-      <th>tax.aggregate</th>
-      <td><p>The taxonomic level that the data should be aggregated to (default: "Phylum").</p></td>
+      <th>tax_aggregate</th>
+      <td><p>The taxonomic level to aggregate the OTUs. (default: `"Phylum"`)</p></td>
     </tr>
     <tr>
-      <th>tax.add</th>
-      <td><p>Additional taxonomic levels to display for each entry e.g. "Phylum" (default: "none").</p></td>
+      <th>tax_add</th>
+      <td><p>Additional taxonomic level(s) to display, e.g. `"Phylum"`. (default: `"none"`)</p></td>
     </tr>
     <tr>
-      <th>tax.show</th>
-      <td><p>The number of taxa to show or a vector of taxa names (default: 10).</p></td>
+      <th>tax_show</th>
+      <td><p>The number of taxa to show, or a vector of taxa names. (default: `10`)</p></td>
     </tr>
     <tr>
-      <th>tax.class</th>
-      <td><p>Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").</p></td>
+      <th>tax_class</th>
+      <td><p>Converts a specific phylum to class level instead, e.g. `"p__Proteobacteria"`.</p></td>
     </tr>
     <tr>
-      <th>tax.empty</th>
-      <td><p>Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: "best").</p></td>
+      <th>tax_empty</th>
+      <td><p>How to show OTUs without taxonomic information. One of the following:
+* `"remove"`: Remove OTUs without taxonomic information.
+* `"best"`: (default) Use the best classification possible. 
+* `"OTU"`: Display the OTU name.</p></td>
     </tr>
     <tr>
-      <th>order.x</th>
-      <td><p>A taxonomy group or vector to order the x-axis by, alternatively "cluster".</p></td>
+      <th>order_x_by</th>
+      <td><p>A taxonomy group or vector to order the x-axis by, or `"cluster"` for hierarchical clustering by `hclust()`.</p></td>
     </tr>
     <tr>
-      <th>order.y</th>
-      <td><p>A sample or vector to order the y-axis by, alternatively "cluster".</p></td>
+      <th>order_y_by</th>
+      <td><p>A sample or vector to order the y-axis by, or `"cluster"` for hierarchical clustering by `hclust()`.</p></td>
     </tr>
     <tr>
-      <th>plot.numbers</th>
-      <td><p>Plot the values on the heatmap (default: T)</p></td>
+      <th>plot_values</th>
+      <td><p>(logical) Plot the values on the heatmap or not. (default: `TRUE`)</p></td>
     </tr>
     <tr>
-      <th>plot.breaks</th>
-      <td><p>A vector of breaks for the abundance legend.</p></td>
+      <th>plot_breaks</th>
+      <td><p>A vector of breaks for the abundance legend, fx `c(1, 10, 20)`</p></td>
     </tr>
     <tr>
-      <th>plot.colorscale</th>
-      <td><p>Either "sqrt" or "log10" (default: "log10")</p></td>
+      <th>plot_colorscale</th>
+      <td><p>The type of scale used for the coloring of abundances, either `"sqrt"` or `"log10"`. (default: `"log10"`)</p></td>
     </tr>
     <tr>
-      <th>plot.na</th>
-      <td><p>Whether to color missing values with the lowest color in the scale (default: T).</p></td>
+      <th>plot_na</th>
+      <td><p>(logical) Whether to color missing values with the lowest color in the scale or not. (default: `TRUE`)</p></td>
     </tr>
     <tr>
-      <th>output</th>
-      <td><p>To output a plot or the complete data inclusive dataframes (default: "plot")</p></td>
+      <th>plot_values_size</th>
+      <td><p>The size of the plotted values. (default: `4`)</p></td>
     </tr>
     <tr>
-      <th>plot.text.size</th>
-      <td><p>The size of the plotted text (default: 4).</p></td>
+      <th>measure</th>
+      <td><p>Calculate and display either `"mean"`, `"max"` or `"median"` across the groups. (default: `"mean"`)</p></td>
     </tr>
     <tr>
-      <th>calc</th>
-      <td><p>Calculate and display "mean", "max" or "median" across the groups (default: "mean").</p></td>
+      <th>min_abundance</th>
+      <td><p>All values below this value are given the same color. (default: `0.1`)</p></td>
     </tr>
     <tr>
-      <th>min.abundance</th>
-      <td><p>All values below are given the same color (default: 0.1).</p></td>
+      <th>max_abundance</th>
+      <td><p>All values above this value are given the same color.</p></td>
     </tr>
     <tr>
-      <th>max.abundance</th>
-      <td><p>All values above are given the same color.</p></td>
+      <th>sort_by</th>
+      <td><p>Sort the heatmap by a specific value of the `"group_by"` argument, e.g. `"Treatment A"`.</p></td>
     </tr>
     <tr>
-      <th>sort.by</th>
-      <td><p>Sort the heatmap by a specific value of the "group", e.g. "Treatment A".</p></td>
-    </tr>
-    <tr>
-      <th>color.vector</th>
-      <td><p>Vector with colors for colorscale e.g. c("red","white") (default: NULL)</p></td>
+      <th>color_vector</th>
+      <td><p>Vector of colors for the colorscale, e.g. `c("white", "red")`.</p></td>
     </tr>
     <tr>
       <th>round</th>
-      <td><p>Number of digits to plot (default: 1)</p></td>
+      <td><p>Number of digits to show with the values. (default: `1`)</p></td>
     </tr>
     <tr>
       <th>raw</th>
-      <td><p>Display raw input instead of converting to percentages (default: F)</p></td>
+      <td><p>(logical) Display raw input instead of converting to percentages. (default: `FALSE`)</p></td>
+    </tr>
+    <tr>
+      <th>detailed_output</th>
+      <td><p>(logical) Return additional details or not. If `TRUE`, it is recommended to save to an object and then access the additional data by `View(object$data)`. (default: `FALSE`)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object or a list with the ggplot2 object and associated dataframes.</p>
+    <p>A ggplot2 object. If `detailed_output = TRUE` a list with a ggplot2 object and additional data.</p>
     
 
   </div>

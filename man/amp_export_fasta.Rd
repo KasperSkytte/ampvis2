@@ -7,7 +7,7 @@
 amp_export_fasta(data)
 }
 \arguments{
-\item{data}{(required) A data list loaded with amp_load.}
+\item{data}{(required) Data list as loaded with `amp_load()`.}
 
 \item{file}{Name of the file containing the exported sequences.}
 

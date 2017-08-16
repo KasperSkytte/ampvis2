@@ -4,7 +4,7 @@
 #'
 #' @usage amp_venn(data)
 #'
-#' @param data (required) A phyloseq object.
+#' @param data (required) Data list as loaded with `amp_load()`.
 #' @param group Group the data based on a sample variable.
 #' @param cut_a Abundance cutoff in percent (default: 0.1).
 #' @param cut_f Frequency cutoff in percent (default: 80).

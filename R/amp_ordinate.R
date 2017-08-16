@@ -1,68 +1,83 @@
-#' Generates a ggplot2 style ordinate plot of amplicon data
+#' Generate an ordination plot of amplicon data
 #'
-#' A wrapper around the vegan package to make beautiful ggplot2 ordination plots to analyse and compare microbial community compositions. The input data must be a list loaded with amp_load() from the ampvis package, but any OTU table-like matrix (OTU's in rows, sampleID's in columns and abundances in the corresponding cells, aka a contingency table) alongside metadata for the same samples can be used. Simply choose an ordination type and a plot is returned.
+#' A wrapper around the vegan package to generate beautiful ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.
 #'
-#' @usage amp_ordinate(data)
+#' @usage amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 #'
-#' @param data (required) Data list loaded with amp_load() containing the elements: abund, metadata and tax.
-#' @param filter_species Remove low abundant OTU's across all samples below this threshold in percent. Recommended minimum: 0.1 pct (default: 0.1). 
-#' @param type Ordination type; Principal Components Analysis(PCA), Redundancy Analysis(RDA), non-metric Multidimensional Scaling(NMDS), metric Multidimensional Scaling(MMDS, aka PCoA), Correspondence Analysis(CA), Canonical Correspondence Analysis(CCA) or Detrended Correspondence Analysis(DCA) (Default: PCA)
-#' @param distmeasure Distance measure used for the distance-based ordination methods (nMDS/PCoA), any of the following: "manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower", "jsd" (Jensen-Shannon Divergence), "altGower", "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis" or simply "none" or "sqrt". See details in ?vegdist, and for JSD http://enterotype.embl.de/enterotypes.html.
-#' @param transform Transform the abundance table with the decostand() function, fx "normalize", "chi.square", "hellinger" or "sqrt", see details in ?decostand. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (learn about the double-zero problem).
-#' @param constrain Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx c("Year", "Temperature"), but keep in mind the more variables the more the result will be similar to unconstrained analysis.
-#' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the $screeplot with output = "detailed" to validate axes (default: 1).
-#' @param y_axis Which axis from the ordination results to plot as the second axis. Have a look at the $screeplot with output = "detailed" to validate axes (default: 2).
-#' 
-#' @param sample_color Color sample points by a variable in the metadata.   
-#' @param sample_color_order Order the colors in color by a vector. 
-#' @param sample_label Label sample points by a variable in the metadata.
-#' @param sample_label_size Sample labels text size (default: 4).
-#' @param sample_label_segment_color Sample labels repel-segment color (default: "black").
-#' @param sample_shape Shape sample points by a variable in the metadata.       
-#' @param sample_colorframe Frame the points with a polygon colored by the color argument (default: F).
+#' @param data (required) Data list as loaded with amp_load().
+#' @param filter_species Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 drastically increases the computation time. (Default: `0.1`)
+#' @param type (required) Type of ordination method. One of:
+#'   * `"PCA"`: (default) Principal Components Analysis
+#'   * `"RDA": Redundancy Analysis
+#'   * `"NMDS": non-metric Multidimensional Scaling
+#'   * `"PCOA" or `"MMDS"`: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)
+#'   * `"CA"`: Correspondence Analysis
+#'   * `"CCA"`: Canonical Correspondence Analysis
+#'   * `"DCA"`: Detrended Correspondence Analysis
+#' @param distmeasure (required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: `"manhattan"`, `"euclidean"`, `"canberra"`, `"bray"`, `"kulczynski"`, `"jaccard"`, `"gower"`, `"jsd"` (Jensen-Shannon Divergence), `"altGower"`, `"morisita"`, `"horn"`, `"mountford"`, `"raup"`, `"binomial"`, `"chao"`, `"cao"`, `"mahalanobis"` or simply `"none"` or `"sqrt"`. See details in `?vegdist`. JSD is stolen from \url{http://enterotype.embl.de/enterotypes.html}.
+#' @param transform (recommended) Transforms the abundances before ordination, choose one of the following: `"total"`, `"max"`, `"freq"`, `"normalize"`, `"range"`, `"standardize"`, `"pa"` (presence/absense), `"chi.square"`, `"hellinger"`, `"log"`, or `"sqrt"`, see details in ?decostand. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem). 
+#' @param constrain (required for RDA and CCA) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx c("Year", "Temperature"), but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.
+#' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the `$screeplot` with `detailed_output = TRUE` to validate axes. (default: `1`)
+#' @param y_axis Which axis from the ordination results to plot as the second axis. Have a look at the `$screeplot` with `detailed_output = TRUE` to validate axes. (default: `2`)
+#' @param sample_color_by Color sample points by a variable in the metadata.   
+#' @param sample_color_order Order the colors in `sample_color_by` by the order in a vector. 
+#' @param sample_label_by Label sample points by a variable in the metadata.
+#' @param sample_label_size Sample labels text size. (default: `4`)
+#' @param sample_label_segment_color Sample labels repel-segment color. (default: `"black"`)
+#' @param sample_shape_by Shape sample points by a variable in the metadata.       
+#' @param sample_colorframe (logical) Frame the points with a polygon colored by the sample_color_by argument or not. (default: `FALSE`)
 #' @param sample_colorframe_label Label by a variable in the metadata.
 #' @param sample_trajectory Make a trajectory between sample points by a variable in the metadata.
-#' @param sample_trajectory_group Make a trajectory between sample points by the trajectory argument, but within individual groups.
-#' @param sample_plotly Enable sample point howevering to display specific metadata or "all" (default: none).
+#' @param sample_trajectory_group Make a trajectory between sample points by the `sample_trajectory` argument, but within individual groups.
+#' @param sample_plotly Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the variables to show or `"all"` to display.
 #' 
-#' @param species_plot Plot species points (default: F).
-#' @param species_nlabels Number of most extreme species labels to plot.
-#' @param species_label_taxonomy Taxonomic level by which to label the species points (default: "Genus").
-#' @param species_label_size Size of the species text labels (default: 3).
-#' @param species_label_color Color of the species text labels (default: "grey10).
-#' @param species_rescale rescale species (default: F).
-#' @param species_size Size of the species points (default: 2).
-#' @param species_shape The shape of the points, fx 1 for hollow circles or 20 for dots (default: 20).
-#' @param species_plotly Enable species specific point howevering to display taxonomy (default: F).
+#' @param species_plot (logical) Plot species points or not. (default: `FALSE`)
+#' @param species_nlabels Number of the most extreme species labels to plot. Only makes sense with PCA/RDA
+#' @param species_label_taxonomy Taxonomic level by which to label the species points. (default: `"Genus"`)
+#' @param species_label_size Size of the species text labels. (default: `3`)
+#' @param species_label_color Color of the species text labels. (default: `"grey10`)
+#' @param species_rescale (logical) Rescale species points or not. Basically they will be multiplied by 0.8, for visual convenience only. (default: `FALSE`)
+#' @param species_size Size of the species points. (default: `2`)
+#' @param species_shape The shape of the species points, fx 1 for hollow circles or 20 for dots. (default: `20`)
+#' @param species_plotly (logical) Enable interactive species points so that they can be hovered to show complete taxonomic information about the OTU. (default: `FALSE`)
 #' 
-#' @param envfit_factor A vector of factor variables from the sample data used for envfit to the model
-#' @param envfit_numeric A vector of numerical variables from the sample data used for envfit to the model
-#' @param envfit_signif_level The significance treshold for displaying envfit parameters (default: 0.001).
-#' @param envfit_textsize Size of the envfit text on the plot (default: 3).
-#' @param envfit_color Color of the envfit text on the plot (default: "darkred").
-#' @param envfit_numeric_arrows_scale Scale the size of the numeric arrows (default: 1).
-#' @param envfit_show Show the results on the plot (default: T).
+#' @param envfit_factor A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in `?envfit`.
+#' @param envfit_numeric A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in `?envfit`.
+#' @param envfit_signif_level The significance threshold for displaying the results of `envfit_factor` or `envfit_numeric`. (default: `0.001`)
+#' @param envfit_textsize Size of the envfit text on the plot. (default: `3`)
+#' @param envfit_color Color of the envfit text on the plot. (default: `"darkred"`)
+#' @param envfit_numeric_arrows_scale Scale the size of the numeric arrows. (default: `1`)
+#' @param envfit_show (logical) Show the results on the plot or not. (default: `TRUE`)
 #' 
-#' @param repel Repel all labels to prevent cluttering of plots (default: T).
-#' @param opacity Opacity of all plotted points and sample_colorframe opacity, 0:invisible, 1:opaque (default: 0.8).
-#' @param tax.empty Option to add "best" classification or just the "OTU" name to each "OTU" (default: best).
-#' @param output "plot" or "detailed"; output as list with additional information(model, scores, inputmatrix etc) or just the plot (default: "plot).
-#' @param ... Pass additional arguments to the vegan ordination functions, fx rda(...), cca(...), metaMDS(...), see vegan help.
-#'       
-#'         
-#' @return A ggplot2 object or a list with the ggplot2 object and associated dataframes.
+#' @param repel (logical) Repel all labels to prevent cluttering of the plot. (default: `TRUE`)
+#' @param opacity Opacity of all plotted points and sample_colorframe. 0: invisible, 1: opaque. (default: 0.8)
+#' @param tax_empty How to show OTUs without taxonomic information. One of the following:
+#'   * `"remove"`: Remove OTUs without taxonomic information.
+#'   * `"best"`: (default) Use the best classification possible. 
+#'   * `"OTU"`: Display the OTU name.
+#' @param detailed_output (logical) Return additional details or not (model, scores, inputmatrix, screeplot etc). If `TRUE`, it is recommended to save to an object and then access the additional data by `View(object$data)`. (default: `FALSE`)
+#' @param ... Pass additional arguments to the vegan ordination functions, fx rda(...), cca(...), metaMDS(...), see vegan documentation.
+#'
+#' @return A ggplot2 object. If `detailed_output = TRUE` a list with a ggplot2 object and additional data.
+#'
+#' @details 
+#' The `amp_ordinate()` function is mainly based on two packages; vegan, which performs the actual ordination, and ggplot2 to generate the plot.
 #' 
 #' @export
+#' 
+#' @examples 
+#' data("AalborgWWTPs")
+#' amp_ordinate(AalborgWWTPs, sample_color_by = "Plant")
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = NULL, transform = NULL, constrain = NULL, x_axis = 1, y_axis = 2, 
-                        sample_color = NULL, sample_color_order = NULL, sample_shape = NULL, sample_colorframe = FALSE, sample_colorframe_label = NULL, 
-                        sample_label = NULL, sample_label_size = 4, sample_label_segment_color = "black", sample_trajectory = NULL, sample_trajectory_group = sample_trajectory, sample_plotly = NULL,
+                        sample_color_by = NULL, sample_color_order = NULL, sample_shape_by = NULL, sample_colorframe = FALSE, sample_colorframe_label = NULL, 
+                        sample_label_by = NULL, sample_label_size = 4, sample_label_segment_color = "black", sample_trajectory = NULL, sample_trajectory_group = sample_trajectory, sample_plotly = NULL,
                         species_plot = FALSE, species_nlabels = 0, species_label_taxonomy = "Genus", species_label_size = 3, species_label_color = "grey10", species_rescale = FALSE, species_size = 2, species_shape = 20, species_plotly = F,
                         envfit_factor = NULL, envfit_numeric = NULL, envfit_signif_level = 0.001, envfit_textsize = 3, envfit_color = "darkred", envfit_numeric_arrows_scale = 1, envfit_show = TRUE, 
-                        repel = T, opacity = 0.8, tax.empty = "best", output = "plot", ...) {
+                        repel = T, opacity = 0.8, tax_empty = "best", detailed_output = FALSE, ...) {
   
   #Sanity check of options
   if(species_plotly == T & !is.null(sample_plotly)){
@@ -74,7 +89,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = 
   }
   
   #Check the data
-  data <- amp_rename(data = data, tax.empty = tax.empty)
+  data <- amp_rename(data = data, tax_empty = tax_empty)
   
   #First transform to percentages
   abund_pct <- as.data.frame(sapply(data$abund, function(x) x/sum(x) * 100))
@@ -89,7 +104,6 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = 
   
   #to fix user argument characters, so fx PCoA/PCOA/pcoa are all valid
   type <- tolower(type)
-  output <- tolower(output)
   
   if(!is.null(distmeasure)) {
     distmeasure <- tolower(distmeasure)
@@ -287,7 +301,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = 
   dsites <- cbind.data.frame(data$metadata, sitescores)
   
   if (!is.null(sample_color_order)) {
-    dsites[, sample_color] <- factor(dsites[, sample_color], levels = sample_color_order)
+    dsites[, sample_color_by] <- factor(dsites[, sample_color_by], levels = sample_color_order)
   }
   
   if(length(speciesscores) > 1) {
@@ -309,19 +323,19 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = 
   plot <- ggplot(dsites,
                  aes_string(x = x_axis_name,
                             y = y_axis_name,
-                            color = sample_color,
-                            shape = sample_shape))
+                            color = sample_color_by,
+                            shape = sample_shape_by))
   
   #Generate a color frame around the chosen color group
   
   if(sample_colorframe == TRUE) {
-    if(is.null(sample_color)) stop("Please provide the argument sample_color\n")
-    splitData <- split(dsites, dsites[, sample_color]) %>% 
+    if(is.null(sample_color_by)) stop("Please provide the argument sample_color_by\n")
+    splitData <- split(dsites, dsites[, sample_color_by]) %>% 
       lapply(function(df) {
         df[chull(df[, x_axis_name], df[, y_axis_name]), ]
       })
     hulls <- do.call(rbind, splitData)
-    plot <- plot + geom_polygon(data = hulls, aes_string(fill = sample_color, group = sample_color), alpha = 0.2*opacity)
+    plot <- plot + geom_polygon(data = hulls, aes_string(fill = sample_color_by, group = sample_color_by), alpha = 0.2*opacity)
   }
   
   # Add points and plotly functionality for samples
@@ -417,10 +431,10 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = 
   }
   
   #Sample point labels
-  if(!is.null(sample_label)) {
+  if(!is.null(sample_label_by)) {
     
-    if (repel == T){plot <- plot + geom_text_repel(aes_string(label = sample_label),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
-    else{plot <- plot + geom_text(aes_string(label = sample_label),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
+    if (repel == T){plot <- plot + geom_text_repel(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
+    else{plot <- plot + geom_text(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
   }
   
   #Plot species labels
@@ -505,10 +519,10 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = 
     ggplotly(plot, tooltip = "text") %>% 
       layout(showlegend = FALSE)
     }
-  else if(output == "plot"){
+  else if(!detailed_output){
     return(plot)
   }
-  else if(output == "detailed"){
+  else if(detailed_output){
     if (type == "nmds") {
       screeplot <- NULL
     } else {

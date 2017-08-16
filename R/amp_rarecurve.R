@@ -4,7 +4,7 @@
 #'
 #' @usage amp_rarecurve(data)
 #'
-#' @param data (required) A ampvis object.
+#' @param data (required) Data list as loaded with `amp_load()`.
 #' @param step Step size for sample sizes in rarefaction curves (default: 1000).
 #' @param color A metadata variable to color by.
 #' 

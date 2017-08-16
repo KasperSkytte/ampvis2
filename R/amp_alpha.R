@@ -1,14 +1,16 @@
-#' Calculate alpha-diversity statistics for each sample
+#' Calculate alpha-diversity statistics
 #'
-#' Calculate alpha-diversity statistics for each sample and combine it with metadata.
+#' Calculates alpha-diversity statistics for each sample and combines with metadata.
 #'
 #' @usage amp_alpha(data)
 #'
-#' @param data (required) An ampvis object.
-#' @param measure Alpha-diversity measures to be included (default:Observed).
+#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param measure Alpha-diversity measures to be included. (default: `"Observed"`)
 #' 
 #' @export
 #' @import dplyr
+#' @import vegan
+#' @return A data frame
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_alpha <- function (data, measures = NULL, rarefy = 10000) {
@@ -27,7 +29,7 @@ amp_alpha <- function (data, measures = NULL, rarefy = 10000) {
             "any singletons. This is highly suspicious. Results of richness\n", 
             "estimates (for example) are probably unreliable, or wrong, if you have already\n", 
             "trimmed low-abundance taxa from the data.\n", "\n", 
-            "We recommended that you find the un-trimmed data and retry.")
+            "We recommend that you find the un-trimmed data and retry.")
   }
   
   abund <- as.matrix(t(abund))

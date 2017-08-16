@@ -4,7 +4,7 @@
 #'
 #' @usage amp_frequency(data)
 #'
-#' @param data (required) A ampvis object.
+#' @param data (required) Data list as loaded with `amp_load()`.
 #' @param group Group the data based on a sample variable (default: "Sample").
 #' @param tax.empty Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: best).
 #' @param tax.class Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").

@@ -2,18 +2,18 @@
 % Please edit documentation in R/amp_rename.R
 \name{amp_rename}
 \alias{amp_rename}
-\title{Used for cleaning and renaming taxonomy}
+\title{Tidy up taxonomy}
 \usage{
 amp_rename(data)
 }
 \arguments{
-\item{data}{(required) A ampvis formated list with all data.}
+\item{data}{(required) Data list as loaded with `amp_load()`.}
 
-\item{tax.class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
+\item{tax_class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
 
-\item{tax.empty}{Either "remove" OTUs without taxonomic information at X level, with "best" classification or add the "OTU" name (default: best).}
+\item{tax_empty}{Either "remove" OTUs without taxonomic information at X level, with "best" classification or add the "OTU" name (default: best).}
 
-\item{tax.level}{The taxonomic level to remove OTUs with empty taxonomy, only used when tax.empty = "remove" (default: Genus).}
+\item{tax_level}{The taxonomic level to remove OTUs with empty taxonomy, only used when tax_empty = "remove" (default: Genus).}
 }
 \value{
 A phyloseq object with cleaned and renamed taxonomy.

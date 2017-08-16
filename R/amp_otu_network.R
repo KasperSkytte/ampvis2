@@ -4,7 +4,7 @@
 #'
 #' @usage amp_otu_network(data)
 #'
-#' @param data (required) A ampvis object.
+#' @param data (required) Data list as loaded with `amp_load()`.
 #' @param color A metadata variable to color the samples by.
 #' @param tax.aggregate The taxonomic level that the data should be aggregated to (default: "Phylum")
 #' @param tax.add Additional taxonomic levels to display for each entry e.g. "Phylum" (default: "none") 

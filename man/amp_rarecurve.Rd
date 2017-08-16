@@ -7,7 +7,7 @@
 amp_rarecurve(data)
 }
 \arguments{
-\item{data}{(required) A ampvis object.}
+\item{data}{(required) Data list as loaded with `amp_load()`.}
 
 \item{step}{Step size for sample sizes in rarefaction curves (default: 1000).}
 

@@ -2,17 +2,20 @@
 % Please edit documentation in R/amp_alpha.R
 \name{amp_alpha}
 \alias{amp_alpha}
-\title{Calculate alpha-diversity statistics for each sample}
+\title{Calculate alpha-diversity statistics}
 \usage{
 amp_alpha(data)
 }
 \arguments{
-\item{data}{(required) An ampvis object.}
+\item{data}{(required) Data list as loaded with `amp_load()`.}
 
-\item{measure}{Alpha-diversity measures to be included (default:Observed).}
+\item{measure}{Alpha-diversity measures to be included. (default: `"Observed"`)}
+}
+\value{
+A data frame
 }
 \description{
-Calculate alpha-diversity statistics for each sample and combine it with metadata.
+Calculates alpha-diversity statistics for each sample and combines with metadata.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

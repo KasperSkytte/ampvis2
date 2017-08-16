@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Used for cleaning and renaming taxonomy — amp_rename â€¢ ampvis2</title>
+<title>Tidy up taxonomy — amp_rename â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,7 +83,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Used for cleaning and renaming taxonomy</h1>
+    <h1>Tidy up taxonomy</h1>
     </div>
 
     
@@ -97,19 +97,19 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(required) A ampvis formated list with all data.</p></td>
+      <td><p>(required) Data list as loaded with `amp_load()`.</p></td>
     </tr>
     <tr>
-      <th>tax.class</th>
+      <th>tax_class</th>
       <td><p>Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").</p></td>
     </tr>
     <tr>
-      <th>tax.empty</th>
+      <th>tax_empty</th>
       <td><p>Either "remove" OTUs without taxonomic information at X level, with "best" classification or add the "OTU" name (default: best).</p></td>
     </tr>
     <tr>
-      <th>tax.level</th>
-      <td><p>The taxonomic level to remove OTUs with empty taxonomy, only used when tax.empty = "remove" (default: Genus).</p></td>
+      <th>tax_level</th>
+      <td><p>The taxonomic level to remove OTUs with empty taxonomy, only used when tax_empty = "remove" (default: Genus).</p></td>
     </tr>
     </table>
     

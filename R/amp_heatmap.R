@@ -1,45 +1,76 @@
-#' Generate a heatmap from amplicon data
+#' Generate a heatmap of amplicon data
 #'
-#' Generate a heatmap in ggplot2 format from amplicon data in ampvis format. Use sample metadata to aggregate samples and taxonomy to aggregate OTUs.
+#' Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs.
 #'
-#' @usage amp_heatmap(data)
+#' @usage amp_heatmap(data, group_by = "")
 #'
-#' @param data (required) A ampvis object.
-#' @param group A variable from the associated sample data to group samples by.
-#' @param facet A variable to facet the plot by.
-#' @param scale A variable from the associated sample data to scale the abundance by.
-#' @param normalise A specific sample or group to normalise the counts to, or "relative".
-#' @param tax.aggregate The taxonomic level that the data should be aggregated to (default: "Phylum").
-#' @param tax.add Additional taxonomic levels to display for each entry e.g. "Phylum" (default: "none"). 
-#' @param tax.show The number of taxa to show or a vector of taxa names (default: 10).
-#' @param tax.empty Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: "best").
-#' @param tax.class Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").
-#' @param calc Calculate and display "mean", "max" or "median" across the groups (default: "mean").
-#' @param sort.by Sort the heatmap by a specific value of the "group", e.g. "Treatment A".
-#' @param order.x A taxonomy group or vector to order the x-axis by, alternatively "cluster".
-#' @param order.y A sample or vector to order the y-axis by, alternatively "cluster".
-#' @param plot.numbers Plot the values on the heatmap (default: T)
-#' @param plot.breaks A vector of breaks for the abundance legend.
-#' @param plot.colorscale Either "sqrt" or "log10" (default: "log10")
-#' @param plot.na Whether to color missing values with the lowest color in the scale (default: T).
-#' @param plot.text.size The size of the plotted text (default: 4).
-#' @param min.abundance All values below are given the same color (default: 0.1).
-#' @param max.abundance All values above are given the same color.
-#' @param output To output a plot or the complete data inclusive dataframes (default: "plot")
-#' @param color.vector Vector with colors for colorscale e.g. c("red","white") (default: NULL)
-#' @param round Number of digits to plot (default: 1)
-#' @param raw Display raw input instead of converting to percentages (default: F) 
+#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param group_by A variable from the associated metadata to group the samples by.
+#' @param facet_by A variable from the associated metadata to facet the samples by.
+#' @param scale_by A variable from the associated metadata to scale the abundance by.
+#' @param normalise_by A specific sample or variable in the metadata to normalise the counts by.
+#' @param tax_aggregate The taxonomic level to aggregate the OTUs. (default: `"Phylum"`)
+#' @param tax_add Additional taxonomic level(s) to display, e.g. `"Phylum"`. (default: `"none"`)
+#' @param tax_show The number of taxa to show, or a vector of taxa names. (default: `10`)
+#' @param tax_empty How to show OTUs without taxonomic information. One of the following:
+#'   * `"remove"`: Remove OTUs without taxonomic information.
+#'   * `"best"`: (default) Use the best classification possible. 
+#'   * `"OTU"`: Display the OTU name.
+#' @param tax_class Converts a specific phylum to class level instead, e.g. `"p__Proteobacteria"`.
+#' @param measure Calculate and display either `"mean"`, `"max"` or `"median"` across the groups. (default: `"mean"`)
+#' @param sort_by Sort the heatmap by a specific value of the `"group_by"` argument, e.g. `"Treatment A"`.
+#' @param order_x_by A taxonomy group or vector to order the x-axis by, or `"cluster"` for hierarchical clustering by `hclust()`.
+#' @param order_y_by A sample or vector to order the y-axis by, or `"cluster"` for hierarchical clustering by `hclust()`.
+#' @param plot_values (logical) Plot the values on the heatmap or not. (default: `TRUE`)
+#' @param plot_values_size The size of the plotted values. (default: `4`)
+#' @param plot_breaks A vector of breaks for the abundance legend, fx `c(1, 10, 20)`
+#' @param plot_colorscale The type of scale used for the coloring of abundances, either `"sqrt"` or `"log10"`. (default: `"log10"`)
+#' @param plot_na (logical) Whether to color missing values with the lowest color in the scale or not. (default: `TRUE`)
+#' @param min_abundance All values below this value are given the same color. (default: `0.1`)
+#' @param max_abundance All values above this value are given the same color.
+#' @param color_vector Vector of colors for the colorscale, e.g. `c("white", "red")`.
+#' @param round Number of digits to show with the values. (default: `1`)
+#' @param raw (logical) Display raw input instead of converting to percentages. (default: `FALSE`) 
+#' @param detailed_output (logical) Return additional details or not. If `TRUE`, it is recommended to save to an object and then access the additional data by `View(object$data)`. (default: `FALSE`)
 #' 
-#' @return A ggplot2 object or a list with the ggplot2 object and associated dataframes.
+#' @return A ggplot2 object. If `detailed_output = TRUE` a list with a ggplot2 object and additional data.
 #' 
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, scale = NULL, tax.aggregate = "Phylum", tax.add = NULL, tax.show = 10, tax.class = NULL, tax.empty = "best", order.x = NULL, order.y = NULL, plot.numbers = T, plot.breaks = NULL, plot.colorscale = "log10", plot.na = T, output = "plot",plot.text.size = 4, plot.theme = "normal", calc = "mean", min.abundance = 0.1, max.abundance = NULL, sort.by = NULL, color.vector = NULL, round = 1, raw = F){
+amp_heatmap <- function(data,
+                        group_by = "Sample",
+                        facet_by = NULL,
+                        normalise_by = NULL,
+                        scale_by = NULL,
+                        tax_aggregate = "Phylum",
+                        tax_add = NULL,
+                        tax_show = 10,
+                        tax_class = NULL,
+                        tax_empty = "best",
+                        order_x_by = NULL,
+                        order_y_by = NULL,
+                        plot_values = TRUE,
+                        plot_breaks = NULL,
+                        plot_colorscale = "log10", 
+                        plot_na = TRUE, 
+                        plot_values_size = 4,
+                        plot_theme = "normal",
+                        measure = "mean",
+                        min_abundance = 0.1,
+                        max_abundance = NULL, 
+                        sort_by = NULL, 
+                        color_vector = NULL,
+                        round = 1,
+                        raw = FALSE,
+                        detailed_output = FALSE) {
   
   ## Clean up the taxonomy
-  data <- amp_rename(data = data, tax.class = tax.class, tax.empty = tax.empty, tax.level = tax.aggregate)
+  data <- amp_rename(data = data,
+                     tax_class = tax_class,
+                     tax_empty = tax_empty, 
+                     tax_level = tax_aggregate)
   
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
@@ -47,24 +78,24 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
   sample <- data[["metadata"]]
   
   ## Scale the data by a selected metadata sample variable
-  if (!is.null(scale)){
-    variable <- as.numeric(sample[,scale])
+  if (!is.null(scale_by)){
+    variable <- as.numeric(sample[,scale_by])
     abund <- t(t(abund)*variable)
   }
   
-  if (raw == F){
+  if (raw == FALSE){
     abund <- as.data.frame(sapply(abund, function(x) x/sum(x)*100))
   }
   
   
-  ## Make a name variable that can be used instead of tax.aggregate to display multiple levels 
+  ## Make a name variable that can be used instead of tax_aggregate to display multiple levels 
   suppressWarnings(
-    if (!is.null(tax.add)){
-      if (tax.add != tax.aggregate) {
-        tax <- data.frame(tax, Display = apply(tax[,c(tax.add,tax.aggregate)], 1, paste, collapse="; "))
+    if (!is.null(tax_add)){
+      if (tax_add != tax_aggregate) {
+        tax <- data.frame(tax, Display = apply(tax[,c(tax_add,tax_aggregate)], 1, paste, collapse="; "))
       }
     } else {
-      tax <- data.frame(tax, Display = tax[,tax.aggregate])
+      tax <- data.frame(tax, Display = tax[,tax_aggregate])
     }
   )  
   
@@ -79,18 +110,18 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
   
   ## Add group information
   
-  if(!is.null(facet)){
-    ogroup <- group
-    group <- c(group, facet)
+  if(!is.null(facet_by)){
+    ogroup <- group_by
+    group_by <- c(group_by, facet_by)
   }
   
   suppressWarnings(
-    if (group != "Sample"){
-      if (length(group) > 1){
-        grp <- data.frame(Sample = sample$SeqID, Group = apply(sample[,group], 1, paste, collapse = " ")) 
-        oldGroup <- unique(cbind.data.frame(sample[,group], Group = grp$Group))
+    if (group_by != "Sample"){
+      if (length(group_by) > 1){
+        grp <- data.frame(Sample = sample$SeqID, Group = apply(sample[,group_by], 1, paste, collapse = " ")) 
+        oldGroup <- unique(cbind.data.frame(sample[,group_by], Group = grp$Group))
       } else{
-        grp <- data.frame(Sample = sample$SeqID, Group = sample[,group]) 
+        grp <- data.frame(Sample = sample$SeqID, Group = sample[,group_by]) 
       }
       abund3$Group <- grp$Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3
@@ -99,21 +130,21 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
   
   ## Take the average to group level
   
-  if (calc == "mean"){
+  if (measure == "mean"){
     abund6 <- data.table(abund5)[, Abundance:=mean(sum), by=list(Display, Group)] %>%
       setkey(Display, Group) %>%
       unique() %>% 
       as.data.frame()
   }
   
-  if (calc == "max"){
+  if (measure == "max"){
     abund6 <- data.table(abund5)[, Abundance:=max(sum), by=list(Display, Group)] %>%
       setkey(Display, Group) %>%
       unique() %>% 
       as.data.frame()
   }  
   
-  if (calc == "median"){
+  if (measure == "median"){
     abund6 <- data.table(abund5)[, Abundance:=median(sum), by=list(Display, Group)] %>%
               setkey(Display, Group) %>%
               unique() %>% 
@@ -122,90 +153,79 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
   
   
   ## Find the X most abundant levels
-  if (calc == "mean"){
+  if (measure == "mean"){
     TotalCounts <- group_by(abund6, Display) %>%
       summarise(Abundance = sum(Abundance)) %>%
       arrange(desc(Abundance))
   }
   
-  if (calc == "max"){
+  if (measure == "max"){
     TotalCounts <- group_by(abund6, Display) %>%
       summarise(Abundance = max(Abundance)) %>%
       arrange(desc(Abundance))
   }
   
-  if (calc == "median"){
+  if (measure == "median"){
     TotalCounts <- group_by(abund6, Display) %>%
       summarise(Abundance = median(Abundance)) %>%
       arrange(desc(Abundance))
   }
   
-  if (!is.null(sort.by)){
-    TotalCounts <- filter(abund6, Group == sort.by) %>%
+  if (!is.null(sort_by)){
+    TotalCounts <- filter(abund6, Group == sort_by) %>%
       arrange(desc(Abundance))
   }
   
   ## Subset to X most abundant levels
-  if (is.numeric(tax.show)){
-    if (tax.show > nrow(TotalCounts)){  
-      tax.show <- nrow(TotalCounts)
+  if (is.numeric(tax_show)){
+    if (tax_show > nrow(TotalCounts)){  
+      tax_show <- nrow(TotalCounts)
     }
-    abund7 <- filter(abund6, Display %in% TotalCounts$Display[1:tax.show])
+    abund7 <- filter(abund6, Display %in% TotalCounts$Display[1:tax_show])
   }
   
   ## Subset to a list of level names
-  if (!is.numeric(tax.show)){
-    if (tax.show != "all"){
-      abund7 <- filter(abund6, Display %in% tax.show)    
+  if (!is.numeric(tax_show)){
+    if (tax_show != "all"){
+      abund7 <- filter(abund6, Display %in% tax_show)    
     }
     ### Or just show all  
-    if (tax.show == "all"){
-      tax.show <- nrow(TotalCounts)  
-      abund7 <- filter(abund6, Display %in% TotalCounts$Display[1:tax.show]) 
+    if (tax_show == "all"){
+      tax_show <- nrow(TotalCounts)  
+      abund7 <- filter(abund6, Display %in% TotalCounts$Display[1:tax_show]) 
     }
   }
   abund7 <- as.data.frame(abund7)
   
   ## Normalise to a specific group (The Abundance of the group is set as 1)  
-  
-  if(!is.null(normalise)){
-    if (normalise != "relative"){
-      #temp <- dcast(abunds7, Display~Group, value.var = "Abundance") # Is this working?
-      temp <- spread(abund7, key = Group, value = Abundance) 
-      temp1 <- cbind.data.frame(Display = temp$Display, temp[,-1]/temp[,normalise])   
-      abund7 <- gather(temp1, key = Group, value = Abundance, -Display)
-    }
+  if(!is.null(normalise_by)){
+    #temp <- dcast(abunds7, Display~Group, value.var = "Abundance") # Is this working?
+    temp <- spread(abund7, key = Group, value = Abundance) 
+    temp1 <- cbind.data.frame(Display = temp$Display, temp[,-1]/temp[,normalise_by])   
+    abund7 <- gather(temp1, key = Group, value = Abundance, -Display)
   } 
-  if(!is.null(normalise)){
-    if (normalise == "relative"){
-      #temp <- dcast(abund7, Display~Group, value.var = "Abundance") # Is this working?
-      temp <- spread(abund7, key = Group, value = Abundance) 
-      temp1 <- cbind.data.frame(Display = temp[,1], temp[,-1]/apply(as.matrix(temp[,-1]), 1, mean))    
-      abund7 <- gather(temp1, key = Group, value = Abundance, -Display)
-    }
-  }
   
   ## Order.y
-  if (is.null(order.y)){
+  if (is.null(order_y_by)){
     abund7$Display <- factor(abund7$Display, levels = rev(TotalCounts$Display))
   }
-  if (!is.null(order.y)){
-    if ((length(order.y) == 1) && (order.y != "cluster")){       
-      temp1 <- filter(abund7, Group == order.y) %>%
+  if (!is.null(order_y_by)){
+    if ((length(order_y_by) == 1) && (order_y_by != "cluster")){       
+      temp1 <- filter(abund7, Group == order_y_by) %>%
         group_by(Display) %>%
         summarise(Mean = mean(Abundance)) %>%
         arrange(desc(Mean))
       
       abund7$Display <- factor(abund7$Display, levels = rev(temp1$Display))
     }
-    if (length(order.y) > 1){
-      abund7$Display <- factor(abund7$Display, levels = order.y)
+    if (length(order_y_by) > 1){
+      abund7$Display <- factor(abund7$Display, levels = order_y_by)
     }
-    if ((length(order.y) == 1) && (order.y == "cluster")){
-      if (is.null(max.abundance)){max.abundance <- max(abund7$Abundance)}
+    if ((length(order_y_by) == 1) && (order_y_by == "cluster")){
+      if (is.null(max_abundance)){max_abundance <- max(abund7$Abundance)}
       tdata <- mutate(abund7, 
-                      Abundance = ifelse(Abundance < min.abundance, min.abundance, Abundance),
-                      Abundance = ifelse(Abundance > max.abundance, max.abundance, Abundance))
+                      Abundance = ifelse(Abundance < min_abundance, min_abundance, Abundance),
+                      Abundance = ifelse(Abundance > max_abundance, max_abundance, Abundance))
       tdata <- dcast(tdata, Display~Group, value.var = "Abundance") #is this working?
       #tdata <- spread(tdata, key = Group, value = Abundance) 
       rownames(tdata) <- tdata$Display
@@ -217,22 +237,22 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
   }
   
   ## Order.x
-  if (!is.null(order.x)){
-    if ((length(order.x) == 1) && (order.x != "cluster")){
-      temp1 <- filter(abund7, Display == order.x) %>%
+  if (!is.null(order_x_by)){
+    if ((length(order_x_by) == 1) && (order_x_by != "cluster")){
+      temp1 <- filter(abund7, Display == order_x_by) %>%
         group_by(Group) %>%
         summarise(Mean = mean(Abundance)) %>%
         arrange(desc(Mean))
       abund7$Group <- factor(abund7$Group, levels = as.character(temp1$Group))
     }    
-    if (length(order.x) > 1){
-      abund7$Group <- factor(abund7$Group, levels = order.x)
+    if (length(order_x_by) > 1){
+      abund7$Group <- factor(abund7$Group, levels = order_x_by)
     }
-    if ((length(order.x) == 1) && (order.x == "cluster")){
-      if (is.null(max.abundance)){max.abundance <- max(abund7$Abundance)}
+    if ((length(order_x_by) == 1) && (order_x_by == "cluster")){
+      if (is.null(max_abundance)){max_abundance <- max(abund7$Abundance)}
       tdata <- mutate(abund7, 
-                      Abundance = ifelse(Abundance < min.abundance, min.abundance, Abundance),
-                      Abundance = ifelse(Abundance > max.abundance, max.abundance, Abundance))
+                      Abundance = ifelse(Abundance < min_abundance, min_abundance, Abundance),
+                      Abundance = ifelse(Abundance > max_abundance, max_abundance, Abundance))
       tdata <- dcast(tdata, Display~Group, value.var = "Abundance") #is this working?
       #tdata <- spread(tdata, key = Group, value = Abundance) 
       rownames(tdata) <- tdata$Display
@@ -244,17 +264,17 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
   }
   
   ## Handle NA values
-  if(plot.na == F){ plot.na <- "grey50" }else{ if(!is.null(color.vector)) {plot.na <-color.vector[1]} else {plot.na <-"#67A9CF"}}  
+  if(plot_na == FALSE){ plot_na <- "grey50" }else{ if(!is.null(color_vector)) {plot_na <-color_vector[1]} else {plot_na <-"#67A9CF"}}  
   
   ## Scale to percentages if not normalised and scaled
   
-  if (length(group) > 1 ){ abund7 <- merge(abund7, oldGroup)}
+  if (length(group_by) > 1 ){ abund7 <- merge(abund7, oldGroup)}
   
-  if (is.null(min.abundance)){
-    min.abundance <- ifelse(min(abund7$Abundance) > 0.001, min(abund7$Abundance), 0.001)
+  if (is.null(min_abundance)){
+    min_abundance <- ifelse(min(abund7$Abundance) > 0.001, min(abund7$Abundance), 0.001)
     }
-  if (is.null(max.abundance)){
-    max.abundance <- max(abund7$Abundance)
+  if (is.null(max_abundance)){
+    max_abundance <- max(abund7$Abundance)
     }
   
   ## Make a heatmap style plot
@@ -269,57 +289,57 @@ amp_heatmap <- function(data, group = "Sample", facet = NULL, normalise = NULL, 
           title = element_text(size = 8))
   
   ## Get colorpalette for colorscale or set default
-  if (!is.null(color.vector)){
-    color.pal = color.vector
+  if (!is.null(color_vector)){
+    color.pal = color_vector
   } else {
     color.pal = rev(brewer.pal(3, "RdBu"))
   }
   
-  if (plot.numbers == T){
+  if (plot_values == TRUE){
     abund8 <- abund7
     abund8$Abundance <- round(abund8$Abundance, round)
-    p <- p + geom_text(data = abund8, size = plot.text.size, colour = "grey10", check_overlap = TRUE) +
+    p <- p + geom_text(data = abund8, size = plot_values_size, colour = "grey10", check_overlap = TRUE) +
       theme(legend.position = "none")
   }
-  if (is.null(plot.breaks)){
-    p <- p +scale_fill_gradientn(colours = color.pal, trans = plot.colorscale, na.value=plot.na, oob = squish, limits = c(min.abundance, max.abundance))
+  if (is.null(plot_breaks)){
+    p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, na.value=plot_na, oob = squish, limits = c(min_abundance, max_abundance))
   }
-  if (!is.null(plot.breaks)){
-    p <- p +scale_fill_gradientn(colours = color.pal, trans = plot.colorscale, breaks=plot.breaks, na.value=plot.na , oob = squish, limits = c(min.abundance, max.abundance))
+  if (!is.null(plot_breaks)){
+    p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, breaks=plot_breaks, na.value=plot_na , oob = squish, limits = c(min_abundance, max_abundance))
   }
   
   
-  if (is.null(normalise)){
+  if (is.null(normalise_by)){
     p <- p + labs(x = "", y = "", fill = "% Read\nAbundance")  
   }
-  if (!is.null(normalise)){
+  if (!is.null(normalise_by)){
     p <- p + labs(x = "", y = "", fill = "Relative")  
   }
   
-  if(!is.null(facet)){
+  if(!is.null(facet_by)){
     if(length(ogroup) > 1){
       p$data$Group <- apply(p$data[,ogroup], 1, paste, collapse = " ")  
     } else{
       p$data$Group <- p$data[,ogroup]
     }
     
-    if(plot.numbers == T){
+    if(plot_values == TRUE){
       if(length(ogroup) > 1){
         p$layers[[2]]$data$Group <- apply(p$layers[[2]]$data[,ogroup], 1, paste, collapse = " ")  
       } else{
         p$layers[[2]]$data$Group <- p$layers[[2]]$data[,ogroup]
       }
     }
-    p <- p + facet_grid(reformulate(facet), scales = "free_x", space = "free")
+    p <- p + facet_grid(reformulate(facet_by), scales = "free_x", space = "free")
   }
   
   
   ## Define the output 
-  if (output == "complete"){
+  if (detailed_output){
     outlist <- list(heatmap = p, data = abund7)
     return(outlist)  
   }
-  if (output == "plot"){
+  if (!detailed_output){
     return(p)
   }
 }

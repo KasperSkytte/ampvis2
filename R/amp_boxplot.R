@@ -4,7 +4,7 @@
 #'
 #' @usage amp_boxplot(data)
 #'
-#' @param data (required) A ampvis object.
+#' @param data (required) Data list as loaded with `amp_load()`.
 #' @param group Group the data based on a sample variable.
 #' @param order.group A vector defining the order of groups.
 #' @param order.y A vector to order the y-axis by.

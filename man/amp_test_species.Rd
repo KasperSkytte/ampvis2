@@ -7,7 +7,7 @@
 amp_test_species(data, design)
 }
 \arguments{
-\item{data}{(required) A ampvis object.}
+\item{data}{(required) Data list as loaded with `amp_load()`.}
 
 \item{group}{(required) The group to test against.}
 
