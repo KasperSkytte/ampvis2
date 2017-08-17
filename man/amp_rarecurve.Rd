@@ -2,19 +2,19 @@
 % Please edit documentation in R/amp_rarecurve.R
 \name{amp_rarecurve}
 \alias{amp_rarecurve}
-\title{Calculate rarefaction curve for each sample.}
+\title{Rarefaction curve}
 \usage{
 amp_rarecurve(data)
 }
 \arguments{
-\item{data}{(required) Data list as loaded with `amp_load()`.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
 \item{step}{Step size for sample sizes in rarefaction curves (default: 1000).}
 
 \item{color}{A metadata variable to color by.}
 }
 \description{
-Calculate rarefaction curve for each sample using the vegan rarecurve function directly from an ampvis object.
+Rarefaction curves for each sample
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

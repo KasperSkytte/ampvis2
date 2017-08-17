@@ -7,7 +7,7 @@
 amp_otu_network(data)
 }
 \arguments{
-\item{data}{(required) Data list as loaded with `amp_load()`.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
 \item{tax.aggregate}{The taxonomic level that the data should be aggregated to (default: "Phylum")}
 

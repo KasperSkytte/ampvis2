@@ -90,14 +90,14 @@
     <p>Load data and convert to a list.</p>
     
 
-    <pre class="usage"><span class='fu'>amp_load</span>(<span class='no'>otutable</span>, <span class='no'>metadata</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_load</span>(<span class='kw'>otutable</span> <span class='kw'>=</span> <span class='no'>dataframe</span>, <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>dataframe</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>otutable</th>
-      <td><p>(required) A OTU table. The first row should be OTU name and the last 7 rows taxonomy.</p></td>
+      <td><p>(required) An OTU-table loaded as dataframe. and the last 7 rows taxonomy.</p></td>
     </tr>
     <tr>
       <th>metadata</th>
@@ -111,7 +111,7 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A phyloseq object.</p>
+    <p>A list with 3 dataframes (4 if reference sequences are provided).</p>
     
 
   </div>

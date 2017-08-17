@@ -7,7 +7,7 @@
 amp_timeseries(data)
 }
 \arguments{
-\item{data}{(required) Data list as loaded with `amp_load()`.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
 \item{time}{(required) The name of the column containing the time variables, e.g. "Date".}
 

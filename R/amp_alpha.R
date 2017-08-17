@@ -1,11 +1,12 @@
 #' Calculate alpha-diversity statistics
 #'
-#' Calculates alpha-diversity statistics for each sample and combines with metadata.
+#' Calculates alpha-diversity statistics for each sample and combines with the metadata.
 #'
-#' @usage amp_alpha(data)
+#' @usage amp_alpha(data, measure = "", rarefy = 10000)
 #'
-#' @param data (required) Data list as loaded with `amp_load()`.
-#' @param measure Alpha-diversity measures to be included. (default: `"Observed"`)
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
+#' @param measure Alpha-diversity measure(s) to be included if not all. A vector of one or more of: \code{"observed"}, \code{"shannon"}, \code{"simpson"} or \code{"invsimpson"}. 
+#' @param rarefy Rarefy species richness to this value. (\emph{default:} \code{10000})
 #' 
 #' @export
 #' @import dplyr
@@ -13,7 +14,7 @@
 #' @return A data frame
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_alpha <- function (data, measures = NULL, rarefy = 10000) {
+amp_alpha <- function (data, measure = NULL, rarefy = 10000) {
 
   abund <- data[["abund"]] %>% as.data.frame()
   Reads <- colSums(abund)
@@ -34,36 +35,36 @@ amp_alpha <- function (data, measures = NULL, rarefy = 10000) {
   
   abund <- as.matrix(t(abund))
   
-  renamevec = c("Observed", "Chao1", "ACE", "Shannon", "Simpson", 
-                "InvSimpson")
+  renamevec = c("observed", "chao1", "ace", "shannon", "simpson", 
+                "invsimpson")
   
-  names(renamevec) <- c("S.obs", "S.chao1", "S.ACE", "shannon", 
+  names(renamevec) <- c("s.obs", "s.chao1", "s.ace", "shannon", 
                         "simpson", "invsimpson")
   
-  if (is.null(measures)) {
-    measures = as.character(renamevec)
+  if (is.null(measure)) {
+    measure = renamevec %>% as.character() %>% tolower()
   }
-  if (any(measures %in% names(renamevec))) {
-    measures[measures %in% names(renamevec)] <- renamevec[names(renamevec) %in% measures]
+  if (any(measure %in% names(renamevec))) {
+    measure[measure %in% names(renamevec)] <- renamevec[names(renamevec) %in% measure]
   }
-  if (!any(measures %in% renamevec)) {
-    stop("None of the `measures` you provided are supported. Try default `NULL` instead.")
+  if (!any(measure %in% renamevec)) {
+    stop("None of the `measure`s provided are supported. Try default `NULL` instead.")
   }
   
   outlist = vector("list")
   
-  estimRmeas = c("Chao1", "Observed", "ACE")
+  estimRmeas = c("chao1", "observed", "ace")
   
-  if (any(estimRmeas %in% measures)) {
+  if (any(estimRmeas %in% measure)) {
     outlist <- c(outlist, list(t(data.frame(estimateR(abund)))))
   }
-  if ("Shannon" %in% measures) {
+  if ("shannon" %in% measure) {
     outlist <- c(outlist, list(shannon = vegan::diversity(abund, index = "shannon")))
   }
-  if ("Simpson" %in% measures) {
+  if ("simpson" %in% measure) {
     outlist <- c(outlist, list(simpson = vegan::diversity(abund, index = "simpson")))
   }
-  if ("InvSimpson" %in% measures) {
+  if ("invsimpson" %in% measure) {
     outlist <- c(outlist, list(invsimpson = vegan::diversity(abund, index = "invsimpson")))
   }
   
@@ -72,14 +73,12 @@ amp_alpha <- function (data, measures = NULL, rarefy = 10000) {
   
   colnames(rich)[colnames(rich) %in% namechange] <- renamevec[namechange]
   
-  colkeep = sapply(paste0("(se\\.){0,}", measures), grep, 
+  colkeep = sapply(paste0("(se\\.){0,}", measure), grep, 
                    colnames(rich), ignore.case = TRUE)
   
   rich = rich[, sort(unique(unlist(colkeep))), drop = FALSE]
   
-  rich <- data.frame(Reads = Reads, rich, SeqID = rownames(abund))
-  
-  combined <- merge(metadata, rich, by = "SeqID") %>% arrange(Reads)
+  combined <- data.frame(metadata, Reads = Reads, rich) %>% arrange(Reads)
   return(combined)
 }
 

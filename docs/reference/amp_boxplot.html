@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generates a ggplot2 style boxplot of the most abundant taxa — amp_boxplot â€¢ ampvis2</title>
+<title>Boxplot — amp_boxplot â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,11 +83,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generates a ggplot2 style boxplot of the most abundant taxa</h1>
+    <h1>Boxplot</h1>
     </div>
 
     
-    <p>Generates a ggplot2 style boxplot of the most abundant taxa</p>
+    <p>Generates a ggplot2 style boxplot of the most abundant taxa of amplicon data</p>
     
 
     <pre class="usage"><span class='fu'>amp_boxplot</span>(<span class='no'>data</span>)</pre>
@@ -97,81 +97,81 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(required) Data list as loaded with `amp_load()`.</p></td>
+      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>group</th>
-      <td><p>Group the data based on a sample variable.</p></td>
+      <th>group_by</th>
+      <td><p>Group the samples by a variable in the metadata.</p></td>
     </tr>
     <tr>
       <th>order_group</th>
-      <td><p>A vector defining the order of groups.</p></td>
-    </tr>
-    <tr>
-      <th>tax_show</th>
-      <td><p>The number of taxa to show or a vector of taxa names (default: 50).</p></td>
-    </tr>
-    <tr>
-      <th>tax_clean</th>
-      <td><p>Replace the phylum Proteobacteria with the respective Classes instead (default: T).</p></td>
-    </tr>
-    <tr>
-      <th>plot_log</th>
-      <td><p>Log10 scale the data (default: F)</p></td>
-    </tr>
-    <tr>
-      <th>output</th>
-      <td><p>Either "plot" or "complete" (default: "plot").</p></td>
-    </tr>
-    <tr>
-      <th>tax_add</th>
-      <td><p>Additional taxonomic levels to display for each entry (default: "Phylum")</p></td>
-    </tr>
-    <tr>
-      <th>tax_aggregate</th>
-      <td><p>The taxonomic level that the data should be aggregated to (defualt: "Genus")</p></td>
-    </tr>
-    <tr>
-      <th>tax_empty</th>
-      <td><p>Either "remove" OTUs without taxonomic information, "rename" with best classification or add the "OTU" name (default: rename).</p></td>
-    </tr>
-    <tr>
-      <th>tax_class</th>
-      <td><p>Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").</p></td>
-    </tr>
-    <tr>
-      <th>point_size</th>
-      <td><p>Size of points (default: 1).</p></td>
-    </tr>
-    <tr>
-      <th>plot_flip</th>
-      <td><p>Flip the axis of the plot (default: F).</p></td>
-    </tr>
-    <tr>
-      <th>sort_by</th>
-      <td><p>Sort the boxplot by either "median", "mean" or "total" (default = "median").</p></td>
-    </tr>
-    <tr>
-      <th>adjust_zero</th>
-      <td><p>Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.</p></td>
+      <td><p>A vector to order the groups by.</p></td>
     </tr>
     <tr>
       <th>order_y</th>
       <td><p>A vector to order the y-axis by.</p></td>
     </tr>
     <tr>
-      <th>raw</th>
-      <td><p>Display raw input instead of converting to percentages (default: F).</p></td>
+      <th>sort_by</th>
+      <td><p>Sort the boxplots by <code>"median"</code>, <code>"mean"</code> or <code>"total"</code>. (<em>default:</em> <code>"median"</code>)</p></td>
+    </tr>
+    <tr>
+      <th>tax_aggregate</th>
+      <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"Genus"</code>)</p></td>
+    </tr>
+    <tr>
+      <th>tax_add</th>
+      <td><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></td>
+    </tr>
+    <tr>
+      <th>tax_show</th>
+      <td><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>20</code>)</p></td>
+    </tr>
+    <tr>
+      <th>tax_empty</th>
+      <td><p>How to show OTUs without taxonomic information. One of the following:</p><ul>
+<li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
+<li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
+<li><p><code>"OTU"</code>: Display the OTU name.</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>tax_class</th>
+      <td><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>plot_flip</th>
+      <td><p>(<em>logical</em>) Flip the axes of the plot axis. (<em>default:</em> <code>FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>plot_log</th>
+      <td><p>(<em>logical</em>) Log10-scale the plot. (<em>default:</em> <code>FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>adjust_zero</th>
+      <td><p>Keep abundances of 0 in the calculation of medians by adding this value. (<em>default:</em> <code>NULL</code>)</p></td>
+    </tr>
+    <tr>
+      <th>point_size</th>
+      <td><p>The size of points. (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     <tr>
       <th>plot_type</th>
-      <td><p>Show data using boxplot or points (default: boxplot).</p></td>
+      <td><p><code>"Boxplot"</code> or <code>"points"</code>. (<em>default:</em> <code>"boxplot"</code>)</p></td>
+    </tr>
+    <tr>
+      <th>raw</th>
+      <td><p>(<em>logical</em>) Display raw input instead of converting to percentages. (<em>default:</em> <code>FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>detailed_output</th>
+      <td><p>(<em>logical</em>) Return additional details or not. If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code>View(object$data)</code>. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object</p>
+    <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
     
 
   </div>

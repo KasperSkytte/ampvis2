@@ -101,8 +101,7 @@ amp_heatmap(ds,
 `amp_boxplot()` generates boxplots, again ordered by mean read abundance across all samples:
 
 ```{r}
-amp_boxplot(ds,
-            tax_show = 20)
+amp_boxplot(ds)
 ```
 
 The arguments you can provide are similar to those used in `amp_heatmap()` and other ampvis2 functions:

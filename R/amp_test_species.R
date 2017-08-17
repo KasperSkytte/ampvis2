@@ -4,7 +4,7 @@
 #'
 #' @usage amp_test_species(data, design)
 #'
-#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param group (required) The group to test against.
 #' @param sig Significance treshold (default: 0.01).
 #' @param fold Log2fold filter default for displaying significant results (default: 0)

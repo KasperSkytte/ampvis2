@@ -2,28 +2,28 @@
 % Please edit documentation in R/amp_ordinate.R
 \name{amp_ordinate}
 \alias{amp_ordinate}
-\title{Generate ordination plots of amplicon data}
+\title{Ordination plot}
 \usage{
 amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{filter_species}{Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 drastically increases the computation time. (\emph{default}: \code{0.1})}
+\item{filter_species}{Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 may drastically increase computation time. (\emph{default}: \code{0.1})}
 
 \item{type}{(\emph{required}) Type of ordination method. One of:
 \itemize{
    \item \code{"PCA"}: (\emph{default}) Principal Components Analysis
-   \item \code{"RDA"}: Redundancy Analysis
+   \item \code{"RDA"}: Redundancy Analysis (considered the constrained version of PCA)
+   \item \code{"CA"}: Correspondence Analysis
+   \item \code{"CCA"}: Canonical Correspondence Analysis (considered the constrained version of CA)
+   \item \code{"DCA"}: Detrended Correspondence Analysis 
    \item \code{"NMDS"}: non-metric Multidimensional Scaling
    \item \code{"PCOA"} or \code{"MMDS"}: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)
-   \item \code{"CA"}: Correspondence Analysis
-   \item \code{"CCA"}: Canonical Correspondence Analysis
-   \item \code{"DCA"}: Detrended Correspondence Analysis
    }
    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[APE]{pcoa}} function from the APE package.}}
 
-\item{distmeasure}{(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"} or simply \code{"none"} or \code{"sqrt"}. See details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}.}
+\item{distmeasure}{(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"} or simply \code{"none"} or \code{"sqrt"}. You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}.}
 
 \item{transform}{(\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology).}
 
@@ -57,7 +57,7 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 
 \item{species_plot}{(\emph{logical}) Plot species points or not. (\emph{default:} \code{FALSE})}
 
-\item{species_nlabels}{Number of the most extreme species labels to plot. Only makes sense with PCA/RDA.}
+\item{species_nlabels}{Number of the most extreme species labels to plot (Only makes sense with PCA/RDA).}
 
 \item{species_label_taxonomy}{Taxonomic level by which to label the species points. (\emph{default:} \code{"Genus"})}
 
@@ -71,7 +71,7 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 
 \item{species_shape}{The shape of the species points, fx \code{1} for hollow circles or \code{20} for dots. (\emph{default:} \code{20})}
 
-\item{species_plotly}{(\emph{logical}) Enable interactive species points so that they can be hovered to show complete taxonomic information about the OTU. (\emph{default:} \code{FALSE})}
+\item{species_plotly}{(\emph{logical}) Enable interactive species points so that they can be hovered to show complete taxonomic information. (\emph{default:} \code{FALSE})}
 
 \item{envfit_factor}{A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in \code{\link[vegan]{envfit}}.}
 
@@ -87,7 +87,7 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 
 \item{envfit_show}{(\emph{logical}) Show the results on the plot or not. (\emph{default:} \code{TRUE})}
 
-\item{repel}{(\emph{logical}) Repel all labels to prevent cluttering of the plot. (\emph{default:} \code{TRUE})}
+\item{repel_labels}{(\emph{logical}) Repel all labels to prevent cluttering of the plot. (\emph{default:} \code{TRUE})}
 
 \item{opacity}{Opacity of all plotted points and sample_colorframe. \code{0}: invisible, \code{1}: opaque. (\emph{default:} \code{0.8})}
 
@@ -106,27 +106,34 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-A wrapper around the vegan package to generate beautiful ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.
+A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.
 }
 \details{
 The \code{amp_ordinate()} function is mainly based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and \code{\link[ggplot2]{ggplot2-package}} to generate the plot.
 }
 \examples{
+#Load example data
 data("AalborgWWTPs")
+
+#Principal Components Analysis with data transformation, colored by WWTP
 amp_ordinate(AalborgWWTPs,
              type = "PCA",
              transform = "hellinger",
              sample_color_by = "Plant",
              sample_colorframe = TRUE
              )
+
+\dontrun{
+#Interactive Canonical Correspondence Analysis with data transformation constrained to seasonal period
 amp_ordinate(AalborgWWTPs,
              type = "CCA",
              transform = "Hellinger", 
              constrain = "Period",
              sample_color_by = "Period",
              sample_colorframe = TRUE,
-             sample_colorframe_label = "Period"
-             ) + theme(legend.position = "blank")
+             sample_colorframe_label = "Period",
+             sample_plotly = "all"
+             )}
 
 }
 \references{

@@ -2,66 +2,68 @@
 % Please edit documentation in R/amp_heatmap.R
 \name{amp_heatmap}
 \alias{amp_heatmap}
-\title{Generate a heatmap of amplicon data}
+\title{Heatmap}
 \usage{
 amp_heatmap(data, group_by = "")
 }
 \arguments{
-\item{data}{(required) Data list as loaded with `amp_load()`.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group_by}{A variable from the associated metadata to group the samples by.}
+\item{group_by}{Group the samples by a variable in the metadata.}
 
-\item{facet_by}{A variable from the associated metadata to facet the samples by.}
+\item{facet_by}{Facet the samples by a variable in the metadata.}
 
-\item{normalise_by}{A specific sample or variable in the metadata to normalise the counts by.}
+\item{normalise_by}{A variable or a specific sample in the metadata to normalise the counts by.}
 
-\item{scale_by}{A variable from the associated metadata to scale the abundance by.}
+\item{scale_by}{Scale the abundances by a variable in the metadata.}
 
-\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (default: `"Phylum"`)}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})}
 
-\item{tax_add}{Additional taxonomic level(s) to display, e.g. `"Phylum"`. (default: `"none"`)}
+\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
-\item{tax_show}{The number of taxa to show, or a vector of taxa names. (default: `10`)}
+\item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{10})}
 
-\item{tax_class}{Converts a specific phylum to class level instead, e.g. `"p__Proteobacteria"`.}
+\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
-* `"remove"`: Remove OTUs without taxonomic information.
-* `"best"`: (default) Use the best classification possible. 
-* `"OTU"`: Display the OTU name.}
+\itemize{
+   \item \code{"remove"}: Remove OTUs without taxonomic information.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"OTU"}: Display the OTU name.
+   }}
 
-\item{order_x_by}{A taxonomy group or vector to order the x-axis by, or `"cluster"` for hierarchical clustering by `hclust()`.}
+\item{order_x_by}{A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{hclust()}.}
 
-\item{order_y_by}{A sample or vector to order the y-axis by, or `"cluster"` for hierarchical clustering by `hclust()`.}
+\item{order_y_by}{A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{hclust()}.}
 
-\item{plot_values}{(logical) Plot the values on the heatmap or not. (default: `TRUE`)}
+\item{plot_values}{(\emph{logical}) Plot the values on the heatmap or not. (\emph{default:} \code{TRUE})}
 
-\item{plot_breaks}{A vector of breaks for the abundance legend, fx `c(1, 10, 20)`}
+\item{plot_breaks}{A vector of breaks for the abundance legend, fx \code{c(1, 10, 20)}}
 
-\item{plot_colorscale}{The type of scale used for the coloring of abundances, either `"sqrt"` or `"log10"`. (default: `"log10"`)}
+\item{plot_colorscale}{The type of scale used for the coloring of abundances, either \code{"sqrt"} or \code{"log10"}. (\emph{default:} \code{"log10"})}
 
-\item{plot_na}{(logical) Whether to color missing values with the lowest color in the scale or not. (default: `TRUE`)}
+\item{plot_na}{(\emph{logical}) Whether to color missing values with the lowest color in the scale or not. (\emph{default:} \code{TRUE})}
 
-\item{plot_values_size}{The size of the plotted values. (default: `4`)}
+\item{plot_values_size}{The size of the plotted values. (\emph{default:} \code{4})}
 
-\item{measure}{Calculate and display either `"mean"`, `"max"` or `"median"` across the groups. (default: `"mean"`)}
+\item{measure}{Calculate and display either \code{"mean"}, \code{"max"} or \code{"median"} across the groups. (\emph{default:} \code{"mean"})}
 
-\item{min_abundance}{All values below this value are given the same color. (default: `0.1`)}
+\item{min_abundance}{All values below this value are given the same color. (\emph{default:} \code{0.1})}
 
 \item{max_abundance}{All values above this value are given the same color.}
 
-\item{sort_by}{Sort the heatmap by a specific value of the `"group_by"` argument, e.g. `"Treatment A"`.}
+\item{sort_by}{Sort the heatmap by a specific value of the \code{"group_by"} argument, e.g. \code{"Treatment A"}.}
 
-\item{color_vector}{Vector of colors for the colorscale, e.g. `c("white", "red")`.}
+\item{color_vector}{Vector of colors for the colorscale, e.g. \code{c("white", "red")}.}
 
-\item{round}{Number of digits to show with the values. (default: `1`)}
+\item{round}{Number of digits to show with the values. (\emph{default:} \code{1})}
 
-\item{raw}{(logical) Display raw input instead of converting to percentages. (default: `FALSE`)}
+\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
-\item{detailed_output}{(logical) Return additional details or not. If `TRUE`, it is recommended to save to an object and then access the additional data by `View(object$data)`. (default: `FALSE`)}
+\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
 \value{
-A ggplot2 object. If `detailed_output = TRUE` a list with a ggplot2 object and additional data.
+A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
 Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs.

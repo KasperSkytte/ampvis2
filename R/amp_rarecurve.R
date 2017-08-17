@@ -1,15 +1,15 @@
-#' Calculate rarefaction curve for each sample.
+#' Rarefaction curve
 #'
-#' Calculate rarefaction curve for each sample using the vegan rarecurve function directly from an ampvis object.
+#' Rarefaction curves for each sample
 #'
 #' @usage amp_rarecurve(data)
 #'
-#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param step Step size for sample sizes in rarefaction curves (default: 1000).
 #' @param color A metadata variable to color by.
 #' 
 #' @export
-#' @import vegan
+#' @import dplyr
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 

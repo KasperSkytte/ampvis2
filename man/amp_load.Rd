@@ -4,17 +4,17 @@
 \alias{amp_load}
 \title{Load data and convert to a list.}
 \usage{
-amp_load(otutable, metadata)
+amp_load(otutable = dataframe, metadata = dataframe)
 }
 \arguments{
-\item{otutable}{(required) A OTU table. The first row should be OTU name and the last 7 rows taxonomy.}
+\item{otutable}{(required) An OTU-table loaded as dataframe. and the last 7 rows taxonomy.}
 
 \item{metadata}{(required) A metadata file with sample names in first column.}
 
 \item{refseq}{Reference sequences for all OTUs. Must be loaded with readDNAStringSet() from the biostrings package.}
 }
 \value{
-A phyloseq object.
+A list with 3 dataframes (4 if reference sequences are provided).
 }
 \description{
 Load data and convert to a list.

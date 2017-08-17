@@ -1,6 +1,6 @@
 #' Make raw MiDAS function data into ampvis format
 #'
-#' Make raw MiDAS function data into ampvis format
+#' Make raw MiDAS function data into ampvis format. Internal function.
 #'
 #' @usage amp_cleanMiF(data)
 #'

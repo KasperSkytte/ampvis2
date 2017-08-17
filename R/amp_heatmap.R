@@ -1,39 +1,41 @@
-#' Generate a heatmap of amplicon data
+#' Heatmap
 #'
 #' Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs.
 #'
 #' @usage amp_heatmap(data, group_by = "")
 #'
-#' @param data (required) Data list as loaded with `amp_load()`.
-#' @param group_by A variable from the associated metadata to group the samples by.
-#' @param facet_by A variable from the associated metadata to facet the samples by.
-#' @param scale_by A variable from the associated metadata to scale the abundance by.
-#' @param normalise_by A specific sample or variable in the metadata to normalise the counts by.
-#' @param tax_aggregate The taxonomic level to aggregate the OTUs. (default: `"Phylum"`)
-#' @param tax_add Additional taxonomic level(s) to display, e.g. `"Phylum"`. (default: `"none"`)
-#' @param tax_show The number of taxa to show, or a vector of taxa names. (default: `10`)
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
+#' @param group_by Group the samples by a variable in the metadata.
+#' @param facet_by Facet the samples by a variable in the metadata.
+#' @param scale_by Scale the abundances by a variable in the metadata.
+#' @param normalise_by A variable or a specific sample in the metadata to normalise the counts by.
+#' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})
+#' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})
+#' @param tax_show The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{10})
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
-#'   * `"remove"`: Remove OTUs without taxonomic information.
-#'   * `"best"`: (default) Use the best classification possible. 
-#'   * `"OTU"`: Display the OTU name.
-#' @param tax_class Converts a specific phylum to class level instead, e.g. `"p__Proteobacteria"`.
-#' @param measure Calculate and display either `"mean"`, `"max"` or `"median"` across the groups. (default: `"mean"`)
-#' @param sort_by Sort the heatmap by a specific value of the `"group_by"` argument, e.g. `"Treatment A"`.
-#' @param order_x_by A taxonomy group or vector to order the x-axis by, or `"cluster"` for hierarchical clustering by `hclust()`.
-#' @param order_y_by A sample or vector to order the y-axis by, or `"cluster"` for hierarchical clustering by `hclust()`.
-#' @param plot_values (logical) Plot the values on the heatmap or not. (default: `TRUE`)
-#' @param plot_values_size The size of the plotted values. (default: `4`)
-#' @param plot_breaks A vector of breaks for the abundance legend, fx `c(1, 10, 20)`
-#' @param plot_colorscale The type of scale used for the coloring of abundances, either `"sqrt"` or `"log10"`. (default: `"log10"`)
-#' @param plot_na (logical) Whether to color missing values with the lowest color in the scale or not. (default: `TRUE`)
-#' @param min_abundance All values below this value are given the same color. (default: `0.1`)
+#' \itemize{
+#'    \item \code{"remove"}: Remove OTUs without taxonomic information.
+#'    \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+#'    \item \code{"OTU"}: Display the OTU name.
+#'    }
+#' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
+#' @param measure Calculate and display either \code{"mean"}, \code{"max"} or \code{"median"} across the groups. (\emph{default:} \code{"mean"})
+#' @param sort_by Sort the heatmap by a specific value of the \code{"group_by"} argument, e.g. \code{"Treatment A"}.
+#' @param order_x_by A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{hclust()}.
+#' @param order_y_by A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{hclust()}.
+#' @param plot_values (\emph{logical}) Plot the values on the heatmap or not. (\emph{default:} \code{TRUE})
+#' @param plot_values_size The size of the plotted values. (\emph{default:} \code{4})
+#' @param plot_breaks A vector of breaks for the abundance legend, fx \code{c(1, 10, 20)}
+#' @param plot_colorscale The type of scale used for the coloring of abundances, either \code{"sqrt"} or \code{"log10"}. (\emph{default:} \code{"log10"})
+#' @param plot_na (\emph{logical}) Whether to color missing values with the lowest color in the scale or not. (\emph{default:} \code{TRUE})
+#' @param min_abundance All values below this value are given the same color. (\emph{default:} \code{0.1})
 #' @param max_abundance All values above this value are given the same color.
-#' @param color_vector Vector of colors for the colorscale, e.g. `c("white", "red")`.
-#' @param round Number of digits to show with the values. (default: `1`)
-#' @param raw (logical) Display raw input instead of converting to percentages. (default: `FALSE`) 
-#' @param detailed_output (logical) Return additional details or not. If `TRUE`, it is recommended to save to an object and then access the additional data by `View(object$data)`. (default: `FALSE`)
+#' @param color_vector Vector of colors for the colorscale, e.g. \code{c("white", "red")}.
+#' @param round Number of digits to show with the values. (\emph{default:} \code{1})
+#' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
+#' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
-#' @return A ggplot2 object. If `detailed_output = TRUE` a list with a ggplot2 object and additional data.
+#' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 #' 
 #' @export
 #' 

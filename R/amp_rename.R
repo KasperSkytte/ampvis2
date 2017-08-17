@@ -4,7 +4,7 @@
 #'
 #' @usage amp_rename(data)
 #'
-#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param tax_class Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").
 #' @param tax_empty Either "remove" OTUs without taxonomic information at X level, with "best" classification or add the "OTU" name (default: best).
 #' @param tax_level The taxonomic level to remove OTUs with empty taxonomy, only used when tax_empty = "remove" (default: Genus).

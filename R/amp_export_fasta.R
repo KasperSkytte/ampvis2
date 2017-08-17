@@ -4,7 +4,7 @@
 #'
 #' @usage amp_export_fasta(data)
 #'
-#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param file Name of the file containing the exported sequences.
 #' @param tax Add taxonomic strings to the output (default: T).
 #' 

@@ -4,7 +4,7 @@
 #'
 #' @usage amp_subset_taxa(data, tax_vector)
 #'
-#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param tax_vector (required) a vector with taxonomic groups e.g. c("p__Chloroflexi","p__Actinobacteria")
 #' 
 #' @return A list object with 3 dataframes: abund, tax, and metadata.

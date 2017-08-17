@@ -2,13 +2,13 @@
 #'
 #' Load data and convert to a list.
 #'
-#' @usage amp_load(otutable, metadata)
+#' @usage amp_load(otutable = dataframe, metadata = dataframe)
 #'
-#' @param otutable (required) A OTU table. The first row should be OTU name and the last 7 rows taxonomy.
+#' @param otutable (required) An OTU-table loaded as dataframe. and the last 7 rows taxonomy.
 #' @param metadata (required) A metadata file with sample names in first column.
 #' @param refseq Reference sequences for all OTUs. Must be loaded with readDNAStringSet() from the biostrings package.
 #' 
-#' @return A phyloseq object.
+#' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' 
 #' @export
 #' 

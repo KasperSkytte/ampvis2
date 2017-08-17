@@ -7,7 +7,7 @@
 amp_subset_samples(data, ...)
 }
 \arguments{
-\item{data}{(required) Data list as loaded with `amp_load()`.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
 \item{...}{(optional) Additional data is passed on to the R subset function. The samples can be subset based on any variable in the associated metadata.}
 

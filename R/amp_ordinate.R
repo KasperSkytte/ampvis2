@@ -1,23 +1,23 @@
-#' Generate ordination plots of amplicon data
+#' Ordination plot
 #'
-#' A wrapper around the vegan package to generate beautiful ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.
+#' A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.
 #'
 #' @usage amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param filter_species Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 drastically increases the computation time. (\emph{default}: \code{0.1})
+#' @param filter_species Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 may drastically increase computation time. (\emph{default}: \code{0.1})
 #' @param type (\emph{required}) Type of ordination method. One of:
 #' \itemize{
 #'    \item \code{"PCA"}: (\emph{default}) Principal Components Analysis
-#'    \item \code{"RDA"}: Redundancy Analysis
+#'    \item \code{"RDA"}: Redundancy Analysis (considered the constrained version of PCA)
+#'    \item \code{"CA"}: Correspondence Analysis
+#'    \item \code{"CCA"}: Canonical Correspondence Analysis (considered the constrained version of CA)
+#'    \item \code{"DCA"}: Detrended Correspondence Analysis 
 #'    \item \code{"NMDS"}: non-metric Multidimensional Scaling
 #'    \item \code{"PCOA"} or \code{"MMDS"}: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)
-#'    \item \code{"CA"}: Correspondence Analysis
-#'    \item \code{"CCA"}: Canonical Correspondence Analysis
-#'    \item \code{"DCA"}: Detrended Correspondence Analysis
 #'    }
 #'    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[APE]{pcoa}} function from the APE package.}
-#' @param distmeasure (required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"} or simply \code{"none"} or \code{"sqrt"}. See details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}.
+#' @param distmeasure (required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"} or simply \code{"none"} or \code{"sqrt"}. You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}.
 #' @param transform (\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). 
 #' @param constrain (\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.
 #' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})
@@ -35,14 +35,14 @@
 #' @param sample_plotly Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the variables to show or \code{"all"} to display.
 #' 
 #' @param species_plot (\emph{logical}) Plot species points or not. (\emph{default:} \code{FALSE})
-#' @param species_nlabels Number of the most extreme species labels to plot. Only makes sense with PCA/RDA.
+#' @param species_shape The shape of the species points, fx \code{1} for hollow circles or \code{20} for dots. (\emph{default:} \code{20})
+#' @param species_size Size of the species points. (\emph{default:} \code{2})
+#' @param species_nlabels Number of the most extreme species labels to plot (Only makes sense with PCA/RDA).
 #' @param species_label_taxonomy Taxonomic level by which to label the species points. (\emph{default:} \code{"Genus"})
 #' @param species_label_size Size of the species text labels. (\emph{default:} \code{3})
 #' @param species_label_color Color of the species text labels. (\emph{default:} \code{"grey10"})
 #' @param species_rescale (\emph{logical}) Rescale species points or not. Basically they will be multiplied by 0.8, for visual convenience only. (\emph{default:} \code{FALSE})
-#' @param species_size Size of the species points. (\emph{default:} \code{2})
-#' @param species_shape The shape of the species points, fx \code{1} for hollow circles or \code{20} for dots. (\emph{default:} \code{20})
-#' @param species_plotly (\emph{logical}) Enable interactive species points so that they can be hovered to show complete taxonomic information about the OTU. (\emph{default:} \code{FALSE})
+#' @param species_plotly (\emph{logical}) Enable interactive species points so that they can be hovered to show complete taxonomic information. (\emph{default:} \code{FALSE})
 #' 
 #' @param envfit_factor A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in \code{\link[vegan]{envfit}}.
 #' @param envfit_numeric A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in \code{\link[vegan]{envfit}}.
@@ -52,7 +52,7 @@
 #' @param envfit_numeric_arrows_scale Scale the size of the numeric arrows. (\emph{default:} \code{1})
 #' @param envfit_show (\emph{logical}) Show the results on the plot or not. (\emph{default:} \code{TRUE})
 #' 
-#' @param repel (\emph{logical}) Repel all labels to prevent cluttering of the plot. (\emph{default:} \code{TRUE})
+#' @param repel_labels (\emph{logical}) Repel all labels to prevent cluttering of the plot. (\emph{default:} \code{TRUE})
 #' @param opacity Opacity of all plotted points and sample_colorframe. \code{0}: invisible, \code{1}: opaque. (\emph{default:} \code{0.8})
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
 #' \itemize{
@@ -76,39 +76,80 @@
 #'   
 #'   Legendre, P., & Gallagher, E. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia, 129(2), 271-280. \url{http://doi.org/10.1007/s004420100716}
 #' @examples 
+#' #Load example data
 #' data("AalborgWWTPs")
+#' 
+#' #Principal Components Analysis with data transformation, colored by WWTP
 #' amp_ordinate(AalborgWWTPs,
 #'              type = "PCA",
 #'              transform = "hellinger",
 #'              sample_color_by = "Plant",
 #'              sample_colorframe = TRUE
 #'              )
+#' 
+#' \dontrun{
+#' #Interactive Canonical Correspondence Analysis with data transformation constrained to seasonal period
 #' amp_ordinate(AalborgWWTPs,
 #'              type = "CCA",
 #'              transform = "Hellinger", 
 #'              constrain = "Period",
 #'              sample_color_by = "Period",
 #'              sample_colorframe = TRUE,
-#'              sample_colorframe_label = "Period"
-#'              ) + theme(legend.position = "blank")
+#'              sample_colorframe_label = "Period",
+#'              sample_plotly = "all"
+#'              )}
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = NULL, transform = NULL, constrain = NULL, x_axis = 1, y_axis = 2, 
-                        sample_color_by = NULL, sample_color_order = NULL, sample_shape_by = NULL, sample_colorframe = FALSE, sample_colorframe_label = NULL, 
-                        sample_label_by = NULL, sample_label_size = 4, sample_label_segment_color = "black", sample_trajectory = NULL, sample_trajectory_group = sample_trajectory, sample_plotly = NULL,
-                        species_plot = FALSE, species_nlabels = 0, species_label_taxonomy = "Genus", species_label_size = 3, species_label_color = "grey10", species_rescale = FALSE, species_size = 2, species_shape = 20, species_plotly = F,
-                        envfit_factor = NULL, envfit_numeric = NULL, envfit_signif_level = 0.001, envfit_textsize = 3, envfit_color = "darkred", envfit_numeric_arrows_scale = 1, envfit_show = TRUE, 
-                        repel = T, opacity = 0.8, tax_empty = "best", detailed_output = FALSE, ...) {
+amp_ordinate<- function(data,
+                        filter_species = 0.1, 
+                        type = "PCA",
+                        distmeasure = NULL,
+                        transform = NULL,
+                        constrain = NULL,
+                        x_axis = 1,
+                        y_axis = 2, 
+                        sample_color_by = NULL,
+                        sample_color_order = NULL, 
+                        sample_shape_by = NULL,
+                        sample_colorframe = FALSE,
+                        sample_colorframe_label = NULL, 
+                        sample_label_by = NULL,
+                        sample_label_size = 4,
+                        sample_label_segment_color = "black",
+                        sample_trajectory = NULL,
+                        sample_trajectory_group = sample_trajectory,
+                        sample_plotly = NULL,
+                        species_plot = FALSE, 
+                        species_nlabels = 0, 
+                        species_label_taxonomy = "Genus",
+                        species_label_size = 3, 
+                        species_label_color = "grey10", 
+                        species_rescale = FALSE, 
+                        species_size = 2,
+                        species_shape = 20, 
+                        species_plotly = F,
+                        envfit_factor = NULL,
+                        envfit_numeric = NULL,
+                        envfit_signif_level = 0.001, 
+                        envfit_textsize = 3,
+                        envfit_color = "darkred", 
+                        envfit_numeric_arrows_scale = 1, 
+                        envfit_show = TRUE, 
+                        repel_labels = TRUE, 
+                        opacity = 0.8, 
+                        tax_empty = "best", 
+                        detailed_output = FALSE, 
+                        ...) {
   
   #Sanity check of options
   if(species_plotly == T & !is.null(sample_plotly)){
     stop("You can not use plotly for both species and samples in the same plot.\n")
   }
   if(species_plotly == T | !is.null(sample_plotly)){
-    warning("Forcing repel = FALSE in order to plotly to work.\n")
-    repel <- F
+    warning("Forcing repel_labels = FALSE in order to plotly to work.\n")
+    repel_labels <- F
   }
   
   #Check the data
@@ -443,7 +484,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = 
                      by.x = sample_colorframe_label, 
                      by.y = "group")
       temp3 <- temp2[!duplicated(temp2[, sample_colorframe_label]), ]
-      if (repel == T){plot <- plot +geom_text_repel(data = temp3, aes_string(x = "cx", y = "cy", label = sample_colorframe_label), size = 3,color = "black",fontface = 2)}
+      if (repel_labels == T){plot <- plot +geom_text_repel(data = temp3, aes_string(x = "cx", y = "cy", label = sample_colorframe_label), size = 3,color = "black",fontface = 2)}
       else{plot <- plot +geom_text(data = temp3, aes_string(x = "cx", y = "cy", label = sample_colorframe_label), size = 3,color = "black",fontface = 2)}
   }
   
@@ -456,13 +497,13 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = 
   #Sample point labels
   if(!is.null(sample_label_by)) {
     
-    if (repel == T){plot <- plot + geom_text_repel(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
+    if (repel_labels == T){plot <- plot + geom_text_repel(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
     else{plot <- plot + geom_text(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
   }
   
   #Plot species labels
   if (species_nlabels > 0) {
-    if (repel == T){plot <- plot +geom_text_repel(data = dspecies[1:species_nlabels,], aes_string(x = x_axis_name, y = y_axis_name, label = species_label_taxonomy),colour = species_label_color, size = species_label_size,fontface = 4,inherit.aes = FALSE)}
+    if (repel_labels == T){plot <- plot +geom_text_repel(data = dspecies[1:species_nlabels,], aes_string(x = x_axis_name, y = y_axis_name, label = species_label_taxonomy),colour = species_label_color, size = species_label_size,fontface = 4,inherit.aes = FALSE)}
     else{plot <- plot +geom_text(data = dspecies[1:species_nlabels,], aes_string(x = x_axis_name, y = y_axis_name, label = species_label_taxonomy),colour = species_label_color, size = species_label_size,fontface = 4,inherit.aes = FALSE)}
   }
   
@@ -480,7 +521,7 @@ amp_ordinate<- function(data, filter_species = 0.1, type = "PCA", distmeasure = 
                                   pval = evf_factor_model$factors$pvals
     ) %>% subset(pval <= envfit_signif_level)
     if (nrow(evf_factor_data) > 0 & envfit_show == TRUE) {
-      if (repel == T){plot <- plot + geom_text_repel(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_color, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
+      if (repel_labels == T){plot <- plot + geom_text_repel(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_color, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
       else{plot <- plot + geom_text(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_color, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
     }
     if (nrow(evf_factor_data) == 0) {

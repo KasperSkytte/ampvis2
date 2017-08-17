@@ -4,7 +4,7 @@
 #'
 #' @usage amp_normalise(data)
 #'
-#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' 
 #' @return A list object.
 #' 

@@ -10,7 +10,7 @@ amp_cleanMiF(data)
 \item{data}{(required) A data frame with MiDAS functions.}
 }
 \description{
-Make raw MiDAS function data into ampvis format
+Make raw MiDAS function data into ampvis format. Internal function.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

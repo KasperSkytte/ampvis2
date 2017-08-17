@@ -4,7 +4,7 @@
 #'
 #' @usage amp_export_otutable(data)
 #'
-#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param file Name of the file containing the exported otutable.
 #' @param id Name the samples using any variable in the metadata.
 #' @param sort.samples Vector to sort the samples by.

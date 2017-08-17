@@ -7,7 +7,7 @@
 amp_subset_taxa(data, tax_vector)
 }
 \arguments{
-\item{data}{(required) Data list as loaded with `amp_load()`.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
 \item{tax_vector}{(required) a vector with taxonomic groups e.g. c("p__Chloroflexi","p__Actinobacteria")}
 }

@@ -7,7 +7,7 @@
 amp_rename(data)
 }
 \arguments{
-\item{data}{(required) Data list as loaded with `amp_load()`.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
 \item{tax_class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
 

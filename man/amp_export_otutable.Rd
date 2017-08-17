@@ -7,7 +7,7 @@
 amp_export_otutable(data)
 }
 \arguments{
-\item{data}{(required) Data list as loaded with `amp_load()`.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
 \item{file}{Name of the file containing the exported otutable.}
 

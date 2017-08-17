@@ -4,7 +4,7 @@
 #' 
 #' @usage amp_timeseries(data)
 #' 
-#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param time (required) The name of the column containing the time variables, e.g. "Date".
 #' @param group A variable from the associated sample data to group/split samples by (default: "Samples").
 #' @param split Split the plot into subplot of each taxa (default: F).

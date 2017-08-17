@@ -2,52 +2,55 @@
 % Please edit documentation in R/amp_boxplot.R
 \name{amp_boxplot}
 \alias{amp_boxplot}
-\title{Generates a ggplot2 style boxplot of the most abundant taxa}
+\title{Boxplot}
 \usage{
 amp_boxplot(data)
 }
 \arguments{
-\item{data}{(required) Data list as loaded with `amp_load()`.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group}{Group the data based on a sample variable.}
+\item{group_by}{Group the samples by a variable in the metadata.}
 
-\item{order_group}{A vector defining the order of groups.}
-
-\item{tax_show}{The number of taxa to show or a vector of taxa names (default: 50).}
-
-\item{tax_clean}{Replace the phylum Proteobacteria with the respective Classes instead (default: T).}
-
-\item{plot_log}{Log10 scale the data (default: F)}
-
-\item{output}{Either "plot" or "complete" (default: "plot").}
-
-\item{tax_add}{Additional taxonomic levels to display for each entry (default: "Phylum")}
-
-\item{tax_aggregate}{The taxonomic level that the data should be aggregated to (defualt: "Genus")}
-
-\item{tax_empty}{Either "remove" OTUs without taxonomic information, "rename" with best classification or add the "OTU" name (default: rename).}
-
-\item{tax_class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
-
-\item{point_size}{Size of points (default: 1).}
-
-\item{plot_flip}{Flip the axis of the plot (default: F).}
-
-\item{sort_by}{Sort the boxplot by either "median", "mean" or "total" (default = "median").}
-
-\item{adjust_zero}{Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.}
+\item{order_group}{A vector to order the groups by.}
 
 \item{order_y}{A vector to order the y-axis by.}
 
-\item{raw}{Display raw input instead of converting to percentages (default: F).}
+\item{sort_by}{Sort the boxplots by \code{"median"}, \code{"mean"} or \code{"total"}. (\emph{default:} \code{"median"})}
 
-\item{plot_type}{Show data using boxplot or points (default: boxplot).}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Genus"})}
+
+\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
+
+\item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{20})}
+
+\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
+\itemize{
+   \item \code{"remove"}: Remove OTUs without taxonomic information.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"OTU"}: Display the OTU name.
+   }}
+
+\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
+
+\item{plot_flip}{(\emph{logical}) Flip the axes of the plot axis. (\emph{default:} \code{FALSE})}
+
+\item{plot_log}{(\emph{logical}) Log10-scale the plot. (\emph{default:} \code{FALSE})}
+
+\item{adjust_zero}{Keep abundances of 0 in the calculation of medians by adding this value. (\emph{default:} \code{NULL})}
+
+\item{point_size}{The size of points. (\emph{default:} \code{1})}
+
+\item{plot_type}{\code{"Boxplot"} or \code{"points"}. (\emph{default:} \code{"boxplot"})}
+
+\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
+
+\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
 \value{
-A ggplot2 object
+A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generates a ggplot2 style boxplot of the most abundant taxa
+Generates a ggplot2 style boxplot of the most abundant taxa of amplicon data
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

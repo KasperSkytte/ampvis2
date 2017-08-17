@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate a heatmap of amplicon data — amp_heatmap â€¢ ampvis2</title>
+<title>Heatmap — amp_heatmap â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,7 +83,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate a heatmap of amplicon data</h1>
+    <h1>Heatmap</h1>
     </div>
 
     
@@ -97,82 +97,83 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(required) Data list as loaded with `amp_load()`.</p></td>
+      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
     </tr>
     <tr>
       <th>group_by</th>
-      <td><p>A variable from the associated metadata to group the samples by.</p></td>
+      <td><p>Group the samples by a variable in the metadata.</p></td>
     </tr>
     <tr>
       <th>facet_by</th>
-      <td><p>A variable from the associated metadata to facet the samples by.</p></td>
+      <td><p>Facet the samples by a variable in the metadata.</p></td>
     </tr>
     <tr>
       <th>normalise_by</th>
-      <td><p>A specific sample or variable in the metadata to normalise the counts by.</p></td>
+      <td><p>A variable or a specific sample in the metadata to normalise the counts by.</p></td>
     </tr>
     <tr>
       <th>scale_by</th>
-      <td><p>A variable from the associated metadata to scale the abundance by.</p></td>
+      <td><p>Scale the abundances by a variable in the metadata.</p></td>
     </tr>
     <tr>
       <th>tax_aggregate</th>
-      <td><p>The taxonomic level to aggregate the OTUs. (default: `"Phylum"`)</p></td>
+      <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"Phylum"</code>)</p></td>
     </tr>
     <tr>
       <th>tax_add</th>
-      <td><p>Additional taxonomic level(s) to display, e.g. `"Phylum"`. (default: `"none"`)</p></td>
+      <td><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></td>
     </tr>
     <tr>
       <th>tax_show</th>
-      <td><p>The number of taxa to show, or a vector of taxa names. (default: `10`)</p></td>
+      <td><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>10</code>)</p></td>
     </tr>
     <tr>
       <th>tax_class</th>
-      <td><p>Converts a specific phylum to class level instead, e.g. `"p__Proteobacteria"`.</p></td>
+      <td><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></td>
     </tr>
     <tr>
       <th>tax_empty</th>
-      <td><p>How to show OTUs without taxonomic information. One of the following:
-* `"remove"`: Remove OTUs without taxonomic information.
-* `"best"`: (default) Use the best classification possible. 
-* `"OTU"`: Display the OTU name.</p></td>
+      <td><p>How to show OTUs without taxonomic information. One of the following:</p><ul>
+<li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
+<li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
+<li><p><code>"OTU"</code>: Display the OTU name.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>order_x_by</th>
-      <td><p>A taxonomy group or vector to order the x-axis by, or `"cluster"` for hierarchical clustering by `hclust()`.</p></td>
+      <td><p>A taxonomy group or vector to order the x-axis by, or <code>"cluster"</code> for hierarchical clustering by <code>hclust()</code>.</p></td>
     </tr>
     <tr>
       <th>order_y_by</th>
-      <td><p>A sample or vector to order the y-axis by, or `"cluster"` for hierarchical clustering by `hclust()`.</p></td>
+      <td><p>A sample or vector to order the y-axis by, or <code>"cluster"</code> for hierarchical clustering by <code>hclust()</code>.</p></td>
     </tr>
     <tr>
       <th>plot_values</th>
-      <td><p>(logical) Plot the values on the heatmap or not. (default: `TRUE`)</p></td>
+      <td><p>(<em>logical</em>) Plot the values on the heatmap or not. (<em>default:</em> <code>TRUE</code>)</p></td>
     </tr>
     <tr>
       <th>plot_breaks</th>
-      <td><p>A vector of breaks for the abundance legend, fx `c(1, 10, 20)`</p></td>
+      <td><p>A vector of breaks for the abundance legend, fx <code>c(1, 10, 20)</code></p></td>
     </tr>
     <tr>
       <th>plot_colorscale</th>
-      <td><p>The type of scale used for the coloring of abundances, either `"sqrt"` or `"log10"`. (default: `"log10"`)</p></td>
+      <td><p>The type of scale used for the coloring of abundances, either <code>"sqrt"</code> or <code>"log10"</code>. (<em>default:</em> <code>"log10"</code>)</p></td>
     </tr>
     <tr>
       <th>plot_na</th>
-      <td><p>(logical) Whether to color missing values with the lowest color in the scale or not. (default: `TRUE`)</p></td>
+      <td><p>(<em>logical</em>) Whether to color missing values with the lowest color in the scale or not. (<em>default:</em> <code>TRUE</code>)</p></td>
     </tr>
     <tr>
       <th>plot_values_size</th>
-      <td><p>The size of the plotted values. (default: `4`)</p></td>
+      <td><p>The size of the plotted values. (<em>default:</em> <code>4</code>)</p></td>
     </tr>
     <tr>
       <th>measure</th>
-      <td><p>Calculate and display either `"mean"`, `"max"` or `"median"` across the groups. (default: `"mean"`)</p></td>
+      <td><p>Calculate and display either <code>"mean"</code>, <code>"max"</code> or <code>"median"</code> across the groups. (<em>default:</em> <code>"mean"</code>)</p></td>
     </tr>
     <tr>
       <th>min_abundance</th>
-      <td><p>All values below this value are given the same color. (default: `0.1`)</p></td>
+      <td><p>All values below this value are given the same color. (<em>default:</em> <code>0.1</code>)</p></td>
     </tr>
     <tr>
       <th>max_abundance</th>
@@ -180,29 +181,29 @@
     </tr>
     <tr>
       <th>sort_by</th>
-      <td><p>Sort the heatmap by a specific value of the `"group_by"` argument, e.g. `"Treatment A"`.</p></td>
+      <td><p>Sort the heatmap by a specific value of the <code>"group_by"</code> argument, e.g. <code>"Treatment A"</code>.</p></td>
     </tr>
     <tr>
       <th>color_vector</th>
-      <td><p>Vector of colors for the colorscale, e.g. `c("white", "red")`.</p></td>
+      <td><p>Vector of colors for the colorscale, e.g. <code>c("white", "red")</code>.</p></td>
     </tr>
     <tr>
       <th>round</th>
-      <td><p>Number of digits to show with the values. (default: `1`)</p></td>
+      <td><p>Number of digits to show with the values. (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     <tr>
       <th>raw</th>
-      <td><p>(logical) Display raw input instead of converting to percentages. (default: `FALSE`)</p></td>
+      <td><p>(<em>logical</em>) Display raw input instead of converting to percentages. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>detailed_output</th>
-      <td><p>(logical) Return additional details or not. If `TRUE`, it is recommended to save to an object and then access the additional data by `View(object$data)`. (default: `FALSE`)</p></td>
+      <td><p>(<em>logical</em>) Return additional details or not. If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code>View(object$data)</code>. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object. If `detailed_output = TRUE` a list with a ggplot2 object and additional data.</p>
+    <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
     
 
   </div>

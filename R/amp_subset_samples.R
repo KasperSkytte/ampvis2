@@ -4,7 +4,7 @@
 #'
 #' @usage amp_subset_samples(data, ...)
 #'
-#' @param data (required) Data list as loaded with `amp_load()`.
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param minreads (optional) Minimum number of reads pr. sample (default: 1).
 #' @param ... (optional) Additional data is passed on to the R subset function. The samples can be subset based on any variable in the associated metadata.
 #' 
