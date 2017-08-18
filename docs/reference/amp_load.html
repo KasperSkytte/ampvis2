@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Load data and convert to a list. — amp_load â€¢ ampvis2</title>
+<title>Load data for ampvis functions — amp_load â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,11 +83,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Load data and convert to a list.</h1>
+    <h1>Load data for ampvis functions</h1>
     </div>
 
     
-    <p>Load data and convert to a list.</p>
+    <p>This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with <code>amp_load()</code> before any other ampvis functions can be used.</p>
     
 
     <pre class="usage"><span class='fu'>amp_load</span>(<span class='kw'>otutable</span> <span class='kw'>=</span> <span class='no'>dataframe</span>, <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>dataframe</span>)</pre>
@@ -97,15 +97,15 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>otutable</th>
-      <td><p>(required) An OTU-table loaded as dataframe. and the last 7 rows taxonomy.</p></td>
+      <td><p>(<em>required</em>) An OTU-table (data frame), where the last 7 rows is the taxonomy.</p></td>
     </tr>
     <tr>
       <th>metadata</th>
-      <td><p>(required) A metadata file with sample names in first column.</p></td>
+      <td><p>(<em>required</em>) A metadata (dataframe) with information about the samples.</p></td>
     </tr>
     <tr>
       <th>refseq</th>
-      <td><p>Reference sequences for all OTUs. Must be loaded with readDNAStringSet() from the biostrings package.</p></td>
+      <td><p>Reference sequences for all OTUs as loaded with <code>readDNAStringSet()</code> from the <code>biostrings</code> bioconductor package.</p></td>
     </tr>
     </table>
     
@@ -113,7 +113,45 @@
 
     <p>A list with 3 dataframes (4 if reference sequences are provided).</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>The <code>amp_load()</code> function validates and corrects the provided data in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements to work properly as described in the following sections.</p>
+    
+    <h2 class="hasAnchor" id="the-otu-table"><a class="anchor" href="#the-otu-table"></a>The OTU-table</h2>
+
+    
+    <p>The OTU-table contains information about the OTUs, their assigned taxonomy and their read counts in each sample. The provided OTU-table must be a data frame with the following requirements:</p><ul>
+<li><p>The rows are OTU IDs and the columns are samples.</p></li>
+<li><p>The last 7 columns are the corresponding taxonomy assigned to the OTUs, named <code>"Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"</code>.</p></li>
+<li><p>The rownames of the data frame are the OTU IDs. Thus, the first column should be a sample, NOT the OTU IDs.</p></li>
+<li><p>The column names of the data frame are the sample IDs, exactly matching those in the metadata, (the last 7 columns named <code>Kingdom</code> -&gt; <code>Species</code>, of course). Thus, the first row should contain the read counts of an OTU in each sample, NOT the sample IDs and taxonomy.</p></li>
+<li><p>Generally avoid special characters in row- and column names.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="the-metadata"><a class="anchor" href="#the-metadata"></a>The metadata</h2>
+
+    
+    <p>The metadata contains additional information about the samples, for example where the sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements:</p><ul>
+<li><p>The sample IDs must be in the first column. These sample IDs must match exactly to those in the OTU-table.</p></li>
+<li><p>Column classes matter, categorical variables should be loaded either <code>as.character()</code> or <code>as.factor()</code>, and continuous variables <code>as.numeric()</code>.</p></li>
+<li><p>Generally avoid special characters in row- and column names.</p></li>
+</ul>
+    <p>If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will consider these as numerical values (<code>as.numeric()</code>) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded <code>as.factor()</code> or <code>as.character()</code> instead. This has consequences for the analysis as R treats them differently. Therefore either use the <code>colClasses = </code> argument when loading a csv file or <code>col_types = </code> when loading an excel file, or manually adjust the column classes afterwards with fx <code>metadata$Year &lt;- as.character(metadata$Year)</code>.
+    <code>amp_load()</code> will automatically use the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>myotutable</span> <span class='kw'>&lt;-</span> <span class='fu'>read.csv2</span>(<span class='st'>"data/otutable.csv"</span>,
+                        <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                        <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+                        <span class='kw'>check.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+                        <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'>as.data.frame</span>()
+<span class='no'>mymetadata</span> <span class='kw'>&lt;-</span> <span class='fu'>read_excel</span>(<span class='st'>"data/metadata.xlsx"</span>,
+                         <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span> <span class='fu'>as.data.frame</span>()
+<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_load</span>(<span class='kw'>otutable</span> <span class='kw'>=</span> <span class='no'>myotutable</span>,
+              <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>mymetadata</span>
+              <span class='co'>#, refseq = readDNAStringSet("data/otus.fa", format = "fasta") #optional </span>
+              )</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -121,7 +159,15 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#the-otu-table">The OTU-table</a></li>
+
+      <li><a href="#the-metadata">The metadata</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     

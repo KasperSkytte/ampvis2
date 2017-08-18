@@ -2,22 +2,67 @@
 % Please edit documentation in R/amp_load.R
 \name{amp_load}
 \alias{amp_load}
-\title{Load data and convert to a list.}
+\title{Load data for ampvis functions}
 \usage{
 amp_load(otutable = dataframe, metadata = dataframe)
 }
 \arguments{
-\item{otutable}{(required) An OTU-table loaded as dataframe. and the last 7 rows taxonomy.}
+\item{otutable}{(\emph{required}) An OTU-table (data frame), where the last 7 rows is the taxonomy.}
 
-\item{metadata}{(required) A metadata file with sample names in first column.}
+\item{metadata}{(\emph{required}) A metadata (dataframe) with information about the samples.}
 
-\item{refseq}{Reference sequences for all OTUs. Must be loaded with readDNAStringSet() from the biostrings package.}
+\item{refseq}{Reference sequences for all OTUs as loaded with \code{\link[biostrings]{readDNAStringSet()}} from the \code{biostrings} bioconductor package.}
 }
 \value{
 A list with 3 dataframes (4 if reference sequences are provided).
 }
 \description{
-Load data and convert to a list.
+This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with \code{amp_load()} before any other ampvis functions can be used.
+}
+\details{
+The \code{amp_load()} function validates and corrects the provided data in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements to work properly as described in the following sections.
+}
+\section{The OTU-table}{
+
+The OTU-table contains information about the OTUs, their assigned taxonomy and their read counts in each sample. The provided OTU-table must be a data frame with the following requirements:
+
+\itemize{
+  \item The rows are OTU IDs and the columns are samples.
+  \item The last 7 columns are the corresponding taxonomy assigned to the OTUs, named \code{"Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"}.
+  \item The rownames of the data frame are the OTU IDs. Thus, the first column should be a sample, NOT the OTU IDs.
+  \item The column names of the data frame are the sample IDs, exactly matching those in the metadata, (the last 7 columns named \code{Kingdom} -> \code{Species}, of course). Thus, the first row should contain the read counts of an OTU in each sample, NOT the sample IDs and taxonomy.
+  \item Generally avoid special characters in row- and column names.
+}
+}
+
+\section{The metadata}{
+
+The metadata contains additional information about the samples, for example where the sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements: 
+
+\itemize{
+  \item The sample IDs must be in the first column. These sample IDs must match exactly to those in the OTU-table.
+  \item Column classes matter, categorical variables should be loaded either \code{as.character()} or \code{as.factor()}, and continuous variables \code{as.numeric()}.
+  \item Generally avoid special characters in row- and column names.
+}
+
+If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will consider these as numerical values (\code{as.numeric()}) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded \code{as.factor()} or \code{as.character()} instead. This has consequences for the analysis as R treats them differently. Therefore either use the \code{colClasses = } argument when loading a csv file or \code{col_types = } when loading an excel file, or manually adjust the column classes afterwards with fx \code{metadata$Year <- as.character(metadata$Year)}.
+
+\code{amp_load()} will automatically use the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis.
+}
+
+\examples{
+myotutable <- read.csv2("data/otutable.csv", 
+                        header = TRUE,
+                        stringsAsFactors = FALSE,
+                        check.names = FALSE,
+                        row.names = 1) \%>\% as.data.frame() 
+mymetadata <- read_excel("data/metadata.xlsx",
+                         col_names = TRUE) \%>\% as.data.frame() 
+d <- amp_load(otutable = myotutable,
+              metadata = mymetadata
+              #, refseq = readDNAStringSet("data/otus.fa", format = "fasta") #optional 
+              )
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
