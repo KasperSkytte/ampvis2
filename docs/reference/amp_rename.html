@@ -87,7 +87,7 @@
     </div>
 
     
-    <p>Used internally in other ampvis functions.</p>
+    <p>Used internally in other ampvis functions. Not exported.</p>
     
 
     <pre class="usage"><span class='fu'>amp_rename</span>(<span class='no'>data</span>)</pre>
@@ -101,21 +101,25 @@
     </tr>
     <tr>
       <th>tax_class</th>
-      <td><p>Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").</p></td>
+      <td><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></td>
     </tr>
     <tr>
       <th>tax_empty</th>
-      <td><p>Either "remove" OTUs without taxonomic information at X level, with "best" classification or add the "OTU" name (default: best).</p></td>
+      <td><p>How to show OTUs without taxonomic information. One of the following:</p><ul>
+<li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
+<li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
+<li><p><code>"OTU"</code>: Display the OTU name.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>tax_level</th>
-      <td><p>The taxonomic level to remove OTUs with empty taxonomy, only used when tax_empty = "remove" (default: Genus).</p></td>
+      <td><p>The taxonomic level to remove OTUs with no assigned taxonomy, only used when <code>tax_empty = "remove"</code>. (<em>default:</em> <code>"Genus"</code>)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A phyloseq object with cleaned and renamed taxonomy.</p>
+    <p>A list with 3 dataframes (4 if reference sequences are provided).</p>
     
 
   </div>

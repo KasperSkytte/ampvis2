@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rarefaction curve — amp_rarecurve â€¢ ampvis2</title>
+<title>Calculate alpha-diversity statistics — amp_alphadiv â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,14 +83,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Rarefaction curve</h1>
+    <h1>Calculate alpha-diversity statistics</h1>
     </div>
 
     
-    <p>Generates a rarefaction curve (number of reads vs number of observed OTUs) for each sample.</p>
+    <p>Calculates alpha-diversity statistics for each sample and combines with the metadata.</p>
     
 
-    <pre class="usage"><span class='fu'>amp_rarecurve</span>(<span class='no'>data</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_alphadiv</span>(<span class='no'>data</span>, <span class='kw'>measure</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>rarefy</span> <span class='kw'>=</span> <span class='fl'>10000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -100,18 +100,18 @@
       <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>stepsize</th>
-      <td><p>Step size for the curves. Lower is prettier but takes more time to generate. (<em>default:</em> <code>1000</code>)</p></td>
+      <th>measure</th>
+      <td><p>Alpha-diversity measure(s) to be included if not all. A vector of one or more of: <code>"observed"</code>, <code>"shannon"</code>, <code>"simpson"</code> or <code>"invsimpson"</code>.</p></td>
     </tr>
     <tr>
-      <th>color_by</th>
-      <td><p>Color curves by a variable in the metadata.</p></td>
+      <th>rarefy</th>
+      <td><p>Rarefy species richness to this value. (<em>default:</em> <code>10000</code>)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object.</p>
+    <p>A data frame</p>
     
 
   </div>

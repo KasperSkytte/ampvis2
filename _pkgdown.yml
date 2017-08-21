@@ -12,7 +12,7 @@ reference:
     - amp_export_fasta
     - amp_export_otutable
     - amp_normalise
-    - amp_alpha
+    - amp_alphadiv
     - amp_subset_samples
     - amp_subset_taxa
   - title: Plotting functions
@@ -20,15 +20,15 @@ reference:
     contents:
     - amp_rarecurve
     - amp_boxplot
-    - amp_core
-    - amp_frequency
     - amp_heatmap
-    - amp_function
     - amp_ordinate
+    - amp_core
+    - amp_timeseries
     - amp_otu_network
+    - amp_frequency
+    - amp_function
     - amp_rankabundance
     - amp_test_species
-    - amp_timeseries
     - amp_venn
 
 navbar:
