@@ -1,12 +1,12 @@
-#' Normalise data.
+#' Normalise data
 #'
-#' Normalise data.
+#' Normalises the read abundances to the total OTU counts (calculate percentages).
 #'
 #' @usage amp_normalise(data)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' 
-#' @return A list object.
+#' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' 
 #' @export
 #' 

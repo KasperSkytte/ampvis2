@@ -69,6 +69,12 @@
 #' The \code{amp_ordinate()} function is mainly based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and \code{\link[ggplot2]{ggplot2-package}} to generate the plot.
 #' 
 #' @export
+#' 
+#' @import ggplot2
+#' @import vegan
+#' @import dplyr
+#' @import ape
+#' 
 #' @references
 #'   GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): \url{https://mb3is.megx.net/gustame}
 #'   

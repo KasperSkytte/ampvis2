@@ -1,6 +1,6 @@
 #' Core community analysis
 #'
-#' Generates a ggplot2 style core community plot of amplicon data
+#' Generates a core community plot.
 #'
 #' @usage amp_core(data)
 #'

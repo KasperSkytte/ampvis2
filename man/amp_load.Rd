@@ -20,7 +20,7 @@ A list with 3 dataframes (4 if reference sequences are provided).
 This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with \code{amp_load()} before any other ampvis functions can be used.
 }
 \details{
-The \code{amp_load()} function validates and corrects the provided data in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements to work properly as described in the following sections.
+The \code{amp_load()} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements as described in the following sections to work properly.
 }
 \section{The OTU-table}{
 
@@ -30,28 +30,29 @@ The OTU-table contains information about the OTUs, their assigned taxonomy and t
   \item The rows are OTU IDs and the columns are samples.
   \item The last 7 columns are the corresponding taxonomy assigned to the OTUs, named \code{"Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"}.
   \item The rownames of the data frame are the OTU IDs. Thus, the first column should be a sample, NOT the OTU IDs.
-  \item The column names of the data frame are the sample IDs, exactly matching those in the metadata, (the last 7 columns named \code{Kingdom} -> \code{Species}, of course). Thus, the first row should contain the read counts of an OTU in each sample, NOT the sample IDs and taxonomy.
-  \item Generally avoid special characters in row- and column names.
+  \item The column names of the data frame are the sample IDs, exactly matching those in the metadata, (and the last 7 columns named \code{Kingdom} -> \code{Species}, of course). Thus, the first row should contain the read counts of one of the OTUs in each sample, NOT the sample IDs and taxonomy.
+  \item Generally avoid special characters and spaces in row- and column names.
 }
 }
 
 \section{The metadata}{
 
-The metadata contains additional information about the samples, for example where the sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements: 
+The metadata contains additional information about the samples, for example where each sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements: 
 
 \itemize{
   \item The sample IDs must be in the first column. These sample IDs must match exactly to those in the OTU-table.
-  \item Column classes matter, categorical variables should be loaded either \code{as.character()} or \code{as.factor()}, and continuous variables \code{as.numeric()}.
-  \item Generally avoid special characters in row- and column names.
+  \item Column classes matter, categorical variables should be loaded either \code{as.character()} or \code{as.factor()}, and continuous variables \code{as.numeric()}. See below.
+  \item Generally avoid special characters and spaces in row- and column names.
 }
 
-If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will consider these as numerical values (\code{as.numeric()}) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded \code{as.factor()} or \code{as.character()} instead. This has consequences for the analysis as R treats them differently. Therefore either use the \code{colClasses = } argument when loading a csv file or \code{col_types = } when loading an excel file, or manually adjust the column classes afterwards with fx \code{metadata$Year <- as.character(metadata$Year)}.
+If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (\code{as.numeric()}) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded \code{as.factor()} or \code{as.character()} instead. This has consequences for the analysis as R treats them differently. Therefore either use the \code{colClasses = } argument when loading a csv file or \code{col_types = } when loading an excel file, or manually adjust the column classes afterwards with fx \code{metadata$Year <- as.character(metadata$Year)}.
 
-\code{amp_load()} will automatically use the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis.
+\code{amp_load()} will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis.
 }
 
 \examples{
-myotutable <- read.csv2("data/otutable.csv", 
+#Be sure to use the correct function to load your .csv files, see ?read.table()
+myotutable <- read.delim("data/otutable.txt", 
                         header = TRUE,
                         stringsAsFactors = FALSE,
                         check.names = FALSE,
@@ -60,7 +61,8 @@ mymetadata <- read_excel("data/metadata.xlsx",
                          col_names = TRUE) \%>\% as.data.frame() 
 d <- amp_load(otutable = myotutable,
               metadata = mymetadata
-              #, refseq = readDNAStringSet("data/otus.fa", format = "fasta") #optional 
+              #refseq is optional:
+              #, refseq = readDNAStringSet("data/otus.fa", format = "fasta") 
               )
 
 }

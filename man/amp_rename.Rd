@@ -9,17 +9,22 @@ amp_rename(data)
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{tax_class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
+\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
-\item{tax_empty}{Either "remove" OTUs without taxonomic information at X level, with "best" classification or add the "OTU" name (default: best).}
+\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
+\itemize{
+   \item \code{"remove"}: Remove OTUs without taxonomic information.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"OTU"}: Display the OTU name.
+   }}
 
-\item{tax_level}{The taxonomic level to remove OTUs with empty taxonomy, only used when tax_empty = "remove" (default: Genus).}
+\item{tax_level}{The taxonomic level to remove OTUs with no assigned taxonomy, only used when \code{tax_empty = "remove"}. (\emph{default:} \code{"Genus"})}
 }
 \value{
-A phyloseq object with cleaned and renamed taxonomy.
+A list with 3 dataframes (4 if reference sequences are provided).
 }
 \description{
-Used internally in other ampvis functions.
+Used internally in other ampvis functions. Not exported.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

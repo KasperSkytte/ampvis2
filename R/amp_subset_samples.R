@@ -5,10 +5,10 @@
 #' @usage amp_subset_samples(data, ...)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param minreads (optional) Minimum number of reads pr. sample (default: 1).
-#' @param ... (optional) Additional data is passed on to the R subset function. The samples can be subset based on any variable in the associated metadata.
+#' @param minreads (optional) Minimum number of reads pr. sample. (\emph{default:} \code{1})
+#' @param ... (optional) Additional arguments for the \code{subset()} function. 
 #' 
-#' @return A phyloseq object.
+#' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' 
 #' @export
 #' 

@@ -1,17 +1,21 @@
 #' Tidy up taxonomy
 #'
-#' Used internally in other ampvis functions.
+#' Used internally in other ampvis functions. Not exported.
 #'
 #' @usage amp_rename(data)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param tax_class Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").
-#' @param tax_empty Either "remove" OTUs without taxonomic information at X level, with "best" classification or add the "OTU" name (default: best).
-#' @param tax_level The taxonomic level to remove OTUs with empty taxonomy, only used when tax_empty = "remove" (default: Genus).
+#' @param tax_empty How to show OTUs without taxonomic information. One of the following:
+#' \itemize{
+#'    \item \code{"remove"}: Remove OTUs without taxonomic information.
+#'    \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+#'    \item \code{"OTU"}: Display the OTU name.
+#'    }
+#' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
+#' @param tax_level The taxonomic level to remove OTUs with no assigned taxonomy, only used when \code{tax_empty = "remove"}. (\emph{default:} \code{"Genus"})
 #' 
-#' @return A phyloseq object with cleaned and renamed taxonomy.
+#' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' 
-#' @export
 #' @import dplyr
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

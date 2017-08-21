@@ -4,39 +4,44 @@
 \alias{amp_test_species}
 \title{Tests if there is a significant difference in abundance between selected conditions}
 \usage{
-amp_test_species(data, design)
+amp_test_species(data, group)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
 \item{group}{(required) The group to test against.}
 
-\item{tax.aggregate}{Group data at specific taxonomic level (default: "OTU").}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
 
-\item{sig}{Significance treshold (default: 0.01).}
+\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
-\item{fold}{Log2fold filter default for displaying significant results (default: 0)}
+\item{fold}{Log2fold filter default for displaying significant results. (\emph{default:} \code{0})}
 
-\item{tax.class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
+\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
-\item{tax.empty}{Either "remove" OTUs without taxonomic information at X level, with "best" classification or add the "OTU" name (default: best).}
+\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
+\itemize{
+   \item \code{"remove"}: Remove OTUs without taxonomic information.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"OTU"}: Display the OTU name.
+   }}
 
-\item{label}{Label the significant entries with tax.display (default:F).}
+\item{label}{Label the significant entries with tax_display. (\emph{default:} \code{FALSE})}
 
-\item{plot.type}{Either "boxplot" or "point" (default: point)}
+\item{plot_type}{Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})}
 
-\item{plot.show}{Display the X most significant results (default: 10).}
+\item{plot_show}{Display the X most significant results. (\emph{default:} \code{10})}
 
-\item{plot.point.size}{The size of the plotted points.}
+\item{plot_point_size}{The size of the plotted points. (\emph{default:} \code{2})}
 
-\item{adjust.zero}{Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.}
+\item{adjust_zero}{Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.}
 
-\item{plotly}{Returns an interactive plot instead (default: F).}
+\item{plotly}{Returns an interactive plot instead. (\emph{default:} \code{FALSE})}
 
-\item{tax.display}{Display additional taxonomic levels in the plot output e.g. "Genus".}
+\item{signif_thrh}{Significance treshold. (\emph{default:} \code{0.01})}
 }
 \value{
-A p-value for each comparison.
+A list with multiple elements.
 }
 \description{
 Tests if there is a significant difference in abundance between selected conditions

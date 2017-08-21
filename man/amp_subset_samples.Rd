@@ -9,12 +9,12 @@ amp_subset_samples(data, ...)
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{...}{(optional) Additional data is passed on to the R subset function. The samples can be subset based on any variable in the associated metadata.}
+\item{...}{(optional) Additional arguments for the \code{subset()} function.}
 
-\item{minreads}{(optional) Minimum number of reads pr. sample (default: 1).}
+\item{minreads}{(optional) Minimum number of reads pr. sample. (\emph{default:} \code{1})}
 }
 \value{
-A phyloseq object.
+A list with 3 dataframes (4 if reference sequences are provided).
 }
 \description{
 Subset data based on metadata.

@@ -34,7 +34,7 @@ amp_core(data)
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generates a ggplot2 style core community plot of amplicon data
+Generates a core community plot.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

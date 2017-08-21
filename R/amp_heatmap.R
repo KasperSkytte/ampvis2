@@ -39,6 +39,9 @@
 #' 
 #' @export
 #' 
+#' @import dplyr
+#' @import ggplot2
+#' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_heatmap <- function(data,
@@ -77,11 +80,11 @@ amp_heatmap <- function(data,
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
   tax <- data[["tax"]]
-  sample <- data[["metadata"]]
+  metadata <- data[["metadata"]]
   
   ## Scale the data by a selected metadata sample variable
   if (!is.null(scale_by)){
-    variable <- as.numeric(sample[,scale_by])
+    variable <- as.numeric(metadata[,scale_by])
     abund <- t(t(abund)*variable)
   }
   
@@ -120,10 +123,10 @@ amp_heatmap <- function(data,
   suppressWarnings(
     if (group_by != "Sample"){
       if (length(group_by) > 1){
-        grp <- data.frame(Sample = sample$SeqID, Group = apply(sample[,group_by], 1, paste, collapse = " ")) 
-        oldGroup <- unique(cbind.data.frame(sample[,group_by], Group = grp$Group))
+        grp <- data.frame(Sample = metadata[,1], Group = apply(metadata[,group_by], 1, paste, collapse = " ")) 
+        oldGroup <- unique(cbind.data.frame(metadata[,group_by], Group = grp$Group))
       } else{
-        grp <- data.frame(Sample = sample$SeqID, Group = sample[,group_by]) 
+        grp <- data.frame(Sample = metadata[,1], Group = metadata[,group_by]) 
       }
       abund3$Group <- grp$Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3

@@ -9,12 +9,15 @@ amp_rarecurve(data)
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{step}{Step size for sample sizes in rarefaction curves (default: 1000).}
+\item{stepsize}{Step size for the curves. Lower is prettier but takes more time to generate. (\emph{default:} \code{1000})}
 
-\item{color}{A metadata variable to color by.}
+\item{color_by}{Color curves by a variable in the metadata.}
+}
+\value{
+A ggplot2 object.
 }
 \description{
-Rarefaction curves for each sample
+Generates a rarefaction curve (number of reads vs number of observed OTUs) for each sample.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

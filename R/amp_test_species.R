@@ -2,47 +2,71 @@
 #'
 #' Tests if there is a significant difference in abundance between selected conditions
 #'
-#' @usage amp_test_species(data, design)
+#' @usage amp_test_species(data, group)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param group (required) The group to test against.
-#' @param sig Significance treshold (default: 0.01).
-#' @param fold Log2fold filter default for displaying significant results (default: 0)
-#' @param tax.aggregate Group data at specific taxonomic level (default: "OTU").
-#' @param tax.class Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").
-#' @param tax.empty Either "remove" OTUs without taxonomic information at X level, with "best" classification or add the "OTU" name (default: best).
-#' @param tax.display Display additional taxonomic levels in the plot output e.g. "Genus".
-#' @param label Label the significant entries with tax.display (default:F).
-#' @param plot.type Either "boxplot" or "point" (default: point)
-#' @param plot.show Display the X most significant results (default: 10).
-#' @param plot.point.size The size of the plotted points.
-#' @param adjust.zero Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.
-#' @param plotly Returns an interactive plot instead (default: F).
+#' @param signif_thrh Significance treshold. (\emph{default:} \code{0.01})
+#' @param fold Log2fold filter default for displaying significant results. (\emph{default:} \code{0})
+#' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})
+#' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})
+#' @param tax_empty How to show OTUs without taxonomic information. One of the following:
+#' \itemize{
+#'    \item \code{"remove"}: Remove OTUs without taxonomic information.
+#'    \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+#'    \item \code{"OTU"}: Display the OTU name.
+#'    }
+#' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
+#' @param label Label the significant entries with tax_display. (\emph{default:} \code{FALSE})
+#' @param plot_type Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})
+#' @param plot_show Display the X most significant results. (\emph{default:} \code{10})
+#' @param plot_point_size The size of the plotted points. (\emph{default:} \code{2})
+#' @param adjust_zero Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.
+#' @param plotly Returns an interactive plot instead. (\emph{default:} \code{FALSE})
 #' 
-#' @return A p-value for each comparison.
+#' @return A list with multiple elements. 
 #' 
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_test_species <- function(data, group, tax.aggregate = "OTU", tax.add = NULL, test = "Wald", fitType = "parametric", sig = 0.01, fold = 0, tax.class = NULL, tax.empty = "best", label = F, plot.type = "point", plot.show = 10, plot.point.size = 2, adjust.zero = NULL, plotly = F){
+amp_test_species <- function(data,
+                             group,
+                             tax_aggregate = "OTU",
+                             tax_add = NULL,
+                             test = "Wald",
+                             fitType = "parametric",
+                             sig = 0.01,
+                             fold = 0,
+                             tax_class = NULL,
+                             tax_empty = "best",
+                             label = FALSE,
+                             plot_type = "point",
+                             plot_show = 10,
+                             plot_point_size = 2,
+                             adjust_zero = NULL,
+                             plotly = FALSE){
   
   ## Clean up the taxonomy
-  data <- amp_rename(data = data, tax.class = tax.class, tax.empty = tax.empty, tax.level = tax.aggregate)
+  data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
+  
+  if (is.null(group)) {
+    stop("Argument 'group' must be provided.")
+  }
   
   ## Extract the data into seperate objects for readability
   abund <- data[["abund"]]  
   tax <- data[["tax"]]
   sample <- data[["metadata"]]
 
-  ## Make a name variable that can be used instead of tax.aggregate to display multiple levels 
+  ## Make a name variable that can be used instead of tax_aggregate to display multiple levels 
   suppressWarnings(
-    if (!is.null(tax.add)){
-      if (tax.add != tax.aggregate) {
-        tax <- data.frame(tax, Display = apply(tax[,c(tax.add,tax.aggregate)], 1, paste, collapse="; "))
+    if (!is.null(tax_add)){
+      if (tax_add != tax_aggregate) {
+        tax <- data.frame(tax, Display = apply(tax[,c(tax_add,tax_aggregate)], 1, paste, collapse="; "))
       }
     } else {
-      tax <- data.frame(tax, Display = tax[,tax.aggregate])
+      tax <- data.frame(tax, Display = tax[,tax_aggregate])
     }
   )  
   
@@ -95,7 +119,7 @@ amp_test_species <- function(data, group, tax.aggregate = "OTU", tax.add = NULL,
           panel.grid.major.y = element_line(color = "grey90"))
   
   if(plotly == F){
-    p1 <- p1 + geom_point(size = plot.point.size)
+    p1 <- p1 + geom_point(size = plot_point_size)
   }
   
   if(plotly == T){
@@ -108,7 +132,7 @@ amp_test_species <- function(data, group, tax.aggregate = "OTU", tax.add = NULL,
                          "Species: ", data$tax[,7],"<br>",
                          "OTU: ", data$tax[,8],sep = "")
     
-    p1 <- p1 + geom_point(size = plot.point.size-1, aes(text = data_plotly))
+    p1 <- p1 + geom_point(size = plot_point_size-1, aes(text = data_plotly))
   }
   
   
@@ -126,8 +150,8 @@ amp_test_species <- function(data, group, tax.aggregate = "OTU", tax.add = NULL,
   
   if(nrow(abund6) == 0){stop("No significant differences found.")}
   
-  if(!is.null(adjust.zero)){
-    abund6$Abundance[abund6$Abundance==0] <- adjust.zero
+  if(!is.null(adjust_zero)){
+    abund6$Abundance[abund6$Abundance==0] <- adjust_zero
   }
   
   
@@ -141,12 +165,12 @@ amp_test_species <- function(data, group, tax.aggregate = "OTU", tax.add = NULL,
   
   colnames(point_df)[12] <- group
   
-  if(!is.null(plot.show)){
-    if(plot.show < nrow(abund6)){plot.show <- nrow(abund6)}
-    point_df <- subset(point_df, Tax %in% as.character(unique(point_df$Tax))[1:plot.show])
+  if(!is.null(plot_show)){
+    if(plot_show < nrow(abund6)){plot_show <- nrow(abund6)}
+    point_df <- subset(point_df, Tax %in% as.character(unique(point_df$Tax))[1:plot_show])
   }
   
-  point_df$Tax <- factor(point_df$Tax, levels = rev(as.character(unique(point_df$Tax))[1:plot.show]))
+  point_df$Tax <- factor(point_df$Tax, levels = rev(as.character(unique(point_df$Tax))[1:plot_show]))
   
   p2 <- ggplot(data = point_df, aes_string(x = "Tax", y = "Abundance", color = group)) +
           labs(x = "", y = "Read Abundance (%)") +
@@ -155,8 +179,8 @@ amp_test_species <- function(data, group, tax.aggregate = "OTU", tax.add = NULL,
           theme(panel.grid.major.x = element_line(color = "grey90"),
                 panel.grid.major.y = element_line(color = "grey90"))
   
-  if (plot.type == "point"){
-    p2 <- p2 + geom_jitter(position = position_jitter(width = .05), size = plot.point.size)
+  if (plot_type == "point"){
+    p2 <- p2 + geom_jitter(position = position_jitter(width = .05), size = plot_point_size)
   } else{
     p2 <- p2 + geom_boxplot(outlier.size=1)
   }
