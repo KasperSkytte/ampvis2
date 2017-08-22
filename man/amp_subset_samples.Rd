@@ -2,14 +2,14 @@
 % Please edit documentation in R/amp_subset_samples.R
 \name{amp_subset_samples}
 \alias{amp_subset_samples}
-\title{Subset data based on metadata.}
+\title{Subset ampvis2 objects based on sample metadata}
 \usage{
 amp_subset_samples(data, ...)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{...}{(optional) Additional arguments for the \code{subset()} function.}
+\item{...}{(optional) Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}.}
 
 \item{minreads}{(optional) Minimum number of reads pr. sample. (\emph{default:} \code{1})}
 }
@@ -17,7 +17,7 @@ amp_subset_samples(data, ...)
 A list with 3 dataframes (4 if reference sequences are provided).
 }
 \description{
-Subset data based on metadata.
+Subsets the data in ampvis2 objects based on metadata and returns the subsetted object. See examples.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

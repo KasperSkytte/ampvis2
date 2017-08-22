@@ -2,20 +2,28 @@
 % Please edit documentation in R/amp_test_species.R
 \name{amp_test_species}
 \alias{amp_test_species}
-\title{Tests if there is a significant difference in abundance between selected conditions}
+\title{Test species abundances}
 \usage{
 amp_test_species(data, group)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group}{(required) The group to test against.}
+\item{group}{(required) The group to test.}
+
+\item{signif_thrh}{Significance treshold. (\emph{default:} \code{0.01})}
+
+\item{fold}{Log2fold filter for displaying significant results. (\emph{default:} \code{0})}
+
+\item{plot_type}{Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})}
+
+\item{plot_nshow}{The amount of the most significant results to display. (\emph{default:} \code{10})}
+
+\item{plot_point_size}{The size of the plotted points. (\emph{default:} \code{2})}
 
 \item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
 
 \item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
-
-\item{fold}{Log2fold filter default for displaying significant results. (\emph{default:} \code{0})}
 
 \item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
@@ -26,25 +34,15 @@ amp_test_species(data, group)
    \item \code{"OTU"}: Display the OTU name.
    }}
 
-\item{label}{Label the significant entries with tax_display. (\emph{default:} \code{FALSE})}
-
-\item{plot_type}{Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})}
-
-\item{plot_show}{Display the X most significant results. (\emph{default:} \code{10})}
-
-\item{plot_point_size}{The size of the plotted points. (\emph{default:} \code{2})}
-
 \item{adjust_zero}{Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.}
 
 \item{plotly}{Returns an interactive plot instead. (\emph{default:} \code{FALSE})}
-
-\item{signif_thrh}{Significance treshold. (\emph{default:} \code{0.01})}
 }
 \value{
 A list with multiple elements.
 }
 \description{
-Tests if there is a significant difference in abundance between selected conditions
+Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

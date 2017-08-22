@@ -2,15 +2,18 @@
 % Please edit documentation in R/amp_cleanMiF.R
 \name{amp_cleanMiF}
 \alias{amp_cleanMiF}
-\title{Make raw MiDAS function data into ampvis format}
+\title{Functional information tool}
 \usage{
 amp_cleanMiF(data)
 }
 \arguments{
 \item{data}{(required) A data frame with MiDAS functions.}
 }
+\value{
+A data frame.
+}
 \description{
-Make raw MiDAS function data into ampvis format. Internal function.
+Makes raw MiDAS function data compatible with ampvis format. Internal function, not exported.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

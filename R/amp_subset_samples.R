@@ -1,32 +1,25 @@
-#' Subset data based on metadata.
+#' Subset ampvis2 objects based on sample metadata
 #'
-#' Subset data based on metadata.
+#' Subsets the data in ampvis2 objects based on metadata and returns the subsetted object. See examples.
 #'
 #' @usage amp_subset_samples(data, ...)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param minreads (optional) Minimum number of reads pr. sample. (\emph{default:} \code{1})
-#' @param ... (optional) Additional arguments for the \code{subset()} function. 
+#' @param ... (optional) Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}. 
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
-#' 
+#' @import dplyr
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 
 amp_subset_samples <- function(data, ..., minreads = 1) {
-  #Check the data first
-  if(!is.list(data) | 
-     !any(names(data) == "abund") | 
-     !any(names(data) == "tax") | 
-     !any(names(data) == "metadata") | 
-     !is.data.frame(data[["abund"]]) |
-     !is.data.frame(data[["tax"]]) |
-     !is.data.frame(data[["metadata"]])
-  ) {
-    stop("The data must be a list with three dataframes named abund, tax and metadata")
-  }
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   if (minreads > max(colSums(data$abund))) {
     stop(paste("Cannot subset samples with minimum", minreads, "total reads, when highest number of reads in any sample is", max(colSums(data$abund))))

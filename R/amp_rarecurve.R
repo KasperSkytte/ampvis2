@@ -10,14 +10,21 @@
 #' 
 #' @export
 #' @import dplyr
+#' @import ggplot2
 #' 
 #' @return A ggplot2 object.
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 
-amp_rarecurve <- function (data, stepsize = 1000, color_by = NULL){
-
+amp_rarecurve <- function (data,
+                           stepsize = 1000,
+                           color_by = NULL){
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+  
   abund <- data[["abund"]] %>% as.matrix() %>% t()
   metadata <- data[["metadata"]]
   colnames(metadata)[1] <- "SampleID"

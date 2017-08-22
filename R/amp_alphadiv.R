@@ -1,21 +1,32 @@
-#' Calculate alpha-diversity statistics
+#' Alpha-diversity analysis
 #'
 #' Calculates alpha-diversity statistics for each sample and combines with the metadata.
 #'
-#' @usage amp_alphadiv(data, measure = "", rarefy = 10000)
+#' @usage amp_alphadiv(data, measure = c(""), rarefy = 10000)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param measure Alpha-diversity measure(s) to be included if not all. A vector of one or more of: \code{"observed"}, \code{"shannon"}, \code{"simpson"} or \code{"invsimpson"}. 
+#' @param measure Alpha-diversity measure(s) to be included if not all. A vector of one or more of: 
+#' \itemize{
+#'   \item \code{"observed"}
+#'   \item \code{"shannon"}
+#'   \item \code{"simpson"}
+#'   \item \code{"invsimpson"}
+#' }
 #' @param rarefy Rarefy species richness to this value. (\emph{default:} \code{10000})
 #' 
 #' @export
 #' @import dplyr
 #' @import vegan
-#' @return A data frame
+#' @import ggplot2
+#' @return A data frame.
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_alphadiv <- function (data, measure = NULL, rarefy = 10000) {
-
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+  
   abund <- data[["abund"]] %>% as.data.frame()
   Reads <- colSums(abund)
   metadata <- data[["metadata"]]

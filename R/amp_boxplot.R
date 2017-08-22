@@ -1,6 +1,6 @@
 #' Boxplot
 #'
-#' Generates a ggplot2 style boxplot of the most abundant taxa of amplicon data
+#' Generates boxplots of the most abundant taxa of amplicon data
 #'
 #' @usage amp_boxplot(data)
 #'
@@ -28,28 +28,34 @@
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
-#' 
+#' @import dplyr
+#' @import ggplot2
+#' @import data.table
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_boxplot <- function(data, 
                         group_by = "Sample",
-                        order_group = NULL,
-                        order_y = NULL,
                         sort_by = "median",
+                        plot_type = "boxplot",
+                        point_size = 1,
                         tax_aggregate = "Genus",
                         tax_add = NULL, 
                         tax_show = 20, 
                         tax_empty = "best", 
                         tax_class = NULL,
+                        order_group = NULL,
+                        order_y = NULL,
                         plot_flip = FALSE, 
                         plot_log = FALSE, 
                         adjust_zero = NULL,
-                        point_size = 1,
-                        plot_type = "boxplot",
                         raw = FALSE,
                         detailed_output = FALSE){
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
@@ -57,7 +63,7 @@ amp_boxplot <- function(data,
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
   tax <- data[["tax"]]
-  sample <- data[["metadata"]]
+  metadata <- data[["metadata"]]
   
   if (raw == FALSE){
     abund <- as.data.frame(sapply(abund, function(x) x/sum(x)*100))
@@ -87,9 +93,9 @@ amp_boxplot <- function(data,
   suppressWarnings(
     if (group_by != "Sample"){
       if (length(group_by) > 1){
-        grp <- data.frame(Sample = rownames(sample), Group = apply(sample[,group_by], 1, paste, collapse = " ")) 
+        grp <- data.frame(Sample = rownames(metadata), Group = apply(metadata[,group_by], 1, paste, collapse = " ")) 
       } else{
-        grp <- data.frame(Sample = rownames(sample), Group = sample[,group_by]) 
+        grp <- data.frame(Sample = rownames(metadata), Group = metadata[,group_by]) 
       }
       abund3$Group <- grp$Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3
@@ -163,11 +169,9 @@ amp_boxplot <- function(data,
     if (plot_type == "point"){ p <- p + geom_point(size = point_size) }
     if (plot_type == "boxplot"){p <- p + geom_boxplot(outlier.size = point_size)}
     if (plot_log == TRUE){ p <- p + scale_y_log10()}
-    
-    outlist <- list(plot = p, data = abund7)
   
     if (detailed_output) {
-      return(outlist)
+      return(list(plot = p, data = abund7))
     } else 
       return(p)
 }

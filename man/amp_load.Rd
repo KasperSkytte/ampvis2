@@ -11,7 +11,7 @@ amp_load(otutable = dataframe, metadata = dataframe)
 
 \item{metadata}{(\emph{required}) A metadata (dataframe) with information about the samples.}
 
-\item{refseq}{Reference sequences for all OTUs as loaded with \code{\link[biostrings]{readDNAStringSet()}} from the \code{biostrings} bioconductor package.}
+\item{refseq}{Reference sequences for all OTUs as loaded with \code{\link[Biostrings]{readDNAStringSet()}} from the \code{\link{Biostrings}} bioconductor package.}
 }
 \value{
 A list with 3 dataframes (4 if reference sequences are provided).
@@ -64,6 +64,7 @@ d <- amp_load(otutable = myotutable,
               #refseq is optional:
               #, refseq = readDNAStringSet("data/otus.fa", format = "fasta") 
               )
+d
 
 }
 \author{

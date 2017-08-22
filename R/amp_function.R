@@ -1,6 +1,6 @@
-#' Add functional information to a heatmap
+#' Add functional information of taxa to a heatmap
 #'
-#' Generate a function table that is sorted based on an input heatmap.
+#' Generates a table with functional information about the taxa in an input heatmap and combines the two. 
 #'
 #' @usage amp_function(heatmap)
 #'
@@ -13,6 +13,8 @@
 #' @param plotted_functions A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})
 #' 
 #' @return A ggplot2 object.
+#' @import dplyr
+#' @import ggplot2
 #' 
 #' @export
 #' 

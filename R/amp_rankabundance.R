@@ -7,9 +7,8 @@
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param group_by Group the samples by a variable in the metadata.
 #' @param order_group A vector to order the groups by.
-#' @param tax_clean (\emph{logical}) Replace the phylum Proteobacteria with the respective Classes instead. (\emph{default:} \code{TRUE})
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Genus"})
-#' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"Phylum"})
+#' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
 #' \itemize{
 #'    \item \code{"remove"}: Remove OTUs without taxonomic information.
@@ -22,22 +21,27 @@
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
-#' 
+#' @import dplyr
+#' @import ggplot2
+#' @import data.table
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_rankabundance <- function(data,
                               group_by = "Sample",
-                              tax_clean = TRUE,
+                              order_group = NULL,
                               plot_log = FALSE,
-                              detailed_output = FALSE,
                               tax_add = NULL,
                               tax_aggregate = "Genus",
                               tax_empty = "best",
                               tax_class = NULL,
                               raw = FALSE,
-                              order_group = NULL){
+                              detailed_output = FALSE){
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
@@ -105,15 +109,13 @@ amp_rankabundance <- function(data,
       ylab("Cumulative read abundance (%)") +
       theme_classic()
     
-    if (plot_log ==T){
+    if (plot_log ==TRUE){
       p <- p + scale_x_log10() 
     } 
     
     ## Define the output 
-    if (detailed_output){
-      outlist <- list(plot = p, data = TotalCounts)
-      return(outlist)  
-    }
-    if (!detailed_output)
+    if (detailed_output) {
+      return(list(plot = p, data = TotalCounts))
+    } else if (!detailed_output)
       return(p)
 }

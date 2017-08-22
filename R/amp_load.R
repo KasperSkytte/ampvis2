@@ -6,10 +6,11 @@
 #'
 #' @param otutable (\emph{required}) An OTU-table (data frame), where the last 7 rows is the taxonomy.
 #' @param metadata (\emph{required}) A metadata (dataframe) with information about the samples.
-#' @param refseq Reference sequences for all OTUs as loaded with \code{\link[biostrings]{readDNAStringSet()}} from the \code{biostrings} bioconductor package.
+#' @param refseq Reference sequences for all OTUs as loaded with \code{\link[Biostrings]{readDNAStringSet()}} from the \code{\link{Biostrings}} bioconductor package.
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
-#' 
+#' @import dplyr
+#' @import data.table
 #' @export
 #' 
 #' @details The \code{amp_load()} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements as described in the following sections to work properly. 
@@ -52,6 +53,7 @@
 #'               #refseq is optional:
 #'               #, refseq = readDNAStringSet("data/otus.fa", format = "fasta") 
 #'               )
+#' d
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
@@ -63,7 +65,7 @@ amp_load <- function(otutable, metadata, refseq = NULL){
   
   ### Check if refseq data is in the right format
   if(!is.null(refseq) & !class(refseq) == "DNAStringSet") {
-    stop("The reference sequences must be loaded with readDNAStringSet() from the biostrings bioconductor package.")
+    stop("The reference sequences must be loaded with readDNAStringSet() from the Biostrings bioconductor package.")
   }
   
   ### Only alphanumeric characters in metadata column names, replace others with "_", they may cause problems with ggplot2 groupings etc
@@ -112,23 +114,6 @@ amp_load <- function(otutable, metadata, refseq = NULL){
     data <- list(abund = abund, tax = tax, metadata = metadata)
   }
   
-  ###calculate basic statistics and useful information about the data, print it
-  cat("Summary:\n")
-  c("Samples" = as.character(ncol(abund)),
-    "OTUs" = as.character(nrow(abund)),
-    "Total#Reads" = as.character(sum(abund)),
-    "Min#Reads" = as.character(min(colSums(abund))),
-    "Max#Reads" = as.character(max(colSums(abund))),
-    "Median#Reads" = as.character(median(colSums(abund))),
-    "Avg#Reads" = as.character(round(mean(colSums(abund)), digits = 2))) %>% print.table(justify = "right")
-  cat("\nAssigned taxonomy:\n")
-  c("Kingdom" = paste(sum(nchar(tax$Kingdom) > 3), "(", round(sum(nchar(tax$Kingdom) > 3) / nrow(abund), digits = 2) * 100, "%)", sep = ""),
-    "Phylum" = paste(sum(nchar(tax$Phylum) > 3), "(", round(sum(nchar(tax$Phylum) > 3) / nrow(abund) * 100, digits = 2), "%)", sep = ""),
-    "Class" = paste(sum(nchar(tax$Class) > 3), "(", round(sum(nchar(tax$Class) > 3) / nrow(abund) * 100, digits = 2), "%)", sep = ""),
-    "Order" = paste(sum(nchar(tax$Order) > 3), "(", round(sum(nchar(tax$Order) > 3) / nrow(abund) * 100, digits = 2), "%)", sep = ""),
-    "Family" = paste(sum(nchar(tax$Family) > 3), "(", round(sum(nchar(tax$Family) > 3) / nrow(abund) * 100, digits = 2), "%)", sep = ""),
-    "Genus" = paste(sum(nchar(tax$Genus) > 3), "(", round(sum(nchar(tax$Genus) > 3) / nrow(abund) * 100, digits = 2), "%)", sep = ""),
-    "Species" = paste(sum(nchar(tax$Species) > 3), "(", round(sum(nchar(tax$Species) > 3) / nrow(abund) * 100, digits = 2), "%)", sep = "")) %>% print.table(justify = "right")
-  
+  class(data) <- "ampvis2" #Our own "ampvis2" format yay!
   return(data)
 }

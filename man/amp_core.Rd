@@ -11,7 +11,7 @@ amp_core(data)
 
 \item{group_by}{Group the samples by a variable in the metadata. (\emph{default:} \code{"Sample"})}
 
-\item{abund_treshold}{Threshold in percent for defining "abundant"/"core" taxa. (\emph{default:} \code{0.1})}
+\item{abund_thrh}{Threshold in percent for defining "abundant"/"core" taxa. (\emph{default:} \code{0.1})}
 
 \item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
 

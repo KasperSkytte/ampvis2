@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Subset data based on metadata. — amp_subset_samples â€¢ ampvis2</title>
+<title>Subset ampvis2 objects based on sample metadata — amp_subset_samples â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,11 +83,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Subset data based on metadata.</h1>
+    <h1>Subset ampvis2 objects based on sample metadata</h1>
     </div>
 
     
-    <p>Subset data based on metadata.</p>
+    <p>Subsets the data in ampvis2 objects based on metadata. See examples.</p>
     
 
     <pre class="usage"><span class='fu'>amp_subset_samples</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
@@ -101,7 +101,7 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>(optional) Additional arguments for the <code>subset()</code> function.</p></td>
+      <td><p>(optional) Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to <code>subset()</code>.</p></td>
     </tr>
     <tr>
       <th>minreads</th>

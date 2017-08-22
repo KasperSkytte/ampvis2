@@ -1,6 +1,6 @@
 #' Frequency plot
 #'
-#' Generates a ggplot2 style frequency plot of amplicon data
+#' Generates a frequency plot
 #'
 #' @usage amp_frequency(data)
 #'
@@ -19,7 +19,9 @@
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
-#' 
+#' @import dplyr
+#' @import ggplot2
+#' @import data.table
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
@@ -32,6 +34,10 @@ amp_frequency <- function(data,
                           weight = TRUE, 
                           raw = FALSE,
                           detailed_output = FALSE){
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
@@ -108,6 +114,8 @@ amp_frequency <- function(data,
     temp3 <- core
   }
   
-  if(output == "complete"){ return(list(data = temp3, plot = p, abund = abund, tax = tax, sample = sample)) }
-  if(output == "plot"){ return(p) }
+    if (detailed_output) {
+      return(list(data = temp3, plot = p, abund = abund, tax = tax, sample = sample))
+    } else if (!detailed_output)
+      return(p)
 }

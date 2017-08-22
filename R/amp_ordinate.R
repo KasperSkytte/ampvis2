@@ -149,6 +149,10 @@ amp_ordinate<- function(data,
                         detailed_output = FALSE, 
                         ...) {
   
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+  
   #Sanity check of options
   if(species_plotly == T & !is.null(sample_plotly)){
     stop("You can not use plotly for both species and samples in the same plot.\n")

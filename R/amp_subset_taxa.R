@@ -1,31 +1,24 @@
-#' Subset data based on taxonomy.
+#' Subset ampvis2 objects based on taxonomy
 #'
-#' Subset data based on taxonomy.
+#' Subsets the data in ampvis2 objects based on taxonomy and returns the subsetted object. See examples.
 #'
 #' @usage amp_subset_taxa(data, tax_vector)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param tax_vector (required) A vector with taxonomic groups, e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}
+#' @param tax_vector (required) A vector with taxonomic groups, e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
-#' 
+#' @import dplyr
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 
 amp_subset_taxa <- function(data, tax_vector=c("p__Chloroflexi","p__Actinobacteria")) {
-  #Check the data first
-  if(!is.list(data) | 
-     !any(names(data) == "abund") |
-     !any(names(data) == "tax") | 
-     !any(names(data) == "metadata") | 
-     !is.data.frame(data[["abund"]]) |
-     !is.data.frame(data[["tax"]]) |
-     !is.data.frame(data[["metadata"]])
-  ) {
-    stop("The data must be a list with three dataframes named abund, tax and metadata")
-  }
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   # Make selection
   selection <- c(which(data$tax$Kingdom %in% tax_vector),

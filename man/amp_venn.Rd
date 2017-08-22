@@ -2,30 +2,30 @@
 % Please edit documentation in R/amp_venn.R
 \name{amp_venn}
 \alias{amp_venn}
-\title{Generates a ggplot2 style venn diagram}
+\title{Venn diagram of core OTUs}
 \usage{
 amp_venn(data)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group}{Group the data based on a sample variable.}
+\item{group_by}{Group the data based on a sample variable.}
 
-\item{cut_a}{Abundance cutoff in percent (default: 0.1).}
+\item{cut_a}{Abundance cutoff in percent. (\emph{default:} \code{0.1})}
 
-\item{cut_f}{Frequency cutoff in percent (default: 80).}
+\item{cut_f}{Frequency cutoff in percent. (\emph{default:} \code{80})}
 
-\item{text.size}{Size of the plotted text.}
+\item{text_size}{Size of the plotted text. (\emph{default:} \code{5})}
 
-\item{output}{Either "plot" or "complete" (default: "plot").}
+\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
-\item{raw}{Display raw input instead of converting to percentages (default: F).}
+\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
 \value{
-A ggplot2 object
+A ggplot2 object.
 }
 \description{
-Calculates the number of "core" OTUs shared by groups given tresholds for how frequent the OTUs should be above a certain abundance. Also returns the average abundance of the OTUs in a particular group.
+Calculates the number of "core" OTUs shared by groups given thresholds for how frequent the OTUs should be above a certain abundance. Also returns the average abundance of the OTUs in a particular group.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

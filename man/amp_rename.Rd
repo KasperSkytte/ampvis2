@@ -24,7 +24,7 @@ amp_rename(data)
 A list with 3 dataframes (4 if reference sequences are provided).
 }
 \description{
-Used internally in other ampvis functions. Not exported.
+Used internally in other ampvis functions.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

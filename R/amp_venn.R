@@ -1,18 +1,18 @@
-#' Generates a ggplot2 style venn diagram
+#' Venn diagram of core OTUs
 #'
-#' Calculates the number of "core" OTUs shared by groups given tresholds for how frequent the OTUs should be above a certain abundance. Also returns the average abundance of the OTUs in a particular group.
+#' Calculates the number of "core" OTUs shared by groups given thresholds for how frequent the OTUs should be above a certain abundance. Also returns the average abundance of the OTUs in a particular group.
 #'
 #' @usage amp_venn(data)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param group Group the data based on a sample variable.
-#' @param cut_a Abundance cutoff in percent (default: 0.1).
-#' @param cut_f Frequency cutoff in percent (default: 80).
-#' @param text.size Size of the plotted text.
-#' @param output Either "plot" or "complete" (default: "plot").
-#' @param raw Display raw input instead of converting to percentages (default: F).
+#' @param group_by Group the data based on a sample variable.
+#' @param cut_a Abundance cutoff in percent. (\emph{default:} \code{0.1})
+#' @param cut_f Frequency cutoff in percent. (\emph{default:} \code{80})
+#' @param text_size Size of the plotted text. (\emph{default:} \code{5})
+#' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
+#' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
-#' @return A ggplot2 object
+#' @return A ggplot2 object.
 #' 
 #' @export
 #' @import ggplot2
@@ -21,32 +21,42 @@
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_venn <- function(data, group = NULL,cut_a = 0.1, cut_f = 80, text.size = 5, output = "plot", raw = F){
+amp_venn <- function(data, 
+                     group_by = NULL,
+                     cut_a = 0.1, 
+                     cut_f = 80, 
+                     text_size = 5, 
+                     raw = FALSE,
+                     detailed_output = FALSE){
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
   tax <- data[["tax"]]
   OTU <- data[["tax"]]["OTU"]
-  sample <- data[["metadata"]]
+  metadata <- data[["metadata"]]
   
   if (raw == F){
     abund <- as.data.frame(sapply(abund, function(x) x/sum(x)*100))
   }
   
   ## Test for number of groups
-  if (length(levels(sample[,group])) > 3){
-    stop(paste("A maximum of 3 levels are supported. The grouping variable contains:",
-               paste(levels(sample[,group]), collapse = ", ")))
+  if (length(levels(metadata[,group_by])) > 3){
+    stop(paste("A maximum of 3 groups are supported. The group_by variable contains:",
+               paste(levels(metadata[,group_by]), collapse = ", ")))
   }
   
   ## Select grouping variable
   
-  colnames(sample)[1] <- "SeqID"
-  if (!is.null(group)){
-    sample <- sample[,c("SeqID", group)]
-    colnames(sample)[2] <- "GRP"  
+  colnames(metadata)[1] <- "SeqID"
+  if (!is.null(group_by)){
+    metadata <- metadata[,c("SeqID", group_by)]
+    colnames(metadata)[2] <- "GRP"  
   } else {
-    sample <- data.frame(SeqID = sample[,1], GRP = "Core")
+    metadata <- data.frame(SeqID = metadata[,1], GRP = "Core")
   }
   
   ## Add OTU names to the abundance information
@@ -55,8 +65,8 @@ amp_venn <- function(data, group = NULL,cut_a = 0.1, cut_f = 80, text.size = 5, 
   ## Melt the dataframe for subsequent processing
   abund2 <- gather(data = abund1, key = SeqID, value = Abundance, -OTU)
   
-  ## Merge sample information with the abundance data
-  abund3 <- merge(abund2, sample, by = "SeqID")
+  ## Merge metadata information with the abundance data
+  abund3 <- merge(abund2, metadata, by = "SeqID")
   
   ## Add frequent abundant column
   abund4 <- mutate(abund3, 
@@ -90,8 +100,8 @@ amp_venn <- function(data, group = NULL,cut_a = 0.1, cut_f = 80, text.size = 5, 
            annotate("text", x=c(0, 0), y = c(0,-0.5), 
                     label = c(paste(AD[1,1], "\n(", AD[1,2],")", sep = ""), 
                             paste("Non-core: ", AD[2,1]," (", AD[2,2],")", sep = "")), 
-                    size = text.size) +
-           annotate("text", x=c(0), y = 0.45, label = colnames(a)[2], size = text.size) +
+                    size = text_size) +
+           annotate("text", x=c(0), y = 0.45, label = colnames(a)[2], size = text_size) +
            xlim(-0.65,0.65) +
            ylim(-0.65,0.65) +
            annotate("path", 
@@ -145,8 +155,8 @@ amp_venn <- function(data, group = NULL,cut_a = 0.1, cut_f = 80, text.size = 5, 
            annotate("text", x=c(-0.4, 0, 0.4, 0), y = c(0,0,0,-0.5), 
                     label = c(paste(AD[1:3,1], "\n(", AD[1:3,2],")", sep = ""), 
                               paste("Non-core: ", AD[4,1]," (", AD[4,2],")", sep = "")), 
-                    size = text.size) +
-           annotate("text", x=c(-0.2, 0.2), y = 0.45, label = colnames(a)[2:3], size = text.size) +
+                    size = text_size) +
+           annotate("text", x=c(-0.2, 0.2), y = 0.45, label = colnames(a)[2:3], size = text_size) +
            xlim(-0.65,0.65) +
            ylim(-0.65,0.65) +
            annotate("path",
@@ -222,8 +232,8 @@ amp_venn <- function(data, group = NULL,cut_a = 0.1, cut_f = 80, text.size = 5, 
       annotate("text", x=c(0, 0, -0.25, 0.25, -0.4, 0.4, 0, 0.5), y = c(0.05, 0.4, -0.05, -0.05, 0.3, 0.3, -0.3, -0.6), 
                label = c(paste(AD[1:7,1], "\n(", AD[1:7,2],")", sep = ""), 
                          paste("Non-core:\n", AD[8,1]," (", AD[8,2],")", sep = "")), 
-               size = text.size) +
-      annotate("text", x=c(-0.2, 0.2, 0), y = c(0.65, 0.65, -0.65), label = colnames(a)[2:4], size = text.size) +
+               size = text_size) +
+      annotate("text", x=c(-0.2, 0.2, 0), y = c(0.65, 0.65, -0.65), label = colnames(a)[2:4], size = text_size) +
       xlim(-0.65,0.65) +
       ylim(-0.65,0.65) +
       annotate("path",
@@ -278,6 +288,8 @@ amp_venn <- function(data, group = NULL,cut_a = 0.1, cut_f = 80, text.size = 5, 
   }  
   
   ## Export data
-  if(output == "complete"){ return(res) }
-  if(output == "plot"){ return(p) }
+  if (detailed_output)
+    return(res)
+  if (!detailed_output)
+    return(p)
 }

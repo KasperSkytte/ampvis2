@@ -1,6 +1,6 @@
 #' Tidy up taxonomy
 #'
-#' Used internally in other ampvis functions. Not exported.
+#' Used internally in other ampvis functions.
 #'
 #' @usage amp_rename(data)
 #'
@@ -17,7 +17,7 @@
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' 
 #' @import dplyr
-#' 
+#' @export
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "Genus"){

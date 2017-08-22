@@ -1,42 +1,64 @@
 #' Timeseries
 #'
-#' This function allows you plot relative abundance reads over time in a timeseries plot.
+#' Generates a timeseries plot showing relative read abundances over time.
 #' 
-#' @usage amp_timeseries(data)
+#' @usage amp_timeseries(data, time_variable = "")
 #' 
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param time (required) The name of the column containing the time variables, e.g. "Date".
-#' @param group A variable from the associated sample data to group/split samples by (default: "Samples").
-#' @param split Split the plot into subplot of each taxa (default: F).
-#' @param tax.show The number of taxa to show or a vector of taxa names (default: 5).
-#' @param tax.aggregate The taxonomic level that the data should be aggregated to (default: "OTU")
-#' @param tax.add Additional taxonomic levels to display for each entry, e.g. "Phylum" (default: "none").
-#' @param tax.class Converts a specific phyla to class level instead, e.g. "p__Proteobacteria" (default: "none) .
-#' @param tax.empty Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: "best").
-#' @param raw Display raw input instead of converting to percentages (default: F)  
+#' @param time_variable (required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}.
+#' @param group_by Group the samples by a variable in the metadata.
+#' @param split Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE}) 
+#' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})
+#' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})
+#' @param tax_show The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{5})
+#' @param tax_empty How to show OTUs without taxonomic information. One of the following:
+#' \itemize{
+#'    \item \code{"remove"}: Remove OTUs without taxonomic information.
+#'    \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+#'    \item \code{"OTU"}: Display the OTU name.
+#'    }
+#' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
+#' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
 #' 
 #' @keywords timeseries
 #' 
-#' @return A ggplot2 object or a list with the ggplot2 object and associated dataframes.
+#' @return A ggplot2 object.
 #' 
 #' @export 
 #' 
 #' @author Julie Klessner Thun Pedersen \email{julieklessnerthun@@gmail.com}
 
-amp_timeseries <- function(data, time, group = "Sample", split = F, tax.show = 5, tax.aggregate="OTU", tax.add=NULL, tax.class=NULL, tax.empty="best", layout="dygraph", raw = F){
+amp_timeseries <- function(data,
+                           time_variable = NULL, 
+                           group_by = "Sample", 
+                           split = FALSE, 
+                           layout="dygraph",
+                           tax_show = 5, 
+                           tax_aggregate="OTU", 
+                           tax_add=NULL, 
+                           tax_class=NULL,
+                           tax_empty="best", 
+                           raw = FALSE){
   
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+  
+  # Required arguments
+  if(is.null(time_variable))
+    stop("Argument 'time_variable' is required.")
   # Clean and rename taxonomy ---------------------------------------------------------
   
   data <- amp_rename(data = data, 
-                     tax.class = tax.class, 
-                     tax.empty = tax.empty, 
-                     tax.level = tax.aggregate)
+                     tax_class = tax_class, 
+                     tax_empty = tax_empty, 
+                     tax_level = tax_aggregate)
   
   # Divide data to seperate data frames ----------------------------------------------
   
   abund <- data[["abund"]]
   tax <- data[["tax"]]
-  sample <- data[["metadata"]]
+  metadata <- data[["metadata"]]
   
   # Convert to percentages -----------------------------------------------------------
   
@@ -44,22 +66,22 @@ amp_timeseries <- function(data, time, group = "Sample", split = F, tax.show = 5
     abund <- as.data.frame(sapply(abund, function(x) x/sum(x)*100))
   }
   
-  # Display multiple levels using tax.add argument ------------------------------------
+  # Display multiple levels using tax_add argument ------------------------------------
   
   suppressWarnings(
-    if (!is.null(tax.add)){
+    if (!is.null(tax_add)){
       
-      if (tax.add != tax.aggregate){
+      if (tax_add != tax_aggregate){
         tax <- data.frame(tax, 
-                          Display = apply(tax[,c(tax.add,tax.aggregate)], 1, 
+                          Display = apply(tax[,c(tax_add,tax_aggregate)], 1, 
                                           paste, collapse="; "))
       }
     } else {
-      tax <- data.frame(tax, Display = tax[, tax.aggregate])
+      tax <- data.frame(tax, Display = tax[, tax_aggregate])
     }
   )  
   
-  # Aggregate to a specific taxonomic level using tax.aggregate argument--------------
+  # Aggregate to a specific taxonomic level using tax_aggregate argument--------------
   
   abund3 <- cbind(Display = tax[,"Display"], abund) %>%
     melt(id.var = "Display", 
@@ -77,12 +99,12 @@ amp_timeseries <- function(data, time, group = "Sample", split = F, tax.show = 5
   
   ## Add group information
   suppressWarnings(
-    if (group != "Sample"){
-      if (length(group) > 1){
-        grp <- data.frame(Sample = sample$SeqID, Group = apply(sample[,group], 1, paste, collapse = " ")) 
-        oldGroup <- unique(cbind.data.frame(sample[,group], Group = grp$Group))
+    if (group_by != "Sample"){
+      if (length(group_by) > 1){
+        grp <- data.frame(Sample = metadata$SeqID, Group = apply(metadata[,group_by], 1, paste, collapse = " ")) 
+        oldGroup <- unique(cbind.data.frame(metadata[,group_by], Group = grp$Group))
       } else{
-        grp <- data.frame(Sample = sample$SeqID, Group = sample[,group]) 
+        grp <- data.frame(Sample = metadata$SeqID, Group = metadata[,group_by]) 
       }
       abund5 <- merge(abund4, grp)
     } else{ abund5 <- data.frame(abund4, Group = "Sample")}
@@ -94,31 +116,31 @@ amp_timeseries <- function(data, time, group = "Sample", split = F, tax.show = 5
     arrange(desc(Mean))
   
   ## Subset to the x most abundant levels
-  if (is.numeric(tax.show)){
-    if (tax.show > nrow(TotalCounts)){  
-      tax.show <- nrow(TotalCounts)
+  if (is.numeric(tax_show)){
+    if (tax_show > nrow(TotalCounts)){  
+      tax_show <- nrow(TotalCounts)
     }
     abund5$Display <- as.character(abund5$Display)
-    abund7 <- subset(abund5, Display %in% as.character(unlist(TotalCounts[1:tax.show,"Display"])))
+    abund7 <- subset(abund5, Display %in% as.character(unlist(TotalCounts[1:tax_show,"Display"])))
   }
   ## Subset to a list of level names
-  if (!is.numeric(tax.show)){
-    if (length(tax.show) > 1){
-      abund7 <- subset(abund5, Display %in% tax.show)
+  if (!is.numeric(tax_show)){
+    if (length(tax_show) > 1){
+      abund7 <- subset(abund5, Display %in% tax_show)
     }
-    if ((length(tax.show) == 1) && (tax.show != "all")){
-      abund7 <- subset(abund5, Display %in% tax.show)
+    if ((length(tax_show) == 1) && (tax_show != "all")){
+      abund7 <- subset(abund5, Display %in% tax_show)
     }
     ### Or just show all  
-    if ((length(tax.show) == 1) && (tax.show == "all")){
-      tax.show <- nrow(TotalCounts)  
-      abund7 <- subset(abund5, Display %in% as.character(unlist(TotalCounts[1:tax.show,"Display"])))  
+    if ((length(tax_show) == 1) && (tax_show == "all")){
+      tax_show <- nrow(TotalCounts)  
+      abund7 <- subset(abund5, Display %in% as.character(unlist(TotalCounts[1:tax_show,"Display"])))  
     }
   }
   
-  abund8 <- merge(abund7, sample, by.x = "Sample", by.y = colnames(sample)[1])
+  abund8 <- merge(abund7, metadata, by.x = "Sample", by.y = colnames(metadata)[1])
   
-  abund8[, time] <- as.Date(abund8[, time])
+  abund8[, time_variable] <- as.Date(abund8[, time_variable])
 
   abund9 <- mutate(abund8, DG = paste(Display, Group))
     
@@ -127,9 +149,9 @@ amp_timeseries <- function(data, time, group = "Sample", split = F, tax.show = 5
     
   
   if(length(levels(abund9$Group)) > 1) {
-    p <- ggplot(abund9, aes_string(x=time, y="sum", col = "Display", group = "DG", linetype = group))
+    p <- ggplot(abund9, aes_string(x=time_variable, y="sum", col = "Display", group = "DG", linetype = group_by))
   } else{
-    p <- ggplot(abund9, aes_string(x=time, y="sum", col = "Display", group = "DG"))
+    p <- ggplot(abund9, aes_string(x=time_variable, y="sum", col = "Display", group = "DG"))
   }
   
   p <-  p +

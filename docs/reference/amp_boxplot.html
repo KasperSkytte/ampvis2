@@ -87,7 +87,7 @@
     </div>
 
     
-    <p>Generates a ggplot2 style boxplot of the most abundant taxa of amplicon data</p>
+    <p>Generates boxplots of the most abundant taxa of amplicon data</p>
     
 
     <pre class="usage"><span class='fu'>amp_boxplot</span>(<span class='no'>data</span>)</pre>
@@ -104,16 +104,16 @@
       <td><p>Group the samples by a variable in the metadata.</p></td>
     </tr>
     <tr>
-      <th>order_group</th>
-      <td><p>A vector to order the groups by.</p></td>
-    </tr>
-    <tr>
-      <th>order_y</th>
-      <td><p>A vector to order the y-axis by.</p></td>
-    </tr>
-    <tr>
       <th>sort_by</th>
       <td><p>Sort the boxplots by <code>"median"</code>, <code>"mean"</code> or <code>"total"</code>. (<em>default:</em> <code>"median"</code>)</p></td>
+    </tr>
+    <tr>
+      <th>plot_type</th>
+      <td><p><code>"Boxplot"</code> or <code>"points"</code>. (<em>default:</em> <code>"boxplot"</code>)</p></td>
+    </tr>
+    <tr>
+      <th>point_size</th>
+      <td><p>The size of points. (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     <tr>
       <th>tax_aggregate</th>
@@ -140,6 +140,14 @@
       <td><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></td>
     </tr>
     <tr>
+      <th>order_group</th>
+      <td><p>A vector to order the groups by.</p></td>
+    </tr>
+    <tr>
+      <th>order_y</th>
+      <td><p>A vector to order the y-axis by.</p></td>
+    </tr>
+    <tr>
       <th>plot_flip</th>
       <td><p>(<em>logical</em>) Flip the axes of the plot axis. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
@@ -150,14 +158,6 @@
     <tr>
       <th>adjust_zero</th>
       <td><p>Keep abundances of 0 in the calculation of medians by adding this value. (<em>default:</em> <code>NULL</code>)</p></td>
-    </tr>
-    <tr>
-      <th>point_size</th>
-      <td><p>The size of points. (<em>default:</em> <code>1</code>)</p></td>
-    </tr>
-    <tr>
-      <th>plot_type</th>
-      <td><p><code>"Boxplot"</code> or <code>"points"</code>. (<em>default:</em> <code>"boxplot"</code>)</p></td>
     </tr>
     <tr>
       <th>raw</th>

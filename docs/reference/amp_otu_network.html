@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate a taxa/sample network — amp_otu_network â€¢ ampvis2</title>
+<title>Network plot — amp_otu_network â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,11 +83,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate a taxa/sample network</h1>
+    <h1>Network plot</h1>
     </div>
 
     
-    <p>Generate a taxa/sample network</p>
+    <p>Generates network plot of taxa and samples based on ggnet2.</p>
     
 
     <pre class="usage"><span class='fu'>amp_otu_network</span>(<span class='no'>data</span>)</pre>
@@ -100,46 +100,50 @@
       <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>tax.aggregate</th>
-      <td><p>The taxonomic level that the data should be aggregated to (default: "Phylum")</p></td>
+      <th>min_abundance</th>
+      <td><p>Minimum taxa abundance pr. sample. (<em>default:</em> <code>0</code>)</p></td>
     </tr>
     <tr>
-      <th>tax.add</th>
-      <td><p>Additional taxonomic levels to display for each entry e.g. "Phylum" (default: "none")</p></td>
+      <th>color_by</th>
+      <td><p>A metadata variable to color the samples by.</p></td>
     </tr>
     <tr>
-      <th>tax.show</th>
-      <td><p>The number of taxa to show (default: "all").</p></td>
+      <th>tax_aggregate</th>
+      <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"Phylum"</code>)</p></td>
     </tr>
     <tr>
-      <th>tax.class</th>
-      <td><p>Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").</p></td>
+      <th>tax_add</th>
+      <td><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></td>
     </tr>
     <tr>
-      <th>tax.empty</th>
-      <td><p>Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: "best").</p></td>
+      <th>tax_show</th>
+      <td><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>10</code>)</p></td>
     </tr>
     <tr>
-      <th>output</th>
-      <td><p>To output a plot or the complete data inclusive dataframes (default: "plot")</p></td>
+      <th>tax_class</th>
+      <td><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>tax_empty</th>
+      <td><p>How to show OTUs without taxonomic information. One of the following:</p><ul>
+<li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
+<li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
+<li><p><code>"OTU"</code>: Display the OTU name.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>raw</th>
-      <td><p>Display raw input instead of converting to percentages (default: F)</p></td>
+      <td><p>(<em>logical</em>) Display raw input instead of converting to percentages. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
-      <th>min.abundance</th>
-      <td><p>Minimum taxa abundance pr. sample (default: 0)</p></td>
-    </tr>
-    <tr>
-      <th>color</th>
-      <td><p>A metadata variable to color the samples by.</p></td>
+      <th>detailed_output</th>
+      <td><p>(<em>logical</em>) Return additional details or not. If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code>View(object$data)</code>. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object or a list with the ggplot2 object and associated dataframes.</p>
+    <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
     
 
   </div>

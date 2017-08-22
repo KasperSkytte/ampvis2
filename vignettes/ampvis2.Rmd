@@ -56,20 +56,20 @@ The individual dataframes in the list can be explored with `View(d$metadata)`.
 With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with `data("MiD")`. The loaded data can be subsetted based on variables in the metadata using the `amp_subset_samples()` function, which can then be stored as a new object and analysed separately:
 
 ```{r, warning = FALSE}
-data("MiD") #skip this line if you are using your own data
-ds <- amp_subset_samples(d, Plant %in% c("Aalborg West", "Aalborg East"))
+data("MiD")
+MiDsubset <- amp_subset_samples(MiD, Plant %in% c("Aalborg West", "Aalborg East"))
 ```
 
 or for a more complex subset, you can subset based on two or more variables using "&" to separate the conditions, or simply use the function more than once. The "!" (logical NOT operator) can be thought of as "except" and is useful to remove fx outliers. Furthermore, the `minreads = 10000` argument removes any sample(s) with total amount of reads below the chosen threshold:
 
 ```{r}
-ds <- amp_subset_samples(d, Plant %in% c("Aalborg West", "Aalborg East") & !SeqID %in% c("16SAMP-749"), minreads = 10000)
+MiDsubset <- amp_subset_samples(MiD, Plant %in% c("Aalborg West", "Aalborg East") & !SeqID %in% c("16SAMP-749"), minreads = 10000)
 ```
 
 The `amp_subset_taxa()` function instead subsets based on the taxonomy, where you simply provide a vector with the taxa you are interested in, separated by a comma:
 
 ```{r}
-d_Chloroflexi_Actinobacteria <- amp_subset_taxa(d, tax_vector=c("p__Chloroflexi", "p__Actinobacteria"))
+MiD_Chloroflexi_Actinobacteria <- amp_subset_taxa(MiD, tax_vector=c("p__Chloroflexi", "p__Actinobacteria"))
 ```
 
 The taxonomic rank is indicated by fx "p__" for phylum and "g__" for genus etc, followed by the name of the taxon (case-sensitive, first letter almost always capital). To filter individual OTUs simply provide the OTU name(s) as-is in a vector, fx `c("OTU_1206")`.
@@ -78,13 +78,13 @@ The taxonomic rank is indicated by fx "p__" for phylum and "g__" for genus etc, 
 All ampvis2 plots are generated using the [ggplot2](http://ggplot2.tidyverse.org/) package. You can change the look of the plots to better suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots if needed. Refer to the [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) for more information. `amp_heatmap()` by default aggregates to phylum level and shows the top 10 phyla, ordered by mean read abundance across all samples:
 
 ```{r}
-amp_heatmap(ds, group = "Plant")
+amp_heatmap(MiDsubset, group = "Plant")
 ```
 
 There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with "+" after the actual ampvis2 function):
 
 ```{r}
-amp_heatmap(ds,
+amp_heatmap(MiDsubset,
             group_by = c("Plant", "Year"),
             tax_aggregate = "Genus",
             tax_add = "Phylum",
@@ -101,13 +101,13 @@ amp_heatmap(ds,
 `amp_boxplot()` generates boxplots, again ordered by mean read abundance across all samples:
 
 ```{r}
-amp_boxplot(ds)
+amp_boxplot(MiDsubset)
 ```
 
 The arguments you can provide are similar to those used in `amp_heatmap()` and other ampvis2 functions:
 
 ```{r}
-amp_boxplot(ds,
+amp_boxplot(MiDsubset,
             group = "Period",
             tax_show = 5,
             tax_add = "Phylum")
@@ -119,7 +119,7 @@ The `amp_ordinate()` function has been expanded to support 7 different ordinatio
 When analysing microbial community composition data it is recommended to use the Hellinger transformation (see [Legendre et al, 2001](https://doi.org/10.1007/s004420100716) or [Numerical Ecology](https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0) for details) for most types of ordination methods except the distance-based ordination methods (Principal Coordinates Analysis (PCoA) and non-Metric Multidimensional Scaling (nMDS)), where you also have to select a distance measure manually by the `distmeasure = ""` argument, for example Bray-Curtis dissimilarities:
 
 ```{r, message=FALSE, warning=FALSE}
-amp_ordinate(ds, 
+amp_ordinate(MiDsubset, 
              type = "pcoa",
              distmeasure = "bray",
              sample_color_by = "Plant",
@@ -130,7 +130,7 @@ amp_ordinate(ds,
 And lastly an example of constrained ordination by Canonical Correspondence Analysis (CCA), which in this case reveals how samples taken at different seasonal periods (`constrain = "Period"`) of the year can explain the data:
 
 ```{r, message=FALSE, warning=FALSE}
-ordinationresult <- amp_ordinate(ds, 
+ordinationresult <- amp_ordinate(MiDsubset, 
              type = "CCA",
              constrain = "Period",
              transform = "Hellinger",

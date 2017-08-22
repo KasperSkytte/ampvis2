@@ -1,13 +1,13 @@
-#' Tests if there is a significant difference in abundance between selected conditions
+#' Test species abundances
 #'
-#' Tests if there is a significant difference in abundance between selected conditions
+#' Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions. 
 #'
 #' @usage amp_test_species(data, group)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param group (required) The group to test against.
+#' @param group (required) The group to test.
 #' @param signif_thrh Significance treshold. (\emph{default:} \code{0.01})
-#' @param fold Log2fold filter default for displaying significant results. (\emph{default:} \code{0})
+#' @param fold Log2fold filter for displaying significant results. (\emph{default:} \code{0})
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})
 #' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
@@ -17,35 +17,42 @@
 #'    \item \code{"OTU"}: Display the OTU name.
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
-#' @param label Label the significant entries with tax_display. (\emph{default:} \code{FALSE})
 #' @param plot_type Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})
-#' @param plot_show Display the X most significant results. (\emph{default:} \code{10})
+#' @param plot_nshow The amount of the most significant results to display. (\emph{default:} \code{10})
 #' @param plot_point_size The size of the plotted points. (\emph{default:} \code{2})
 #' @param adjust_zero Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.
 #' @param plotly Returns an interactive plot instead. (\emph{default:} \code{FALSE})
 #' 
 #' @return A list with multiple elements. 
-#' 
+#' @import dplyr
+#' @import DESeq2
+#' @import ggplot2
+#' @import plotly
+#' @import data.table
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_test_species <- function(data,
                              group,
-                             tax_aggregate = "OTU",
-                             tax_add = NULL,
                              test = "Wald",
                              fitType = "parametric",
-                             sig = 0.01,
+                             signif_thrh = 0.01,
                              fold = 0,
-                             tax_class = NULL,
-                             tax_empty = "best",
                              label = FALSE,
                              plot_type = "point",
-                             plot_show = 10,
+                             plot_nshow = 10,
                              plot_point_size = 2,
+                             tax_aggregate = "OTU",
+                             tax_add = NULL,
+                             tax_class = NULL,
+                             tax_empty = "best",
                              adjust_zero = NULL,
                              plotly = FALSE){
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
@@ -57,7 +64,7 @@ amp_test_species <- function(data,
   ## Extract the data into seperate objects for readability
   abund <- data[["abund"]]  
   tax <- data[["tax"]]
-  sample <- data[["metadata"]]
+  metadata <- data[["metadata"]]
 
   ## Make a name variable that can be used instead of tax_aggregate to display multiple levels 
   suppressWarnings(
@@ -89,7 +96,7 @@ amp_test_species <- function(data,
   
   
   data_deseq <- DESeqDataSetFromMatrix(countData = abund4,
-                                       colData = sample,
+                                       colData = metadata,
                                        design = groupF)
   
   ## Test for significant differential abundance
@@ -99,7 +106,7 @@ amp_test_species <- function(data,
   res = results(data_deseq_test, cooksCutoff = FALSE)  
   res_tax = cbind(as.data.frame(res), Tax = rownames(res))
   
-  res_tax_sig = subset(res_tax, padj < sig & fold < abs(log2FoldChange)) %>%
+  res_tax_sig = subset(res_tax, padj < signif_thrh & fold < abs(log2FoldChange)) %>%
     arrange(padj)
   
   ## Plot the data
@@ -145,7 +152,7 @@ amp_test_species <- function(data,
   
   
   abund6 <- merge(abund5, res_tax, by = "Tax") %>%
-    filter(padj < sig & fold < abs(log2FoldChange)) %>%
+    filter(padj < signif_thrh & fold < abs(log2FoldChange)) %>%
     arrange(padj)
   
   if(nrow(abund6) == 0){stop("No significant differences found.")}
@@ -155,22 +162,22 @@ amp_test_species <- function(data,
   }
   
   
-  colnames(sample)[1] <- "Sample"
-  sample <- sample[c("Sample",group)]
-  colnames(sample)[2] <- "Group"
+  colnames(metadata)[1] <- "Sample"
+  metadata <- metadata[c("Sample",group)]
+  colnames(metadata)[2] <- "Group"
   
-  point_df <- merge(x = abund6, y = sample, by = "Sample") %>%
+  point_df <- merge(x = abund6, y = metadata, by = "Sample") %>%
     group_by(Sample) %>%
     arrange(padj)
   
   colnames(point_df)[12] <- group
   
-  if(!is.null(plot_show)){
-    if(plot_show < nrow(abund6)){plot_show <- nrow(abund6)}
-    point_df <- subset(point_df, Tax %in% as.character(unique(point_df$Tax))[1:plot_show])
+  if(!is.null(plot_nshow)){
+    if(plot_nshow < nrow(abund6)){plot_nshow <- nrow(abund6)}
+    point_df <- subset(point_df, Tax %in% as.character(unique(point_df$Tax))[1:plot_nshow])
   }
   
-  point_df$Tax <- factor(point_df$Tax, levels = rev(as.character(unique(point_df$Tax))[1:plot_show]))
+  point_df$Tax <- factor(point_df$Tax, levels = rev(as.character(unique(point_df$Tax))[1:plot_nshow]))
   
   p2 <- ggplot(data = point_df, aes_string(x = "Tax", y = "Abundance", color = group)) +
           labs(x = "", y = "Read Abundance (%)") +
@@ -188,7 +195,7 @@ amp_test_species <- function(data,
   
   
   clean_res0 <- merge(abund5, res_tax, by = "Tax") %>% 
-                merge(y = sample, by = "Sample") %>%
+                merge(y = metadata, by = "Sample") %>%
                 group_by(Sample) %>%
                 arrange(padj)
   

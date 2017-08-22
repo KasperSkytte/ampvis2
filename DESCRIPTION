@@ -18,6 +18,7 @@ Depends:
     Biostrings,
     data.table,
     DESeq2,
+    sna,
     magrittr,
     scales,
     stringr,

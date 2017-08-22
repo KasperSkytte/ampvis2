@@ -2,7 +2,7 @@
 % Please edit documentation in R/amp_function.R
 \name{amp_function}
 \alias{amp_function}
-\title{Add functional information to a heatmap}
+\title{Add functional information of taxa to a heatmap}
 \usage{
 amp_function(heatmap)
 }
@@ -25,7 +25,7 @@ amp_function(heatmap)
 A ggplot2 object.
 }
 \description{
-Generate a function table that is sorted based on an input heatmap.
+Generates a table with functional information about the taxa in an input heatmap and combines the two.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

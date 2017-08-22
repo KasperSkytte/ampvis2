@@ -14,26 +14,32 @@
 #'    \item \code{"OTU"}: Display the OTU name.
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
-#' @param abund_treshold Threshold in percent for defining "abundant"/"core" taxa. (\emph{default:} \code{0.1})
+#' @param abund_thrh Threshold in percent for defining "abundant"/"core" taxa. (\emph{default:} \code{0.1})
 #' @param plotly (\emph{logical}) Returns an interactive plot instead. (\emph{default:} \code{FALSE})
 #' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
-#' 
+#' @import dplyr
+#' @import ggplot2
+#' @import data.table
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_core <- function(data, 
                      group_by = "Sample", 
-                     abund_treshold = 0.1, 
+                     abund_thrh = 0.1, 
                      tax_aggregate = "OTU", 
                      tax_class = NULL,
                      tax_empty = "best", 
                      plotly = FALSE, 
                      raw = FALSE,
                      detailed_output = FALSE){
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
@@ -77,13 +83,13 @@ amp_core <- function(data,
     mutate(freq = 1)
   
 
-    abund3$HA <- ifelse(abund3$Abundance > abund_treshold, 1, 0)
+    abund3$HA <- ifelse(abund3$Abundance > abund_thrh, 1, 0)
     temp3 <- group_by(abund3, Display) %>%
       summarise(Frequency = sum(freq), freq_A= sum(HA), Abundance = round(mean(Abundance),2)) %>%
       as.data.frame()
 
     p <- ggplot(data = temp3, aes(x = Frequency, y = freq_A)) +
-      ylab(paste("Abundant in N ", group_by, "s (>", abund_treshold, "%)" , sep="")) +
+      ylab(paste("Abundant in N ", group_by, "s (>", abund_thrh, "%)" , sep="")) +
       xlab(paste("Observed in N ", group_by, "s", sep="")) +
       theme_classic() +
       theme(panel.grid.major.x = element_line(color = "grey90"),

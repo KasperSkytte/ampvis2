@@ -11,11 +11,11 @@ amp_boxplot(data)
 
 \item{group_by}{Group the samples by a variable in the metadata.}
 
-\item{order_group}{A vector to order the groups by.}
-
-\item{order_y}{A vector to order the y-axis by.}
-
 \item{sort_by}{Sort the boxplots by \code{"median"}, \code{"mean"} or \code{"total"}. (\emph{default:} \code{"median"})}
+
+\item{plot_type}{\code{"Boxplot"} or \code{"points"}. (\emph{default:} \code{"boxplot"})}
+
+\item{point_size}{The size of points. (\emph{default:} \code{1})}
 
 \item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Genus"})}
 
@@ -32,15 +32,15 @@ amp_boxplot(data)
 
 \item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
+\item{order_group}{A vector to order the groups by.}
+
+\item{order_y}{A vector to order the y-axis by.}
+
 \item{plot_flip}{(\emph{logical}) Flip the axes of the plot axis. (\emph{default:} \code{FALSE})}
 
 \item{plot_log}{(\emph{logical}) Log10-scale the plot. (\emph{default:} \code{FALSE})}
 
 \item{adjust_zero}{Keep abundances of 0 in the calculation of medians by adding this value. (\emph{default:} \code{NULL})}
-
-\item{point_size}{The size of points. (\emph{default:} \code{1})}
-
-\item{plot_type}{\code{"Boxplot"} or \code{"points"}. (\emph{default:} \code{"boxplot"})}
 
 \item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
@@ -50,7 +50,7 @@ amp_boxplot(data)
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generates a ggplot2 style boxplot of the most abundant taxa of amplicon data
+Generates boxplots of the most abundant taxa of amplicon data
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

@@ -2,19 +2,25 @@
 % Please edit documentation in R/amp_alphadiv.R
 \name{amp_alphadiv}
 \alias{amp_alphadiv}
-\title{Calculate alpha-diversity statistics}
+\title{Alpha-diversity analysis}
 \usage{
-amp_alphadiv(data, measure = "", rarefy = 10000)
+amp_alphadiv(data, measure = c(""), rarefy = 10000)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{measure}{Alpha-diversity measure(s) to be included if not all. A vector of one or more of: \code{"observed"}, \code{"shannon"}, \code{"simpson"} or \code{"invsimpson"}.}
+\item{measure}{Alpha-diversity measure(s) to be included if not all. A vector of one or more of: 
+\itemize{
+  \item \code{"observed"}
+  \item \code{"shannon"}
+  \item \code{"simpson"}
+  \item \code{"invsimpson"}
+}}
 
 \item{rarefy}{Rarefy species richness to this value. (\emph{default:} \code{10000})}
 }
 \value{
-A data frame
+A data frame.
 }
 \description{
 Calculates alpha-diversity statistics for each sample and combines with the metadata.

@@ -41,6 +41,7 @@
 #' 
 #' @import dplyr
 #' @import ggplot2
+#' @import data.table
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
@@ -70,6 +71,10 @@ amp_heatmap <- function(data,
                         round = 1,
                         raw = FALSE,
                         detailed_output = FALSE) {
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   ## Clean up the taxonomy
   data <- amp_rename(data = data,
@@ -340,11 +345,8 @@ amp_heatmap <- function(data,
   
   
   ## Define the output 
-  if (detailed_output){
-    outlist <- list(heatmap = p, data = abund7)
-    return(outlist)  
-  }
-  if (!detailed_output){
+  if (detailed_output)
+    return(list(heatmap = p, data = abund7))
+  if (!detailed_output)
     return(p)
-  }
 }

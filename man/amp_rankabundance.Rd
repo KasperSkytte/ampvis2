@@ -11,13 +11,11 @@ amp_rankabundance(data)
 
 \item{group_by}{Group the samples by a variable in the metadata.}
 
-\item{tax_clean}{(\emph{logical}) Replace the phylum Proteobacteria with the respective Classes instead. (\emph{default:} \code{TRUE})}
+\item{order_group}{A vector to order the groups by.}
 
 \item{plot_log}{(\emph{logical}) Log10-scale the plot. (\emph{default:} \code{FALSE})}
 
-\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
-
-\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"Phylum"})}
+\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
 \item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Genus"})}
 
@@ -32,7 +30,7 @@ amp_rankabundance(data)
 
 \item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
-\item{order_group}{A vector to order the groups by.}
+\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
 \value{
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.

@@ -32,7 +32,7 @@ amp_frequency(data)
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generates a ggplot2 style frequency plot of amplicon data
+Generates a frequency plot
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
