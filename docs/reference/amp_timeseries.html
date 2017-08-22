@@ -87,10 +87,10 @@
     </div>
 
     
-    <p>This function allows you plot relative abundance reads over time in a timeseries plot.</p>
+    <p>Generates a timeseries plot showing relative read abundances over time.</p>
     
 
-    <pre class="usage"><span class='fu'>amp_timeseries</span>(<span class='no'>data</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_timeseries</span>(<span class='no'>data</span>, <span class='kw'>time_variable</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -100,46 +100,50 @@
       <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>time</th>
-      <td><p>(required) The name of the column containing the time variables, e.g. "Date".</p></td>
+      <th>time_variable</th>
+      <td><p>(required) The name of the column in the metadata containing the time variables, e.g. <code>"Date"</code>.</p></td>
     </tr>
     <tr>
-      <th>group</th>
-      <td><p>A variable from the associated sample data to group/split samples by (default: "Samples").</p></td>
+      <th>group_by</th>
+      <td><p>Group the samples by a variable in the metadata.</p></td>
     </tr>
     <tr>
       <th>split</th>
-      <td><p>Split the plot into subplot of each taxa (default: F).</p></td>
+      <td><p>Split the plot into subplots of each taxa. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
-      <th>tax.show</th>
-      <td><p>The number of taxa to show or a vector of taxa names (default: 5).</p></td>
+      <th>tax_show</th>
+      <td><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>5</code>)</p></td>
     </tr>
     <tr>
-      <th>tax.aggregate</th>
-      <td><p>The taxonomic level that the data should be aggregated to (default: "OTU")</p></td>
+      <th>tax_aggregate</th>
+      <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"OTU"</code>)</p></td>
     </tr>
     <tr>
-      <th>tax.add</th>
-      <td><p>Additional taxonomic levels to display for each entry, e.g. "Phylum" (default: "none").</p></td>
+      <th>tax_add</th>
+      <td><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></td>
     </tr>
     <tr>
-      <th>tax.class</th>
-      <td><p>Converts a specific phyla to class level instead, e.g. "p__Proteobacteria" (default: "none) .</p></td>
+      <th>tax_class</th>
+      <td><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></td>
     </tr>
     <tr>
-      <th>tax.empty</th>
-      <td><p>Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: "best").</p></td>
+      <th>tax_empty</th>
+      <td><p>How to show OTUs without taxonomic information. One of the following:</p><ul>
+<li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
+<li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
+<li><p><code>"OTU"</code>: Display the OTU name.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>raw</th>
-      <td><p>Display raw input instead of converting to percentages (default: F)</p></td>
+      <td><p>(<em>logical</em>) Display raw input instead of converting to percentages. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object or a list with the ggplot2 object and associated dataframes.</p>
+    <p>A ggplot2 object.</p>
     
 
   </div>

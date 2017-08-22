@@ -86,40 +86,35 @@ mymetadata &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<spa
 <p>After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID’s and that the first column in the metadata are the sample ID’s. Now combine the data using <code><a href="../reference/amp_load.html">amp_load()</a></code>, which checks the data and combines it into one object, making it easier to manipulate, filter and subset all elements of the data at once for analysis:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ampvis2)
 d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_load.html">amp_load</a></span>(<span class="dt">otutable =</span> myotutable,
-              <span class="dt">metadata =</span> mymetadata)
-
-<span class="co">#The reference sequences can optionally be loaded with readDNAStringSet() from the biostrings package:</span>
-<span class="co">#d &lt;- amp_load(otutable = myotutable,</span>
-<span class="co">#              metadata = mymetadata,</span>
-<span class="co">#              refseq = readDNAStringSet("data/otus.fa", format = "fasta"))</span></code></pre></div>
+              <span class="dt">metadata =</span> mymetadata)</code></pre></div>
 <p>The individual dataframes in the list can be explored with <code>View(d$metadata)</code>.</p>
 </div>
 <div id="filtering-and-subsetting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#filtering-and-subsetting" class="anchor"></a>Filtering and subsetting</h2>
 <p>With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with <code>data("MiD")</code>. The loaded data can be subsetted based on variables in the metadata using the <code><a href="../reference/amp_subset_samples.html">amp_subset_samples()</a></code> function, which can then be stored as a new object and analysed separately:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"MiD"</span>) <span class="co">#skip this line if you are using your own data</span>
-ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(d, Plant %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"MiD"</span>)
+MiDsubset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiD, Plant %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>))</code></pre></div>
 <pre><code>## 522 samples and 6569 OTUs have been filtered 
 ## Before: 573 samples and 14791 OTUs
 ## After: 51 samples and 8222 OTUs</code></pre>
 <p>or for a more complex subset, you can subset based on two or more variables using “&amp;” to separate the conditions, or simply use the function more than once. The “!” (logical NOT operator) can be thought of as “except” and is useful to remove fx outliers. Furthermore, the <code>minreads = 10000</code> argument removes any sample(s) with total amount of reads below the chosen threshold:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(d, Plant %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>) &amp;<span class="st"> </span>!SeqID %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">"16SAMP-749"</span>), <span class="dt">minreads =</span> <span class="dv">10000</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MiDsubset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiD, Plant %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>) &amp;<span class="st"> </span>!SeqID %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">"16SAMP-749"</span>), <span class="dt">minreads =</span> <span class="dv">10000</span>)</code></pre></div>
 <pre><code>## 523 samples and 6602 OTUs have been filtered 
 ## Before: 573 samples and 14791 OTUs
 ## After: 50 samples and 8189 OTUs</code></pre>
 <p>The <code><a href="../reference/amp_subset_taxa.html">amp_subset_taxa()</a></code> function instead subsets based on the taxonomy, where you simply provide a vector with the taxa you are interested in, separated by a comma:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d_Chloroflexi_Actinobacteria &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_taxa.html">amp_subset_taxa</a></span>(d, <span class="dt">tax_vector=</span><span class="kw">c</span>(<span class="st">"p__Chloroflexi"</span>, <span class="st">"p__Actinobacteria"</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MiD_Chloroflexi_Actinobacteria &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_taxa.html">amp_subset_taxa</a></span>(MiD, <span class="dt">tax_vector=</span><span class="kw">c</span>(<span class="st">"p__Chloroflexi"</span>, <span class="st">"p__Actinobacteria"</span>))</code></pre></div>
 <p>The taxonomic rank is indicated by fx “p__" for phylum and “g__" for genus etc, followed by the name of the taxon (case-sensitive, first letter almost always capital). To filter individual OTUs simply provide the OTU name(s) as-is in a vector, fx <code>c("OTU_1206")</code>.</p>
 </div>
 <div id="heatmap" class="section level1">
 <h1 class="hasAnchor">
 <a href="#heatmap" class="anchor"></a>Heatmap</h1>
 <p>All ampvis2 plots are generated using the <a href="http://ggplot2.tidyverse.org/">ggplot2</a> package. You can change the look of the plots to better suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots if needed. Refer to the <a href="http://ggplot2.tidyverse.org/reference/index.html">ggplot2 documentation</a> for more information. <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> by default aggregates to phylum level and shows the top 10 phyla, ordered by mean read abundance across all samples:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(ds, <span class="dt">group =</span> <span class="st">"Plant"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDsubset, <span class="dt">group =</span> <span class="st">"Plant"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with “+” after the actual ampvis2 function):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(ds,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDsubset,
             <span class="dt">group_by =</span> <span class="kw">c</span>(<span class="st">"Plant"</span>, <span class="st">"Year"</span>),
             <span class="dt">tax_aggregate =</span> <span class="st">"Genus"</span>,
             <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>,
@@ -136,10 +131,10 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
 <h1 class="hasAnchor">
 <a href="#boxplot" class="anchor"></a>Boxplot</h1>
 <p><code><a href="../reference/amp_boxplot.html">amp_boxplot()</a></code> generates boxplots, again ordered by mean read abundance across all samples:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(ds)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDsubset)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <p>The arguments you can provide are similar to those used in <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> and other ampvis2 functions:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(ds,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDsubset,
             <span class="dt">group =</span> <span class="st">"Period"</span>,
             <span class="dt">tax_show =</span> <span class="dv">5</span>,
             <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>)</code></pre></div>
@@ -150,7 +145,7 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
 <a href="#ordination" class="anchor"></a>Ordination</h1>
 <p>The <code><a href="../reference/amp_ordinate.html">amp_ordinate()</a></code> function has been expanded to support 7 different ordination methods, various data transformations and interactive plots by using <a href="https://plot.ly/">Plotly</a>. By default any OTU with an abundance no higher than 0.1% in any sample is removed, which drastically improves the calculation time. You can of course adjust this threshold manually by changing the <code>filter_species = 0.1</code> argument. Other than this, there are only four main arguments that are involved in the actual calculations, the rest are just various plotting features. These four are <code>type = ""</code>, <code>transform = ""</code>, <code>distmeasure = ""</code>, and lastly <code>constrain = ""</code> for constrained ordination (only used in Redundancy Analysis (RDA) or Canonical Correspondence Analysis (CCA)).</p>
 <p>When analysing microbial community composition data it is recommended to use the Hellinger transformation (see <a href="https://doi.org/10.1007/s004420100716">Legendre et al, 2001</a> or <a href="https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0">Numerical Ecology</a> for details) for most types of ordination methods except the distance-based ordination methods (Principal Coordinates Analysis (PCoA) and non-Metric Multidimensional Scaling (nMDS)), where you also have to select a distance measure manually by the <code>distmeasure = ""</code> argument, for example Bray-Curtis dissimilarities:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(ds, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDsubset, 
              <span class="dt">type =</span> <span class="st">"pcoa"</span>,
              <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,
              <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,
@@ -158,7 +153,7 @@ ds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subs
              <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>) +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"blank"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>And lastly an example of constrained ordination by Canonical Correspondence Analysis (CCA), which in this case reveals how samples taken at different seasonal periods (<code>constrain = "Period"</code>) of the year can explain the data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ordinationresult &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(ds, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ordinationresult &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDsubset, 
              <span class="dt">type =</span> <span class="st">"CCA"</span>,
              <span class="dt">constrain =</span> <span class="st">"Period"</span>,
              <span class="dt">transform =</span> <span class="st">"Hellinger"</span>,

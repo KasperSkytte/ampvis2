@@ -2,19 +2,19 @@
 % Please edit documentation in R/amp_export_fasta.R
 \name{amp_export_fasta}
 \alias{amp_export_fasta}
-\title{Export sequences from an ampvis object}
+\title{Export raw DNA sequences}
 \usage{
 amp_export_fasta(data)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{file}{Name of the file containing the exported sequences.}
+\item{filename}{File name of the exported FASTA file. (\emph{default:} \code{"exported_sequences.fa"})}
 
-\item{tax}{Add taxonomic strings to the output (default: T).}
+\item{tax}{(\emph{logical}) Add taxonomic strings to the output or not. (\emph{default:} \code{TRUE})}
 }
 \description{
-Export sequences from an ampvis object
+Export sequences from an ampvis2 object.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

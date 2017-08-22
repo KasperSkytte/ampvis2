@@ -43,11 +43,6 @@ Now combine the data using `amp_load()`, which checks the data and combines it i
 library(ampvis2)
 d <- amp_load(otutable = myotutable,
               metadata = mymetadata)
-
-#The reference sequences can optionally be loaded with readDNAStringSet() from the biostrings package:
-#d <- amp_load(otutable = myotutable,
-#              metadata = mymetadata,
-#              refseq = readDNAStringSet("data/otus.fa", format = "fasta"))
 ```
 
 The individual dataframes in the list can be explored with `View(d$metadata)`.

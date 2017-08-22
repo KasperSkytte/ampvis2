@@ -2,23 +2,23 @@
 % Please edit documentation in R/amp_export_otutable.R
 \name{amp_export_otutable}
 \alias{amp_export_otutable}
-\title{Export otutable from an ampvis object}
+\title{Export OTU-table}
 \usage{
 amp_export_otutable(data)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{file}{Name of the file containing the exported otutable.}
+\item{filename}{File name of the exported OTU-table. (\emph{default:} \code{"exported_otutable.txt"})}
 
-\item{id}{Name the samples using any variable in the metadata.}
+\item{id}{Name the samples using a variable in the metadata.}
 
-\item{sort.samples}{Vector to sort the samples by.}
+\item{sort_samples}{Vector to sort the samples by.}
 
-\item{raw}{Export raw input instead of converting to percentages (default: F)}
+\item{raw}{(\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{FALSE})}
 }
 \description{
-Export otutable from an ampcis object.
+Export otutable from an ampvis2 object.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

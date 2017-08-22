@@ -11,6 +11,7 @@
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' @import dplyr
 #' @import data.table
+#' @import Biostrings
 #' @export
 #' 
 #' @details The \code{amp_load()} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements as described in the following sections to work properly. 

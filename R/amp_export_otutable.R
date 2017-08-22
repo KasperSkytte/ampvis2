@@ -1,20 +1,28 @@
-#' Export otutable from an ampvis object
+#' Export OTU-table
 #'
-#' Export otutable from an ampcis object.
+#' Export otutable from an ampvis2 object.
 #'
 #' @usage amp_export_otutable(data)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param file Name of the file containing the exported otutable.
-#' @param id Name the samples using any variable in the metadata.
-#' @param sort.samples Vector to sort the samples by.
-#' @param raw Export raw input instead of converting to percentages (default: F) 
+#' @param filename File name of the exported OTU-table. (\emph{default:} \code{"exported_otutable.txt"})
+#' @param id Name the samples using a variable in the metadata.
+#' @param sort_samples Vector to sort the samples by.
+#' @param raw (\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{FALSE})
 #' 
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_export_otutable <- function(data, file = "exported_otutable.txt", id = NULL, sort.samples = NULL, raw = F){
+amp_export_otutable <- function(data,
+                                filename = "exported_otutable.txt",
+                                id = NULL, 
+                                sort_samples = NULL, 
+                                raw = FALSE){
+  
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   abund <- data[["abund"]]
   tax <- data[["tax"]]
@@ -45,14 +53,14 @@ amp_export_otutable <- function(data, file = "exported_otutable.txt", id = NULL,
     colnames(abund) <- as.character(unlist(data[["metadata"]][,id]))
   }
   
-  if(!is.null(sort.samples)){
+  if(!is.null(sort_samples)){
  
     ## Test if the ID is unique for each sample
-    if( length(sort.samples) != length(colnames(abund)) ){
-      stop(paste("`sort.samples` does not match `id`"))
+    if( length(sort_samples) != length(colnames(abund)) ){
+      stop(paste("`sort_samples` does not match `id`"))
     } 
       
-    abund <- abund[,sort.samples]
+    abund <- abund[,sort_samples]
   }
   
   e_bak <- cbind.data.frame(abund, tax)
@@ -62,5 +70,5 @@ amp_export_otutable <- function(data, file = "exported_otutable.txt", id = NULL,
     arrange(desc(sum)) %>%
     select(-sum)
   
-  write.table(e_bak2, file = file, quote = F, row.names = F, sep = "\t")
+  write.table(e_bak2, file = filename, quote = F, row.names = F, sep = "\t")
 }

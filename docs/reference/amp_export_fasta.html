@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Export sequences from an ampvis object — amp_export_fasta â€¢ ampvis2</title>
+<title>Export raw DNA sequences — amp_export_fasta â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,11 +83,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Export sequences from an ampvis object</h1>
+    <h1>Export raw DNA sequences</h1>
     </div>
 
     
-    <p>Export sequences from an ampvis object</p>
+    <p>Export sequences from an ampvis2 object.</p>
     
 
     <pre class="usage"><span class='fu'>amp_export_fasta</span>(<span class='no'>data</span>)</pre>
@@ -100,12 +100,12 @@
       <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>file</th>
-      <td><p>Name of the file containing the exported sequences.</p></td>
+      <th>filename</th>
+      <td><p>File name of the exported FASTA file. (<em>default:</em> <code>"exported_sequences.fa"</code>)</p></td>
     </tr>
     <tr>
       <th>tax</th>
-      <td><p>Add taxonomic strings to the output (default: T).</p></td>
+      <td><p>(<em>logical</em>) Add taxonomic strings to the output or not. (<em>default:</em> <code>TRUE</code>)</p></td>
     </tr>
     </table>
     

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tests if there is a significant difference in abundance between selected conditions — amp_test_species â€¢ ampvis2</title>
+<title>Test species abundances — amp_test_species â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,11 +83,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tests if there is a significant difference in abundance between selected conditions</h1>
+    <h1>Test species abundances</h1>
     </div>
 
     
-    <p>Tests if there is a significant difference in abundance between selected conditions</p>
+    <p>Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions.</p>
     
 
     <pre class="usage"><span class='fu'>amp_test_species</span>(<span class='no'>data</span>, <span class='no'>group</span>)</pre>
@@ -101,7 +101,27 @@
     </tr>
     <tr>
       <th>group</th>
-      <td><p>(required) The group to test against.</p></td>
+      <td><p>(required) The group to test.</p></td>
+    </tr>
+    <tr>
+      <th>signif_thrh</th>
+      <td><p>Significance treshold. (<em>default:</em> <code>0.01</code>)</p></td>
+    </tr>
+    <tr>
+      <th>fold</th>
+      <td><p>Log2fold filter for displaying significant results. (<em>default:</em> <code>0</code>)</p></td>
+    </tr>
+    <tr>
+      <th>plot_type</th>
+      <td><p>Either <code>"boxplot"</code> or <code>"point"</code>. (<em>default:</em> <code>"point"</code>)</p></td>
+    </tr>
+    <tr>
+      <th>plot_nshow</th>
+      <td><p>The amount of the most significant results to display. (<em>default:</em> <code>10</code>)</p></td>
+    </tr>
+    <tr>
+      <th>plot_point_size</th>
+      <td><p>The size of the plotted points. (<em>default:</em> <code>2</code>)</p></td>
     </tr>
     <tr>
       <th>tax_aggregate</th>
@@ -110,10 +130,6 @@
     <tr>
       <th>tax_add</th>
       <td><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>fold</th>
-      <td><p>Log2fold filter default for displaying significant results. (<em>default:</em> <code>0</code>)</p></td>
     </tr>
     <tr>
       <th>tax_class</th>
@@ -128,32 +144,12 @@
 </ul></td>
     </tr>
     <tr>
-      <th>label</th>
-      <td><p>Label the significant entries with tax_display. (<em>default:</em> <code>FALSE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>plot_type</th>
-      <td><p>Either <code>"boxplot"</code> or <code>"point"</code>. (<em>default:</em> <code>"point"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>plot_show</th>
-      <td><p>Display the X most significant results. (<em>default:</em> <code>10</code>)</p></td>
-    </tr>
-    <tr>
-      <th>plot_point_size</th>
-      <td><p>The size of the plotted points. (<em>default:</em> <code>2</code>)</p></td>
-    </tr>
-    <tr>
       <th>adjust_zero</th>
       <td><p>Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.</p></td>
     </tr>
     <tr>
       <th>plotly</th>
       <td><p>Returns an interactive plot instead. (<em>default:</em> <code>FALSE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>signif_thrh</th>
-      <td><p>Significance treshold. (<em>default:</em> <code>0.01</code>)</p></td>
     </tr>
     </table>
     

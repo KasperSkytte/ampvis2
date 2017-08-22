@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Export otutable from an ampvis object — amp_export_otutable â€¢ ampvis2</title>
+<title>Export OTU-table — amp_export_otutable â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,11 +83,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Export otutable from an ampvis object</h1>
+    <h1>Export OTU-table</h1>
     </div>
 
     
-    <p>Export otutable from an ampcis object.</p>
+    <p>Export otutable from an ampvis2 object.</p>
     
 
     <pre class="usage"><span class='fu'>amp_export_otutable</span>(<span class='no'>data</span>)</pre>
@@ -100,20 +100,20 @@
       <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>file</th>
-      <td><p>Name of the file containing the exported otutable.</p></td>
+      <th>filename</th>
+      <td><p>File name of the exported OTU-table. (<em>default:</em> <code>"exported_otutable.txt"</code>)</p></td>
     </tr>
     <tr>
       <th>id</th>
-      <td><p>Name the samples using any variable in the metadata.</p></td>
+      <td><p>Name the samples using a variable in the metadata.</p></td>
     </tr>
     <tr>
-      <th>sort.samples</th>
+      <th>sort_samples</th>
       <td><p>Vector to sort the samples by.</p></td>
     </tr>
     <tr>
       <th>raw</th>
-      <td><p>Export raw input instead of converting to percentages (default: F)</p></td>
+      <td><p>(<em>logical</em>) Use raw counts instead of percentages. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     </table>
     

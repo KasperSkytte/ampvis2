@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generates a ggplot2 style venn diagram — amp_venn â€¢ ampvis2</title>
+<title>Venn diagram of core OTUs — amp_venn â€¢ ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,11 +83,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generates a ggplot2 style venn diagram</h1>
+    <h1>Venn diagram of core OTUs</h1>
     </div>
 
     
-    <p>Calculates the number of "core" OTUs shared by groups given tresholds for how frequent the OTUs should be above a certain abundance. Also returns the average abundance of the OTUs in a particular group.</p>
+    <p>Calculates the number of "core" OTUs shared by groups given thresholds for how frequent the OTUs should be above a certain abundance. Also returns the average abundance of the OTUs in a particular group.</p>
     
 
     <pre class="usage"><span class='fu'>amp_venn</span>(<span class='no'>data</span>)</pre>
@@ -100,34 +100,34 @@
       <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>group</th>
+      <th>group_by</th>
       <td><p>Group the data based on a sample variable.</p></td>
     </tr>
     <tr>
       <th>cut_a</th>
-      <td><p>Abundance cutoff in percent (default: 0.1).</p></td>
+      <td><p>Abundance cutoff in percent. (<em>default:</em> <code>0.1</code>)</p></td>
     </tr>
     <tr>
       <th>cut_f</th>
-      <td><p>Frequency cutoff in percent (default: 80).</p></td>
+      <td><p>Frequency cutoff in percent. (<em>default:</em> <code>80</code>)</p></td>
     </tr>
     <tr>
-      <th>text.size</th>
-      <td><p>Size of the plotted text.</p></td>
-    </tr>
-    <tr>
-      <th>output</th>
-      <td><p>Either "plot" or "complete" (default: "plot").</p></td>
+      <th>text_size</th>
+      <td><p>Size of the plotted text. (<em>default:</em> <code>5</code>)</p></td>
     </tr>
     <tr>
       <th>raw</th>
-      <td><p>Display raw input instead of converting to percentages (default: F).</p></td>
+      <td><p>(<em>logical</em>) Display raw input instead of converting to percentages. (<em>default:</em> <code>FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>detailed_output</th>
+      <td><p>(<em>logical</em>) Return additional details or not. If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code>View(object$data)</code>. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object</p>
+    <p>A ggplot2 object.</p>
     
 
   </div>
