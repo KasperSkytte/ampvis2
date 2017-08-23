@@ -72,7 +72,7 @@ amp_load <- function(otutable, metadata, refseq = NULL){
   }
   
   ### Only alphanumeric characters in metadata column names, replace others with "_", they may cause problems with ggplot2 groupings etc
-  colnames(metadata) <- str_replace_all(colnames(metadata), "[^[:alnum:]]", "_")
+  colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "[^[:alnum:]]", "_")
   
   ### Check if taxonomic data has the correct names
   tax.names <- colnames(otutable[, (ncol(otutable) - 6):ncol(otutable)])

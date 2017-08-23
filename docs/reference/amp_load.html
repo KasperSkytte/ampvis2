@@ -149,11 +149,12 @@
                         <span class='kw'>check.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
                         <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'>as.data.frame</span>()
 <span class='no'>mymetadata</span> <span class='kw'>&lt;-</span> <span class='fu'>read_excel</span>(<span class='st'>"data/metadata.xlsx"</span>,
-                         <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span> <span class='fu'>as.data.frame</span>()</div><div class='output co'>#&gt; <span class='error'>Error in read_excel("data/metadata.xlsx", col_names = TRUE): could not find function "read_excel"</span></div><div class='input'><span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_load</span>(<span class='kw'>otutable</span> <span class='kw'>=</span> <span class='no'>myotutable</span>,
+                         <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span> <span class='fu'>as.data.frame</span>()
+<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_load</span>(<span class='kw'>otutable</span> <span class='kw'>=</span> <span class='no'>myotutable</span>,
               <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>mymetadata</span>
               <span class='co'>#refseq is optional:</span>
               <span class='co'>#, refseq = readDNAStringSet("data/otus.fa", format = "fasta") </span>
-              )</div><div class='output co'>#&gt; <span class='error'>Error in as.data.frame(metadata): object 'mymetadata' not found</span></div><div class='input'><span class='no'>d</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'd' not found</span></div><div class='input'>
+              )</div><div class='output co'>#&gt; <span class='error'>Error in str_replace_all(colnames(metadata), "[^[:alnum:]]", "_"): could not find function "str_replace_all"</span></div><div class='input'><span class='no'>d</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'd' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
