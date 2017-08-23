@@ -8,7 +8,7 @@
 #' @param tax_vector (required) A vector with taxonomic groups, e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
-#' @import tidyverse
+#' @import dplyr
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

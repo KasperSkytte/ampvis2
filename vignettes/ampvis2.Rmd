@@ -36,7 +36,7 @@ mymetadata <- read_excel("data/metadata.xlsx",
 
 Note that `read.csv2()` treats semicolon ";" as the default separator and comma "," as decimal, which is the standard in some regions. To change the separator to fx a comma you can adjust with the argument `sep = ","`. Refer to the documentation with `?read.table`.
 
-After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID's and that the first column in the metadata are the sample ID's. There are strict requirements for it to work, please read the documentation of `amp_load()`.
+After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID's and that the first column in the metadata are the sample ID's.
 Now combine the data using `amp_load()`, which checks the data and combines it into one object, making it easier to manipulate, filter and subset all elements of the data at once for analysis:
 
 ```{r, eval = FALSE}

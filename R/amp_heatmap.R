@@ -39,7 +39,8 @@
 #' 
 #' @export
 #' 
-#' @import tidyverse
+#' @import dplyr
+#' @import ggplot2
 #' @import data.table
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

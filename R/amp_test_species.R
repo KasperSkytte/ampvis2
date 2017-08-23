@@ -24,8 +24,9 @@
 #' @param plotly Returns an interactive plot instead. (\emph{default:} \code{FALSE})
 #' 
 #' @return A list with multiple elements. 
-#' @import tidyverse
+#' @import dplyr
 #' @import DESeq2
+#' @import ggplot2
 #' @import plotly
 #' @import data.table
 #' @export
