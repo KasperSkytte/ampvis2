@@ -7,7 +7,7 @@
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
-#' 
+#' @import dplyr
 #' @export
 #' 
 #' @author Rasmus Kirkegaard

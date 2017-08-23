@@ -13,7 +13,7 @@
 #' @param plotted_functions A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})
 #' 
 #' @return A ggplot2 object.
-#' @import dplyr
+#' @import Biostrings
 #' @import ggplot2
 #' 
 #' @export

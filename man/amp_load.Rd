@@ -31,10 +31,8 @@ The OTU-table contains information about the OTUs, their assigned taxonomy and t
   \item The last 7 columns are the corresponding taxonomy assigned to the OTUs, named \code{"Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"}.
   \item The rownames of the data frame are the OTU IDs. Thus, the first column should be a sample, NOT the OTU IDs.
   \item The column names of the data frame are the sample IDs, exactly matching those in the metadata, (and the last 7 columns named \code{Kingdom} -> \code{Species}, of course). Thus, the first row should contain the read counts of one of the OTUs in each sample, NOT the sample IDs and taxonomy.
-  \item Avoid special characters and spaces in row- and column names.
+  \item Generally avoid special characters and spaces in row- and column names.
 }
-
-It is highly recommended to use simple sample names that are nothing but an ID, fx "16srun23_456". NOT something like "16S rRNA analysis of wastewater treatment plant 3 by professor neverusedacomputerbefore at 1 meter depth pH 8".
 }
 
 \section{The metadata}{
@@ -44,7 +42,7 @@ The metadata contains additional information about the samples, for example wher
 \itemize{
   \item The sample IDs must be in the first column. These sample IDs must match exactly to those in the OTU-table.
   \item Column classes matter, categorical variables should be loaded either \code{as.character()} or \code{as.factor()}, and continuous variables \code{as.numeric()}. See below.
-  \item Avoid special characters and spaces in row- and column names.
+  \item Generally avoid special characters and spaces in row- and column names.
 }
 
 If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (\code{as.numeric()}) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded \code{as.factor()} or \code{as.character()} instead. This has consequences for the analysis as R treats them differently. Therefore either use the \code{colClasses = } argument when loading a csv file or \code{col_types = } when loading an excel file, or manually adjust the column classes afterwards with fx \code{metadata$Year <- as.character(metadata$Year)}.

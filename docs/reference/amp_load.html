@@ -125,9 +125,8 @@
 <li><p>The last 7 columns are the corresponding taxonomy assigned to the OTUs, named <code>"Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"</code>.</p></li>
 <li><p>The rownames of the data frame are the OTU IDs. Thus, the first column should be a sample, NOT the OTU IDs.</p></li>
 <li><p>The column names of the data frame are the sample IDs, exactly matching those in the metadata, (and the last 7 columns named <code>Kingdom</code> -&gt; <code>Species</code>, of course). Thus, the first row should contain the read counts of one of the OTUs in each sample, NOT the sample IDs and taxonomy.</p></li>
-<li><p>Avoid special characters and spaces in row- and column names.</p></li>
+<li><p>Generally avoid special characters and spaces in row- and column names.</p></li>
 </ul>
-    <p>It is highly recommended to use simple sample names that are nothing but an ID, fx "16srun23_456". NOT something like "16S rRNA analysis of wastewater treatment plant 3 by professor neverusedacomputerbefore at 1 meter depth pH 8".</p>
     
     <h2 class="hasAnchor" id="the-metadata"><a class="anchor" href="#the-metadata"></a>The metadata</h2>
 
@@ -135,7 +134,7 @@
     <p>The metadata contains additional information about the samples, for example where each sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements:</p><ul>
 <li><p>The sample IDs must be in the first column. These sample IDs must match exactly to those in the OTU-table.</p></li>
 <li><p>Column classes matter, categorical variables should be loaded either <code>as.character()</code> or <code>as.factor()</code>, and continuous variables <code>as.numeric()</code>. See below.</p></li>
-<li><p>Avoid special characters and spaces in row- and column names.</p></li>
+<li><p>Generally avoid special characters and spaces in row- and column names.</p></li>
 </ul>
     <p>If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (<code>as.numeric()</code>) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded <code>as.factor()</code> or <code>as.character()</code> instead. This has consequences for the analysis as R treats them differently. Therefore either use the <code>colClasses = </code> argument when loading a csv file or <code>col_types = </code> when loading an excel file, or manually adjust the column classes afterwards with fx <code>metadata$Year &lt;- as.character(metadata$Year)</code>.
     <code>amp_load()</code> will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis.</p>
@@ -154,7 +153,19 @@
               <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>mymetadata</span>
               <span class='co'>#refseq is optional:</span>
               <span class='co'>#, refseq = readDNAStringSet("data/otus.fa", format = "fasta") </span>
-              )</div><div class='output co'>#&gt; <span class='error'>Error in str_replace_all(colnames(metadata), "[^[:alnum:]]", "_"): could not find function "str_replace_all"</span></div><div class='input'><span class='no'>d</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'd' not found</span></div><div class='input'>
+              )
+<span class='no'>d</span></div><div class='output co'>#&gt; ampvis2 object with 3 elements.
+#&gt; Summary:
+#&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
+#&gt;          141         7781      4007355         1008        45659        25145 
+#&gt;    Avg#Reads 
+#&gt;     28420.96 
+#&gt; 
+#&gt; Assigned taxonomy:
+#&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
+#&gt;   7781(100%) 7591(97.56%) 6718(86.34%) 6107(78.49%) 5282(67.88%) 3970(51.02%) 
+#&gt;      Species 
+#&gt;    17(0.22%) </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

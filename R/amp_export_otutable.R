@@ -11,6 +11,7 @@
 #' @param raw (\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{FALSE})
 #' 
 #' @export
+#' @import dplyr
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
