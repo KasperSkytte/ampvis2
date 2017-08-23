@@ -58,7 +58,7 @@ MiDASsubset <- amp_subset_samples(MiDAS, Plant %in% c("Aalborg West", "Aalborg E
 or for a more complex subset, you can subset based on two or more variables using "&" to separate the conditions, or simply use the function more than once. The "!" (logical NOT operator) can be thought of as "except" and is useful to remove fx outliers. Furthermore, the `minreads = 10000` argument removes any sample(s) with total amount of reads below the chosen threshold:
 
 ```{r}
-MiDASsubset <- amp_subset_samples(MiDAS, Plant %in% c("Aalborg West", "Aalborg East") & !SeqID %in% c("16SAMP-749"), minreads = 10000)
+MiDASsubset <- amp_subset_samples(MiDAS, Plant %in% c("Aalborg West", "Aalborg East") & !SampleID %in% c("16SAMP-749"), minreads = 10000)
 ```
 
 The `amp_subset_taxa()` function instead subsets based on the taxonomy, where you simply provide a vector with the taxa you are interested in, separated by a comma:
