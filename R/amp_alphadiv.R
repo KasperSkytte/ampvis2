@@ -17,7 +17,9 @@
 #' @export
 #' @import dplyr
 #' @import vegan
-#' @import ggplot2
+#' @details 
+#' @examples
+#' 
 #' @return A data frame.
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 

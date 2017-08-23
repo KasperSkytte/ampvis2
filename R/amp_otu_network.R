@@ -54,6 +54,9 @@ amp_otu_network <- function(data,
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
   
+  ## SeqID column is used to merge data later, so it must be there!
+  colnames(metadata)[1] <- "SeqID"
+  
   if (raw == FALSE){
     abund <- as.data.frame(sapply(abund, function(x) x/sum(x)*100))
   }

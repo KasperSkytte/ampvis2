@@ -21,7 +21,9 @@
 #' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
 #' 
 #' @keywords timeseries
-#' 
+#' @import dplyr
+#' @import ggplot2
+#' @import data.table
 #' @return A ggplot2 object.
 #' 
 #' @export 
@@ -32,7 +34,6 @@ amp_timeseries <- function(data,
                            time_variable = NULL, 
                            group_by = "Sample", 
                            split = FALSE, 
-                           layout="dygraph",
                            tax_show = 5, 
                            tax_aggregate="OTU", 
                            tax_add=NULL, 
@@ -46,7 +47,7 @@ amp_timeseries <- function(data,
   
   # Required arguments
   if(is.null(time_variable))
-    stop("Argument 'time_variable' is required.")
+    stop("Argument \"time_variable\" is required.")
   # Clean and rename taxonomy ---------------------------------------------------------
   
   data <- amp_rename(data = data, 
@@ -101,10 +102,10 @@ amp_timeseries <- function(data,
   suppressWarnings(
     if (group_by != "Sample"){
       if (length(group_by) > 1){
-        grp <- data.frame(Sample = metadata$SeqID, Group = apply(metadata[,group_by], 1, paste, collapse = " ")) 
+        grp <- data.frame(Sample = metadata[,1], Group = apply(metadata[,group_by], 1, paste, collapse = " ")) 
         oldGroup <- unique(cbind.data.frame(metadata[,group_by], Group = grp$Group))
       } else{
-        grp <- data.frame(Sample = metadata$SeqID, Group = metadata[,group_by]) 
+        grp <- data.frame(Sample = metadata[,1], Group = metadata[,group_by]) 
       }
       abund5 <- merge(abund4, grp)
     } else{ abund5 <- data.frame(abund4, Group = "Sample")}
