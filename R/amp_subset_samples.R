@@ -9,7 +9,7 @@
 #' @param ... (optional) Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}. 
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
-#' @import dplyr
+#' @import tidyverse
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

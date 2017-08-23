@@ -21,8 +21,7 @@
 #' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
 #' 
 #' @keywords timeseries
-#' @import dplyr
-#' @import ggplot2
+#' @import tidyverse
 #' @import data.table
 #' @return A ggplot2 object.
 #' 

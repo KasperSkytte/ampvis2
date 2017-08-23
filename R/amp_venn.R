@@ -15,9 +15,7 @@
 #' @return A ggplot2 object.
 #' 
 #' @export
-#' @import ggplot2
-#' @import dplyr
-#' @import reshape2
+#' @import tidyverse
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 

@@ -70,9 +70,8 @@
 #' 
 #' @export
 #' 
-#' @import ggplot2
+#' @import tidyverse
 #' @import vegan
-#' @import dplyr
 #' @import ape
 #' 
 #' @references

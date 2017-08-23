@@ -21,8 +21,6 @@ Depends:
     sna,
     magrittr,
     scales,
-    stringr,
-    readxl,
     network,
     GGally,
     gridExtra,

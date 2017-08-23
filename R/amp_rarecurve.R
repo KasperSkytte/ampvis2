@@ -9,8 +9,7 @@
 #' @param color_by Color curves by a variable in the metadata. 
 #' 
 #' @export
-#' @import dplyr
-#' @import ggplot2
+#' @import tidyverse
 #' 
 #' @return A ggplot2 object.
 #' 

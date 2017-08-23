@@ -1,6 +1,6 @@
 #' Alpha-diversity analysis
 #'
-#' Calculates alpha-diversity statistics for each sample and combines with the metadata.
+#' Calculates alpha-diversity statistics for each sample.
 #'
 #' @usage amp_alphadiv(data, measure = c(""), rarefy = 10000)
 #'
@@ -15,9 +15,13 @@
 #' @param rarefy Rarefy species richness to this value. (\emph{default:} \code{10000})
 #' 
 #' @export
-#' @import dplyr
+#' @import tidyverse
 #' @import vegan
-#' @details 
+#' @details \code{amp_alphadiv} simply calculates alpha-diversity indices using the vegan function \code{\link[vegan]{diversity}} and returns the results combined with the metadata from the provided ampvis2 object. For more details about the exact formulas used see the references.
+#' @references 
+#'   \url{https://cran.r-project.org/web/packages/vegan/vignettes/diversity-vegan.pdf}
+#'   
+#'   Hill, M. (1973). "Diversity and Evenness: A Unifying Notation and Its Consequences". Ecology, 54(2), 427-432. \url{doi.org/10.2307/1934352}
 #' @examples
 #' 
 #' @return A data frame.
