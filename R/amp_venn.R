@@ -15,6 +15,7 @@
 #' @return A ggplot2 object.
 #' 
 #' @export
+#' @import tidyr
 #' @import ggplot2
 #' @import dplyr
 #' 

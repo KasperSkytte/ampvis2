@@ -52,6 +52,7 @@ If for example a column is named "Year" and the entries are simply entered as nu
 
 \examples{
 #Be sure to use the correct function to load your .csv files, see ?read.table()
+\dontrun{
 myotutable <- read.delim("data/otutable.txt", 
                         header = TRUE,
                         fill = TRUE,
@@ -66,6 +67,7 @@ d <- amp_load(otutable = myotutable,
               #, refseq = readDNAStringSet("data/otus.fa", format = "fasta") 
               )
 d
+}
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

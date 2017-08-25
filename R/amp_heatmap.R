@@ -40,6 +40,7 @@
 #' @export
 #' 
 #' @import dplyr
+#' @import tidyr
 #' @import ggplot2
 #' @import data.table
 #' 

@@ -27,6 +27,7 @@
 #' @import dplyr
 #' @import DESeq2
 #' @import ggplot2
+#' @import tidyr
 #' @import plotly
 #' @import data.table
 #' @export

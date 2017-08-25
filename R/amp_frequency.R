@@ -21,6 +21,7 @@
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 #' @import dplyr
 #' @import ggplot2
+#' @import tidyr
 #' @import data.table
 #' @export
 #' 
