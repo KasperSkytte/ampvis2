@@ -115,7 +115,7 @@ The \code{amp_ordinate()} function is mainly based on two packages; \code{\link[
 #Load example data
 data("AalborgWWTPs")
 
-#Principal Components Analysis with data transformation, colored by WWTP
+#PCA with data transformation, colored by WWTP
 amp_ordinate(AalborgWWTPs,
              type = "PCA",
              transform = "hellinger",
@@ -124,7 +124,7 @@ amp_ordinate(AalborgWWTPs,
              )
 
 \dontrun{
-#Interactive Canonical Correspondence Analysis with data transformation constrained to seasonal period
+#Interactive CCA with data transformation constrained to seasonal period
 amp_ordinate(AalborgWWTPs,
              type = "CCA",
              transform = "Hellinger", 
