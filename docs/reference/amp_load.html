@@ -144,6 +144,7 @@
     <pre class="examples"><div class='input'><span class='co'>#Be sure to use the correct function to load your .csv files, see ?read.table()</span>
 <span class='no'>myotutable</span> <span class='kw'>&lt;-</span> <span class='fu'>read.delim</span>(<span class='st'>"data/otutable.txt"</span>,
                         <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                        <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
                         <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
                         <span class='kw'>check.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
                         <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'>as.data.frame</span>()
@@ -165,8 +166,7 @@
 #&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
 #&gt;   7781(100%) 7591(97.56%) 6718(86.34%) 6107(78.49%) 5282(67.88%) 3970(51.02%) 
 #&gt;      Species 
-#&gt;    17(0.22%) </div><div class='input'>
-</div></pre>
+#&gt;    17(0.22%) </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -12,13 +12,13 @@ More precisely, the OTU-table provided is expected to be a raw CSV-table with OT
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 library(ampvis2)
 #A nice function to source all .R files so we dont have to commit twice by first updating functions AND build pkgdown page afterwards!
-sourceDir <- function(path) {
-  for (f in list.files(path, pattern = "[.][RrSsQq]$")) {
-    source(file.path(path, f))
-    cat(f, "\n")
-  }
-}
-#it doesn't work though
+#sourceDir <- function(path) {
+#  for (f in list.files(path, pattern = "[.][RrSsQq]$")) {
+#    source(file.path(path, f))
+#    cat(f, "\n")
+#  }
+#}
+#it doesn't work with pkgdown though
 #sourceDir("./../R/")
 ```
 
@@ -26,6 +26,7 @@ sourceDir <- function(path) {
 myotutable <- read.csv2("data/otutable.csv", 
                         #sep = "\t",
                         #dec = ".",
+                        fill = TRUE,
                         header = TRUE,
                         stringsAsFactors = FALSE,
                         check.names = FALSE,

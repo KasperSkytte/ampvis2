@@ -54,6 +54,7 @@ If for example a column is named "Year" and the entries are simply entered as nu
 #Be sure to use the correct function to load your .csv files, see ?read.table()
 myotutable <- read.delim("data/otutable.txt", 
                         header = TRUE,
+                        fill = TRUE,
                         stringsAsFactors = FALSE,
                         check.names = FALSE,
                         row.names = 1) \%>\% as.data.frame() 
@@ -65,7 +66,6 @@ d <- amp_load(otutable = myotutable,
               #, refseq = readDNAStringSet("data/otus.fa", format = "fasta") 
               )
 d
-
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

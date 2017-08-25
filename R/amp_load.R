@@ -41,9 +41,9 @@
 #' 
 #' @examples 
 #' #Be sure to use the correct function to load your .csv files, see ?read.table()
-#' \dontrun{
 #' myotutable <- read.delim("data/otutable.txt", 
 #'                         header = TRUE,
+#'                         fill = TRUE,
 #'                         stringsAsFactors = FALSE,
 #'                         check.names = FALSE,
 #'                         row.names = 1) %>% as.data.frame() 
@@ -55,7 +55,6 @@
 #'               #, refseq = readDNAStringSet("data/otus.fa", format = "fasta") 
 #'               )
 #' d
-#' }
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_load <- function(otutable, metadata, refseq = NULL){
