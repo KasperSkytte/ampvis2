@@ -90,7 +90,7 @@
     <p>Calculates alpha-diversity statistics for each sample and combines with the metadata.</p>
     
 
-    <pre class="usage"><span class='fu'>amp_alphadiv</span>(<span class='no'>data</span>, <span class='kw'>measure</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>""</span>), <span class='kw'>rarefy</span> <span class='kw'>=</span> <span class='fl'>10000</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_alphadiv</span>(<span class='no'>data</span>, <span class='no'>measure</span>, <span class='no'>rarefy</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -110,7 +110,7 @@
     </tr>
     <tr>
       <th>rarefy</th>
-      <td><p>Rarefy species richness to this value. (<em>default:</em> <code>10000</code>)</p></td>
+      <td><p>Rarefy species richness to this value. Passed directly as the <code>sample</code> argument to <code><a href='http://www.rdocumentation.org/packages/vegan/topics/rarefy'>rrarefy</a></code>. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     </table>
     
@@ -118,7 +118,26 @@
 
     <p>A data frame.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>The alpha-diversity indices are calculated per sample using the vegan function <code><a href='http://www.rdocumentation.org/packages/vegan/topics/diversity'>diversity</a></code>, where species richness is first rarefied using <code><a href='http://www.rdocumentation.org/packages/vegan/topics/rarefy'>rrarefy</a></code> by the size of the <code>rarefy</code> argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
+<span class='no'>AalborgWWTPs</span></div><div class='output co'>#&gt; ampvis2 object with 4 elements.
+#&gt; Summary:
+#&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
+#&gt;           50         8189      1472629        16751        38496        29284 
+#&gt;    Avg#Reads 
+#&gt;     29452.58 
+#&gt; 
+#&gt; Assigned taxonomy:
+#&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
+#&gt;   8189(100%) 8005(97.75%) 7163(87.47%) 6573(80.27%) 5875(71.74%) 4516(55.15%) 
+#&gt;      Species 
+#&gt;    17(0.21%) </div><div class='input'><span class='no'>alphadiversityresult</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_alphadiv</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>rarefy</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The following samples have not been rarefied (less than 20000 reads):</span>
+#&gt; <span class='warning'>16SAMP-703, 16SAMP-739</span></div><div class='input'><span class='fu'>View</span>(<span class='no'>alphadiversityresult</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -126,7 +145,11 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     

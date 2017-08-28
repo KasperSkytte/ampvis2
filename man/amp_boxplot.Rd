@@ -13,7 +13,7 @@ amp_boxplot(data)
 
 \item{sort_by}{Sort the boxplots by \code{"median"}, \code{"mean"} or \code{"total"}. (\emph{default:} \code{"median"})}
 
-\item{plot_type}{\code{"Boxplot"} or \code{"points"}. (\emph{default:} \code{"boxplot"})}
+\item{plot_type}{Plot type. \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"boxplot"})}
 
 \item{point_size}{The size of points. (\emph{default:} \code{1})}
 
@@ -50,7 +50,16 @@ amp_boxplot(data)
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generates boxplots of the most abundant taxa of amplicon data
+Generates boxplots of the most abundant taxa.
+}
+\examples{
+data("AalborgWWTPs")
+AalborgWWTPs
+amp_boxplot(AalborgWWTPs, 
+            group_by = "Plant",
+            tax_show = 10,
+            tax_add = "Phylum")
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

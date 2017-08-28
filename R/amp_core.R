@@ -26,6 +26,15 @@
 #' @import data.table
 #' @export
 #' 
+#' @details Plots the number of samples a given OTU is observed in (first axis) against the number of samples it is abundant in (second axis), as defined by the threshold. By setting the \code{group_by} argument to a variable in the metadata, then the axes will instead show their frequency in this group instead of per sample. 
+#' 
+#' The OTU points can be aggregated by the taxonomy by setting fx \code{tax_aggregate = "Phylum"}. To see the corresponding taxonomy of the OTUs use \code{plotly = TRUE} for an interactive plot.
+#' 
+#' @examples 
+#' data("AalborgWWTPs")
+#' AalborgWWTPs
+#' amp_core(AalborgWWTPs)
+#' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_core <- function(data, 
@@ -48,7 +57,7 @@ amp_core <- function(data,
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
   tax <- data[["tax"]]
-  sample <- data[["metadata"]]
+  metadata <- data[["metadata"]]
   
   if (raw == F){
     abund <- as.data.frame(sapply(abund, function(x) x/sum(x)*100))
@@ -56,7 +65,7 @@ amp_core <- function(data,
   
   # Aggregate to a specific taxonomic level
   abund1 <- cbind.data.frame(Display = tax[,tax_aggregate], abund) %>%
-    gather(key = Sample, value = Abundance, -Display)
+    gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
   
   abund1 <- data.table(abund1)[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
@@ -67,9 +76,9 @@ amp_core <- function(data,
   suppressWarnings(
     if (group_by != "Sample"){
       if (length(group_by) > 1){
-        grp <- data.frame(Sample = rownames(sample), Group = apply(sample[,group_by], 1, paste, collapse = " ")) 
+        grp <- data.frame(Sample = rownames(metadata), Group = apply(metadata[,group_by], 1, paste, collapse = " ")) 
       } else{
-        grp <- data.frame(Sample = rownames(sample), Group = sample[,group_by]) 
+        grp <- data.frame(Sample = rownames(metadata), Group = metadata[,group_by]) 
       }
       abund1$Group <- grp$Group[match(abund1$Sample, grp$Sample)]
       abund2 <- abund1
@@ -124,7 +133,7 @@ amp_core <- function(data,
       layout(showlegend = FALSE)
   } else if (!plotly) {
     if (detailed_output) {
-      return(list(data = temp3, plot = p, abund = abund, tax = tax, sample = sample))
+      return(list(data = temp3, plot = p, abund = abund, tax = tax, metadata = metadata))
     } else if (!detailed_output)
       return(p)
   }

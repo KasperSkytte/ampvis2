@@ -4,7 +4,7 @@
 \alias{amp_alphadiv}
 \title{Alpha-diversity analysis}
 \usage{
-amp_alphadiv(data, measure = c(""), rarefy = 10000)
+amp_alphadiv(data, measure, rarefy)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
@@ -17,13 +17,23 @@ amp_alphadiv(data, measure = c(""), rarefy = 10000)
   \item \code{"invsimpson"}
 }}
 
-\item{rarefy}{Rarefy species richness to this value. (\emph{default:} \code{10000})}
+\item{rarefy}{Rarefy species richness to this value. Passed directly as the \code{sample} argument to \code{\link[vegan]{rrarefy}}. (\emph{default:} \code{NULL})}
 }
 \value{
 A data frame.
 }
 \description{
 Calculates alpha-diversity statistics for each sample and combines with the metadata.
+}
+\details{
+The alpha-diversity indices are calculated per sample using the vegan function \code{\link[vegan]{diversity}}, where species richness is first rarefied using \code{\link[vegan]{rrarefy}} by the size of the \code{rarefy} argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.
+}
+\examples{
+data("AalborgWWTPs")
+AalborgWWTPs
+alphadiversityresult <- amp_alphadiv(AalborgWWTPs, rarefy = 20000)
+View(alphadiversityresult)
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

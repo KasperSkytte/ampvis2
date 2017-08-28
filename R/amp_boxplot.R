@@ -1,6 +1,6 @@
 #' Boxplot
 #'
-#' Generates boxplots of the most abundant taxa of amplicon data
+#' Generates boxplots of the most abundant taxa.
 #'
 #' @usage amp_boxplot(data)
 #'
@@ -23,7 +23,7 @@
 #' @param adjust_zero Keep abundances of 0 in the calculation of medians by adding this value. (\emph{default:} \code{NULL})
 #' @param point_size The size of points. (\emph{default:} \code{1})
 #' @param sort_by Sort the boxplots by \code{"median"}, \code{"mean"} or \code{"total"}. (\emph{default:} \code{"median"})
-#' @param plot_type \code{"Boxplot"} or \code{"points"}. (\emph{default:} \code{"boxplot"})
+#' @param plot_type Plot type. \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"boxplot"})
 #' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
@@ -33,6 +33,14 @@
 #' @import ggplot2
 #' @import data.table
 #' @export
+#' 
+#' @examples 
+#' data("AalborgWWTPs")
+#' AalborgWWTPs
+#' amp_boxplot(AalborgWWTPs, 
+#'             group_by = "Plant",
+#'             tax_show = 10,
+#'             tax_add = "Phylum")
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
@@ -83,7 +91,7 @@ amp_boxplot <- function(data,
   
   # Aggregate to a specific taxonomic level
   abund3 <- cbind.data.frame(Display = tax[,"Display"], abund) %>%
-    gather(key = Sample, value = Abundance, -Display)
+    gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
   
   abund3 <- data.table(abund3)[, Abundance:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%

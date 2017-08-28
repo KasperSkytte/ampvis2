@@ -2,10 +2,10 @@
 title: "Introduction to ampvis2"
 ---
 
-This is a short guide to the basics of ampvis2, how to load data, aswell as a few basic visualisation functions using example data. A full explanation of all functions, their purpose and different arguments can be found in the [Reference](../reference/index.html) tab. First, install ampvis2 as described on the front page.
+This is a short guide to the basics of ampvis2, how to load data, aswell as a few basic visualisation functions using example data. A complete explanation of all functions, their purpose, different arguments and examples can be found in the [Reference](../reference/index.html) tab. First, install ampvis2 as described on the front page.
 
 ## Loading data
-The most notable change with ampvis2 is that phyloseq is no longer used to handle the data, which makes it simpler to understand and work with, and lighter. The data is simply stored as a list containing 3 dataframes (4 if reference sequences are provided) named "metadata", "otutable" and "tax" (short for taxonomy). The data ampvis2 needs is an OTU-table generated with fx [workflow scipts v.4+](https://github.com/MadsAlbertsen/16S-analysis/tree/master/data.generation) and a metadata sheet containing information about the samples. 
+The most notable change with ampvis2 is that phyloseq is no longer used to handle the data, which makes it simpler to understand and work with, and lighter. The data is now simply stored as a list containing 3 dataframes (4 if reference sequences are provided) named `"metadata"`, `"otutable"` and `"tax"` (short for taxonomy). The data ampvis2 needs is an OTU-table generated with fx [workflow scipts v.4+](https://github.com/MadsAlbertsen/16S-analysis/tree/master/data.generation) and a metadata sheet containing information about the samples. 
 
 More precisely, the OTU-table provided is expected to be a raw CSV-table with OTU names/ID's in rows and sample ID's in columns, where numbers in the corresponding cells represent the read counts of the particular OTU in each sample. The last 7 columns of the OTU-table are expected to be the taxonomy of the corresponding OTU's (Kingdom->Species). The metadata needs to have the same sample ID's as in the OTU-table in the first column and then the remaining columns contain information about the samples, for example where the sample was taken, date, pH, temperature etc. First, import your data into R dataframes using an appropriate read function:
 
@@ -35,10 +35,11 @@ mymetadata <- read_excel("data/metadata.xlsx",
                          col_names = TRUE) %>% as.data.frame()
 ```
 
-Note that `read.csv2()` treats semicolon ";" as the default separator and comma "," as decimal, which is the standard in some regions. To change the separator to fx a comma you can adjust with the argument `sep = ","`. Refer to the documentation with `?read.table`.
+Note that `read.csv2()` treats semicolon ";" as the default separator and comma "," as decimal, which is the standard in some regions. To change the separator to fx a comma you can adjust with the argument `sep = ","`. Refer to the documentation of `?read.table`.
 
-After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID's and that the first column in the metadata are the sample ID's.
-Now combine the data using `amp_load()`, which checks the data and combines it into one object, making it easier to manipulate, filter and subset all elements of the data at once for analysis:
+After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID's and that the first column in the metadata are the sample ID's. It is highly recommended to read the documentation of `amp_load()` when loading your own data. 
+
+Now combine the data using `amp_load()`, which checks the data and combines it into one `ampvis2` object, making it easier to manipulate, filter and subset all elements of the data at once for analysis:
 
 ```{r, eval = FALSE}
 library(ampvis2)
@@ -74,7 +75,7 @@ The taxonomic rank is indicated by fx "p__" for phylum and "g__" for genus etc, 
 All ampvis2 plots are generated using the [ggplot2](http://ggplot2.tidyverse.org/) package. You can change the look of the plots to better suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots if needed. Refer to the [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html) for more information. `amp_heatmap()` by default aggregates to phylum level and shows the top 10 phyla, ordered by mean read abundance across all samples:
 
 ```{r}
-amp_heatmap(MiDASsubset, group = "Plant")
+amp_heatmap(MiDASsubset, group_by = "Plant")
 ```
 
 There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with "+" after the actual ampvis2 function):
@@ -104,7 +105,7 @@ The arguments you can provide are similar to those used in `amp_heatmap()` and o
 
 ```{r}
 amp_boxplot(MiDASsubset,
-            group = "Period",
+            group_by = "Period",
             tax_show = 5,
             tax_add = "Phylum")
 ```
