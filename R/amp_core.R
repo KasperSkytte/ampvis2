@@ -32,7 +32,6 @@
 #' 
 #' @examples 
 #' data("AalborgWWTPs")
-#' AalborgWWTPs
 #' amp_core(AalborgWWTPs)
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

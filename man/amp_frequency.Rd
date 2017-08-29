@@ -36,7 +36,6 @@ Generates a barplot with frequency vs read abundance.
 }
 \examples{
 data("AalborgWWTPs")
-AalborgWWTPs
 amp_frequency(AalborgWWTPs)
 
 }

@@ -30,6 +30,11 @@
 #' 
 #' @export
 #' 
+#' @details See \code{\link[GGally]{ggnet2}}
+#' @examples 
+#' data("AalborgWWTPs")
+#' amp_otu_network(AalborgWWTPs)
+#' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_otu_network <- function(data,
@@ -49,6 +54,13 @@ amp_otu_network <- function(data,
   
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
+  
+  #tax_add and tax_aggregate can't be the same
+  if(!is.null(tax_aggregate) & !is.null(tax_add)) {
+    if(tax_aggregate == tax_add) {
+      stop("tax_aggregate and tax_add cannot be the same")
+    }
+  }
   
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
@@ -80,8 +92,7 @@ amp_otu_network <- function(data,
 
     abund3 <- data.table(abund3)[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
-    unique() %>% 
-    as.data.frame()
+    unique()
   
   ## Add group information
     abund5 <- data.frame(abund3, Group = abund3$Sample)

@@ -13,6 +13,9 @@
 #' @import ggplot2
 #' 
 #' @return A ggplot2 object.
+#' @examples 
+#' data("AalborgWWTPs")
+#' amp_rarecurve(AalborgWWTPs)
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 

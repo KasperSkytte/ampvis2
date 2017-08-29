@@ -19,6 +19,18 @@ A list with 3 dataframes (4 if reference sequences are provided).
 \description{
 Subsets the data in ampvis2 objects based on metadata and returns the subsetted object. See examples.
 }
+\examples{
+data("MiDAS")
+MiDAS
+
+MiDASsubset <- amp_subset_samples(MiDAS, Plant \%in\% c("Aalborg West", "Aalborg East"))
+MiDASsubset
+
+MiDASsubset2 <- amp_subset_samples(MiDAS,
+    Plant \%in\% c("Aalborg West", "Aalborg East") & !SampleID \%in\% c("16SAMP-749"), 
+    minreads = 20000)
+MiDASsubset2
+}
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

@@ -9,13 +9,11 @@ amp_timeseries(data, time_variable = "")
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{time_variable}{(required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}.}
-
 \item{group_by}{Group the samples by a variable in the metadata.}
 
 \item{split}{Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE})}
 
-\item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{5})}
+\item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{6})}
 
 \item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
 
@@ -31,12 +29,19 @@ amp_timeseries(data, time_variable = "")
    }}
 
 \item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
+
+\item{...}{Additional arguments passed to \code{\link{as.Date()}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as.Date}.}
 }
 \value{
 A ggplot2 object.
 }
 \description{
 Generates a timeseries plot showing relative read abundances over time.
+}
+\examples{
+data("AalborgWWTPs")
+amp_timeseries(AalborgWWTPs, time_variable = "Date")
+amp_timeseries(AalborgWWTPs, time_variable = "Date", split = TRUE, tax_aggregate = "Genus")
 }
 \author{
 Julie Klessner Thun Pedersen \email{julieklessnerthun@gmail.com}

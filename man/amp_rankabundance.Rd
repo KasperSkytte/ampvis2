@@ -13,7 +13,7 @@ amp_rankabundance(data)
 
 \item{order_group}{A vector to order the groups by.}
 
-\item{plot_log}{(\emph{logical}) Log10-scale the plot. (\emph{default:} \code{FALSE})}
+\item{plot_log}{(\emph{logical}) Log10-scale the x-axis. (\emph{default:} \code{FALSE})}
 
 \item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
@@ -36,7 +36,14 @@ amp_rankabundance(data)
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generates a rank abundance curve (rank abundance vs cumulative read abundance) for each sample.
+Generates a rank abundance curve (rank abundance vs cumulative read abundance).
+}
+\details{
+A rank abundance curve is used to assess the biodiversity by plotting the ranked abundances of the OTUs (rank 1 is the most abundant, rank 2 the second and so on) versus the cumulative read abundance of the particular OTU. The rank abundances of the OTUs can be grouped by any taxonomic level by the \code{tax_aggregate} argument, the default is per OTU. When the samples are grouped by the \code{group_by} argument, the average of the group is used.
+}
+\examples{
+data("AalborgWWTPs")
+amp_rankabundance(AalborgWWTPs) + theme(legend.position = "blank")
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

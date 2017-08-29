@@ -54,7 +54,6 @@ Generates boxplots of the most abundant taxa.
 }
 \examples{
 data("AalborgWWTPs")
-AalborgWWTPs
 amp_boxplot(AalborgWWTPs, 
             group_by = "Plant",
             tax_show = 10,

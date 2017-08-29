@@ -100,10 +100,6 @@
       <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>time_variable</th>
-      <td><p>(required) The name of the column in the metadata containing the time variables, e.g. <code>"Date"</code>.</p></td>
-    </tr>
-    <tr>
       <th>group_by</th>
       <td><p>Group the samples by a variable in the metadata.</p></td>
     </tr>
@@ -113,7 +109,7 @@
     </tr>
     <tr>
       <th>tax_show</th>
-      <td><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>5</code>)</p></td>
+      <td><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>6</code>)</p></td>
     </tr>
     <tr>
       <th>tax_aggregate</th>
@@ -139,6 +135,10 @@
       <th>raw</th>
       <td><p>(<em>logical</em>) Display raw input instead of converting to percentages. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed to <code>as.Date()</code> to make the time_variable compatible with the timeseries plot, fx the <code>format</code> or <code>tz</code> arguments, see <code>?as.Date</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -146,6 +146,9 @@
     <p>A ggplot2 object.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
+<span class='fu'>amp_timeseries</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>time_variable</span> <span class='kw'>=</span> <span class='st'>"Date"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in `:=`(sum, sum(Abundance)): Check that is.data.table(DT) == TRUE. Otherwise, := and `:=`(...) are defined for use in j, once only and in particular ways. See help(":=").</span></div><div class='input'><span class='fu'>amp_timeseries</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>time_variable</span> <span class='kw'>=</span> <span class='st'>"Date"</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in `:=`(sum, sum(Abundance)): Check that is.data.table(DT) == TRUE. Otherwise, := and `:=`(...) are defined for use in j, once only and in particular ways. See help(":=").</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -153,7 +156,9 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     

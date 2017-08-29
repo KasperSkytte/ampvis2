@@ -18,7 +18,9 @@
 #' @import tidyr
 #' @import ggplot2
 #' @import dplyr
-#' 
+#' @examples 
+#' data("AalborgWWTPs")
+#' amp_venn(AalborgWWTPs, group_by = "Plant")
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_venn <- function(data, 
@@ -45,8 +47,8 @@ amp_venn <- function(data,
   
   ## Test for number of groups
   if (length(levels(metadata[,group_by])) > 3){
-    stop(paste("A maximum of 3 groups are supported. The group_by variable contains:",
-               paste(levels(metadata[,group_by]), collapse = ", ")))
+    stop(paste("Only up to 3 different groups in the group_by variable is supported. The chosen group_by variable has", as.character(length(unique(metadata[,group_by]))), "different groups:\n",
+               paste(unique(as.character(metadata[,group_by])), collapse = ", ")))
   }
   
   ## Select grouping variable
@@ -98,8 +100,8 @@ amp_venn <- function(data,
     ## Plot  
     p <- ggplot(data.frame(), aes(x=0, y=0)) +
            annotate("text", x=c(0, 0), y = c(0,-0.5), 
-                    label = c(paste(AD[1,1], "\n(", AD[1,2],")", sep = ""), 
-                            paste("Non-core: ", AD[2,1]," (", AD[2,2],")", sep = "")), 
+                    label = c(paste(AD[1,1], "\n(", AD[1,2],if_else(raw == TRUE, "", "%"),")", sep = ""), 
+                            paste("Non-core: ", AD[2,1]," (", AD[2,2],if_else(raw == TRUE, "", "%"),")", sep = "")), 
                     size = text_size) +
            annotate("text", x=c(0), y = 0.45, label = colnames(a)[2], size = text_size) +
            xlim(-0.65,0.65) +
@@ -153,8 +155,8 @@ amp_venn <- function(data,
     
     p <- ggplot(data.frame(), aes(x=c(-0.2,0.2), y=0)) +
            annotate("text", x=c(-0.4, 0, 0.4, 0), y = c(0,0,0,-0.5), 
-                    label = c(paste(AD[1:3,1], "\n(", AD[1:3,2],")", sep = ""), 
-                              paste("Non-core: ", AD[4,1]," (", AD[4,2],")", sep = "")), 
+                    label = c(paste(AD[1:3,1], "\n(", AD[1:3,2],if_else(raw == TRUE, "", "%"),")", sep = ""), 
+                              paste("Non-core: ", AD[4,1]," (", AD[4,2],if_else(raw == TRUE, "", "%"),")", sep = "")), 
                     size = text_size) +
            annotate("text", x=c(-0.2, 0.2), y = 0.45, label = colnames(a)[2:3], size = text_size) +
            xlim(-0.65,0.65) +
@@ -230,8 +232,8 @@ amp_venn <- function(data,
     
     p <- ggplot(data.frame(), aes(x=c(-0.2,0.2), y=0)) +
       annotate("text", x=c(0, 0, -0.25, 0.25, -0.4, 0.4, 0, 0.5), y = c(0.05, 0.4, -0.05, -0.05, 0.3, 0.3, -0.3, -0.6), 
-               label = c(paste(AD[1:7,1], "\n(", AD[1:7,2],")", sep = ""), 
-                         paste("Non-core:\n", AD[8,1]," (", AD[8,2],")", sep = "")), 
+               label = c(paste(AD[1:7,1], "\n(", AD[1:7,2],if_else(raw == TRUE, "", "%"),")", sep = ""), 
+                         paste("Non-core:\n", AD[8,1]," (", AD[8,2],if_else(raw == TRUE, "", "%"),")", sep = "")), 
                size = text_size) +
       annotate("text", x=c(-0.2, 0.2, 0), y = c(0.65, 0.65, -0.65), label = colnames(a)[2:4], size = text_size) +
       xlim(-0.65,0.65) +

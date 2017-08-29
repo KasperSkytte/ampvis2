@@ -58,6 +58,13 @@ amp_test_species <- function(data,
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
   
+  #tax_add and tax_aggregate can't be the same
+  if(!is.null(tax_aggregate) & !is.null(tax_add)) {
+    if(tax_aggregate == tax_add) {
+      stop("tax_aggregate and tax_add cannot be the same")
+    }
+  }
+  
   if (is.null(group)) {
     stop("Argument 'group' must be provided.")
   }
@@ -85,7 +92,6 @@ amp_test_species <- function(data,
   abund3 <- data.table(abund3)[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
     unique() %>% 
-    as.data.frame() %>%
     select(-Abundance)
   
   ## Convert to DESeq2 format
@@ -105,7 +111,7 @@ amp_test_species <- function(data,
   
   ## Extract the results
   res = results(data_deseq_test, cooksCutoff = FALSE)  
-  res_tax = cbind(as.data.frame(res), Tax = rownames(res))
+  res_tax = data.frame(as.data.frame(res), Tax = rownames(res))
   
   res_tax_sig = subset(res_tax, padj < signif_thrh & fold < abs(log2FoldChange)) %>%
     arrange(padj)

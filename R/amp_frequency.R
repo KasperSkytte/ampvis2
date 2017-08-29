@@ -27,7 +27,6 @@
 #' 
 #' @examples 
 #' data("AalborgWWTPs")
-#' AalborgWWTPs
 #' amp_frequency(AalborgWWTPs)
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

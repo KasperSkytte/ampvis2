@@ -21,11 +21,11 @@
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
 #' @param measure Calculate and display either \code{"mean"}, \code{"max"} or \code{"median"} across the groups. (\emph{default:} \code{"mean"})
 #' @param sort_by Sort the heatmap by a specific value of the \code{"group_by"} argument, e.g. \code{"Treatment A"}.
-#' @param order_x_by A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{hclust()}.
-#' @param order_y_by A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{hclust()}.
+#' @param order_x_by A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
+#' @param order_y_by A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
 #' @param plot_values (\emph{logical}) Plot the values on the heatmap or not. (\emph{default:} \code{TRUE})
 #' @param plot_values_size The size of the plotted values. (\emph{default:} \code{4})
-#' @param plot_breaks A vector of breaks for the abundance legend, fx \code{c(1, 10, 20)}
+#' @param plot_legendbreaks A vector of breaks for the abundance legend, fx \code{c(1, 10, 20)}.
 #' @param plot_colorscale The type of scale used for the coloring of abundances, either \code{"sqrt"} or \code{"log10"}. (\emph{default:} \code{"log10"})
 #' @param plot_na (\emph{logical}) Whether to color missing values with the lowest color in the scale or not. (\emph{default:} \code{TRUE})
 #' @param min_abundance All values below this value are given the same color. (\emph{default:} \code{0.1})
@@ -38,6 +38,20 @@
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 #' 
 #' @export
+#' 
+#' @examples 
+#' data("AalborgWWTPs")
+#' amp_heatmap(AalborgWWTPs, group_by = "Plant")
+#' amp_heatmap(AalborgWWTPs,
+#'            group_by = "Plant", 
+#'            facet_by = "Year",
+#'            plot_values = FALSE,
+#'            tax_show = 20,
+#'            tax_aggregate = "Genus", 
+#'            tax_add = "Phylum",
+#'            color_vector = c("white", "red"), 
+#'            plot_colorscale = "sqrt",
+#'            plot_legendbreaks = c(1, 5, 10))
 #' 
 #' @import dplyr
 #' @import tidyr
@@ -59,7 +73,7 @@ amp_heatmap <- function(data,
                         order_x_by = NULL,
                         order_y_by = NULL,
                         plot_values = TRUE,
-                        plot_breaks = NULL,
+                        plot_legendbreaks = NULL,
                         plot_colorscale = "log10", 
                         plot_na = TRUE, 
                         plot_values_size = 4,
@@ -82,6 +96,13 @@ amp_heatmap <- function(data,
                      tax_class = tax_class,
                      tax_empty = tax_empty, 
                      tax_level = tax_aggregate)
+  
+  #tax_add and tax_aggregate can't be the same
+  if(!is.null(tax_aggregate) & !is.null(tax_add)) {
+    if(tax_aggregate == tax_add) {
+      stop("tax_aggregate and tax_add cannot be the same")
+    }
+  }
   
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
@@ -295,7 +316,7 @@ amp_heatmap <- function(data,
           axis.text.x = element_text(size = 10, color = "black", vjust = 0.5, angle = 90, hjust = 1),
           axis.title = element_blank(),
           text = element_text(size = 8, color = "black"),
-          axis.ticks.length = unit(1, "mm"),
+          #axis.ticks.length = unit(1, "mm"),
           plot.margin = unit(c(1,1,1,1), "mm"),
           title = element_text(size = 8))
   
@@ -312,11 +333,11 @@ amp_heatmap <- function(data,
     p <- p + geom_text(data = abund8, size = plot_values_size, colour = "grey10", check_overlap = TRUE) +
       theme(legend.position = "none")
   }
-  if (is.null(plot_breaks)){
+  if (is.null(plot_legendbreaks)){
     p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, na.value=plot_na, oob = squish, limits = c(min_abundance, max_abundance))
   }
-  if (!is.null(plot_breaks)){
-    p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, breaks=plot_breaks, na.value=plot_na , oob = squish, limits = c(min_abundance, max_abundance))
+  if (!is.null(plot_legendbreaks)){
+    p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, breaks=plot_legendbreaks, na.value=plot_na , oob = squish, limits = c(min_abundance, max_abundance))
   }
   
   

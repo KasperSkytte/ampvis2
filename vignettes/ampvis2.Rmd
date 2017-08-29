@@ -54,6 +54,7 @@ With the ampvis2 package comes a large example data set with 573 samples taken f
 
 ```{r, warning = FALSE}
 data("MiDAS")
+MiDAS
 MiDASsubset <- amp_subset_samples(MiDAS, Plant %in% c("Aalborg West", "Aalborg East"))
 ```
 

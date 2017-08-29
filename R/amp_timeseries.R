@@ -5,12 +5,12 @@
 #' @usage amp_timeseries(data, time_variable = "")
 #' 
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param time_variable (required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}.
+#' @param time_variable (required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link{as.Date()}} and preferably of the form \code{yyyy-mm-dd} or \code{%Y-%m-%d}.
 #' @param group_by Group the samples by a variable in the metadata.
 #' @param split Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE}) 
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})
 #' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})
-#' @param tax_show The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{5})
+#' @param tax_show The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{6})
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
 #' \itemize{
 #'    \item \code{"remove"}: Remove OTUs without taxonomic information.
@@ -19,6 +19,7 @@
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
 #' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
+#' @param ... Additional arguments passed to \code{\link{as.Date()}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as.Date}.
 #' 
 #' @keywords timeseries
 #' @import dplyr
@@ -27,19 +28,23 @@
 #' @return A ggplot2 object.
 #' 
 #' @export 
-#' 
+#' @examples 
+#' data("AalborgWWTPs")
+#' amp_timeseries(AalborgWWTPs, time_variable = "Date")
+#' amp_timeseries(AalborgWWTPs, time_variable = "Date", split = TRUE, tax_aggregate = "Genus")
 #' @author Julie Klessner Thun Pedersen \email{julieklessnerthun@@gmail.com}
 
 amp_timeseries <- function(data,
                            time_variable = NULL, 
                            group_by = "Sample", 
                            split = FALSE, 
-                           tax_show = 5, 
+                           tax_show = 6, 
                            tax_aggregate="OTU", 
                            tax_add=NULL, 
                            tax_class=NULL,
                            tax_empty="best", 
-                           raw = FALSE){
+                           raw = FALSE,
+                           ...){
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
@@ -54,6 +59,13 @@ amp_timeseries <- function(data,
                      tax_class = tax_class, 
                      tax_empty = tax_empty, 
                      tax_level = tax_aggregate)
+  
+  #tax_add and tax_aggregate can't be the same
+  if(!is.null(tax_aggregate) & !is.null(tax_add)) {
+    if(tax_aggregate == tax_add) {
+      stop("tax_aggregate and tax_add cannot be the same")
+    }
+  }
   
   # Divide data to seperate data frames ----------------------------------------------
   
@@ -91,8 +103,7 @@ amp_timeseries <- function(data,
   
   abund3 <- data.table(abund3)[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
-    unique() %>% 
-    as.data.frame()
+    unique()
   
   # Reshaping data  ---------------------------------------------------------
   
@@ -141,7 +152,7 @@ amp_timeseries <- function(data,
   
   abund8 <- merge(abund7, metadata, by.x = "Sample", by.y = colnames(metadata)[1])
   
-  abund8[, time_variable] <- as.Date(abund8[, time_variable])
+  abund8[, time_variable] <- as.Date(abund8[, time_variable], ...)
 
   abund9 <- mutate(abund8, DG = paste(Display, Group))
     
@@ -160,7 +171,7 @@ amp_timeseries <- function(data,
          geom_point()+
          scale_color_discrete(name = "") +
          scale_linetype_discrete() +
-         xlab("Date") +
+         xlab(time_variable) +
          ylab("Read abundance (%)") +
          theme_classic() +
          theme(axis.text.x = element_text(size = 10, vjust = 0.3, angle = 90),

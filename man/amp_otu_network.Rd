@@ -38,6 +38,14 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 \description{
 Generates network plot of taxa and samples based on ggnet2.
 }
+\details{
+See \code{\link[GGally]{ggnet2}}
+}
+\examples{
+data("AalborgWWTPs")
+amp_otu_network(AalborgWWTPs)
+
+}
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

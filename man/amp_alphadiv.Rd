@@ -30,7 +30,6 @@ The alpha-diversity indices are calculated per sample using the vegan function \
 }
 \examples{
 data("AalborgWWTPs")
-AalborgWWTPs
 alphadiversityresult <- amp_alphadiv(AalborgWWTPs, rarefy = 20000)
 #View(alphadiversityresult)
 

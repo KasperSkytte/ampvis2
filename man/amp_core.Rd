@@ -43,7 +43,6 @@ The OTU points can be aggregated by the taxonomy by setting fx \code{tax_aggrega
 }
 \examples{
 data("AalborgWWTPs")
-AalborgWWTPs
 amp_core(AalborgWWTPs)
 
 }

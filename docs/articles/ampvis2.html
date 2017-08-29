@@ -96,7 +96,20 @@ d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_load.
 <a href="#filtering-and-subsetting" class="anchor"></a>Filtering and subsetting</h2>
 <p>With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with <code>data("MiDAS")</code>. The loaded data can be subsetted based on variables in the metadata using the <code><a href="../reference/amp_subset_samples.html">amp_subset_samples()</a></code> function, which can then be stored as a new object and analysed separately:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"MiDAS"</span>)
-MiDASsubset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS, Plant %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>))</code></pre></div>
+MiDAS</code></pre></div>
+<pre><code>## ampvis2 object with 4 elements.
+## Summary:
+##      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads 
+##          573        14791     18398563        13306        46071 
+## Median#Reads    Avg#Reads 
+##        31758     32109.18 
+## 
+## Assigned taxonomy:
+##       Kingdom        Phylum         Class         Order        Family 
+##   14791(100%) 14283(96.57%) 12507(84.56%) 11184(75.61%)  9685(65.48%) 
+##         Genus       Species 
+##  7105(48.04%)     27(0.18%)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MiDASsubset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS, Plant %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>))</code></pre></div>
 <pre><code>## 522 samples and 6569 OTUs have been filtered 
 ## Before: 573 samples and 14791 OTUs
 ## After: 51 samples and 8222 OTUs</code></pre>

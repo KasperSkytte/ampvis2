@@ -1,6 +1,6 @@
 #' Rank abundance plot
 #'
-#' Generates a rank abundance curve (rank abundance vs cumulative read abundance) for each sample. 
+#' Generates a rank abundance curve (rank abundance vs cumulative read abundance).
 #'
 #' @usage amp_rankabundance(data)
 #'
@@ -16,7 +16,7 @@
 #'    \item \code{"OTU"}: Display the OTU name.
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
-#' @param plot_log (\emph{logical}) Log10-scale the plot. (\emph{default:} \code{FALSE})
+#' @param plot_log (\emph{logical}) Log10-scale the x-axis. (\emph{default:} \code{FALSE})
 #' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
@@ -27,6 +27,10 @@
 #' @import data.table
 #' @export
 #' 
+#' @details A rank abundance curve is used to assess the biodiversity by plotting the ranked abundances of the OTUs (rank 1 is the most abundant, rank 2 the second and so on) versus the cumulative read abundance of the particular OTU. The rank abundances of the OTUs can be grouped by any taxonomic level by the \code{tax_aggregate} argument, the default is per OTU. When the samples are grouped by the \code{group_by} argument, the average of the group is used.
+#' @examples 
+#' data("AalborgWWTPs")
+#' amp_rankabundance(AalborgWWTPs) + theme(legend.position = "blank")
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_rankabundance <- function(data,
@@ -46,6 +50,13 @@ amp_rankabundance <- function(data,
   
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
+  
+  #tax_add and tax_aggregate can't be the same
+  if(!is.null(tax_aggregate) & !is.null(tax_add)) {
+    if(tax_aggregate == tax_add) {
+      stop("tax_aggregate and tax_add cannot be the same")
+    }
+  }
   
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
@@ -73,8 +84,7 @@ amp_rankabundance <- function(data,
   
   abund3 <- data.table(abund3)[, Abundance:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
-    unique() %>% 
-    as.data.frame()
+    unique()
   
   ## Add group information
   suppressWarnings(

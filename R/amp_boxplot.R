@@ -36,7 +36,6 @@
 #' 
 #' @examples 
 #' data("AalborgWWTPs")
-#' AalborgWWTPs
 #' amp_boxplot(AalborgWWTPs, 
 #'             group_by = "Plant",
 #'             tax_show = 10,
@@ -69,6 +68,13 @@ amp_boxplot <- function(data,
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
   
+  #tax_add and tax_aggregate can't be the same
+  if(!is.null(tax_aggregate) & !is.null(tax_add)) {
+    if(tax_aggregate == tax_add) {
+      stop("tax_aggregate and tax_add cannot be the same")
+    }
+  }
+  
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
   tax <- data[["tax"]]
@@ -87,7 +93,7 @@ amp_boxplot <- function(data,
     } else {
       tax <- data.frame(tax, Display = tax[,tax_aggregate])
     }
-  )  
+  )
   
   # Aggregate to a specific taxonomic level
   abund3 <- cbind.data.frame(Display = tax[,"Display"], abund) %>%

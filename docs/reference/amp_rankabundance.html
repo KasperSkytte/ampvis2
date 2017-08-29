@@ -87,7 +87,7 @@
     </div>
 
     
-    <p>Generates a rank abundance curve (rank abundance vs cumulative read abundance) for each sample.</p>
+    <p>Generates a rank abundance curve (rank abundance vs cumulative read abundance).</p>
     
 
     <pre class="usage"><span class='fu'>amp_rankabundance</span>(<span class='no'>data</span>)</pre>
@@ -109,7 +109,7 @@
     </tr>
     <tr>
       <th>plot_log</th>
-      <td><p>(<em>logical</em>) Log10-scale the plot. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <td><p>(<em>logical</em>) Log10-scale the x-axis. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>tax_add</th>
@@ -145,7 +145,14 @@
 
     <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>A rank abundance curve is used to assess the biodiversity by plotting the ranked abundances of the OTUs (rank 1 is the most abundant, rank 2 the second and so on) versus the cumulative read abundance of the particular OTU. The rank abundances of the OTUs can be grouped by any taxonomic level by the <code>tax_aggregate</code> argument, the default is per OTU. When the samples are grouped by the <code>group_by</code> argument, the average of the group is used.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
+<span class='fu'>amp_rankabundance</span>(<span class='no'>AalborgWWTPs</span>) + <span class='fu'>theme</span>(<span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>"blank"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in `:=`(Abundance, sum(Abundance)): Check that is.data.table(DT) == TRUE. Otherwise, := and `:=`(...) are defined for use in j, once only and in particular ways. See help(":=").</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -153,7 +160,11 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     

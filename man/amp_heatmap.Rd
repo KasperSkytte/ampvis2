@@ -32,13 +32,13 @@ amp_heatmap(data, group_by = "")
    \item \code{"OTU"}: Display the OTU name.
    }}
 
-\item{order_x_by}{A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{hclust()}.}
+\item{order_x_by}{A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
 
-\item{order_y_by}{A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{hclust()}.}
+\item{order_y_by}{A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
 
 \item{plot_values}{(\emph{logical}) Plot the values on the heatmap or not. (\emph{default:} \code{TRUE})}
 
-\item{plot_breaks}{A vector of breaks for the abundance legend, fx \code{c(1, 10, 20)}}
+\item{plot_legendbreaks}{A vector of breaks for the abundance legend, fx \code{c(1, 10, 20)}.}
 
 \item{plot_colorscale}{The type of scale used for the coloring of abundances, either \code{"sqrt"} or \code{"log10"}. (\emph{default:} \code{"log10"})}
 
@@ -67,6 +67,21 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 }
 \description{
 Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs.
+}
+\examples{
+data("AalborgWWTPs")
+amp_heatmap(AalborgWWTPs, group_by = "Plant")
+amp_heatmap(AalborgWWTPs,
+           group_by = "Plant", 
+           facet_by = "Year",
+           plot_values = FALSE,
+           tax_show = 20,
+           tax_aggregate = "Genus", 
+           tax_add = "Phylum",
+           color_vector = c("white", "red"), 
+           plot_colorscale = "sqrt",
+           plot_legendbreaks = c(1, 5, 10))
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
