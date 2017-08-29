@@ -60,7 +60,7 @@ amp_frequency <- function(data,
   abund1 <- cbind.data.frame(Display = tax[,tax_aggregate], abund) %>%
     gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
   
-  abund1 <- data.table(abund1)[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
+  abund1 <- abund1[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
     unique()
   

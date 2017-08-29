@@ -99,7 +99,7 @@ amp_boxplot <- function(data,
   abund3 <- cbind.data.frame(Display = tax[,"Display"], abund) %>%
     gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
   
-  abund3 <- abund3[, Abundance:=sum(Abundance), by=list(Display, Sample)] %>%
+  abund3 <- abund3[,"Abundance":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
     unique() 
   

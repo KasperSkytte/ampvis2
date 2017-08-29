@@ -101,7 +101,7 @@ amp_timeseries <- function(data,
          value.name = "Abundance", 
          variable.name = "Sample") %>% as.data.table()
   
-  abund3 <- abund3[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
+  abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
     unique()
   

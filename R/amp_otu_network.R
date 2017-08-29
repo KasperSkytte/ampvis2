@@ -90,7 +90,7 @@ amp_otu_network <- function(data,
     gather(key = Sample, value = Abundance, -Display) %>%
     mutate(Display = paste("Taxa; ", Display)) %>% as.data.table()
 
-    abund3 <- abund3[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
+    abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
     unique()
   
