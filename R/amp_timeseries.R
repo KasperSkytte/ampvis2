@@ -5,7 +5,7 @@
 #' @usage amp_timeseries(data, time_variable = "")
 #' 
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param time_variable (required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link{as.Date()}} and preferably of the form \code{yyyy-mm-dd} or \code{%Y-%m-%d}.
+#' @param time_variable (required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link{as.Date()}} and preferably of the form \code{"yyyy-mm-dd"} or \code{"\%Y-\%m-\%d"}.
 #' @param group_by Group the samples by a variable in the metadata.
 #' @param split Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE}) 
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})
@@ -99,9 +99,9 @@ amp_timeseries <- function(data,
   abund3 <- cbind(Display = tax[,"Display"], abund) %>%
     melt(id.var = "Display", 
          value.name = "Abundance", 
-         variable.name = "Sample")
+         variable.name = "Sample") %>% as.data.table()
   
-  abund3 <- data.table(abund3)[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
+  abund3 <- abund3[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
     unique()
   

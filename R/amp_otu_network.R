@@ -88,9 +88,9 @@ amp_otu_network <- function(data,
   # Aggregate to a specific taxonomic level
   abund3 <- cbind.data.frame(Display = tax[,"Display"], abund) %>%
     gather(key = Sample, value = Abundance, -Display) %>%
-    mutate(Display = paste("Taxa; ", Display))
+    mutate(Display = paste("Taxa; ", Display)) %>% as.data.table()
 
-    abund3 <- data.table(abund3)[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
+    abund3 <- abund3[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
     unique()
   
