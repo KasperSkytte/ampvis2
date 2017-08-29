@@ -32,7 +32,7 @@ amp_frequency(data)
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generates a frequency plot
+Generates a barplot with frequency vs read abundance.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

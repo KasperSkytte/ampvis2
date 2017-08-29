@@ -1,6 +1,6 @@
 #' Frequency plot
 #'
-#' Generates a frequency plot
+#' Generates a barplot with frequency vs read abundance.
 #'
 #' @usage amp_frequency(data)
 #'
@@ -46,7 +46,7 @@ amp_frequency <- function(data,
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
   tax <- data[["tax"]]
-  sample <- data[["metadata"]]
+  metadata <- data[["metadata"]]
   
   if (raw == FALSE){
     abund <- as.data.frame(sapply(abund, function(x) x/sum(x)*100))
@@ -65,9 +65,9 @@ amp_frequency <- function(data,
   suppressWarnings(
     if (group_by != "Sample"){
       if (length(group_by) > 1){
-        grp <- data.frame(Sample = rownames(sample), Group = apply(sample[,group_by], 1, paste, collapse = " ")) 
+        grp <- data.frame(Sample = rownames(metadata), Group = apply(metadata[,group_by], 1, paste, collapse = " ")) 
       } else{
-        grp <- data.frame(Sample = rownames(sample), Group = sample[,group_by]) 
+        grp <- data.frame(Sample = rownames(metadata), Group = metadata[,group_by]) 
       }
       abund1$Group <- grp$Group[match(abund1$Sample, grp$Sample)]
       abund2 <- abund1
@@ -116,7 +116,7 @@ amp_frequency <- function(data,
   }
   
     if (detailed_output) {
-      return(list(data = temp3, plot = p, abund = abund, tax = tax, sample = sample))
+      return(list(data = temp3, plot = p, abund = abund, tax = tax, metadata = metadata))
     } else if (!detailed_output)
       return(p)
 }

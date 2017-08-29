@@ -26,7 +26,7 @@
 #' @import data.table
 #' @export
 #' 
-#' @details Plots the number of samples a given OTU is observed in (first axis) against the number of samples it is abundant in (second axis), as defined by the threshold. By setting the \code{group_by} argument to a variable in the metadata, then the axes will instead show their frequency in this group instead of per sample. 
+#' @details Plots the number of samples a given OTU is observed in (first axis) against the number of samples it is abundant in (second axis), as defined by the threshold. By setting the \code{group_by} argument to a variable in the metadata, then the axes will show their frequency in this group instead of per sample. 
 #' 
 #' The OTU points can be aggregated by the taxonomy by setting fx \code{tax_aggregate = "Phylum"}. To see the corresponding taxonomy of the OTUs use \code{plotly = TRUE} for an interactive plot.
 #' 
@@ -84,7 +84,7 @@ amp_core <- function(data,
       abund2 <- abund1
     } else{ abund2 <- data.frame(abund1, Group = abund1$Sample)}
   )
-  
+  abund2 <- abund2 %>% as.data.table()
   ## Take the average to group level
   abund3 <- data.table(abund2)[, Abundance:=mean(sum), by=list(Display, Group)] %>%
     setkey(Display, Group) %>%
