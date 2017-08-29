@@ -19,7 +19,6 @@ Depends:
     RColorBrewer,
     readxl,
     Biostrings,
-    data.table,
     DESeq2,
     sna,
     magrittr,
@@ -29,5 +28,6 @@ Depends:
     network,
     GGally,
     gridExtra,
-    plotly
+    plotly,
+    data.table
 RoxygenNote: 6.0.1
