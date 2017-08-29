@@ -25,6 +25,11 @@
 #' @import data.table
 #' @export
 #' 
+#' @examples 
+#' data("AalborgWWTPs")
+#' AalborgWWTPs
+#' amp_frequency(AalborgWWTPs)
+#' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_frequency <- function(data,
@@ -58,8 +63,7 @@ amp_frequency <- function(data,
   
   abund1 <- data.table(abund1)[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
-    unique() %>%
-    as.data.frame()
+    unique()
   
   ## Add group information
   suppressWarnings(

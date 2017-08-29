@@ -69,8 +69,7 @@ amp_core <- function(data,
   
   abund1 <- data.table(abund1)[, sum:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
-    unique() %>%
-    as.data.frame()
+    unique() 
   
   ## Add group information
   suppressWarnings(
@@ -84,7 +83,7 @@ amp_core <- function(data,
       abund2 <- abund1
     } else{ abund2 <- data.frame(abund1, Group = abund1$Sample)}
   )
-  abund2 <- abund2 %>% as.data.table()
+  
   ## Take the average to group level
   abund3 <- data.table(abund2)[, Abundance:=mean(sum), by=list(Display, Group)] %>%
     setkey(Display, Group) %>%

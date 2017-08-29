@@ -34,6 +34,12 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 \description{
 Generates a barplot with frequency vs read abundance.
 }
+\examples{
+data("AalborgWWTPs")
+AalborgWWTPs
+amp_frequency(AalborgWWTPs)
+
+}
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

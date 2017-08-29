@@ -95,8 +95,7 @@ amp_boxplot <- function(data,
   
   abund3 <- data.table(abund3)[, Abundance:=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
-    unique() %>% 
-    as.data.frame()
+    unique() 
   
   ## Add group information
   suppressWarnings(
