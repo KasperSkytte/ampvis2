@@ -24,7 +24,7 @@
 #' data("AalborgWWTPs")
 #' AalborgWWTPs
 #' alphadiversityresult <- amp_alphadiv(AalborgWWTPs, rarefy = 20000)
-#' View(alphadiversityresult)
+#' #View(alphadiversityresult)
 #' 
 #' @return A data frame.
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
