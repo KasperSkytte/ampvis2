@@ -35,7 +35,10 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 Generates a barplot with frequency vs read abundance.
 }
 \examples{
+#Load example data
 data("AalborgWWTPs")
+
+#Frequency plot
 amp_frequency(AalborgWWTPs)
 
 }

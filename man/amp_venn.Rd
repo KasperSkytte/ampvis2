@@ -28,7 +28,10 @@ A ggplot2 object.
 Calculates the number of "core" OTUs shared by groups given thresholds for how frequent the OTUs should be above a certain abundance. Also returns the average abundance of the OTUs in a particular group.
 }
 \examples{
+#Load example data
 data("AalborgWWTPs")
+
+#Venn diagram grouped by WWTP
 amp_venn(AalborgWWTPs, group_by = "Plant")
 }
 \author{

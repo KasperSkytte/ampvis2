@@ -35,7 +35,10 @@
 #' @export
 #' 
 #' @examples 
+#' #Load example data
 #' data("AalborgWWTPs")
+#' 
+#' #10 boxplots grouped by WWTP with phylum name added
 #' amp_boxplot(AalborgWWTPs, 
 #'             group_by = "Plant",
 #'             tax_show = 10,

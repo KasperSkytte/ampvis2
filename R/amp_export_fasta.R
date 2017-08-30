@@ -1,6 +1,6 @@
 #' Export raw DNA sequences
 #'
-#' Export sequences from an ampvis2 object.
+#' Export sequences from an ampvis2 object with added taxonomy.
 #'
 #' @usage amp_export_fasta(data)
 #'
@@ -10,6 +10,15 @@
 #' 
 #' @import Biostrings
 #' @export
+#' 
+#' @examples 
+#' #Load example data
+#' data("AalborgWWTPs")
+#' 
+#' #Export fasta sequences as "exported_sequences.fa"
+#' \dontrun{
+#' amp_export_fasta(AalborgWWTPs)
+#' }
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 

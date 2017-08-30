@@ -14,7 +14,17 @@ amp_export_fasta(data)
 \item{tax}{(\emph{logical}) Add taxonomic strings to the output or not. (\emph{default:} \code{TRUE})}
 }
 \description{
-Export sequences from an ampvis2 object.
+Export sequences from an ampvis2 object with added taxonomy.
+}
+\examples{
+#Load example data
+data("AalborgWWTPs")
+
+#Export fasta sequences as "exported_sequences.fa"
+\dontrun{
+amp_export_fasta(AalborgWWTPs)
+}
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

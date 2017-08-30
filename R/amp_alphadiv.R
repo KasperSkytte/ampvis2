@@ -21,8 +21,13 @@
 #' @details The alpha-diversity indices are calculated per sample using the vegan function \code{\link[vegan]{diversity}}, where species richness is first rarefied using \code{\link[vegan]{rrarefy}} by the size of the \code{rarefy} argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.
 #' 
 #' @examples 
+#' #Load example data
 #' data("AalborgWWTPs")
+#' 
+#' #Calculate alpha-diversity indices and subsample/rarefy to 20000 reads
 #' alphadiversityresult <- amp_alphadiv(AalborgWWTPs, rarefy = 20000)
+#' 
+#' #Explore the results in the data frame
 #' #View(alphadiversityresult)
 #' 
 #' @return A data frame.

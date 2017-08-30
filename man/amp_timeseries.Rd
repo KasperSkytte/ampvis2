@@ -2,7 +2,7 @@
 % Please edit documentation in R/amp_timeseries.R
 \name{amp_timeseries}
 \alias{amp_timeseries}
-\title{Timeseries}
+\title{Abundance timeseries}
 \usage{
 amp_timeseries(data, time_variable = "")
 }
@@ -41,8 +41,13 @@ A ggplot2 object.
 Generates a timeseries plot showing relative read abundances over time.
 }
 \examples{
+#Load example data
 data("AalborgWWTPs")
+
+#Timeseries of the 6 most abundant OTUs based on the "Date" column
 amp_timeseries(AalborgWWTPs, time_variable = "Date")
+
+#Timeseries of the 6 most abundant Genera and split into 6 individual plots
 amp_timeseries(AalborgWWTPs, time_variable = "Date", split = TRUE, tax_aggregate = "Genus")
 }
 \author{

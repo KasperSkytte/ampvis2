@@ -26,7 +26,10 @@
 #' @export
 #' 
 #' @examples 
+#' #Load example data
 #' data("AalborgWWTPs")
+#' 
+#' #Frequency plot
 #' amp_frequency(AalborgWWTPs)
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

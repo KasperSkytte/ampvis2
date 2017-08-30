@@ -1,6 +1,6 @@
 #' Export OTU-table
 #'
-#' Export otutable from an ampvis2 object.
+#' Export otutable (including taxonomy) from an ampvis2 object.
 #'
 #' @usage amp_export_otutable(data)
 #'
@@ -13,6 +13,14 @@
 #' @export
 #' @import dplyr
 #' 
+#' @examples 
+#' #Load example data
+#' data("AalborgWWTPs")
+#' 
+#' #Export OTU-table
+#' \dontrun{
+#' amp_export_otutable(AalborgWWTPs)
+#' }
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_export_otutable <- function(data,

@@ -42,7 +42,10 @@ Generates a rank abundance curve (rank abundance vs cumulative read abundance).
 A rank abundance curve is used to assess the biodiversity by plotting the ranked abundances of the OTUs (rank 1 is the most abundant, rank 2 the second and so on) versus the cumulative read abundance of the particular OTU. The rank abundances of the OTUs can be grouped by any taxonomic level by the \code{tax_aggregate} argument, the default is per OTU. When the samples are grouped by the \code{group_by} argument, the average of the group is used.
 }
 \examples{
+#Load example data
 data("AalborgWWTPs")
+
+#Rank abundance plot (with no legend)
 amp_rankabundance(AalborgWWTPs) + theme(legend.position = "blank")
 }
 \author{

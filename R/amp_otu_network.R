@@ -32,7 +32,10 @@
 #' 
 #' @details See \code{\link[GGally]{ggnet2}}
 #' @examples 
+#' #Load example data
 #' data("AalborgWWTPs")
+#' 
+#' #OTU network plot
 #' amp_otu_network(AalborgWWTPs)
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

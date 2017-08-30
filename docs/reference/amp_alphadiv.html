@@ -124,9 +124,14 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
+    <pre class="examples"><div class='input'><span class='co'>#Load example data</span>
+<span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
+
+<span class='co'>#Calculate alpha-diversity indices and subsample/rarefy to 20000 reads</span>
 <span class='no'>alphadiversityresult</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_alphadiv</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>rarefy</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The following samples have not been rarefied (less than 20000 reads):</span>
-#&gt; <span class='warning'>16SAMP-703, 16SAMP-739</span></div><div class='input'>#View(alphadiversityresult)
+#&gt; <span class='warning'>16SAMP-703, 16SAMP-739</span></div><div class='input'>
+#Explore the results in the data frame
+#View(alphadiversityresult)
 
 </div></pre>
   </div>

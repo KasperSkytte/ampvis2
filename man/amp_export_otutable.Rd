@@ -18,7 +18,16 @@ amp_export_otutable(data)
 \item{raw}{(\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{FALSE})}
 }
 \description{
-Export otutable from an ampvis2 object.
+Export otutable (including taxonomy) from an ampvis2 object.
+}
+\examples{
+#Load example data
+data("AalborgWWTPs")
+
+#Export OTU-table
+\dontrun{
+amp_export_otutable(AalborgWWTPs)
+}
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

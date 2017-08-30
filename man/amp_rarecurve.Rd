@@ -20,7 +20,10 @@ A ggplot2 object.
 Generates a rarefaction curve (number of reads vs number of observed OTUs) for each sample.
 }
 \examples{
+#Load example data
 data("AalborgWWTPs")
+
+#Rarecurve
 amp_rarecurve(AalborgWWTPs)
 
 }

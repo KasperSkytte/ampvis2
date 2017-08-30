@@ -40,8 +40,14 @@
 #' @export
 #' 
 #' @examples 
+#' #Load example data
 #' data("AalborgWWTPs")
+#' 
+#' #Heatmap grouped by WWTP
 #' amp_heatmap(AalborgWWTPs, group_by = "Plant")
+#' 
+#' #Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year, 
+#' #values not plotted for visibility, phylum name added and colorscale adjusted manually
 #' amp_heatmap(AalborgWWTPs,
 #'            group_by = "Plant", 
 #'            facet_by = "Year",

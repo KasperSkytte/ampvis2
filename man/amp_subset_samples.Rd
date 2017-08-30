@@ -20,17 +20,25 @@ A list with 3 dataframes (4 if reference sequences are provided).
 Subsets the data in ampvis2 objects based on metadata and returns the subsetted object. See examples.
 }
 \examples{
+#Load example data
 data("MiDAS")
+
+#Show a short summary about the data by simply typing the name of the object in the console
 MiDAS
 
+#Keep only samples containing Aalborg West or East in the Plant column
 MiDASsubset <- amp_subset_samples(MiDAS, Plant \%in\% c("Aalborg West", "Aalborg East"))
 
+#Summary
 MiDASsubset
 
+#Keep only samples containing Aalborg West or East in the Plant column 
+#and remove the sample "16SAMP-749". Remove any sample(s) with less than 20000 total reads
 MiDASsubset2 <- amp_subset_samples(MiDAS,
     Plant \%in\% c("Aalborg West", "Aalborg East") & !SampleID \%in\% c("16SAMP-749"), 
     minreads = 20000)
     
+#Summary
 MiDASsubset2
 }
 \author{

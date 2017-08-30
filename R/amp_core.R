@@ -31,7 +31,10 @@
 #' The OTU points can be aggregated by the taxonomy by setting fx \code{tax_aggregate = "Phylum"}. To see the corresponding taxonomy of the OTUs use \code{plotly = TRUE} for an interactive plot.
 #' 
 #' @examples 
+#' #Load example data
 #' data("AalborgWWTPs")
+#' 
+#' #Core plot
 #' amp_core(AalborgWWTPs)
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

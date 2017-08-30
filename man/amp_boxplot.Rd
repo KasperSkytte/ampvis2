@@ -53,7 +53,10 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 Generates boxplots of the most abundant taxa.
 }
 \examples{
+#Load example data
 data("AalborgWWTPs")
+
+#10 boxplots grouped by WWTP with phylum name added
 amp_boxplot(AalborgWWTPs, 
             group_by = "Plant",
             tax_show = 10,

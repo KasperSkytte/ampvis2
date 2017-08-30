@@ -52,20 +52,31 @@ If for example a column is named "Year" and the entries are simply entered as nu
 
 \examples{
 #Be sure to use the correct function to load your .csv files, see ?read.table()
+
 \dontrun{
+#Read the OTU-table as a data frame, top row will be used as column names (header = TRUE) 
+#and first column as rownames. Taxonomy often has blank cells in the Species column, fill = TRUE
+#makes sure it gets treated as such.
 myotutable <- read.delim("data/otutable.txt", 
                         header = TRUE,
                         fill = TRUE,
                         stringsAsFactors = FALSE,
                         check.names = FALSE,
                         row.names = 1) \%>\% as.data.frame() 
+                        
+#Read the metadata, often an excel sheet. If .csv make sure the first column will be kept and NOT 
+#loaded as rownames! The top row should be loaded column names
 mymetadata <- read_excel("data/metadata.xlsx",
                          col_names = TRUE) \%>\% as.data.frame() 
+                         
+#Combine the data with amp_load() to make it compatible with ampvis2 functions.
+#Uncomment the refseq line to load reference sequences (not required).
 d <- amp_load(otutable = myotutable,
               metadata = mymetadata
-              #refseq is optional:
               #, refseq = readDNAStringSet("data/otus.fa", format = "fasta") 
               )
+              
+#Show a short summary about the data by simply typing the name of the object in the console
 d
 }
 }
