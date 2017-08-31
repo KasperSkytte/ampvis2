@@ -72,7 +72,7 @@
 <div id="installing-ampvis2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-ampvis2" class="anchor"></a>Installing ampvis2</h2>
-<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R</a> (and for Windows also <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>) and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Then open RStudio as administrator (!) and run the 2 commands below to install ampvis2 from the console. If you get asked to update old packages, just hit a, and should you get an error about a missing package, just use <code>install.packages("packagename")</code> to install it. If that doesn’t work, try with <code>biocLite("packagename")</code> instead.</p>
+<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R</a> (and for Windows also <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>) and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Then open RStudio as administrator (!) and run the 2 commands below to install ampvis2 from the console. If you get asked to update old packages, just hit a. Install missing packages with <code>biocLite("packagename")</code>, if any.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">"http://bioconductor.org/biocLite.R"</span>)
 <span class="kw">biocLite</span>(<span class="st">"KasperSkytte/ampvis2"</span>)</code></pre></div>
 </div>
