@@ -120,7 +120,7 @@
 
 <span class='co'>#Show a short summary about the data by simply typing the name of the object in the console</span>
 <span class='no'>MiDAS</span></div><div class='output co'>#&gt; ampvis2 object with 4 elements.
-#&gt; Summary:
+#&gt; Summary of OTU table:
 #&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;          573        14791     18398563        13306        46071        31758 
 #&gt;    Avg#Reads 
@@ -130,14 +130,17 @@
 #&gt;       Kingdom        Phylum         Class         Order        Family 
 #&gt;   14791(100%) 14283(96.57%) 12507(84.56%) 11184(75.61%)  9685(65.48%) 
 #&gt;         Genus       Species 
-#&gt;  7105(48.04%)     27(0.18%) </div><div class='input'>
+#&gt;  7105(48.04%)     27(0.18%) 
+#&gt; 
+#&gt; Metadata variables:
+#&gt;  SampleID Plant Year Period Date DeltaDays LIB_ID Latitude Longitude RawData</div><div class='input'>
 <span class='co'>#Keep only samples containing Aalborg West or East in the Plant column</span>
 <span class='no'>MiDASsubset</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='no'>MiDAS</span>, <span class='no'>Plant</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>))</div><div class='output co'>#&gt; 522 samples and 6569 OTUs have been filtered 
 #&gt; Before: 573 samples and 14791 OTUs
 #&gt; After: 51 samples and 8222 OTUs</div><div class='input'>
 <span class='co'>#Summary</span>
 <span class='no'>MiDASsubset</span></div><div class='output co'>#&gt; ampvis2 object with 4 elements.
-#&gt; Summary:
+#&gt; Summary of OTU table:
 #&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;           51         8222      1498273        16751        38496        29230 
 #&gt;    Avg#Reads 
@@ -147,7 +150,10 @@
 #&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
 #&gt;   8222(100%) 8037(97.75%) 7191(87.46%) 6597(80.24%) 5897(71.72%) 4532(55.12%) 
 #&gt;      Species 
-#&gt;    17(0.21%) </div><div class='input'>
+#&gt;    17(0.21%) 
+#&gt; 
+#&gt; Metadata variables:
+#&gt;  SampleID Plant Year Period Date DeltaDays LIB_ID Latitude Longitude RawData</div><div class='input'>
 <span class='co'>#Keep only samples containing Aalborg West or East in the Plant column </span>
 <span class='co'>#and remove the sample "16SAMP-749". Remove any sample(s) with less than 20000 total reads</span>
 <span class='no'>MiDASsubset2</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='no'>MiDAS</span>,
@@ -157,7 +163,7 @@
 #&gt; After: 48 samples and 8189 OTUs</div><div class='input'>
 <span class='co'>#Summary</span>
 <span class='no'>MiDASsubset2</span></div><div class='output co'>#&gt; ampvis2 object with 4 elements.
-#&gt; Summary:
+#&gt; Summary of OTU table:
 #&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;           48         8189      1437013        20994        38496      29538.5 
 #&gt;    Avg#Reads 
@@ -167,7 +173,10 @@
 #&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
 #&gt;   8189(100%) 8005(97.75%) 7163(87.47%) 6573(80.27%) 5875(71.74%) 4516(55.15%) 
 #&gt;      Species 
-#&gt;    17(0.21%) </div></pre>
+#&gt;    17(0.21%) 
+#&gt; 
+#&gt; Metadata variables:
+#&gt;  SampleID Plant Year Period Date DeltaDays LIB_ID Latitude Longitude RawData</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

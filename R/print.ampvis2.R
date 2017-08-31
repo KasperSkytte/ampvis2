@@ -7,7 +7,7 @@
 #' 
 print.ampvis2 <- function(data) {
   ###calculate basic statistics and useful information about the data, print it
-  cat(class(data), "object with", length(data),"elements.\nSummary:\n")
+  cat(class(data), "object with", length(data),"elements.\nSummary of OTU table:\n")
   print.table(c("Samples" = as.character(ncol(data$abund)),
     "OTUs" = as.character(nrow(data$abund)),
     "Total#Reads" = as.character(sum(data$abund)),
@@ -25,4 +25,5 @@ print.ampvis2 <- function(data) {
     "Genus" = paste(sum(nchar(data$tax$Genus) > 3), "(", round(sum(nchar(data$tax$Genus) > 3) / nrow(data$abund) * 100, digits = 2), "%)", sep = ""),
     "Species" = paste(sum(nchar(data$tax$Species) > 3), "(", round(sum(nchar(data$tax$Species) > 3) / nrow(data$abund) * 100, digits = 2), "%)", sep = "")),
     justify = "right")
+  cat("\nMetadata variables:\n", as.character(colnames(data$metadata)))
 }
