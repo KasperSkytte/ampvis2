@@ -64,6 +64,7 @@
 #' @import ggplot2
 #' @import data.table
 #' @import RColorBrewer
+#' @import scales
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
