@@ -78,5 +78,5 @@ amp_function <- function(heatmap,
           legend.key = element_blank()
     )
   
-  return(p)
+  return(list(p,data = nameFuncM))
 }

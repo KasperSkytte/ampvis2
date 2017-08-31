@@ -8,7 +8,6 @@ Authors@R: c(person("Mads", "Albertsen", role = c("aut", "cre"), email = "MadsAl
 License: AGPL-3
 URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
-LazyData: true
 Depends:
     R (>= 3.4.0),
     dplyr,
@@ -28,6 +27,7 @@ Depends:
     scales,
     stringr,
     readxl,
+    tidyselect,
     network,
     GGally,
     gridExtra,

@@ -8,8 +8,8 @@ ampvis2 is an R-package to visualise amplicon data. more more more
 First, install [R](https://mirrors.dotsrc.org/cran/) (and for Windows also [RTools](https://mirrors.dotsrc.org/cran/bin/windows/Rtools/)) and [RStudio](https://www.rstudio.com/products/rstudio/download/#download). Then open RStudio as administrator (!) and run the 2 commands below to install ampvis2 from the console. If you get asked to update old packages, just hit a, and should you get an error about a missing package, just use `install.packages("packagename")` to install it. If that doesn't work, try with `biocLite("packagename")` instead.
 ```{r, message = FALSE, warning = FALSE, eval=FALSE}
 source("http://bioconductor.org/biocLite.R")
-biocLite("kasperskytte/ampvis2")
+biocLite("KasperSkytte/ampvis2")
 ```
 
 ## Shiny ampvis
-An interactive Shiny app with some of the basic functionality of ampvis2 can be found at [https://kasperskytte.shinyapps.io/shinyampvis](https://kasperskytte.shinyapps.io/shinyampvis)
+An interactive Shiny app with some of the basic functionality of ampvis2 can be found at: [https://kasperskytte.shinyapps.io/shinyampvis](https://kasperskytte.shinyapps.io/shinyampvis)
