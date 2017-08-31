@@ -342,10 +342,10 @@ amp_heatmap <- function(data,
       theme(legend.position = "none")
   }
   if (is.null(plot_legendbreaks)){
-    p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, na.value=plot_na, oob = squish, limits = c(min_abundance, max_abundance))
+    p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, na.value=plot_na, oob = scales::squish, limits = c(min_abundance, max_abundance))
   }
   if (!is.null(plot_legendbreaks)){
-    p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, breaks=plot_legendbreaks, na.value=plot_na , oob = squish, limits = c(min_abundance, max_abundance))
+    p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, breaks=plot_legendbreaks, na.value=plot_na , oob = scales::squish, limits = c(min_abundance, max_abundance))
   }
   
   
