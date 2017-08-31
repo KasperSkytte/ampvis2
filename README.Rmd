@@ -1,6 +1,6 @@
 [![Travis-CI Build Status](https://travis-ci.org/kasperskytte/ampvis2.svg?branch=master)](https://travis-ci.org/kasperskytte/ampvis2)
 
-#Tools for visualising amplicon data
+# Tools for visualising amplicon data
 
 ampvis is an R-package to visualise amplicon data. more more more
 

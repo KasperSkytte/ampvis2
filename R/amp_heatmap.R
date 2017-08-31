@@ -63,6 +63,7 @@
 #' @import tidyr
 #' @import ggplot2
 #' @import data.table
+#' @import RColorBrewer
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
