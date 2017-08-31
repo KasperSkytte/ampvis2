@@ -1,6 +1,6 @@
 #' Subset ampvis2 objects based on sample metadata
 #'
-#' Subsets the data in ampvis2 objects based on metadata and returns the subsetted object. See examples.
+#' Subsets the data in ampvis2 objects based on metadata and returns the subsetted object. 
 #'
 #' @usage amp_subset_samples(data, ...)
 #'
@@ -11,6 +11,8 @@
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' @import dplyr
 #' @export
+#' 
+#' @details The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly. 
 #' 
 #' @examples 
 #' #Load example data

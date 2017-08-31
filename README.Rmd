@@ -1,28 +1,15 @@
-[![Travis-CI Build Status](https://travis-ci.org/kasperskytte/ampvis2.svg?branch=master)](https://travis-ci.org/kasperskytte/ampvis2)
+[![Travis-CI Build Status](https://travis-ci.org/KasperSkytte/ampvis2.svg?branch=master)](https://travis-ci.org/KasperSkytte/ampvis2)
 
 # Tools for visualising amplicon data
 
-ampvis is an R-package to visualise amplicon data. more more more
-
+ampvis2 is an R-package to visualise amplicon data. more more more
 
 ## Installing ampvis2
-First, install [R](https://mirrors.dotsrc.org/cran/) (and for Windows also [RTools](https://mirrors.dotsrc.org/cran/bin/windows/Rtools/)) and [RStudio](https://www.rstudio.com/products/rstudio/download/#download). Then open RStudio and install the following required packages from the console. It can be a good idea to run RStudio as administrator, so the packages are available to all users on the computer. To run all commands at once copy them into a new R script and hit CTRL/CMD + SHIFT + ENTER. If you get asked to update old packages, just hit a.
+First, install [R](https://mirrors.dotsrc.org/cran/) (and for Windows also [RTools](https://mirrors.dotsrc.org/cran/bin/windows/Rtools/)) and [RStudio](https://www.rstudio.com/products/rstudio/download/#download). Then open RStudio as administrator (!) and run the 2 commands below to install ampvis2 from the console. If you get asked to update old packages, just hit a, and should you get an error about a missing package, just use `install.packages("packagename")` to install it. If that doesn't work, try with `biocLite("packagename")` instead.
 ```{r, message = FALSE, warning = FALSE, eval=FALSE}
-install.packages("devtools")
 source("http://bioconductor.org/biocLite.R")
-biocLite("Biostrings")
-biocLite("DESeq2")
-biocLite("munsell")
-biocLite("stringi")
-biocLite("chron")
-biocLite("permute")
-biocLite("assertthat")
-biocLite("rmarkdown")
-biocLite("reshape")
+biocLite("kasperskytte/ampvis2")
 ```
 
-Now ampvis2 can be installed from github. If you get an error about a missing package, just use `install.packages("packagename")` to install it. If that doesn't work, try with `biocLite("packagename")` instead.
-```{r, message = FALSE, warning = FALSE, eval = FALSE}
-devtools::install_github("MadsAlbertsen/ampvis2")
-library(ampvis2)
-```
+## Shiny ampvis
+An interactive Shiny app with some of the basic functionality of ampvis2 can be found at [https://kasperskytte.shinyapps.io/shinyampvis](https://kasperskytte.shinyapps.io/shinyampvis)

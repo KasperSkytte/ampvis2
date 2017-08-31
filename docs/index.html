@@ -68,25 +68,18 @@
 <div id="tools-for-visualising-amplicon-data" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#tools-for-visualising-amplicon-data" class="anchor"></a>Tools for visualising amplicon data</h1></div>
-<p>ampvis is an R-package to visualise amplicon data. more more more</p>
+<p>ampvis2 is an R-package to visualise amplicon data. more more more</p>
 <div id="installing-ampvis2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-ampvis2" class="anchor"></a>Installing ampvis2</h2>
-<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R</a> (and for Windows also <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>) and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Then open RStudio and install the following required packages from the console. It can be a good idea to run RStudio as administrator, so the packages are available to all users on the computer. To run all commands at once copy them into a new R script and hit CTRL/CMD + SHIFT + ENTER. If you get asked to update old packages, just hit a.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
-<span class="kw">source</span>(<span class="st">"http://bioconductor.org/biocLite.R"</span>)
-<span class="kw">biocLite</span>(<span class="st">"Biostrings"</span>)
-<span class="kw">biocLite</span>(<span class="st">"DESeq2"</span>)
-<span class="kw">biocLite</span>(<span class="st">"munsell"</span>)
-<span class="kw">biocLite</span>(<span class="st">"stringi"</span>)
-<span class="kw">biocLite</span>(<span class="st">"chron"</span>)
-<span class="kw">biocLite</span>(<span class="st">"permute"</span>)
-<span class="kw">biocLite</span>(<span class="st">"assertthat"</span>)
-<span class="kw">biocLite</span>(<span class="st">"rmarkdown"</span>)
-<span class="kw">biocLite</span>(<span class="st">"reshape"</span>)</code></pre></div>
-<p>Now ampvis2 can be installed from github. If you get an error about a missing package, just use <code>install.packages("packagename")</code> to install it. If that doesn’t work, try with <code>biocLite("packagename")</code> instead.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"MadsAlbertsen/ampvis2"</span>)
-<span class="kw">library</span>(ampvis2)</code></pre></div>
+<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R</a> (and for Windows also <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>) and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Then open RStudio and run the 2 commands below to install ampvis2 from the console. It can be a good idea to run RStudio as administrator, so the installed packages are available for all users on the computer. If you get asked to update old packages, just hit a, and should you get an error about a missing package, just use <code>install.packages("packagename")</code> to install it. If that doesn’t work, try with <code>biocLite("packagename")</code> instead.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">"http://bioconductor.org/biocLite.R"</span>)
+<span class="kw">biocLite</span>(<span class="st">"kasperskytte/ampvis2"</span>)</code></pre></div>
+</div>
+<div id="shiny-ampvis" class="section level2">
+<h2 class="hasAnchor">
+<a href="#shiny-ampvis" class="anchor"></a>Shiny ampvis</h2>
+<p>An interactive Shiny app with some of the basic functionality of ampvis2 can be found at <a href="https://kasperskytte.shinyapps.io/shinyampvis" class="uri">https://kasperskytte.shinyapps.io/shinyampvis</a></p>
 </div>
 </div>
 </div>
@@ -112,7 +105,7 @@
 </ul>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/kasperskytte/ampvis2"><img src="https://travis-ci.org/kasperskytte/ampvis2.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://travis-ci.org/KasperSkytte/ampvis2"><img src="https://travis-ci.org/KasperSkytte/ampvis2.svg?branch=master" alt="Travis-CI Build Status"></a></li>
 </ul>
 </div>
 
