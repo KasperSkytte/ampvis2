@@ -1,9 +1,11 @@
 #Tools for visualising amplicon data
-ampvis is an R-package to visualise amplicon data. more more more
 
 [![Travis-CI Build Status](https://travis-ci.org/kasperskytte/ampvis2.svg?branch=master)](https://travis-ci.org/kasperskytte/ampvis2)
 
-##Installing ampvis2
+ampvis is an R-package to visualise amplicon data. more more more
+
+
+## Installing ampvis2
 First, install [R](https://mirrors.dotsrc.org/cran/) (and for Windows also [RTools](https://mirrors.dotsrc.org/cran/bin/windows/Rtools/)) and [RStudio](https://www.rstudio.com/products/rstudio/download/#download). Then open RStudio and install the following required packages from the console. It can be a good idea to run RStudio as administrator, so the packages are available to all users on the computer. To run all commands at once copy them into a new R script and hit CTRL/CMD + SHIFT + ENTER. If you get asked to update old packages, just hit a.
 ```{r, message = FALSE, warning = FALSE, eval=FALSE}
 install.packages("devtools")
