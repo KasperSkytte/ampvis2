@@ -10,6 +10,8 @@ URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
 Depends:
+    R (>= 3.4.0)
+Imports:
     dplyr,
     ggplot2,
     ggrepel,
@@ -33,4 +35,7 @@ Depends:
     gridExtra,
     plotly,
     data.table
+Suggests: 
+    devtools,
+    BiocInstaller
 RoxygenNote: 6.0.1
