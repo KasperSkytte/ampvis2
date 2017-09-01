@@ -10,7 +10,7 @@ URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
 Depends:
-    R
+    R (>= 3.4.0)
 Imports:
     ggplot2,
     ggrepel,
@@ -28,6 +28,7 @@ Imports:
     scales,
     stringr,
     readxl,
+    tidyverse,
     tidyselect,
     network,
     GGally,
