@@ -73,6 +73,7 @@
 #' @import ggplot2
 #' @import vegan
 #' @import dplyr
+#' @import ggrepel
 #' @import ape
 #' 
 #' @references
