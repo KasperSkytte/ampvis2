@@ -27,7 +27,6 @@
 #' @import GGally
 #' @import network
 #' @import data.table
-#' @import sna
 #' 
 #' @export
 #' 
@@ -91,7 +90,7 @@ amp_otu_network <- function(data,
   
   # Aggregate to a specific taxonomic level
   abund3 <- cbind.data.frame(Display = tax[,"Display"], abund) %>%
-    gather(key = Sample, value = Abundance, -Display) %>%
+    tidyr::gather(key = Sample, value = Abundance, -Display) %>%
     mutate(Display = paste("Taxa; ", Display)) %>% as.data.table()
 
     abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
@@ -124,10 +123,10 @@ amp_otu_network <- function(data,
                        stringsAsFactors = F) %>%
       subset(Abundance > min_abundance) %>% # Subset to dominant species in each sample
       select(-Abundance) %>%
-      network(directed = FALSE)
+      network::network(directed = FALSE)
     
   ## Add data to nodes
-    x = data.frame(SeqID = network.vertex.names(netw), stringsAsFactors = F)
+    x = data.frame(SeqID = network::network.vertex.names(netw), stringsAsFactors = F)
     
     xsamples <- filter(x, !grepl("Taxa", SeqID)) %>%
       merge(metadata, all.x = T, by = "SeqID") 
@@ -138,13 +137,13 @@ amp_otu_network <- function(data,
       xsamples$Description <- as.character(xsamples[, color_by]) 
     }
     
-    set.vertex.attribute(netw,"snames", c(rep("Sample", nrow(xsamples)), rep("Taxa", nrow(x)-nrow(xsamples))))
-    set.vertex.attribute(netw,"stype", c(xsamples$Description, rep("Taxa", nrow(x)-nrow(xsamples))))
-    set.vertex.attribute(netw,"nsize", c(rep(3, nrow(xsamples)), rep(1, nrow(x)-nrow(xsamples))))
+    network::set.vertex.attribute(netw,"snames", c(rep("Sample", nrow(xsamples)), rep("Taxa", nrow(x)-nrow(xsamples))))
+    network::set.vertex.attribute(netw,"stype", c(xsamples$Description, rep("Taxa", nrow(x)-nrow(xsamples))))
+    network::set.vertex.attribute(netw,"nsize", c(rep(3, nrow(xsamples)), rep(1, nrow(x)-nrow(xsamples))))
     
   ## Make network plot
     
-    p <- ggnet2(netw, label = F,  color = "stype", node.alpha = 0.7, edge.color = "grey80", node.size = "nsize") +
+    p <- GGally::ggnet2(netw, label = F,  color = "stype", node.alpha = 0.7, edge.color = "grey80", node.size = "nsize") +
       scale_color_brewer(palette = "Set1", name = "") +
       scale_size_discrete(guide = F, range = c(3,6))
 

@@ -87,7 +87,7 @@ amp_test_species <- function(data,
   
   # Aggregate to a specific taxonomic level
   abund3 <- cbind.data.frame(Display = tax[,"Display"], abund) %>%
-    gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
+    tidyr::gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
   
   abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
@@ -95,22 +95,22 @@ amp_test_species <- function(data,
     select(-Abundance)
   
   ## Convert to DESeq2 format
-  abund4 <- spread(data = abund3, key = Sample, value = sum)
+  abund4 <- tidyr::spread(data = abund3, key = Sample, value = sum)
   rownames(abund4) <- abund4$Display
   abund4 <- abund4[,-1]
   
   groupF <- as.formula(paste("~", group, sep=""))
   
   
-  data_deseq <- DESeqDataSetFromMatrix(countData = abund4,
+  data_deseq <- DESeq2::DESeqDataSetFromMatrix(countData = abund4,
                                        colData = metadata,
                                        design = groupF)
   
   ## Test for significant differential abundance
-  data_deseq_test = DESeq(data_deseq, test=test, fitType=fitType)
+  data_deseq_test = DESeq2::DESeq(data_deseq, test=test, fitType=fitType)
   
   ## Extract the results
-  res = results(data_deseq_test, cooksCutoff = FALSE)  
+  res = DESeq2::results(data_deseq_test, cooksCutoff = FALSE)  
   res_tax = data.frame(as.data.frame(res), Tax = rownames(res))
   
   res_tax_sig = subset(res_tax, padj < signif_thrh & fold < abs(log2FoldChange)) %>%
@@ -153,7 +153,7 @@ amp_test_species <- function(data,
   
   ### Points plot of significant differential abundant entries
   abund5 <- mutate(abund4, Tax = rownames(abund4)) %>%
-    gather(key=Sample, value=Count, -Tax) %>%
+    tidyr::gather(key=Sample, value=Count, -Tax) %>%
     group_by(Sample) %>%
     mutate(Abundance = Count / sum(Count)*100)
   
@@ -214,7 +214,7 @@ amp_test_species <- function(data,
                       Taxonomy = Tax) %>%
     group_by(group, Taxonomy, padj, Log2FC) %>%
     summarise(Avg = round(mean(Abundance), 3)) %>%
-    spread(key = group, value = Avg) %>%
+    tidyr::spread(key = group, value = Avg) %>%
     arrange(padj)
   
   out <- list(DESeq2_results = res, plot_MA = p1, DESeq2_results_significant = res_tax_sig, plot_sig = p2 , sig_res_plot_data = point_df, Clean_results = cr)

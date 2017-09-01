@@ -68,7 +68,7 @@ amp_venn <- function(data,
   abund1 <- cbind.data.frame(abund, OTU)
   
   ## Melt the dataframe for subsequent processing
-  abund2 <- gather(data = abund1, key = SeqID, value = Abundance, -OTU)
+  abund2 <- tidyr::gather(data = abund1, key = SeqID, value = Abundance, -OTU)
   
   ## Merge metadata information with the abundance data
   abund3 <- merge(abund2, metadata, by = "SeqID")
@@ -84,7 +84,7 @@ amp_venn <- function(data,
               Core = ifelse(sum(Freq)/n()*100 >= cut_f, 1, 0))
   
   ## Convert back into matrix format
-  a <- spread(abund5[,c("OTU","GRP", "Core")], key = GRP, value = Core)
+  a <- tidyr::spread(abund5[,c("OTU","GRP", "Core")], key = GRP, value = Core)
   
   ################### PLOT #############################
   

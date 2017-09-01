@@ -23,7 +23,6 @@ Imports:
     readxl,
     Biostrings,
     DESeq2,
-    sna,
     magrittr,
     scales,
     stringr,

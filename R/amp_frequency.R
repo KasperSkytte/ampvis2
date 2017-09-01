@@ -61,7 +61,7 @@ amp_frequency <- function(data,
   
   # Aggregate to a specific taxonomic level
   abund1 <- cbind.data.frame(Display = tax[,tax_aggregate], abund) %>%
-    gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
+    tidyr::gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
   
   abund1 <- abund1[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%

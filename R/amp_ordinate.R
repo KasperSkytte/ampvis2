@@ -136,7 +136,7 @@ amp_ordinate<- function(data,
                         species_rescale = FALSE, 
                         species_size = 2,
                         species_shape = 20, 
-                        species_plotly = F,
+                        species_plotly = FALSE,
                         envfit_factor = NULL,
                         envfit_numeric = NULL,
                         envfit_signif_level = 0.001, 
@@ -195,7 +195,7 @@ amp_ordinate<- function(data,
     if(transform == "sqrt") {
       data$abund <- t(sqrt(t(data$abund)))
     } else {
-      data$abund <- t(decostand(t(data$abund), method = transform))
+      data$abund <- t(vegan::decostand(t(data$abund), method = transform))
     }
   } 
   
@@ -205,6 +205,7 @@ amp_ordinate<- function(data,
   } else if(distmeasure == "jsd") {
     #This is based on http://enterotype.embl.de/enterotypes.html
     #Abundances of 0 will be set to the pseudocount value to avoid 0-value denominators
+    #Unfortunately this code is SLOOOOOOOOW
     dist.JSD <- function(inMatrix, pseudocount=0.000001) {
       KLD <- function(x,y) sum(x *log(x/y))
       JSD <- function(x,y) sqrt(0.5 * KLD(x, (x+y)/2) + 0.5 * KLD(y, (x+y)/2))
@@ -228,14 +229,14 @@ amp_ordinate<- function(data,
     }
     inputmatrix <- dist.JSD(data$abund)
   } else if(any(distmeasure == c("manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower", "altGower", "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis"))) {
-    inputmatrix <- vegdist(t(data$abund), method = distmeasure)
+    inputmatrix <- vegan::vegdist(t(data$abund), method = distmeasure)
   }
   #################################### end of block ####################################
   
   #Generate data depending on the chosen ordination type
   if(type == "pca") {
     #make the model
-    model <- rda(inputmatrix, ...)
+    model <- vegan::rda(inputmatrix, ...)
     
     #axis (and data column) names
     x_axis_name <- paste0("PC", x_axis)
@@ -245,8 +246,8 @@ amp_ordinate<- function(data,
     totalvar <- round(model$CA$eig/model$tot.chi * 100, 1)
     
     #Calculate species- and site scores
-    sitescores <- scores(model, display = "sites", choices = c(x_axis, y_axis))
-    speciesscores <- scores(model, display = "species", choices = c(x_axis, y_axis))
+    sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
+    speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
     
   } else if(type == "rda") {
     if(is.null(constrain)) 
@@ -276,11 +277,11 @@ amp_ordinate<- function(data,
     }
     
     #Calculate species- and site scores
-    sitescores <- scores(model, display = "sites", choices = c(x_axis, y_axis))
-    speciesscores <- scores(model, display = "species", choices = c(x_axis, y_axis))
+    sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
+    speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if(type == "nmds") {
     #make the model
-    model <- metaMDS(inputmatrix, trace = FALSE, ...)
+    model <- vegan::metaMDS(inputmatrix, trace = FALSE, ...)
     
     #axis (and data column) names
     x_axis_name <- paste0("NMDS", x_axis)
@@ -288,15 +289,15 @@ amp_ordinate<- function(data,
     
     #Calculate species- and site scores
     #Speciesscores may not be available with MDS
-    sitescores <- scores(model, display = "sites")
+    sitescores <- vegan::scores(model, display = "sites")
     if(!length(model$species) > 1) {
       speciesscores <- warning("Speciesscores are not available with nMDS or mMDS/PCoA.\n")
     } else {
-      speciesscores <- scores(model, display = "species", choices = c(x_axis, y_axis))
+      speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
     }
   } else if(type == "mmds" | type == "pcoa") {
     #make the model
-    model <- pcoa(inputmatrix, ...)
+    model <- ape::pcoa(inputmatrix, ...)
     
     #axis (and data column) names
     x_axis_name <- paste0("PCo", x_axis)
@@ -313,7 +314,7 @@ amp_ordinate<- function(data,
     speciesscores <- warning("Speciesscores are not available with nMDS or mMDS/PCoA.\n")
   } else if(type == "ca") {
     #make the model
-    model <- cca(inputmatrix, ...)
+    model <- vegan::cca(inputmatrix, ...)
     
     #axis (and data column) names
     x_axis_name <- paste0("CA", x_axis)
@@ -323,8 +324,8 @@ amp_ordinate<- function(data,
     totalvar <- round(model$CA$eig/model$tot.chi * 100, 1)
     
     #Calculate species- and site scores
-    sitescores <- scores(model, display = "sites", choices = c(x_axis, y_axis))
-    speciesscores <- scores(model, display = "species", choices = c(x_axis, y_axis))
+    sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
+    speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if(type == "cca") {
     if(is.null(constrain)) 
       stop("Argument constrain must be provided when performing constrained/canonical analysis.\n")
@@ -353,11 +354,11 @@ amp_ordinate<- function(data,
     }
     
     #Calculate species- and site scores
-    sitescores <- scores(model, display = "sites", choices = c(x_axis, y_axis))
-    speciesscores <- scores(model, display = "species", choices = c(x_axis, y_axis))
+    sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
+    speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if(type == "dca") {
     #make the model
-    model <- decorana(inputmatrix, ...)
+    model <- vegan::decorana(inputmatrix, ...)
     
     #axis (and data column) names
     x_axis_name <- paste0("DCA", x_axis)
@@ -367,8 +368,8 @@ amp_ordinate<- function(data,
     #totalvar <- round(model$CA$eig/model$CA$tot.chi * 100, 1)
     
     #Calculate species- and site scores
-    sitescores <- scores(model, display = "sites", choices = c(x_axis, y_axis))
-    speciesscores <- scores(model, display = "species", choices = c(x_axis, y_axis))
+    sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
+    speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   }
   #################################### end of block ####################################
   
@@ -423,8 +424,8 @@ amp_ordinate<- function(data,
       data_plotly <- paste0(sample_plotly,": ",data$metadata[,sample_plotly])
     }
     plot <- plot +
-      geom_point(size = 2, alpha = opacity,
-                 aes(text = data_plotly)) + #HER
+      suppressWarnings(geom_point(size = 2, alpha = opacity,
+                 aes(text = data_plotly))) + #HER
       theme_minimal() +
       theme(axis.line = element_line(colour = "black", size = 0.5))
   } else{
@@ -495,7 +496,7 @@ amp_ordinate<- function(data,
                      by.x = sample_colorframe_label, 
                      by.y = "group")
       temp3 <- temp2[!duplicated(temp2[, sample_colorframe_label]), ]
-      if (repel_labels == T){plot <- plot +geom_text_repel(data = temp3, aes_string(x = "cx", y = "cy", label = sample_colorframe_label), size = 3,color = "black",fontface = 2)}
+      if (repel_labels == T){plot <- plot + ggrepel::geom_text_repel(data = temp3, aes_string(x = "cx", y = "cy", label = sample_colorframe_label), size = 3,color = "black",fontface = 2)}
       else{plot <- plot +geom_text(data = temp3, aes_string(x = "cx", y = "cy", label = sample_colorframe_label), size = 3,color = "black",fontface = 2)}
   }
   
@@ -508,13 +509,13 @@ amp_ordinate<- function(data,
   #Sample point labels
   if(!is.null(sample_label_by)) {
     
-    if (repel_labels == T){plot <- plot + geom_text_repel(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
+    if (repel_labels == T){plot <- plot + ggrepel::geom_text_repel(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
     else{plot <- plot + geom_text(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
   }
   
   #Plot species labels
   if (species_nlabels > 0) {
-    if (repel_labels == T){plot <- plot +geom_text_repel(data = dspecies[1:species_nlabels,], aes_string(x = x_axis_name, y = y_axis_name, label = species_label_taxonomy),colour = species_label_color, size = species_label_size,fontface = 4,inherit.aes = FALSE)}
+    if (repel_labels == T){plot <- plot + ggrepel::geom_text_repel(data = dspecies[1:species_nlabels,], aes_string(x = x_axis_name, y = y_axis_name, label = species_label_taxonomy),colour = species_label_color, size = species_label_size,fontface = 4,inherit.aes = FALSE)}
     else{plot <- plot +geom_text(data = dspecies[1:species_nlabels,], aes_string(x = x_axis_name, y = y_axis_name, label = species_label_taxonomy),colour = species_label_color, size = species_label_size,fontface = 4,inherit.aes = FALSE)}
   }
   
@@ -532,7 +533,7 @@ amp_ordinate<- function(data,
                                   pval = evf_factor_model$factors$pvals
     ) %>% subset(pval <= envfit_signif_level)
     if (nrow(evf_factor_data) > 0 & envfit_show == TRUE) {
-      if (repel_labels == T){plot <- plot + geom_text_repel(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_color, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
+      if (repel_labels == T){plot <- plot + ggrepel::geom_text_repel(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_color, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
       else{plot <- plot + geom_text(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_color, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
     }
     if (nrow(evf_factor_data) == 0) {
@@ -587,11 +588,11 @@ amp_ordinate<- function(data,
   
   #return plot or additional details
   if(!is.null(sample_plotly)){
-    ggplotly(plot, tooltip = "text") %>% 
+    plotly::ggplotly(plot, tooltip = "text") %>% 
       layout(showlegend = FALSE)
   } 
   else if(species_plotly == T){
-    ggplotly(plot, tooltip = "text") %>% 
+    plotly::ggplotly(plot, tooltip = "text") %>% 
       layout(showlegend = FALSE)
     }
   else if(!detailed_output){

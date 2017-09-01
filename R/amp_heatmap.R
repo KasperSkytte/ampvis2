@@ -141,7 +141,7 @@ amp_heatmap <- function(data,
   
   # Aggregate to a specific taxonomic level
   abund3 <- cbind.data.frame(Display = tax[,"Display"], abund) %>%
-    gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
+    tidyr::gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
   
   abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
@@ -240,9 +240,9 @@ amp_heatmap <- function(data,
   ## Normalise to a specific group (The Abundance of the group is set as 1)  
   if(!is.null(normalise_by)){
     #temp <- dcast(abunds7, Display~Group, value.var = "Abundance") # Is this working?
-    temp <- spread(abund7, key = Group, value = Abundance) 
+    temp <- tidyr::spread(abund7, key = Group, value = Abundance) 
     temp1 <- cbind.data.frame(Display = temp$Display, temp[,-1]/temp[,normalise_by])   
-    abund7 <- gather(temp1, key = Group, value = Abundance, -Display)
+    abund7 <- tidyr::gather(temp1, key = Group, value = Abundance, -Display)
   } 
   
   ## Order.y
@@ -267,7 +267,7 @@ amp_heatmap <- function(data,
                       Abundance = ifelse(Abundance < min_abundance, min_abundance, Abundance),
                       Abundance = ifelse(Abundance > max_abundance, max_abundance, Abundance))
       tdata <- dcast(tdata, Display~Group, value.var = "Abundance") #is this working?
-      #tdata <- spread(tdata, key = Group, value = Abundance) 
+      #tdata <- tidyr::spread(tdata, key = Group, value = Abundance) 
       rownames(tdata) <- tdata$Display
       tdata2 <- tdata[,-1]
       tclust <- hclust(dist(tdata2))
@@ -294,7 +294,7 @@ amp_heatmap <- function(data,
                       Abundance = ifelse(Abundance < min_abundance, min_abundance, Abundance),
                       Abundance = ifelse(Abundance > max_abundance, max_abundance, Abundance))
       tdata <- dcast(tdata, Display~Group, value.var = "Abundance") #is this working?
-      #tdata <- spread(tdata, key = Group, value = Abundance) 
+      #tdata <- tidyr::spread(tdata, key = Group, value = Abundance) 
       rownames(tdata) <- tdata$Display
       tdata2 <- tdata[,-1]
       tclust <- hclust(dist(t(tdata2)))
