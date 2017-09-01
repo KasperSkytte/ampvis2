@@ -1,22 +1,26 @@
-#' Used for cleaning and renaming taxonomy
+#' Tidy up taxonomy
 #'
 #' Used internally in other ampvis functions.
 #'
 #' @usage amp_rename(data)
 #'
-#' @param data (required) A ampvis formated list with all data.
-#' @param tax.class Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").
-#' @param tax.empty Either "remove" OTUs without taxonomic information at X level, with "best" classification or add the "OTU" name (default: best).
-#' @param tax.level The taxonomic level to remove OTUs with empty taxonomy, only used when tax.empty = "remove" (default: Genus).
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
+#' @param tax_empty How to show OTUs without taxonomic information. One of the following:
+#' \itemize{
+#'    \item \code{"remove"}: Remove OTUs without taxonomic information.
+#'    \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+#'    \item \code{"OTU"}: Display the OTU name.
+#'    }
+#' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
+#' @param tax_level The taxonomic level to remove OTUs with no assigned taxonomy, only used when \code{tax_empty = "remove"}. (\emph{default:} \code{"Genus"})
 #' 
-#' @return A phyloseq object with cleaned and renamed taxonomy.
+#' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' 
-#' @export
 #' @import dplyr
-#' 
+#' @export
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_rename <- function(data, tax.class = NULL, tax.empty = "best", tax.level = "Genus"){
+amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "Genus"){
   
   tax = data[["tax"]]
   
@@ -26,9 +30,9 @@ amp_rename <- function(data, tax.class = NULL, tax.empty = "best", tax.level = "
   }
   
   ## Change a specific phylum to class level
-  if(!is.null(tax.class)){
+  if(!is.null(tax_class)){
     for (i in 1:nrow(tax)){
-      if (!is.na(tax$Phylum[i]) & tax$Phylum[i] %in% tax.class){
+      if (!is.na(tax$Phylum[i]) & tax$Phylum[i] %in% tax_class){
         tax$Phylum[i] <- tax$Class[i]   
       }
     }
@@ -60,7 +64,7 @@ amp_rename <- function(data, tax.class = NULL, tax.empty = "best", tax.level = "
   tax[is.na(tax)] <- ""
   
   ## How to handle empty taxonomic assignments
-  if (tax.empty == "OTU"){
+  if (tax_empty == "OTU"){
     for (i in 1:nrow(tax)) {
       if (tax[i,"Species"] == "") {tax[i,"Species"] <- rownames(tax)[i]}
       if (tax[i,"Genus"] == "") {tax[i,"Genus"] <- rownames(tax)[i]}
@@ -72,7 +76,7 @@ amp_rename <- function(data, tax.class = NULL, tax.empty = "best", tax.level = "
   }
   
   ## Handle empty taxonomic strings
-  if(tax.empty == "best"){
+  if(tax_empty == "best"){
     tax <- mutate(tax, Kingdom, Kingdom = ifelse(Kingdom == "", "Unclassified", Kingdom)) %>%
       mutate(Phylum, Phylum = ifelse(Phylum == "", paste("k__", Kingdom, "_", rownames(tax), sep = ""), Phylum)) %>%
       mutate(Class, Class = ifelse(Class == "", ifelse(grepl("__", Phylum), Phylum, paste("c__", Phylum, "_", rownames(tax), sep = "")), Class)) %>%
@@ -82,9 +86,9 @@ amp_rename <- function(data, tax.class = NULL, tax.empty = "best", tax.level = "
       mutate(Species, Species = ifelse(Species == "", ifelse(grepl("__", Genus), Genus, paste("g__", Genus, "_", rownames(tax), sep = "")), Species))
   }
   
-  if(tax.empty == "remove"){
+  if(tax_empty == "remove"){
     abund <- data[["abund"]]
-    tax <- subset(tax, tax[,tax.level] != "")
+    tax <- subset(tax, tax[,tax_level] != "")
     abund <- subset(abund, rownames(abund) %in% rownames(tax))
     data[["abund"]] <- abund
   }

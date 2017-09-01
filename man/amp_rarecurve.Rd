@@ -2,19 +2,30 @@
 % Please edit documentation in R/amp_rarecurve.R
 \name{amp_rarecurve}
 \alias{amp_rarecurve}
-\title{Calculate rarefaction curve for each sample.}
+\title{Rarefaction curve}
 \usage{
 amp_rarecurve(data)
 }
 \arguments{
-\item{data}{(required) A ampvis object.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{step}{Step size for sample sizes in rarefaction curves (default: 1000).}
+\item{stepsize}{Step size for the curves. Lower is prettier but takes more time to generate. (\emph{default:} \code{1000})}
 
-\item{color}{A metadata variable to color by.}
+\item{color_by}{Color curves by a variable in the metadata.}
+}
+\value{
+A ggplot2 object.
 }
 \description{
-Calculate rarefaction curve for each sample using the vegan rarecurve function directly from an ampvis object.
+Generates a rarefaction curve (number of reads vs number of observed OTUs) for each sample.
+}
+\examples{
+#Load example data
+data("AalborgWWTPs")
+
+#Rarecurve
+amp_rarecurve(AalborgWWTPs)
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

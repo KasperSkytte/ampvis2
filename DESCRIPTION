@@ -1,31 +1,42 @@
 Package: ampvis2
 Type: Package
 Title: Tools for visualising amplicon data
-Description: ampvis is a small set of tools that allows effortless
-    visualisation of amplicon data
+Description: ampvis is a small set of tools that allows effortless visualisation of amplicon data
 Version: 2.0.1
 Date: 2017-05-02
-Author: Mads Albertsen
-Maintainer: Mads Albertsen <MadsAlbertsen85@gmail.com>
+Authors@R: c(person("Mads", "Albertsen", role = c("aut", "cre"), email = "MadsAlbertsen85@gmail.com"), person("Kasper", "Andersen", "Skytte", role = c("ctb"), email = "ksa@bio.aau.dk"))
 License: AGPL-3
 URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
+LazyData: true
 Depends:
-    tidyverse,
+    R (>= 3.4.0)
+Imports:
+    dplyr,
+    ggplot2,
     ggrepel,
     vegan,
     ape,
     knitr,
-    RColorBrewer,
+    curl,
+    haven,
+    tidyr,
+    readxl,
     Biostrings,
-    data.table,
     DESeq2,
+    sna,
     magrittr,
     scales,
     stringr,
     readxl,
+    tidyselect,
     network,
     GGally,
     gridExtra,
-    plotly
+    plotly,
+    data.table,
+    RColorBrewer
+Suggests: 
+    devtools,
+    BiocInstaller
 RoxygenNote: 6.0.1

@@ -1,12 +1,13 @@
-#' Make raw MiDAS function data into ampvis format
+#' Functional information tool
 #'
-#' Make raw MiDAS function data into ampvis format
+#' Makes raw MiDAS function data compatible with ampvis format. Internal function, not exported.
 #'
 #' @usage amp_cleanMiF(data)
 #'
 #' @param data (required) A data frame with MiDAS functions.
+#' @import dplyr
+#' @return A data frame.
 #' 
-#' @export
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_cleanMiF <- function(data){

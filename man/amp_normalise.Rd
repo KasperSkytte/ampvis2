@@ -2,18 +2,18 @@
 % Please edit documentation in R/amp_normalise.R
 \name{amp_normalise}
 \alias{amp_normalise}
-\title{Normalise data.}
+\title{Normalise data}
 \usage{
 amp_normalise(data)
 }
 \arguments{
-\item{data}{(required) A object.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 }
 \value{
-A list object.
+A list with 3 dataframes (4 if reference sequences are provided).
 }
 \description{
-Normalise data.
+Normalises the read abundances to the total OTU counts (calculate percentages).
 }
 \author{
 Rasmus Kirkegaard

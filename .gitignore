@@ -213,3 +213,10 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+.Rproj.user
+.Rhistory
+
+.RData
+
+ampvis2.Rproj
+

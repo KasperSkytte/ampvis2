@@ -2,52 +2,66 @@
 % Please edit documentation in R/amp_boxplot.R
 \name{amp_boxplot}
 \alias{amp_boxplot}
-\title{Generates a ggplot2 style boxplot of the most abundant taxa}
+\title{Boxplot}
 \usage{
 amp_boxplot(data)
 }
 \arguments{
-\item{data}{(required) A ampvis object.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group}{Group the data based on a sample variable.}
+\item{group_by}{Group the samples by a variable in the metadata.}
 
-\item{order.group}{A vector defining the order of groups.}
+\item{sort_by}{Sort the boxplots by \code{"median"}, \code{"mean"} or \code{"total"}. (\emph{default:} \code{"median"})}
 
-\item{tax.show}{The number of taxa to show or a vector of taxa names (default: 50).}
+\item{plot_type}{Plot type. \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"boxplot"})}
 
-\item{tax.clean}{Replace the phylum Proteobacteria with the respective Classes instead (default: T).}
+\item{point_size}{The size of points. (\emph{default:} \code{1})}
 
-\item{plot.log}{Log10 scale the data (default: F)}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Genus"})}
 
-\item{output}{Either "plot" or "complete" (default: "plot").}
+\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
-\item{tax.add}{Additional taxonomic levels to display for each entry (default: "Phylum")}
+\item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{20})}
 
-\item{tax.aggregate}{The taxonomic level that the data should be aggregated to (defualt: "Genus")}
+\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
+\itemize{
+   \item \code{"remove"}: Remove OTUs without taxonomic information.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"OTU"}: Display the OTU name.
+   }}
 
-\item{tax.empty}{Either "remove" OTUs without taxonomic information, "rename" with best classification or add the "OTU" name (default: rename).}
+\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
-\item{tax.class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
+\item{order_group}{A vector to order the groups by.}
 
-\item{point.size}{Size of points (default: 1).}
+\item{order_y}{A vector to order the y-axis by.}
 
-\item{plot.flip}{Flip the axis of the plot (default: F).}
+\item{plot_flip}{(\emph{logical}) Flip the axes of the plot axis. (\emph{default:} \code{FALSE})}
 
-\item{sort.by}{Sort the boxplot by either "median", "mean" or "total" (default = "median").}
+\item{plot_log}{(\emph{logical}) Log10-scale the plot. (\emph{default:} \code{FALSE})}
 
-\item{adjust.zero}{Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.}
+\item{adjust_zero}{Keep abundances of 0 in the calculation of medians by adding this value. (\emph{default:} \code{NULL})}
 
-\item{order.y}{A vector to order the y-axis by.}
+\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
-\item{raw}{Display raw input instead of converting to percentages (default: F).}
-
-\item{plot.type}{Show data using boxplot or points (default: boxplot).}
+\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
 \value{
-A ggplot2 object
+A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generates a ggplot2 style boxplot of the most abundant taxa
+Generates boxplots of the most abundant taxa.
+}
+\examples{
+#Load example data
+data("AalborgWWTPs")
+
+#10 boxplots grouped by WWTP with phylum name added
+amp_boxplot(AalborgWWTPs, 
+            group_by = "Plant",
+            tax_show = 10,
+            tax_add = "Phylum")
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
