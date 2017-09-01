@@ -34,7 +34,6 @@ reference:
     desc: Example data sets. 
     contents: 
     - MiDAS
-    - AalborgWWTPs
 navbar:
   title: "ampvis2"
   right:
