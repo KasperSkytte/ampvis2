@@ -13,7 +13,6 @@ Depends:
     R (>= 3.4.0)
 Imports:
     tidyverse,
-    tidyselect,
     ggplot2,
     ggrepel,
     vegan,
