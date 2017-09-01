@@ -44,7 +44,7 @@ amp_alphadiv <- function (data, measure = NULL, rarefy = NULL) {
   metadata <- data[["metadata"]]
   
   if(!is.null(rarefy)){
-    abund <- suppressWarnings(rrarefy(t(abund), sample = rarefy)) %>% t() %>% as.data.frame()
+    abund <- suppressWarnings(vegan::rrarefy(t(abund), sample = rarefy)) %>% t() %>% as.data.frame()
     if(rarefy > max(colSums(data$abund)) | rarefy < min(colSums(data$abund))) {
       warning("The chosen rarefy size is not within the min/max range of the data:\nMin#reads: ", as.character(min(colSums(data$abund))), "\nMax#reads: ", as.character(max(colSums(data$abund))))
     }

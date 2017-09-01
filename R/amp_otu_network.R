@@ -25,6 +25,7 @@
 #' @import ggplot2
 #' @import tidyr
 #' @import GGally
+#' @import network
 #' @import data.table
 #' @import sna
 #' 
