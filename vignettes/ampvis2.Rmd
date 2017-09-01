@@ -143,3 +143,6 @@ ordinationresult$plot
 ```
 
 Notice that the plot can be saved as a more detailed object (`detailed_output = TRUE`), so additional details about the ordination result can be obtained for evaluation, fx a screeplot by `ordinationresult$screeplot` or some more raw data by `ordinationresult$model`. 
+
+# Other functions
+There are numerous other functions you can try out. Go explore them under the [References](../reference/index.html) tab. 
