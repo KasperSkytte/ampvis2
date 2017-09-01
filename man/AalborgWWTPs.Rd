@@ -15,4 +15,4 @@ A smaller subset of \code{\link{MiDAS}} with 50 samples from 2 Danish Wastewater
 data(AalborgWWTPs)
 AalborgWWTPs
 }
-\keyword{datasets}
+\keyword{data}

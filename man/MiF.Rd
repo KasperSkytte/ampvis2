@@ -17,4 +17,4 @@ data(MiF)
 \description{
 A data frame with known/unknown functional characteristics of the Genera in the MiDAS database.
 }
-\keyword{datasets}
+\keyword{data}

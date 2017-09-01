@@ -9,7 +9,7 @@
 #'
 #' @format An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.
 #'
-#' @keywords datasets
+#' @keywords data
 #'
 #' @references McIlroy et al. (2015); MiDAS: the field guide to the microbes of activated sludge, Database, Volume 2015, bav062
 #' (\href{https://doi.org/10.1093/database/bav062}{https://doi.org/10.1093/database/bav062})
@@ -19,7 +19,7 @@
 #' @examples
 #' data(MiDAS)
 #' MiDAS
-"MiDAS"
+NULL
 
 #' A subset of the MiDAS example data
 #'
@@ -32,12 +32,12 @@
 #'
 #' @format An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.
 #'
-#' @keywords datasets
+#' @keywords data
 #' 
 #' @examples
 #' data(AalborgWWTPs)
 #' AalborgWWTPs
-"AalborgWWTPs"
+NULL
 
 #' Functional information of microbes in the MiDAS database
 #'
@@ -56,6 +56,6 @@
 #'   \item{NT}{Not tested.}
 #' }
 #'
-#' @keywords datasets
+#' @keywords data
 #'
-"MiF"
+NULL
