@@ -28,8 +28,6 @@ Imports:
     scales,
     stringr,
     readxl,
-    tidyverse,
-    tidyselect,
     network,
     GGally,
     gridExtra,
