@@ -2,34 +2,52 @@
 % Please edit documentation in R/amp_core.R
 \name{amp_core}
 \alias{amp_core}
-\title{Generates a ggplot2 style core community plot}
+\title{Core community analysis}
 \usage{
 amp_core(data)
 }
 \arguments{
-\item{data}{(required) A ampvis object.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group}{Group the data based on a sample variable (default: "Sample").}
+\item{group_by}{Group the samples by a variable in the metadata. (\emph{default:} \code{"Sample"})}
 
-\item{abund.treshold}{Treshold for considering something abundant in percent (default: 0.1).}
+\item{abund_thrh}{Threshold in percent for defining "abundant"/"core" taxa. (\emph{default:} \code{0.1})}
 
-\item{tax.aggregate}{The taxonomic level that the data should be aggregated to (default: OTU).}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
 
-\item{tax.class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
+\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
-\item{tax.empty}{Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: best).}
+\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
+\itemize{
+   \item \code{"remove"}: Remove OTUs without taxonomic information.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"OTU"}: Display the OTU name.
+   }}
 
-\item{plotly}{Returns an interactive plot instead (default: F).}
+\item{plotly}{(\emph{logical}) Returns an interactive plot instead. (\emph{default:} \code{FALSE})}
 
-\item{raw}{Display raw input instead of converting to percentages (default: F).}
+\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
-\item{output}{Either plot or complete (default: "plot").}
+\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
 \value{
-A ggplot2 object
+A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generates a ggplot2 style core community plot
+Generates a core community plot.
+}
+\details{
+Plots the number of samples a given OTU is observed in (first axis) against the number of samples it is abundant in (second axis), as defined by the threshold. By setting the \code{group_by} argument to a variable in the metadata, then the axes will show their frequency in this group instead of per sample. 
+
+The OTU points can be aggregated by the taxonomy by setting fx \code{tax_aggregate = "Phylum"}. To see the corresponding taxonomy of the OTUs use \code{plotly = TRUE} for an interactive plot.
+}
+\examples{
+#Load example data
+data("AalborgWWTPs")
+
+#Core plot
+amp_core(AalborgWWTPs)
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
