@@ -45,8 +45,8 @@ A rank abundance curve is used to assess the biodiversity by plotting the ranked
 #Load example data
 data("AalborgWWTPs")
 
-#Rank abundance plot (with no legend)
-amp_rankabundance(AalborgWWTPs) + theme(legend.position = "blank")
+#Rank abundance plot
+amp_rankabundance(AalborgWWTPs)
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
