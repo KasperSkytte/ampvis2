@@ -27,6 +27,7 @@
 #' @import GGally
 #' @import network
 #' @import data.table
+#' @import sna
 #' 
 #' @export
 #' 

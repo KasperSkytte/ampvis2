@@ -19,7 +19,7 @@
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
 #' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
-#' @param ... Additional arguments passed to \code{\link{as.Date()}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as.Date}.
+#' @param ... Additional arguments passed to \code{\link{as.Date}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as.Date}.
 #' 
 #' @keywords timeseries
 #' @import dplyr

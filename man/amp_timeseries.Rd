@@ -32,7 +32,7 @@ amp_timeseries(data, time_variable = "")
 
 \item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
-\item{...}{Additional arguments passed to \code{\link{as.Date()}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as.Date}.}
+\item{...}{Additional arguments passed to \code{\link{as.Date}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as.Date}.}
 }
 \value{
 A ggplot2 object.
