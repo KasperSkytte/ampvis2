@@ -7,7 +7,7 @@
 \method{print}{ampvis2}(data)
 }
 \arguments{
-\item{data}{}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 }
 \value{
 Text output in console

@@ -30,7 +30,11 @@ reference:
     - amp_alphadiv
     - amp_test_species
     - amp_venn
-
+  - title: Data sets
+    desc: Example data sets. 
+    contents: 
+    - MiDAS
+    - AalborgWWTPs
 navbar:
   title: "ampvis2"
   right:
