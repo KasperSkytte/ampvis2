@@ -6,7 +6,7 @@
 #'
 #' @param otutable (\emph{required}) An OTU-table (data frame), where the last 7 rows is the taxonomy.
 #' @param metadata (\emph{required}) A metadata (dataframe) with information about the samples.
-#' @param refseq Reference sequences for all OTUs as loaded with \code{\link[Biostrings]{readDNAStringSet()}} from the \code{\link{Biostrings}} bioconductor package.
+#' @param refseq Reference sequences for all OTUs as loaded with \code{\link[Biostrings]{readDNAStringSet}} from the \code{\link{Biostrings}} bioconductor package.
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' @import Biostrings
