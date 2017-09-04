@@ -12,6 +12,7 @@ LazyData: true
 Depends:
     R (>= 3.4.0)
 Imports:
+    tidyverse,
     ggplot2,
     ggrepel,
     vegan,
@@ -28,7 +29,6 @@ Imports:
     scales,
     stringr,
     readxl,
-    tidyselect,
     network,
     GGally,
     gridExtra,
