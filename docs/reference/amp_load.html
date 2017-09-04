@@ -127,6 +127,7 @@
 <li><p>The column names of the data frame are the sample IDs, exactly matching those in the metadata, (and the last 7 columns named <code>Kingdom</code> -&gt; <code>Species</code>, of course). Thus, the first row should contain the read counts of one of the OTUs in each sample, NOT the sample IDs and taxonomy.</p></li>
 <li><p>Generally avoid special characters and spaces in row- and column names.</p></li>
 </ul>
+    <p>A minimal example is available with <code>data("example_otutable")</code>.</p>
     
     <h2 class="hasAnchor" id="the-metadata"><a class="anchor" href="#the-metadata"></a>The metadata</h2>
 
@@ -138,6 +139,7 @@
 </ul>
     <p>If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (<code>as.numeric()</code>) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded <code>as.factor()</code> or <code>as.character()</code> instead. This has consequences for the analysis as R treats them differently. Therefore either use the <code>colClasses = </code> argument when loading a csv file or <code>col_types = </code> when loading an excel file, or manually adjust the column classes afterwards with fx <code>metadata$Year &lt;- as.character(metadata$Year)</code>.
     <code>amp_load()</code> will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis.</p>
+<p>A minimal example is available with <code>data("example_metadata")</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -188,6 +190,8 @@
 
     <h2>Author</h2>
     
+Kasper Skytte Andersen <a href='mailto:kasperskytteandersen@gmail.com'>kasperskytteandersen@gmail.com</a>
+
 Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a>
 
   </div>

@@ -10,6 +10,8 @@ amp_subset_taxa(data, tax_vector)
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
 \item{tax_vector}{(required) A vector with taxonomic groups, e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.}
+
+\item{normalise}{(\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
 }
 \value{
 A list with 3 dataframes (4 if reference sequences are provided).

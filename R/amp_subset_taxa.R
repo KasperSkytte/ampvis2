@@ -6,6 +6,7 @@
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param tax_vector (required) A vector with taxonomic groups, e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.
+#' @param normalise (\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' @export
@@ -13,7 +14,7 @@
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 
-amp_subset_taxa <- function(data, tax_vector=c("p__Chloroflexi","p__Actinobacteria")) {
+amp_subset_taxa <- function(data, tax_vector=c("p__Chloroflexi","p__Actinobacteria"), normalise = FALSE) {
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")

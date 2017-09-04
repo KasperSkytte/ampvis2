@@ -33,6 +33,8 @@ The OTU-table contains information about the OTUs, their assigned taxonomy and t
   \item The column names of the data frame are the sample IDs, exactly matching those in the metadata, (and the last 7 columns named \code{Kingdom} -> \code{Species}, of course). Thus, the first row should contain the read counts of one of the OTUs in each sample, NOT the sample IDs and taxonomy.
   \item Generally avoid special characters and spaces in row- and column names.
 }
+
+A minimal example is available with \code{data("example_otutable")}.
 }
 
 \section{The metadata}{
@@ -48,6 +50,8 @@ The metadata contains additional information about the samples, for example wher
 If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (\code{as.numeric()}) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded \code{as.factor()} or \code{as.character()} instead. This has consequences for the analysis as R treats them differently. Therefore either use the \code{colClasses = } argument when loading a csv file or \code{col_types = } when loading an excel file, or manually adjust the column classes afterwards with fx \code{metadata$Year <- as.character(metadata$Year)}.
 
 \code{amp_load()} will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis.
+
+A minimal example is available with \code{data("example_metadata")}.
 }
 
 \examples{
@@ -81,5 +85,7 @@ d
 }
 }
 \author{
+Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

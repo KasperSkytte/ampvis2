@@ -101,11 +101,15 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>(optional) Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to <code>subset()</code>.</p></td>
+      <td><p>Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to <code>subset()</code>.</p></td>
     </tr>
     <tr>
       <th>minreads</th>
-      <td><p>(optional) Minimum number of reads pr. sample. (<em>default:</em> <code>1</code>)</p></td>
+      <td><p>Minimum number of reads pr. sample. (<em>default:</em> <code>1</code>)</p></td>
+    </tr>
+    <tr>
+      <th>normalise</th>
+      <td><p>(<em>logical</em>) Normalise the read abundances to the total amount of reads (percentages) <em>BEFORE</em> the subset. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     </table>
     
@@ -115,7 +119,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The subset is performed on the metadata by <code>subset()</code> and the abundance- and taxonomy tables are then adjusted accordingly.</p>
+    <p>The subset is performed on the metadata by <code>subset()</code> and the abundance- and taxonomy tables are then adjusted accordingly. To recalculate</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

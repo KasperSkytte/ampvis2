@@ -11,7 +11,6 @@ reference:
     - amp_load
     - amp_export_fasta
     - amp_export_otutable
-    - amp_normalise
     - amp_subset_samples
     - amp_subset_taxa
   - title: Plotting functions

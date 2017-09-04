@@ -48,7 +48,6 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
   tax$Genus <- gsub("g__", "", tax$Genus)
   tax$Kingdom <- gsub("uncultured", "", tax$Kingdom)
   tax$Phylum <- gsub("uncultured", "", tax$Phylum)
-  tax$Phylum <- gsub("uncultured", "", tax$Phylum)
   tax$Class <- gsub("uncultured", "", tax$Class)
   tax$Order <- gsub("uncultured", "", tax$Order)
   tax$Family <- gsub("uncultured", "", tax$Family)
@@ -76,6 +75,7 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
   }
   
   ## Handle empty taxonomic strings
+  rn <- rownames(tax) #damn rownames are silently dropped by mutate()
   if(tax_empty == "best"){
     tax <- mutate(tax, Kingdom, Kingdom = ifelse(Kingdom == "", "Unclassified", Kingdom)) %>%
       mutate(Phylum, Phylum = ifelse(Phylum == "", paste("k__", Kingdom, "_", rownames(tax), sep = ""), Phylum)) %>%
@@ -85,6 +85,7 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
       mutate(Genus, Genus = ifelse(Genus == "", ifelse(grepl("__", Family), Family, paste("f__", Family, "_", rownames(tax), sep = "")), Genus)) %>%
       mutate(Species, Species = ifelse(Species == "", ifelse(grepl("__", Genus), Genus, paste("g__", Genus, "_", rownames(tax), sep = "")), Species))
   }
+  rownames(tax) <- rn
   
   if(tax_empty == "remove"){
     abund <- data[["abund"]]
@@ -93,6 +94,7 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
     data[["abund"]] <- abund
   }
   data[["tax"]] <- tax
+  rownames(data[["tax"]]) <- rownames(tax)
   
   return(data)
 }

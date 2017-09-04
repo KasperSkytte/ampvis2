@@ -92,6 +92,7 @@ amp_test_species <- function(data,
   abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
     unique() %>% 
+    as.data.frame() %>%
     select(-Abundance)
   
   ## Convert to DESeq2 format

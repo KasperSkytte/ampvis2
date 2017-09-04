@@ -59,3 +59,43 @@ NULL
 #' @keywords data
 #'
 NULL
+
+#' A minimal example of an OTU-table
+#'
+#' A minimal example of an OTU-table that is compatible with \code{\link{amp_load}} and ampvis2 functions.
+#'
+#' @name example_otutable
+#' @docType data
+#'
+#' @usage data(example_otutable)
+#'
+#' @format a data frame.
+#'
+#' @keywords data
+#' 
+#' @examples
+#' \dontrun{
+#' data(example_otutable)
+#' View(example_otutable)
+#' }
+NULL
+
+#' A minimal example of sample metadata
+#'
+#' A minimal example of a metadata sheet that is compatible with \code{\link{amp_load}} and ampvis2 functions.
+#'
+#' @name example_metadata
+#' @docType data
+#'
+#' @usage data(example_metadata)
+#'
+#' @format a data frame.
+#'
+#' @keywords data
+#' 
+#' @examples
+#' \dontrun{
+#' data(example_metadata)
+#' View(example_metadata)
+#' }
+NULL

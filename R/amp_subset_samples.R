@@ -5,14 +5,15 @@
 #' @usage amp_subset_samples(data, ...)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param minreads (optional) Minimum number of reads pr. sample. (\emph{default:} \code{1})
-#' @param ... (optional) Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}. 
+#' @param minreads Minimum number of reads pr. sample. (\emph{default:} \code{1})
+#' @param ... Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}. 
+#' @param normalise (\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' @import dplyr
 #' @export
 #' 
-#' @details The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly. 
+#' @details The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly. To recalculate
 #' 
 #' @examples 
 #' #Load example data
@@ -38,7 +39,7 @@
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 
-amp_subset_samples <- function(data, ..., minreads = 1) {
+amp_subset_samples <- function(data, ..., minreads = 1, normalise = FALSE) {
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
@@ -46,6 +47,11 @@ amp_subset_samples <- function(data, ..., minreads = 1) {
   
   if (minreads > max(colSums(data$abund))) {
     stop(paste("Cannot subset samples with minimum", minreads, "total reads, when highest number of reads in any sample is", max(colSums(data$abund))))
+  }
+
+  ### calculate percentages 
+  if (normalise == TRUE) {
+    data$abund <- apply(data$abund,2, function(x) 100*x/sum(x)) %>% as.data.frame() 
   }
   
   #For printing removed samples and OTUs

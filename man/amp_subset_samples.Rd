@@ -9,9 +9,11 @@ amp_subset_samples(data, ...)
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{...}{(optional) Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}.}
+\item{...}{Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}.}
 
-\item{minreads}{(optional) Minimum number of reads pr. sample. (\emph{default:} \code{1})}
+\item{minreads}{Minimum number of reads pr. sample. (\emph{default:} \code{1})}
+
+\item{normalise}{(\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
 }
 \value{
 A list with 3 dataframes (4 if reference sequences are provided).
@@ -20,7 +22,7 @@ A list with 3 dataframes (4 if reference sequences are provided).
 Subsets the data in ampvis2 objects based on metadata and returns the subsetted object.
 }
 \details{
-The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly.
+The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly. To recalculate
 }
 \examples{
 #Load example data
