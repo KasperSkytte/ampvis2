@@ -38,6 +38,5 @@ Imports:
     RColorBrewer
 Suggests: 
     devtools,
-    BiocInstaller,
-    phyloseq
+    BiocInstaller
 RoxygenNote: 6.0.1
