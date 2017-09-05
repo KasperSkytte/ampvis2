@@ -68,18 +68,19 @@
 <div id="tools-for-visualising-amplicon-data" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#tools-for-visualising-amplicon-data" class="anchor"></a>Tools for visualising amplicon data</h1></div>
-<p>ampvis2 is an R-package to visualise amplicon data. more more more</p>
+<p>ampvis2 is an R-package to conveniently visualise and analyse 16S rRNA amplicon data in different ways.</p>
 <div id="installing-ampvis2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-ampvis2" class="anchor"></a>Installing ampvis2</h2>
-<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R</a> (and for Windows also <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>) and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Then open RStudio as administrator (!) and run the 2 commands below to install ampvis2 from the console. If you get asked to update old packages, just hit a. Install missing packages with <code>biocLite("packagename")</code>, if any.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">"http://bioconductor.org/biocLite.R"</span>)
-<span class="kw">biocLite</span>(<span class="st">"MadsAlbertsen/ampvis2"</span>, <span class="dt">ref =</span> <span class="st">"devel"</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R</a> (and for Windows also <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>) and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Then open RStudio as administrator (!) and run the 3 commands below to install ampvis2 from the console. If you get asked to update old packages, just hit a. Install missing packages with <code>biocLite("packagename")</code>, if any.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
+<span class="kw">source</span>(<span class="st">"http://bioconductor.org/biocLite.R"</span>)
+<span class="kw">biocLite</span>(<span class="st">"MadsAlbertsen/ampvis2"</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
 <div id="get-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-started" class="anchor"></a>Get started</h2>
-<p>For a quick guide on how to use ampvis2 go to <a href="https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html">Get started</a> and for details about all ampvis2 functions go to <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Reference</a>.</p>
+<p>For a quick guide on how to use ampvis2 go to <a href="https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html">Get Started</a> and for details about all ampvis2 functions go to <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Reference</a>.</p>
 </div>
 <div id="shiny" class="section level2">
 <h2 class="hasAnchor">
