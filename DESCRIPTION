@@ -16,7 +16,7 @@ Depends:
 Imports:
     Biostrings,
     DESeq2,
-    GenomeInfoDbData, #someone made horrible imports!
+    GenomeInfoDbData,
     tidyverse,
     ggrepel,
     vegan,
