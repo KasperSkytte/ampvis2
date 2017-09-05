@@ -14,8 +14,8 @@ Depends:
     dplyr,
     ggplot2
 Remotes: 
-    bioc/Biostrings,
-    bioc/DESeq2
+    bioconductor::Biostrings,
+    bioconductor::DESeq2
 Imports:
     tidyverse,
     ggrepel,
