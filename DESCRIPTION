@@ -14,6 +14,9 @@ Depends:
     dplyr,
     ggplot2
 Imports:
+    Biostrings,
+    DESeq2,
+    GenomeInfoDbData, #someone made horrible imports!
     tidyverse,
     ggrepel,
     vegan,
@@ -23,8 +26,6 @@ Imports:
     haven,
     tidyr,
     readxl,
-    Biostrings,
-    DESeq2,
     sna,
     magrittr,
     scales,
