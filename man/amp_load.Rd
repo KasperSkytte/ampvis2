@@ -77,20 +77,21 @@ mymetadata <- read_excel("data/metadata.xlsx",
 #Uncomment the refseq line to load reference sequences (not required).
 d <- amp_load(otutable = myotutable,
               metadata = mymetadata
-              #, refseq = readDNAStringSet("data/otus.fa", format = "fasta") 
+              #, refseq = Biostrings::readDNAStringSet("data/otus.fa", format = "fasta") 
               )
               
 #Show a short summary about the data by simply typing the name of the object in the console
 d
 }
 
+#Minimal example metadata:
+data("example_metadata")
+example_metadata
+
 #Minimal example otutable:
 data("example_otutable")
 example_otutable
 
-#Minimal example metadata:
-data("example_metadata")
-example_metadata
 
 }
 \author{

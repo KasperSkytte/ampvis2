@@ -11,8 +11,8 @@ source("http://bioconductor.org/biocLite.R")
 biocLite("MadsAlbertsen/ampvis2", ref = "devel", dependencies = TRUE)
 ```
 
+## Get started
+For a quick guide on how to use ampvis2 go to [Get started](https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html) and for details about all ampvis2 functions go to [Reference](https://madsalbertsen.github.io/ampvis2/reference/index.html).
+
 ## Shiny
 An interactive Shiny app with some of the basic functionality of ampvis2 can be found at: [https://kasperskytte.shinyapps.io/shinyampvis](https://kasperskytte.shinyapps.io/shinyampvis)
-
-## Get started
-For a quick guide on how to use ampvis2 go to [Get started](articles/ampvis2.html) and for details about all ampvis2 functions go to [Reference](reference/index.html).
