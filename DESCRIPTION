@@ -13,6 +13,9 @@ Depends:
     R (>= 3.4.1),
     dplyr,
     ggplot2
+Remotes: 
+    bioc::release/Biostrings,
+    bioc::release/DESeq2
 Imports:
     tidyverse,
     ggrepel,
@@ -23,8 +26,6 @@ Imports:
     haven,
     tidyr,
     readxl,
-    Biostrings,
-    DESeq2,
     sna,
     magrittr,
     scales,
