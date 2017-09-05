@@ -65,9 +65,7 @@ amp_test_species <- function(data,
     }
   }
   
-  if (is.null(group)) {
-    stop("Argument 'group' must be provided.")
-  }
+  
   
   ## Extract the data into seperate objects for readability
   abund <- data[["abund"]]  

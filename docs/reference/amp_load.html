@@ -170,7 +170,67 @@
 
 <span class='co'>#Show a short summary about the data by simply typing the name of the object in the console</span>
 <span class='no'>d</span>
-<span class='co'># }</span></pre>
+<span class='co'># }</span><div class='input'>
+<span class='co'>#Minimal example otutable:</span>
+<span class='fu'>data</span>(<span class='st'>"example_otutable"</span>)
+<span class='no'>example_otutable</span></div><div class='output co'>#&gt;        16SAMP_3893 16SAMP_3913 16SAMP_3941 16SAMP_3946 16SAMP_3953 16SAMP_4591
+#&gt; OTU_1           23          15         273          51         127         190
+#&gt; OTU_2          675         565         331         411         430         780
+#&gt; OTU_3          780         733         405         199        1346        1114
+#&gt; OTU_4          272         233        1434         256         736        1338
+#&gt; OTU_5          560         339         509         598         223         145
+#&gt; OTU_6          906         766         133         390         232        1458
+#&gt; OTU_7          297         218         418         130        1354         198
+#&gt; OTU_8           28           8         155          72         156         101
+#&gt; OTU_9            0           0           9           0          19          25
+#&gt; OTU_10         373         256          19         415          43         102
+#&gt;        16SAMP_4597 16SAMP_4603     Kingdom            Phylum
+#&gt; OTU_1          220          83 k__Bacteria    p__Chloroflexi
+#&gt; OTU_2          699         820 k__Bacteria p__Actinobacteria
+#&gt; OTU_3         1630         112 k__Bacteria p__Actinobacteria
+#&gt; OTU_4         1224         564 k__Bacteria p__Proteobacteria
+#&gt; OTU_5          212        1619 k__Bacteria    p__Chloroflexi
+#&gt; OTU_6          560         287 k__Bacteria     p__Firmicutes
+#&gt; OTU_7          283         116 k__Bacteria p__Actinobacteria
+#&gt; OTU_8          151          25 k__Bacteria    p__Nitrospirae
+#&gt; OTU_9           58           0 k__Bacteria  p__Bacteroidetes
+#&gt; OTU_10          73         138 k__Bacteria  p__Bacteroidetes
+#&gt;                        Class                 Order                Family
+#&gt; OTU_1              c__SJA-15           o__C10_SB1A           f__C10_SB1A
+#&gt; OTU_2      c__Actinobacteria      o__Micrococcales f__Intrasporangiaceae
+#&gt; OTU_3      c__Acidimicrobiia   o__Acidimicrobiales    f__Microthricaceae
+#&gt; OTU_4  c__Betaproteobacteria      o__Rhodocyclales     f__Rhodocyclaceae
+#&gt; OTU_5        c__Anaerolineae     o__Anaerolineales    f__Anaerolineaceae
+#&gt; OTU_6             c__Bacilli    o__Lactobacillales  f__Carnobacteriaceae
+#&gt; OTU_7      c__Acidimicrobiia   o__Acidimicrobiales    f__Microthricaceae
+#&gt; OTU_8          c__Nitrospira      o__Nitrospirales     f__Nitrospiraceae
+#&gt; OTU_9    c__Sphingobacteriia o__Sphingobacteriales     f__Saprospiraceae
+#&gt; OTU_10   c__Sphingobacteriia o__Sphingobacteriales     f__Saprospiraceae
+#&gt;                              Genus         Species
+#&gt; OTU_1     g__Candidatus Amarilinum             s__
+#&gt; OTU_2              g__Tetrasphaera             s__
+#&gt; OTU_3     g__Candidatus Microthrix             s__
+#&gt; OTU_4             g__Dechloromonas             s__
+#&gt; OTU_5  g__Candidatus Villogracilis             s__
+#&gt; OTU_6              g__Trichococcus             s__
+#&gt; OTU_7     g__Candidatus Microthrix             s__
+#&gt; OTU_8                g__Nitrospira s__sublineage I
+#&gt; OTU_9                 g__QEDR3BF09             s__
+#&gt; OTU_10                     g__MK04             s__</div><div class='input'>
+<span class='co'>#Minimal example metadata:</span>
+<span class='fu'>data</span>(<span class='st'>"example_metadata"</span>)
+<span class='no'>example_metadata</span></div><div class='output co'>#&gt; # A tibble: 8 x 4
+#&gt;      SampleID     Plant       Date  Year
+#&gt;         &lt;chr&gt;     &lt;chr&gt;     &lt;dttm&gt; &lt;dbl&gt;
+#&gt; 1 16SAMP-3893 Aalborg E 2014-02-06  2014
+#&gt; 2 16SAMP-3913 Aalborg E 2014-07-03  2014
+#&gt; 3 16SAMP-4603 Aalborg E 2014-08-19  2014
+#&gt; 4 16SAMP-3946 Aalborg E 2014-11-13  2014
+#&gt; 5 16SAMP-4591 Aalborg W 2014-02-04  2014
+#&gt; 6 16SAMP-4597 Aalborg W 2014-05-05  2014
+#&gt; 7 16SAMP-3941 Aalborg W 2014-08-18  2014
+#&gt; 8 16SAMP-3953 Aalborg W 2014-11-12  2014</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

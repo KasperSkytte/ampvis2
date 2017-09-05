@@ -72,6 +72,15 @@
 #' #Show a short summary about the data by simply typing the name of the object in the console
 #' d
 #' }
+#' 
+#' #Minimal example otutable:
+#' data("example_otutable")
+#' example_otutable
+#' 
+#' #Minimal example metadata:
+#' data("example_metadata")
+#' example_metadata
+#' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 

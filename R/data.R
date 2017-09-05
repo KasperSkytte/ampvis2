@@ -44,7 +44,7 @@ NULL
 #' A data frame with known/unknown functional characteristics of the Genera in the MiDAS database. 
 #'
 #' @name MiF
-#' @docType MiF
+#' @docType data
 #'
 #' @usage data(MiF)
 #'

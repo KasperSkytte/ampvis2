@@ -71,8 +71,8 @@
 <div id="loading-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#loading-data" class="anchor"></a>Loading data</h2>
-<p>The most notable change with ampvis2 is that phyloseq is no longer used to handle the data, which makes it simpler to understand and work with, and lighter. The data is now simply stored as a list containing 3 dataframes (4 if reference sequences are provided) named <code>"metadata"</code>, <code>"otutable"</code> and <code>"tax"</code> (short for taxonomy). The data ampvis2 needs is an OTU-table generated with fx <a href="https://github.com/MadsAlbertsen/16S-analysis/tree/master/data.generation">workflow scipts v.4+</a> and a metadata sheet containing information about the samples.</p>
-<p>More precisely, the OTU-table provided is expected to be a raw CSV-table with OTU names/ID’s in rows and sample ID’s in columns, where numbers in the corresponding cells represent the read counts of the particular OTU in each sample. The last 7 columns of the OTU-table are expected to be the taxonomy of the corresponding OTU’s (Kingdom-&gt;Species). The metadata needs to have the same sample ID’s as in the OTU-table in the first column and then the remaining columns contain information about the samples, for example where the sample was taken, date, pH, temperature etc. First, import your data into R dataframes using an appropriate read function:</p>
+<p>The most notable change with ampvis2 is that phyloseq is no longer used to handle the data, which makes it simpler to understand and work with, and lighter. The data is now simply stored as a list containing 3 dataframes (4 if reference sequences are provided) named <code>"metadata"</code>, <code>"otutable"</code> and <code>"tax"</code> (short for taxonomy). The data ampvis2 needs is an OTU-table generated with fx <a href="https://github.com/MadsAlbertsen/16S-analysis/tree/master/data.generation">workflow scipts v.4+</a>, where the last 7 columns is the taxonomy, and a metadata sheet containing any information about the samples, for example where the sample was taken, date, pH, temperature etc.</p>
+<p>First, import your data into R dataframes using an appropriate read function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myotutable &lt;-<span class="st"> </span><span class="kw">read.csv2</span>(<span class="st">"data/otutable.csv"</span>, 
                         <span class="co">#sep = "\t",</span>
                         <span class="co">#dec = ".",</span>
@@ -81,7 +81,7 @@
                         <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>,
                         <span class="dt">check.names =</span> <span class="ot">FALSE</span>,
                         <span class="dt">row.names =</span> <span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="kw">as.data.frame</span>()
-mymetadata &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">"data/metadata.xlsx"</span>,
+mymetadata &lt;-<span class="st"> </span>readxl::<span class="kw">read_excel</span>(<span class="st">"data/metadata.xlsx"</span>,
                          <span class="dt">col_names =</span> <span class="ot">TRUE</span>) %&gt;%<span class="st"> </span><span class="kw">as.data.frame</span>()</code></pre></div>
 <p>Note that <code>read.csv2()</code> treats semicolon “;” as the default separator and comma “,” as decimal, which is the standard in some regions. To change the separator to fx a comma you can adjust with the argument <code>sep = ","</code>. Refer to the documentation of <code>?read.table</code>.</p>
 <p>After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID’s and that the first column in the metadata are the sample ID’s. It is highly recommended to read the documentation of <code><a href="../reference/amp_load.html">amp_load()</a></code> when loading your own data.</p>
@@ -130,7 +130,6 @@ MiDAS</code></pre></div>
 <a href="#heatmap" class="anchor"></a>Heatmap</h1>
 <p>All ampvis2 plots are generated using the <a href="http://ggplot2.tidyverse.org/">ggplot2</a> package. You can change the look of the plots to better suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots if needed. Refer to the <a href="http://ggplot2.tidyverse.org/reference/index.html">ggplot2 documentation</a> for more information. <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> by default aggregates to phylum level and shows the top 10 phyla, ordered by mean read abundance across all samples:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset, <span class="dt">group_by =</span> <span class="st">"Plant"</span>)</code></pre></div>
-<pre><code>## Warning: package 'bindrcpp' was built under R version 3.4.1</code></pre>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with “+” after the actual ampvis2 function):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset,
@@ -188,7 +187,7 @@ ordinationresult$plot</code></pre></div>
 <div id="other-functions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#other-functions" class="anchor"></a>Other functions</h1>
-<p>There are numerous other functions you can try out. Go explore them under the <a href="../reference/index.html">References</a> tab.</p>
+<p>There are numerous other functions to try out. Go explore them under the <a href="../reference/index.html">References</a> tab.</p>
 </div>
 </div>
   </div>

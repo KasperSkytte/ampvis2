@@ -17,8 +17,8 @@
 #'    \item \code{"PCOA"} or \code{"MMDS"}: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)
 #'    }
 #'    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[ape]{pcoa}} function from the APE package.}
-#' @param distmeasure (required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"} or simply \code{"none"} or \code{"sqrt"}. You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}.
-#' @param transform (\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). 
+#' @param distmeasure (required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"} or simply \code{"none"} or \code{"sqrt"}. You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}. (\emph{default:} \code{"none"})
+#' @param transform (\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). (\emph{default:} \code{"hellinger"})
 #' @param constrain (\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.
 #' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})
 #' @param y_axis Which axis from the ordination results to plot as the second axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{2})
@@ -112,8 +112,8 @@
 amp_ordinate<- function(data,
                         filter_species = 0.1, 
                         type = "PCA",
-                        distmeasure = NULL,
-                        transform = NULL,
+                        distmeasure = "none",
+                        transform = "hellinger",
                         constrain = NULL,
                         x_axis = 1,
                         y_axis = 2, 
@@ -184,24 +184,25 @@ amp_ordinate<- function(data,
   #to fix user argument characters, so fx PCoA/PCOA/pcoa are all valid
   type <- tolower(type)
   
-  if(!is.null(distmeasure)) {
-    distmeasure <- tolower(distmeasure)
-  } else if(is.null(distmeasure)) {
-    if(type == "nmds" | type == "mmds" | type == "pcoa" | type == "dca") {
+  if (type == "nmds" | type == "mmds" | type == "pcoa" | type == "dca") {
+    if (!distmeasure == "none") {
+      distmeasure <- tolower(distmeasure)
+    } 
+    if (distmeasure == "none") {
       warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure\n")
     }
-    distmeasure <- "none"
+    if (transform == "hellinger") {
+      warning("Using the hellinger transformation (default) is not recommended for distance-based ordination (nMDS/PCoA/DCA). Consider transform = \"none\".")
+    }
   }
   
   #data transformation with decostand()
-  if(!is.null(transform)) {
+  if(!transform == "none") {
     transform <- tolower(transform)
-    if(transform == "sqrt") {
-      data$abund <- t(sqrt(t(data$abund)))
-    } else {
-      data$abund <- t(vegan::decostand(t(data$abund), method = transform))
-    }
-  } 
+    data$abund <- t(vegan::decostand(t(data$abund), method = transform))
+  } else if (transform == "sqrt") {
+    data$abund <- t(sqrt(t(data$abund)))
+  }
   
   #Calculate distance matrix with vegdist()
   if (distmeasure == "none") {

@@ -117,11 +117,11 @@
     </tr>
     <tr>
       <th>distmeasure</th>
-      <td><p>(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"jsd"</code> (Jensen-Shannon Divergence), <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code> or simply <code>"none"</code> or <code>"sqrt"</code>. You can also write your own math formula, see details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/vegdist'>vegdist</a></code>. JSD is based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>.</p></td>
+      <td><p>(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"jsd"</code> (Jensen-Shannon Divergence), <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code> or simply <code>"none"</code> or <code>"sqrt"</code>. You can also write your own math formula, see details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/vegdist'>vegdist</a></code>. JSD is based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>. (<em>default:</em> <code>"none"</code>)</p></td>
     </tr>
     <tr>
       <th>transform</th>
-      <td><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/decostand'>decostand</a></code>. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology).</p></td>
+      <td><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/decostand'>decostand</a></code>. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). (<em>default:</em> <code>"hellinger"</code>)</p></td>
     </tr>
     <tr>
       <th>constrain</th>
@@ -294,7 +294,7 @@
              <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>,
              <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
              <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-             )</div><div class='img'><img src='amp_ordinate-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+             )</div><div class='img'><img src='amp_ordinate-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='co'>#Interactive CCA with data transformation constrained to seasonal period</span>
 <span class='fu'>amp_ordinate</span>(<span class='no'>AalborgWWTPs</span>,

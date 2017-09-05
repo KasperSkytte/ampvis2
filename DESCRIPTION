@@ -10,10 +10,11 @@ URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
 Depends:
-    R (>= 3.4.0)
+    R (>= 3.4),
+    dplyr,
+    ggplot2
 Imports:
     tidyverse,
-    ggplot2,
     ggrepel,
     vegan,
     ape,
@@ -34,8 +35,7 @@ Imports:
     gridExtra,
     plotly,
     data.table,
-    RColorBrewer,
-    dplyr
+    RColorBrewer
 Suggests: 
     devtools,
     BiocInstaller,
