@@ -5,11 +5,10 @@
 ampvis2 is an R-package to conveniently visualise and analyse 16S rRNA amplicon data in different ways.
 
 ## Installing ampvis2
-First, install [R](https://mirrors.dotsrc.org/cran/) (and for Windows also [RTools](https://mirrors.dotsrc.org/cran/bin/windows/Rtools/)) and [RStudio](https://www.rstudio.com/products/rstudio/download/#download). Then open RStudio as administrator (!) and run the 3 commands below to install ampvis2 from the console. If you get asked to update old packages, just hit a. Install missing packages with `biocLite("packagename")`, if any.
+First, install [R](https://mirrors.dotsrc.org/cran/) (and for Windows also [RTools](https://mirrors.dotsrc.org/cran/bin/windows/Rtools/)) and [RStudio](https://www.rstudio.com/products/rstudio/download/#download). Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console. If you get asked to update old packages, just hit a. Install missing packages with `biocLite("packagename")`, if any.
 ```{r, message = FALSE, warning = FALSE, eval=FALSE}
-install.packages("devtools")
-source("http://bioconductor.org/biocLite.R")
-biocLite("MadsAlbertsen/ampvis2", dependencies = TRUE)
+install.packages("remotes")
+remotes::install_github("MadsAlbertsen/ampvis2")
 ```
 
 ## Get started
