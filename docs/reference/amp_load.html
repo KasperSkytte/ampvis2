@@ -104,8 +104,8 @@
       <td><p>(<em>required</em>) A metadata (dataframe) with information about the samples.</p></td>
     </tr>
     <tr>
-      <th>refseq</th>
-      <td><p>Reference sequences for all OTUs as loaded with <code><a href='http://www.rdocumentation.org/packages/Biostrings/topics/XStringSet-io'>readDNAStringSet</a></code> from the <code>Biostrings</code> bioconductor package.</p></td>
+      <th>fasta</th>
+      <td><p>(<em>optional</em>) Path to a fasta file with reference sequences for all OTUs. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     </table>
     
@@ -141,6 +141,11 @@
     <code>amp_load()</code> will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis.</p>
 <p>A minimal example is available with <code>data("example_metadata")</code>.</p>
     
+    <h2 class="hasAnchor" id="reference-sequences"><a class="anchor" href="#reference-sequences"></a>Reference sequences</h2>
+
+    
+    <p>A fasta file with the raw sequences can be loaded as well, which will then be available in the refseq element of the ampvis2 object. These sequences will not be used in any ampvis2 function other than the two subset functions <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> and <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code>, so that they can be exported with <code><a href='amp_export_fasta.html'>amp_export_fasta</a></code>. The fasta file is loaded with the <code><a href='http://www.rdocumentation.org/packages/ape/topics/read.dna'>read.dna</a></code> function from the <code>ape</code> package.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>#Be sure to use the correct function to load your .csv files, see ?read.table()
@@ -162,10 +167,10 @@
                          <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span> <span class='fu'>as.data.frame</span>()
 
 <span class='co'>#Combine the data with amp_load() to make it compatible with ampvis2 functions.</span>
-<span class='co'>#Uncomment the refseq line to load reference sequences (not required).</span>
+<span class='co'>#Uncomment the fasta line to load reference sequences (not required).</span>
 <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_load</span>(<span class='kw'>otutable</span> <span class='kw'>=</span> <span class='no'>myotutable</span>,
-              <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>mymetadata</span>
-              <span class='co'>#, refseq = Biostrings::readDNAStringSet("data/otus.fa", format = "fasta") </span>
+              <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>mymetadata</span>,
+              <span class='kw'>fasta</span> <span class='kw'>=</span> <span class='st'>"path/to/fastafile.fa"</span> <span class='co'>#optional</span>
               )
 
 <span class='co'>#Show a short summary about the data by simply typing the name of the object in the console</span>
@@ -245,6 +250,8 @@
       <li><a href="#the-otu-table">The OTU-table</a></li>
 
       <li><a href="#the-metadata">The metadata</a></li>
+
+      <li><a href="#reference-sequences">Reference sequences</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

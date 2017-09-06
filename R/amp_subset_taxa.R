@@ -26,6 +26,11 @@ amp_subset_taxa <- function(data, tax_vector = c("p__Chloroflexi", "p__Actinobac
     stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().")
   }
   
+  ### calculate percentages 
+  if (normalise) {
+    data$abund <- apply(data$abund,2, function(x) 100*x/sum(x)) %>% as.data.frame() 
+  }
+  
   # Make selection
   selection <- c(which(data$tax$Kingdom %in% tax_vector),
                  which(data$tax$Phylum %in% tax_vector),

@@ -81,15 +81,12 @@ mymetadata <- read_excel("data/metadata.xlsx",
 #Combine the data with amp_load() to make it compatible with ampvis2 functions.
 #Uncomment the fasta line to load reference sequences (not required).
 d <- amp_load(otutable = myotutable,
-              metadata = mymetadata
-              #, fasta = "path/to/fastafile.fa"
+              metadata = mymetadata,
+              fasta = "path/to/fastafile.fa" #optional
               )
               
 #Show a short summary about the data by simply typing the name of the object in the console
 d
-
-#Show a short summary of the sequences:
-d$refseq
 }
 
 #Minimal example metadata:

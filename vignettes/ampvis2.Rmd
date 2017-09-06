@@ -46,17 +46,26 @@ Now combine the data using `amp_load()`, which checks the data and combines it i
 ```{r, eval = FALSE}
 library(ampvis2)
 d <- amp_load(otutable = myotutable,
-              metadata = mymetadata)
+              metadata = mymetadata
+              #,fasta = "path/to/fastafile.fa" #optional
+              )
 ```
 
 The individual dataframes in the list can be explored with `View(d$metadata)`.
 
 ## Filtering and subsetting
-With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with `data("MiDAS")`. 
+With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with `data("MiDAS")`. Simply typing the name of any ampvis2 object in the console will show a short summary of the data:
 ```{r, warning = FALSE}
 data("MiDAS")
 MiDAS
 ```
+
+If you have loaded the raw DNA sequences of the OTUs from a FASTA file (with the `fasta =` argument) you can also get a short summary by typing the name of the ampvis2 object followed by `$refseq`:
+
+```{r}
+MiDAS$refseq
+```
+
 
 The loaded data can be subsetted based on variables in the metadata using the `amp_subset_samples()` function, which can then be stored as a new object and analysed separately:
 ```{r}

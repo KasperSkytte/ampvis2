@@ -22,7 +22,7 @@ A list with 3 dataframes (4 if reference sequences are provided).
 Subsets the data in ampvis2 objects based on metadata and returns the subsetted object.
 }
 \details{
-The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly. To recalculate
+The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly.
 }
 \examples{
 #Load example data

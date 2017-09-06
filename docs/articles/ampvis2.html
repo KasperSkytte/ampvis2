@@ -88,13 +88,15 @@ mymetadata &lt;-<span class="st"> </span>readxl::<span class="kw">read_excel</sp
 <p>Now combine the data using <code><a href="../reference/amp_load.html">amp_load()</a></code>, which checks the data and combines it into one <code>ampvis2</code> object, making it easier to manipulate, filter and subset all elements of the data at once for analysis:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ampvis2)
 d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_load.html">amp_load</a></span>(<span class="dt">otutable =</span> myotutable,
-              <span class="dt">metadata =</span> mymetadata)</code></pre></div>
+              <span class="dt">metadata =</span> mymetadata
+              <span class="co">#,fasta = "path/to/fastafile.fa" #optional</span>
+              )</code></pre></div>
 <p>The individual dataframes in the list can be explored with <code>View(d$metadata)</code>.</p>
 </div>
 <div id="filtering-and-subsetting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#filtering-and-subsetting" class="anchor"></a>Filtering and subsetting</h2>
-<p>With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with <code>data("MiDAS")</code>. The loaded data can be subsetted based on variables in the metadata using the <code><a href="../reference/amp_subset_samples.html">amp_subset_samples()</a></code> function, which can then be stored as a new object and analysed separately:</p>
+<p>With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with <code>data("MiDAS")</code>. Simply typing the name of any ampvis2 object in the console will show a short summary of the data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"MiDAS"</span>)
 MiDAS</code></pre></div>
 <pre><code>## ampvis2 object with 4 elements.
@@ -112,6 +114,27 @@ MiDAS</code></pre></div>
 ## 
 ## Metadata variables:
 ##  SampleID Plant Year Period Date DeltaDays LIB_ID Latitude Longitude RawData</code></pre>
+<p>If you have loaded the raw DNA sequences of the OTUs from a FASTA file (with the <code>fasta =</code> argument) you can also get a short summary by typing the name of the ampvis2 object followed by <code>$refseq</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MiDAS$refseq</code></pre></div>
+<pre><code>## 14791 DNA sequences in binary format stored in a list.
+## 
+## Mean sequence length: 472.808 
+##    Shortest sequence: 425 
+##     Longest sequence: 525 
+## 
+## Labels:
+## MiDAS_6902
+## MiDAS_5688
+## MiDAS_5583
+## MiDAS_761
+## MiDAS_2372
+## MiDAS_6878
+## ...
+## 
+## Base composition:
+##     a     c     g     t 
+## 0.261 0.225 0.320 0.194</code></pre>
+<p>The loaded data can be subsetted based on variables in the metadata using the <code><a href="../reference/amp_subset_samples.html">amp_subset_samples()</a></code> function, which can then be stored as a new object and analysed separately:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MiDASsubset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS, Plant %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>))</code></pre></div>
 <pre><code>## 522 samples and 6569 OTUs have been filtered 
 ## Before: 573 samples and 14791 OTUs
@@ -130,7 +153,7 @@ MiDAS</code></pre></div>
 <a href="#heatmap" class="anchor"></a>Heatmap</h1>
 <p>All ampvis2 plots are generated using the <a href="http://ggplot2.tidyverse.org/">ggplot2</a> package. You can change the look of the plots to better suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots if needed. Refer to the <a href="http://ggplot2.tidyverse.org/reference/index.html">ggplot2 documentation</a> for more information. <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> by default aggregates to phylum level and shows the top 10 phyla, ordered by mean read abundance across all samples:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset, <span class="dt">group_by =</span> <span class="st">"Plant"</span>)</code></pre></div>
-<p><img src="ampvis2_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<p><img src="ampvis2_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <p>There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with “+” after the actual ampvis2 function):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset,
             <span class="dt">group_by =</span> <span class="kw">c</span>(<span class="st">"Plant"</span>, <span class="st">"Year"</span>),
@@ -143,20 +166,20 @@ MiDAS</code></pre></div>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">vjust =</span> <span class="dv">1</span>),
         <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>),
         <span class="dt">legend.position=</span><span class="st">"right"</span>)</code></pre></div>
-<p><img src="ampvis2_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="ampvis2_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
 <div id="boxplot" class="section level1">
 <h1 class="hasAnchor">
 <a href="#boxplot" class="anchor"></a>Boxplot</h1>
 <p><code><a href="../reference/amp_boxplot.html">amp_boxplot()</a></code> generates boxplots, again ordered by mean read abundance across all samples:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDASsubset)</code></pre></div>
-<p><img src="ampvis2_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="ampvis2_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>The arguments you can provide are similar to those used in <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> and other ampvis2 functions:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDASsubset,
             <span class="dt">group_by =</span> <span class="st">"Period"</span>,
             <span class="dt">tax_show =</span> <span class="dv">5</span>,
             <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>)</code></pre></div>
-<p><img src="ampvis2_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="ampvis2_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 </div>
 <div id="ordination" class="section level1">
 <h1 class="hasAnchor">
@@ -169,7 +192,7 @@ MiDAS</code></pre></div>
              <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,
              <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,
              <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>) +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"blank"</span>)</code></pre></div>
-<p><img src="ampvis2_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="ampvis2_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <p>And lastly an example of constrained ordination by Canonical Correspondence Analysis (CCA), which in this case reveals how samples taken at different seasonal periods (<code>constrain = "Period"</code>) of the year can explain the data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ordinationresult &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, 
              <span class="dt">type =</span> <span class="st">"CCA"</span>,
@@ -181,7 +204,7 @@ MiDAS</code></pre></div>
              <span class="dt">sample_colorframe_label =</span> <span class="st">"Period"</span>,
              <span class="dt">detailed_output =</span> <span class="ot">TRUE</span>)
 ordinationresult$plot</code></pre></div>
-<p><img src="ampvis2_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p><img src="ampvis2_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <p>Notice that the plot can be saved as a more detailed object (<code>detailed_output = TRUE</code>), so additional details about the ordination result can be obtained for evaluation, fx a screeplot by <code>ordinationresult$screeplot</code> or some more raw data by <code>ordinationresult$model</code>.</p>
 </div>
 <div id="other-functions" class="section level1">

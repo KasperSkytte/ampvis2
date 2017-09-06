@@ -57,7 +57,7 @@ amp_subset_samples <- function(data, ..., minreads = 1, normalise = FALSE) {
   }
   
   ### calculate percentages 
-  if (normalise == TRUE) {
+  if (normalise) {
     data$abund <- apply(data$abund,2, function(x) 100*x/sum(x)) %>% as.data.frame() 
   }
   
