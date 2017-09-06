@@ -11,7 +11,7 @@ amp_load(otutable = dataframe, metadata = dataframe)
 
 \item{metadata}{(\emph{required}) A metadata (dataframe) with information about the samples.}
 
-\item{refseq}{Reference sequences for all OTUs as loaded with \code{\link[Biostrings]{readDNAStringSet}} from the \code{\link{Biostrings}} bioconductor package.}
+\item{fasta}{(\emph{optional}) Path to a fasta file with reference sequences for all OTUs. (\emph{default:} \code{NULL})}
 }
 \value{
 A list with 3 dataframes (4 if reference sequences are provided).
@@ -54,6 +54,11 @@ If for example a column is named "Year" and the entries are simply entered as nu
 A minimal example is available with \code{data("example_metadata")}.
 }
 
+\section{Reference sequences}{
+
+A fasta file with the raw sequences can be loaded as well, which will then be available in the refseq element of the ampvis2 object. These sequences will not be used in any ampvis2 function other than the two subset functions \code{\link{amp_subset_samples}} and \code{\link{amp_subset_taxa}}, so that they can be exported with \code{\link{amp_export_fasta}}. The fasta file is loaded with the \code{\link[ape]{read.dna}} function from the \code{\link{ape}} package.
+}
+
 \examples{
 #Be sure to use the correct function to load your .csv files, see ?read.table()
 
@@ -74,14 +79,17 @@ mymetadata <- read_excel("data/metadata.xlsx",
                          col_names = TRUE) \%>\% as.data.frame() 
                          
 #Combine the data with amp_load() to make it compatible with ampvis2 functions.
-#Uncomment the refseq line to load reference sequences (not required).
+#Uncomment the fasta line to load reference sequences (not required).
 d <- amp_load(otutable = myotutable,
               metadata = mymetadata
-              #, refseq = Biostrings::readDNAStringSet("data/otus.fa", format = "fasta") 
+              #, fasta = "path/to/fastafile.fa"
               )
               
 #Show a short summary about the data by simply typing the name of the object in the console
 d
+
+#Show a short summary of the sequences:
+d$refseq
 }
 
 #Minimal example metadata:

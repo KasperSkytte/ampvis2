@@ -8,7 +8,7 @@
 #' @param filename File name of the exported FASTA file. (\emph{default:} \code{"exported_sequences.fa"})
 #' @param tax (\emph{logical}) Add taxonomic strings to the output or not. (\emph{default:} \code{TRUE})
 #' 
-#' @import Biostrings
+#' @import ape
 #' @export
 #' 
 #' @examples 
@@ -36,8 +36,8 @@ amp_export_fasta <- function(data,
   }
   
   ### Check if refseq data is in the right format
-  if(!is.null(data$refseq) & !class(data$refseq) == "DNAStringSet") {
-    stop("The reference sequences must be loaded with readDNAStringSet() from the Biostrings bioconductor package.")
+  if(!is.null(data$refseq) & !class(data$refseq) == "DNAbin") {
+    stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().")
   }
   
   t <- data[["refseq"]]
@@ -52,5 +52,5 @@ amp_export_fasta <- function(data,
     names(t) <- paste(names(t), tax_sf, sep = "; ")
   }
   
-  writeXStringSet(t, file = filename)
+  ape::write.dna(t, file = filename, format = "fasta")
 }

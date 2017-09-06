@@ -6,10 +6,10 @@
 #'
 #' @param otutable (\emph{required}) An OTU-table (data frame), where the last 7 rows is the taxonomy.
 #' @param metadata (\emph{required}) A metadata (dataframe) with information about the samples.
-#' @param refseq Reference sequences for all OTUs as loaded with \code{\link[Biostrings]{readDNAStringSet}} from the \code{\link{Biostrings}} bioconductor package.
+#' @param fasta (\emph{optional}) Path to a fasta file with reference sequences for all OTUs. (\emph{default:} \code{NULL})
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
-#' @import Biostrings
+#' @import ape
 #' @import stringr
 #' @export
 #' 
@@ -43,6 +43,9 @@
 #' 
 #' A minimal example is available with \code{data("example_metadata")}.
 #' 
+#' @section Reference sequences:
+#' A fasta file with the raw sequences can be loaded as well, which will then be available in the refseq element of the ampvis2 object. These sequences will not be used in any ampvis2 function other than the two subset functions \code{\link{amp_subset_samples}} and \code{\link{amp_subset_taxa}}, so that they can be exported with \code{\link{amp_export_fasta}}. The fasta file is loaded with the \code{\link[ape]{read.dna}} function from the \code{\link{ape}} package. 
+#' 
 #' @examples 
 #' #Be sure to use the correct function to load your .csv files, see ?read.table()
 #' 
@@ -63,14 +66,17 @@
 #'                          col_names = TRUE) %>% as.data.frame() 
 #'                          
 #' #Combine the data with amp_load() to make it compatible with ampvis2 functions.
-#' #Uncomment the refseq line to load reference sequences (not required).
+#' #Uncomment the fasta line to load reference sequences (not required).
 #' d <- amp_load(otutable = myotutable,
 #'               metadata = mymetadata
-#'               #, refseq = Biostrings::readDNAStringSet("data/otus.fa", format = "fasta") 
+#'               #, fasta = "path/to/fastafile.fa"
 #'               )
 #'               
 #' #Show a short summary about the data by simply typing the name of the object in the console
 #' d
+#' 
+#' #Show a short summary of the sequences:
+#' d$refseq
 #' }
 #' 
 #' #Minimal example metadata:
@@ -85,16 +91,11 @@
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_load <- function(otutable, metadata, refseq = NULL){
+amp_load <- function(otutable, metadata, fasta = NULL){
   ###check data
   otutable <- as.data.frame(otutable)
   metadata <- as.data.frame(metadata)
   rownames(metadata) <- metadata[,1]
-  
-  ### Check if refseq data is in the right format
-  if(!is.null(refseq) & !class(refseq) == "DNAStringSet") {
-    stop("The reference sequences must be loaded with readDNAStringSet() from the Biostrings bioconductor package.")
-  }
   
   ### First column in OTU-table should be a sample, NOT the OTU ID's
   if (rownames(otutable) == otutable[,1]) {
@@ -103,6 +104,10 @@ amp_load <- function(otutable, metadata, refseq = NULL){
   
   if (rownames(otutable) == c(1:nrow(otutable))) {
     stop("The rownames of the OTU-table do not seem to be OTU ID's:\n", as.character(head(rownames(otutable))))
+  }
+  
+  if (!is.null(fasta)) {
+    refseq <- ape::read.dna(file = fasta, format = "fasta")
   }
   
   ### Only alphanumeric characters in metadata column names, replace others with "_", they may cause problems with ggplot2 groupings etc
@@ -151,6 +156,6 @@ amp_load <- function(otutable, metadata, refseq = NULL){
     data <- list(abund = abund, tax = tax, metadata = metadata)
   }
   
-  class(data) <- "ampvis2" #Our own "ampvis2" format yay!
+  class(data) <- "ampvis2" #Our own "ampvis2" class, yay!
   return(data)
 }

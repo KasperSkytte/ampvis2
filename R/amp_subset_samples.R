@@ -11,6 +11,7 @@
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' @import dplyr
+#' @import ape
 #' @export
 #' 
 #' @details The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly. To recalculate
@@ -48,7 +49,12 @@ amp_subset_samples <- function(data, ..., minreads = 1, normalise = FALSE) {
   if (minreads > max(colSums(data$abund))) {
     stop(paste("Cannot subset samples with minimum", minreads, "total reads, when highest number of reads in any sample is", max(colSums(data$abund))))
   }
-
+  
+  ### Check if refseq data is in the right format
+  if(!is.null(data$refseq) & !class(data$refseq) == "DNAbin") {
+    stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().")
+  }
+  
   ### calculate percentages 
   if (normalise == TRUE) {
     data$abund <- apply(data$abund,2, function(x) 100*x/sum(x)) %>% as.data.frame() 
