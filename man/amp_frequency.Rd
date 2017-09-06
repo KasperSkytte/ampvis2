@@ -2,32 +2,45 @@
 % Please edit documentation in R/amp_frequency.R
 \name{amp_frequency}
 \alias{amp_frequency}
-\title{Generates a ggplot2 style frequency plot}
+\title{Frequency plot}
 \usage{
 amp_frequency(data)
 }
 \arguments{
-\item{data}{(required) A ampvis object.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group}{Group the data based on a sample variable (default: "Sample").}
+\item{group_by}{Group the samples by a variable in the metadata. (\emph{default:} \code{"Sample"})}
 
-\item{tax.class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
+\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
-\item{tax.empty}{Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: best).}
+\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
+\itemize{
+   \item \code{"remove"}: Remove OTUs without taxonomic information.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"OTU"}: Display the OTU name.
+   }}
 
-\item{output}{Either plot or complete (default: "plot").}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
 
-\item{tax.aggregate}{The taxonomic level that the data should be aggregated to (default: OTU).}
+\item{weight}{(\emph{logical}) Weight the frequency by abundance. (\emph{default:} \code{TRUE})}
 
-\item{weight}{Weight the frequency by abundance (default: T).}
+\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
-\item{raw}{Display raw input instead of converting to percentages (default: F).}
+\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
 \value{
-A ggplot2 object
+A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generates a ggplot2 style frequency plot
+Generates a barplot with frequency vs read abundance.
+}
+\examples{
+#Load example data
+data("AalborgWWTPs")
+
+#Frequency plot
+amp_frequency(AalborgWWTPs)
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

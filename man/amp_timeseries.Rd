@@ -2,36 +2,53 @@
 % Please edit documentation in R/amp_timeseries.R
 \name{amp_timeseries}
 \alias{amp_timeseries}
-\title{Timeseries}
+\title{Abundance timeseries}
 \usage{
-amp_timeseries(data)
+amp_timeseries(data, time_variable = "")
 }
 \arguments{
-\item{data}{(required) A phyloseq object.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{time}{(required) The name of the column containing the time variables, e.g. "Date".}
+\item{time_variable}{(required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link{as.Date()}} and preferably of the form \code{"yyyy-mm-dd"} or \code{"\%Y-\%m-\%d"}.}
 
-\item{group}{A variable from the associated sample data to group/split samples by (default: "Samples").}
+\item{group_by}{Group the samples by a variable in the metadata.}
 
-\item{split}{Split the plot into subplot of each taxa (default: F).}
+\item{split}{Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE})}
 
-\item{tax.show}{The number of taxa to show or a vector of taxa names (default: 5).}
+\item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{6})}
 
-\item{tax.aggregate}{The taxonomic level that the data should be aggregated to (default: "OTU")}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
 
-\item{tax.add}{Additional taxonomic levels to display for each entry, e.g. "Phylum" (default: "none").}
+\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
-\item{tax.class}{Converts a specific phyla to class level instead, e.g. "p__Proteobacteria" (default: "none) .}
+\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
-\item{tax.empty}{Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: "best").}
+\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
+\itemize{
+   \item \code{"remove"}: Remove OTUs without taxonomic information.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"OTU"}: Display the OTU name.
+   }}
 
-\item{raw}{Display raw input instead of converting to percentages (default: F)}
+\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
+
+\item{...}{Additional arguments passed to \code{\link{as.Date}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as.Date}.}
 }
 \value{
-A ggplot2 object or a list with the ggplot2 object and associated dataframes.
+A ggplot2 object.
 }
 \description{
-This function allows you plot relative abundance reads over time in a timeseries plot.
+Generates a timeseries plot showing relative read abundances over time.
+}
+\examples{
+#Load example data
+data("AalborgWWTPs")
+
+#Timeseries of the 6 most abundant OTUs based on the "Date" column
+amp_timeseries(AalborgWWTPs, time_variable = "Date")
+
+#Timeseries of the 6 most abundant Genera and split into 6 individual plots
+amp_timeseries(AalborgWWTPs, time_variable = "Date", split = TRUE, tax_aggregate = "Genus")
 }
 \author{
 Julie Klessner Thun Pedersen \email{julieklessnerthun@gmail.com}

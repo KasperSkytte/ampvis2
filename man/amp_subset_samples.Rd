@@ -2,22 +2,49 @@
 % Please edit documentation in R/amp_subset_samples.R
 \name{amp_subset_samples}
 \alias{amp_subset_samples}
-\title{Subset data based on metadata.}
+\title{Subset ampvis2 objects based on sample metadata}
 \usage{
 amp_subset_samples(data, ...)
 }
 \arguments{
-\item{data}{(required) A object.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{...}{(optional) Additional data is passed on to the R subset function. The samples can be subset based on any variable in the associated metadata.}
+\item{...}{Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}.}
 
-\item{minreads}{(optional) Minimum number of reads pr. sample (default: 1).}
+\item{minreads}{Minimum number of reads pr. sample. (\emph{default:} \code{1})}
+
+\item{normalise}{(\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
 }
 \value{
-A phyloseq object.
+A list with 3 dataframes (4 if reference sequences are provided).
 }
 \description{
-Subset data based on metadata.
+Subsets the data in ampvis2 objects based on metadata and returns the subsetted object.
+}
+\details{
+The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly.
+}
+\examples{
+#Load example data
+data("MiDAS")
+
+#Show a short summary about the data by simply typing the name of the object in the console
+MiDAS
+
+#Keep only samples containing Aalborg West or East in the Plant column
+MiDASsubset <- amp_subset_samples(MiDAS, Plant \%in\% c("Aalborg West", "Aalborg East"))
+
+#Summary
+MiDASsubset
+
+#Keep only samples containing Aalborg West or East in the Plant column 
+#and remove the sample "16SAMP-749". Remove any sample(s) with less than 20000 total reads
+MiDASsubset2 <- amp_subset_samples(MiDAS,
+    Plant \%in\% c("Aalborg West", "Aalborg East") & !SampleID \%in\% c("16SAMP-749"), 
+    minreads = 20000)
+    
+#Summary
+MiDASsubset2
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

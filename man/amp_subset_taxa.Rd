@@ -2,20 +2,22 @@
 % Please edit documentation in R/amp_subset_taxa.R
 \name{amp_subset_taxa}
 \alias{amp_subset_taxa}
-\title{Subset data based on taxonomy.}
+\title{Subset ampvis2 objects based on taxonomy}
 \usage{
 amp_subset_taxa(data, tax_vector)
 }
 \arguments{
-\item{data}{(required) A list object with 3 dataframes: abund, tax, and metadata.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{tax_vector}{(required) a vector with taxonomic groups e.g. c("p__Chloroflexi","p__Actinobacteria")}
+\item{tax_vector}{(required) A vector with taxonomic groups, e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.}
+
+\item{normalise}{(\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
 }
 \value{
-A list object with 3 dataframes: abund, tax, and metadata.
+A list with 3 dataframes (4 if reference sequences are provided).
 }
 \description{
-Subset data based on taxonomy.
+Subsets the data in ampvis2 objects based on taxonomy and returns the subsetted object. See examples.
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

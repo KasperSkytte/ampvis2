@@ -2,36 +2,52 @@
 % Please edit documentation in R/amp_otu_network.R
 \name{amp_otu_network}
 \alias{amp_otu_network}
-\title{Generate a taxa/sample network}
+\title{Network plot}
 \usage{
 amp_otu_network(data)
 }
 \arguments{
-\item{data}{(required) A ampvis object.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{tax.aggregate}{The taxonomic level that the data should be aggregated to (default: "Phylum")}
+\item{min_abundance}{Minimum taxa abundance pr. sample. (\emph{default:} \code{0})}
 
-\item{tax.add}{Additional taxonomic levels to display for each entry e.g. "Phylum" (default: "none")}
+\item{color_by}{A metadata variable to color the samples by.}
 
-\item{tax.show}{The number of taxa to show (default: "all").}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})}
 
-\item{tax.class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
+\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
-\item{tax.empty}{Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: "best").}
+\item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{10})}
 
-\item{output}{To output a plot or the complete data inclusive dataframes (default: "plot")}
+\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
-\item{raw}{Display raw input instead of converting to percentages (default: F)}
+\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
+\itemize{
+   \item \code{"remove"}: Remove OTUs without taxonomic information.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"OTU"}: Display the OTU name.
+   }}
 
-\item{min.abundance}{Minimum taxa abundance pr. sample (default: 0)}
+\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
-\item{color}{A metadata variable to color the samples by.}
+\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
 \value{
-A ggplot2 object or a list with the ggplot2 object and associated dataframes.
+A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generate a taxa/sample network
+Generates network plot of taxa and samples based on ggnet2.
+}
+\details{
+See \code{\link[GGally]{ggnet2}}
+}
+\examples{
+#Load example data
+data("AalborgWWTPs")
+
+#OTU network plot
+amp_otu_network(AalborgWWTPs)
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}

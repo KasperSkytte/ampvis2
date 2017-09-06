@@ -2,66 +2,92 @@
 % Please edit documentation in R/amp_heatmap.R
 \name{amp_heatmap}
 \alias{amp_heatmap}
-\title{Generate a heatmap from amplicon data}
+\title{Heatmap}
 \usage{
-amp_heatmap(data)
+amp_heatmap(data, group_by = "")
 }
 \arguments{
-\item{data}{(required) A ampvis object.}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group}{A variable from the associated sample data to group samples by.}
+\item{group_by}{Group the samples by a variable in the metadata.}
 
-\item{facet}{A variable to facet the plot by.}
+\item{facet_by}{Facet the samples by a variable in the metadata.}
 
-\item{normalise}{A specific sample or group to normalise the counts to, or "relative".}
+\item{normalise_by}{A variable or a specific sample in the metadata to normalise the counts by.}
 
-\item{scale}{A variable from the associated sample data to scale the abundance by.}
+\item{scale_by}{Scale the abundances by a variable in the metadata.}
 
-\item{tax.aggregate}{The taxonomic level that the data should be aggregated to (default: "Phylum").}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})}
 
-\item{tax.add}{Additional taxonomic levels to display for each entry e.g. "Phylum" (default: "none").}
+\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
-\item{tax.show}{The number of taxa to show or a vector of taxa names (default: 10).}
+\item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{10})}
 
-\item{tax.class}{Converts a specific phyla to class level instead (e.g. "p__Proteobacteria").}
+\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
-\item{tax.empty}{Either "remove" OTUs without taxonomic information, add "best" classification or add the "OTU" name (default: "best").}
+\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
+\itemize{
+   \item \code{"remove"}: Remove OTUs without taxonomic information.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"OTU"}: Display the OTU name.
+   }}
 
-\item{order.x}{A taxonomy group or vector to order the x-axis by, alternatively "cluster".}
+\item{order_x_by}{A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
 
-\item{order.y}{A sample or vector to order the y-axis by, alternatively "cluster".}
+\item{order_y_by}{A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
 
-\item{plot.numbers}{Plot the values on the heatmap (default: T)}
+\item{plot_values}{(\emph{logical}) Plot the values on the heatmap or not. (\emph{default:} \code{TRUE})}
 
-\item{plot.breaks}{A vector of breaks for the abundance legend.}
+\item{plot_legendbreaks}{A vector of breaks for the abundance legend, fx \code{c(1, 10, 20)}.}
 
-\item{plot.colorscale}{Either "sqrt" or "log10" (default: "log10")}
+\item{plot_colorscale}{The type of scale used for the coloring of abundances, either \code{"sqrt"} or \code{"log10"}. (\emph{default:} \code{"log10"})}
 
-\item{plot.na}{Whether to color missing values with the lowest color in the scale (default: T).}
+\item{plot_na}{(\emph{logical}) Whether to color missing values with the lowest color in the scale or not. (\emph{default:} \code{TRUE})}
 
-\item{output}{To output a plot or the complete data inclusive dataframes (default: "plot")}
+\item{plot_values_size}{The size of the plotted values. (\emph{default:} \code{4})}
 
-\item{plot.text.size}{The size of the plotted text (default: 4).}
+\item{measure}{Calculate and display either \code{"mean"}, \code{"max"} or \code{"median"} across the groups. (\emph{default:} \code{"mean"})}
 
-\item{calc}{Calculate and display "mean", "max" or "median" across the groups (default: "mean").}
+\item{min_abundance}{All values below this value are given the same color. (\emph{default:} \code{0.1})}
 
-\item{min.abundance}{All values below are given the same color (default: 0.1).}
+\item{max_abundance}{All values above this value are given the same color.}
 
-\item{max.abundance}{All values above are given the same color.}
+\item{sort_by}{Sort the heatmap by a specific value of the \code{"group_by"} argument, e.g. \code{"Treatment A"}.}
 
-\item{sort.by}{Sort the heatmap by a specific value of the "group", e.g. "Treatment A".}
+\item{color_vector}{Vector of colors for the colorscale, e.g. \code{c("white", "red")}.}
 
-\item{color.vector}{Vector with colors for colorscale e.g. c("red","white") (default: NULL)}
+\item{round}{Number of digits to show with the values. (\emph{default:} \code{1})}
 
-\item{round}{Number of digits to plot (default: 1)}
+\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
-\item{raw}{Display raw input instead of converting to percentages (default: F)}
+\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
 \value{
-A ggplot2 object or a list with the ggplot2 object and associated dataframes.
+A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 }
 \description{
-Generate a heatmap in ggplot2 format from amplicon data in ampvis format. Use sample metadata to aggregate samples and taxonomy to aggregate OTUs.
+Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs.
+}
+\examples{
+#Load example data
+data("AalborgWWTPs")
+
+#Heatmap grouped by WWTP
+amp_heatmap(AalborgWWTPs, group_by = "Plant")
+
+#Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year, 
+#values not plotted for visibility, phylum name added and colorscale adjusted manually
+amp_heatmap(AalborgWWTPs,
+           group_by = "Plant", 
+           facet_by = "Year",
+           plot_values = FALSE,
+           tax_show = 20,
+           tax_aggregate = "Genus", 
+           tax_add = "Phylum",
+           color_vector = c("white", "red"), 
+           plot_colorscale = "sqrt",
+           plot_legendbreaks = c(1, 5, 10))
+
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
