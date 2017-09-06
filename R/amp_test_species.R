@@ -31,6 +31,19 @@
 #' @import plotly
 #' @import data.table
 #' @export
+#' @examples 
+#' #Load example data
+#' data("AalborgWWTPs")
+#' 
+#' #Save the results in an object
+#' results <- amp_test_species(AalborgWWTPs, group = "Plant")
+#' 
+#' #Show plots
+#' results$plot_sig
+#' results$plot_MA
+#' 
+#' #Or show raw results
+#' results$DESeq2_results
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 

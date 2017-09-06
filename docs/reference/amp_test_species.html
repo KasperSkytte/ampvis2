@@ -158,6 +158,47 @@
     <p>A list with multiple elements.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>#Load example data</span>
+<span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
+
+<span class='co'>#Save the results in an object</span>
+<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_test_species</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='output co'>#&gt; <span class='message'>estimating size factors</span></div><div class='output co'>#&gt; <span class='message'>estimating dispersions</span></div><div class='output co'>#&gt; <span class='message'>gene-wise dispersion estimates</span></div><div class='output co'>#&gt; <span class='message'>mean-dispersion relationship</span></div><div class='output co'>#&gt; <span class='message'>final dispersion estimates</span></div><div class='output co'>#&gt; <span class='message'>fitting model and testing</span></div><div class='output co'>#&gt; <span class='message'>-- replacing outliers and refitting for 56 genes</span>
+#&gt; <span class='message'>-- DESeq argument 'minReplicatesForReplace' = 7 </span>
+#&gt; <span class='message'>-- original counts are preserved in counts(dds)</span></div><div class='output co'>#&gt; <span class='message'>estimating dispersions</span></div><div class='output co'>#&gt; <span class='message'>fitting model and testing</span></div><div class='input'>
+<span class='co'>#Show plots</span>
+<span class='no'>results</span>$<span class='no'>plot_sig</span></div><div class='img'><img src='amp_test_species-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='no'>results</span>$<span class='no'>plot_MA</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in continuous x-axis</span></div><div class='img'><img src='amp_test_species-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='co'>#Or show raw results</span>
+<span class='no'>results</span>$<span class='no'>DESeq2_results</span></div><div class='output co'>#&gt; log2 fold change (MLE): Plant Aalborg.West vs Aalborg.East 
+#&gt; Wald test p-value: Plant Aalborg.West vs Aalborg.East 
+#&gt; DataFrame with 8189 rows and 6 columns
+#&gt;                 baseMean log2FoldChange     lfcSE        stat       pvalue
+#&gt;                &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt;   &lt;numeric&gt;    &lt;numeric&gt;
+#&gt; MiDAS_1     1.622141e+03      0.4517697 0.1941157  2.32732245 1.994811e-02
+#&gt; MiDAS_10    4.499288e+02      0.3941601 0.4520749  0.87189114 3.832678e-01
+#&gt; MiDAS_100   5.289744e+01     -1.3337224 0.2749097 -4.85149279 1.225357e-06
+#&gt; MiDAS_1000  3.569502e+00      1.4623340 0.3635790  4.02205317 5.769303e-05
+#&gt; MiDAS_10007 1.364352e-02      0.1341890 2.9448575  0.04556724 9.636552e-01
+#&gt; ...                  ...            ...       ...         ...          ...
+#&gt; MiDAS_9991    0.05216529      0.3746361  2.944857  0.12721707    0.8987686
+#&gt; MiDAS_9993    0.06260276      0.1434375  2.944857  0.04870778    0.9611522
+#&gt; MiDAS_9994    0.03213384      0.2544126  2.944857  0.08639215    0.9311547
+#&gt; MiDAS_9996    0.01631194      0.1341890  2.944857  0.04556724    0.9636552
+#&gt; MiDAS_9999    0.04149617     -0.2079847  2.944857 -0.07062642    0.9436951
+#&gt;                     padj
+#&gt;                &lt;numeric&gt;
+#&gt; MiDAS_1     4.459553e-02
+#&gt; MiDAS_10    4.873824e-01
+#&gt; MiDAS_100   7.648199e-06
+#&gt; MiDAS_1000  2.571303e-04
+#&gt; MiDAS_10007           NA
+#&gt; ...                  ...
+#&gt; MiDAS_9991            NA
+#&gt; MiDAS_9993            NA
+#&gt; MiDAS_9994            NA
+#&gt; MiDAS_9996            NA
+#&gt; MiDAS_9999            NA</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -165,7 +206,9 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     
