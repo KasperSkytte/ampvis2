@@ -52,11 +52,14 @@ d <- amp_load(otutable = myotutable,
 The individual dataframes in the list can be explored with `View(d$metadata)`.
 
 ## Filtering and subsetting
-With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with `data("MiDAS")`. The loaded data can be subsetted based on variables in the metadata using the `amp_subset_samples()` function, which can then be stored as a new object and analysed separately:
-
+With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with `data("MiDAS")`. 
 ```{r, warning = FALSE}
 data("MiDAS")
 MiDAS
+```
+
+The loaded data can be subsetted based on variables in the metadata using the `amp_subset_samples()` function, which can then be stored as a new object and analysed separately:
+```{r}
 MiDASsubset <- amp_subset_samples(MiDAS, Plant %in% c("Aalborg West", "Aalborg East"))
 ```
 

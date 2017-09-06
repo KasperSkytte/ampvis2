@@ -12,9 +12,10 @@
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' @import dplyr
 #' @import ape
+#' @import stringr
 #' @export
 #' 
-#' @details The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly. To recalculate
+#' @details The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly.
 #' 
 #' @examples 
 #' #Load example data
@@ -67,17 +68,24 @@ amp_subset_samples <- function(data, ..., minreads = 1, normalise = FALSE) {
   #Subset metadata based on ...
   data$metadata <- subset(data$metadata, ...)
   data$metadata <- droplevels(data$metadata) #Drop unused factor levels or fx heatmaps will show a "NA" column
+  
   #And only keep columns in otutable that match the rows in the subsetted metadata
   data$abund <- data$abund[, rownames(data$metadata), drop = FALSE]
   
   #After subsetting the samples, remove OTU's that could possibly have 0 reads in all samples, and remove samples below the minreads
   data$abund <- data$abund[rowSums(data$abund) > 0, colSums(data$abund) >= minreads, drop = FALSE]
+  
   #Subset the metadata again to match any removed sample(s)
   data$metadata <- data$metadata[colnames(data$abund), , drop = FALSE]
-  #Subset taxonomy, and refseq if any, based on abund
+  
+  #Subset taxonomy based on abund
   data$tax <- data$tax[rownames(data$abund), ]
+  
+  #Subset refseq, if any, based on abund
   if(any(names(data) == "refseq")){
-    data$refseq <- data$refseq[names(data$refseq) %in% rownames(data$abund), ]
+    #sometimes there is taxonomy alongside the OTU ID's. Anything after a ";" will be ignored
+    names_stripped <- stringr::str_split(names(data$refseq), ";", simplify = TRUE)[,1]
+    data$refseq <- data$refseq[names_stripped %in% rownames(data$abund)] 
   }
   
   #Print number of removed samples

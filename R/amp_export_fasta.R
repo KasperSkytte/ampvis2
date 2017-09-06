@@ -9,6 +9,7 @@
 #' @param tax (\emph{logical}) Add taxonomic strings to the output or not. (\emph{default:} \code{TRUE})
 #' 
 #' @import ape
+#' @import stringr
 #' @export
 #' 
 #' @examples 
@@ -43,6 +44,7 @@ amp_export_fasta <- function(data,
   t <- data[["refseq"]]
   
   if (tax == TRUE){
+    names$refseq <- stringr::str_split(names(data$refseq), ";", simplify = TRUE)[,1] #dont want duplicate taxonomy, if the refseq loaded already contains taxonomy.
     tax <- as.data.frame(data[["tax"]][,1:7])
     tax <- tax[names(data[["refseq"]]),]
     tax_s <- data.frame(lapply(tax, as.character), stringsAsFactors=FALSE)
