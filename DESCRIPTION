@@ -27,6 +27,7 @@ Imports:
     magrittr,
     scales,
     stringr,
+    compare,
     readxl,
     network,
     GGally,

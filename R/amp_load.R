@@ -11,6 +11,8 @@
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' @import ape
 #' @import stringr
+#' @import dplyr
+#' @import compare
 #' @export
 #' 
 #' @details The \code{amp_load()} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements as described in the following sections to work properly.
@@ -92,7 +94,8 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   ###check data
   otutable <- as.data.frame(otutable)
   metadata <- as.data.frame(metadata)
-  rownames(metadata) <- metadata[,1]
+  rownames(metadata) <- as.character(metadata[,1]) %>%
+    stringr::str_replace_all("[^[:alnum:]]", "_")
   
   ### First column in OTU-table should be a sample, NOT the OTU ID's
   if (identical(rownames(otutable), otutable[,1])) {
@@ -101,10 +104,6 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   
   if (identical(rownames(otutable), c(1:nrow(otutable)))) {
     stop("The rownames of the OTU-table do not seem to be OTU ID's:\n", as.character(head(rownames(otutable))))
-  }
-  
-  if (!is.null(fasta)) {
-    refseq <- ape::read.dna(file = fasta, format = "fasta")
   }
   
   ### Only alphanumeric characters in metadata column names, replace others with "_", they may cause problems with ggplot2 groupings etc
@@ -131,15 +130,20 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   otutable$Species<-trim(as.character(otutable$Species))
   
   ### Abundance: all columns from otutable except the first and last 7 and convert to numeric for downstream compliance
-  abund <- lapply(otutable[,1:(ncol(otutable) - 7)], as.numeric) %>% as.data.frame(check.names = FALSE, row.names = rownames(otutable))
-
+  abund <- lapply(otutable[,1:(ncol(otutable) - 7)], as.numeric) %>%
+    as.data.frame(check.names = FALSE, row.names = rownames(otutable))
+  colnames(abund) <- stringr::str_replace_all(colnames(abund), "[^[:alnum:]]", "_")
+  
   ### check if metadata and otutable match
-  if(!all(rownames(metadata) %in% colnames(abund)) | nrow(metadata) != ncol(abund)) {
-    stop("The samples in the metadata do not match those in the otutable.\nCheck that you have loaded matching files and that they meet the requirements described in ?amp_load().\nNumber of samples in metadata: ", nrow(metadata), "\nNumber of samples in otutable: ", ncol(otutable[,1:(ncol(otutable) - 7)]))
+  compareresult <- compare(colnames(abund), rownames(metadata), allowAll = TRUE)
+  if(!compareresult$result) {
+    abund <- abund[,which(colnames(abund) %in% rownames(metadata))]
+    metadata <- metadata[which(rownames(metadata) %in% colnames(abund)),]
+    warning("Only ", ncol(abund), " samples match between metadata and otutable, the rest have been removed.\nCheck that you have loaded matching files and that they meet the requirements described in ?amp_load().")
   }
   
   ### Abundance: re-arrange columns in the same order as the metadata
-  abund <- abund[,as.character(metadata[,1])]
+  #abund <- abund[,as.character(metadata[,1])]
   
   ### tax: the last 7 columns from otutable
   tax <- data.frame(otutable[, (ncol(otutable) - 6):ncol(otutable)] 
@@ -147,8 +151,8 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   tax <- tax[order(rownames(tax)), c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")]
   
   ###data: return the data in a combined list w or w/o refseq.
-  if(!is.null(refseq)) {
-    data <- list(abund = abund, tax = tax, metadata = metadata, refseq = refseq)
+  if(!is.null(fasta)) {
+    data <- list(abund = abund, tax = tax, metadata = metadata, refseq = ape::read.dna(file = fasta, format = "fasta"))
   } else {
     data <- list(abund = abund, tax = tax, metadata = metadata)
   }
