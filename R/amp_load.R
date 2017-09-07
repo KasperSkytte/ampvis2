@@ -140,9 +140,6 @@ amp_load <- function(otutable, metadata, fasta = NULL){
     warning("Only ", ncol(abund), " samples match between metadata and otutable, the rest have been removed.\nCheck that you have loaded matching files and that they meet the requirements described in ?amp_load().")
   }
   
-  ### Abundance: re-arrange columns in the same order as the metadata
-  abund <- abund[,rownames(metadata)]
-  
   ### tax: the last 7 columns from otutable
   tax <- data.frame(otutable[, (ncol(otutable) - 6):ncol(otutable)] 
                     ,OTU = rownames(otutable)) #with added OTU column
