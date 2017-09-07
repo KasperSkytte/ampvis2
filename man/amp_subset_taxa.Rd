@@ -21,4 +21,6 @@ Subsets the data in ampvis2 objects based on taxonomy and returns the subsetted 
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
+
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }

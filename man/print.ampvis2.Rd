@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.ampvis2.R
 \name{print.ampvis2}
 \alias{print.ampvis2}
-\title{Print ampvis data summary. Internal function.}
+\title{Prints ampvis2 object summary. Internal function.}
 \usage{
 \method{print}{ampvis2}(data)
 }
@@ -13,5 +13,8 @@
 Text output in console
 }
 \description{
-Print ampvis data summary. Internal function.
+Prints ampvis2 object summary. Internal function.
+}
+\author{
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }

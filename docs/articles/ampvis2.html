@@ -72,7 +72,8 @@
 <h2 class="hasAnchor">
 <a href="#loading-data" class="anchor"></a>Loading data</h2>
 <p>The most notable change with ampvis2 is that phyloseq is no longer used to handle the data, which makes it simpler to understand and work with, and lighter. The data is now simply stored as a list containing 3 dataframes (4 if reference sequences are provided) named <code>"metadata"</code>, <code>"otutable"</code> and <code>"tax"</code> (short for taxonomy). The data ampvis2 needs is an OTU-table generated with fx <a href="https://github.com/MadsAlbertsen/16S-analysis/tree/master/data.generation">workflow scipts v.4+</a>, where the last 7 columns is the taxonomy, and a metadata sheet containing any information about the samples, for example where the sample was taken, date, pH, temperature etc.</p>
-<p>First, import your data into R dataframes using an appropriate read function:</p>
+<p>First, load ampvis2 and import your data into R dataframes using an appropriate read function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ampvis2)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myotutable &lt;-<span class="st"> </span><span class="kw">read.csv2</span>(<span class="st">"data/otutable.csv"</span>, 
                         <span class="co">#sep = "\t",</span>
                         <span class="co">#dec = ".",</span>
@@ -210,7 +211,7 @@ ordinationresult$plot</code></pre></div>
 <div id="other-functions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#other-functions" class="anchor"></a>Other functions</h1>
-<p>There are numerous other functions to try out. Go explore them under the <a href="../reference/index.html">References</a> tab.</p>
+<p>There are numerous other functions to try out. Go explore them in the <a href="../reference/index.html">Reference</a> tab.</p>
 </div>
 </div>
   </div>
@@ -234,7 +235,7 @@ ordinationresult$plot</code></pre></div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Mads Albertsen.</p>
+  <p>Developed by Mads Albertsen, Kasper Skytte Andersen.</p>
 </div>
 
 <div class="pkgdown">

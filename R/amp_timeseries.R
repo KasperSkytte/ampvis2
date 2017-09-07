@@ -40,7 +40,7 @@
 #' @author Julie Klessner Thun Pedersen \email{julieklessnerthun@@gmail.com}
 
 amp_timeseries <- function(data,
-                           time_variable = NULL, 
+                           time_variable, 
                            group_by = "Sample", 
                            split = FALSE, 
                            tax_show = 6, 
@@ -55,9 +55,6 @@ amp_timeseries <- function(data,
   if(class(data) != "ampvis2")
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
-  # Required arguments
-  if(is.null(time_variable))
-    stop("Argument \"time_variable\" is required.")
   # Clean and rename taxonomy ---------------------------------------------------------
   
   data <- amp_rename(data = data, 

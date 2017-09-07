@@ -4,7 +4,7 @@ Title: Tools for visualising amplicon data
 Description: ampvis is a small set of tools that allows effortless visualisation of amplicon data
 Version: 2.0.1
 Date: 2017-05-02
-Authors@R: c(person("Mads", "Albertsen", role = c("aut", "cre"), email = "MadsAlbertsen85@gmail.com"), person("Kasper", "Andersen", "Skytte", role = c("aut"), email = "ksa@bio.aau.dk"))
+Authors@R: c(person("Mads", "Albertsen", role = c("aut", "cre"), email = "MadsAlbertsen85@gmail.com"), person("Kasper", "Andersen", "Skytte", role = c("aut"), email = "ksa@bio.aau.dk"), person("Rasmus", "Kirkegaard", "Hansen", role = c("ctb"), email = "rhk@bio.aau.dk"))
 License: AGPL-3
 URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues

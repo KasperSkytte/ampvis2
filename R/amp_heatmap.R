@@ -67,6 +67,7 @@
 #' @import scales
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 
 amp_heatmap <- function(data,
                         group_by = "Sample",
@@ -145,7 +146,6 @@ amp_heatmap <- function(data,
   
   abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
-    unique() %>% 
     as.data.frame()
   
   ## Add group information

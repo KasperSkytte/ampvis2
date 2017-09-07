@@ -29,4 +29,6 @@ Generates a table with functional information about the taxa in an input heatmap
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
+
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }

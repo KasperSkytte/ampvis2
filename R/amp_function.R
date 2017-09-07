@@ -18,6 +18,7 @@
 #' @export
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 
 amp_function <- function(heatmap, 
                          function_data = NULL, 

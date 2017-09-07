@@ -1,9 +1,10 @@
-#' Print ampvis data summary. Internal function.
+#' Prints ampvis2 object summary. Internal function.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #'
 #' @return Text output in console
 #' @export
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' 
 print.ampvis2 <- function(data) {
   ###calculate basic statistics and useful information about the data, print it

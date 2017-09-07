@@ -40,6 +40,7 @@
 #' amp_otu_network(AalborgWWTPs)
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 
 amp_otu_network <- function(data,
                             min_abundance = 0,

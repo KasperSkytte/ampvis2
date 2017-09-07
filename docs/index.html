@@ -72,14 +72,14 @@
 <div id="installing-ampvis2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-ampvis2" class="anchor"></a>Installing ampvis2</h2>
-<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R</a> (and for Windows also <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>) and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console. If you get asked to update old packages, just hit a. Install missing packages with <code>biocLite("packagename")</code>, if any.</p>
+<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R</a> 3.4.1 (and for Windows also <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>) and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console. If you get asked to update old packages, just hit a. Install missing packages with <code>biocLite("packagename")</code>, if any.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">"https://bioconductor.org/biocLite.R"</span>)
-<span class="kw">biocLite</span>(<span class="st">"MadsAlbertsen/ampvis2"</span>)</code></pre></div>
+<span class="kw">biocLite</span>(<span class="kw">c</span>(<span class="st">"devtools"</span>, <span class="st">"MadsAlbertsen/ampvis2"</span>))</code></pre></div>
 </div>
 <div id="get-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-started" class="anchor"></a>Get started</h2>
-<p>For a quick guide on how to use ampvis2 go to <a href="https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html">Get Started</a> and for details about all ampvis2 functions go to <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Reference</a>.</p>
+<p>For a quick guide on how to use ampvis2 go to the <a href="https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html">Get Started</a> page. Detailed documentation of all ampvis2 functions can be found at the <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Reference</a> page.</p>
 </div>
 <div id="shiny" class="section level2">
 <h2 class="hasAnchor">
@@ -106,11 +106,12 @@
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Mads Albertsen <br><small class="roles"> Author, maintainer </small> </li>
+<li>Kasper Skytte Andersen <br><small class="roles"> Author </small> </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/KasperSkytte/ampvis2"><img src="https://travis-ci.org/KasperSkytte/ampvis2.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://travis-ci.org/MadsAlbertsen/ampvis2"><img src="https://travis-ci.org/MadsAlbertsen/ampvis2.svg?branch=master" alt="Travis-CI Build Status"></a></li>
 </ul>
 </div>
 
@@ -118,7 +119,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Mads Albertsen.</p>
+  <p>Developed by Mads Albertsen, Kasper Skytte Andersen.</p>
 </div>
 
 <div class="pkgdown">

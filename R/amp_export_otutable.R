@@ -22,6 +22,7 @@
 #' amp_export_otutable(AalborgWWTPs)
 #' }
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 
 amp_export_otutable <- function(data,
                                 filename = "exported_otutable.txt",

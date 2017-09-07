@@ -28,4 +28,6 @@ amp_export_fasta(AalborgWWTPs)
 }
 \author{
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
+
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
