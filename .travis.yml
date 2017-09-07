@@ -5,3 +5,8 @@ sudo: false
 cache: packages
 r: bioc-devel
 warnings_are_errors: false
+notifications:
+    email: false
+    slack: eb-group-aau:FXLq5xhPHEEmmNLMHlQrpiCd
+        on_succes: change
+        on_failure: always
