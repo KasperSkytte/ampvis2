@@ -11,10 +11,10 @@ BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
 Depends:
     R (>= 3.4.1),
-    dplyr,
     ggplot2
 Imports:
     DESeq2,
+    dplyr,
     tidyverse,
     ggrepel,
     vegan,

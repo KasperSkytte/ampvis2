@@ -21,9 +21,9 @@ myotutable <- read.csv2("data/otutable.csv",
                         header = TRUE,
                         stringsAsFactors = FALSE,
                         check.names = FALSE,
-                        row.names = 1) %>% as.data.frame()
+                        row.names = 1)
 mymetadata <- readxl::read_excel("data/metadata.xlsx",
-                         col_names = TRUE) %>% as.data.frame()
+                         col_names = TRUE)
 ```
 
 Note that `read.csv2()` treats semicolon ";" as the default separator and comma "," as decimal, which is the standard in some regions. To change the separator to fx a comma you can adjust with the argument `sep = ","`. Refer to the documentation of `?read.table`.

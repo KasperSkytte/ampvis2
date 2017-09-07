@@ -81,9 +81,9 @@
                         <span class="dt">header =</span> <span class="ot">TRUE</span>,
                         <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>,
                         <span class="dt">check.names =</span> <span class="ot">FALSE</span>,
-                        <span class="dt">row.names =</span> <span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="kw">as.data.frame</span>()
+                        <span class="dt">row.names =</span> <span class="dv">1</span>)
 mymetadata &lt;-<span class="st"> </span>readxl::<span class="kw">read_excel</span>(<span class="st">"data/metadata.xlsx"</span>,
-                         <span class="dt">col_names =</span> <span class="ot">TRUE</span>) %&gt;%<span class="st"> </span><span class="kw">as.data.frame</span>()</code></pre></div>
+                         <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>Note that <code>read.csv2()</code> treats semicolon “;” as the default separator and comma “,” as decimal, which is the standard in some regions. To change the separator to fx a comma you can adjust with the argument <code>sep = ","</code>. Refer to the documentation of <code>?read.table</code>.</p>
 <p>After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID’s and that the first column in the metadata are the sample ID’s. It is highly recommended to read the documentation of <code><a href="../reference/amp_load.html">amp_load()</a></code> when loading your own data.</p>
 <p>Now combine the data using <code><a href="../reference/amp_load.html">amp_load()</a></code>, which checks the data and combines it into one <code>ampvis2</code> object, making it easier to manipulate, filter and subset all elements of the data at once for analysis:</p>
