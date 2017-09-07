@@ -95,11 +95,11 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   rownames(metadata) <- metadata[,1]
   
   ### First column in OTU-table should be a sample, NOT the OTU ID's
-  if (rownames(otutable) == otutable[,1]) {
+  if (identical(rownames(otutable), otutable[,1])) {
     stop("The rownames of the OTU-table should not be identical to the first column.")
   }
   
-  if (rownames(otutable) == c(1:nrow(otutable))) {
+  if (identical(rownames(otutable), c(1:nrow(otutable)))) {
     stop("The rownames of the OTU-table do not seem to be OTU ID's:\n", as.character(head(rownames(otutable))))
   }
   
