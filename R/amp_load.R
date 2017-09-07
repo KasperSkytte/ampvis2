@@ -135,7 +135,7 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   colnames(abund) <- stringr::str_replace_all(colnames(abund), "[^[:alnum:]]", "_")
   
   ### check if metadata and otutable match
-  compareresult <- compare(colnames(abund), rownames(metadata), allowAll = TRUE)
+  compareresult <- compare::compare(colnames(abund), rownames(metadata), allowAll = TRUE)
   if(!compareresult$result) {
     abund <- abund[,which(colnames(abund) %in% rownames(metadata))]
     metadata <- metadata[which(rownames(metadata) %in% colnames(abund)),]
