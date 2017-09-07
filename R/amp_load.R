@@ -94,8 +94,7 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   ###check data
   otutable <- as.data.frame(otutable)
   metadata <- as.data.frame(metadata)
-  rownames(metadata) <- as.character(metadata[,1]) %>%
-    stringr::str_replace_all("[^[:alnum:]]", "_")
+  rownames(metadata) <- as.character(metadata[,1])
   
   ### First column in OTU-table should be a sample, NOT the OTU ID's
   if (identical(rownames(otutable), otutable[,1])) {
@@ -132,7 +131,6 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   ### Abundance: all columns from otutable except the first and last 7 and convert to numeric for downstream compliance
   abund <- lapply(otutable[,1:(ncol(otutable) - 7)], as.numeric) %>%
     as.data.frame(check.names = FALSE, row.names = rownames(otutable))
-  colnames(abund) <- stringr::str_replace_all(colnames(abund), "[^[:alnum:]]", "_")
   
   ### check if metadata and otutable match
   compareresult <- compare::compare(colnames(abund), rownames(metadata), allowAll = TRUE)
@@ -143,7 +141,7 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   }
   
   ### Abundance: re-arrange columns in the same order as the metadata
-  #abund <- abund[,as.character(metadata[,1])]
+  abund <- abund[,rownames(metadata)]
   
   ### tax: the last 7 columns from otutable
   tax <- data.frame(otutable[, (ncol(otutable) - 6):ncol(otutable)] 
