@@ -14,6 +14,7 @@
 #' 
 #' @return A ggplot2 object.
 #' @import ggplot2
+#' @import gridExtra
 #' 
 #' @export
 #' 
@@ -88,5 +89,5 @@ amp_function <- function(heatmap,
           legend.key = element_blank()
     )
   
-  return(grid.arrange(heatmap, p, ncol = 2))
+  return(gridExtra::grid.arrange(heatmap, p, ncol = 2))
 }
