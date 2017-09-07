@@ -8,5 +8,5 @@ warnings_are_errors: false
 notifications:
     email: false
     slack: eb-group-aau:FXLq5xhPHEEmmNLMHlQrpiCd
-        on_succes: change
-        on_failure: always
+        on_success: change
+        on_failure: change
