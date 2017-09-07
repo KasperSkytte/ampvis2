@@ -27,7 +27,7 @@ A list with 3 dataframes (4 if reference sequences are provided).
 Used internally in other ampvis functions.
 }
 \author{
-Mads Albertsen \email{MadsAlbertsen85@gmail.com}
+Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 
-Kasper Skytte Andersen \email{ksa@bio.aau.dk}
+Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

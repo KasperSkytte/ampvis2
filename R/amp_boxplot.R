@@ -44,8 +44,8 @@
 #'             tax_show = 10,
 #'             tax_add = "Phylum")
 #' 
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 
 amp_boxplot <- function(data, 
                         group_by = "Sample",

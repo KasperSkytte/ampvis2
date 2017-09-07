@@ -104,9 +104,9 @@
 #'              sample_colorframe = TRUE,
 #'              sample_colorframe_label = "Period",
 #'              sample_plotly = "all"
-#'              )}
-#' 
-#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#'              )
+#' }
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_ordinate<- function(data,

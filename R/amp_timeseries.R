@@ -37,6 +37,7 @@
 #' 
 #' #Timeseries of the 6 most abundant Genera and split into 6 individual plots
 #' amp_timeseries(AalborgWWTPs, time_variable = "Date", split = TRUE, tax_aggregate = "Genus")
+#' 
 #' @author Julie Klessner Thun Pedersen \email{julieklessnerthun@@gmail.com}
 
 amp_timeseries <- function(data,

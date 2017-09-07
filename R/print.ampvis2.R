@@ -4,7 +4,7 @@
 #'
 #' @return Text output in console
 #' @export
-#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' 
 print.ampvis2 <- function(data) {
   ###calculate basic statistics and useful information about the data, print it

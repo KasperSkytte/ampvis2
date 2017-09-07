@@ -33,9 +33,10 @@ data("AalborgWWTPs")
 
 #Venn diagram grouped by WWTP
 amp_venn(AalborgWWTPs, group_by = "Plant")
+
 }
 \author{
-Mads Albertsen \email{MadsAlbertsen85@gmail.com}
+Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 
-Kasper Skytte Andersen \email{ksa@bio.aau.dk}
+Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

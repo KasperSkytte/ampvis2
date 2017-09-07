@@ -16,5 +16,5 @@ Text output in console
 Prints ampvis2 object summary. Internal function.
 }
 \author{
-Kasper Skytte Andersen \email{ksa@bio.aau.dk}
+Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 }

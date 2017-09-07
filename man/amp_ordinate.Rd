@@ -133,8 +133,8 @@ amp_ordinate(AalborgWWTPs,
              sample_colorframe = TRUE,
              sample_colorframe_label = "Period",
              sample_plotly = "all"
-             )}
-
+             )
+}
 }
 \references{
 GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): \url{https://mb3is.megx.net/gustame}
@@ -144,7 +144,7 @@ GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): \url{https://mb3i
   Legendre, P., & Gallagher, E. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia, 129(2), 271-280. \url{http://doi.org/10.1007/s004420100716}
 }
 \author{
-Kasper Skytte Andersen \email{ksa@bio.aau.dk}
+Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

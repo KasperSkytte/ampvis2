@@ -27,8 +27,19 @@ A ggplot2 object.
 \description{
 Generates a table with functional information about the taxa in an input heatmap and combines the two.
 }
-\author{
-Mads Albertsen \email{MadsAlbertsen85@gmail.com}
+\examples{
+#Load example data
+data("AalborgWWTPs")
 
-Kasper Skytte Andersen \email{ksa@bio.aau.dk}
+#Save a heatmap, aggregating to Genus level is a must
+heatmap <- amp_heatmap(AalborgWWTPs, group_by = "Plant", tax_aggregate = "Genus")
+
+#Generate the function table based on the input heatmap and show the two side by side
+amp_function(heatmap)
+
+}
+\author{
+Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+
+Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

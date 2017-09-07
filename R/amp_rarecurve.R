@@ -20,8 +20,8 @@
 #' #Rarecurve
 #' amp_rarecurve(AalborgWWTPs)
 #' 
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 
 
 amp_rarecurve <- function (data,

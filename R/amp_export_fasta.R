@@ -21,8 +21,8 @@
 #' amp_export_fasta(AalborgWWTPs)
 #' }
 #' 
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 
 amp_export_fasta <- function(data, 
                              filename = "exported_sequences.fa", 

@@ -17,8 +17,18 @@
 #' 
 #' @export
 #' 
+#' @examples 
+#' #Load example data
+#' data("AalborgWWTPs")
+#' 
+#' #Save a heatmap, aggregating to Genus level is a must
+#' heatmap <- amp_heatmap(AalborgWWTPs, group_by = "Plant", tax_aggregate = "Genus")
+#' 
+#' #Generate the function table based on the input heatmap and show the two side by side
+#' amp_function(heatmap)
+#' 
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 
 amp_function <- function(heatmap, 
                          function_data = NULL, 
@@ -78,5 +88,5 @@ amp_function <- function(heatmap,
           legend.key = element_blank()
     )
   
-  return(p)
+  return(grid.arrange(heatmap, p, ncol = 2))
 }

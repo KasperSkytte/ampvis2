@@ -37,8 +37,8 @@
 #' #Core plot
 #' amp_core(AalborgWWTPs)
 #' 
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 
 amp_core <- function(data, 
                      group_by = "Sample", 

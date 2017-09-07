@@ -20,7 +20,9 @@ A list with 3 dataframes (4 if reference sequences are provided).
 Subsets the data in ampvis2 objects based on taxonomy and returns the subsetted object. See examples.
 }
 \author{
+Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 
-Kasper Skytte Andersen \email{ksa@bio.aau.dk}
+Rasmus Hansen Kirkegaard \email{rhk@bio.aau.dk}
 }

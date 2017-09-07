@@ -45,8 +45,8 @@
 #' #Or show raw results
 #' results$DESeq2_results
 #' 
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 
 amp_test_species <- function(data,
                              group,
