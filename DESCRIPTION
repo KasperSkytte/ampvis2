@@ -13,7 +13,6 @@ Depends:
     R (>= 3.4.1),
     ggplot2
 Imports:
-    DESeq2,
     dplyr,
     tidyverse,
     ggrepel,
@@ -36,6 +35,5 @@ Imports:
     data.table,
     RColorBrewer
 Suggests: 
-    devtools,
-    BiocInstaller
+    devtools
 RoxygenNote: 6.0.1

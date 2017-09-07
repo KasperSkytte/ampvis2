@@ -27,7 +27,6 @@ reference:
     - amp_frequency
     - amp_rankabundance
     - amp_alphadiv
-    - amp_test_species
     - amp_venn
 navbar:
   title: "ampvis2"
