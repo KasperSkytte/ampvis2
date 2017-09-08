@@ -75,6 +75,7 @@
 #' @import dplyr
 #' @import ggrepel
 #' @import ape
+#' @import plotly
 #' 
 #' @references
 #'   GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): \url{https://mb3is.megx.net/gustame}
