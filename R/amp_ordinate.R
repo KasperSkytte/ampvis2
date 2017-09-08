@@ -423,7 +423,7 @@ amp_ordinate<- function(data,
   if (!is.null(sample_plotly)){
     if(length(sample_plotly) > 1){
       data_plotly <- apply(data$metadata[,sample_plotly], 1, paste, collapse = "<br>")  
-    } else if(sample_plotly == "all"){
+    } else if(sample_plotly == "all" | sample_plotly == TRUE){
       data_plotly <- apply(data$metadata[,], 1, paste, collapse = "<br>")  
     } else{
       data_plotly <- paste0(sample_plotly,": ",data$metadata[,sample_plotly])
