@@ -11,6 +11,8 @@ amp_export_otutable(data)
 
 \item{filename}{File name of the exported OTU-table. (\emph{default:} \code{"exported_otutable.txt"})}
 
+\item{md5}{(\emph{logical}) Compute md5 sum of the data (the whole object, not just otutable) and append to the filename. (\emph{default:} \code{FALSE})}
+
 \item{id}{Name the samples using a variable in the metadata.}
 
 \item{sort_samples}{Vector to sort the samples by.}

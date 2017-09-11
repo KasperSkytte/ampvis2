@@ -6,12 +6,15 @@
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param filename File name of the exported OTU-table. (\emph{default:} \code{"exported_otutable.txt"})
+#' @param md5 (\emph{logical}) Compute md5 sum of the data (the whole object, not just otutable) and append to the filename. (\emph{default:} \code{FALSE})
 #' @param id Name the samples using a variable in the metadata.
 #' @param sort_samples Vector to sort the samples by.
 #' @param raw (\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{FALSE})
 #' 
 #' @export
 #' @import dplyr
+#' @import digest
+#' @import stringr
 #' 
 #' @examples 
 #' #Load example data
@@ -27,6 +30,7 @@
 
 amp_export_otutable <- function(data,
                                 filename = "exported_otutable.txt",
+                                md5 = FALSE,
                                 id = NULL, 
                                 sort_samples = NULL, 
                                 raw = FALSE){
@@ -81,5 +85,9 @@ amp_export_otutable <- function(data,
     arrange(desc(sum)) %>%
     select(-sum)
   
-  write.table(e_bak2, file = filename, quote = F, row.names = F, sep = "\t")
+  if(md5) {
+    str <- unlist(stringr::str_split(filename, pattern = "[.]"))
+    filename <- sprintf("%s_%s.%s", str[1], digest::digest(data), str[2])
+  }
+  write.table(e_bak2, file = filename, quote = F, row.names = e_bak2[,"OTU"], sep = "\t")
 }

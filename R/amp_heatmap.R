@@ -146,6 +146,7 @@ amp_heatmap <- function(data,
   
   abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
+    unique() %>%
     as.data.frame()
   
   ## Add group information
@@ -186,9 +187,9 @@ amp_heatmap <- function(data,
   
   if (measure == "median"){
     abund6 <- data.table(abund5)[, Abundance:=median(sum), by=list(Display, Group)] %>%
-              setkey(Display, Group) %>%
-              unique() %>% 
-              as.data.frame()
+      setkey(Display, Group) %>%
+      unique() %>% 
+      as.data.frame()
   }
   
   
@@ -312,10 +313,10 @@ amp_heatmap <- function(data,
   
   if (is.null(min_abundance)){
     min_abundance <- ifelse(min(abund7$Abundance) > 0.001, min(abund7$Abundance), 0.001)
-    }
+  }
   if (is.null(max_abundance)){
     max_abundance <- max(abund7$Abundance)
-    }
+  }
   
   ## Make a heatmap style plot
   p <- ggplot(abund7, aes_string(x = "Group", y = "Display", label = formatC("Abundance", format = "f", digits = 1))) +     
