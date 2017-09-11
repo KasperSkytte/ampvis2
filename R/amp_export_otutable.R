@@ -1,12 +1,13 @@
 #' Export OTU-table
 #'
-#' Export otutable (including taxonomy) from an ampvis2 object.
+#' Export otutable (including taxonomy) from an ampvis2 object as CSV using \code{\link{write.table}}.
 #'
 #' @usage amp_export_otutable(data)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param filename File name of the exported OTU-table. (\emph{default:} \code{"exported_otutable.txt"})
+#' @param filename File name of the exported OTU-table WITHOUT extension. (\emph{default:} \code{"exported_otutable"})
 #' @param md5 (\emph{logical}) Compute md5 sum of the data (the whole object, not just otutable) and append to the filename. (\emph{default:} \code{FALSE})
+#' @param sep Separator passed directly to \code{\link{write.table}}. (\emph{default:} \code{"\t"})
 #' @param id Name the samples using a variable in the metadata.
 #' @param sort_samples Vector to sort the samples by.
 #' @param raw (\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{FALSE})
@@ -22,15 +23,16 @@
 #' 
 #' #Export OTU-table
 #' \dontrun{
-#' amp_export_otutable(AalborgWWTPs)
+#' amp_export_otutable(AalborgWWTPs, md5 = TRUE, filename = "AalborgWWTPs_otutable", sep = "\t")
 #' }
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_export_otutable <- function(data,
-                                filename = "exported_otutable.txt",
+                                filename = "exported_otutable",
                                 md5 = FALSE,
+                                sep = "\t",
                                 id = NULL, 
                                 sort_samples = NULL, 
                                 raw = FALSE){
@@ -85,9 +87,6 @@ amp_export_otutable <- function(data,
     arrange(desc(sum)) %>%
     select(-sum)
   
-  if(md5) {
-    str <- unlist(stringr::str_split(filename, pattern = "[.]"))
-    filename <- sprintf("%s_%s.%s", str[1], digest::digest(data), str[2])
-  }
-  write.table(e_bak2, file = filename, quote = F, row.names = e_bak2[,"OTU"], sep = "\t")
+  #Append md5 sum to the filename just before the extenstion. Fx "../exported_otutable" will result in ../exported_otutable_md5sum.csv
+  write.table(e_bak2, file = ifelse(md5, sprintf("%s_%s.csv", filename, digest::digest(data)), paste0(filename, ".csv")), quote = F, row.names = e_bak2[,"OTU"], sep = sep)
 }
