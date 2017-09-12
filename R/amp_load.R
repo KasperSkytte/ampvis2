@@ -41,7 +41,7 @@
 #' 
 #' If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (\code{as.numeric()}) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded \code{as.factor()} or \code{as.character()} instead. This has consequences for the analysis as R treats them differently. Therefore either use the \code{colClasses = } argument when loading a csv file or \code{col_types = } when loading an excel file, or manually adjust the column classes afterwards with fx \code{metadata$Year <- as.character(metadata$Year)}.
 #' 
-#' \code{amp_load()} will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis.
+#' \code{amp_load()} will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis. Any unmatched samples between the otutable and metadata will be removed. 
 #' 
 #' A minimal example is available with \code{data("example_metadata")}.
 #' 
@@ -133,11 +133,15 @@ amp_load <- function(otutable, metadata, fasta = NULL){
     as.data.frame(check.names = FALSE, row.names = rownames(otutable))
   
   ### check if metadata and otutable match
-  compareresult <- compare::compare(colnames(abund), rownames(metadata), allowAll = TRUE)
-  if(!compareresult$result) {
-    abund <- abund[,which(colnames(abund) %in% rownames(metadata))]
-    metadata <- metadata[which(rownames(metadata) %in% colnames(abund)),]
-    warning("Only ", ncol(abund), " samples match between metadata and otutable, the rest have been removed.\nCheck that you have loaded matching files and that they meet the requirements described in ?amp_load().")
+  if(!all(rownames(metadata) %in% colnames(abund)) | !all(colnames(abund) %in% rownames(metadata))) {
+    if (!any(colnames(abund) %in% rownames(metadata))) {
+      stop("No sample names match between metadata and otutable. Check that you have loaded matching files and that they meet the requirements described in ?amp_load().")
+    } else {
+      sharedSamples <- dplyr::intersect(colnames(abund), rownames(metadata))
+      abund <- abund[,match(sharedSamples, colnames(abund))]
+      metadata <- metadata[match(sharedSamples, rownames(metadata)),]
+      warning("Only ", ncol(abund), " sample names match between metadata and otutable. Unmatched samples have been removed.")
+    }
   }
   
   ### tax: the last 7 columns from otutable

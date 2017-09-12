@@ -327,7 +327,8 @@ amp_heatmap <- function(data,
           text = element_text(size = 8, color = "black"),
           #axis.ticks.length = unit(1, "mm"),
           plot.margin = unit(c(1,1,1,1), "mm"),
-          title = element_text(size = 8))
+          title = element_text(size = 8),
+          panel.background = element_blank())
   
   ## Get colorpalette for colorscale or set default
   if (!is.null(color_vector)){

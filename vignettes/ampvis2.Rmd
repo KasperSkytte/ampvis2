@@ -22,6 +22,7 @@ myotutable <- read.csv2("data/otutable.csv",
                         stringsAsFactors = FALSE,
                         check.names = FALSE,
                         row.names = 1)
+#note: If loading metadata from a csv file, dont use row.names = 1. It's a must with otutables, however. 
 mymetadata <- readxl::read_excel("data/metadata.xlsx",
                          col_names = TRUE)
 ```

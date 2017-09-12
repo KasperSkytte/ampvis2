@@ -20,6 +20,8 @@ amp_export_otutable(data)
 \item{sort_samples}{Vector to sort the samples by.}
 
 \item{raw}{(\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{FALSE})}
+
+\item{...}{Additional arguments passed to \code{\link{write.table}} other than \code{sep} and \code{row.names}.}
 }
 \description{
 Export otutable (including taxonomy) from an ampvis2 object as CSV using \code{\link{write.table}}.

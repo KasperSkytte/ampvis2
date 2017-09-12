@@ -82,6 +82,7 @@
                         <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>,
                         <span class="dt">check.names =</span> <span class="ot">FALSE</span>,
                         <span class="dt">row.names =</span> <span class="dv">1</span>)
+<span class="co">#note: If loading metadata from a csv file, dont use row.names = 1. It's a must with otutables, however. </span>
 mymetadata &lt;-<span class="st"> </span>readxl::<span class="kw">read_excel</span>(<span class="st">"data/metadata.xlsx"</span>,
                          <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>Note that <code>read.csv2()</code> treats semicolon “;” as the default separator and comma “,” as decimal, which is the standard in some regions. To change the separator to fx a comma you can adjust with the argument <code>sep = ","</code>. Refer to the documentation of <code>?read.table</code>.</p>
