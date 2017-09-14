@@ -12,6 +12,7 @@
 #' @import ape
 #' @import stringr
 #' @import dplyr
+#' @import compare
 #' @export
 #' 
 #' @details The \code{amp_load()} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements as described in the following sections to work properly.
@@ -134,25 +135,12 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   ### check if metadata and otutable match
   if(!all(rownames(metadata) %in% colnames(abund)) | !all(colnames(abund) %in% rownames(metadata))) {
     if (!any(colnames(abund) %in% rownames(metadata))) {
-      # No samples match
       stop("No sample names match between metadata and otutable. Check that you have loaded matching files and that they meet the requirements described in ?amp_load().")
     } else {
-      #Find matching samples between otutable and metadata
       sharedSamples <- dplyr::intersect(colnames(abund), rownames(metadata))
-      
-      #subset both based on shared samples
-      abund0 <- abund[,match(sharedSamples, colnames(abund)), drop = FALSE]
-      metadata0 <- metadata[match(sharedSamples, rownames(metadata)),, drop = FALSE]
-      
-      #Vectors with unique sample names in either
-      metadataUniques <- metadata[-which(rownames(metadata) %in% rownames(metadata0)),, drop = FALSE] %>% rownames()
-      abundUniques <- abund[,-which(colnames(abund) %in% colnames(abund0)), drop = FALSE] %>% colnames()
-      
-      #print the removed samples
-      warning("Only ", ncol(abund0), " of ", length(unique(c(rownames(metadata), colnames(abund)))), 
-              " unique sample names match between metadata and otutable. The following unmatched samples have been removed:", 
-              ifelse(length(metadataUniques) > 0, paste0("\nmetadata (", length(metadataUniques), "): \n\t\"", paste(metadataUniques, collapse = "\", \""), "\""), ""),
-              ifelse(length(abundUniques) > 0, paste0("\notutable (", length(abundUniques), "): \n\t\"", paste(abundUniques, collapse = "\", \""), "\""), ""))
+      abund <- abund[,match(sharedSamples, colnames(abund))]
+      metadata <- metadata[match(sharedSamples, rownames(metadata)),]
+      warning("Only ", ncol(abund), " sample names match between metadata and otutable. Unmatched samples have been removed.")
     }
   }
   
@@ -163,9 +151,9 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   
   ###data: return the data in a combined list w or w/o refseq.
   if(!is.null(fasta)) {
-    data <- list(abund = abund0, tax = tax, metadata = metadata0, refseq = ape::read.dna(file = fasta, format = "fasta"))
+    data <- list(abund = abund, tax = tax, metadata = metadata, refseq = ape::read.dna(file = fasta, format = "fasta"))
   } else {
-    data <- list(abund = abund0, tax = tax, metadata = metadata0)
+    data <- list(abund = abund, tax = tax, metadata = metadata)
   }
   
   class(data) <- "ampvis2" #Our own "ampvis2" class, yay!

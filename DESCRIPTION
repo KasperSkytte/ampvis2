@@ -28,6 +28,7 @@ Imports:
     scales,
     stringr,
     digest,
+    compare,
     readxl,
     network,
     GGally,
