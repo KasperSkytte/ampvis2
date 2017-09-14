@@ -26,5 +26,5 @@ print.ampvis2 <- function(data) {
     "Genus" = paste(sum(nchar(data$tax$Genus) > 3), "(", round(sum(nchar(data$tax$Genus) > 3) / nrow(data$abund) * 100, digits = 2), "%)", sep = ""),
     "Species" = paste(sum(nchar(data$tax$Species) > 3), "(", round(sum(nchar(data$tax$Species) > 3) / nrow(data$abund) * 100, digits = 2), "%)", sep = "")),
     justify = "right")
-  cat("\nMetadata variables:", as.character(ncol(data$metadata)), "\n", as.character(colnames(data$metadata)))
+  cat("\nMetadata variables:", as.character(ncol(data$metadata)), "\n", paste(as.character(colnames(data$metadata)), collapse = ", "))
 }
