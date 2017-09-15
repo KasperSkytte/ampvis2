@@ -15,7 +15,7 @@ amp_function(heatmap)
 
 \item{adjust_top}{Adjust the whitespace at the top of the plot in mm. (\emph{default:} \code{0})}
 
-\item{genus_pos}{Specify which part of the name that contains the genus name. (\emph{default:} \code{1})}
+\item{genus_pos}{Specify which part of the name that contains the genus name. Fx if the taxa names are in the form "Phylum; Genus", set this to \code{2}. (\emph{default:} \code{1})}
 
 \item{point_size}{Size of the plotted points. (\emph{default:} \code{6})}
 
@@ -26,6 +26,9 @@ A ggplot2 object.
 }
 \description{
 Generates a table with functional information about the taxa in an input heatmap and combines the two.
+}
+\details{
+The current state of this function requires the provided heatmap to be either aggregated to Genus (with \code{tax_aggregate}, note the default is \code{"Phylum"}) or the Genus names be added with \code{tax_add}.
 }
 \examples{
 #Load example data

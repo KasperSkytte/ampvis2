@@ -8,7 +8,7 @@
 #' @param function_data A data frame with functional information about genus-level OTUs. If none provided, the \code{data("MiF")} dataset will be used.
 #' @param adjust_bottom Adjust the whitespace at the bottom of the plot in mm. (\emph{default:} \code{10})
 #' @param adjust_top Adjust the whitespace at the top of the plot in mm. (\emph{default:} \code{0})
-#' @param genus_pos Specify which part of the name that contains the genus name. (\emph{default:} \code{1})
+#' @param genus_pos Specify which part of the name that contains the genus name. Fx if the taxa names are in the form "Phylum; Genus", set this to \code{2}. (\emph{default:} \code{1})
 #' @param point_size Size of the plotted points. (\emph{default:} \code{6})
 #' @param plotted_functions A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})
 #' 
@@ -17,6 +17,8 @@
 #' @import gridExtra
 #' 
 #' @export
+#' 
+#' @details The current state of this function requires the provided heatmap to be either aggregated to Genus (with \code{tax_aggregate}, note the default is \code{"Phylum"}) or the Genus names be added with \code{tax_add}. 
 #' 
 #' @examples 
 #' #Load example data

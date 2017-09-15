@@ -146,7 +146,7 @@ amp_heatmap <- function(data,
   
   abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
-    unique() %>%
+    #unique() %>%
     as.data.frame()
   
   ## Add group information

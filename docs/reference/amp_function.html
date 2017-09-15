@@ -113,7 +113,7 @@
     </tr>
     <tr>
       <th>genus_pos</th>
-      <td><p>Specify which part of the name that contains the genus name. (<em>default:</em> <code>1</code>)</p></td>
+      <td><p>Specify which part of the name that contains the genus name. Fx if the taxa names are in the form "Phylum; Genus", set this to <code>2</code>. (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     <tr>
       <th>point_size</th>
@@ -129,6 +129,10 @@
 
     <p>A ggplot2 object.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The current state of this function requires the provided heatmap to be either aggregated to Genus (with <code>tax_aggregate</code>, note the default is <code>"Phylum"</code>) or the Genus names be added with <code>tax_add</code>.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>#Load example data</span>
@@ -138,7 +142,7 @@
 <span class='no'>heatmap</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='amp_heatmap.html'>amp_heatmap</a></span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>, <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>)
 
 <span class='co'>#Generate the function table based on the input heatmap and show the two side by side</span>
-<span class='fu'>amp_function</span>(<span class='no'>heatmap</span>)</div><div class='img'><img src='amp_function-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>amp_function</span>(<span class='no'>heatmap</span>)</div><div class='img'><img src='amp_function-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -147,6 +151,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
