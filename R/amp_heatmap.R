@@ -58,6 +58,10 @@
 #'            color_vector = c("white", "red"), 
 #'            plot_colorscale = "sqrt",
 #'            plot_legendbreaks = c(1, 5, 10))
+#'            
+#' #A raw text version of the heatmap can be accessed with detailed_output = TRUE:
+#' result <- amp_heatmap(AalborgWWTPs, group_by = "Plant", detailed_output = TRUE)
+#' result$textmap
 #' 
 #' @import dplyr
 #' @import tidyr
@@ -377,8 +381,16 @@ amp_heatmap <- function(data,
   
   
   ## Define the output 
-  if (detailed_output)
-    return(list(heatmap = p, data = abund7))
+  if (detailed_output) {
+    #raw text heatmap data frame
+    textmap <- abund7[,c("Display", "Abundance", "Group")] %>% 
+      group_by(Group) %>%
+      filter(!duplicated(Abundance, Group)) %>%
+      spread(Group, Abundance) %>% 
+      arrange(desc(droplevels(Display)))
+    textmap <- data.frame(textmap[,-1], row.names = textmap$Display, check.names = FALSE)
+    return(list(heatmap = p, textmap = textmap, data = abund7))
+  }
   if (!detailed_output)
     return(p)
 }

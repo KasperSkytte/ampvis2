@@ -87,6 +87,10 @@ amp_heatmap(AalborgWWTPs,
            color_vector = c("white", "red"), 
            plot_colorscale = "sqrt",
            plot_legendbreaks = c(1, 5, 10))
+           
+#A raw text version of the heatmap can be accessed with detailed_output = TRUE:
+result <- amp_heatmap(AalborgWWTPs, group_by = "Plant", detailed_output = TRUE)
+result$textmap
 
 }
 \author{
