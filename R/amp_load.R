@@ -130,6 +130,8 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   ### Abundance: all columns from otutable except the first and last 7 and convert to numeric for downstream compliance
   abund <- lapply(otutable[,1:(ncol(otutable) - 7)], as.numeric) %>%
     as.data.frame(check.names = FALSE, row.names = rownames(otutable))
+  abund0 <- abund
+  metadata0 <- metadata
   
   ### check if metadata and otutable match
   if(!all(rownames(metadata) %in% colnames(abund)) | !all(colnames(abund) %in% rownames(metadata))) {
@@ -154,7 +156,7 @@ amp_load <- function(otutable, metadata, fasta = NULL){
               ifelse(length(metadataUniques) > 0, paste0("\nmetadata (", length(metadataUniques), "): \n\t\"", paste(metadataUniques, collapse = "\", \""), "\""), ""),
               ifelse(length(abundUniques) > 0, paste0("\notutable (", length(abundUniques), "): \n\t\"", paste(abundUniques, collapse = "\", \""), "\""), ""))
     }
-  }
+  } 
   
   ### tax: the last 7 columns from otutable
   tax <- data.frame(otutable[, (ncol(otutable) - 6):ncol(otutable)] 
