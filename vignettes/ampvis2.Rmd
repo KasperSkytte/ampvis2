@@ -14,7 +14,7 @@ library(ampvis2)
 ```
 
 ```{r, eval = FALSE}
-myotutable <- read.csv2("data/otutable.csv", 
+myotutable <- read.delim("data/otutable.csv", 
                         #sep = "\t",
                         #dec = ".",
                         fill = TRUE,
@@ -22,12 +22,12 @@ myotutable <- read.csv2("data/otutable.csv",
                         stringsAsFactors = FALSE,
                         check.names = FALSE,
                         row.names = 1)
-#note: If loading metadata from a csv file, dont use row.names = 1. It's a must with otutables, however. 
+#note: If loading metadata from a csv file, DO NOT use row.names = 1. It's a must with otutables, however. 
 mymetadata <- readxl::read_excel("data/metadata.xlsx",
                          col_names = TRUE)
 ```
 
-Note that `read.csv2()` treats semicolon ";" as the default separator and comma "," as decimal, which is the standard in some regions. To change the separator to fx a comma you can adjust with the argument `sep = ","`. Refer to the documentation of `?read.table`.
+Note that there are multiple types of CSV files. To change the separator to fx a comma you can adjust with the argument `sep = ","`. Refer to the documentation of `?read.table`.
 
 After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID's and that the first column in the metadata are the sample ID's. It is highly recommended to read the documentation of `amp_load()` when loading your own data. 
 
@@ -147,4 +147,4 @@ ordinationresult$plot
 Notice that the plot can be saved as a more detailed object (`detailed_output = TRUE`), so additional details about the ordination result can be obtained for evaluation, fx a screeplot by `ordinationresult$screeplot` or some more raw data by `ordinationresult$model`. 
 
 # Other functions
-There are numerous other functions to try out. Go explore them in the [Reference](../reference/index.html) tab. 
+There are numerous other functions to try out. Go explore them in the [Reference](../reference/index.html) tab.
