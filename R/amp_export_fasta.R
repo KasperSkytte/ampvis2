@@ -45,9 +45,12 @@ amp_export_fasta <- function(data,
   t <- data[["refseq"]]
   
   if (tax == TRUE){
-    names$refseq <- stringr::str_split(names(data$refseq), ";", simplify = TRUE)[,1] #dont want duplicate taxonomy, if the refseq loaded already contains taxonomy.
+    #dont want duplicate taxonomy, if the refseq loaded already contains taxonomy.
+    if(any(stringr::str_detect(names(t), ";"))) {
+      names(t) <- stringr::str_split(names(t), ";", simplify = TRUE)[,1]
+    }
     tax <- as.data.frame(data[["tax"]][,1:7])
-    tax <- tax[names(data[["refseq"]]),]
+    tax <- tax[names(t),]
     tax_s <- data.frame(lapply(tax, as.character), stringsAsFactors=FALSE)
     df_args <- c(tax_s, sep="; ")
     tax_sf <- do.call(paste, df_args)
