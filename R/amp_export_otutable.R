@@ -10,7 +10,7 @@
 #' @param sep Separator passed directly to \code{\link{write.table}}. (\emph{default:} \code{"\t"})
 #' @param id Name the samples using a variable in the metadata.
 #' @param sort_samples Vector to sort the samples by.
-#' @param raw (\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{FALSE})
+#' @param raw (\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{TRUE})
 #' @param ... Additional arguments passed to \code{\link{write.table}} other than \code{sep} and \code{row.names}.
 #' 
 #' @export
@@ -36,7 +36,7 @@ amp_export_otutable <- function(data,
                                 sep = "\t",
                                 id = NULL, 
                                 sort_samples = NULL, 
-                                raw = FALSE,
+                                raw = TRUE,
                                 ...){
   
   ### Data must be in ampvis2 format
@@ -90,5 +90,5 @@ amp_export_otutable <- function(data,
     select(-sum)
   
   #Append md5 sum to the filename just before the extenstion. Fx "../exported_otutable" will result in ../exported_otutable_md5sum.csv
-  write.table(select(e_bak2, -OTU), file = ifelse(md5, sprintf("%s_%s.csv", filename, digest::digest(data)), paste0(filename, ".csv")), quote = F, row.names = e_bak2[,"OTU"], sep = sep, ...)
+  write.table(select(e_bak2, OTU, everything()), file = ifelse(md5, sprintf("%s_%s.csv", filename, digest::digest(data)), paste0(filename, ".csv")), quote = F, row.names = F, sep = sep, ...)
 }

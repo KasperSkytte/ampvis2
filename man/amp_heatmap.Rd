@@ -9,9 +9,9 @@ amp_heatmap(data, group_by = "")
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group_by}{Group the samples by a variable in the metadata.}
+\item{group_by}{(\emph{recommended}) Group the samples by a categorical variable in the metadata. If \code{NULL} then all samples are shown.}
 
-\item{facet_by}{Facet the samples by a variable in the metadata.}
+\item{facet_by}{Facet the samples by a categorical variable in the metadata.}
 
 \item{normalise_by}{A variable or a specific sample in the metadata to normalise the counts by.}
 

@@ -5,8 +5,8 @@
 #' @usage amp_heatmap(data, group_by = "")
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param group_by Group the samples by a variable in the metadata.
-#' @param facet_by Facet the samples by a variable in the metadata.
+#' @param group_by (\emph{recommended}) Group the samples by a categorical variable in the metadata. If \code{NULL} then all samples are shown.
+#' @param facet_by Facet the samples by a categorical variable in the metadata. 
 #' @param scale_by Scale the abundances by a variable in the metadata.
 #' @param normalise_by A variable or a specific sample in the metadata to normalise the counts by.
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})
@@ -74,7 +74,7 @@
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_heatmap <- function(data,
-                        group_by = "Sample",
+                        group_by = NULL,
                         facet_by = NULL,
                         normalise_by = NULL,
                         scale_by = NULL,
@@ -122,6 +122,19 @@ amp_heatmap <- function(data,
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
   
+  ## Coerce the group_by and facet_by variables to character to always be considered categorical. Fx Year is automatically loaded as numeric by R, but it should be considered categorical. 
+  ## Grouping a heatmap by a continuous variable doesn't make sense 
+  if(!is.null(group_by)) {
+    metadata[,group_by] <- as.character(metadata[,group_by])
+  }
+  
+  if(!is.null(facet_by)) {
+    if(is.null(group_by)) {
+      group_by <- facet_by
+    }
+    metadata[,facet_by] <- as.character(metadata[,facet_by])
+  }
+  
   ## Scale the data by a selected metadata sample variable
   if (!is.null(scale_by)){
     variable <- as.numeric(metadata[,scale_by])
@@ -161,7 +174,7 @@ amp_heatmap <- function(data,
   }
   
   suppressWarnings(
-    if (group_by != "Sample"){
+    if (!is.null(group_by)){
       if (length(group_by) > 1){
         grp <- data.frame(Sample = metadata[,1], Group = apply(metadata[,group_by], 1, paste, collapse = " ")) 
         oldGroup <- unique(cbind.data.frame(metadata[,group_by], Group = grp$Group))
