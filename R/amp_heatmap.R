@@ -122,17 +122,17 @@ amp_heatmap <- function(data,
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
   
-  ## Coerce the group_by and facet_by variables to character to always be considered categorical. Fx Year is automatically loaded as numeric by R, but it should be considered categorical. 
+  ## Coerce the group_by and facet_by variables to factor to always be considered categorical. Fx Year is automatically loaded as numeric by R, but it should be considered categorical. 
   ## Grouping a heatmap by a continuous variable doesn't make sense 
   if(!is.null(group_by)) {
-    metadata[,group_by] <- as.character(metadata[,group_by])
+    metadata[group_by] <- lapply(metadata[group_by], factor)
   }
   
   if(!is.null(facet_by)) {
     if(is.null(group_by)) {
       group_by <- facet_by
     }
-    metadata[,facet_by] <- as.character(metadata[,facet_by])
+    metadata[facet_by] <- lapply(metadata[facet_by], factor)
   }
   
   ## Scale the data by a selected metadata sample variable
