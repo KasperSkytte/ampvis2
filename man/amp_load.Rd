@@ -29,7 +29,7 @@ The OTU-table contains information about the OTUs, their assigned taxonomy and t
 \itemize{
   \item The rows are OTU IDs and the columns are samples.
   \item The last 7 columns are the corresponding taxonomy assigned to the OTUs, named \code{"Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"}.
-  \item The rownames of the data frame are the OTU IDs. Thus, the first column should be a sample, NOT the OTU IDs.
+  \item The OTU ID's are expected to be in eiher the rownames of the data frame or in a column called "OTU". Otherwise the function will stop with a message.
   \item The column names of the data frame are the sample IDs, exactly matching those in the metadata, (and the last 7 columns named \code{Kingdom} -> \code{Species}, of course). Thus, the first row should contain the read counts of one of the OTUs in each sample, NOT the sample IDs and taxonomy.
   \item Generally avoid special characters and spaces in row- and column names.
 }
@@ -63,20 +63,13 @@ A fasta file with the raw sequences can be loaded as well, which will then be av
 #Be sure to use the correct function to load your .csv files, see ?read.table()
 
 \dontrun{
-#Read the OTU-table as a data frame, top row will be used as column names (header = TRUE) 
-#and first column as rownames. Taxonomy often has blank cells in the Species column, fill = TRUE
-#makes sure it gets treated as such.
-myotutable <- read.delim("data/otutable.txt", 
-                        header = TRUE,
-                        fill = TRUE,
-                        stringsAsFactors = FALSE,
-                        check.names = FALSE,
-                        row.names = 1) \%>\% as.data.frame() 
+#Read the OTU-table as a data frame. It is important to set check.names = FALSE.
+myotutable <- read.delim("data/otutable.txt", check.names = FALSE) 
                         
 #Read the metadata, often an excel sheet. If .csv make sure the first column will be kept and NOT 
 #loaded as rownames! The top row should be loaded column names
 mymetadata <- read_excel("data/metadata.xlsx",
-                         col_names = TRUE) \%>\% as.data.frame() 
+                         col_names = TRUE) 
                          
 #Combine the data with amp_load() to make it compatible with ampvis2 functions.
 #Uncomment the fasta line to load reference sequences (not required).
