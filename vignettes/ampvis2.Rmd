@@ -14,22 +14,13 @@ library(ampvis2)
 ```
 
 ```{r, eval = FALSE}
-myotutable <- read.delim("data/otutable.csv", 
-                        #sep = "\t",
-                        #dec = ".",
-                        fill = TRUE,
-                        header = TRUE,
-                        stringsAsFactors = FALSE,
-                        check.names = FALSE,
-                        row.names = 1)
-#note: If loading metadata from a csv file, DO NOT use row.names = 1. It's a must with otutables, however. 
-mymetadata <- readxl::read_excel("data/metadata.xlsx",
-                         col_names = TRUE)
+myotutable <- read.delim("data/otutable.txt", check.names = FALSE) 
+mymetadata <- readxl::read_excel("data/metadata.xlsx", col_names = TRUE)
 ```
 
 Note that there are multiple types of CSV files. To change the separator to fx a comma you can adjust with the argument `sep = ","`. Refer to the documentation of `?read.table`.
 
-After the two files have been loaded into R, check that the resulting data frames have been loaded correctly so that the first column in the otutable is a sample and not the OTU ID's and that the first column in the metadata are the sample ID's. It is highly recommended to read the documentation of `amp_load()` when loading your own data. 
+After the two files have been loaded into R, check that the resulting data frames have been loaded correctly (click them to the right under "Data"), so that either the rownames or a column named "OTU" contains the OTU ID's in the loaded otutable, and that the first column in the metadata are the matching sample ID's. It is highly recommended to read the documentation of `amp_load()` when loading your own data. 
 
 Now combine the data using `amp_load()`, which checks the data and combines it into one `ampvis2` object, making it easier to manipulate, filter and subset all elements of the data at once for analysis:
 

@@ -156,8 +156,7 @@
 
 <span class='co'>#Read the metadata, often an excel sheet. If .csv make sure the first column will be kept and NOT </span>
 <span class='co'>#loaded as rownames! The top row should be loaded column names</span>
-<span class='no'>mymetadata</span> <span class='kw'>&lt;-</span> <span class='fu'>read_excel</span>(<span class='st'>"data/metadata.xlsx"</span>,
-                         <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>mymetadata</span> <span class='kw'>&lt;-</span> <span class='fu'>read_excel</span>(<span class='st'>"data/metadata.xlsx"</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'>#Combine the data with amp_load() to make it compatible with ampvis2 functions.</span>
 <span class='co'>#Uncomment the fasta line to load reference sequences (not required).</span>
