@@ -23,7 +23,7 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
    }
    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[ape]{pcoa}} function from the APE package.}}
 
-\item{distmeasure}{(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"} or simply \code{"none"} or \code{"sqrt"}. You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}. (\emph{default:} \code{"none"})}
+\item{distmeasure}{(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}, or \code{"none"}. You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}. (\emph{default:} \code{"none"})}
 
 \item{transform}{(\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). (\emph{default:} \code{"hellinger"})}
 
@@ -49,6 +49,8 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 
 \item{sample_label_segment_color}{Sample labels repel-segment color. (\emph{default:} \code{"black"})}
 
+\item{sample_point_size}{Size of the sample points. (\emph{default:} \code{2})}
+
 \item{sample_trajectory}{Make a trajectory between sample points by a variable in the metadata.}
 
 \item{sample_trajectory_group}{Make a trajectory between sample points by the \code{sample_trajectory} argument, but within individual groups.}
@@ -57,7 +59,7 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 
 \item{species_plot}{(\emph{logical}) Plot species points or not. (\emph{default:} \code{FALSE})}
 
-\item{species_nlabels}{Number of the most extreme species labels to plot (Only makes sense with PCA/RDA).}
+\item{species_nlabels}{Number of the most extreme species labels to plot (ordered by the sum of the numerical values of the x,y coordinates. Only makes sense with PCA/RDA).}
 
 \item{species_label_taxonomy}{Taxonomic level by which to label the species points. (\emph{default:} \code{"Genus"})}
 
@@ -67,7 +69,7 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 
 \item{species_rescale}{(\emph{logical}) Rescale species points or not. Basically they will be multiplied by 0.8, for visual convenience only. (\emph{default:} \code{FALSE})}
 
-\item{species_size}{Size of the species points. (\emph{default:} \code{2})}
+\item{species_point_size}{Size of the species points. (\emph{default:} \code{2})}
 
 \item{species_shape}{The shape of the species points, fx \code{1} for hollow circles or \code{20} for dots. (\emph{default:} \code{20})}
 

@@ -17,7 +17,7 @@
 #'    \item \code{"PCOA"} or \code{"MMDS"}: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)
 #'    }
 #'    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[ape]{pcoa}} function from the APE package.}
-#' @param distmeasure (required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"} or simply \code{"none"} or \code{"sqrt"}. You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}. (\emph{default:} \code{"none"})
+#' @param distmeasure (required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}, or \code{"none"}. You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}. (\emph{default:} \code{"none"})
 #' @param transform (\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). (\emph{default:} \code{"hellinger"})
 #' @param constrain (\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.
 #' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})
@@ -30,14 +30,15 @@
 #' @param sample_shape_by Shape sample points by a variable in the metadata.       
 #' @param sample_colorframe (\emph{logical}) Frame the points with a polygon colored by the sample_color_by argument or not. (\emph{default:} \code{FALSE})
 #' @param sample_colorframe_label Label by a variable in the metadata.
+#' @param sample_point_size Size of the sample points. (\emph{default:} \code{2})
 #' @param sample_trajectory Make a trajectory between sample points by a variable in the metadata.
 #' @param sample_trajectory_group Make a trajectory between sample points by the \code{sample_trajectory} argument, but within individual groups.
 #' @param sample_plotly Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the variables to show or \code{"all"} to display.
 #' 
 #' @param species_plot (\emph{logical}) Plot species points or not. (\emph{default:} \code{FALSE})
 #' @param species_shape The shape of the species points, fx \code{1} for hollow circles or \code{20} for dots. (\emph{default:} \code{20})
-#' @param species_size Size of the species points. (\emph{default:} \code{2})
-#' @param species_nlabels Number of the most extreme species labels to plot (Only makes sense with PCA/RDA).
+#' @param species_point_size Size of the species points. (\emph{default:} \code{2})
+#' @param species_nlabels Number of the most extreme species labels to plot (ordered by the sum of the numerical values of the x,y coordinates. Only makes sense with PCA/RDA). 
 #' @param species_label_taxonomy Taxonomic level by which to label the species points. (\emph{default:} \code{"Genus"})
 #' @param species_label_size Size of the species text labels. (\emph{default:} \code{3})
 #' @param species_label_color Color of the species text labels. (\emph{default:} \code{"grey10"})
@@ -126,6 +127,7 @@ amp_ordinate<- function(data,
                         sample_label_by = NULL,
                         sample_label_size = 4,
                         sample_label_segment_color = "black",
+                        sample_point_size = 2,
                         sample_trajectory = NULL,
                         sample_trajectory_group = sample_trajectory,
                         sample_plotly = NULL,
@@ -135,7 +137,7 @@ amp_ordinate<- function(data,
                         species_label_size = 3, 
                         species_label_color = "grey10", 
                         species_rescale = FALSE, 
-                        species_size = 2,
+                        species_point_size = 2,
                         species_shape = 20, 
                         species_plotly = FALSE,
                         envfit_factor = NULL,
@@ -157,10 +159,10 @@ amp_ordinate<- function(data,
   
   #Sanity check of options
   if(species_plotly == T & !is.null(sample_plotly)){
-    stop("You can not use plotly for both species and samples in the same plot.\n")
+    stop("You can not use plotly for both species and samples in the same plot.")
   }
   if(species_plotly == T | !is.null(sample_plotly)){
-    warning("geom_text_repel is not supported by plotly yet, forcing repel_labels = FALSE.\n")
+    warning("geom_text_repel is not supported by plotly yet, forcing repel_labels = FALSE.")
     repel_labels <- F
   }
   
@@ -171,11 +173,6 @@ amp_ordinate<- function(data,
   #Check the data
   data <- amp_rename(data = data, tax_empty = tax_empty)
   
-  #First transform to percentages
-  abund_pct <- as.data.frame(sapply(data$abund, function(x) x/sum(x) * 100))
-  rownames(abund_pct) <- rownames(data$abund) #keep rownames
-  data$abund <- abund_pct
-  
   #Then filter low abundant OTU's where ALL samples have below the threshold set with filter_species in percent
   data$abund <- data$abund[!apply(data$abund, 1, function(row) all(row <= filter_species)),] #remove low abundant OTU's 
   rownames(data$tax) <- data$tax$OTU
@@ -185,58 +182,61 @@ amp_ordinate<- function(data,
   #to fix user argument characters, so fx PCoA/PCOA/pcoa are all valid
   type <- tolower(type)
   
-  if (type == "nmds" | type == "mmds" | type == "pcoa" | type == "dca") {
-    if (!distmeasure == "none") {
-      distmeasure <- tolower(distmeasure)
-    } 
-    if (distmeasure == "none") {
-      warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure\n")
-    }
-    if (transform == "hellinger") {
-      warning("Using the hellinger transformation (default) is not recommended for distance-based ordination (nMDS/PCoA/DCA). Consider transform = \"none\".")
-    }
-  }
-  
   #data transformation with decostand()
-  if(!transform == "none") {
+  if(!transform == "none" & transform != "sqrt") {
     transform <- tolower(transform)
     data$abund <- t(vegan::decostand(t(data$abund), method = transform))
   } else if (transform == "sqrt") {
     data$abund <- t(sqrt(t(data$abund)))
+  } 
+  
+  #Generate inputmatrix AFTER transformation
+  if (any(type == c("nmds", "mmds", "pcoa", "dca"))) {
+    if (!distmeasure == "none") {
+      #Calculate distance matrix with vegdist()
+      distmeasure <- tolower(distmeasure)
+      if(distmeasure == "jsd") {
+        #This is based on http://enterotype.embl.de/enterotypes.html
+        #Abundances of 0 will be set to the pseudocount value to avoid 0-value denominators
+        #Unfortunately this code is SLOOOOOOOOW
+        dist.JSD <- function(inMatrix, pseudocount=0.000001) {
+          KLD <- function(x,y) sum(x *log(x/y))
+          JSD <- function(x,y) sqrt(0.5 * KLD(x, (x+y)/2) + 0.5 * KLD(y, (x+y)/2))
+          matrixColSize <- length(colnames(inMatrix))
+          matrixRowSize <- length(rownames(inMatrix))
+          colnames <- colnames(inMatrix)
+          resultsMatrix <- matrix(0, matrixColSize, matrixColSize)
+          
+          inMatrix = apply(inMatrix,1:2,function(x) ifelse (x==0,pseudocount,x))
+          
+          for(i in 1:matrixColSize) {
+            for(j in 1:matrixColSize) { 
+              resultsMatrix[i,j]=JSD(as.vector(inMatrix[,i]),
+                                     as.vector(inMatrix[,j]))
+            }
+          }
+          colnames -> colnames(resultsMatrix) -> rownames(resultsMatrix)
+          as.dist(resultsMatrix)->resultsMatrix
+          attr(resultsMatrix, "method") <- "dist"
+          return(resultsMatrix) 
+        }
+        cat("Calculating the Jensen-Shannon Divergence (JSD) distance matrix may take a long time.")
+        inputmatrix <- dist.JSD(data$abund)
+      } else if(any(distmeasure == c("manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower", "altGower", "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis"))) {
+        inputmatrix <- vegan::vegdist(t(data$abund), method = distmeasure)
+      }
+    } else if (distmeasure == "none") {
+      warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure.")
+      inputmatrix <- t(data$abund)
+    }
+    
+    if (transform != "none" & distmeasure != "none") {
+      warning("Using both transformation AND a distance measure is not recommended for distance-based ordination (nMDS/PCoA/DCA). If this is not deliberate, consider transform = \"none\".")
+    }
+  } else if(any(type == c("pca", "rda", "ca", "cca"))) {
+    inputmatrix <- t(data$abund)
   }
   
-  #Calculate distance matrix with vegdist()
-  if (distmeasure == "none") {
-    inputmatrix <- t(data$abund)
-  } else if(distmeasure == "jsd") {
-    #This is based on http://enterotype.embl.de/enterotypes.html
-    #Abundances of 0 will be set to the pseudocount value to avoid 0-value denominators
-    #Unfortunately this code is SLOOOOOOOOW
-    dist.JSD <- function(inMatrix, pseudocount=0.000001) {
-      KLD <- function(x,y) sum(x *log(x/y))
-      JSD <- function(x,y) sqrt(0.5 * KLD(x, (x+y)/2) + 0.5 * KLD(y, (x+y)/2))
-      matrixColSize <- length(colnames(inMatrix))
-      matrixRowSize <- length(rownames(inMatrix))
-      colnames <- colnames(inMatrix)
-      resultsMatrix <- matrix(0, matrixColSize, matrixColSize)
-      
-      inMatrix = apply(inMatrix,1:2,function(x) ifelse (x==0,pseudocount,x))
-      
-      for(i in 1:matrixColSize) {
-        for(j in 1:matrixColSize) { 
-          resultsMatrix[i,j]=JSD(as.vector(inMatrix[,i]),
-                                 as.vector(inMatrix[,j]))
-        }
-      }
-      colnames -> colnames(resultsMatrix) -> rownames(resultsMatrix)
-      as.dist(resultsMatrix)->resultsMatrix
-      attr(resultsMatrix, "method") <- "dist"
-      return(resultsMatrix) 
-    }
-    inputmatrix <- dist.JSD(data$abund)
-  } else if(any(distmeasure == c("manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower", "altGower", "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis"))) {
-    inputmatrix <- vegan::vegdist(t(data$abund), method = distmeasure)
-  }
   #################################### end of block ####################################
   
   #Generate data depending on the chosen ordination type
@@ -257,7 +257,7 @@ amp_ordinate<- function(data,
     
   } else if(type == "rda") {
     if(is.null(constrain)) 
-      stop("Argument constrain must be provided when performing constrained/canonical analysis.\n")
+      stop("Argument constrain must be provided when performing constrained/canonical analysis.")
     #make the model
     codestring <- paste0("rda(inputmatrix~", paste(constrain, collapse = "+"), ", data$metadata, ...)") #function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
     model <-  eval(parse(text = codestring))
@@ -297,7 +297,7 @@ amp_ordinate<- function(data,
     #Speciesscores may not be available with MDS
     sitescores <- vegan::scores(model, display = "sites")
     if(!length(model$species) > 1) {
-      speciesscores <- warning("Speciesscores are not available with nMDS or mMDS/PCoA.\n")
+      speciesscores <- warning("Speciesscores are not available.")
     } else {
       speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
     }
@@ -317,7 +317,7 @@ amp_ordinate<- function(data,
     #Speciesscores are not available with pcoa
     sitescores <- as.data.frame(model$vectors)
     colnames(sitescores) <- c(paste0("PCo", seq(1:length(sitescores))))
-    speciesscores <- warning("Speciesscores are not available with nMDS or mMDS/PCoA.\n")
+    speciesscores <- warning("Speciesscores are not available.")
   } else if(type == "ca") {
     #make the model
     model <- vegan::cca(inputmatrix, ...)
@@ -334,7 +334,7 @@ amp_ordinate<- function(data,
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if(type == "cca") {
     if(is.null(constrain)) 
-      stop("Argument constrain must be provided when performing constrained/canonical analysis.\n")
+      stop("Argument constrain must be provided when performing constrained/canonical analysis.")
     #make the model
     codestring <- paste0("cca(inputmatrix~", paste(constrain, collapse = "+"), ", data$metadata, ...)") #function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
     model <-  eval(parse(text = codestring))
@@ -411,7 +411,7 @@ amp_ordinate<- function(data,
   #Generate a color frame around the chosen color group
   
   if(sample_colorframe == TRUE) {
-    if(is.null(sample_color_by)) stop("Please provide the argument sample_color_by\n")
+    if(is.null(sample_color_by)) stop("Please provide the argument sample_color_by.")
     splitData <- split(dsites, dsites[, sample_color_by]) %>% 
       lapply(function(df) {
         df[chull(df[, x_axis_name], df[, y_axis_name]), ]
@@ -436,7 +436,7 @@ amp_ordinate<- function(data,
       theme(axis.line = element_line(colour = "black", size = 0.5))
   } else{
     plot <- plot +
-      geom_point(size = 2, alpha = opacity) +
+      geom_point(size = sample_point_size, alpha = opacity) +
       theme_minimal() +
       theme(axis.line = element_line(colour = "black", size = 0.5))
   }
@@ -476,7 +476,7 @@ amp_ordinate<- function(data,
         geom_point(data = dspecies,
                    color = "darkgrey",
                    shape = species_shape,
-                   size = species_size-1,
+                   size = species_point_size-1,
                    alpha = opacity,
                    aes(text = data_plotly))
     } else{
@@ -484,7 +484,7 @@ amp_ordinate<- function(data,
         geom_point(data = dspecies,
                    color = "darkgrey",
                    shape = species_shape,
-                   size = species_size,
+                   size = species_point_size,
                    alpha = opacity) 
     }
     
@@ -526,7 +526,7 @@ amp_ordinate<- function(data,
   }
   
   ######## Fit environmental variables ########
-  # Categorial fitting
+  # Categorical fitting
   if(!is.null(envfit_factor)) {
     evf_factor_model <- envfit(model,
                                data$metadata[,envfit_factor, drop = FALSE],
@@ -543,7 +543,7 @@ amp_ordinate<- function(data,
       else{plot <- plot + geom_text(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_color, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
     }
     if (nrow(evf_factor_data) == 0) {
-      warning("No environmental variables fit below the chosen significant level.\n")
+      warning("No environmental variables fit below the chosen significant level.")
     }
   } else {
     evf_factor_model <- NULL
@@ -584,7 +584,7 @@ amp_ordinate<- function(data,
         )
     } 
     if (nrow(evf_numeric_data) == 0) {
-      warning("No environmental variables fit below the chosen significant level.\n")
+      warning("No environmental variables fit below the chosen significant level.")
     }
   } else {
     evf_numeric_model <- NULL
