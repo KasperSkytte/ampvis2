@@ -10,9 +10,9 @@ URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
 Depends:
-    R (>= 3.4.1),
-    ggplot2
+    R (>= 3.4.1)
 Imports:
+    ggplot2
     dplyr,
     tidyverse,
     ggrepel,
@@ -36,5 +36,5 @@ Imports:
     data.table,
     RColorBrewer
 Suggests: 
-    devtools
+    remotes
 RoxygenNote: 6.0.1
