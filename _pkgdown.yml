@@ -1,5 +1,10 @@
 url: https://github.com/MadsAlbertsen/ampvis2
 
+home:
+  links:
+    - text: Latest stable release
+      href: https://github.com/MadsAlbertsen/ampvis2/releases/latest/
+
 template:
   params:
     bootswatch: yeti

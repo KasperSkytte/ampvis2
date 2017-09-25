@@ -125,7 +125,7 @@ $(document).ready(function () {
 <p>ampvis2 is an R-package to conveniently visualise and analyse 16S rRNA amplicon data in different ways.</p>
 <div id="installing-ampvis2" class="section level2">
 <h2>Installing ampvis2</h2>
-<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R (3.4.1 or later)</a> and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Windows users should also install <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>. Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console.</p>
+<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R (3.4.1 or later)</a> and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Windows users should also install <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>. Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console:</p>
 <pre class="r"><code>install.packages(&quot;remotes&quot;)
 remotes::install_github(&quot;MadsAlbertsen/ampvis2&quot;)</code></pre>
 </div>
@@ -136,6 +136,10 @@ remotes::install_github(&quot;MadsAlbertsen/ampvis2&quot;)</code></pre>
 <div id="shiny" class="section level2">
 <h2>Shiny</h2>
 <p>An interactive Shiny app with some of the basic functionality of ampvis2 can be found at: <a href="https://kasperskytte.shinyapps.io/shinyampvis" class="uri">https://kasperskytte.shinyapps.io/shinyampvis</a></p>
+<div id="releases" class="section level3">
+<h3>Releases</h3>
+<p>To install a specific (older) release of ampvis2 use <code>&quot;@release&quot;</code> as suffix, fx <code>remotes::install_github(&quot;madsalbertsen/ampvis2@2.0&quot;)</code> to install the first release (2.0) of ampvis2. The latest stable release can be installed with <code>remotes::install_github(&quot;madsalbertsen/ampvis2@*release&quot;)</code>.</p>
+</div>
 </div>
 </div>
 
