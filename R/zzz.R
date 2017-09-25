@@ -3,7 +3,8 @@
   if (!interactive()) {
     return()
   } else {
-    packageStartupMessage("This is ", pkg, " version ", utils::packageVersion("ampvis2"), appendLF = TRUE)
+    local_version <- utils::packageVersion("ampvis2")
+    packageStartupMessage("This is ", pkg, " version ", local_version, appendLF = TRUE)
     if(requireNamespace("remotes", quietly = TRUE)) {
       tryCatch({
         github_ref <- remotes:::github_resolve_ref(
