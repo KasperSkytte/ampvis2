@@ -1,5 +1,5 @@
 .onAttach <- function(lib, pkg)  {
-  suppressWarnings(suppressMessages(require("ggplot2", quietly = TRUE))) #load ggplot2 without warnings
+  suppressWarnings(suppressMessages(requireNamespace("ggplot2", quietly = TRUE))) #load ggplot2 without warnings
   if (!interactive()) {
     return()
   } else {
@@ -20,4 +20,5 @@
       })
     }
   }
+  invisible()
 }
