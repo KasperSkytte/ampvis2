@@ -117,7 +117,7 @@
     </tr>
     <tr>
       <th>distmeasure</th>
-      <td><p>(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"jsd"</code> (Jensen-Shannon Divergence), <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code> or simply <code>"none"</code> or <code>"sqrt"</code>. You can also write your own math formula, see details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/vegdist'>vegdist</a></code>. JSD is based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>. (<em>default:</em> <code>"none"</code>)</p></td>
+      <td><p>(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"jsd"</code> (Jensen-Shannon Divergence), <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code>, or <code>"none"</code>. You can also write your own math formula, see details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/vegdist'>vegdist</a></code>. JSD is based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>. (<em>default:</em> <code>"none"</code>)</p></td>
     </tr>
     <tr>
       <th>transform</th>
@@ -168,6 +168,10 @@
       <td><p>Sample labels repel-segment color. (<em>default:</em> <code>"black"</code>)</p></td>
     </tr>
     <tr>
+      <th>sample_point_size</th>
+      <td><p>Size of the sample points. (<em>default:</em> <code>2</code>)</p></td>
+    </tr>
+    <tr>
       <th>sample_trajectory</th>
       <td><p>Make a trajectory between sample points by a variable in the metadata.</p></td>
     </tr>
@@ -185,7 +189,7 @@
     </tr>
     <tr>
       <th>species_nlabels</th>
-      <td><p>Number of the most extreme species labels to plot (Only makes sense with PCA/RDA).</p></td>
+      <td><p>Number of the most extreme species labels to plot (ordered by the sum of the numerical values of the x,y coordinates. Only makes sense with PCA/RDA).</p></td>
     </tr>
     <tr>
       <th>species_label_taxonomy</th>
@@ -204,7 +208,7 @@
       <td><p>(<em>logical</em>) Rescale species points or not. Basically they will be multiplied by 0.8, for visual convenience only. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
-      <th>species_size</th>
+      <th>species_point_size</th>
       <td><p>Size of the species points. (<em>default:</em> <code>2</code>)</p></td>
     </tr>
     <tr>
