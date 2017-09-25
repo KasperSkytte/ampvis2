@@ -12,7 +12,7 @@ LazyData: true
 Depends:
     R (>= 3.4.1)
 Imports:
-    ggplot2
+    ggplot2,
     dplyr,
     tidyverse,
     ggrepel,
