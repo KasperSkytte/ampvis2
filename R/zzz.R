@@ -1,5 +1,5 @@
 .onAttach <- function(lib, pkg)  {
-  suppressWarnings(require("ggplot2", quietly = TRUE, warn.conflicts = FALSE)) #load ggplot2 without warnings
+  suppressWarnings(suppressMessages(require("ggplot2", quietly = TRUE))) #load ggplot2 without warnings
   if (!interactive()) {
     return()
   } else {
@@ -13,7 +13,7 @@
         github_version <- package_version(gsub("v", "", github_ref))
         if(local_version != github_version) {
           packageStartupMessage(
-            "New release of ", pkg, " (", github_version, ") is available! Install the latest release of ", pkg, " with \ndevtools::install_github(\"madsalbertsen/ampvis2@*release\").")
+            "New release of ", pkg, " (", github_version, ") is available! Install the latest release of ", pkg, " with \nremotes::install_github(\"madsalbertsen/ampvis2@*release\").")
         }
       }, error=function(e) {
         packageStartupMessage("Can't reach GitHub to check for new releases just now. Trying again next time. ")
