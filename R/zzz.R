@@ -1,5 +1,11 @@
 .onAttach <- function(lib, pkg)  {
-  suppressWarnings(suppressMessages(requireNamespace("ggplot2", quietly = TRUE))) #load ggplot2 without warnings
+  #load ggplot2 without warnings
+  userwarnsetting <- getOption("warn")
+  options(warn = -1)
+  suppressWarnings(suppressMessages(requireNamespace("ggplot2", quietly = TRUE))) 
+  options(warn = userwarnsetting)
+  
+  #Check for new github version
   if (!interactive()) {
     return()
   } else {
