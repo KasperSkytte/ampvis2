@@ -173,6 +173,11 @@ amp_ordinate<- function(data,
   #Check the data
   data <- amp_rename(data = data, tax_empty = tax_empty)
   
+  #First transform to percentages
+  abund_pct <- as.data.frame(sapply(data$abund, function(x) x/sum(x) * 100))
+  rownames(abund_pct) <- rownames(data$abund) #keep rownames
+  data$abund <- abund_pct
+  
   #Then filter low abundant OTU's where ALL samples have below the threshold set with filter_species in percent
   data$abund <- data$abund[!apply(data$abund, 1, function(row) all(row <= filter_species)),] #remove low abundant OTU's 
   rownames(data$tax) <- data$tax$OTU
