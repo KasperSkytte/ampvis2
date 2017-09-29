@@ -136,6 +136,7 @@ amp_load <- function(otutable, metadata, fasta = NULL){
       
       #subset both based on shared samples
       abund0 <- abund[,match(sharedSamples, colnames(abund)), drop = FALSE]
+      abund0 <- abund[apply(abund, 1, function(row) all(row !=0 )),] #after subset, rows with all 0's may be introduced, remove
       metadata0 <- metadata[match(sharedSamples, rownames(metadata)),, drop = FALSE]
       
       #Vectors with unique sample names in either
@@ -153,7 +154,8 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   ### tax: the last 7 columns from otutable
   tax <- data.frame(otutable[, (ncol(otutable) - 6):ncol(otutable)] 
                     ,OTU = rownames(otutable)) #with added OTU column
-  tax <- tax[order(rownames(tax)), c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")]
+  tax <- tax[which(rownames(abund) %in% rownames(abund0)), c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")]
+  
   
   ###data: return the data in a combined list w or w/o refseq.
   if(!is.null(fasta)) {
