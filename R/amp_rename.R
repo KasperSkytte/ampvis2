@@ -41,13 +41,13 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
   }
   
   ## Remove the underscore classifier from the data  
-  tax$Kingdom <- gsub("k__", "", tax$Kingdom)
-  tax$Phylum <- gsub("p__", "", tax$Phylum)
-  tax$Phylum <- gsub("c__", "", tax$Phylum)
-  tax$Class <- gsub("c__", "", tax$Class)
-  tax$Order <- gsub("o__", "", tax$Order)
-  tax$Family <- gsub("f__", "", tax$Family)
-  tax$Genus <- gsub("g__", "", tax$Genus)
+  tax$Kingdom <- gsub("k_*", "", tax$Kingdom)
+  tax$Phylum <- gsub("p_*", "", tax$Phylum)
+  tax$Phylum <- gsub("c_*", "", tax$Phylum)
+  tax$Class <- gsub("c_*", "", tax$Class)
+  tax$Order <- gsub("o_*", "", tax$Order)
+  tax$Family <- gsub("f_*", "", tax$Family)
+  tax$Genus <- gsub("g_*", "", tax$Genus)
   tax$Kingdom <- gsub("uncultured", "", tax$Kingdom)
   tax$Phylum <- gsub("uncultured", "", tax$Phylum)
   tax$Class <- gsub("uncultured", "", tax$Class)
@@ -57,7 +57,7 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
   
   ## Check if there is a species level otherwise add it for consistency
   if (!is.null(tax$Species)){
-    tax$Species <- gsub("s__", "", tax$Species)
+    tax$Species <- gsub("s_*", "", tax$Species)
   } else {
     tax$Species <- ""
   }
