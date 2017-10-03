@@ -155,7 +155,7 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   tax <- data.frame(otutable[, (ncol(otutable) - 6):ncol(otutable)] 
                     ,OTU = rownames(otutable)) #with added OTU column
   tax <- tax[which(rownames(abund) %in% rownames(abund0)), c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")]
-  
+  tax[is.na(tax)] <- ""  
   
   ###data: return the data in a combined list w or w/o refseq.
   if(!is.null(fasta)) {
