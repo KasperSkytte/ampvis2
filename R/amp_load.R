@@ -136,7 +136,7 @@ amp_load <- function(otutable, metadata, fasta = NULL){
       
       #subset both based on shared samples
       abund0 <- abund[,match(sharedSamples, colnames(abund)), drop = FALSE]
-      abund0 <- abund[apply(abund, 1, function(row) all(row !=0 )),] #after subset, rows with all 0's may be introduced, remove
+      abund0 <- abund0[rowSums(abund0) > 0,] #after subset, rows with all 0's may be introduced, remove
       metadata0 <- metadata[match(sharedSamples, rownames(metadata)),, drop = FALSE]
       
       #Vectors with unique sample names in either
