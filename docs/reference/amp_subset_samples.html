@@ -52,23 +52,23 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
+  <a href="../index.html">Home</a>
 </li>
 <li>
   <a href="../articles/ampvis2.html">Get Started</a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MadsAlbertsen/ampvis2">
-    <span class="fa fa-github"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -97,7 +97,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
+      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -120,6 +120,27 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The subset is performed on the metadata by <code>subset()</code> and the abundance- and taxonomy tables are then adjusted accordingly.</p>
+    
+    <h2 class="hasAnchor" id="normalising-data-for-use-in-heatmaps"><a class="anchor" href="#normalising-data-for-use-in-heatmaps"></a>Normalising data for use in heatmaps</h2>
+
+    
+    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by <code><a href='amp_heatmap.html'>amp_heatmap</a></code> automatically. This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code>amp_subset_samples</code> functions and then set <code>raw = TRUE</code> when using <code><a href='amp_heatmap.html'>amp_heatmap</a></code>, see the example below.</p><pre>
+data("MiDAS")
+subsettedData &lt;- amp_subset_samples(MiDAS,
+                                    Plant %in% c("Aalborg West", "Aalborg East"),
+                                    normalise = TRUE
+                                    )
+amp_heatmap(subsettedData,
+            group_by = "Plant",
+            tax_aggregate = "Phylum",
+            tax_add = "Genus",
+            raw = TRUE
+            )
+</pre>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code>, <code><a href='amp_heatmap.html'>amp_heatmap</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -195,6 +216,10 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#normalising-data-for-use-in-heatmaps">Normalising data for use in heatmaps</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

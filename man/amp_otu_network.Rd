@@ -7,7 +7,7 @@
 amp_otu_network(data)
 }
 \arguments{
-\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
+\item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
 \item{min_abundance}{Minimum taxa abundance pr. sample. (\emph{default:} \code{0})}
 

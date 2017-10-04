@@ -7,7 +7,7 @@
 amp_rarecurve(data)
 }
 \arguments{
-\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
+\item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
 \item{stepsize}{Step size for the curves. Lower is prettier but takes more time to generate. (\emph{default:} \code{1000})}
 

@@ -4,13 +4,49 @@
 #'
 #' @usage amp_subset_taxa(data, tax_vector)
 #'
-#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param tax_vector (required) A vector with taxonomic groups, e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.
 #' @param normalise (\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' @import ape
 #' @export
+#' 
+#' @details 
+#' The subset of taxa is done by providing a vector of taxa names, where all other taxa are then removed. The taxa names in the vector will be matched in all columns in the taxonomy table.
+#' 
+#' @section Normalising data for use in heatmaps:
+#' By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by \code{\link{amp_heatmap}} automatically. This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_subset_taxa}} and \code{\link{amp_subset_samples}} functions and then set \code{raw = TRUE} when using \code{\link{amp_heatmap}}, see the example below.
+#' 
+#' \preformatted{
+#' data("AalborgWWTPs")
+#' subsettedData <- amp_subset_taxa(AalborgWWTPs,
+#'                                  tax_vector = c("p__Chloroflexi", "p__Actinobacteria"),
+#'                                  normalise = TRUE
+#'                                  )
+#' amp_heatmap(subsettedData,
+#'             group_by = "Plant",
+#'             tax_aggregate = "Phylum",
+#'             tax_add = "Genus",
+#'             raw = TRUE
+#'             )
+#' }
+#' 
+#' @examples 
+#' #Load example data
+#' data("MiDAS")
+#' 
+#' #Show a short summary about the data by simply typing the name of the object in the console
+#' MiDAS
+#' 
+#' #Remove all taxa except the phyla Chloroflexi and Actinobacteria
+#' MiDASsubset <- amp_subset_taxa(MiDAS, tax_vector = c("p__Chloroflexi", "p__Actinobacteria"))
+#' 
+#' #Summary
+#' MiDASsubset
+#' 
+#' @seealso 
+#' \code{\link{amp_subset_samples}}, \code{\link{amp_heatmap}}
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

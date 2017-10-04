@@ -7,7 +7,7 @@
 amp_export_otutable(data)
 }
 \arguments{
-\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
+\item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
 \item{filename}{File name of the exported OTU-table WITHOUT extension. (\emph{default:} \code{"exported_otutable"})}
 

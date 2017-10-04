@@ -7,7 +7,7 @@
 amp_export_fasta(data)
 }
 \arguments{
-\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
+\item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
 \item{filename}{File name of the exported FASTA file. (\emph{default:} \code{"exported_sequences.fa"})}
 

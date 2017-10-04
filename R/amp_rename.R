@@ -4,7 +4,7 @@
 #'
 #' @usage amp_rename(data)
 #'
-#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
 #' \itemize{
 #'    \item \code{"remove"}: Remove OTUs without taxonomic information.

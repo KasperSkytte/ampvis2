@@ -1,6 +1,6 @@
 #' Prints ampvis2 object summary. Internal function.
 #'
-#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #'
 #' @return Text output in console
 #' @export

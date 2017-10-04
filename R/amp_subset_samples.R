@@ -4,7 +4,7 @@
 #'
 #' @usage amp_subset_samples(data, ...)
 #'
-#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param minreads Minimum number of reads pr. sample. (\emph{default:} \code{1})
 #' @param ... Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}. 
 #' @param normalise (\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})
@@ -16,6 +16,23 @@
 #' @export
 #' 
 #' @details The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly.
+#' 
+#' @section Normalising data for use in heatmaps:
+#' By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by \code{\link{amp_heatmap}} automatically. This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_subset_taxa}} and \code{\link{amp_subset_samples}} functions and then set \code{raw = TRUE} when using \code{\link{amp_heatmap}}, see the example below.
+#' 
+#' \preformatted{
+#' data("MiDAS")
+#' subsettedData <- amp_subset_samples(MiDAS,
+#'                                     Plant \%in\% c("Aalborg West", "Aalborg East"),
+#'                                     normalise = TRUE
+#'                                     )
+#' amp_heatmap(subsettedData,
+#'             group_by = "Plant",
+#'             tax_aggregate = "Phylum",
+#'             tax_add = "Genus",
+#'             raw = TRUE
+#'             )
+#' }
 #' 
 #' @examples 
 #' #Load example data
@@ -38,6 +55,9 @@
 #'     
 #' #Summary
 #' MiDASsubset2
+#' 
+#' @seealso 
+#' \code{\link{amp_subset_taxa}}, \code{\link{amp_heatmap}}
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

@@ -4,7 +4,7 @@
 #'
 #' @usage amp_alphadiv(data, measure, rarefy)
 #'
-#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param measure Alpha-diversity measure(s) to be included if not all. A vector of one or more of: 
 #' \itemize{
 #'   \item \code{"observed"}

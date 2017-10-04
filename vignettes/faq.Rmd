@@ -1,0 +1,29 @@
+---
+title: "Frequently Asked Questions"
+output: html_document
+---
+
+## Your question here
+If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <https://github.com/MadsAlbertsen/ampvis2/issues>, anything and everything is welcome.
+
+## Loading phyloseq objects into ampvis2
+You will first have to extract the OTU-table and the metadata from the phyloseq object, and then import as normal with `amp_load`:
+
+```{r, eval=FALSE}
+library(ampvis2)
+#Combine OTU abundance table and taxonomy table from the phyloseq object "my_phyloseq_object":
+obj <- my_phyloseq_object
+otutable <- data.frame(OTU = rownames(phyloseq::otu_table(obj)@.Data),
+                       phyloseq::otu_table(obj)@.Data,
+                       phyloseq::tax_table(obj)@.Data,
+                       check.names = FALSE
+                       )
+
+#Extract metadata from the phyloseq object:
+metadata <- data.frame(phyloseq::sample_data(obj), 
+                       check.names = FALSE
+                       )
+
+#Load the data with amp_load:
+my_ampvis2_object <- amp_load(otutable, metadata)
+```

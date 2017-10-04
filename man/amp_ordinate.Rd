@@ -7,7 +7,7 @@
 amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 }
 \arguments{
-\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
+\item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
 \item{filter_species}{Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 may drastically increase computation time. (\emph{default}: \code{0.1})}
 
@@ -111,7 +111,7 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.
 }
 \details{
-The \code{amp_ordinate()} function is mainly based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and \code{\link[ggplot2]{ggplot2-package}} to generate the plot.
+The \code{\code{amp_ordinate}} function is mainly based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and \code{\link[ggplot2]{ggplot2-package}} to generate the plot.
 }
 \examples{
 #Load example data

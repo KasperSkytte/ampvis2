@@ -52,23 +52,23 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
+  <a href="../index.html">Home</a>
 </li>
 <li>
   <a href="../articles/ampvis2.html">Get Started</a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MadsAlbertsen/ampvis2">
-    <span class="fa fa-github"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -97,7 +97,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
+      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
     </tr>
     <tr>
       <th>tax_vector</th>
@@ -113,7 +113,72 @@
 
     <p>A list with 3 dataframes (4 if reference sequences are provided).</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>The subset of taxa is done by providing a vector of taxa names, where all other taxa are then removed. The taxa names in the vector will be matched in all columns in the taxonomy table.</p>
+    
+    <h2 class="hasAnchor" id="normalising-data-for-use-in-heatmaps"><a class="anchor" href="#normalising-data-for-use-in-heatmaps"></a>Normalising data for use in heatmaps</h2>
+
+    
+    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by <code><a href='amp_heatmap.html'>amp_heatmap</a></code> automatically. This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code>amp_subset_taxa</code> and <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> functions and then set <code>raw = TRUE</code> when using <code><a href='amp_heatmap.html'>amp_heatmap</a></code>, see the example below.</p><pre>
+data("AalborgWWTPs")
+subsettedData &lt;- amp_subset_taxa(AalborgWWTPs,
+                                 tax_vector = c("p__Chloroflexi", "p__Actinobacteria"),
+                                 normalise = TRUE
+                                 )
+amp_heatmap(subsettedData,
+            group_by = "Plant",
+            tax_aggregate = "Phylum",
+            tax_add = "Genus",
+            raw = TRUE
+            )
+</pre>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='amp_subset_samples.html'>amp_subset_samples</a></code>, <code><a href='amp_heatmap.html'>amp_heatmap</a></code></p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>#Load example data</span>
+<span class='fu'>data</span>(<span class='st'>"MiDAS"</span>)
+
+<span class='co'>#Show a short summary about the data by simply typing the name of the object in the console</span>
+<span class='no'>MiDAS</span></div><div class='output co'>#&gt; ampvis2 object with 4 elements.
+#&gt; Summary of OTU table:
+#&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
+#&gt;          573        14791     18398563        13306        46071        31758 
+#&gt;    Avg#Reads 
+#&gt;     32109.18 
+#&gt; 
+#&gt; Assigned taxonomy:
+#&gt;       Kingdom        Phylum         Class         Order        Family 
+#&gt;   14791(100%) 14283(96.57%) 12507(84.56%) 11184(75.61%)  9685(65.48%) 
+#&gt;         Genus       Species 
+#&gt;  7105(48.04%)     27(0.18%) 
+#&gt; 
+#&gt; Metadata variables: 10 
+#&gt;  SampleID, Plant, Year, Period, Date, DeltaDays, LIB_ID, Latitude, Longitude, RawData</div><div class='input'>
+<span class='co'>#Remove all taxa except the phyla Chloroflexi and Actinobacteria</span>
+<span class='no'>MiDASsubset</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_taxa</span>(<span class='no'>MiDAS</span>, <span class='kw'>tax_vector</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"p__Chloroflexi"</span>, <span class='st'>"p__Actinobacteria"</span>))
+
+<span class='co'>#Summary</span>
+<span class='no'>MiDASsubset</span></div><div class='output co'>#&gt; ampvis2 object with 4 elements.
+#&gt; Summary of OTU table:
+#&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
+#&gt;          573         2752      7041712         2898        28818        11706 
+#&gt;    Avg#Reads 
+#&gt;      12289.2 
+#&gt; 
+#&gt; Assigned taxonomy:
+#&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
+#&gt;   2752(100%)   2752(100%) 2666(96.88%) 2490(90.48%) 2102(76.38%) 1644(59.74%) 
+#&gt;      Species 
+#&gt;        0(0%) 
+#&gt; 
+#&gt; Metadata variables: 10 
+#&gt;  SampleID, Plant, Year, Period, Date, DeltaDays, LIB_ID, Latitude, Longitude, RawData</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -121,7 +186,15 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#normalising-data-for-use-in-heatmaps">Normalising data for use in heatmaps</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     

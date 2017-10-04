@@ -52,23 +52,23 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
+  <a href="../index.html">Home</a>
 </li>
 <li>
   <a href="../articles/ampvis2.html">Get Started</a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MadsAlbertsen/ampvis2">
-    <span class="fa fa-github"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -97,7 +97,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
+      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
     </tr>
     <tr>
       <th>time_variable</th>
@@ -155,10 +155,10 @@
 <span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'>#Timeseries of the 6 most abundant OTUs based on the "Date" column</span>
-<span class='fu'>amp_timeseries</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>time_variable</span> <span class='kw'>=</span> <span class='st'>"Date"</span>)</div><div class='img'><img src='amp_timeseries-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>amp_timeseries</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>time_variable</span> <span class='kw'>=</span> <span class='st'>"Date"</span>)</div><div class='img'><img src='amp_timeseries-13.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#Timeseries of the 6 most abundant Genera and split into 6 individual plots</span>
 <span class='fu'>amp_timeseries</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>time_variable</span> <span class='kw'>=</span> <span class='st'>"Date"</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'colour' is already present. Adding another scale for 'colour',</span>
-#&gt; <span class='message'>which will replace the existing scale.</span></div><div class='img'><img src='amp_timeseries-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+#&gt; <span class='message'>which will replace the existing scale.</span></div><div class='img'><img src='amp_timeseries-14.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

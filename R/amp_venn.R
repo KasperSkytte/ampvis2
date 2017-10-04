@@ -4,7 +4,7 @@
 #'
 #' @usage amp_venn(data)
 #'
-#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param group_by Group the data based on a sample variable.
 #' @param cut_a Abundance cutoff in percent. (\emph{default:} \code{0.1})
 #' @param cut_f Frequency cutoff in percent. (\emph{default:} \code{80})

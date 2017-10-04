@@ -3,4 +3,5 @@ urls:
   article: https://github.com/MadsAlbertsen/ampvis2/articles
 articles:
   ampvis2: ampvis2.html
+  faq: faq.html
 

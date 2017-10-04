@@ -7,7 +7,7 @@
 amp_alphadiv(data, measure, rarefy)
 }
 \arguments{
-\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
+\item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
 \item{measure}{Alpha-diversity measure(s) to be included if not all. A vector of one or more of: 
 \itemize{

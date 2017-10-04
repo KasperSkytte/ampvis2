@@ -7,7 +7,7 @@
 amp_heatmap(data, group_by = "")
 }
 \arguments{
-\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
+\item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
 \item{group_by}{(\emph{recommended}) Group the samples by a categorical variable in the metadata. If \code{NULL} then all samples are shown.}
 
@@ -68,6 +68,28 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 \description{
 Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs.
 }
+\details{
+None yet.
+}
+\section{Normalising data for use in heatmaps}{
+
+By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by \code{\link{amp_heatmap}} automatically. This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_subset_taxa}} and \code{\link{amp_subset_samples}} functions and then set \code{raw = TRUE} when using \code{\link{amp_heatmap}}, see the example below.
+
+\preformatted{
+data("MiDAS")
+subsettedData <- amp_subset_samples(MiDAS,
+                                    Plant \%in\% c("Aalborg West", "Aalborg East"),
+                                    normalise = TRUE
+                                    )
+amp_heatmap(subsettedData,
+            group_by = "Plant",
+            tax_aggregate = "Phylum",
+            tax_add = "Genus",
+            raw = TRUE
+            )
+}
+}
+
 \examples{
 #Load example data
 data("AalborgWWTPs")

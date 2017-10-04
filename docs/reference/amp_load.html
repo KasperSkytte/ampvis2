@@ -52,23 +52,23 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
+  <a href="../index.html">Home</a>
 </li>
 <li>
   <a href="../articles/ampvis2.html">Get Started</a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MadsAlbertsen/ampvis2">
-    <span class="fa fa-github"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +87,7 @@
     </div>
 
     
-    <p>This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with <code>amp_load()</code> before any other ampvis functions can be used.</p>
+    <p>This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with <code>amp_load</code> before any other ampvis functions can be used.</p>
     
 
     <pre class="usage"><span class='fu'>amp_load</span>(<span class='kw'>otutable</span> <span class='kw'>=</span> <span class='no'>dataframe</span>, <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>dataframe</span>)</pre>
@@ -115,7 +115,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>amp_load()</code> function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements as described in the following sections to work properly.</p>
+    <p>The <code>amp_load</code> function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements as described in the following sections to work properly.</p>
     
     <h2 class="hasAnchor" id="the-otu-table"><a class="anchor" href="#the-otu-table"></a>The OTU-table</h2>
 
@@ -138,7 +138,7 @@
 <li><p>Generally avoid special characters and spaces in row- and column names.</p></li>
 </ul>
     <p>If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (<code>as.numeric()</code>) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded <code>as.factor()</code> or <code>as.character()</code> instead. This has consequences for the analysis as R treats them differently. Therefore either use the <code>colClasses = </code> argument when loading a csv file or <code>col_types = </code> when loading an excel file, or manually adjust the column classes afterwards with fx <code>metadata$Year &lt;- as.character(metadata$Year)</code>.</p>
-<p>The <code>amp_load()</code> function will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis. Any unmatched samples between the otutable and metadata will be removed.</p>
+<p>The <code>amp_load</code> function will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis. Any unmatched samples between the otutable and metadata will be removed.</p>
 <p>A minimal example is available with <code>data("example_metadata")</code>.</p>
     
     <h2 class="hasAnchor" id="reference-sequences"><a class="anchor" href="#reference-sequences"></a>Reference sequences</h2>

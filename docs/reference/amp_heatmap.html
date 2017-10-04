@@ -52,23 +52,23 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
+  <a href="../index.html">Home</a>
 </li>
 <li>
   <a href="../articles/ampvis2.html">Get Started</a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MadsAlbertsen/ampvis2">
-    <span class="fa fa-github"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -97,7 +97,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
+      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
     </tr>
     <tr>
       <th>group_by</th>
@@ -205,13 +205,34 @@
 
     <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>None yet.</p>
+    
+    <h2 class="hasAnchor" id="normalising-data-for-use-in-heatmaps"><a class="anchor" href="#normalising-data-for-use-in-heatmaps"></a>Normalising data for use in heatmaps</h2>
+
+    
+    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by <code>amp_heatmap</code> automatically. This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> functions and then set <code>raw = TRUE</code> when using <code>amp_heatmap</code>, see the example below.</p><pre>
+data("MiDAS")
+subsettedData &lt;- amp_subset_samples(MiDAS,
+                                    Plant %in% c("Aalborg West", "Aalborg East"),
+                                    normalise = TRUE
+                                    )
+amp_heatmap(subsettedData,
+            group_by = "Plant",
+            tax_aggregate = "Phylum",
+            tax_add = "Genus",
+            raw = TRUE
+            )
+</pre>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>#Load example data</span>
 <span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'>#Heatmap grouped by WWTP</span>
-<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-13.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year, </span>
 <span class='co'>#values not plotted for visibility, phylum name added and colorscale adjusted manually</span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
@@ -223,7 +244,7 @@
            <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>,
            <span class='kw'>color_vector</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"white"</span>, <span class='st'>"red"</span>),
            <span class='kw'>plot_colorscale</span> <span class='kw'>=</span> <span class='st'>"sqrt"</span>,
-           <span class='kw'>plot_legendbreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>))</div><div class='img'><img src='amp_heatmap-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+           <span class='kw'>plot_legendbreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>))</div><div class='img'><img src='amp_heatmap-14.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#A raw text version of the heatmap can be accessed with detailed_output = TRUE:</span>
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>, <span class='kw'>detailed_output</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>result</span>$<span class='no'>textmap</span></div><div class='output co'>#&gt;                        Aalborg East Aalborg West
@@ -245,6 +266,10 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#normalising-data-for-use-in-heatmaps">Normalising data for use in heatmaps</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

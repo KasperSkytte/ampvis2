@@ -14,10 +14,10 @@ reference:
     desc: Functions for loading, exporting and subsetting the data.
     contents:
     - amp_load
-    - amp_export_fasta
-    - amp_export_otutable
     - amp_subset_samples
     - amp_subset_taxa
+    - amp_export_fasta
+    - amp_export_otutable
   - title: Plotting functions
     desc: Functions for visualising amplicon data.
     contents:
@@ -33,8 +33,18 @@ reference:
     - amp_rankabundance
     - amp_alphadiv
     - amp_venn
+    
 navbar:
   title: "ampvis2"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Get Started"
+      href: articles/ampvis2.html
+    - text: "Functions"
+      href: reference/index.html
+    - text: "FAQ"
+      href: articles/faq.html
   right:
-  - icon: fa-github
+  - icon: fa-github fa-lg
     href: https://github.com/MadsAlbertsen/ampvis2
