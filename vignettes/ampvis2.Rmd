@@ -2,7 +2,7 @@
 title: "Introduction to ampvis2"
 ---
 
-This is a short guide to the basics of ampvis2, how to load data, as well as a few basic visualisation functions using example data. A complete explanation of all functions, their purpose, different arguments and examples can be found in the [Reference](https://madsalbertsen.github.io/ampvis2/reference/index.html) tab. First, install ampvis2 as described on the front page.
+This is a short guide to the basics of ampvis2, how to load data, as well as a few basic visualisation functions using example data. A complete explanation of all functions, their purpose, different arguments and examples can be found in the [Functions](https://madsalbertsen.github.io/ampvis2/reference/index.html) tab. First, install ampvis2 as described on the front page.
 
 ## Loading data
 The most notable change with ampvis2 is that phyloseq is no longer used to handle the data, which makes it simpler to understand and work with, and lighter. The data is now simply stored as a list containing 3 dataframes (4 if reference sequences are provided) named `"metadata"`, `"otutable"` and `"tax"` (short for taxonomy). The data ampvis2 needs is an OTU-table generated with fx [workflow scipts v.4+](https://github.com/MadsAlbertsen/16S-analysis/tree/master/data.generation), where the last 7 columns is the taxonomy, and a metadata sheet containing any information about the samples, for example where the sample was taken, date, pH, temperature etc.
@@ -18,7 +18,7 @@ myotutable <- read.delim("data/otutable.txt", check.names = FALSE)
 mymetadata <- readxl::read_excel("data/metadata.xlsx", col_names = TRUE)
 ```
 
-Note that there are multiple types of CSV files. To change the separator to fx a comma you can adjust with the argument `sep = ","`. Refer to the documentation of `?read.table`.
+Note that there are multiple types of CSV files. To change the separator to fx a comma you can adjust with the argument `sep = ","`. Refer to the documentation of [read.table](https://www.rdocumentation.org/packages/utils/versions/3.4.1/topics/read.table).
 
 After the two files have been loaded into R, check that the resulting data frames have been loaded correctly (click them to the right under "Data"), so that either the rownames or a column named "OTU" contains the OTU ID's in the loaded otutable, and that the first column in the metadata are the matching sample ID's. It is highly recommended to read the documentation of `amp_load()` when loading your own data. 
 

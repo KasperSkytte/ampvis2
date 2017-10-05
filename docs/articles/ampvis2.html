@@ -67,7 +67,7 @@
     
     
 <div class="contents">
-<p>This is a short guide to the basics of ampvis2, how to load data, as well as a few basic visualisation functions using example data. A complete explanation of all functions, their purpose, different arguments and examples can be found in the <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Reference</a> tab. First, install ampvis2 as described on the front page.</p>
+<p>This is a short guide to the basics of ampvis2, how to load data, as well as a few basic visualisation functions using example data. A complete explanation of all functions, their purpose, different arguments and examples can be found in the <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Functions</a> tab. First, install ampvis2 as described on the front page.</p>
 <div id="loading-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#loading-data" class="anchor"></a>Loading data</h2>
@@ -76,7 +76,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ampvis2)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myotutable &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">"data/otutable.txt"</span>, <span class="dt">check.names =</span> <span class="ot">FALSE</span>) 
 mymetadata &lt;-<span class="st"> </span>readxl::<span class="kw">read_excel</span>(<span class="st">"data/metadata.xlsx"</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<p>Note that there are multiple types of CSV files. To change the separator to fx a comma you can adjust with the argument <code>sep = ","</code>. Refer to the documentation of <code>?read.table</code>.</p>
+<p>Note that there are multiple types of CSV files. To change the separator to fx a comma you can adjust with the argument <code>sep = ","</code>. Refer to the documentation of <a href="https://www.rdocumentation.org/packages/utils/versions/3.4.1/topics/read.table">read.table</a>.</p>
 <p>After the two files have been loaded into R, check that the resulting data frames have been loaded correctly (click them to the right under “Data”), so that either the rownames or a column named “OTU” contains the OTU ID’s in the loaded otutable, and that the first column in the metadata are the matching sample ID’s. It is highly recommended to read the documentation of <code><a href="../reference/amp_load.html">amp_load()</a></code> when loading your own data.</p>
 <p>Now combine the data using <code><a href="../reference/amp_load.html">amp_load()</a></code>, which checks the data and combines it into one <code>ampvis2</code> object, making it easier to manipulate, filter and subset all elements of the data at once for analysis:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ampvis2)
