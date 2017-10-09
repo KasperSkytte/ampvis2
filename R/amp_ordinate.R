@@ -111,7 +111,7 @@
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_ordinate<- function(data,
+amp_ordinate <- function(data,
                         filter_species = 0.1, 
                         type = "PCA",
                         distmeasure = "none",
@@ -176,13 +176,12 @@ amp_ordinate<- function(data,
   #First transform to percentages
   abund_pct <- as.data.frame(sapply(data$abund, function(x) x/sum(x) * 100))
   rownames(abund_pct) <- rownames(data$abund) #keep rownames
-  data$abund <- abund_pct
   
   #Then filter low abundant OTU's where ALL samples have below the threshold set with filter_species in percent
-  data$abund <- data$abund[!apply(data$abund, 1, function(row) all(row <= filter_species)),] #remove low abundant OTU's 
+  abund_subset <- abund_pct[!apply(abund_pct, 1, function(row) all(row <= filter_species)),,drop = FALSE] #remove low abundant OTU's 
+  data$abund <- data$abund[which(rownames(data$abund) %in% rownames(abund_subset)),,drop = FALSE]
   rownames(data$tax) <- data$tax$OTU
-  data$tax <- data$tax[rownames(data$abund),] #same with taxonomy
-  #data$metadata <- data$metadata[colnames(data$abund),] #same with metadata
+  data$tax <- data$tax[which(rownames(data$tax) %in% rownames(abund_subset)),,drop = FALSE] #same with taxonomy
   
   #to fix user argument characters, so fx PCoA/PCOA/pcoa are all valid
   type <- tolower(type)
