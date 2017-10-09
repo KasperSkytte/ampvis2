@@ -72,10 +72,10 @@
 <a href="#your-question-here" class="anchor"></a>Your question here</h2>
 <p>If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <a href="https://github.com/MadsAlbertsen/ampvis2/issues" class="uri">https://github.com/MadsAlbertsen/ampvis2/issues</a>, anything and everything is welcome.</p>
 </div>
-<div id="loading-phyloseq-objects-into-ampvis2" class="section level2">
+<div id="loading-phyloseq-objects" class="section level2">
 <h2 class="hasAnchor">
-<a href="#loading-phyloseq-objects-into-ampvis2" class="anchor"></a>Loading phyloseq objects into ampvis2</h2>
-<p>You will first have to extract the OTU-table and the metadata from the phyloseq object, and then import as normal with <code>amp_load</code>:</p>
+<a href="#loading-phyloseq-objects" class="anchor"></a>Loading phyloseq objects</h2>
+<p>This is particularly useful if you want to import data in the <strong>QIIME</strong>, <strong>biom</strong>, <strong>mothur</strong>, and <strong>pyrotagger</strong> formats, see the phyloseq <a href="https://joey711.github.io/phyloseq/import-data.html#the_import_family_of_functions">Data Import</a> tutorial. You will first have to extract the OTU-table and the metadata from the phyloseq object, and then import as normal with <code>amp_load</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ampvis2)
 <span class="co">#Combine OTU abundance table and taxonomy table from the phyloseq object "my_phyloseq_object":</span>
 obj &lt;-<span class="st"> </span>my_phyloseq_object
@@ -102,7 +102,7 @@ my_ampvis2_object &lt;-<span class="st"> </span><span class="kw"><a href="../ref
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#your-question-here">Your question here</a></li>
-      <li><a href="#loading-phyloseq-objects-into-ampvis2">Loading phyloseq objects into ampvis2</a></li>
+      <li><a href="#loading-phyloseq-objects">Loading phyloseq objects</a></li>
       </ul>
 </div>
       </div>

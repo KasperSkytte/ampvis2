@@ -6,8 +6,8 @@ output: html_document
 ## Your question here
 If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <https://github.com/MadsAlbertsen/ampvis2/issues>, anything and everything is welcome.
 
-## Loading phyloseq objects into ampvis2
-You will first have to extract the OTU-table and the metadata from the phyloseq object, and then import as normal with `amp_load`:
+## Loading phyloseq objects
+This is particularly useful if you want to import data in the **QIIME**, **biom**, **mothur**, and **pyrotagger** formats, see the phyloseq [Data Import](https://joey711.github.io/phyloseq/import-data.html#the_import_family_of_functions) tutorial. You will first have to extract the OTU-table and the metadata from the phyloseq object, and then import as normal with `amp_load`:
 
 ```{r, eval=FALSE}
 library(ampvis2)
