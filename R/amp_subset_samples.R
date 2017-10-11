@@ -116,7 +116,7 @@ amp_subset_samples <- function(data, ..., minreads = 1, normalise = FALSE) {
   if (nsamplesbefore == nsamplesafter) {
     print("0 samples have been filtered.")
   } else {
-    cat(paste(nsamplesbefore-nsamplesafter, "samples and", nOTUsbefore-nOTUsafter,"OTUs have been filtered \nBefore:", nsamplesbefore, "samples and", nOTUsbefore, "OTUs\nAfter:", nsamplesafter, "samples and", nOTUsafter, "OTUs"))
+    message(paste(nsamplesbefore-nsamplesafter, "samples and", nOTUsbefore-nOTUsafter,"OTUs have been filtered \nBefore:", nsamplesbefore, "samples and", nOTUsbefore, "OTUs\nAfter:", nsamplesafter, "samples and", nOTUsafter, "OTUs"))
   }
   
   return(data)
