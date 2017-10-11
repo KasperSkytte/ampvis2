@@ -39,7 +39,7 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 
 \item{sample_shape_by}{Shape sample points by a variable in the metadata.}
 
-\item{sample_colorframe}{(\emph{logical}) Frame the points with a polygon colored by the sample_color_by argument or not. (\emph{default:} \code{FALSE})}
+\item{sample_colorframe}{Frame the sample points with a polygon by a variable in the metadata split by the variable defined by \code{sample_color_by}, or simply \code{TRUE} to frame the points colored by \code{sample_color_by}. (\emph{default:} \code{FALSE})}
 
 \item{sample_colorframe_label}{Label by a variable in the metadata.}
 

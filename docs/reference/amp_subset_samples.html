@@ -164,9 +164,9 @@ amp_heatmap(subsettedData,
 #&gt; Metadata variables: 10 
 #&gt;  SampleID, Plant, Year, Period, Date, DeltaDays, LIB_ID, Latitude, Longitude, RawData</div><div class='input'>
 <span class='co'>#Keep only samples containing Aalborg West or East in the Plant column</span>
-<span class='no'>MiDASsubset</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='no'>MiDAS</span>, <span class='no'>Plant</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>))</div><div class='output co'>#&gt; 522 samples and 6569 OTUs have been filtered 
-#&gt; Before: 573 samples and 14791 OTUs
-#&gt; After: 51 samples and 8222 OTUs</div><div class='input'>
+<span class='no'>MiDASsubset</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='no'>MiDAS</span>, <span class='no'>Plant</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>))</div><div class='output co'>#&gt; <span class='message'>522 samples and 6569 OTUs have been filtered </span>
+#&gt; <span class='message'>Before: 573 samples and 14791 OTUs</span>
+#&gt; <span class='message'>After: 51 samples and 8222 OTUs</span></div><div class='input'>
 <span class='co'>#Summary</span>
 <span class='no'>MiDASsubset</span></div><div class='output co'>#&gt; ampvis2 object with 4 elements.
 #&gt; Summary of OTU table:
@@ -187,9 +187,9 @@ amp_heatmap(subsettedData,
 <span class='co'>#and remove the sample "16SAMP-749". Remove any sample(s) with less than 20000 total reads</span>
 <span class='no'>MiDASsubset2</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='no'>MiDAS</span>,
     <span class='no'>Plant</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>) <span class='kw'>&amp;</span> !<span class='no'>SampleID</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"16SAMP-749"</span>),
-    <span class='kw'>minreads</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; 525 samples and 6602 OTUs have been filtered 
-#&gt; Before: 573 samples and 14791 OTUs
-#&gt; After: 48 samples and 8189 OTUs</div><div class='input'>
+    <span class='kw'>minreads</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; <span class='message'>525 samples and 6602 OTUs have been filtered </span>
+#&gt; <span class='message'>Before: 573 samples and 14791 OTUs</span>
+#&gt; <span class='message'>After: 48 samples and 8189 OTUs</span></div><div class='input'>
 <span class='co'>#Summary</span>
 <span class='no'>MiDASsubset2</span></div><div class='output co'>#&gt; ampvis2 object with 4 elements.
 #&gt; Summary of OTU table:

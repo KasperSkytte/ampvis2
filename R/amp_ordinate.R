@@ -28,7 +28,7 @@
 #' @param sample_label_size Sample labels text size. (\emph{default:} \code{4})
 #' @param sample_label_segment_color Sample labels repel-segment color. (\emph{default:} \code{"black"})
 #' @param sample_shape_by Shape sample points by a variable in the metadata.       
-#' @param sample_colorframe (\emph{logical}) Frame the points with a polygon colored by the sample_color_by argument or not. (\emph{default:} \code{FALSE})
+#' @param sample_colorframe Frame the sample points with a polygon by a variable in the metadata split by the variable defined by \code{sample_color_by}, or simply \code{TRUE} to frame the points colored by \code{sample_color_by}. (\emph{default:} \code{FALSE})
 #' @param sample_colorframe_label Label by a variable in the metadata.
 #' @param sample_point_size Size of the sample points. (\emph{default:} \code{2})
 #' @param sample_trajectory Make a trajectory between sample points by a variable in the metadata.
@@ -157,7 +157,7 @@ amp_ordinate <- function(data,
   if(class(data) != "ampvis2")
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
-  #Sanity check of options
+  ##### Sanity check of options  ##### 
   if(species_plotly == T & !is.null(sample_plotly)){
     stop("You can not use plotly for both species and samples in the same plot.")
   }
@@ -170,9 +170,14 @@ amp_ordinate <- function(data,
   if(length(unique(data$metadata[,1])) <= 2)
     stop("Ordination cannot be performed on 2 or fewer samples (the number of resulting axes will always be n-1, where n is the number of samples).")
   
+  if(is.null(sample_color_by) & !is.logical(sample_colorframe) & !is.null(sample_colorframe)) {
+    sample_color_by <- sample_colorframe
+  }
+  
   #Check the data
   data <- amp_rename(data = data, tax_empty = tax_empty)
   
+  ##### Filter   ##### 
   #First transform to percentages
   abund_pct <- as.data.frame(sapply(data$abund, function(x) x/sum(x) * 100))
   rownames(abund_pct) <- rownames(data$abund) #keep rownames
@@ -186,7 +191,7 @@ amp_ordinate <- function(data,
   #to fix user argument characters, so fx PCoA/PCOA/pcoa are all valid
   type <- tolower(type)
   
-  #data transformation with decostand()
+  ##### Data transformation with decostand()  ##### 
   if(!transform == "none" & transform != "sqrt") {
     transform <- tolower(transform)
     data$abund <- t(vegan::decostand(t(data$abund), method = transform))
@@ -194,7 +199,7 @@ amp_ordinate <- function(data,
     data$abund <- t(sqrt(t(data$abund)))
   } 
   
-  #Generate inputmatrix AFTER transformation
+  ##### Inputmatrix AFTER transformation  ##### 
   if (any(type == c("nmds", "mmds", "pcoa", "dca"))) {
     if (!distmeasure == "none") {
       #Calculate distance matrix with vegdist()
@@ -224,7 +229,7 @@ amp_ordinate <- function(data,
           attr(resultsMatrix, "method") <- "dist"
           return(resultsMatrix) 
         }
-        cat("Calculating the Jensen-Shannon Divergence (JSD) distance matrix may take a long time.")
+        message("Calculating the Jensen-Shannon Divergence (JSD) distance matrix may take a long time.")
         inputmatrix <- dist.JSD(data$abund)
       } else if(any(distmeasure == c("manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower", "altGower", "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis"))) {
         inputmatrix <- vegan::vegdist(t(data$abund), method = distmeasure)
@@ -241,8 +246,7 @@ amp_ordinate <- function(data,
     inputmatrix <- t(data$abund)
   }
   
-  #################################### end of block ####################################
-  
+  ##### Perform ordinaion  ##### 
   #Generate data depending on the chosen ordination type
   if(type == "pca") {
     #make the model
@@ -381,9 +385,8 @@ amp_ordinate <- function(data,
     sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   }
-  #################################### end of block ####################################
-  
-  #Make data frames for ggplot
+
+  ##### Data for ggplot  ##### 
   dsites <- cbind.data.frame(data$metadata, sitescores)
   
   if (!is.null(sample_color_order)) {
@@ -405,26 +408,37 @@ amp_ordinate <- function(data,
     dspecies = NULL
   }
   
-  #Generate a nice ggplot with the coordinates from scores
+  ##### Base plot object ##### 
   plot <- ggplot(dsites,
                  aes_string(x = x_axis_name,
                             y = y_axis_name,
                             color = sample_color_by,
-                            shape = sample_shape_by))
+                            shape = sample_shape_by)
+                )
   
-  #Generate a color frame around the chosen color group
-  
-  if(sample_colorframe == TRUE) {
-    if(is.null(sample_color_by)) stop("Please provide the argument sample_color_by.")
-    splitData <- split(dsites, dsites[, sample_color_by]) %>% 
-      lapply(function(df) {
-        df[chull(df[, x_axis_name], df[, y_axis_name]), ]
-      })
-    hulls <- do.call(rbind, splitData)
-    plot <- plot + geom_polygon(data = hulls, aes_string(fill = sample_color_by, group = sample_color_by), alpha = 0.2*opacity)
+  ##### Colorframe  ##### 
+  if(!sample_colorframe == FALSE) {
+    if(is.null(sample_color_by) & sample_colorframe == TRUE)
+      stop("Applying a colorframe to the sample points requires a variable in the metadata to be provided by the argument sample_colorframe, or by sample_color_by if the former is only TRUE.")
+    if(sample_colorframe == TRUE) {
+      splitData <- base::split(plot$data, plot$data[, sample_color_by]) %>% 
+        lapply(function(df) {
+          df[chull(df[, x_axis_name], df[, y_axis_name]), ]
+        })
+      hulls <- do.call(rbind, splitData)
+      plot <- plot + geom_polygon(data = hulls, aes_string(fill = sample_color_by, group = sample_color_by), alpha = 0.2*opacity)
+    } else if (!is.logical(sample_colorframe) & !is.null(sample_colorframe)) {
+      plot$data$colorframeGroup <- paste(plot$data[,sample_color_by], plot$data[,sample_colorframe]) %>% as.factor()
+      splitData <- base::split(plot$data, plot$data$colorframeGroup) %>% 
+        lapply(function(df) {
+          df[chull(df[, x_axis_name], df[, y_axis_name]), ]
+        })
+      hulls <- do.call(rbind, splitData)
+      plot <- plot + geom_polygon(data = hulls, aes_string(fill = sample_color_by, group = "colorframeGroup"), alpha = 0.2*opacity)
+    }
   }
   
-  # Add points and plotly functionality for samples
+  ##### Plot sample points  ##### 
   if (!is.null(sample_plotly)){
     if(length(sample_plotly) > 1){
       data_plotly <- apply(data$metadata[,sample_plotly], 1, paste, collapse = "<br>")  
@@ -465,7 +479,7 @@ amp_ordinate <- function(data,
       annotate("text", size = 3, x = Inf, y = Inf, hjust = 1, vjust = 1, label = paste0("Stress value = ", round(model$stress, 3)))
   }
     
-  #Plot species points
+  ##### Plot species points  ##### 
   if (species_plot == TRUE) {
     if(species_plotly == T){
       data_plotly <- paste("Kingdom: ", data$tax[,1],"<br>",
@@ -494,7 +508,7 @@ amp_ordinate <- function(data,
     
   }
   
-  #Plot text labels
+  ##### Plot text labels  ##### 
   if (!is.null(sample_colorframe_label)) {
     temp <- data.frame(group = dsites[, sample_colorframe_label], 
                        x = dsites[, x_axis_name],
@@ -502,35 +516,51 @@ amp_ordinate <- function(data,
       group_by(group) %>%
       summarise(cx = mean(x), cy = mean(y)) %>% 
       as.data.frame()
-      temp2 <- merge(dsites, temp,
-                     by.x = sample_colorframe_label, 
-                     by.y = "group")
-      temp3 <- temp2[!duplicated(temp2[, sample_colorframe_label]), ]
-      if (repel_labels == T){plot <- plot + ggrepel::geom_text_repel(data = temp3, aes_string(x = "cx", y = "cy", label = sample_colorframe_label), size = 3,color = "black",fontface = 2)}
-      else{plot <- plot +geom_text(data = temp3, aes_string(x = "cx", y = "cy", label = sample_colorframe_label), size = 3,color = "black",fontface = 2)}
+    temp2 <- merge(dsites, temp,
+                   by.x = sample_colorframe_label, 
+                   by.y = "group")
+    temp3 <- temp2[!duplicated(temp2[, sample_colorframe_label]), ]
+    if (repel_labels == T){
+      plot <- plot + ggrepel::geom_text_repel(data = temp3, 
+                                              aes_string(x = "cx",
+                                                         y = "cy",
+                                                         label = sample_colorframe_label),
+                                              size = 3,
+                                              color = "black",
+                                              fontface = 2
+      )
+    } else {
+      plot <- plot + geom_text(data = temp3, 
+                               aes_string(x = "cx", 
+                                          y = "cy", 
+                                          label = sample_colorframe_label), 
+                               size = 3,
+                               color = "black",
+                               fontface = 2
+      )
+    }
   }
   
-  #sample_trajectory
+  ##### Sample_trajectory  ##### 
   if (!is.null(sample_trajectory)) {
     traj <- dsites[order(dsites[, sample_trajectory]), ]
     plot <- plot + geom_path(data = traj, aes_string(group = sample_trajectory_group))
   }
   
-  #Sample point labels
+  ##### Sample point labels  ##### 
   if(!is.null(sample_label_by)) {
     
     if (repel_labels == T){plot <- plot + ggrepel::geom_text_repel(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
     else{plot <- plot + geom_text(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
   }
   
-  #Plot species labels
+  ##### Plot species labels  ##### 
   if (species_nlabels > 0) {
     if (repel_labels == T){plot <- plot + ggrepel::geom_text_repel(data = dspecies[1:species_nlabels,], aes_string(x = x_axis_name, y = y_axis_name, label = species_label_taxonomy),colour = species_label_color, size = species_label_size,fontface = 4,inherit.aes = FALSE)}
     else{plot <- plot +geom_text(data = dspecies[1:species_nlabels,], aes_string(x = x_axis_name, y = y_axis_name, label = species_label_taxonomy),colour = species_label_color, size = species_label_size,fontface = 4,inherit.aes = FALSE)}
   }
   
-  ######## Fit environmental variables ########
-  # Categorical fitting
+  ##### Categorical fitting  ##### 
   if(!is.null(envfit_factor)) {
     evf_factor_model <- envfit(model,
                                data$metadata[,envfit_factor, drop = FALSE],
@@ -553,7 +583,7 @@ amp_ordinate <- function(data,
     evf_factor_model <- NULL
   }
   
-  # Numerical fitting
+  ##### Numerical fitting  ##### 
   if (!is.null(envfit_numeric)) {
     evf_numeric_model <- envfit(model,
                                 data$metadata[,envfit_numeric, drop = FALSE],
@@ -594,8 +624,7 @@ amp_ordinate <- function(data,
     evf_numeric_model <- NULL
   }
   
-  #################################### end of block ####################################
-  
+  ##### Return  ##### 
   #return plot or additional details
   if(!is.null(sample_plotly)){
     plotly::ggplotly(plot, tooltip = "text") %>% 
@@ -612,7 +641,7 @@ amp_ordinate <- function(data,
     if (type == "nmds") {
       screeplot <- NULL
     } else {
-      ### screeplot ###
+      ##### Screeplot  ##### 
       #the data for it
       if (type == "mmds" | type == "pcoa") {
         if (length(model$values$Relative_eig) > 10) {

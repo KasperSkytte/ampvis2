@@ -149,7 +149,7 @@
     </tr>
     <tr>
       <th>sample_colorframe</th>
-      <td><p>(<em>logical</em>) Frame the points with a polygon colored by the sample_color_by argument or not. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <td><p>Frame the sample points with a polygon by a variable in the metadata split by the variable defined by <code>sample_color_by</code>, or simply <code>TRUE</code> to frame the points colored by <code>sample_color_by</code>. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>sample_colorframe_label</th>
@@ -298,7 +298,7 @@
              <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>,
              <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
              <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-             )</div><div class='img'><img src='amp_ordinate-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+             )</div><div class='img'><img src='amp_ordinate-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='co'>#Interactive CCA with data transformation constrained to seasonal period</span>
 <span class='fu'>amp_ordinate</span>(<span class='no'>AalborgWWTPs</span>,
