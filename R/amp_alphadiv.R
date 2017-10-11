@@ -42,6 +42,7 @@ amp_alphadiv <- function (data, measure = NULL, rarefy = NULL) {
   
   abund <- data[["abund"]] %>% as.data.frame()
   Reads <- colSums(abund)
+  ObservedOTUs = colSums(abund > 0)
   metadata <- data[["metadata"]]
   
   if(!is.null(rarefy)){
@@ -85,7 +86,7 @@ amp_alphadiv <- function (data, measure = NULL, rarefy = NULL) {
   estimRmeas = c("chao1", "observed", "ace")
   
   if (any(estimRmeas %in% measure)) {
-    outlist <- c(outlist, list(t(data.frame(estimateR(abund)))))
+    outlist <- c(outlist, list(t(data.frame(vegan::estimateR(abund)))))
   }
   if ("shannon" %in% measure) {
     outlist <- c(outlist, list(shannon = vegan::diversity(abund, index = "shannon")))
@@ -108,7 +109,7 @@ amp_alphadiv <- function (data, measure = NULL, rarefy = NULL) {
   rich = rich[, sort(unique(unlist(colkeep))), drop = FALSE]
   
   #Combine metadata and results and return
-  combined <- data.frame(metadata, Reads = Reads, rich) %>% arrange(Reads)
+  combined <- data.frame(metadata, Reads = Reads, ObservedOTUs = ObservedOTUs, rich) %>% arrange(Reads)
   return(combined)
 }
 
