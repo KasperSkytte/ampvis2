@@ -105,9 +105,13 @@ amp_subset_samples <- function(data, ..., minreads = 1, normalise = FALSE) {
   
   #Subset refseq, if any, based on abund
   if(any(names(data) == "refseq")){
-    #sometimes there is taxonomy alongside the OTU ID's. Anything after a ";" will be ignored
-    names_stripped <- stringr::str_split(names(data$refseq), ";", simplify = TRUE)[,1]
-    data$refseq <- data$refseq[names_stripped %in% rownames(data$abund)] 
+    if(!is.null(names(data$refseq))) {
+      #sometimes there is taxonomy alongside the OTU ID's. Anything after a ";" will be ignored
+      names_stripped <- stringr::str_split(names(data$refseq), ";", simplify = TRUE)[,1]
+      data$refseq <- data$refseq[names_stripped %in% rownames(data$abund)] 
+    } else if(is.null(names(data$refseq))) {
+      warning("DNA sequences have not been subsetted, could not find the names of the sequences in data$refseq.")
+    }
   }
   
   #Print number of removed samples
