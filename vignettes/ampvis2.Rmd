@@ -77,13 +77,14 @@ amp_heatmap(MiDASsubset, group_by = "Plant")
 There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with "+" after the actual ampvis2 function):
 
 ```{r}
-amp_heatmap(MiDASsubset,
-            group_by = c("Plant", "Year"),
+amp_heatmap(AalborgWWTPs,
+            group_by = "Plant",
+            facet_by = "Year",
             tax_aggregate = "Genus",
             tax_add = "Phylum",
             tax_show = 25,
-            color_vector = c("white", "red"),
-            plot_colorscale = "log10",
+            color_vector = c("white", "darkred"),
+            plot_colorscale = "sqrt",
             plot_values = FALSE) +
   theme(axis.text.x = element_text(angle = 45, size=10, vjust = 1),
         axis.text.y = element_text(size=8),
@@ -138,4 +139,4 @@ ordinationresult$plot
 Notice that the plot can be saved as a more detailed object (`detailed_output = TRUE`), so additional details about the ordination result can be obtained for evaluation, fx a screeplot by `ordinationresult$screeplot` or some more raw data by `ordinationresult$model`. 
 
 # Other functions
-There are numerous other functions to try out. Go explore them in the [Reference](../reference/index.html) tab.
+There are numerous other functions to try out. Go explore them in the [Functions](../reference/index.html) tab.
