@@ -17,23 +17,25 @@ amp_alphadiv(data, measure, rarefy)
   \item \code{"invsimpson"}
 }}
 
-\item{rarefy}{Rarefy species richness to this value. Passed directly as the \code{sample} argument to \code{\link[vegan]{rrarefy}}. (\emph{default:} \code{NULL})}
+\item{richness}{(\emph{logical}) Also calculate sample richness estimates (Chao1 and ACE) as calculated by \code{\link[vegan]{estimateR}}. (\emph{default:} \code{FALSE})}
+
+\item{rarefy}{Rarefy species richness to this value before calculating alpha diversity and/or richness. Passed directly as the \code{sample} argument to \code{\link[vegan]{rrarefy}}. (\emph{default:} \code{NULL})}
 }
 \value{
 A data frame.
 }
 \description{
-Calculates alpha-diversity statistics for each sample and combines with the metadata.
+Calculate alpha-diversity indices for each sample and combines with the metadata.
 }
 \details{
-The alpha-diversity indices are calculated per sample using the vegan function \code{\link[vegan]{diversity}}, where species richness is first rarefied using \code{\link[vegan]{rrarefy}} by the size of the \code{rarefy} argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.
+The alpha-diversity indices are calculated per sample using the vegan function \code{\link[vegan]{diversity}}, where the read abundances are first rarefied using \code{\link[vegan]{rrarefy}} by the size of the \code{rarefy} argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.
 }
 \examples{
 #Load example data
 data("AalborgWWTPs")
 
-#Calculate alpha-diversity indices and subsample/rarefy to 20000 reads
-alphadiversityresult <- amp_alphadiv(AalborgWWTPs, rarefy = 20000)
+#Subsample/rarefy to 20000 reads and then calculate Shannon and Simpson alpha-diversity indices
+alphadiversityresult <- amp_alphadiv(AalborgWWTPs, measure = c("shannon", "simpson"), rarefy = 20000)
 
 #Explore the results in the data frame
 #View(alphadiversityresult)
