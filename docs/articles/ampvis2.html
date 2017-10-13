@@ -148,13 +148,14 @@ MiDAS</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset, <span class="dt">group_by =</span> <span class="st">"Plant"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <p>There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with “+” after the actual ampvis2 function):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset,
-            <span class="dt">group_by =</span> <span class="kw">c</span>(<span class="st">"Plant"</span>, <span class="st">"Year"</span>),
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(AalborgWWTPs,
+            <span class="dt">group_by =</span> <span class="st">"Plant"</span>,
+            <span class="dt">facet_by =</span> <span class="st">"Year"</span>,
             <span class="dt">tax_aggregate =</span> <span class="st">"Genus"</span>,
             <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>,
             <span class="dt">tax_show =</span> <span class="dv">25</span>,
-            <span class="dt">color_vector =</span> <span class="kw">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>),
-            <span class="dt">plot_colorscale =</span> <span class="st">"log10"</span>,
+            <span class="dt">color_vector =</span> <span class="kw">c</span>(<span class="st">"white"</span>, <span class="st">"darkred"</span>),
+            <span class="dt">plot_colorscale =</span> <span class="st">"sqrt"</span>,
             <span class="dt">plot_values =</span> <span class="ot">FALSE</span>) +
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">vjust =</span> <span class="dv">1</span>),
         <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>),
@@ -203,7 +204,7 @@ ordinationresult$plot</code></pre></div>
 <div id="other-functions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#other-functions" class="anchor"></a>Other functions</h1>
-<p>There are numerous other functions to try out. Go explore them in the <a href="../reference/index.html">Reference</a> tab.</p>
+<p>There are numerous other functions to try out. Go explore them in the <a href="../reference/index.html">Functions</a> tab.</p>
 </div>
 </div>
   </div>
