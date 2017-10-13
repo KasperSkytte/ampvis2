@@ -56,7 +56,7 @@ A minimal example is available with \code{data("example_metadata")}.
 
 \section{Reference sequences}{
 
-A fasta file with the raw sequences can be loaded as well, which will then be available in the refseq element of the ampvis2 object. These sequences will not be used in any ampvis2 function other than the two subset functions \code{\link{amp_subset_samples}} and \code{\link{amp_subset_taxa}}, so that they can be exported with \code{\link{amp_export_fasta}}. The fasta file is loaded with the \code{\link[ape]{read.dna}} function from the \code{\link{ape}} package.
+A fasta file with the raw sequences can be loaded as well, which will then be available in the refseq element of the ampvis2 object. These sequences will not be used in any ampvis2 function other than the two subset functions \code{\link{amp_subset_samples}} and \code{\link{amp_subset_taxa}}, so that they can be exported with \code{\link{amp_export_fasta}}. The fasta file is loaded with the \code{\link[ape]{read.FASTA}} function from the \code{\link{ape}} package.
 }
 
 \examples{
