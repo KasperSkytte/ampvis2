@@ -157,11 +157,11 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   tax <- tax[which(rownames(abund) %in% rownames(abund0)), c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")]
   tax[is.na(tax)] <- ""  
   
-  ###data: return the data in a combined list w or w/o refseq.
+  ### data: return the data in a combined list w or w/o refseq. The rows of tax are ordered by the rownames of abund, and the columns of abund are ordered by the metadata rownames
   if(!is.null(fasta)) {
-    data <- list(abund = abund0, tax = tax, metadata = metadata0, refseq = ape::read.FASTA(file = fasta))
+    data <- list(abund = abund0[,rownames(metadata0), drop = FALSE], tax = tax[rownames(abund0),, drop = FALSE], metadata = metadata0, refseq = ape::read.FASTA(file = fasta))
   } else {
-    data <- list(abund = abund0, tax = tax, metadata = metadata0)
+    data <- list(abund = abund0[,rownames(metadata0), drop = FALSE], tax = tax[rownames(abund0),, drop = FALSE], metadata = metadata0)
   }
   
   class(data) <- "ampvis2" #Our own "ampvis2" class, yay!
