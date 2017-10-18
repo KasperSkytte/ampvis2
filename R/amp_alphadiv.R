@@ -53,7 +53,7 @@ amp_alphadiv <- function (data,
     measure <- validMeasures
   }
   
-  results[] <- data$metadata
+  results <- data$metadata
   names <- results[,1] %>% as.vector() #for making sure the ordering of the values in the vectors calculated later match the order of the metadata samples
   abund <- t(data$abund)
   
