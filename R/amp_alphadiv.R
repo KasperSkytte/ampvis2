@@ -93,11 +93,11 @@ amp_alphadiv <- function (data,
     results$Shannon = Shannon[names]
   }
   if(any("simpson" %in% measure)) {
-    Simpson <- vegan::diversity(abund, index = "simpson")
+    Simpson <- vegan::diversity(abund, index = "simpson") %>% as.vector()
     results$Simpson <- Simpson[names]
   }
   if(any("invsimpson" %in% measure)) {
-    invSimpson <- vegan::diversity(abund, index = "invsimpson")
+    invSimpson <- vegan::diversity(abund, index = "invsimpson") %>% as.vector()
     results$invSimpson <- invSimpson[names]
   }
   if(richness) {
