@@ -64,7 +64,9 @@ amp_alphadiv <- function (data,
   
   if(!is.null(rarefy) & is.numeric(rarefy)){
     if(rarefy > max(results$Reads) ) {
-      stop("The chosen rarefy size is not within the min/max range of the data:\nMin#reads: ", as.character(min(colSums(data$abund))), "\nMax#reads: ", as.character(max(results$Reads)))
+      stop("The chosen rarefy size is larger than the largest amount of reads in any sample (", as.character(max(results$Reads)), ").")
+    } else if (rarefy < min(results$Reads)) {
+      warning("The chosen rarefy size (", as.character(rarefy), ") is smaller than the smallest amount of reads in any sample (", as.character(min(colSums(data$abund))), ").")
     } else {
       abund <- suppressWarnings(vegan::rrarefy(abund, sample = rarefy)) %>% as.data.frame()
       if (min(results$Reads) < rarefy) {
