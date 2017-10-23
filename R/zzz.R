@@ -1,10 +1,17 @@
 .onAttach <- function(lib, pkg)  {
-  #Check for new github release version. (Not master branch version, release version!)
   if (!interactive()) {
     return()
   } else {
+    #hide import conflict warnings
+    ops <- options(warn = -1)
+    on.exit(options(ops))
+    withCallingHandlers(attachNamespace(ggplot2, quietly = TRUE), warning = function(w) invokeRestart("muffleWarning"))
+    
+    #print version on package load
     local_version <- utils::packageVersion("ampvis2")
     packageStartupMessage("This is ", pkg, " version ", local_version, ". Great documentation is available at the ampvis2 website: https://madsalbertsen.github.io/ampvis2/\n", appendLF = TRUE)
+    
+    #Check for new github release version. (Not master branch version, release version!)
     if(requireNamespace("remotes", quietly = TRUE)) {
       tryCatch({
         github_ref <- remotes:::github_resolve_ref(
