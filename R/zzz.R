@@ -5,7 +5,7 @@
     #hide import conflict warnings
     ops <- options(warn = -1)
     on.exit(options(ops))
-    attachNamespace("ggplot2")
+    #attachNamespace("ggplot2")
     #withCallingHandlers(attachNamespace("ggplot2"), warning = function(w) invokeRestart("muffleWarning"))
     
     #print version on package load
