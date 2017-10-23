@@ -3,9 +3,9 @@
     return()
   } else {
     #hide import conflict warnings
-    ops <- options(warn = -1)
-    on.exit(options(ops))
-    withCallingHandlers(requireNamespace("ggplot2"), warning = function(w) invokeRestart("muffleWarning"))
+    #ops <- options(warn = -1)
+    #on.exit(options(ops))
+    #withCallingHandlers(requireNamespace("ggplot2"), warning = function(w) invokeRestart("muffleWarning"))
     
     #print version on package load
     local_version <- utils::packageVersion("ampvis2")
