@@ -87,19 +87,19 @@ amp_alphadiv <- function (data,
   }
   
   if(any("observed" %in% measure) | is.null(measure)) {
-    ObservedOTUs <- colSums(t(abund) > 0) %>% as.vector()
+    ObservedOTUs <- colSums(t(abund) > 0)
     results$ObservedOTUs <- ObservedOTUs[names]
   }
   if(any("shannon" %in% measure)) {
-    Shannon <- vegan::diversity(abund, index = "shannon") %>% as.vector()
+    Shannon <- vegan::diversity(abund, index = "shannon")
     results$Shannon = Shannon[names]
   }
   if(any("simpson" %in% measure)) {
-    Simpson <- vegan::diversity(abund, index = "simpson") %>% as.vector()
+    Simpson <- vegan::diversity(abund, index = "simpson")
     results$Simpson <- Simpson[names]
   }
   if(any("invsimpson" %in% measure)) {
-    invSimpson <- vegan::diversity(abund, index = "invsimpson") %>% as.vector()
+    invSimpson <- vegan::diversity(abund, index = "invsimpson")
     results$invSimpson <- invSimpson[names]
   }
   if(richness) {
