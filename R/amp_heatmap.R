@@ -411,6 +411,7 @@ amp_heatmap <- function(data,
         }
       }
       p <- p + facet_grid(reformulate(facet_by), scales = "free_x", space = "free")
+      p <- p + theme(strip.text = element_text(size = 10))
     }
     return(p)
   } else if (textmap) {
