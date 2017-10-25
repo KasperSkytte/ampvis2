@@ -40,7 +40,6 @@ amp_rarecurve <- function (data,
   
   abund <- data[["abund"]] %>% as.matrix() %>% t()
   metadata <- data[["metadata"]]
-  colnames(metadata)[1] <- "SampleID"
 
   if (!identical(all.equal(abund, round(abund)), TRUE)) stop("Function accepts only integers (counts)")
 
@@ -65,10 +64,12 @@ amp_rarecurve <- function (data,
     df <- rbind.data.frame(df, tdf)
   }
   
-  dfm <- merge(metadata, df, by = "SampleID")
+  metadata_col1name <- colnames(metadata)[1]
+  colnames(df)[which(colnames(df) == "SampleID")] <- metadata_col1name
+  dfm <- merge(metadata, df, by = metadata_col1name)
   
   ## Plot the data
-  p <- ggplot(dfm, aes_string(x = "Reads", y = "Species", group = "SampleID", color = color_by)) +
+  p <- ggplot(dfm, aes_string(x = "Reads", y = "Species", group = metadata_col1name, color = color_by)) +
     geom_line() +
     theme_classic() +
     xlab("Sequencing depth (reads)") +
