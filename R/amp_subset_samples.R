@@ -78,14 +78,17 @@ amp_subset_samples <- function(data, ..., minreads = 1, normalise = FALSE) {
     stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().")
   }
   
+  #For printing removed samples and OTUs
+  nsamplesbefore <- nrow(data$metadata) %>% as.numeric()
+  nOTUsbefore <- nrow(data$abund) %>% as.numeric()
+  
+  #remove samples below minreads BEFORE percentages
+  data$abund <- data$abund[, colSums(data$abund) >= minreads, drop = FALSE]
+  
   ### calculate percentages 
   if (normalise) {
     data$abund <- apply(data$abund,2, function(x) 100*x/sum(x)) %>% as.data.frame() 
   }
-  
-  #For printing removed samples and OTUs
-  nsamplesbefore <- nrow(data$metadata) %>% as.numeric()
-  nOTUsbefore <- nrow(data$abund) %>% as.numeric()
   
   #Subset metadata based on ...
   data$metadata <- subset(data$metadata, ...)
@@ -94,14 +97,14 @@ amp_subset_samples <- function(data, ..., minreads = 1, normalise = FALSE) {
   #And only keep columns in otutable that match the rows in the subsetted metadata
   data$abund <- data$abund[, rownames(data$metadata), drop = FALSE]
   
-  #After subsetting the samples, remove OTU's that could possibly have 0 reads in all samples, and remove samples below the minreads
-  data$abund <- data$abund[rowSums(data$abund) > 0, colSums(data$abund) >= minreads, drop = FALSE]
+  #After subsetting the samples, remove OTU's that could possibly have 0 reads in all samples
+  data$abund <- data$abund[rowSums(data$abund) > 0, , drop = FALSE]
   
   #Subset the metadata again to match any removed sample(s)
   data$metadata <- data$metadata[colnames(data$abund), , drop = FALSE]
   
   #Subset taxonomy based on abund
-  data$tax <- data$tax[rownames(data$abund), ]
+  data$tax <- data$tax[rownames(data$abund), , drop = FALSE]
   
   #Subset refseq, if any, based on abund
   if(any(names(data) == "refseq")){
