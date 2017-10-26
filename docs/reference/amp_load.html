@@ -97,21 +97,25 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>otutable</th>
-      <td><p>(<em>required</em>) An OTU-table (data frame), where the last 7 rows is the taxonomy.</p></td>
+      <td><p>(<em>required</em>) OTU-table (data frame) with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -&gt; Species).</p></td>
     </tr>
     <tr>
       <th>metadata</th>
-      <td><p>(<em>required</em>) A metadata (dataframe) with information about the samples.</p></td>
+      <td><p>(<em>required</em>) Sample metadata (dataframe) with information about the samples. If none provided, dummy metadata will be created.</p></td>
     </tr>
     <tr>
       <th>fasta</th>
-      <td><p>(<em>optional</em>) Path to a fasta file with reference sequences for all OTUs. (<em>default:</em> <code>NULL</code>)</p></td>
+      <td><p>(<em>optional</em>) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (<em>default:</em> <code>NULL</code>)</p></td>
+    </tr>
+    <tr>
+      <th>tree</th>
+      <td><p>(<em>optional</em>) Phylogenetic tree of class <code>"phylo"</code> as loaded with <code><a href='http://www.rdocumentation.org/packages/ape/topics/read.tree'>read.tree</a></code>. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with 3 dataframes (4 if reference sequences are provided).</p>
+    <p>A list of class <code>"ampvis2"</code> with 3 to 5 elements.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 

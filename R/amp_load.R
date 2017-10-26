@@ -4,11 +4,12 @@
 #'
 #' @usage amp_load(otutable = dataframe, metadata = dataframe)
 #'
-#' @param otutable (\emph{required}) An OTU-table (data frame), where the last 7 rows is the taxonomy.
-#' @param metadata (\emph{required}) A metadata (dataframe) with information about the samples.
-#' @param fasta (\emph{optional}) Path to a fasta file with reference sequences for all OTUs. (\emph{default:} \code{NULL})
+#' @param otutable (\emph{required}) OTU-table (data frame) with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species).
+#' @param metadata (\emph{required}) Sample metadata (dataframe) with information about the samples. If none provided, dummy metadata will be created.
+#' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})
+#' @param tree (\emph{optional}) Phylogenetic tree of class \code{"phylo"} as loaded with \code{\link[ape]{read.tree}}. (\emph{default:} \code{NULL})
 #' 
-#' @return A list with 3 dataframes (4 if reference sequences are provided).
+#' @return A list of class \code{"ampvis2"} with 3 to 5 elements.
 #' @import ape
 #' @import stringr
 #' @import dplyr
@@ -81,11 +82,23 @@
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
-amp_load <- function(otutable, metadata, fasta = NULL){
+amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   ### check data
   otutable <- as.data.frame(otutable)
-  metadata <- as.data.frame(metadata)
+  #create dummy metadata if none provided
+  if(!is.null(metadata)) {
+    metadata <- as.data.frame(metadata)
+  } else if (is.null(metadata)) {
+    metadata <- data.frame("SampleID" = colnames(otutable[,1:(ncol(otutable) - 7), drop = FALSE]), check.names = FALSE,
+                           "DummyVariable" = "All samples")
+    warning("No sample metadata provided, creating dummy metadata.")
+  }
   rownames(metadata) <- as.character(metadata[,1])
+  
+  #check tree
+  if(!is.null(tree) & !class(tree) == "phylo") {
+    stop("The provided phylogenetic tree must be of class \"phylo\" as loaded with the ape::read.tree() function.")
+  }
   
   ### OTU-table, check for OTU ID's
   if(any(tolower(colnames(otutable)) == "otu")) {
@@ -158,10 +171,16 @@ amp_load <- function(otutable, metadata, fasta = NULL){
   tax[is.na(tax)] <- ""  
   
   ### data: return the data in a combined list w or w/o refseq. The rows of tax are ordered by the rownames of abund, and the columns of abund are ordered by the metadata rownames
+  data <- list(abund = abund0[,rownames(metadata0), drop = FALSE], tax = tax[rownames(abund0),, drop = FALSE], metadata = metadata0)
+  
+  #apend refseq if provided
   if(!is.null(fasta)) {
-    data <- list(abund = abund0[,rownames(metadata0), drop = FALSE], tax = tax[rownames(abund0),, drop = FALSE], metadata = metadata0, refseq = ape::read.FASTA(file = fasta))
-  } else {
-    data <- list(abund = abund0[,rownames(metadata0), drop = FALSE], tax = tax[rownames(abund0),, drop = FALSE], metadata = metadata0)
+    data[["refseq"]] <- ape::read.FASTA(file = fasta)
+  } 
+  
+  #apend phylogenetic tree if provided
+  if(!is.null(tree)) {
+    data[["tree"]] <- tree
   }
   
   class(data) <- "ampvis2" #Our own "ampvis2" class, yay!

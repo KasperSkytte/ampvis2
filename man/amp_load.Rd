@@ -7,14 +7,16 @@
 amp_load(otutable = dataframe, metadata = dataframe)
 }
 \arguments{
-\item{otutable}{(\emph{required}) An OTU-table (data frame), where the last 7 rows is the taxonomy.}
+\item{otutable}{(\emph{required}) OTU-table (data frame) with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species).}
 
-\item{metadata}{(\emph{required}) A metadata (dataframe) with information about the samples.}
+\item{metadata}{(\emph{required}) Sample metadata (dataframe) with information about the samples. If none provided, dummy metadata will be created.}
 
-\item{fasta}{(\emph{optional}) Path to a fasta file with reference sequences for all OTUs. (\emph{default:} \code{NULL})}
+\item{fasta}{(\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})}
+
+\item{tree}{(\emph{optional}) Phylogenetic tree of class \code{"phylo"} as loaded with \code{\link[ape]{read.tree}}. (\emph{default:} \code{NULL})}
 }
 \value{
-A list with 3 dataframes (4 if reference sequences are provided).
+A list of class \code{"ampvis2"} with 3 to 5 elements.
 }
 \description{
 This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis functions can be used.
