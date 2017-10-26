@@ -14,6 +14,8 @@ amp_subset_samples(data, ...)
 \item{minreads}{Minimum number of reads pr. sample. (\emph{default:} \code{1})}
 
 \item{normalise}{(\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
+
+\item{removeAbsents}{(\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})}
 }
 \value{
 A list with 3 dataframes (4 if reference sequences are provided).

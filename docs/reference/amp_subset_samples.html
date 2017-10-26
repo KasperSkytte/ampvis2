@@ -111,6 +111,10 @@
       <th>normalise</th>
       <td><p>(<em>logical</em>) Normalise the read abundances to the total amount of reads (percentages) <em>BEFORE</em> the subset. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
+    <tr>
+      <th>removeAbsents</th>
+      <td><p>(<em>logical</em>) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (<em>default:</em> <code>TRUE</code>)</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -187,9 +191,25 @@ amp_heatmap(subsettedData,
 <span class='co'>#and remove the sample "16SAMP-749". Remove any sample(s) with less than 20000 total reads</span>
 <span class='no'>MiDASsubset2</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='no'>MiDAS</span>,
     <span class='no'>Plant</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>) <span class='kw'>&amp;</span> !<span class='no'>SampleID</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"16SAMP-749"</span>),
-    <span class='kw'>minreads</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; <span class='error'>Error in `[.data.frame`(data$abund, , rownames(data$metadata), drop = FALSE): undefined columns selected</span></div><div class='input'>
+    <span class='kw'>minreads</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; <span class='message'>525 samples and 6654 OTUs have been filtered </span>
+#&gt; <span class='message'>Before: 573 samples and 14791 OTUs</span>
+#&gt; <span class='message'>After: 48 samples and 8137 OTUs</span></div><div class='input'>
 <span class='co'>#Summary</span>
-<span class='no'>MiDASsubset2</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'MiDASsubset2' not found</span></div><div class='input'>
+<span class='no'>MiDASsubset2</span></div><div class='output co'>#&gt; ampvis2 object with 4 elements.
+#&gt; Summary of OTU table:
+#&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
+#&gt;           48         8137      1437013        20994        38496      29538.5 
+#&gt;    Avg#Reads 
+#&gt;     29937.77 
+#&gt; 
+#&gt; Assigned taxonomy:
+#&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
+#&gt;   8137(100%) 7955(97.76%) 7119(87.49%) 6535(80.31%) 5841(71.78%) 4488(55.16%) 
+#&gt;      Species 
+#&gt;    17(0.21%) 
+#&gt; 
+#&gt; Metadata variables: 10 
+#&gt;  SampleID, Plant, Year, Period, Date, DeltaDays, LIB_ID, Latitude, Longitude, RawData</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
