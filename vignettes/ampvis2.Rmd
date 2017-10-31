@@ -62,7 +62,7 @@ MiDASsubset <- amp_subset_samples(MiDAS, Plant %in% c("Aalborg West", "Aalborg E
 The `amp_subset_taxa()` function instead subsets based on the taxonomy, where you simply provide a vector with the taxa you are interested in, separated by a comma:
 
 ```{r}
-MiD_Chloroflexi_Actinobacteria <- amp_subset_taxa(MiDAS, tax_vector=c("p__Chloroflexi", "p__Actinobacteria"))
+MiDAS_Chloroflexi_Actinobacteria <- amp_subset_taxa(MiDAS, tax_vector=c("p__Chloroflexi", "p__Actinobacteria"))
 ```
 
 The taxonomic rank is indicated by fx "p__" for phylum and "g__" for genus etc, followed by the name of the taxon (case-sensitive, first letter almost always capital). To filter individual OTUs simply provide the OTU name(s) as-is in a vector, fx `c("OTU_1206")`.
@@ -77,7 +77,7 @@ amp_heatmap(MiDASsubset, group_by = "Plant")
 There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with "+" after the actual ampvis2 function):
 
 ```{r}
-amp_heatmap(AalborgWWTPs,
+amp_heatmap(MiDASsubset,
             group_by = "Plant",
             facet_by = "Year",
             tax_aggregate = "Genus",

@@ -109,6 +109,10 @@ amp_subset_samples <- function(data, ..., minreads = 1, normalise = FALSE, remov
   #Subset taxonomy based on abund
   data$tax <- data$tax[which(rownames(data$tax) %in% rownames(data$abund)), , drop = FALSE]
   
+  #make sure the order of sample names are identical between abund and metadata
+  data$abund = data$abund[,rownames(data$metadata), drop = FALSE]
+  data$tax = data$tax[rownames(data$abund),, drop = FALSE]
+  
   #Subset refseq, if any, based on abund
   if(any(names(data) == "refseq")){
     if(!is.null(names(data$refseq))) {
