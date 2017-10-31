@@ -23,7 +23,15 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
    }
    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[ape]{pcoa}} function from the APE package.}}
 
-\item{distmeasure}{(required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}, or \code{"none"}. You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}. (\emph{default:} \code{"none"})}
+\item{distmeasure}{(\emph{required for nMDS and PCoA}) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following: 
+\itemize{
+  \item \code{"wunifrac"}: Weighted generalized UniFrac distances (alpha=0.5), calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree. 
+  \item \code{"unifrac"}: Unweighted UniFrac distances, calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree. 
+  \item \code{"jsd"}: Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
+  \item Any of the distance measures supported by \code{\link[vegan]{vegdist}}: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}.
+  \item or \code{"none"}. (\emph{default})
+ }
+You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}.}
 
 \item{transform}{(\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). (\emph{default:} \code{"hellinger"})}
 
@@ -55,7 +63,7 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 
 \item{sample_trajectory_group}{Make a trajectory between sample points by the \code{sample_trajectory} argument, but within individual groups.}
 
-\item{sample_plotly}{Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the variables to show or \code{"all"} to display.}
+\item{sample_plotly}{Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the metadata variables to show, or \code{"all"} to display all. Click or double click the elements in the legend to hide/show parts of the data. To hide the legend use \code{plotly::layout(amp_ordinate(...), showlegend = FALSE)}, see more options at \url{https://plot.ly/r/}.}
 
 \item{species_plot}{(\emph{logical}) Plot species points or not. (\emph{default:} \code{FALSE})}
 
@@ -111,7 +119,15 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.
 }
 \details{
-The \code{\code{amp_ordinate}} function is mainly based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and \code{\link[ggplot2]{ggplot2-package}} to generate the plot.
+The \code{\code{amp_ordinate}} function is primarily based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and the \code{\link[ggplot2]{ggplot2-package}} to generate the plot. The function generates an ordination plot by the following process:
+\enumerate{
+  \item Various input argument checks and error messages
+  \item OTU-table filtering, where low abundant OTU's across all samples are removed (if not \code{filter_species = 0} is set)
+  \item Data transformation (if not \code{transform = "none"} is set)
+  \item Calculate distance matrix based on the chosen \code{distmeasure} if the chosen ordination method is PCoA/nMDS/DCA
+  \item Perform the actual ordination and calculate the axis scores for both samples and species/OTU's
+  \item Visualise the result with ggplot2 or plotly in various ways defined by the user
+}
 }
 \examples{
 #Load example data

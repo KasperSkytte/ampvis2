@@ -34,7 +34,8 @@ Imports:
     gridExtra,
     plotly,
     data.table,
-    RColorBrewer
+    RColorBrewer,
+    GUniFrac
 Suggests: 
     remotes
 RoxygenNote: 6.0.1

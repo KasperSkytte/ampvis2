@@ -17,7 +17,15 @@
 #'    \item \code{"PCOA"} or \code{"MMDS"}: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)
 #'    }
 #'    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[ape]{pcoa}} function from the APE package.}
-#' @param distmeasure (required for nMDS and PCoA) Distance measure used for the distance-based ordination methods (nMDS and PCoA), choose one of the following: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"jsd"} (Jensen-Shannon Divergence), \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}, or \code{"none"}. You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}. JSD is based on \url{http://enterotype.embl.de/enterotypes.html}. (\emph{default:} \code{"none"})
+#' @param distmeasure (\emph{required for nMDS and PCoA}) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following: 
+#' \itemize{
+#'   \item \code{"wunifrac"}: Weighted generalized UniFrac distances (alpha=0.5), calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree. 
+#'   \item \code{"unifrac"}: Unweighted UniFrac distances, calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree. 
+#'   \item \code{"jsd"}: Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
+#'   \item Any of the distance measures supported by \code{\link[vegan]{vegdist}}: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}.
+#'   \item or \code{"none"}. (\emph{default})
+#'  }
+#' You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}.
 #' @param transform (\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). (\emph{default:} \code{"hellinger"})
 #' @param constrain (\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.
 #' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})
@@ -33,7 +41,7 @@
 #' @param sample_point_size Size of the sample points. (\emph{default:} \code{2})
 #' @param sample_trajectory Make a trajectory between sample points by a variable in the metadata.
 #' @param sample_trajectory_group Make a trajectory between sample points by the \code{sample_trajectory} argument, but within individual groups.
-#' @param sample_plotly Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the variables to show or \code{"all"} to display.
+#' @param sample_plotly Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the metadata variables to show, or \code{"all"} to display all. Click or double click the elements in the legend to hide/show parts of the data. To hide the legend use \code{plotly::layout(amp_ordinate(...), showlegend = FALSE)}, see more options at \url{https://plot.ly/r/}.
 #' 
 #' @param species_plot (\emph{logical}) Plot species points or not. (\emph{default:} \code{FALSE})
 #' @param species_shape The shape of the species points, fx \code{1} for hollow circles or \code{20} for dots. (\emph{default:} \code{20})
@@ -67,7 +75,15 @@
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 #'
 #' @details 
-#' The \code{\code{amp_ordinate}} function is mainly based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and \code{\link[ggplot2]{ggplot2-package}} to generate the plot.
+#' The \code{\code{amp_ordinate}} function is primarily based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and the \code{\link[ggplot2]{ggplot2-package}} to generate the plot. The function generates an ordination plot by the following process:
+#' \enumerate{
+#'   \item Various input argument checks and error messages
+#'   \item OTU-table filtering, where low abundant OTU's across all samples are removed (if not \code{filter_species = 0} is set)
+#'   \item Data transformation (if not \code{transform = "none"} is set)
+#'   \item Calculate distance matrix based on the chosen \code{distmeasure} if the chosen ordination method is PCoA/nMDS/DCA
+#'   \item Perform the actual ordination and calculate the axis scores for both samples and species/OTU's
+#'   \item Visualise the result with ggplot2 or plotly in various ways defined by the user
+#' }
 #' 
 #' @export
 #' 
@@ -77,6 +93,7 @@
 #' @import ggrepel
 #' @import ape
 #' @import plotly
+#' @import GUniFrac
 #' 
 #' @references
 #'   GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): \url{https://mb3is.megx.net/gustame}
@@ -158,12 +175,12 @@ amp_ordinate <- function(data,
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
   
   ##### Sanity check of options  ##### 
-  if(species_plotly == T & !is.null(sample_plotly)){
+  if(species_plotly == TRUE & !is.null(sample_plotly)){
     stop("You can not use plotly for both species and samples in the same plot.")
   }
-  if(species_plotly == T | !is.null(sample_plotly)){
-    warning("geom_text_repel is not supported by plotly yet, forcing repel_labels = FALSE.")
-    repel_labels <- F
+  if(species_plotly == TRUE | !is.null(sample_plotly)){
+    #message("geom_text_repel is not supported by plotly yet.")
+    repel_labels <- FALSE
   }
   
   #Impossible to do ordination with 1 or 2 samples
@@ -177,7 +194,7 @@ amp_ordinate <- function(data,
   #Check the data
   data <- amp_rename(data = data, tax_empty = tax_empty)
   
-  ##### Filter   ##### 
+  ##### Filter ##### 
   #First transform to percentages
   abund_pct <- as.data.frame(sapply(data$abund, function(x) x/sum(x) * 100))
   rownames(abund_pct) <- rownames(data$abund) #keep rownames
@@ -195,12 +212,15 @@ amp_ordinate <- function(data,
   if(!transform == "none" & transform != "sqrt") {
     transform <- tolower(transform)
     data$abund <- t(vegan::decostand(t(data$abund), method = transform))
-  } else if (transform == "sqrt") {
+  } else if (tolower(transform) == "sqrt") {
     data$abund <- t(sqrt(t(data$abund)))
   } 
   
   ##### Inputmatrix AFTER transformation  ##### 
   if (any(type == c("nmds", "mmds", "pcoa", "dca"))) {
+    if(!type == "nmds" & (species_plot == TRUE | species_plotly == TRUE)) {
+      stop("No speciesscores available with mMDS/PCoA, DCA.")
+    }
     if (!distmeasure == "none") {
       #Calculate distance matrix with vegdist()
       distmeasure <- tolower(distmeasure)
@@ -229,10 +249,35 @@ amp_ordinate <- function(data,
           attr(resultsMatrix, "method") <- "dist"
           return(resultsMatrix) 
         }
-        message("Calculating the Jensen-Shannon Divergence (JSD) distance matrix may take a long time.")
+        message("Calculating Jensen-Shannon Divergence (JSD) distances... ")
         inputmatrix <- dist.JSD(data$abund)
+        message("Done.")
       } else if(any(distmeasure == c("manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower", "altGower", "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis"))) {
+        message("Calculating distance matrix... ")
         inputmatrix <- vegan::vegdist(t(data$abund), method = distmeasure)
+        message("Done.")
+      } else if (distmeasure == "unifrac") {
+        #no tree no unifrac
+        if(!any(names(data) == "tree")) {
+          stop("No phylogenetic tree in the provided data.")
+        }
+        message("Calculating unweighted generalized UniFrac distances... ")
+        unifracs <- suppressWarnings(GUniFrac::GUniFrac(t(data$abund), data$tree, alpha = 0.5)$unifracs)
+        message("Done.")
+        #GUniFrac returns both weighted and unweighted distances in the same dataframe
+        inputmatrix <- unifracs[,, "d_UW"] %>% 
+          as.data.frame()
+      } else if (distmeasure == "wunifrac") {
+        #no tree no unifrac
+        if(!any(names(data) == "tree")) {
+          stop("No phylogenetic tree in the provided data.")
+        }
+        message("Calculating weighted generalized UniFrac distances (alpha=0.5)... ")
+        unifracs <- suppressWarnings(GUniFrac::GUniFrac(t(data$abund), data$tree, alpha = 0.5)$unifracs)
+        message("Done.")
+        #GUniFrac returns both weighted and unweighted distances in the same dataframe
+        inputmatrix <- unifracs[,, "d_0.5"] %>% 
+          as.data.frame()
       }
     } else if (distmeasure == "none") {
       warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure.")
@@ -246,7 +291,7 @@ amp_ordinate <- function(data,
     inputmatrix <- t(data$abund)
   }
   
-  ##### Perform ordinaion  ##### 
+  ##### Perform ordination  ##### 
   #Generate data depending on the chosen ordination type
   if(type == "pca") {
     #make the model
@@ -262,7 +307,6 @@ amp_ordinate <- function(data,
     #Calculate species- and site scores
     sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
-    
   } else if(type == "rda") {
     if(is.null(constrain)) 
       stop("Argument constrain must be provided when performing constrained/canonical analysis.")
@@ -295,7 +339,13 @@ amp_ordinate <- function(data,
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if(type == "nmds") {
     #make the model
+    if(ncol(data$abund) > 100) {
+      message("Performing non-Metric Multidimensional Scaling on more than 100 samples, this may take some time ... ")
+    }
     model <- vegan::metaMDS(inputmatrix, trace = FALSE, ...)
+    if(ncol(data$abund) > 100) {
+      message("Done.")
+    }
     
     #axis (and data column) names
     x_axis_name <- paste0("NMDS", x_axis)
@@ -305,7 +355,10 @@ amp_ordinate <- function(data,
     #Speciesscores may not be available with MDS
     sitescores <- vegan::scores(model, display = "sites")
     if(!length(model$species) > 1) {
-      speciesscores <- warning("Speciesscores are not available.")
+      speciesscores <- NULL
+      if(species_plot == TRUE | species_plotly == TRUE) {
+        stop("Speciesscores are not available.")
+      }
     } else {
       speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
     }
@@ -325,7 +378,7 @@ amp_ordinate <- function(data,
     #Speciesscores are not available with pcoa
     sitescores <- as.data.frame(model$vectors)
     colnames(sitescores) <- c(paste0("PCo", seq(1:length(sitescores))))
-    speciesscores <- warning("Speciesscores are not available.")
+    speciesscores <- NULL
   } else if(type == "ca") {
     #make the model
     model <- vegan::cca(inputmatrix, ...)
@@ -627,12 +680,10 @@ amp_ordinate <- function(data,
   ##### Return  ##### 
   #return plot or additional details
   if(!is.null(sample_plotly)){
-    plotly::ggplotly(plot, tooltip = "text") %>% 
-      layout(showlegend = FALSE)
+    plotly::ggplotly(plot, tooltip = "text")
   } 
   else if(species_plotly == T){
-    plotly::ggplotly(plot, tooltip = "text") %>% 
-      layout(showlegend = FALSE)
+    plotly::ggplotly(plot, tooltip = "text")
     }
   else if(!detailed_output){
     return(plot)
