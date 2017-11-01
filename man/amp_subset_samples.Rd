@@ -11,7 +11,7 @@ amp_subset_samples(data, ...)
 
 \item{...}{Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}.}
 
-\item{minreads}{Minimum number of reads pr. sample. (\emph{default:} \code{1})}
+\item{minreads}{Minimum number of reads pr. sample. Samples below this value will be removed. (\emph{default:} \code{0})}
 
 \item{normalise}{(\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
 
