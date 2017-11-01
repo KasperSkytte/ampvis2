@@ -64,7 +64,7 @@
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 
-amp_subset_samples <- function(data, ..., minreads = 1, normalise = FALSE, removeAbsents = TRUE) {
+amp_subset_samples <- function(data, ..., minreads = 0, normalise = FALSE, removeAbsents = TRUE) {
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
