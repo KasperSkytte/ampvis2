@@ -2,9 +2,9 @@ Package: ampvis2
 Type: Package
 Title: Tools for visualising amplicon data
 Description: ampvis2 is a small set of tools that allows effortless visualisation of amplicon data
-Version: 2.2.7
-Date: 2017-05-02
-Authors@R: c(person("Mads", "Albertsen", role = c("aut", "cre"), email = "MadsAlbertsen85@gmail.com"), person("Kasper", "Andersen", "Skytte", role = c("aut"), email = "ksa@bio.aau.dk"), person("Rasmus", "Kirkegaard", "Hansen", role = c("ctb"), email = "rhk@bio.aau.dk"))
+Version: 2.2.8
+Date: 2017-11-15
+Authors@R: c(person("Mads", "Albertsen", role = c("aut", "cre"), email = "MadsAlbertsen85@gmail.com"), person(c("Kasper", "Skytte"), "Andersen", role = c("aut"), email = "ksa@bio.aau.dk"), person(c("Rasmus", "Hansen"), "Kirkegaard", role = c("ctb"), email = "rhk@bio.aau.dk"))
 License: AGPL-3
 URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
@@ -16,6 +16,7 @@ Imports:
     dplyr,
     tidyverse,
     ggrepel,
+    lubridate,
     vegan,
     ape,
     knitr,
