@@ -32,7 +32,7 @@
 #' #View(alphadiversityresult)
 #' 
 #' @return A data frame.
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_alphadiv <- function (data,

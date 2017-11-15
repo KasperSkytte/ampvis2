@@ -5,7 +5,7 @@
 #' @usage amp_timeseries(data, time_variable = "")
 #' 
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param time_variable (required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link{as.Date()}} and preferably of the form \code{"yyyy-mm-dd"} or \code{"\%Y-\%m-\%d"}.
+#' @param time_variable (required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link[lubridate]{as_date}} and preferably of the form \code{"yyyy-mm-dd"} or \code{"\%Y-\%m-\%d"}.
 #' @param group_by Group the samples by a variable in the metadata.
 #' @param split Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE}) 
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})
@@ -19,7 +19,8 @@
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
 #' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
-#' @param ... Additional arguments passed to \code{\link{as.Date}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as.Date}.
+#' @param plotly (\emph{logical}) Returns an interactive plot instead. (\emph{default:} \code{FALSE})
+#' @param ... Additional arguments passed to \code{\link[lubridate]{as_date}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as_date}.
 #' 
 #' @keywords timeseries
 #' @import dplyr
@@ -32,16 +33,30 @@
 #' 
 #' @export 
 #' @examples 
+#' 
 #' #Load example data
 #' data("AalborgWWTPs")
 #' 
-#' #Timeseries of the 6 most abundant OTUs based on the "Date" column
-#' amp_timeseries(AalborgWWTPs, time_variable = "Date")
+#' #Timeseries of the 5 most abundant OTUs based on the "Date" column
+#' amp_timeseries(AalborgWWTPs,
+#'                time_variable = "Date",
+#'                tax_aggregate = "OTU")
 #' 
-#' #Timeseries of the 6 most abundant Genera and split into 6 individual plots
-#' amp_timeseries(AalborgWWTPs, time_variable = "Date", split = TRUE, tax_aggregate = "Genus")
+#' #As the above warning suggests, there are more than one sample per date in the data,
+#' #in this case one from Aalborg East and one from Aalborg West. The average of the 
+#' #two samples is then shown per date. In such case it is then recommended to either 
+#' #subset the data, or group the samples by setting group_by = "" and split by tax_aggregate
+#' #by setting split = TRUE:
+#' amp_timeseries(AalborgWWTPs,
+#'                time_variable = "Date",
+#'                group_by = "Plant", 
+#'                split = TRUE, 
+#'                tax_show = 6,
+#'                tax_aggregate = "Genus",
+#'                tax_add = "Phylum")
 #' 
 #' @author Julie Klessner Thun Pedersen \email{julieklessnerthun@@gmail.com}
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 
 amp_timeseries <- function(data,
                            time_variable = NULL,
@@ -53,7 +68,8 @@ amp_timeseries <- function(data,
                            tax_empty = "best",
                            split = FALSE,
                            raw = FALSE,
-                           plotly = FALSE) {
+                           plotly = FALSE,
+                           ...) {
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
@@ -158,14 +174,14 @@ amp_timeseries <- function(data,
     }
   }
   abund7 <- as.data.frame(abund7)
-  abund7$Display <- factor(abund7$Display, levels = rev(TotalCounts$Display))
+  abund7$Display <- factor(abund7$Display, levels = TotalCounts$Display)
   
   if (length(group_by) > 1) {
     abund7 <- merge(abund7, oldGroup)
   }
   
   abund7 <- merge(abund7, metadata, by.x = "Sample", by.y = colnames(metadata)[1])
-  abund7[,time_variable] <- lubridate::as_date(abund7[,time_variable])
+  abund7[,time_variable] <- lubridate::as_date(abund7[,time_variable], ...)
   abund7$DisplayGroup <- paste(abund7$Display, abund7$Group)
   colnames(abund7)[which(colnames(abund7) == "Display")] <- tax_aggregate
   colnames(abund7)[which(colnames(abund7) == "sum")] <- "Value"
@@ -174,7 +190,7 @@ amp_timeseries <- function(data,
   
   if(is.null(group_by)) {
     if(any(duplicated(metadata[,time_variable]))) {
-      warning("Duplicate dates in column ", time_variable, ", displaying the average for each date. Consider grouping dates using the group_by argument or subset the data using amp_subset_samples.\n")
+      warning("Duplicate dates in column ", time_variable, ", displaying the average for each date.\n Consider grouping dates using the group_by argument or subset the data using amp_subset_samples.\n")
       abund7 %>% 
         dplyr::group_by_(time_variable, tax_aggregate) %>% 
         dplyr::summarise_at("Value", mean, na.rm = TRUE) -> abund7

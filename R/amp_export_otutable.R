@@ -27,7 +27,7 @@
 #' amp_export_otutable(AalborgWWTPs, md5 = TRUE, filename = "AalborgWWTPs_otutable", sep = "\t")
 #' }
 #' 
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_export_otutable <- function(data,

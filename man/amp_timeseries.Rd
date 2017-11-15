@@ -9,17 +9,15 @@ amp_timeseries(data, time_variable = "")
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{time_variable}{(required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link{as.Date()}} and preferably of the form \code{"yyyy-mm-dd"} or \code{"\%Y-\%m-\%d"}.}
+\item{time_variable}{(required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link[lubridate]{as_date}} and preferably of the form \code{"yyyy-mm-dd"} or \code{"\%Y-\%m-\%d"}.}
 
 \item{group_by}{Group the samples by a variable in the metadata.}
-
-\item{split}{Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE})}
-
-\item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{6})}
 
 \item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
 
 \item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
+
+\item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{6})}
 
 \item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
@@ -30,9 +28,13 @@ amp_timeseries(data, time_variable = "")
    \item \code{"OTU"}: Display the OTU name.
    }}
 
+\item{split}{Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE})}
+
 \item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
-\item{...}{Additional arguments passed to \code{\link{as.Date}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as.Date}.}
+\item{plotly}{(\emph{logical}) Returns an interactive plot instead. (\emph{default:} \code{FALSE})}
+
+\item{...}{Additional arguments passed to \code{\link[lubridate]{as_date}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as_date}.}
 }
 \value{
 A ggplot2 object.
@@ -41,17 +43,32 @@ A ggplot2 object.
 Generates a timeseries plot showing relative read abundances over time.
 }
 \examples{
+
 #Load example data
 data("AalborgWWTPs")
 
-#Timeseries of the 6 most abundant OTUs based on the "Date" column
-amp_timeseries(AalborgWWTPs, time_variable = "Date")
+#Timeseries of the 5 most abundant OTUs based on the "Date" column
+amp_timeseries(AalborgWWTPs,
+               time_variable = "Date",
+               tax_aggregate = "OTU")
 
-#Timeseries of the 6 most abundant Genera and split into 6 individual plots
-amp_timeseries(AalborgWWTPs, time_variable = "Date", split = TRUE, tax_aggregate = "Genus")
+#As the above warning suggests, there are more than one sample per date in the data,
+#in this case one from Aalborg East and one from Aalborg West. The average of the 
+#two samples is then shown per date. In such case it is then recommended to either 
+#subset the data, or group the samples by setting group_by = "" and split by tax_aggregate
+#by setting split = TRUE:
+amp_timeseries(AalborgWWTPs,
+               time_variable = "Date",
+               group_by = "Plant", 
+               split = TRUE, 
+               tax_show = 6,
+               tax_aggregate = "Genus",
+               tax_add = "Phylum")
 
 }
 \author{
 Julie Klessner Thun Pedersen \email{julieklessnerthun@gmail.com}
+
+Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 }
 \keyword{timeseries}

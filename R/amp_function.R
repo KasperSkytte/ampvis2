@@ -30,7 +30,7 @@
 #' #Generate the function table based on the input heatmap and show the two side by side
 #' amp_function(heatmap)
 #' 
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_function <- function(heatmap, 

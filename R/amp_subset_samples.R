@@ -60,7 +60,7 @@
 #' @seealso 
 #' \code{\link{amp_subset_taxa}}, \code{\link{amp_heatmap}}
 #' 
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 
