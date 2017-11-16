@@ -9,7 +9,7 @@
 #' @param normalise (\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})
 #' @param remove (\emph{logical}) If set to TRUE, then the taxa matching the provided vector will be removed instead of being the only ones kept in the data. (\emph{default:} \code{FALSE})
 #' 
-#' @return A list with 3 dataframes (4 if reference sequences are provided).
+#' @return A modifed ampvis2 object
 #' @import ape
 #' @export
 #' 

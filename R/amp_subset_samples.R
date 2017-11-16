@@ -10,7 +10,7 @@
 #' @param normalise (\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})
 #' @param removeAbsents (\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})
 #' 
-#' @return A list with 3 dataframes (4 if reference sequences are provided).
+#' @return A modifed ampvis2 object
 #' @import dplyr
 #' @import ape
 #' @import stringr

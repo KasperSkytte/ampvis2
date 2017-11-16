@@ -18,7 +18,7 @@ amp_subset_samples(data, ...)
 \item{removeAbsents}{(\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})}
 }
 \value{
-A list with 3 dataframes (4 if reference sequences are provided).
+A modifed ampvis2 object
 }
 \description{
 Subsets the data in ampvis2 objects based on metadata and returns the subsetted object.

@@ -16,7 +16,7 @@ amp_subset_taxa(data, tax_vector)
 \item{remove}{(\emph{logical}) If set to TRUE, then the taxa matching the provided vector will be removed instead of being the only ones kept in the data. (\emph{default:} \code{FALSE})}
 }
 \value{
-A list with 3 dataframes (4 if reference sequences are provided).
+A modifed ampvis2 object
 }
 \description{
 Subsets the data in ampvis2 objects based on taxonomy and returns the subsetted object.
