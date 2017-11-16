@@ -9,18 +9,20 @@ amp_subset_taxa(data, tax_vector)
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{tax_vector}{(required) A vector with taxonomic groups, e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.}
+\item{tax_vector}{(required) A vector with the taxonomic groups with which to perform the subset. The prefixes \code{"k__"}, \code{"p__"}, \code{"c__"}, \code{"o__"}, \code{"f__"}, \code{"g__"}, \code{"s__"} indicates their taxonomic rank and the following characters their name (almost always with a capital first letter), e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.}
 
 \item{normalise}{(\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
+
+\item{remove}{(\emph{logical}) If set to TRUE, then the taxa matching the provided vector will be removed instead of being the only ones kept in the data. (\emph{default:} \code{FALSE})}
 }
 \value{
 A list with 3 dataframes (4 if reference sequences are provided).
 }
 \description{
-Subsets the data in ampvis2 objects based on taxonomy and returns the subsetted object. See examples.
+Subsets the data in ampvis2 objects based on taxonomy and returns the subsetted object.
 }
 \details{
-The subset of taxa is done by providing a vector of taxa names, where all other taxa are then removed. The taxa names in the vector will be matched in all columns in the taxonomy table.
+The taxonomy subset is done by providing a \code{tax_vector} of taxa names which are then matched to the taxonomy table, where all other taxa not matching the \code{tax_vector} are removed. If \code{remove = TRUE}, then the matching taxa are the ones being removed instead. The taxa names in \code{tax_vector} will be matched in all columns of the taxonomy table.
 }
 \section{Normalising data for use in heatmaps}{
 
@@ -43,16 +45,44 @@ amp_heatmap(subsettedData,
 
 \examples{
 #Load example data
-data("MiDAS")
+data("AalborgWWTPs")
 
-#Show a short summary about the data by simply typing the name of the object in the console
-MiDAS
+#An overview heatmap of the data:
+amp_heatmap(AalborgWWTPs, 
+            tax_aggregate = "Genus",
+            group_by = "Plant",
+            tax_add = "Phylum"
+            )
 
-#Remove all taxa except the phyla Chloroflexi and Actinobacteria
-MiDASsubset <- amp_subset_taxa(MiDAS, tax_vector = c("p__Chloroflexi", "p__Actinobacteria"))
+#Remove all taxa except the phyla Chloroflexi and Actinobacteria 
+#and the Genera Rhodoferax and Trichococcus:
+tax_vector <- c("p__Chloroflexi",
+            "p__Actinobacteria",
+            "g__Rhodoferax",
+            "g__Trichococcus")
+            
+AalborgWWTPs_subset <- amp_subset_taxa(AalborgWWTPs, 
+                                       tax_vector = tax_vector
+                                       )
 
-#Summary
-MiDASsubset
+#The resulting subset:
+amp_heatmap(AalborgWWTPs_subset, 
+            tax_aggregate = "Genus",
+            group_by = "Plant",
+            tax_add = "Phylum"
+            )
+
+#Or if remove = TRUE then the taxa in tax_vector are the ones being removed:
+AalborgWWTPs_subset <- amp_subset_taxa(AalborgWWTPs, 
+                                       tax_vector = tax_vector,
+                                       remove = TRUE
+                                       )
+#The resulting subset:
+amp_heatmap(AalborgWWTPs_subset, 
+            tax_aggregate = "Genus",
+            group_by = "Plant",
+            tax_add = "Phylum"
+            )
 
 }
 \seealso{
