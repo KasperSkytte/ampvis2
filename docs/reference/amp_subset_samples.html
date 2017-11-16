@@ -155,61 +155,61 @@ amp_heatmap(subsettedData,
 <span class='no'>MiDAS</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements.
 #&gt; Summary of OTU table:
 #&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
-#&gt;          573        14791     18398563        13306        46071        31758 
+#&gt;          658        14969     20890850        10480        46264        31800 
 #&gt;    Avg#Reads 
-#&gt;     32109.18 
+#&gt;     31749.01 
 #&gt; 
 #&gt; Assigned taxonomy:
 #&gt;       Kingdom        Phylum         Class         Order        Family 
-#&gt;   14791(100%) 14283(96.57%) 12507(84.56%) 11184(75.61%)  9685(65.48%) 
+#&gt;   14969(100%) 14477(96.71%) 12737(85.09%) 11470(76.63%)  9841(65.74%) 
 #&gt;         Genus       Species 
-#&gt;  7105(48.04%)     27(0.18%) 
+#&gt;   7380(49.3%)     28(0.19%) 
 #&gt; 
-#&gt; Metadata variables: 10 
-#&gt;  SampleID, Plant, Year, Period, Date, DeltaDays, LIB_ID, Latitude, Longitude, RawData</div><div class='input'>
+#&gt; Metadata variables: 5 
+#&gt;  SampleID, Plant, Date, Year, Period</div><div class='input'>
 <span class='co'>#Keep only samples containing Aalborg West or East in the Plant column</span>
-<span class='no'>MiDASsubset</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='no'>MiDAS</span>, <span class='no'>Plant</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>))</div><div class='output co'>#&gt; <span class='message'>522 samples and 6569 OTUs have been filtered </span>
-#&gt; <span class='message'>Before: 573 samples and 14791 OTUs</span>
-#&gt; <span class='message'>After: 51 samples and 8222 OTUs</span></div><div class='input'>
+<span class='no'>MiDASsubset</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='no'>MiDAS</span>, <span class='no'>Plant</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>))</div><div class='output co'>#&gt; <span class='message'>590 samples and 5512 OTUs have been filtered </span>
+#&gt; <span class='message'>Before: 658 samples and 14969 OTUs</span>
+#&gt; <span class='message'>After: 68 samples and 9457 OTUs</span></div><div class='input'>
 <span class='co'>#Summary</span>
 <span class='no'>MiDASsubset</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements.
 #&gt; Summary of OTU table:
 #&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
-#&gt;           51         8222      1498273        16751        38496        29230 
+#&gt;           68         9457      2072678        17772        44326      30962.5 
 #&gt;    Avg#Reads 
-#&gt;      29377.9 
+#&gt;     30480.56 
 #&gt; 
 #&gt; Assigned taxonomy:
 #&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
-#&gt;   8222(100%) 8037(97.75%) 7191(87.46%) 6597(80.24%) 5897(71.72%) 4532(55.12%) 
+#&gt;   9457(100%) 9240(97.71%) 8305(87.82%) 7665(81.05%) 6767(71.56%) 5244(55.45%) 
 #&gt;      Species 
-#&gt;    17(0.21%) 
+#&gt;    23(0.24%) 
 #&gt; 
-#&gt; Metadata variables: 10 
-#&gt;  SampleID, Plant, Year, Period, Date, DeltaDays, LIB_ID, Latitude, Longitude, RawData</div><div class='input'>
+#&gt; Metadata variables: 5 
+#&gt;  SampleID, Plant, Date, Year, Period</div><div class='input'>
 <span class='co'>#Keep only samples containing Aalborg West or East in the Plant column </span>
 <span class='co'>#and remove the sample "16SAMP-749". Remove any sample(s) with less than 20000 total reads</span>
 <span class='no'>MiDASsubset2</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='no'>MiDAS</span>,
     <span class='no'>Plant</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>) <span class='kw'>&amp;</span> !<span class='no'>SampleID</span> <span class='kw'>%in%</span> <span class='fu'>c</span>(<span class='st'>"16SAMP-749"</span>),
-    <span class='kw'>minreads</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; <span class='message'>525 samples and 6654 OTUs have been filtered </span>
-#&gt; <span class='message'>Before: 573 samples and 14791 OTUs</span>
-#&gt; <span class='message'>After: 48 samples and 8137 OTUs</span></div><div class='input'>
+    <span class='kw'>minreads</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; <span class='message'>594 samples and 5601 OTUs have been filtered </span>
+#&gt; <span class='message'>Before: 658 samples and 14969 OTUs</span>
+#&gt; <span class='message'>After: 64 samples and 9368 OTUs</span></div><div class='input'>
 <span class='co'>#Summary</span>
 <span class='no'>MiDASsubset2</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements.
 #&gt; Summary of OTU table:
 #&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
-#&gt;           48         8137      1437013        20994        38496      29538.5 
+#&gt;           64         9368      1987574        21472        44326      31413.5 
 #&gt;    Avg#Reads 
-#&gt;     29937.77 
+#&gt;     31055.84 
 #&gt; 
 #&gt; Assigned taxonomy:
 #&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
-#&gt;   8137(100%) 7955(97.76%) 7119(87.49%) 6535(80.31%) 5841(71.78%) 4488(55.16%) 
+#&gt;   9368(100%) 9154(97.72%) 8222(87.77%) 7589(81.01%) 6699(71.51%) 5194(55.44%) 
 #&gt;      Species 
-#&gt;    17(0.21%) 
+#&gt;    23(0.25%) 
 #&gt; 
-#&gt; Metadata variables: 10 
-#&gt;  SampleID, Plant, Year, Period, Date, DeltaDays, LIB_ID, Latitude, Longitude, RawData</div><div class='input'>
+#&gt; Metadata variables: 5 
+#&gt;  SampleID, Plant, Date, Year, Period</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

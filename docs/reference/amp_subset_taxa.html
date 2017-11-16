@@ -87,7 +87,7 @@
     </div>
 
     
-    <p>Subsets the data in ampvis2 objects based on taxonomy and returns the subsetted object. See examples.</p>
+    <p>Subsets the data in ampvis2 objects based on taxonomy and returns the subsetted object.</p>
     
 
     <pre class="usage"><span class='fu'>amp_subset_taxa</span>(<span class='no'>data</span>, <span class='no'>tax_vector</span>)</pre>
@@ -101,11 +101,15 @@
     </tr>
     <tr>
       <th>tax_vector</th>
-      <td><p>(required) A vector with taxonomic groups, e.g. <code>c("p__Chloroflexi","p__Actinobacteria")</code>.</p></td>
+      <td><p>(required) A vector with the taxonomic groups with which to perform the subset. The prefixes <code>"k__"</code>, <code>"p__"</code>, <code>"c__"</code>, <code>"o__"</code>, <code>"f__"</code>, <code>"g__"</code>, <code>"s__"</code> indicates their taxonomic rank and the following characters their name (almost always with a capital first letter), e.g. <code>c("p__Chloroflexi","p__Actinobacteria")</code>.</p></td>
     </tr>
     <tr>
       <th>normalise</th>
       <td><p>(<em>logical</em>) Normalise the read abundances to the total amount of reads (percentages) <em>BEFORE</em> the subset. (<em>default:</em> <code>FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>remove</th>
+      <td><p>(<em>logical</em>) If set to TRUE, then the taxa matching the provided vector will be removed instead of being the only ones kept in the data. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     </table>
     
@@ -115,7 +119,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The subset of taxa is done by providing a vector of taxa names, where all other taxa are then removed. The taxa names in the vector will be matched in all columns in the taxonomy table.</p>
+    <p>The taxonomy subset is done by providing a <code>tax_vector</code> of taxa names which are then matched to the taxonomy table, where all other taxa not matching the <code>tax_vector</code> are removed. If <code>remove = TRUE</code>, then the matching taxa are the ones being removed instead. The taxa names in <code>tax_vector</code> will be matched in all columns of the taxonomy table.</p>
     
     <h2 class="hasAnchor" id="normalising-data-for-use-in-heatmaps"><a class="anchor" href="#normalising-data-for-use-in-heatmaps"></a>Normalising data for use in heatmaps</h2>
 
@@ -141,43 +145,42 @@ amp_heatmap(subsettedData,
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>#Load example data</span>
-<span class='fu'>data</span>(<span class='st'>"MiDAS"</span>)
+<span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
 
-<span class='co'>#Show a short summary about the data by simply typing the name of the object in the console</span>
-<span class='no'>MiDAS</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements.
-#&gt; Summary of OTU table:
-#&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
-#&gt;          573        14791     18398563        13306        46071        31758 
-#&gt;    Avg#Reads 
-#&gt;     32109.18 
-#&gt; 
-#&gt; Assigned taxonomy:
-#&gt;       Kingdom        Phylum         Class         Order        Family 
-#&gt;   14791(100%) 14283(96.57%) 12507(84.56%) 11184(75.61%)  9685(65.48%) 
-#&gt;         Genus       Species 
-#&gt;  7105(48.04%)     27(0.18%) 
-#&gt; 
-#&gt; Metadata variables: 10 
-#&gt;  SampleID, Plant, Year, Period, Date, DeltaDays, LIB_ID, Latitude, Longitude, RawData</div><div class='input'>
-<span class='co'>#Remove all taxa except the phyla Chloroflexi and Actinobacteria</span>
-<span class='no'>MiDASsubset</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_taxa</span>(<span class='no'>MiDAS</span>, <span class='kw'>tax_vector</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"p__Chloroflexi"</span>, <span class='st'>"p__Actinobacteria"</span>))
+<span class='co'>#An overview heatmap of the data:</span>
+<span class='fu'><a href='amp_heatmap.html'>amp_heatmap</a></span>(<span class='no'>AalborgWWTPs</span>,
+            <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
+            <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
+            <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>
+            )</div><div class='img'><img src='amp_subset_taxa-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='co'>#Remove all taxa except the phyla Chloroflexi and Actinobacteria </span>
+<span class='co'>#and the Genera Rhodoferax and Trichococcus:</span>
+<span class='no'>tax_vector</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"p__Chloroflexi"</span>,
+            <span class='st'>"p__Actinobacteria"</span>,
+            <span class='st'>"g__Rhodoferax"</span>,
+            <span class='st'>"g__Trichococcus"</span>)
 
-<span class='co'>#Summary</span>
-<span class='no'>MiDASsubset</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements.
-#&gt; Summary of OTU table:
-#&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
-#&gt;          573         2752      7041712         2898        28818        11706 
-#&gt;    Avg#Reads 
-#&gt;      12289.2 
-#&gt; 
-#&gt; Assigned taxonomy:
-#&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
-#&gt;   2752(100%)   2752(100%) 2666(96.88%) 2490(90.48%) 2102(76.38%) 1644(59.74%) 
-#&gt;      Species 
-#&gt;        0(0%) 
-#&gt; 
-#&gt; Metadata variables: 10 
-#&gt;  SampleID, Plant, Year, Period, Date, DeltaDays, LIB_ID, Latitude, Longitude, RawData</div><div class='input'>
+<span class='no'>AalborgWWTPs_subset</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_taxa</span>(<span class='no'>AalborgWWTPs</span>,
+                                       <span class='kw'>tax_vector</span> <span class='kw'>=</span> <span class='no'>tax_vector</span>
+                                       )
+
+<span class='co'>#The resulting subset:</span>
+<span class='fu'><a href='amp_heatmap.html'>amp_heatmap</a></span>(<span class='no'>AalborgWWTPs_subset</span>,
+            <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
+            <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
+            <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>
+            )</div><div class='img'><img src='amp_subset_taxa-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='co'>#Or if remove = TRUE then the taxa in tax_vector are the ones being removed:</span>
+<span class='no'>AalborgWWTPs_subset</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_taxa</span>(<span class='no'>AalborgWWTPs</span>,
+                                       <span class='kw'>tax_vector</span> <span class='kw'>=</span> <span class='no'>tax_vector</span>,
+                                       <span class='kw'>remove</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+                                       )
+<span class='co'>#The resulting subset:</span>
+<span class='fu'><a href='amp_heatmap.html'>amp_heatmap</a></span>(<span class='no'>AalborgWWTPs_subset</span>,
+            <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
+            <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
+            <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>
+            )</div><div class='img'><img src='amp_subset_taxa-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
