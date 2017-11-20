@@ -10,22 +10,17 @@ URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
 Depends:
-    R (>= 3.4.1)
+    R (>= 3.4.1),
+	ggplot2
 Imports:
-    ggplot2,
     dplyr,
-    tidyverse,
     ggrepel,
     lubridate,
     vegan,
     ape,
     knitr,
-    curl,
-    haven,
     tidyr,
     readxl,
-    sna,
-    magrittr,
     scales,
     stringr,
     digest,
