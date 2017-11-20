@@ -19,7 +19,7 @@
 #' @import dplyr
 #' @export
 #' 
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "Genus"){

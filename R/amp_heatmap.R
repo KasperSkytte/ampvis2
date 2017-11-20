@@ -90,7 +90,7 @@
 #' @import RColorBrewer
 #' @import scales
 #' 
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_heatmap <- function(data,
@@ -110,7 +110,6 @@ amp_heatmap <- function(data,
                         plot_colorscale = "log10", 
                         plot_na = TRUE, 
                         plot_values_size = 4,
-                        plot_theme = "normal",
                         measure = "mean",
                         min_abundance = 0.1,
                         max_abundance = NULL, 
@@ -411,6 +410,7 @@ amp_heatmap <- function(data,
         }
       }
       p <- p + facet_grid(reformulate(facet_by), scales = "free_x", space = "free")
+      p <- p + theme(strip.text = element_text(size = 10))
     }
     return(p)
   } else if (textmap) {

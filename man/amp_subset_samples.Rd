@@ -11,12 +11,14 @@ amp_subset_samples(data, ...)
 
 \item{...}{Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}.}
 
-\item{minreads}{Minimum number of reads pr. sample. (\emph{default:} \code{1})}
+\item{minreads}{Minimum number of reads pr. sample. Samples below this value will be removed. (\emph{default:} \code{0})}
 
 \item{normalise}{(\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
+
+\item{removeAbsents}{(\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})}
 }
 \value{
-A list with 3 dataframes (4 if reference sequences are provided).
+A modifed ampvis2 object
 }
 \description{
 Subsets the data in ampvis2 objects based on metadata and returns the subsetted object.

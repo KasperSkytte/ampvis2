@@ -32,7 +32,7 @@
 #' #View(alphadiversityresult)
 #' 
 #' @return A data frame.
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_alphadiv <- function (data,
@@ -66,6 +66,7 @@ amp_alphadiv <- function (data,
     if(rarefy > max(results$Reads) ) {
       stop("The chosen rarefy size is larger than the largest amount of reads in any sample (", as.character(max(results$Reads)), ").")
     } else if (rarefy < min(results$Reads)) {
+      abund <- suppressWarnings(vegan::rrarefy(abund, sample = rarefy)) %>% as.data.frame()
       warning("The chosen rarefy size (", as.character(rarefy), ") is smaller than the smallest amount of reads in any sample (", as.character(min(colSums(data$abund))), ").")
     } else {
       abund <- suppressWarnings(vegan::rrarefy(abund, sample = rarefy)) %>% as.data.frame()
@@ -87,19 +88,19 @@ amp_alphadiv <- function (data,
   }
   
   if(any("observed" %in% measure) | is.null(measure)) {
-    ObservedOTUs <- colSums(t(abund) > 0) %>% as.vector()
+    ObservedOTUs <- colSums(t(abund) > 0)
     results$ObservedOTUs <- ObservedOTUs[names]
   }
   if(any("shannon" %in% measure)) {
-    Shannon <- vegan::diversity(abund, index = "shannon") %>% as.vector()
+    Shannon <- vegan::diversity(abund, index = "shannon")
     results$Shannon = Shannon[names]
   }
   if(any("simpson" %in% measure)) {
-    Simpson <- vegan::diversity(abund, index = "simpson") %>% as.vector()
+    Simpson <- vegan::diversity(abund, index = "simpson")
     results$Simpson <- Simpson[names]
   }
   if(any("invsimpson" %in% measure)) {
-    invSimpson <- vegan::diversity(abund, index = "invsimpson") %>% as.vector()
+    invSimpson <- vegan::diversity(abund, index = "invsimpson")
     results$invSimpson <- invSimpson[names]
   }
   if(richness) {
