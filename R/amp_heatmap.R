@@ -131,7 +131,7 @@ amp_heatmap <- function(data,
   
   #tax_add and tax_aggregate can't be the same
   if(!is.null(tax_aggregate) & !is.null(tax_add)) {
-    if(tax_aggregate == tax_add) {
+    if(identical(tax_aggregate, tax_add)) {
       stop("tax_aggregate and tax_add cannot be the same")
     }
   }
