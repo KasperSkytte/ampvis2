@@ -161,7 +161,7 @@ amp_heatmap <- function(data,
   }
   
   if (raw == FALSE){
-    abund <- as.data.frame(sapply(abund, function(x) x/sum(x)*100))
+    abund <- as.data.frame(apply(abund, 2, function(x) x/sum(x)*100))
   }
   
   
