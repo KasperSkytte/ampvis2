@@ -33,7 +33,7 @@
 #' data("AalborgWWTPs")
 #' 
 #' #Rank abundance plot
-#' amp_rankabundance(AalborgWWTPs)
+#' amp_rankabundance(amp_subset_samples(AalborgWWTPs, Year %in% c("2013")))
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
@@ -47,7 +47,7 @@ amp_rankabundance <- function(data,
                               tax_empty = "best",
                               tax_class = NULL,
                               raw = FALSE,
-                              detailed_output = FALSE){
+                              detailed_output = FALSE) {
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")

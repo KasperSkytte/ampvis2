@@ -13,10 +13,6 @@ amp_heatmap(data, group_by = "")
 
 \item{facet_by}{Facet the samples by a categorical variable in the metadata.}
 
-\item{normalise_by}{A variable or a specific sample in the metadata to normalise the counts by.}
-
-\item{scale_by}{Scale the abundances by a variable in the metadata.}
-
 \item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})}
 
 \item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
@@ -54,6 +50,10 @@ amp_heatmap(data, group_by = "")
 
 \item{sort_by}{Sort the heatmap by a specific value of the \code{"group_by"} argument, e.g. \code{"Treatment A"}.}
 
+\item{normalise_by}{A variable or a specific sample in the metadata to normalise the counts by.}
+
+\item{scale_by}{Scale the abundances by a variable in the metadata.}
+
 \item{color_vector}{Vector of colors for the colorscale, e.g. \code{c("white", "red")}.}
 
 \item{round}{Number of digits to show with the values. (\emph{default:} \code{1})}
@@ -61,6 +61,16 @@ amp_heatmap(data, group_by = "")
 \item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
 
 \item{textmap}{(\emph{logical}) Return a data frame to print as raw text instead of a ggplot2 object. (\emph{default:} \code{FALSE})}
+
+\item{plot_functions}{Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. When using this feature, make sure that either \code{tax_aggregate} is set to "Genus" or that \code{tax_add} contains "Genus". (\emph{default:} \code{FALSE})}
+
+\item{function_data}{A data frame with functional information about genus-level OTUs in each column. If \code{NULL} the \code{data("MiF")} dataset will be used. (\emph{default:} \code{NULL})}
+
+\item{functions}{A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})}
+
+\item{functions_point_size}{Size of the plotted points in the function grid. (\emph{default:} \code{5})}
+
+\item{rel_widths}{A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})}
 }
 \value{
 A ggplot2 object, or a data frame if \code{textmap = TRUE}.
@@ -110,10 +120,25 @@ amp_heatmap(AalborgWWTPs,
            tax_add = "Phylum",
            color_vector = c("white", "red"), 
            plot_colorscale = "sqrt",
-           plot_legendbreaks = c(1, 5, 10))
+           plot_legendbreaks = c(1, 5, 10)
+           )
+           
+#Heatmap with known functional information about the Genera shown to the right
+amp_heatmap(AalborgWWTPs, 
+            group_by = "Plant", 
+            tax_aggregate = "Genus", 
+            plot_functions = TRUE, 
+            functions = c("PAO", "GAO", "AOB", "NOB")
+            )
            
 #A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:
-textmap <- amp_heatmap(AalborgWWTPs, group_by = "Plant", textmap = TRUE)
+textmap <- amp_heatmap(AalborgWWTPs, 
+                       group_by = "Plant", 
+                       tax_aggregate = "Genus",
+                       plot_functions = TRUE,
+                       functions = c("PAO", "GAO", "AOB", "NOB"),
+                       textmap = TRUE
+                       )
 textmap
 
 }

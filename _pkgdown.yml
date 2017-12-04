@@ -24,7 +24,6 @@ reference:
     - amp_rarecurve
     - amp_boxplot
     - amp_heatmap
-    - amp_function
     - amp_ordinate
     - amp_core
     - amp_timeseries

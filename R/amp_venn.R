@@ -292,7 +292,9 @@ amp_venn <- function(data,
                          colnames(a)[4]
     )
     
-  }  
+  }
+  
+  p <- p + theme(axis.line = element_blank())
   
   ## Export data
   if (detailed_output)

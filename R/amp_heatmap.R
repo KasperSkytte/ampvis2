@@ -34,6 +34,11 @@
 #' @param round Number of digits to show with the values. (\emph{default:} \code{1})
 #' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
 #' @param textmap (\emph{logical}) Return a data frame to print as raw text instead of a ggplot2 object. (\emph{default:} \code{FALSE})
+#' @param plot_functions Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. When using this feature, make sure that either \code{tax_aggregate} is set to "Genus" or that \code{tax_add} contains "Genus". (\emph{default:} \code{FALSE})
+#' @param function_data A data frame with functional information about genus-level OTUs in each column. If \code{NULL} the \code{data("MiF")} dataset will be used. (\emph{default:} \code{NULL})
+#' @param functions A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})
+#' @param functions_point_size Size of the plotted points in the function grid. (\emph{default:} \code{5})
+#' @param rel_widths A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})
 #' 
 #' @return A ggplot2 object, or a data frame if \code{textmap = TRUE}.
 #' 
@@ -77,10 +82,25 @@
 #'            tax_add = "Phylum",
 #'            color_vector = c("white", "red"), 
 #'            plot_colorscale = "sqrt",
-#'            plot_legendbreaks = c(1, 5, 10))
+#'            plot_legendbreaks = c(1, 5, 10)
+#'            )
+#'            
+#' #Heatmap with known functional information about the Genera shown to the right
+#' amp_heatmap(AalborgWWTPs, 
+#'             group_by = "Plant", 
+#'             tax_aggregate = "Genus", 
+#'             plot_functions = TRUE, 
+#'             functions = c("PAO", "GAO", "AOB", "NOB")
+#'             )
 #'            
 #' #A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:
-#' textmap <- amp_heatmap(AalborgWWTPs, group_by = "Plant", textmap = TRUE)
+#' textmap <- amp_heatmap(AalborgWWTPs, 
+#'                        group_by = "Plant", 
+#'                        tax_aggregate = "Genus",
+#'                        plot_functions = TRUE,
+#'                        functions = c("PAO", "GAO", "AOB", "NOB"),
+#'                        textmap = TRUE
+#'                        )
 #' textmap
 #' 
 #' @import dplyr
@@ -96,8 +116,6 @@
 amp_heatmap <- function(data,
                         group_by = NULL,
                         facet_by = NULL,
-                        normalise_by = NULL,
-                        scale_by = NULL,
                         tax_aggregate = "Phylum",
                         tax_add = NULL,
                         tax_show = 10,
@@ -114,10 +132,18 @@ amp_heatmap <- function(data,
                         min_abundance = 0.1,
                         max_abundance = NULL, 
                         sort_by = NULL, 
+                        normalise_by = NULL,
+                        scale_by = NULL,
                         color_vector = NULL,
                         round = 1,
                         raw = FALSE,
-                        textmap = FALSE) {
+                        textmap = FALSE,
+                        plot_functions = FALSE,
+                        function_data = NULL, 
+                        functions = c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO"),
+                        functions_point_size = 5,
+                        rel_widths = c(0.75, 0.25)
+                        ) {
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
@@ -140,6 +166,17 @@ amp_heatmap <- function(data,
   abund <- data[["abund"]]
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
+  
+  #add functions check
+  if(isTRUE(plot_functions)) {
+    if(!any("Genus" %in% c(tax_add, tax_aggregate)))
+      stop("One of the arguments tax_add or tax_aggregate must contain \"Genus\"")
+    # Retrieve the function data if not provided
+    if (is.null(function_data)) {
+      data(MiF, envir = environment())
+      function_data <- MiF
+    }
+  }
   
   ## Coerce the group_by and facet_by variables to factor to always be considered categorical. Fx Year is automatically loaded as numeric by R, but it should be considered categorical. 
   ## Grouping a heatmap by a continuous variable doesn't make sense 
@@ -356,12 +393,13 @@ amp_heatmap <- function(data,
   ## Define the output 
   if (!textmap) {
     ## Make a heatmap style plot
-    p <- ggplot(abund7, aes_string(x = "Group", y = "Display", label = formatC("Abundance", format = "f", digits = 1))) +     
+    heatmap <- ggplot(abund7, aes_string(x = "Group", y = "Display", label = formatC("Abundance", format = "f", digits = 1))) +     
       geom_tile(aes(fill = Abundance), colour = "white", size = 0.5) +
       theme(axis.text.y = element_text(size = 12, color = "black", vjust = 0.4),
             axis.text.x = element_text(size = 10, color = "black", vjust = 0.5, angle = 90, hjust = 1),
             axis.title = element_blank(),
             text = element_text(size = 8, color = "black"),
+            axis.line = element_blank(),
             #axis.ticks.length = unit(1, "mm"),
             plot.margin = unit(c(1,1,1,1), "mm"),
             title = element_text(size = 8),
@@ -377,48 +415,85 @@ amp_heatmap <- function(data,
     if (plot_values == TRUE){
       abund8 <- abund7
       abund8$Abundance <- round(abund8$Abundance, round)
-      p <- p + geom_text(data = abund8, size = plot_values_size, colour = "grey10", check_overlap = TRUE) +
+      heatmap <- heatmap + geom_text(data = abund8, size = plot_values_size, colour = "grey10", check_overlap = TRUE) +
         theme(legend.position = "none")
     }
     if (is.null(plot_legendbreaks)){
-      p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, na.value=plot_na, oob = squish, limits = c(min_abundance, max_abundance))
+      heatmap <- heatmap +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, na.value=plot_na, oob = squish, limits = c(min_abundance, max_abundance))
     }
     if (!is.null(plot_legendbreaks)){
-      p <- p +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, breaks=plot_legendbreaks, na.value=plot_na , oob = squish, limits = c(min_abundance, max_abundance))
+      heatmap <- heatmap +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, breaks=plot_legendbreaks, na.value=plot_na , oob = squish, limits = c(min_abundance, max_abundance))
     }
     
     
     if (is.null(normalise_by)){
-      p <- p + labs(x = "", y = "", fill = "% Read\nAbundance")  
+      heatmap <- heatmap + labs(x = "", y = "", fill = "% Read\nAbundance")  
     }
     if (!is.null(normalise_by)){
-      p <- p + labs(x = "", y = "", fill = "Relative")  
+      heatmap <- heatmap + labs(x = "", y = "", fill = "Relative")  
     }
     
     if(!is.null(facet_by)){
       if(length(ogroup) > 1){
-        p$data$Group <- apply(p$data[,ogroup], 1, paste, collapse = " ")  
+        heatmap$data$Group <- apply(heatmap$data[,ogroup], 1, paste, collapse = " ")  
       } else{
-        p$data$Group <- p$data[,ogroup]
+        heatmap$data$Group <- heatmap$data[,ogroup]
       }
       
       if(plot_values == TRUE){
         if(length(ogroup) > 1){
-          p$layers[[2]]$data$Group <- apply(p$layers[[2]]$data[,ogroup], 1, paste, collapse = " ")  
+          heatmap$layers[[2]]$data$Group <- apply(heatmap$layers[[2]]$data[,ogroup], 1, paste, collapse = " ")  
         } else{
-          p$layers[[2]]$data$Group <- p$layers[[2]]$data[,ogroup]
+          heatmap$layers[[2]]$data$Group <- heatmap$layers[[2]]$data[,ogroup]
         }
       }
-      p <- p + facet_grid(reformulate(facet_by), scales = "free_x", space = "free")
-      p <- p + theme(strip.text = element_text(size = 10))
+      heatmap <- heatmap + facet_grid(reformulate(facet_by), scales = "free_x", space = "free")
+      heatmap <- heatmap + theme(strip.text = element_text(size = 10))
     }
-    return(p)
+    
+    #Return a function grid next to the heatmap with known functions about the Genera
+    if(isTRUE(plot_functions)) {
+      # Retrieve the genus names from the plot
+      names <- data.frame(do.call('rbind', strsplit(levels(droplevels(heatmap$data$Display)),'; ',fixed=TRUE)))
+      names <- data.frame(Genus = names[,which(c(tax_add, tax_aggregate) == "Genus")])
+      names$Genus <- as.character(names$Genus)
+      
+      # Merge the genus and function information
+      nameFunc <- merge(x = names, y = function_data[,c("Genus",functions)], all.x = TRUE, all.y = FALSE) 
+      nameFunc[is.na(nameFunc)] <- "NT"
+      nameFuncM <- melt(nameFunc, id.vars = "Genus", value.name = "Value", variable.name = "Function")
+      nameFuncM$Value <- factor(nameFuncM$Value, levels = c("POS", "VAR", "NEG", "NT"))
+      nameFuncM$Genus <- factor(nameFuncM$Genus, levels = names$Genus)
+      
+      functions_plot <- ggplot(nameFuncM, aes(x = Function, y = Genus, color = Value)) +
+        geom_point(size = functions_point_size) +
+        scale_color_manual(values = c("#31a354", "orange", "#f03b20", "grey90"), drop = FALSE) +
+        theme(axis.text.x = element_text(size = 10, color = "black", angle = 90, hjust = 1, vjust = 0.4),
+              axis.text.y = element_blank(),
+              axis.title = element_blank(),
+              legend.title = element_blank(),
+              legend.text = element_text(size = 10),
+              axis.ticks.length = unit(1, "mm"),
+              axis.ticks = element_blank(),
+              axis.line = element_blank(),
+              panel.background = element_blank(),
+              panel.grid.major = element_line(color = "grey95"),
+              legend.key = element_blank()
+        )
+      return(cowplot::plot_grid(heatmap, functions_plot, ncol = 2, rel_widths = rel_widths, align = "h", axis = "tb"))
+    } else if(!isTRUE(plot_functions)) {
+      return(heatmap)
+    }
   } else if (textmap) {
     #raw text heatmap data frame
     textmap <- abund7[,c("Display", "Abundance", "Group")] %>% 
       group_by(Group) %>%
       filter(!duplicated(Abundance, Group)) %>%
-      spread(Group, Abundance) %>% 
+      spread(Group, Abundance)
+    textmap <- merge(textmap, function_data[,c("Genus", functions), drop = FALSE],
+                     by.x = "Display", 
+                     by.y = "Genus",
+                     all.x = TRUE) %>% 
       arrange(desc(droplevels(Display)))
     textmap <- data.frame(textmap[,-1], row.names = textmap$Display, check.names = FALSE)
     return(textmap)
