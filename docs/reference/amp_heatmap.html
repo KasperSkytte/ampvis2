@@ -108,14 +108,6 @@
       <td><p>Facet the samples by a categorical variable in the metadata.</p></td>
     </tr>
     <tr>
-      <th>normalise_by</th>
-      <td><p>A variable or a specific sample in the metadata to normalise the counts by.</p></td>
-    </tr>
-    <tr>
-      <th>scale_by</th>
-      <td><p>Scale the abundances by a variable in the metadata.</p></td>
-    </tr>
-    <tr>
       <th>tax_aggregate</th>
       <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"Phylum"</code>)</p></td>
     </tr>
@@ -184,6 +176,14 @@
       <td><p>Sort the heatmap by a specific value of the <code>"group_by"</code> argument, e.g. <code>"Treatment A"</code>.</p></td>
     </tr>
     <tr>
+      <th>normalise_by</th>
+      <td><p>A variable or a specific sample in the metadata to normalise the counts by.</p></td>
+    </tr>
+    <tr>
+      <th>scale_by</th>
+      <td><p>Scale the abundances by a variable in the metadata.</p></td>
+    </tr>
+    <tr>
       <th>color_vector</th>
       <td><p>Vector of colors for the colorscale, e.g. <code>c("white", "red")</code>.</p></td>
     </tr>
@@ -198,6 +198,26 @@
     <tr>
       <th>textmap</th>
       <td><p>(<em>logical</em>) Return a data frame to print as raw text instead of a ggplot2 object. (<em>default:</em> <code>FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>plot_functions</th>
+      <td><p>Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. When using this feature, make sure that either <code>tax_aggregate</code> is set to "Genus" or that <code>tax_add</code> contains "Genus". (<em>default:</em> <code>FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>function_data</th>
+      <td><p>A data frame with functional information about genus-level OTUs in each column. If <code>NULL</code> the <code>data("MiF")</code> dataset will be used. (<em>default:</em> <code>NULL</code>)</p></td>
+    </tr>
+    <tr>
+      <th>functions</th>
+      <td><p>A vector with the functions to be displayed. (<em>default:</em> <code>c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")</code>)</p></td>
+    </tr>
+    <tr>
+      <th>functions_point_size</th>
+      <td><p>Size of the plotted points in the function grid. (<em>default:</em> <code>5</code>)</p></td>
+    </tr>
+    <tr>
+      <th>rel_widths</th>
+      <td><p>A vector with the relative widths of the heatmap and function grid when <code>plot_functions = TRUE</code>. (<em>default:</em> <code>c(0.75, 0.25)</code>)</p></td>
     </tr>
     </table>
     
@@ -233,7 +253,7 @@ amp_heatmap(subsettedData,
 <span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'>#Heatmap grouped by WWTP</span>
-<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year, </span>
 <span class='co'>#values not plotted for visibility, phylum name added and colorscale adjusted manually</span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
@@ -245,20 +265,34 @@ amp_heatmap(subsettedData,
            <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>,
            <span class='kw'>color_vector</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"white"</span>, <span class='st'>"red"</span>),
            <span class='kw'>plot_colorscale</span> <span class='kw'>=</span> <span class='st'>"sqrt"</span>,
-           <span class='kw'>plot_legendbreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>))</div><div class='img'><img src='amp_heatmap-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+           <span class='kw'>plot_legendbreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>)
+           )</div><div class='img'><img src='amp_heatmap-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='co'>#Heatmap with known functional information about the Genera shown to the right</span>
+<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
+            <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
+            <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
+            <span class='kw'>plot_functions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+            <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>)
+            )</div><div class='img'><img src='amp_heatmap-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:</span>
-<span class='no'>textmap</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>, <span class='kw'>textmap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>textmap</span></div><div class='output co'>#&gt;                  Aalborg East Aalborg West
-#&gt; Proteobacteria     35.8792382   32.5527051
-#&gt; Actinobacteria     22.1927890   26.0031275
-#&gt; Bacteroidetes      12.3111380   10.6958966
-#&gt; Chloroflexi         8.9900161   13.2067263
-#&gt; Firmicutes         13.1216083    7.3381502
-#&gt; Acidobacteria       1.4051618    2.3210528
-#&gt; Chlorobi            1.1445542    2.2936892
-#&gt; Saccharibacteria    1.0040566    1.3986096
-#&gt; Planctomycetes      0.9639946    0.9926918
-#&gt; Nitrospirae         0.1592297    0.4871583</div><div class='input'>
+<span class='no'>textmap</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
+                       <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
+                       <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
+                       <span class='kw'>plot_functions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                       <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>),
+                       <span class='kw'>textmap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+                       )
+<span class='no'>textmap</span></div><div class='output co'>#&gt;                          Aalborg East Aalborg West PAO GAO AOB NOB
+#&gt; Tetrasphaera                 5.478941     6.842382 POS NEG NEG NEG
+#&gt; Trichococcus                 7.098638     3.028602  NT  NT  NT  NT
+#&gt; Candidatus Microthrix        2.769444     6.503052 NEG NEG NEG NEG
+#&gt; Rhodoferax                   3.361297     2.403885 NEG  NT  NT  NT
+#&gt; Rhodobacter                  1.847766     2.967430  NT  NT  NT  NT
+#&gt; Candidatus Promineofilum     1.317348     3.028949 NEG NEG NEG NEG
+#&gt; Dechloromonas                1.220824     2.503898 VAR NEG  NT  NT
+#&gt; Candidatus Defluviifilum     1.824867     1.502981 NEG NEG NEG NEG
+#&gt; Propionicimonas              1.229790     1.726184  NT  NT  NT  NT
+#&gt; Fodinibacter                 1.382478     1.530972  NT  NT  NT  NT</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
