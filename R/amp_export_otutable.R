@@ -69,7 +69,7 @@ amp_export_otutable <- function(data,
     abund <- abund[,re]
     
     ## Add new sample names
-    colnames(abund) <- as.character(unlist(data[["metadata"]][,id]))
+    colnames(abund) <- as.character(unlist(metadata[,id]))
   }
   
   if(!is.null(sort_samples)){
@@ -82,10 +82,11 @@ amp_export_otutable <- function(data,
     abund <- abund[,sort_samples]
   }
   
-  e_bak <- cbind.data.frame(abund, tax)
+  e_bak <- merge(abund, tax, by = "row.names", all = TRUE, sort = FALSE)
+  e_bak <- data.frame(e_bak, row.names = 1)
   
   e_bak2 <- mutate(e_bak, 
-                   sum = rowSums(e_bak[,1:nrow(data[["metadata"]])])) %>%
+                   sum = rowSums(e_bak[,1:nrow(metadata), drop = FALSE])) %>%
     arrange(desc(sum)) %>%
     select(-sum)
   
