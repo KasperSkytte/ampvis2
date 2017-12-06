@@ -85,15 +85,6 @@
 amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   ### check data
   otutable <- as.data.frame(otutable)
-  #create dummy metadata if none provided
-  if(!is.null(metadata)) {
-    metadata <- as.data.frame(metadata)
-  } else if (is.null(metadata)) {
-    metadata <- data.frame("SampleID" = colnames(otutable[,1:(ncol(otutable) - 7), drop = FALSE]), check.names = FALSE,
-                           "DummyVariable" = "All samples")
-    warning("No sample metadata provided, creating dummy metadata.")
-  }
-  rownames(metadata) <- as.character(metadata[,1])
   
   #check tree
   if(!is.null(tree) & !class(tree) == "phylo") {
@@ -108,6 +99,16 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   } else if (all(rownames(otutable) %in% c(1:nrow(otutable))) & !any(tolower(colnames(otutable)) == "otu")) {
     stop("Cannot find OTU ID's. Make sure they are provided as rownames or in a column called \"OTU\".")
   }
+  
+  #create dummy metadata if none provided
+  if(!is.null(metadata)) {
+    metadata <- as.data.frame(metadata)
+  } else if (is.null(metadata)) {
+    metadata <- data.frame("SampleID" = colnames(otutable[,1:(ncol(otutable) - 7), drop = FALSE]), check.names = FALSE,
+                           "DummyVariable" = "All samples")
+    warning("No sample metadata provided, creating dummy metadata.\n")
+  }
+  rownames(metadata) <- as.character(metadata[,1])
   
   ### Only alphanumeric characters in metadata column names, replace others with "_", they may cause problems with ggplot2 groupings etc
   colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "[^[:alnum:]]", "_")
