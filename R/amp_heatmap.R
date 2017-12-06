@@ -488,7 +488,6 @@ amp_heatmap <- function(data,
     #raw text heatmap data frame
     textmap <- abund7[,c("Display", "Abundance", "Group")] %>% 
       group_by(Group) %>%
-      filter(!duplicated(Abundance, Group)) %>%
       spread(Group, Abundance)
     textmap <- merge(textmap, function_data[,c("Genus", functions), drop = FALSE],
                      by.x = "Display", 
