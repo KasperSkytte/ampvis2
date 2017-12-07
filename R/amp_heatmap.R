@@ -171,11 +171,11 @@ amp_heatmap <- function(data,
   if(isTRUE(plot_functions)) {
     if(!any("Genus" %in% c(tax_add, tax_aggregate)))
       stop("One of the arguments tax_add or tax_aggregate must contain \"Genus\"")
-    # Retrieve the function data if not provided
-    if (is.null(function_data)) {
-      data(MiF, envir = environment())
-      function_data <- MiF
-    }
+  }
+  # Retrieve the function data if not provided
+  if (is.null(function_data)) {
+    data(MiF, envir = environment())
+    function_data <- MiF
   }
   
   ## Coerce the group_by and facet_by variables to factor to always be considered categorical. Fx Year is automatically loaded as numeric by R, but it should be considered categorical. 
@@ -486,15 +486,16 @@ amp_heatmap <- function(data,
     }
   } else if (textmap) {
     #raw text heatmap data frame
-    textmap <- abund7[,c("Display", "Abundance", "Group")] %>% 
-      group_by(Group) %>%
-      spread(Group, Abundance)
-    textmap <- merge(textmap, function_data[,c("Genus", functions), drop = FALSE],
-                     by.x = "Display", 
-                     by.y = "Genus",
-                     all.x = TRUE) %>% 
+    textmap <- abund7[,c("Display", "Abundance", "Group"), drop = FALSE] %>% 
+      unique() %>%
+      spread(key = Group, value = Abundance)
+    textmap <- merge(cbind(textmap, Genus = as.character(data.frame(do.call('rbind', strsplit(levels(droplevels(textmap$Display)), '; ', fixed=TRUE)))[,which(c(tax_add, tax_aggregate) == "Genus")])), function_data[,c("Genus", switch(isTRUE(plot_functions), functions)), drop = FALSE],
+                     by = "Genus",
+                     all.x = TRUE,
+                     all.y = FALSE,
+                     fill = NA) %>% 
       arrange(desc(droplevels(Display)))
-    textmap <- data.frame(textmap[,-1], row.names = textmap$Display, check.names = FALSE)
+    textmap <- data.frame(textmap[,-c(which(colnames(textmap) %in% c("Display", "Genus"))), drop = FALSE], row.names = textmap$Display, check.names = FALSE)
     return(textmap)
   }
 }
