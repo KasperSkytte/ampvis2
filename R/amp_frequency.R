@@ -66,7 +66,7 @@ amp_frequency <- function(data,
   
   abund1 <- abund1[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
-    unique()
+    as.data.frame()
   
   ## Add group information
   suppressWarnings(

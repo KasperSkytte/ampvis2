@@ -96,7 +96,8 @@ amp_otu_network <- function(data,
     mutate(Display = paste("Taxa; ", Display)) %>% as.data.table()
 
     abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
-    setkey(Display, Sample)
+    setkey(Display, Sample) %>%
+      as.data.frame()
   
   ## Add group information
     abund5 <- data.frame(abund3, Group = abund3$Sample)

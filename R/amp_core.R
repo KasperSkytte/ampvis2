@@ -71,8 +71,8 @@ amp_core <- function(data,
     tidyr::gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
   
   abund1 <- abund1[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
-    setkey(Display, Sample) %>%
-    unique() 
+    setkey(Display, Sample)  %>%
+    as.data.frame()
   
   ## Add group information
   suppressWarnings(
