@@ -136,6 +136,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   ### Abundance: all columns from otutable except the first and last 7 and convert to numeric for downstream compliance
   abund <- lapply(otutable[,1:(ncol(otutable) - 7), drop = FALSE], as.numeric) %>%
     as.data.frame(check.names = FALSE, row.names = rownames(otutable))
+  abund[is.na(abund)] <- 0
   abund0 <- abund
   metadata0 <- metadata
   
