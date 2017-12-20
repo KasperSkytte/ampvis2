@@ -195,15 +195,17 @@ amp_ordinate <- function(data,
   data <- amp_rename(data = data, tax_empty = tax_empty)
   
   ##### Filter ##### 
-  #First transform to percentages
-  abund_pct <- as.data.frame(sapply(data$abund, function(x) x/sum(x) * 100))
-  rownames(abund_pct) <- rownames(data$abund) #keep rownames
-  
-  #Then filter low abundant OTU's where ALL samples have below the threshold set with filter_species in percent
-  abund_subset <- abund_pct[!apply(abund_pct, 1, function(row) all(row <= filter_species)),,drop = FALSE] #remove low abundant OTU's 
-  data$abund <- data$abund[which(rownames(data$abund) %in% rownames(abund_subset)),,drop = FALSE]
-  rownames(data$tax) <- data$tax$OTU
-  data$tax <- data$tax[which(rownames(data$tax) %in% rownames(abund_subset)),,drop = FALSE] #same with taxonomy
+  if(filter_species != 0) {
+    #First transform to percentages
+    abund_pct <- as.data.frame(sapply(data$abund, function(x) x/sum(x) * 100))
+    rownames(abund_pct) <- rownames(data$abund) #keep rownames
+    
+    #Then filter low abundant OTU's where ALL samples have below the threshold set with filter_species in percent
+    abund_subset <- abund_pct[!apply(abund_pct, 1, function(row) all(row <= filter_species)),,drop = FALSE] #remove low abundant OTU's 
+    data$abund <- data$abund[which(rownames(data$abund) %in% rownames(abund_subset)),,drop = FALSE]
+    rownames(data$tax) <- data$tax$OTU
+    data$tax <- data$tax[which(rownames(data$tax) %in% rownames(abund_subset)),,drop = FALSE] #same with taxonomy
+  }
   
   #to fix user argument characters, so fx PCoA/PCOA/pcoa are all valid
   type <- tolower(type)

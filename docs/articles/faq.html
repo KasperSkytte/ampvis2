@@ -72,6 +72,20 @@
 <a href="#your-question-here" class="anchor"></a>Your question here</h2>
 <p>If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <a href="https://github.com/MadsAlbertsen/ampvis2/issues" class="uri">https://github.com/MadsAlbertsen/ampvis2/issues</a>, anything and everything is welcome.</p>
 </div>
+<div id="custom-distance-matrix-for-use-in-ordination" class="section level2">
+<h2 class="hasAnchor">
+<a href="#custom-distance-matrix-for-use-in-ordination" class="anchor"></a>Custom distance matrix for use in ordination</h2>
+<p>If you wan’t to calculate a distance matrix manually and use it for PCoA or nMDS in <code>amp_ordinate</code>, it can be done quite easily by just setting <code>filter_species = 0</code>, <code>transform = "none"</code>, and <code>distmeasure = "none"</code>, like below. The matrix should be a symmetrical matrix containing coefficients for all pairs of samples in the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Override the abundance table in your ampvis2 object with a custom distance matrix</span>
+ampvis2_object<span class="op">$</span>abund &lt;-<span class="st"> </span>custom_dist_matrix
+
+<span class="co">#set filter_species = 0, transform = "none", and distmeasure = "none"</span>
+<span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(ampvis2_object,
+             <span class="dt">type =</span> <span class="st">"pcoa"</span>,
+             <span class="dt">filter_species =</span> <span class="dv">0</span>,
+             <span class="dt">transform =</span> <span class="st">"none"</span>,
+             <span class="dt">distmeasure =</span> <span class="st">"none"</span>)</code></pre></div>
+</div>
 <div id="loading-phyloseq-objects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#loading-phyloseq-objects" class="anchor"></a>Loading phyloseq objects</h2>
@@ -102,6 +116,7 @@ my_ampvis2_object &lt;-<span class="st"> </span><span class="kw"><a href="../ref
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#your-question-here">Your question here</a></li>
+      <li><a href="#custom-distance-matrix-for-use-in-ordination">Custom distance matrix for use in ordination</a></li>
       <li><a href="#loading-phyloseq-objects">Loading phyloseq objects</a></li>
       </ul>
 </div>

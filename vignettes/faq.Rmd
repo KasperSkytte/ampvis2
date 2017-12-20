@@ -6,6 +6,20 @@ output: html_document
 ## Your question here
 If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <https://github.com/MadsAlbertsen/ampvis2/issues>, anything and everything is welcome.
 
+## Custom distance matrix for use in ordination
+If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in `amp_ordinate`, it can be done quite easily by just setting `filter_species = 0`, `transform = "none"`, and `distmeasure = "none"`, like below. The matrix should be a symmetrical matrix containing coefficients for all pairs of samples in the data.
+```{r, eval = FALSE}
+#Override the abundance table in your ampvis2 object with a custom distance matrix
+ampvis2_object$abund <- custom_dist_matrix
+
+#set filter_species = 0, transform = "none", and distmeasure = "none"
+amp_ordinate(ampvis2_object,
+             type = "pcoa",
+             filter_species = 0,
+             transform = "none",
+             distmeasure = "none")
+```
+
 ## Loading phyloseq objects
 This is particularly useful if you want to import data in the **QIIME**, **biom**, **mothur**, and **pyrotagger** formats, see the phyloseq [Data Import](https://joey711.github.io/phyloseq/import-data.html#the_import_family_of_functions) tutorial. You will first have to extract the OTU-table and the metadata from the phyloseq object, and then import as normal with `amp_load`:
 
