@@ -49,6 +49,7 @@ amp_export_otutable <- function(data,
   
   if (raw == F){
     abund <- as.data.frame(sapply(abund, function(x) x/sum(x)*100))
+    rownames(abund) <- rownames(data[["abund"]])
   }
   
   if(!is.null(id)){
@@ -83,7 +84,7 @@ amp_export_otutable <- function(data,
   }
   
   e_bak <- merge(abund, tax, by = "row.names", all = TRUE, sort = FALSE)
-  e_bak <- data.frame(e_bak, row.names = 1)
+  e_bak <- data.frame(e_bak, row.names = 1, check.names = FALSE)
   
   e_bak2 <- mutate(e_bak, 
                    sum = rowSums(e_bak[,1:nrow(metadata), drop = FALSE])) %>%
