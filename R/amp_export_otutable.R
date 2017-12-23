@@ -83,11 +83,13 @@ amp_export_otutable <- function(data,
     abund <- abund[,sort_samples]
   }
   
+  #merge abundances and taxonomy by rownames
   e_bak <- merge(abund, tax, by = "row.names", all = TRUE, sort = FALSE)
-  e_bak <- data.frame(e_bak, row.names = 1, check.names = FALSE)
   
-  e_bak2 <- mutate(e_bak, 
-                   sum = rowSums(e_bak[,1:nrow(metadata), drop = FALSE])) %>%
+  #remove first column (row.names) and order by OTU read counts across all samples
+  e_bak2 <- e_bak %>% 
+    select(-1) %>%
+    mutate(sum = rowSums(e_bak[,colnames(abund), drop = FALSE])) %>%
     arrange(desc(sum)) %>%
     select(-sum)
   
