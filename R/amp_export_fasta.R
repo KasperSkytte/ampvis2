@@ -7,6 +7,7 @@
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param filename File name of the exported FASTA file. (\emph{default:} \code{"exported_sequences.fa"})
 #' @param tax (\emph{logical}) Add taxonomic strings to the output or not. (\emph{default:} \code{TRUE})
+#' @param ... Additional arguments directly passed to \code{\link[ape]{write.dna}}.
 #' 
 #' @import ape
 #' @import stringr
@@ -26,7 +27,8 @@
 
 amp_export_fasta <- function(data, 
                              filename = "exported_sequences.fa", 
-                             tax = TRUE){
+                             tax = TRUE,
+                             ...){
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
@@ -58,5 +60,5 @@ amp_export_fasta <- function(data,
     names(t) <- paste(names(t), tax_sf, sep = "; ")
   }
   
-  ape::write.dna(t, file = filename, format = "fasta")
+  ape::write.dna(t, file = filename, format = "fasta", ...)
 }

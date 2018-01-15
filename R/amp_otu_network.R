@@ -24,10 +24,9 @@
 #' @import dplyr
 #' @import ggplot2
 #' @import tidyr
-#' @import GGally
 #' @import network
 #' @import data.table
-#' @import sna
+#' @import ggnet
 #' 
 #' @export
 #' 
@@ -72,8 +71,8 @@ amp_otu_network <- function(data,
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
   
-  ## SeqID column is used to merge data later, so it must be there!
-  colnames(metadata)[1] <- "SeqID"
+  ## SampleID column is used to merge data later, so it must be there!
+  colnames(metadata)[1] <- "SampleID"
   
   if (raw == FALSE){
     abund <- as.data.frame(sapply(abund, function(x) x/sum(x)*100))
@@ -119,7 +118,7 @@ amp_otu_network <- function(data,
     abund7 <- filter(abund6, Display %in% TotalCounts$Display[1:tax_show])
     
   ## Convert to network  
-    netw <- data.frame(SeqID = as.character(abund7$Group), 
+    netw <- data.frame(SampleID = as.character(abund7$Group), 
                        Taxa = abund7$Display, 
                        Abundance = abund7$Abundance, 
                        stringsAsFactors = F) %>%
@@ -128,13 +127,13 @@ amp_otu_network <- function(data,
       network::network(directed = FALSE)
     
   ## Add data to nodes
-    x = data.frame(SeqID = network::network.vertex.names(netw), stringsAsFactors = F)
+    x = data.frame(SampleID = network::network.vertex.names(netw), stringsAsFactors = F)
     
-    xsamples <- filter(x, !grepl("Taxa", SeqID)) %>%
-      merge(metadata, all.x = T, by = "SeqID") 
+    xsamples <- filter(x, !grepl("Taxa", SampleID)) %>%
+      merge(metadata, all.x = T, by = 1) 
     
     if (is.null(color_by)){
-      xsamples$Description <- "Samples"
+      xsamples$Description <- "Sample"
     } else{
       xsamples$Description <- as.character(xsamples[, color_by]) 
     }
@@ -145,7 +144,7 @@ amp_otu_network <- function(data,
     
   ## Make network plot
     
-    p <- GGally::ggnet2(netw, label = F,  color = "stype", node.alpha = 0.7, edge.color = "grey80", node.size = "nsize") +
+    p <- ggnet::ggnet2(netw, label = F,  color = "stype", node.alpha = 0.7, edge.color = "grey80", node.size = "nsize") +
       scale_color_brewer(palette = "Set1", name = "") +
       scale_size_discrete(guide = F, range = c(3,6))
 

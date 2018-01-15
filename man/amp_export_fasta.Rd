@@ -12,6 +12,8 @@ amp_export_fasta(data)
 \item{filename}{File name of the exported FASTA file. (\emph{default:} \code{"exported_sequences.fa"})}
 
 \item{tax}{(\emph{logical}) Add taxonomic strings to the output or not. (\emph{default:} \code{TRUE})}
+
+\item{...}{Additional arguments directly passed to \code{\link[ape]{write.dna}}.}
 }
 \description{
 Export sequences from an ampvis2 object with added taxonomy.
