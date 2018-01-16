@@ -125,10 +125,10 @@
 
     <p>The subset is performed on the metadata by <code>subset()</code> and the abundance- and taxonomy tables are then adjusted accordingly.</p>
     
-    <h2 class="hasAnchor" id="normalising-data-for-use-in-heatmaps"><a class="anchor" href="#normalising-data-for-use-in-heatmaps"></a>Normalising data for use in heatmaps</h2>
+    <h2 class="hasAnchor" id="preserving-relative-abundances-in-a-subset-of-larger-data"><a class="anchor" href="#preserving-relative-abundances-in-a-subset-of-larger-data"></a>Preserving relative abundances in a subset of larger data</h2>
 
     
-    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by <code><a href='amp_heatmap.html'>amp_heatmap</a></code> automatically. This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code>amp_subset_samples</code> functions and then set <code>raw = TRUE</code> when using <code><a href='amp_heatmap.html'>amp_heatmap</a></code>, see the example below.</p><pre>
+    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code><a href='amp_heatmap.html'>amp_heatmap</a></code>, <code><a href='amp_timeseries.html'>amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code>amp_subset_samples</code> functions, and then set <code>raw = TRUE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>raw = TRUE</code> will skip the transformation in the plotting function, see the example below.</p><pre>
 data("MiDAS")
 subsettedData &lt;- amp_subset_samples(MiDAS,
                                     Plant %in% c("Aalborg West", "Aalborg East"),
@@ -221,7 +221,7 @@ amp_heatmap(subsettedData,
 
       <li><a href="#details">Details</a></li>
 
-      <li><a href="#normalising-data-for-use-in-heatmaps">Normalising data for use in heatmaps</a></li>
+      <li><a href="#preserving-relative-abundances-in-a-subset-of-larger-data">Preserving relative abundances in a subset of larger data</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

@@ -225,10 +225,10 @@
 
     <p>A ggplot2 object, or a data frame if <code>textmap = TRUE</code>.</p>
     
-    <h2 class="hasAnchor" id="normalising-data-for-use-in-heatmaps"><a class="anchor" href="#normalising-data-for-use-in-heatmaps"></a>Normalising data for use in heatmaps</h2>
+    <h2 class="hasAnchor" id="preserving-relative-abundances-in-a-subset-of-larger-data"><a class="anchor" href="#preserving-relative-abundances-in-a-subset-of-larger-data"></a>Preserving relative abundances in a subset of larger data</h2>
 
     
-    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by <code>amp_heatmap</code> automatically. This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> functions and then set <code>raw = TRUE</code> when using <code>amp_heatmap</code>, see the example below.</p><pre>
+    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code><a href='amp_timeseries.html'>amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> functions, and then set <code>raw = TRUE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>raw = TRUE</code> will skip the transformation in the plotting function, see the example below.</p><pre>
 data("MiDAS")
 subsettedData &lt;- amp_subset_samples(MiDAS,
                                     Plant %in% c("Aalborg West", "Aalborg East"),
@@ -253,7 +253,7 @@ amp_heatmap(subsettedData,
 <span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'>#Heatmap grouped by WWTP</span>
-<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-16.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year, </span>
 <span class='co'>#values not plotted for visibility, phylum name added and colorscale adjusted manually</span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
@@ -266,14 +266,14 @@ amp_heatmap(subsettedData,
            <span class='kw'>color_vector</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"white"</span>, <span class='st'>"red"</span>),
            <span class='kw'>plot_colorscale</span> <span class='kw'>=</span> <span class='st'>"sqrt"</span>,
            <span class='kw'>plot_legendbreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>)
-           )</div><div class='img'><img src='amp_heatmap-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+           )</div><div class='img'><img src='amp_heatmap-17.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#Heatmap with known functional information about the Genera shown to the right</span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
             <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
             <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
             <span class='kw'>plot_functions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
             <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>)
-            )</div><div class='img'><img src='amp_heatmap-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+            )</div><div class='img'><img src='amp_heatmap-18.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:</span>
 <span class='no'>textmap</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
                        <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
@@ -302,7 +302,7 @@ amp_heatmap(subsettedData,
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#normalising-data-for-use-in-heatmaps">Normalising data for use in heatmaps</a></li>
+      <li><a href="#preserving-relative-abundances-in-a-subset-of-larger-data">Preserving relative abundances in a subset of larger data</a></li>
 
       <li><a href="#accessing-detailed-raw-data">Accessing detailed raw data</a></li>
       

@@ -44,8 +44,8 @@
 #' 
 #' @export
 #' 
-#' @section Normalising data for use in heatmaps:
-#' By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by \code{\link{amp_heatmap}} automatically. This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_subset_taxa}} and \code{\link{amp_subset_samples}} functions and then set \code{raw = TRUE} when using \code{\link{amp_heatmap}}, see the example below.
+#' @section Preserving relative abundances in a subset of larger data:
+#' By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example \code{\link{amp_heatmap}}, \code{\link{amp_timeseries}}, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_subset_taxa}} and \code{\link{amp_subset_samples}} functions, and then set \code{raw = TRUE} in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting \code{raw = TRUE} will skip the transformation in the plotting function, see the example below.
 #' 
 #' \preformatted{
 #' data("MiDAS")

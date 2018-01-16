@@ -27,6 +27,11 @@ A ggplot2 object.
 \description{
 Calculates the number of "core" OTUs shared by groups given thresholds for how frequent the OTUs should be above a certain abundance. Also returns the average abundance of the OTUs in a particular group.
 }
+\section{Preserving relative abundances in a subset of larger data}{
+
+See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
+}
+
 \examples{
 #Load example data
 data("AalborgWWTPs")

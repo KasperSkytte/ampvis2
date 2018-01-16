@@ -27,6 +27,9 @@
 #' @import data.table
 #' @export
 #' 
+#' @section Preserving relative abundances in a subset of larger data:
+#' See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
+#' 
 #' @details A rank abundance curve is used to assess the biodiversity by plotting the ranked abundances of the OTUs (rank 1 is the most abundant, rank 2 the second and so on) versus the cumulative read abundance of the particular OTU. The rank abundances of the OTUs can be grouped by any taxonomic level by the \code{tax_aggregate} argument, the default is per OTU. When the samples are grouped by the \code{group_by} argument, the average of the group is used.
 #' @examples 
 #' #Load example data

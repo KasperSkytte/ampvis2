@@ -34,6 +34,11 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 \description{
 Generates a barplot with frequency vs read abundance.
 }
+\section{Preserving relative abundances in a subset of larger data}{
+
+See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
+}
+
 \examples{
 #Load example data
 data("AalborgWWTPs")

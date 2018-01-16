@@ -70,7 +70,23 @@
 <div id="your-question-here" class="section level2">
 <h2 class="hasAnchor">
 <a href="#your-question-here" class="anchor"></a>Your question here</h2>
-<p>If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <a href="https://github.com/MadsAlbertsen/ampvis2/issues" class="uri">https://github.com/MadsAlbertsen/ampvis2/issues</a>, anything and everything is welcome.</p>
+<p>If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <a href="https://github.com/MadsAlbertsen/ampvis2/issues" class="uri">https://github.com/MadsAlbertsen/ampvis2/issues</a> or email one of the developers, anything and everything is welcome.</p>
+</div>
+<div id="preserving-relative-abundances-in-a-subset-of-larger-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#preserving-relative-abundances-in-a-subset-of-larger-data" class="anchor"></a>Preserving relative abundances in a subset of larger data</h2>
+<p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code>amp_timeseries</code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code>amp_subset_taxa</code> and <code>amp_subset_samples</code> functions, and then set <code>raw = TRUE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>raw = TRUE</code> will skip the transformation in the plotting function, see the example below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"MiDAS"</span>)
+subsettedData &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS,
+                                    Plant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>),
+                                    <span class="dt">normalise =</span> <span class="ot">TRUE</span> <span class="co">#add this</span>
+                                    )
+<span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(subsettedData,
+            <span class="dt">group_by =</span> <span class="st">"Plant"</span>,
+            <span class="dt">tax_aggregate =</span> <span class="st">"Phylum"</span>,
+            <span class="dt">tax_add =</span> <span class="st">"Genus"</span>,
+            <span class="dt">raw =</span> <span class="ot">TRUE</span> <span class="co">#add this</span>
+            )</code></pre></div>
 </div>
 <div id="custom-distance-matrix-for-use-in-ordination" class="section level2">
 <h2 class="hasAnchor">
@@ -116,6 +132,7 @@ my_ampvis2_object &lt;-<span class="st"> </span><span class="kw"><a href="../ref
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#your-question-here">Your question here</a></li>
+      <li><a href="#preserving-relative-abundances-in-a-subset-of-larger-data">Preserving relative abundances in a subset of larger data</a></li>
       <li><a href="#custom-distance-matrix-for-use-in-ordination">Custom distance matrix for use in ordination</a></li>
       <li><a href="#loading-phyloseq-objects">Loading phyloseq objects</a></li>
       </ul>

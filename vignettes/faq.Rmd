@@ -4,10 +4,28 @@ output: html_document
 ---
 
 ## Your question here
-If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <https://github.com/MadsAlbertsen/ampvis2/issues>, anything and everything is welcome.
+If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <https://github.com/MadsAlbertsen/ampvis2/issues> or email one of the developers, anything and everything is welcome.
+
+## Preserving relative abundances in a subset of larger data
+By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example `amp_heatmap`, `amp_timeseries`, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set `normalise = TRUE` when subsetting with the `amp_subset_taxa` and `amp_subset_samples` functions, and then set `raw = TRUE` in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting `raw = TRUE` will skip the transformation in the plotting function, see the example below.
+
+```{r, eval = FALSE}
+data("MiDAS")
+subsettedData <- amp_subset_samples(MiDAS,
+                                    Plant %in% c("Aalborg West", "Aalborg East"),
+                                    normalise = TRUE #add this
+                                    )
+amp_heatmap(subsettedData,
+            group_by = "Plant",
+            tax_aggregate = "Phylum",
+            tax_add = "Genus",
+            raw = TRUE #add this
+            )
+```
 
 ## Custom distance matrix for use in ordination
 If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in `amp_ordinate`, it can be done quite easily by just setting `filter_species = 0`, `transform = "none"`, and `distmeasure = "none"`, like below. The matrix should be a symmetrical matrix containing coefficients for all pairs of samples in the data.
+
 ```{r, eval = FALSE}
 #Override the abundance table in your ampvis2 object with a custom distance matrix
 ampvis2_object$abund <- custom_dist_matrix
