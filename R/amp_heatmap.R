@@ -197,8 +197,9 @@ amp_heatmap <- function(data,
     abund <- t(t(abund)*variable)
   }
   
-  if (raw == FALSE){
-    abund <- as.data.frame(apply(abund, 2, function(x) x/sum(x)*100))
+  if (raw == FALSE) {
+    #calculate sample percentages, skip columns with 0 sum to avoid NaN's
+    abund[,which(colSums(abund) != 0)] <- as.data.frame(apply(abund[,which(colSums(abund) != 0)], 2, function(x) x/sum(x)*100))
   }
   
   
@@ -248,6 +249,9 @@ amp_heatmap <- function(data,
       setkey(Display, Group) %>%
       unique() %>% 
       as.data.frame()
+    TotalCounts <- group_by(abund6, Display) %>%
+      summarise(Abundance = sum(Abundance)) %>%
+      arrange(desc(Abundance))
   }
   
   if (measure == "max"){
@@ -255,6 +259,9 @@ amp_heatmap <- function(data,
       setkey(Display, Group) %>%
       unique() %>% 
       as.data.frame()
+    TotalCounts <- group_by(abund6, Display) %>%
+      summarise(Abundance = max(Abundance)) %>%
+      arrange(desc(Abundance))
   }  
   
   if (measure == "median"){
@@ -262,45 +269,43 @@ amp_heatmap <- function(data,
       setkey(Display, Group) %>%
       unique() %>% 
       as.data.frame()
-  }
-  
-  
-  ## Find the X most abundant levels
-  if (measure == "mean"){
-    TotalCounts <- group_by(abund6, Display) %>%
-      summarise(Abundance = sum(Abundance)) %>%
-      arrange(desc(Abundance))
-  }
-  
-  if (measure == "max"){
-    TotalCounts <- group_by(abund6, Display) %>%
-      summarise(Abundance = max(Abundance)) %>%
-      arrange(desc(Abundance))
-  }
-  
-  if (measure == "median"){
     TotalCounts <- group_by(abund6, Display) %>%
       summarise(Abundance = median(Abundance)) %>%
       arrange(desc(Abundance))
   }
   
-  if (!is.null(sort_by)){
-    TotalCounts <- filter(abund6, Group == sort_by) %>%
-      arrange(desc(Abundance))
+  if(!is.null(sort_by)) {
+    if(is.null(group_by)) {
+      if(!any(sort_by %in% abund6$Sample))
+        stop("Can't find \"", sort_by, "\" among sample names")
+      TotalCounts <- filter(abund6, Sample == sort_by) %>%
+        arrange(desc(Abundance))
+    } else if(!is.null(group_by)) {
+      if(any(sort_by %in% abund6$Group) & any(sort_by %in% abund6$Sample)) {
+        stop(paste0(sort_by, " is both found among samples and in the group_by variable (", group_by, "). Cannot sort by both a sample and a group."))
+      } else if(!any(sort_by %in% abund6$Group) & any(sort_by %in% abund6$Sample)) {
+        TotalCounts <- filter(abund6, Sample == sort_by) %>%
+          arrange(desc(Abundance))
+      } else if(any(sort_by %in% abund6$Group) & !any(sort_by %in% abund6$Sample)) {
+        TotalCounts <- filter(abund6, Group == sort_by) %>%
+          arrange(desc(Abundance))
+      } else if(!any(sort_by %in% abund6$Group) | !any(sort_by %in% abund6$Sample))
+        stop("Can't find \"", sort_by, "\" among sample or group names")
+    }
   }
   
   ## Subset to X most abundant levels
   if (is.numeric(tax_show)){
-    if (tax_show > nrow(TotalCounts)){  
+    if (tax_show > nrow(TotalCounts)){
       tax_show <- nrow(TotalCounts)
     }
-    abund7 <- filter(abund6, Display %in% TotalCounts$Display[1:tax_show])
+    abund7 <- filter(abund6, Display %in% unique(TotalCounts$Display)[1:tax_show])
   }
   
   ## Subset to a list of level names
   if (!is.numeric(tax_show)){
     if (tax_show != "all"){
-      abund7 <- filter(abund6, Display %in% tax_show)    
+      abund7 <- filter(abund6, Display %in% tax_show)
     }
     ### Or just show all  
     if (tax_show == "all"){
@@ -320,7 +325,7 @@ amp_heatmap <- function(data,
   
   ## Order.y
   if (is.null(order_y_by)){
-    abund7$Display <- factor(abund7$Display, levels = rev(TotalCounts$Display))
+    abund7$Display <- factor(abund7$Display, levels = rev(unique(TotalCounts$Display)))
   }
   if (!is.null(order_y_by)){
     if ((length(order_y_by) == 1) && (order_y_by != "cluster")){
@@ -391,7 +396,7 @@ amp_heatmap <- function(data,
   }
   
   ## Define the output 
-  if (!textmap) {
+  if (!isTRUE(textmap)) {
     ## Make a heatmap style plot
     heatmap <- ggplot(abund7, aes_string(x = "Group", y = "Display", label = formatC("Abundance", format = "f", digits = 1))) +     
       geom_tile(aes(fill = Abundance), colour = "white", size = 0.5) +
@@ -484,7 +489,7 @@ amp_heatmap <- function(data,
     } else if(!isTRUE(plot_functions)) {
       return(heatmap)
     }
-  } else if (textmap) {
+  } else if (isTRUE(textmap)) {
     #raw text heatmap data frame
     textmap <- abund7[,c("Display", "Abundance", "Group"), drop = FALSE] %>% 
       unique() %>%
