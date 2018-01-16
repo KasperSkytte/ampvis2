@@ -98,7 +98,8 @@ amp_subset_taxa <- function(data,
   
   ### calculate percentages 
   if (normalise) {
-    data$abund <- as.data.frame(apply(data$abund,2, function(x) 100*x/sum(x)))
+    #calculate sample percentages, skip columns with 0 sum to avoid NaN's
+    data$abund[,which(colSums(data$abund) != 0)] <- as.data.frame(apply(data$abund[,which(colSums(data$abund) != 0)], 2, function(x) x/sum(x)*100))
   }
   
   # Make new list
