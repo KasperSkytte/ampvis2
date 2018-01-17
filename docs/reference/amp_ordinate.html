@@ -294,6 +294,20 @@
 <li><p>Visualise the result with ggplot2 or plotly in various ways defined by the user</p></li>
 </ol>
     
+    <h2 class="hasAnchor" id="using-a-custom-distance-matrix"><a class="anchor" href="#using-a-custom-distance-matrix"></a>Using a custom distance matrix</h2>
+
+    
+    <p>If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in <code>amp_ordinate</code>, it can be done by setting <code>filter_species = 0</code>, <code>transform = "none"</code>, <code>distmeasure = "none"</code>, and then override abundance table ($abund) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.</p><pre>
+#Override the abundance table in the ampvis2 object with a custom distance matrix
+ampvis2_object$abund &lt;- custom_dist_matrix
+    #set filter_species = 0, transform = "none", and distmeasure = "none"
+amp_ordinate(ampvis2_object,
+             type = "pcoa",
+             filter_species = 0,
+             transform = "none",
+             distmeasure = "none")
+</pre>
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): <a href='https://mb3is.megx.net/gustame'>https://mb3is.megx.net/gustame</a></p>  
@@ -311,7 +325,7 @@
              <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>,
              <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
              <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-             )</div><div class='img'><img src='amp_ordinate-6.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+             )</div><div class='img'><img src='amp_ordinate-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='co'>#Interactive CCA with data transformation constrained to seasonal period</span>
 <span class='fu'>amp_ordinate</span>(<span class='no'>AalborgWWTPs</span>,
@@ -333,6 +347,8 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#using-a-custom-distance-matrix">Using a custom distance matrix</a></li>
 
       <li><a href="#references">References</a></li>
       

@@ -129,6 +129,22 @@ The \code{\code{amp_ordinate}} function is primarily based on two packages; \cod
   \item Visualise the result with ggplot2 or plotly in various ways defined by the user
 }
 }
+\section{Using a custom distance matrix}{
+
+If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in \code{amp_ordinate}, it can be done by setting \code{filter_species = 0}, \code{transform = "none"}, \code{distmeasure = "none"}, and then override abundance table ($abund) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.
+\preformatted{
+#Override the abundance table in the ampvis2 object with a custom distance matrix
+ampvis2_object$abund <- custom_dist_matrix
+
+#set filter_species = 0, transform = "none", and distmeasure = "none"
+amp_ordinate(ampvis2_object,
+             type = "pcoa",
+             filter_species = 0,
+             transform = "none",
+             distmeasure = "none")
+}
+}
+
 \examples{
 #Load example data
 data("AalborgWWTPs")
