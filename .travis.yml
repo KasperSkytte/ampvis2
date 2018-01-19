@@ -11,3 +11,7 @@ notifications:
         on_failure: change
         rooms:
             - eb-group-aau:FXLq5xhPHEEmmNLMHlQrpiCd#ampvis_development
+r_packages:
+  - covr
+after_success:
+  - Rscript -e 'library(covr); codecov()'
