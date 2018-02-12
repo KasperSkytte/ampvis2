@@ -67,7 +67,7 @@ amp_core <- function(data,
   
   if (raw == F){
     #calculate sample percentages, skip columns with 0 sum to avoid NaN's
-    abund[,which(colSums(abund) != 0)] <- as.data.frame(apply(abund[,which(colSums(abund) != 0)], 2, function(x) x/sum(x)*100))
+    abund[,which(colSums(abund) != 0)] <- as.data.frame(apply(abund[,which(colSums(abund) != 0), drop = FALSE], 2, function(x) x/sum(x)*100))
   }
   
   # Aggregate to a specific taxonomic level

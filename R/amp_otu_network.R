@@ -79,7 +79,7 @@ amp_otu_network <- function(data,
   
   if (raw == FALSE){
     #calculate sample percentages, skip columns with 0 sum to avoid NaN's
-    abund[,which(colSums(abund) != 0)] <- as.data.frame(apply(abund[,which(colSums(abund) != 0)], 2, function(x) x/sum(x)*100))
+    abund[,which(colSums(abund) != 0)] <- as.data.frame(apply(abund[,which(colSums(abund) != 0), drop = FALSE], 2, function(x) x/sum(x)*100))
   }
   
   ## Make a name variable that can be used instead of tax_aggregate to display multiple levels 
