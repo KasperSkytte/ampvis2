@@ -494,13 +494,20 @@ amp_heatmap <- function(data,
     textmap <- abund7[,c("Display", "Abundance", "Group"), drop = FALSE] %>% 
       unique() %>%
       spread(key = Group, value = Abundance)
-    textmap <- merge(cbind(textmap, Genus = as.character(data.frame(do.call('rbind', strsplit(levels(droplevels(textmap$Display)), '; ', fixed=TRUE)))[,which(c(tax_add, tax_aggregate) == "Genus")])), function_data[,c("Genus", switch(isTRUE(plot_functions), functions)), drop = FALSE],
-                     by = "Genus",
-                     all.x = TRUE,
-                     all.y = FALSE,
-                     fill = NA) %>% 
+    if(isTRUE(plot_functions)) {
+      textmap <- merge(cbind(textmap, 
+                             Genus = as.character(data.frame(do.call('rbind', strsplit(levels(droplevels(textmap$Display)), '; ', fixed=TRUE)))[,which(c(tax_add, tax_aggregate) == "Genus")])), 
+                       function_data[,c("Genus", switch(isTRUE(plot_functions), functions)), drop = FALSE],
+                       by = "Genus",
+                       all.x = TRUE,
+                       all.y = FALSE,
+                       fill = NA)
+    }
+    textmap <- textmap %>%
       arrange(desc(droplevels(Display)))
-    textmap <- data.frame(textmap[,-c(which(colnames(textmap) %in% c("Display", "Genus"))), drop = FALSE], row.names = textmap$Display, check.names = FALSE)
+    textmap <- data.frame(textmap[,-c(which(colnames(textmap) %in% c("Display", "Genus"))), drop = FALSE], 
+                          row.names = textmap$Display, 
+                          check.names = FALSE)
     return(textmap)
   }
 }
