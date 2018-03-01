@@ -28,11 +28,6 @@
 #' @importFrom tidyr gather
 #' @importFrom data.table as.data.table setkey
 #' 
-#' @import dplyr
-#' @import ggplot2
-#' @import tidyr
-#' @import data.table
-#' 
 #' @export
 #' 
 #' @section Preserving relative abundances in a subset of larger data:
