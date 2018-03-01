@@ -21,12 +21,14 @@
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
-#' @import dplyr
+#' 
 #' @import ggplot2
-#' @import tidyr
-#' @import network
-#' @import data.table
-#' @import ggnet
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter arrange group_by mutate select summarise desc
+#' @importFrom tidyr gather
+#' @importFrom data.table as.data.table data.table setkey
+#' @importFrom network network network.vertex.names set.vertex.attribute
+#' @importFrom ggnet ggnet2
 #' 
 #' @export
 #' 

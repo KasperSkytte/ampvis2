@@ -10,7 +10,7 @@
 #' @param remove (\emph{logical}) If set to TRUE, then the taxa matching the provided vector will be removed instead of being the only ones kept in the data. (\emph{default:} \code{FALSE})
 #' 
 #' @return A modifed ampvis2 object
-#' @import ape
+#' 
 #' @export
 #' 
 #' @details 

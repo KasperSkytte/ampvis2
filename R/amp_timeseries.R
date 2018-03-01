@@ -23,12 +23,15 @@
 #' @param ... Additional arguments passed to \code{\link[lubridate]{as_date}} to make the time_variable compatible with the timeseries plot, fx the \code{format} or \code{tz} arguments, see \code{?as_date}.
 #' 
 #' @keywords timeseries
-#' @import dplyr
+#' 
 #' @import ggplot2
-#' @import tidyr
-#' @import lubridate
-#' @import plotly
-#' @import data.table
+#' @importFrom magrittr %>%
+#' @importFrom dplyr arrange group_by group_by_ summarise desc summarise_at
+#' @importFrom tidyr gather
+#' @importFrom data.table as.data.table setkey
+#' @importFrom plotly ggplotly
+#' @importFrom lubridate as_date
+#' 
 #' @return A ggplot2 object.
 #' 
 #' @export 

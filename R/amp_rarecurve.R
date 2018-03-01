@@ -9,9 +9,10 @@
 #' @param color_by Color curves by a variable in the metadata. 
 #' 
 #' @export
-#' @import dplyr
-#' @import vegan
+#' 
 #' @import ggplot2
+#' @importFrom magrittr %>%
+#' @importFrom vegan rarefy
 #' 
 #' @return A ggplot2 object.
 #' @examples 

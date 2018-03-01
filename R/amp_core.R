@@ -20,10 +20,14 @@
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
-#' @import dplyr
+#' 
 #' @import ggplot2
-#' @import tidyr
-#' @import data.table
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter group_by mutate summarise
+#' @importFrom tidyr gather
+#' @importFrom data.table as.data.table setkey data.table
+#' @importFrom plotly ggplotly layout
+#' 
 #' @export
 #' 
 #' @details Plots the number of samples a given OTU is observed in (first axis) against the number of samples it is abundant in (second axis), as defined by the threshold. By setting the \code{group_by} argument to a variable in the metadata, then the axes will show their frequency in this group instead of per sample. 

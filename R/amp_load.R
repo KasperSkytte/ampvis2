@@ -10,9 +10,12 @@
 #' @param tree (\emph{optional}) Phylogenetic tree of class \code{"phylo"} as loaded with \code{\link[ape]{read.tree}}. (\emph{default:} \code{NULL})
 #' 
 #' @return A list of class \code{"ampvis2"} with 3 to 5 elements.
-#' @import ape
-#' @import stringr
-#' @import dplyr
+#' 
+#' @importFrom magrittr %>%
+#' @importFrom ape read.FASTA
+#' @importFrom stringr str_replace_all
+#' @importFrom dplyr intersect
+#' 
 #' @export
 #' 
 #' @details The \code{\link{amp_load}} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements as described in the following sections to work properly.

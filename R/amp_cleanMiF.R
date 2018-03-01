@@ -5,7 +5,7 @@
 #' @usage amp_cleanMiF(data)
 #'
 #' @param data (required) A data frame with MiDAS functions.
-#' @import dplyr
+#' @importFrom dplyr mutate
 #' @return A data frame.
 #' 
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

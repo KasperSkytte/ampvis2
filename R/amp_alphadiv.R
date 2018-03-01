@@ -16,8 +16,9 @@
 #' @param rarefy Rarefy species richness to this value before calculating alpha diversity and/or richness. Passed directly as the \code{sample} argument to \code{\link[vegan]{rrarefy}}. (\emph{default:} \code{NULL})
 #' 
 #' @export
-#' @import dplyr
-#' @import vegan
+#' @importFrom dplyr arrange
+#' @importFrom magrittr %>%
+#' @importFrom vegan diversity rrarefy estimateR
 #' 
 #' @details The alpha-diversity indices are calculated per sample using the vegan function \code{\link[vegan]{diversity}}, where the read abundances are first rarefied using \code{\link[vegan]{rrarefy}} by the size of the \code{rarefy} argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.
 #' 

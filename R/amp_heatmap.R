@@ -103,12 +103,15 @@
 #'                        )
 #' textmap
 #' 
-#' @import dplyr
-#' @import tidyr
 #' @import ggplot2
-#' @import data.table
-#' @import RColorBrewer
-#' @import scales
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter desc arrange group_by mutate summarise
+#' @importFrom tidyr gather spread
+#' @importFrom data.table as.data.table data.table setkey
+#' @importFrom reshape2 dcast melt
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom scales squish
+#' @importFrom cowplot plot_grid
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
@@ -414,7 +417,7 @@ amp_heatmap <- function(data,
     if (!is.null(color_vector)){
       color.pal = color_vector
     } else {
-      color.pal = rev(brewer.pal(3, "RdBu"))
+      color.pal = rev(RColorBrewer::brewer.pal(3, "RdBu"))
     }
     
     if (plot_values == TRUE){
@@ -424,10 +427,10 @@ amp_heatmap <- function(data,
         theme(legend.position = "none")
     }
     if (is.null(plot_legendbreaks)){
-      heatmap <- heatmap +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, na.value=plot_na, oob = squish, limits = c(min_abundance, max_abundance))
+      heatmap <- heatmap +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, na.value=plot_na, oob = scales::squish, limits = c(min_abundance, max_abundance))
     }
     if (!is.null(plot_legendbreaks)){
-      heatmap <- heatmap +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, breaks=plot_legendbreaks, na.value=plot_na , oob = squish, limits = c(min_abundance, max_abundance))
+      heatmap <- heatmap +scale_fill_gradientn(colours = color.pal, trans = plot_colorscale, breaks=plot_legendbreaks, na.value=plot_na , oob = scales::squish, limits = c(min_abundance, max_abundance))
     }
     
     

@@ -21,10 +21,18 @@
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
+#' 
+#' @import ggplot2
+#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by mutate summarise
+#' @importFrom tidyr gather
+#' @importFrom data.table as.data.table setkey
+#' 
 #' @import dplyr
 #' @import ggplot2
 #' @import tidyr
 #' @import data.table
+#' 
 #' @export
 #' 
 #' @section Preserving relative abundances in a subset of larger data:

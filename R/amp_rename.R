@@ -16,7 +16,9 @@
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' 
-#' @import dplyr
+#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate
+#' 
 #' @export
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}

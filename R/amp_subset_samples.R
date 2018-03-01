@@ -11,9 +11,10 @@
 #' @param removeAbsents (\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})
 #' 
 #' @return A modifed ampvis2 object
-#' @import dplyr
-#' @import ape
-#' @import stringr
+#' 
+#' @importFrom magrittr %>%
+#' @importFrom stringr str_split
+#' 
 #' @export
 #' 
 #' @details The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly.

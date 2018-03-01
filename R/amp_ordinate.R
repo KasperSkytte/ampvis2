@@ -98,15 +98,16 @@
 #'              distmeasure = "none")
 #' }
 #' 
-#' @export
-#' 
 #' @import ggplot2
-#' @import vegan
-#' @import dplyr
-#' @import ggrepel
-#' @import ape
-#' @import plotly
-#' @import GUniFrac
+#' @importFrom magrittr %>%
+#' @importFrom dplyr arrange group_by summarise desc
+#' @importFrom plotly ggplotly
+#' @importFrom GUniFrac GUniFrac
+#' @importFrom ggrepel geom_text_repel
+#' @importFrom ape pcoa
+#' @importFrom vegan cca decorana decostand envfit metaMDS rda scores vegdist
+#' 
+#' @export
 #' 
 #' @references
 #'   GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): \url{https://mb3is.megx.net/gustame}

@@ -14,9 +14,10 @@
 #' @param ... Additional arguments passed to \code{\link{write.table}} other than \code{sep} and \code{row.names}.
 #' 
 #' @export
-#' @import dplyr
-#' @import digest
-#' @import stringr
+#' 
+#' @importFrom magrittr %>%
+#' @importFrom dplyr arrange mutate select desc everything
+#' @importFrom digest digest
 #' 
 #' @examples 
 #' #Load example data

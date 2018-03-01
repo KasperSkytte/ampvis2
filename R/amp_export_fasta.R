@@ -9,8 +9,8 @@
 #' @param tax (\emph{logical}) Add taxonomic strings to the output or not. (\emph{default:} \code{TRUE})
 #' @param ... Additional arguments directly passed to \code{\link[ape]{write.dna}}.
 #' 
-#' @import ape
-#' @import stringr
+#' @importFrom ape write.dna
+#' @importFrom stringr str_detect str_split
 #' @export
 #' 
 #' @examples 
