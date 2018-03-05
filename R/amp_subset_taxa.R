@@ -6,7 +6,7 @@
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param tax_vector (required) A vector with the taxonomic groups with which to perform the subset. The prefixes \code{"k__"}, \code{"p__"}, \code{"c__"}, \code{"o__"}, \code{"f__"}, \code{"g__"}, \code{"s__"} indicates their taxonomic rank and the following characters their name (almost always with a capital first letter), e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.
-#' @param normalise (\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})
+#' @param normalise (\emph{logical}) \code{BEFORE} the subset, transform the OTU read counts to be in percent per sample. (\emph{default:} \code{FALSE})
 #' @param remove (\emph{logical}) If set to TRUE, then the taxa matching the provided vector will be removed instead of being the only ones kept in the data. (\emph{default:} \code{FALSE})
 #' 
 #' @return A modifed ampvis2 object
@@ -89,15 +89,22 @@ amp_subset_taxa <- function(data,
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
   ### Check if refseq data is in the right format
   if(!is.null(data$refseq) & !class(data$refseq) == "DNAbin") {
-    stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().")
+    stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().", call. = FALSE)
   }
   
+  nOTUsbefore <- nrow(data$abund) %>% as.numeric()
+  
   ### calculate percentages 
-  if (normalise) {
+  if (isTRUE(normalise)) {
+    if(isTRUE(attributes(data)$normalised))
+      warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
+    #create a temporary abund object for calculating raw read stats that are NOT normalised but subsetted in the same way as data$abund
+    tempabund <- data$abund
+    
     #calculate sample percentages, skip columns with 0 sum to avoid NaN's
     data$abund[,which(colSums(data$abund) != 0)] <- as.data.frame(apply(data$abund[,which(colSums(data$abund) != 0), drop = FALSE], 2, function(x) x/sum(x)*100))
     attributes(data)$normalised <- TRUE
@@ -122,8 +129,28 @@ amp_subset_taxa <- function(data,
   }
   data$abund <- data$abund[rownames(data$tax),]
   
+  if (isTRUE(normalise)) {
+    tempabund <- tempabund[which(rownames(tempabund) %in% rownames(data$abund)),, drop = FALSE]
+    #calculate basic stats and store in attributes for use in print.ampvis2
+    attributes(data)$readstats <- list(
+      "Total#Reads" = as.character(sum(tempabund)),
+      "Min#Reads" = as.character(min(colSums(tempabund))),
+      "Max#Reads" = as.character(max(colSums(tempabund))),
+      "Median#Reads" = as.character(median(colSums(tempabund))),
+      "Avg#Reads" = as.character(round(mean(colSums(tempabund)), digits = 2))
+    )
+  }
+  
   if (any(names(data) == "refseq")) {
     data$refseq <- data$refseq[rownames(data$tax)]
   }
+  
+  nOTUsafter <- nrow(data$abund) %>% as.numeric()
+  if (nOTUsbefore == nOTUsafter) {
+    message("0 OTU's have been filtered.")
+  } else {
+    message(paste(nOTUsbefore-nOTUsafter,"OTUs have been filtered \nBefore:", nOTUsbefore, "OTUs\nAfter:", nOTUsafter, "OTUs"))
+  }
+  
   return(data)
 }

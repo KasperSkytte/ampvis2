@@ -32,16 +32,16 @@ amp_export_fasta <- function(data,
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
   ### Reference sequences must be there!
   if(is.null(data$refseq)) {
-    stop("No \"refseq\" element in the provided data.")
+    stop("No \"refseq\" element in the provided data.", call. = FALSE)
   }
   
   ### Check if refseq data is in the right format
   if(!is.null(data$refseq) & !class(data$refseq) == "DNAbin") {
-    stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().")
+    stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().", call. = FALSE)
   }
   
   t <- data[["refseq"]]

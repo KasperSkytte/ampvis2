@@ -24,7 +24,7 @@ amp_frequency(data)
 
 \item{weight}{(\emph{logical}) Weight the frequency by abundance. (\emph{default:} \code{TRUE})}
 
-\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
+\item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
 
 \item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }

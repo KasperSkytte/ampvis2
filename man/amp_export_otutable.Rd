@@ -19,7 +19,7 @@ amp_export_otutable(data)
 
 \item{sort_samples}{Vector to sort the samples by.}
 
-\item{raw}{(\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{TRUE})}
+\item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{FALSE})}
 
 \item{...}{Additional arguments passed to \code{\link{write.table}} other than \code{sep} and \code{row.names}.}
 }

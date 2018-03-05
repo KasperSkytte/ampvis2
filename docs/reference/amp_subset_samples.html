@@ -18,6 +18,8 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,10 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="Subset ampvis2 objects based on sample metadata — amp_subset_samples" />
+
+<meta property="og:description" content="Subsets the data in ampvis2 objects based on metadata and returns the subsetted object." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -109,7 +115,7 @@
     </tr>
     <tr>
       <th>normalise</th>
-      <td><p>(<em>logical</em>) Normalise the read abundances to the total amount of reads (percentages) <em>BEFORE</em> the subset. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample <code>AFTER</code> the OTU's have been removed by the <code>minreads</code> argument. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>removeAbsents</th>
@@ -128,7 +134,7 @@
     <h2 class="hasAnchor" id="preserving-relative-abundances-in-a-subset-of-larger-data"><a class="anchor" href="#preserving-relative-abundances-in-a-subset-of-larger-data"></a>Preserving relative abundances in a subset of larger data</h2>
 
     
-    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code><a href='amp_heatmap.html'>amp_heatmap</a></code>, <code><a href='amp_timeseries.html'>amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code>amp_subset_samples</code> functions, and then set <code>raw = TRUE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>raw = TRUE</code> will skip the transformation in the plotting function, see the example below.</p><pre>
+    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code><a href='amp_heatmap.html'>amp_heatmap</a></code>, <code><a href='amp_timeseries.html'>amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code>amp_subset_samples</code> functions, and then set <code>normalise = FALSE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>normalise = FALSE</code> will skip the transformation in the plotting function, see the example below.</p><pre>
 data("MiDAS")
 subsettedData &lt;- amp_subset_samples(MiDAS,
                                     Plant %in% c("Aalborg West", "Aalborg East"),
@@ -138,7 +144,7 @@ amp_heatmap(subsettedData,
             group_by = "Plant",
             tax_aggregate = "Phylum",
             tax_add = "Genus",
-            raw = TRUE
+            normalise = FALSE
             )
 </pre>
     
@@ -153,7 +159,7 @@ amp_heatmap(subsettedData,
 
 <span class='co'>#Show a short summary about the data by simply typing the name of the object in the console</span>
 <span class='no'>MiDAS</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements.
-#&gt; Summary of OTU table:
+#&gt;  Summary of OTU table:
 #&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;          658        14969     20890850        10480        46264        31800 
 #&gt;    Avg#Reads 
@@ -173,7 +179,7 @@ amp_heatmap(subsettedData,
 #&gt; <span class='message'>After: 68 samples and 9457 OTUs</span></div><div class='input'>
 <span class='co'>#Summary</span>
 <span class='no'>MiDASsubset</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements.
-#&gt; Summary of OTU table:
+#&gt;  Summary of OTU table:
 #&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;           68         9457      2072678        17772        44326      30962.5 
 #&gt;    Avg#Reads 
@@ -196,7 +202,7 @@ amp_heatmap(subsettedData,
 #&gt; <span class='message'>After: 64 samples and 9368 OTUs</span></div><div class='input'>
 <span class='co'>#Summary</span>
 <span class='no'>MiDASsubset2</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements.
-#&gt; Summary of OTU table:
+#&gt;  Summary of OTU table:
 #&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;           64         9368      1987574        21472        44326      31413.5 
 #&gt;    Avg#Reads 
@@ -243,7 +249,7 @@ Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -251,3 +257,4 @@ Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.
 
   </body>
 </html>
+

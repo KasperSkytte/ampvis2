@@ -10,7 +10,7 @@
 #' @param sep Separator passed directly to \code{\link{write.table}}. (\emph{default:} \code{"\t"})
 #' @param id Name the samples using a variable in the metadata.
 #' @param sort_samples Vector to sort the samples by.
-#' @param raw (\emph{logical}) Use raw counts instead of percentages. (\emph{default:} \code{TRUE})
+#' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{FALSE})
 #' @param ... Additional arguments passed to \code{\link{write.table}} other than \code{sep} and \code{row.names}.
 #' 
 #' @export
@@ -37,34 +37,35 @@ amp_export_otutable <- function(data,
                                 sep = "\t",
                                 id = NULL, 
                                 sort_samples = NULL, 
-                                raw = TRUE,
+                                normalise = FALSE,
                                 ...){
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
   abund <- data[["abund"]]
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
   
-  if (raw == F){
+  if (isTRUE(normalise)){
+    if(isTRUE(attributes(data)$normalised))
+      warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
     #calculate sample percentages, skip columns with 0 sum to avoid NaN's
     abund[,which(colSums(abund) != 0)] <- as.data.frame(apply(abund[,which(colSums(abund) != 0), drop = FALSE], 2, function(x) x/sum(x)*100))
     rownames(abund) <- rownames(data[["abund"]])
   }
   
   if(!is.null(id)){
-    
     ## Test if the ID exists in the metadata
     if( !(id %in% colnames(metadata)) ){
       ametadata <- paste(colnames(metadata), collapse = ", ")
-      stop(paste(id, "not found in metadata.\n\nAvailable metadata is: ", ametadata))
+      stop(paste(id, "not found in metadata.\n\nAvailable metadata is: ", ametadata), call. = FALSE)
     } 
     
     ## Test if the ID is unique for each sample
     if( length(unique(metadata[,id])) != length(colnames(abund)) ){
-      stop(paste(id, "is not unique for each sample"))
+      stop(paste(id, "is not unique for each sample"), call. = FALSE)
     } 
 
     ## Re-arrange after coloumns after metadata
@@ -79,7 +80,7 @@ amp_export_otutable <- function(data,
  
     ## Test if the ID is unique for each sample
     if( length(sort_samples) != length(colnames(abund)) ){
-      stop(paste("`sort_samples` does not match `id`"))
+      stop(paste("`sort_samples` does not match `id`"), call. = FALSE)
     } 
       
     abund <- abund[,sort_samples]

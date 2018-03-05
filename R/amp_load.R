@@ -91,7 +91,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   
   #check tree
   if(!is.null(tree) & !class(tree) == "phylo") {
-    stop("The provided phylogenetic tree must be of class \"phylo\" as loaded with the ape::read.tree() function.")
+    stop("The provided phylogenetic tree must be of class \"phylo\" as loaded with the ape::read.tree() function.", call. = FALSE)
   }
   
   ### OTU-table, check for OTU ID's
@@ -100,7 +100,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
     rownames(otutable) <- as.character(otutable[,otucolid])
     otutable <- otutable[,-otucolid]
   } else if (all(rownames(otutable) %in% c(1:nrow(otutable))) & !any(tolower(colnames(otutable)) == "otu")) {
-    stop("Cannot find OTU ID's. Make sure they are provided as rownames or in a column called \"OTU\".")
+    stop("Cannot find OTU ID's. Make sure they are provided as rownames or in a column called \"OTU\".", call. = FALSE)
   }
   
   #create dummy metadata if none provided
@@ -109,7 +109,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   } else if (is.null(metadata)) {
     metadata <- data.frame("SampleID" = colnames(otutable[,1:(ncol(otutable) - 7), drop = FALSE]), check.names = FALSE,
                            "DummyVariable" = "All samples")
-    warning("No sample metadata provided, creating dummy metadata.\n")
+    warning("No sample metadata provided, creating dummy metadata.\n", call. = FALSE)
   }
   rownames(metadata) <- as.character(metadata[,1])
   
@@ -123,7 +123,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
     stop(paste("The last 7 columns in the OTU-table must be the taxonomy (Kingdom->Species) and named accordingly\nCurrent:", 
                paste(tax.names, collapse = ", "), 
                "\nExpected:", 
-               paste(expected.tax, collapse =", ")))
+               paste(expected.tax, collapse =", ")), call. = FALSE)
   }
   
   ### Remove whitespace from the otutable as this will break the structure of the taxonomy
@@ -147,7 +147,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   if(!all(rownames(metadata) %in% colnames(abund)) | !all(colnames(abund) %in% rownames(metadata))) {
     if (!any(colnames(abund) %in% rownames(metadata))) {
       # No samples match
-      stop("No sample names match between metadata and otutable. Check that you have loaded matching files and that they meet the requirements described in ?amp_load(). Remember to use check.names = FALSE when loading the files.")
+      stop("No sample names match between metadata and otutable. Check that you have loaded matching files and that they meet the requirements described in ?amp_load(). Remember to use check.names = FALSE when loading the files.", call. = FALSE)
     } else {
       #Find matching samples between otutable and metadata
       sharedSamples <- dplyr::intersect(colnames(abund), rownames(metadata))
@@ -165,7 +165,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
       warning("Only ", ncol(abund0), " of ", length(unique(c(rownames(metadata), colnames(abund)))), 
               " unique sample names match between metadata and otutable. The following unmatched samples have been removed:", 
               ifelse(length(metadataUniques) > 0, paste0("\nmetadata (", length(metadataUniques), "): \n\t\"", paste(metadataUniques, collapse = "\", \""), "\""), ""),
-              ifelse(length(abundUniques) > 0, paste0("\notutable (", length(abundUniques), "): \n\t\"", paste(abundUniques, collapse = "\", \""), "\""), ""))
+              ifelse(length(abundUniques) > 0, paste0("\notutable (", length(abundUniques), "): \n\t\"", paste(abundUniques, collapse = "\", \""), "\""), ""), call. = FALSE)
     }
   } 
   
@@ -188,6 +188,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
     data[["tree"]] <- tree
   }
   
-  class(data) <- "ampvis2" #Our own "ampvis2" class, yay!
+  attributes(data)$normalised = FALSE
+  class(data) <- "ampvis2"
   return(data)
 }

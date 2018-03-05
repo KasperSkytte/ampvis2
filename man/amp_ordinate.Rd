@@ -33,7 +33,7 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
  }
 You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}.}
 
-\item{transform}{(\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). (\emph{default:} \code{"hellinger"})}
+\item{transform}{(\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (\emph{default:} \code{"hellinger"})}
 
 \item{constrain}{(\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.}
 
@@ -87,13 +87,15 @@ You can also write your own math formula, see details in \code{\link[vegan]{vegd
 
 \item{envfit_numeric}{A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in \code{\link[vegan]{envfit}}.}
 
-\item{envfit_signif_level}{The significance threshold for displaying the results of \code{envfit_factor} or \code{envfit_numeric}. (\emph{default:} \code{0.001})}
+\item{envfit_signif_level}{The significance threshold for displaying the results of \code{envfit_factor} or \code{envfit_numeric}. (\emph{default:} \code{0.005})}
 
 \item{envfit_textsize}{Size of the envfit text on the plot. (\emph{default:} \code{3})}
 
-\item{envfit_color}{Color of the envfit text on the plot. (\emph{default:} \code{"darkred"})}
+\item{envfit_textcolor}{Color of the envfit text on the plot. (\emph{default:} \code{"darkred"})}
 
 \item{envfit_numeric_arrows_scale}{Scale the size of the numeric arrows. (\emph{default:} \code{1})}
+
+\item{envfit_arrowcolor}{Color of the envfit arrows on the plot. (\emph{default:} \code{"darkred"})}
 
 \item{envfit_show}{(\emph{logical}) Show the results on the plot or not. (\emph{default:} \code{TRUE})}
 

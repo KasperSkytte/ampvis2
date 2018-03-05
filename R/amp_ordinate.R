@@ -26,7 +26,7 @@
 #'   \item or \code{"none"}. (\emph{default})
 #'  }
 #' You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}.
-#' @param transform (\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). (\emph{default:} \code{"hellinger"})
+#' @param transform (\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (\emph{default:} \code{"hellinger"})
 #' @param constrain (\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.
 #' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})
 #' @param y_axis Which axis from the ordination results to plot as the second axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{2})
@@ -55,10 +55,11 @@
 #' 
 #' @param envfit_factor A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in \code{\link[vegan]{envfit}}.
 #' @param envfit_numeric A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in \code{\link[vegan]{envfit}}.
-#' @param envfit_signif_level The significance threshold for displaying the results of \code{envfit_factor} or \code{envfit_numeric}. (\emph{default:} \code{0.001})
+#' @param envfit_signif_level The significance threshold for displaying the results of \code{envfit_factor} or \code{envfit_numeric}. (\emph{default:} \code{0.005})
 #' @param envfit_textsize Size of the envfit text on the plot. (\emph{default:} \code{3})
-#' @param envfit_color Color of the envfit text on the plot. (\emph{default:} \code{"darkred"})
+#' @param envfit_textcolor Color of the envfit text on the plot. (\emph{default:} \code{"darkred"})
 #' @param envfit_numeric_arrows_scale Scale the size of the numeric arrows. (\emph{default:} \code{1})
+#' @param envfit_arrowcolor Color of the envfit arrows on the plot. (\emph{default:} \code{"darkred"})
 #' @param envfit_show (\emph{logical}) Show the results on the plot or not. (\emph{default:} \code{TRUE})
 #' 
 #' @param repel_labels (\emph{logical}) Repel all labels to prevent cluttering of the plot. (\emph{default:} \code{TRUE})
@@ -173,10 +174,11 @@ amp_ordinate <- function(data,
                         species_plotly = FALSE,
                         envfit_factor = NULL,
                         envfit_numeric = NULL,
-                        envfit_signif_level = 0.001, 
+                        envfit_signif_level = 0.005, 
                         envfit_textsize = 3,
-                        envfit_color = "darkred", 
+                        envfit_textcolor = "darkred", 
                         envfit_numeric_arrows_scale = 1, 
+                        envfit_arrowcolor = "darkred",
                         envfit_show = TRUE, 
                         repel_labels = TRUE, 
                         opacity = 0.8, 
@@ -186,11 +188,11 @@ amp_ordinate <- function(data,
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
   ##### Sanity check of options  ##### 
   if(species_plotly == TRUE & !is.null(sample_plotly)){
-    stop("You can not use plotly for both species and samples in the same plot.")
+    stop("You can not use plotly for both species and samples in the same plot.", call. = FALSE)
   }
   if(species_plotly == TRUE | !is.null(sample_plotly)){
     #message("geom_text_repel is not supported by plotly yet.")
@@ -199,7 +201,7 @@ amp_ordinate <- function(data,
   
   #Impossible to do ordination with 1 or 2 samples
   if(length(unique(data$metadata[,1])) <= 2)
-    stop("Ordination cannot be performed on 2 or fewer samples (the number of resulting axes will always be n-1, where n is the number of samples).")
+    stop("Ordination cannot be performed on 2 or fewer samples (the number of resulting axes will always be n-1, where n is the number of samples).", call. = FALSE)
   
   if(is.null(sample_color_by) & !is.logical(sample_colorframe) & !is.null(sample_colorframe)) {
     sample_color_by <- sample_colorframe
@@ -211,7 +213,8 @@ amp_ordinate <- function(data,
   ##### Filter ##### 
   if(filter_species != 0) {
     #First transform to percentages
-    abund_pct <- as.data.frame(sapply(data$abund, function(x) x/sum(x) * 100))
+    abund_pct <- data$abund
+    abund_pct[,which(colSums(abund_pct) != 0)] <- as.data.frame(apply(abund_pct[,which(colSums(abund_pct) != 0), drop = FALSE], 2, function(x) x/sum(x)*100))
     rownames(abund_pct) <- rownames(data$abund) #keep rownames
     
     #Then filter low abundant OTU's where ALL samples have below the threshold set with filter_species in percent
@@ -235,7 +238,7 @@ amp_ordinate <- function(data,
   ##### Inputmatrix AFTER transformation  ##### 
   if (any(type == c("nmds", "mmds", "pcoa", "dca"))) {
     if(!type == "nmds" & (species_plot == TRUE | species_plotly == TRUE)) {
-      stop("No speciesscores available with mMDS/PCoA, DCA.")
+      stop("No speciesscores available with mMDS/PCoA, DCA.", call. = FALSE)
     }
     if (!distmeasure == "none") {
       #Calculate distance matrix with vegdist()
@@ -275,7 +278,7 @@ amp_ordinate <- function(data,
       } else if (distmeasure == "unifrac") {
         #no tree no unifrac
         if(!any(names(data) == "tree")) {
-          stop("No phylogenetic tree in the provided data.")
+          stop("No phylogenetic tree in the provided data.", call. = FALSE)
         }
         message("Calculating unweighted generalized UniFrac distances... ")
         unifracs <- suppressWarnings(GUniFrac::GUniFrac(t(data$abund), data$tree, alpha = 0.5)$unifracs)
@@ -286,7 +289,7 @@ amp_ordinate <- function(data,
       } else if (distmeasure == "wunifrac") {
         #no tree no unifrac
         if(!any(names(data) == "tree")) {
-          stop("No phylogenetic tree in the provided data.")
+          stop("No phylogenetic tree in the provided data.", call. = FALSE)
         }
         message("Calculating weighted generalized UniFrac distances (alpha=0.5)... ")
         unifracs <- suppressWarnings(GUniFrac::GUniFrac(t(data$abund), data$tree, alpha = 0.5)$unifracs)
@@ -296,12 +299,12 @@ amp_ordinate <- function(data,
           as.data.frame()
       }
     } else if (distmeasure == "none") {
-      warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure.")
+      warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure.", call. = FALSE)
       inputmatrix <- t(data$abund)
     }
     
     if (transform != "none" & distmeasure != "none") {
-      warning("Using both transformation AND a distance measure is not recommended for distance-based ordination (nMDS/PCoA/DCA). If this is not deliberate, consider transform = \"none\".")
+      warning("Using both transformation AND a distance measure is not recommended for distance-based ordination (nMDS/PCoA/DCA). If this is not deliberate, consider transform = \"none\".", call. = FALSE)
     }
   } else if(any(type == c("pca", "rda", "ca", "cca"))) {
     inputmatrix <- t(data$abund)
@@ -325,7 +328,7 @@ amp_ordinate <- function(data,
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if(type == "rda") {
     if(is.null(constrain)) 
-      stop("Argument constrain must be provided when performing constrained/canonical analysis.")
+      stop("Argument constrain must be provided when performing constrained/canonical analysis.", call. = FALSE)
     #make the model
     codestring <- paste0("rda(inputmatrix~", paste(constrain, collapse = "+"), ", data$metadata, ...)") #function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
     model <-  eval(parse(text = codestring))
@@ -373,7 +376,7 @@ amp_ordinate <- function(data,
     if(!length(model$species) > 1) {
       speciesscores <- NULL
       if(species_plot == TRUE | species_plotly == TRUE) {
-        stop("Speciesscores are not available.")
+        stop("Speciesscores are not available.", call. = FALSE)
       }
     } else {
       speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
@@ -411,7 +414,7 @@ amp_ordinate <- function(data,
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if(type == "cca") {
     if(is.null(constrain)) 
-      stop("Argument constrain must be provided when performing constrained/canonical analysis.")
+      stop("Argument constrain must be provided when performing constrained/canonical analysis.", call. = FALSE)
     #make the model
     codestring <- paste0("cca(inputmatrix~", paste(constrain, collapse = "+"), ", data$metadata, ...)") #function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
     model <-  eval(parse(text = codestring))
@@ -488,7 +491,7 @@ amp_ordinate <- function(data,
   ##### Colorframe  ##### 
   if(!sample_colorframe == FALSE) {
     if(is.null(sample_color_by) & sample_colorframe == TRUE)
-      stop("Applying a colorframe to the sample points requires a variable in the metadata to be provided by the argument sample_colorframe, or by sample_color_by if the former is only TRUE.")
+      stop("Applying a colorframe to the sample points requires a variable in the metadata to be provided by the argument sample_colorframe, or by sample_color_by if the former is only TRUE.", call. = FALSE)
     if(sample_colorframe == TRUE) {
       splitData <- base::split(plot$data, plot$data[, sample_color_by]) %>% 
         lapply(function(df) {
@@ -642,11 +645,11 @@ amp_ordinate <- function(data,
                                   pval = evf_factor_model$factors$pvals
     ) %>% subset(pval <= envfit_signif_level)
     if (nrow(evf_factor_data) > 0 & envfit_show == TRUE) {
-      if (repel_labels == T){plot <- plot + ggrepel::geom_text_repel(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_color, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
-      else{plot <- plot + geom_text(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_color, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
+      if (repel_labels == T){plot <- plot + ggrepel::geom_text_repel(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_textcolor, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
+      else{plot <- plot + geom_text(data = evf_factor_data,aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_textcolor, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")}
     }
     if (nrow(evf_factor_data) == 0) {
-      warning("No environmental variables fit below the chosen significant level.")
+      warning("No environmental variables fit below the chosen significant level.", call. = FALSE)
     }
   } else {
     evf_factor_model <- NULL
@@ -671,14 +674,14 @@ amp_ordinate <- function(data,
                                              yend = y_axis_name
                                   ),
                                   arrow = arrow(length = unit(3, "mm")),
-                                  colour = "darkred",
+                                  colour = envfit_arrowcolor,
                                   size = 1,
                                   inherit.aes = FALSE) + 
         geom_text(data = evf_numeric_data,
                   aes_string(x = x_axis_name,
                              y = y_axis_name,
                              label = "Name"),
-                  colour = envfit_color,
+                  colour = envfit_textcolor,
                   inherit.aes = FALSE,
                   size = envfit_textsize,
                   hjust = 1.2,
@@ -687,7 +690,7 @@ amp_ordinate <- function(data,
         )
     } 
     if (nrow(evf_numeric_data) == 0) {
-      warning("No environmental variables fit below the chosen significant level.")
+      warning("No environmental variables fit below the chosen significant level.", call. = FALSE)
     }
   } else {
     evf_numeric_model <- NULL

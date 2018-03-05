@@ -18,6 +18,8 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,10 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="Abundance timeseries — amp_timeseries" />
+
+<meta property="og:description" content="Generates a timeseries plot showing relative read abundances over time." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -101,7 +107,7 @@
     </tr>
     <tr>
       <th>time_variable</th>
-      <td><p>(required) The name of the column in the metadata containing the time variables, e.g. <code>"Date"</code>. Must be directly compatible with <code><a href='http://www.rdocumentation.org/packages/lubridate/topics/as_date'>as_date</a></code> and preferably of the form <code>"yyyy-mm-dd"</code> or <code>"%Y-%m-%d"</code>.</p></td>
+      <td><p>(required) The name of the column in the metadata containing the time variables, e.g. <code>"Date"</code>. Must be directly compatible with <code><a href='http://lubridate.tidyverse.org/reference/as_date.html'>as_date</a></code> and preferably of the form <code>"yyyy-mm-dd"</code> or <code>"%Y-%m-%d"</code>.</p></td>
     </tr>
     <tr>
       <th>group_by</th>
@@ -136,8 +142,8 @@
       <td><p>Split the plot into subplots of each taxa. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
-      <th>raw</th>
-      <td><p>(<em>logical</em>) Display raw input instead of converting to percentages. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <th>normalise</th>
+      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></td>
     </tr>
     <tr>
       <th>plotly</th>
@@ -145,7 +151,7 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed to <code><a href='http://www.rdocumentation.org/packages/lubridate/topics/as_date'>as_date</a></code> to make the time_variable compatible with the timeseries plot, fx the <code>format</code> or <code>tz</code> arguments, see <code>?as_date</code>.</p></td>
+      <td><p>Additional arguments passed to <code><a href='http://lubridate.tidyverse.org/reference/as_date.html'>as_date</a></code> to make the time_variable compatible with the timeseries plot, fx the <code>format</code> or <code>tz</code> arguments, see <code>?as_date</code>.</p></td>
     </tr>
     </table>
     
@@ -168,7 +174,7 @@
 <span class='fu'>amp_timeseries</span>(<span class='no'>AalborgWWTPs</span>,
                <span class='kw'>time_variable</span> <span class='kw'>=</span> <span class='st'>"Date"</span>,
                <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"OTU"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Duplicate dates in column Date, displaying the average for each date.</span>
-#&gt; <span class='warning'> Consider grouping dates using the group_by argument or subset the data using amp_subset_samples.</span></div><div class='img'><img src='amp_timeseries-7.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+#&gt; <span class='warning'> Consider grouping dates using the group_by argument or subset the data using amp_subset_samples.</span></div><div class='img'><img src='amp_timeseries-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#As the above warning suggests, there are more than one sample per date in the data,</span>
 <span class='co'>#in this case one from Aalborg East and one from Aalborg West. The average of the </span>
 <span class='co'>#two samples is then shown per date. In such case it is then recommended to either </span>
@@ -180,7 +186,7 @@
                <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
                <span class='kw'>tax_show</span> <span class='kw'>=</span> <span class='fl'>6</span>,
                <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
-               <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>)</div><div class='img'><img src='amp_timeseries-8.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+               <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>)</div><div class='img'><img src='amp_timeseries-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -210,7 +216,7 @@ Kasper Skytte Andersen <a href='mailto:kasperskytteandersen@gmail.com'>kaspersky
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -218,3 +224,4 @@ Kasper Skytte Andersen <a href='mailto:kasperskytteandersen@gmail.com'>kaspersky
 
   </body>
 </html>
+

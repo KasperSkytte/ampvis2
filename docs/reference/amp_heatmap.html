@@ -18,6 +18,8 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,10 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="Heatmap — amp_heatmap" />
+
+<meta property="og:description" content="Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -192,8 +198,8 @@
       <td><p>Number of digits to show with the values. (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     <tr>
-      <th>raw</th>
-      <td><p>(<em>logical</em>) Display raw input instead of converting to percentages. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <th>normalise</th>
+      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></td>
     </tr>
     <tr>
       <th>textmap</th>
@@ -228,7 +234,7 @@
     <h2 class="hasAnchor" id="preserving-relative-abundances-in-a-subset-of-larger-data"><a class="anchor" href="#preserving-relative-abundances-in-a-subset-of-larger-data"></a>Preserving relative abundances in a subset of larger data</h2>
 
     
-    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code><a href='amp_timeseries.html'>amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> functions, and then set <code>raw = TRUE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>raw = TRUE</code> will skip the transformation in the plotting function, see the example below.</p><pre>
+    <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code><a href='amp_timeseries.html'>amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> functions, and then set <code>normalise = FALSE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>normalise = FALSE</code> will skip the transformation in the plotting function, see the example below.</p><pre>
 data("MiDAS")
 subsettedData &lt;- amp_subset_samples(MiDAS,
                                     Plant %in% c("Aalborg West", "Aalborg East"),
@@ -238,7 +244,7 @@ amp_heatmap(subsettedData,
             group_by = "Plant",
             tax_aggregate = "Phylum",
             tax_add = "Genus",
-            raw = TRUE
+            normalise = FALSE
             )
 </pre>
     
@@ -253,7 +259,7 @@ amp_heatmap(subsettedData,
 <span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'>#Heatmap grouped by WWTP</span>
-<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-10.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year, </span>
 <span class='co'>#values not plotted for visibility, phylum name added and colorscale adjusted manually</span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
@@ -266,14 +272,14 @@ amp_heatmap(subsettedData,
            <span class='kw'>color_vector</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"white"</span>, <span class='st'>"red"</span>),
            <span class='kw'>plot_colorscale</span> <span class='kw'>=</span> <span class='st'>"sqrt"</span>,
            <span class='kw'>plot_legendbreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>)
-           )</div><div class='img'><img src='amp_heatmap-11.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+           )</div><div class='img'><img src='amp_heatmap-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#Heatmap with known functional information about the Genera shown to the right</span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
             <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
             <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
             <span class='kw'>plot_functions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
             <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>)
-            )</div><div class='img'><img src='amp_heatmap-12.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+            )</div><div class='img'><img src='amp_heatmap-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'>#A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:</span>
 <span class='no'>textmap</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
                        <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
@@ -324,7 +330,7 @@ Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -332,3 +338,4 @@ Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.
 
   </body>
 </html>
+

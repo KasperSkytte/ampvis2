@@ -30,7 +30,7 @@ amp_timeseries(data, time_variable = "")
 
 \item{split}{Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE})}
 
-\item{raw}{(\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})}
+\item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
 
 \item{plotly}{(\emph{logical}) Returns an interactive plot instead. (\emph{default:} \code{FALSE})}
 

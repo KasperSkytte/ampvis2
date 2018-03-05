@@ -9,7 +9,7 @@
 #' @param cut_a Abundance cutoff in percent. (\emph{default:} \code{0.1})
 #' @param cut_f Frequency cutoff in percent. (\emph{default:} \code{80})
 #' @param text_size Size of the plotted text. (\emph{default:} \code{5})
-#' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE}) 
+#' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
 #' @return A ggplot2 object.
@@ -39,12 +39,12 @@ amp_venn <- function(data,
                      cut_a = 0.1, 
                      cut_f = 80, 
                      text_size = 5, 
-                     raw = FALSE,
+                     normalise = TRUE,
                      detailed_output = FALSE){
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
@@ -52,7 +52,9 @@ amp_venn <- function(data,
   OTU <- data[["tax"]]["OTU"]
   metadata <- data[["metadata"]]
   
-  if (raw == F){
+  if (isTRUE(normalise)){
+    if(isTRUE(attributes(data)$normalised))
+      warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
     #calculate sample percentages, skip columns with 0 sum to avoid NaN's
     abund[,which(colSums(abund) != 0)] <- as.data.frame(apply(abund[,which(colSums(abund) != 0), drop = FALSE], 2, function(x) x/sum(x)*100))
   }
@@ -60,7 +62,7 @@ amp_venn <- function(data,
   ## Test for number of groups
   if (length(levels(metadata[,group_by])) > 3){
     stop(paste("Only up to 3 different groups in the group_by variable is supported. The chosen group_by variable has", as.character(length(unique(metadata[,group_by]))), "different groups:\n",
-               paste(unique(as.character(metadata[,group_by])), collapse = ", ")))
+               paste(unique(as.character(metadata[,group_by])), collapse = ", ")), call. = FALSE)
   }
   
   ## Select grouping variable
@@ -112,8 +114,8 @@ amp_venn <- function(data,
     ## Plot  
     p <- ggplot(data.frame(), aes(x=0, y=0)) +
            annotate("text", x=c(0, 0), y = c(0,-0.5), 
-                    label = c(paste(AD[1,1], "\n(", AD[1,2],if_else(raw == TRUE, "", "%"),")", sep = ""), 
-                            paste("Non-core: ", AD[2,1]," (", AD[2,2],if_else(raw == TRUE, "", "%"),")", sep = "")), 
+                    label = c(paste(AD[1,1], "\n(", AD[1,2],if_else(normalise == FALSE, "", "%"),")", sep = ""), 
+                            paste("Non-core: ", AD[2,1]," (", AD[2,2],if_else(normalise == FALSE, "", "%"),")", sep = "")), 
                     size = text_size) +
            annotate("text", x=c(0), y = 0.45, label = colnames(a)[2], size = text_size) +
            xlim(-0.65,0.65) +
@@ -167,8 +169,8 @@ amp_venn <- function(data,
     
     p <- ggplot(data.frame(), aes(x=c(-0.2,0.2), y=0)) +
            annotate("text", x=c(-0.4, 0, 0.4, 0), y = c(0,0,0,-0.5), 
-                    label = c(paste(AD[1:3,1], "\n(", AD[1:3,2],if_else(raw == TRUE, "", "%"),")", sep = ""), 
-                              paste("Non-core: ", AD[4,1]," (", AD[4,2],if_else(raw == TRUE, "", "%"),")", sep = "")), 
+                    label = c(paste(AD[1:3,1], "\n(", AD[1:3,2],if_else(normalise == FALSE, "", "%"),")", sep = ""), 
+                              paste("Non-core: ", AD[4,1]," (", AD[4,2],if_else(normalise == FALSE, "", "%"),")", sep = "")), 
                     size = text_size) +
            annotate("text", x=c(-0.2, 0.2), y = 0.45, label = colnames(a)[2:3], size = text_size) +
            xlim(-0.65,0.65) +
@@ -244,8 +246,8 @@ amp_venn <- function(data,
     
     p <- ggplot(data.frame(), aes(x=c(-0.2,0.2), y=0)) +
       annotate("text", x=c(0, 0, -0.25, 0.25, -0.4, 0.4, 0, 0.5), y = c(0.05, 0.4, -0.05, -0.05, 0.3, 0.3, -0.3, -0.6), 
-               label = c(paste(AD[1:7,1], "\n(", AD[1:7,2],if_else(raw == TRUE, "", "%"),")", sep = ""), 
-                         paste("Non-core:\n", AD[8,1]," (", AD[8,2],if_else(raw == TRUE, "", "%"),")", sep = "")), 
+               label = c(paste(AD[1:7,1], "\n(", AD[1:7,2],if_else(normalise == FALSE, "", "%"),")", sep = ""), 
+                         paste("Non-core:\n", AD[8,1]," (", AD[8,2],if_else(normalise == FALSE, "", "%"),")", sep = "")), 
                size = text_size) +
       annotate("text", x=c(-0.2, 0.2, 0), y = c(0.65, 0.65, -0.65), label = colnames(a)[2:4], size = text_size) +
       xlim(-0.65,0.65) +

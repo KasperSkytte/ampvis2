@@ -11,7 +11,7 @@ amp_subset_taxa(data, tax_vector)
 
 \item{tax_vector}{(required) A vector with the taxonomic groups with which to perform the subset. The prefixes \code{"k__"}, \code{"p__"}, \code{"c__"}, \code{"o__"}, \code{"f__"}, \code{"g__"}, \code{"s__"} indicates their taxonomic rank and the following characters their name (almost always with a capital first letter), e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.}
 
-\item{normalise}{(\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
+\item{normalise}{(\emph{logical}) \code{BEFORE} the subset, transform the OTU read counts to be in percent per sample. (\emph{default:} \code{FALSE})}
 
 \item{remove}{(\emph{logical}) If set to TRUE, then the taxa matching the provided vector will be removed instead of being the only ones kept in the data. (\emph{default:} \code{FALSE})}
 }

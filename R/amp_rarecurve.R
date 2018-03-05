@@ -32,11 +32,11 @@ amp_rarecurve <- function (data,
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
   maxreads <- max(colSums(data$abund))
   if(maxreads < stepsize) {
-    stop("\"stepsize\" too high, maximum number of reads in any sample is: ", maxreads)
+    stop("\"stepsize\" too high, maximum number of reads in any sample is: ", maxreads, call. = FALSE)
   }
   
   abund <- data[["abund"]] %>% as.matrix() %>% t()

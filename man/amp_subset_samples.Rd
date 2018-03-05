@@ -13,7 +13,7 @@ amp_subset_samples(data, ...)
 
 \item{minreads}{Minimum number of reads pr. sample. Samples below this value will be removed. (\emph{default:} \code{0})}
 
-\item{normalise}{(\emph{logical}) Normalise the read abundances to the total amount of reads (percentages) \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
+\item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample \code{AFTER} the OTU's have been removed by the \code{minreads} argument. (\emph{default:} \code{FALSE})}
 
 \item{removeAbsents}{(\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})}
 }
@@ -28,7 +28,7 @@ The subset is performed on the metadata by \code{subset()} and the abundance- an
 }
 \section{Preserving relative abundances in a subset of larger data}{
 
-By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example \code{\link{amp_heatmap}}, \code{\link{amp_timeseries}}, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_subset_taxa}} and \code{\link{amp_subset_samples}} functions, and then set \code{raw = TRUE} in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting \code{raw = TRUE} will skip the transformation in the plotting function, see the example below.
+By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example \code{\link{amp_heatmap}}, \code{\link{amp_timeseries}}, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_subset_taxa}} and \code{\link{amp_subset_samples}} functions, and then set \code{normalise = FALSE} in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting \code{normalise = FALSE} will skip the transformation in the plotting function, see the example below.
 
 \preformatted{
 data("MiDAS")
@@ -40,7 +40,7 @@ amp_heatmap(subsettedData,
             group_by = "Plant",
             tax_aggregate = "Phylum",
             tax_add = "Genus",
-            raw = TRUE
+            normalise = FALSE
             )
 }
 }

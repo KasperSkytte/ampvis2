@@ -17,7 +17,7 @@
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
 #' @param min_abundance Minimum taxa abundance pr. sample. (\emph{default:} \code{0})
-#' @param raw (\emph{logical}) Display raw input instead of converting to percentages. (\emph{default:} \code{FALSE})
+#' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' 
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
@@ -54,12 +54,12 @@ amp_otu_network <- function(data,
                             tax_show = 10,
                             tax_class = NULL,
                             tax_empty = "best",
-                            raw = FALSE,
+                            normalise = TRUE,
                             detailed_output = FALSE){
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
@@ -67,7 +67,7 @@ amp_otu_network <- function(data,
   #tax_add and tax_aggregate can't be the same
   if(!is.null(tax_aggregate) & !is.null(tax_add)) {
     if(tax_aggregate == tax_add) {
-      stop("tax_aggregate and tax_add cannot be the same")
+      stop("tax_aggregate and tax_add cannot be the same", call. = FALSE)
     }
   }
   
@@ -79,7 +79,9 @@ amp_otu_network <- function(data,
   ## SampleID column is used to merge data later, so it must be there!
   colnames(metadata)[1] <- "SampleID"
   
-  if (raw == FALSE){
+  if (isTRUE(normalise)){
+    if(isTRUE(attributes(data)$normalised))
+      warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
     #calculate sample percentages, skip columns with 0 sum to avoid NaN's
     abund[,which(colSums(abund) != 0)] <- as.data.frame(apply(abund[,which(colSums(abund) != 0), drop = FALSE], 2, function(x) x/sum(x)*100))
   }

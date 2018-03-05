@@ -18,6 +18,8 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,10 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="Ordination plot — amp_ordinate" />
+
+<meta property="og:description" content="A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -127,7 +133,7 @@
     </tr>
     <tr>
       <th>transform</th>
-      <td><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/decostand'>decostand</a></code>. Using the hellinger transformation is always a good choice and is recommended for PCA/RDA/nMDS/PCoA to obtain a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). (<em>default:</em> <code>"hellinger"</code>)</p></td>
+      <td><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href='http://www.rdocumentation.org/packages/vegan/topics/decostand'>decostand</a></code>. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (<em>default:</em> <code>"hellinger"</code>)</p></td>
     </tr>
     <tr>
       <th>constrain</th>
@@ -235,19 +241,23 @@
     </tr>
     <tr>
       <th>envfit_signif_level</th>
-      <td><p>The significance threshold for displaying the results of <code>envfit_factor</code> or <code>envfit_numeric</code>. (<em>default:</em> <code>0.001</code>)</p></td>
+      <td><p>The significance threshold for displaying the results of <code>envfit_factor</code> or <code>envfit_numeric</code>. (<em>default:</em> <code>0.005</code>)</p></td>
     </tr>
     <tr>
       <th>envfit_textsize</th>
       <td><p>Size of the envfit text on the plot. (<em>default:</em> <code>3</code>)</p></td>
     </tr>
     <tr>
-      <th>envfit_color</th>
+      <th>envfit_textcolor</th>
       <td><p>Color of the envfit text on the plot. (<em>default:</em> <code>"darkred"</code>)</p></td>
     </tr>
     <tr>
       <th>envfit_numeric_arrows_scale</th>
       <td><p>Scale the size of the numeric arrows. (<em>default:</em> <code>1</code>)</p></td>
+    </tr>
+    <tr>
+      <th>envfit_arrowcolor</th>
+      <td><p>Color of the envfit arrows on the plot. (<em>default:</em> <code>"darkred"</code>)</p></td>
     </tr>
     <tr>
       <th>envfit_show</th>
@@ -297,10 +307,10 @@
     <h2 class="hasAnchor" id="using-a-custom-distance-matrix"><a class="anchor" href="#using-a-custom-distance-matrix"></a>Using a custom distance matrix</h2>
 
     
-    <p>If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in <code>amp_ordinate</code>, it can be done by setting <code>filter_species = 0</code>, <code>transform = "none"</code>, <code>distmeasure = "none"</code>, and then override abundance table ($abund) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.</p><pre>
+    <p>If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in <code>amp_ordinate</code>, it can be done by setting <code>filter_species = 0</code>, <code>transform = "none"</code>, <code>distmeasure = "none"</code>, and then override the abundance table (<code>$abund</code>) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.</p><pre>
 #Override the abundance table in the ampvis2 object with a custom distance matrix
 ampvis2_object$abund &lt;- custom_dist_matrix
-    #set filter_species = 0, transform = "none", and distmeasure = "none"
+#set filter_species = 0, transform = "none", and distmeasure = "none"
 amp_ordinate(ampvis2_object,
              type = "pcoa",
              filter_species = 0,
@@ -325,7 +335,7 @@ amp_ordinate(ampvis2_object,
              <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>,
              <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
              <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-             )</div><div class='img'><img src='amp_ordinate-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+             )</div><div class='img'><img src='amp_ordinate-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='co'>#Interactive CCA with data transformation constrained to seasonal period</span>
 <span class='fu'>amp_ordinate</span>(<span class='no'>AalborgWWTPs</span>,
@@ -370,7 +380,7 @@ Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -378,3 +388,4 @@ Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.
 
   </body>
 </html>
+

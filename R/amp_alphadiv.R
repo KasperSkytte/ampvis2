@@ -42,7 +42,7 @@ amp_alphadiv <- function (data,
                           rarefy = NULL) {
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
   #check measures
   validMeasures <- c("observed", "shannon", "simpson", "invsimpson")
@@ -50,7 +50,7 @@ amp_alphadiv <- function (data,
     measure <- validMeasures
   } else if(!is.null(measure) & any(!measure %in% validMeasures)) {
     measure <- measure %>% tolower()
-    warning("Some or none of the provided measures were not recognised, calculating all. Valid options are:\n", paste0(validMeasures, collapse = ", "))
+    warning("Some or none of the provided measures were not recognised, calculating all. Valid options are:\n", paste0(validMeasures, collapse = ", "), call. = FALSE)
     measure <- validMeasures
   }
   
@@ -65,10 +65,10 @@ amp_alphadiv <- function (data,
   
   if(!is.null(rarefy) & is.numeric(rarefy)){
     if(rarefy > max(results$Reads) ) {
-      stop("The chosen rarefy size is larger than the largest amount of reads in any sample (", as.character(max(results$Reads)), ").")
+      stop("The chosen rarefy size is larger than the largest amount of reads in any sample (", as.character(max(results$Reads)), ").", call. = FALSE)
     } else if (rarefy < min(results$Reads)) {
       abund <- suppressWarnings(vegan::rrarefy(abund, sample = rarefy)) %>% as.data.frame()
-      warning("The chosen rarefy size (", as.character(rarefy), ") is smaller than the smallest amount of reads in any sample (", as.character(min(colSums(data$abund))), ").")
+      warning("The chosen rarefy size (", as.character(rarefy), ") is smaller than the smallest amount of reads in any sample (", as.character(min(colSums(data$abund))), ").", call. = FALSE)
     } else {
       abund <- suppressWarnings(vegan::rrarefy(abund, sample = rarefy)) %>% as.data.frame()
       if (min(results$Reads) < rarefy) {
@@ -76,7 +76,7 @@ amp_alphadiv <- function (data,
       }
     }
   } else if(!is.null(rarefy) & !is.numeric(rarefy)) {
-    stop("Argument rarefy must be numerical.")
+    stop("Argument rarefy must be numerical.", call. = FALSE)
   }
   
   #warning from phyloseq::estimate_richness
@@ -85,7 +85,7 @@ amp_alphadiv <- function (data,
             "any singletons. This is highly suspicious. Results of richness\n", 
             "estimates (for example) are probably unreliable, or wrong, if you have already\n", 
             "trimmed low-abundance taxa from the data.\n", "\n", 
-            "We recommend that you find the un-trimmed data and retry.")
+            "We recommend that you find the un-trimmed data and retry.", call. = FALSE)
   }
   
   if(any("observed" %in% measure) | is.null(measure)) {
