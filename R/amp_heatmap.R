@@ -294,7 +294,7 @@ amp_heatmap <- function(data,
       } else if(any(sort_by %in% abund6$Group) & !any(sort_by %in% abund6$Sample)) {
         TotalCounts <- filter(abund6, Group == sort_by) %>%
           arrange(desc(Abundance))
-      } else if(!any(sort_by %in% abund6$Group) | !any(sort_by %in% abund6$Sample))
+      } else if(!any(sort_by %in% abund6$Group) & !any(sort_by %in% abund6$Sample))
         stop("Can't find \"", sort_by, "\" among sample or group names", call. = FALSE)
     }
   }
