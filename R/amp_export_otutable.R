@@ -33,6 +33,7 @@
 
 amp_export_otutable <- function(data,
                                 filename = "exported_otutable",
+                                extension = "csv",
                                 md5 = FALSE,
                                 sep = "\t",
                                 id = NULL, 
@@ -97,5 +98,12 @@ amp_export_otutable <- function(data,
     select(-sum)
   
   #Append md5 sum to the filename just before the extenstion. Fx "../exported_otutable" will result in ../exported_otutable_md5sum.csv
-  write.table(select(e_bak2, OTU, everything()), file = ifelse(md5, sprintf("%s_%s.csv", filename, digest::digest(data)), paste0(filename, ".csv")), quote = F, row.names = F, sep = sep, ...)
+  write.table(select(e_bak2, OTU, everything()),
+              file = ifelse(md5,
+                            sprintf("%s_%s.%s", filename, digest::digest(data), extension),
+                            sprintf("%s.%s", filename, extension)), 
+              quote = F,
+              row.names = F,
+              sep = sep,
+              ...)
 }
