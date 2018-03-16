@@ -21,7 +21,7 @@ print.ampvis2 <- function(data) {
   } else if(isTRUE(attributes(data)$normalised)) {
     readstats <- attributes(data)$readstats
   }
-  cat(class(data), "object with", length(data),"elements.\n", crayon::underline("Summary of OTU table:\n"))
+  cat(class(data), "object with", length(data),"elements.", crayon::underline("\nSummary of OTU table:\n"))
   print.table(c("Samples" = as.character(ncol(data$abund)),
     "OTUs" = as.character(nrow(data$abund)),
     readstats), 
