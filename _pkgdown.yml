@@ -16,6 +16,8 @@ reference:
     - amp_load
     - amp_subset_samples
     - amp_subset_taxa
+    - amp_import_biom
+    - amp_import_usearch
     - amp_export_fasta
     - amp_export_otutable
   - title: Plotting functions

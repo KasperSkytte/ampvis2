@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A subset of the MiDAS example data — AalborgWWTPs • ampvis2</title>
+<title>Import OTU table from USEARCH pipelines — amp_import_usearch • ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -27,9 +27,9 @@
 <script src="../pkgdown.js"></script>
   
   
-<meta property="og:title" content="A subset of the MiDAS example data — AalborgWWTPs" />
+<meta property="og:title" content="Import OTU table from USEARCH pipelines — amp_import_usearch" />
 
-<meta property="og:description" content="A smaller subset of MiDAS with 50 samples from 2 Danish Wastewater Treatment Plants; Aalborg West and Aalborg East." />
+<meta property="og:description" content="Reads an OTU count table and a corresponding sintax taxonomy table from a USEARCH analysis pipeline, and then converts and combines them into an OTU table compatible with ampvis2." />
 <meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -89,43 +89,49 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A subset of the MiDAS example data</h1>
+    <h1>Import OTU table from USEARCH pipelines</h1>
     </div>
 
     
-    <p>A smaller subset of <code><a href='MiDAS.html'>MiDAS</a></code> with 50 samples from 2 Danish Wastewater Treatment Plants; Aalborg West and Aalborg East.</p>
+    <p>Reads an OTU count table and a corresponding sintax taxonomy table from a <a href='http://www.drive5.com/usearch/'>USEARCH</a> analysis <a href='http://www.drive5.com/usearch/manual/ex_miseq.html'>pipeline</a>, and then converts and combines them into an OTU table compatible with ampvis2.</p>
     
 
-    <pre class="usage"><span class='fu'>data</span>(<span class='no'>AalborgWWTPs</span>)</pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <pre class="usage"><span class='fu'>amp_import_usearch</span>(<span class='no'>otutab</span>, <span class='no'>sintax</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>otutab</th>
+      <td><p>Path to the tabulated OTU count table as created by <code>usearch10 -otutab ... -otutabout</code> commands.</p></td>
+    </tr>
+    <tr>
+      <th>sintax</th>
+      <td><p>Path to the tabulated sintax taxonomy table as created by <code>usearch10 -sintax ... -tabbedout</code> commands.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>"ampvis2"</code>. See <code><a href='amp_load.html'>amp_load</a></code>.</p>
+    <p>A data frame</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>AalborgWWTPs</span>)
-<span class='no'>AalborgWWTPs</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements. 
-#&gt; Summary of OTU table:
-#&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
-#&gt;           67         9430      2045128        17772        44326        31209 
-#&gt;    Avg#Reads 
-#&gt;      30524.3 
-#&gt; 
-#&gt; Assigned taxonomy:
-#&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
-#&gt;   9430(100%) 9215(97.72%) 8282(87.83%) 7644(81.06%) 6746(71.54%) 5228(55.44%) 
-#&gt;      Species 
-#&gt;    23(0.24%) 
-#&gt; 
-#&gt; Metadata variables: 5 
-#&gt;  SampleID, Plant, Date, Year, Period</div></pre>
+    <pre class="examples"># NOT RUN {
+#First import the usearch format OTU table:
+usearch_otutable <- amp_import_usearch(otutab = ""/path/to/otutab.txt"", sintax = "/path/to/sintax.txt")
+
+#Then use amp_load() with or without metadata as normal:
+d <- amp_load(usearch_otutable, metadata)
+# }
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
+      <li><a href="#value">Value</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

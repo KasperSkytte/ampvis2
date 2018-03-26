@@ -95,7 +95,7 @@ d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_load.
 <p>With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with <code>data("MiDAS")</code>. Simply typing the name of any ampvis2 object in the console will show a short summary of the data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"MiDAS"</span>)
 MiDAS</code></pre></div>
-<pre><code>## ampvis2 object with 5 elements.
+<pre><code>## ampvis2 object with 5 elements. 
 ## Summary of OTU table:
 ##      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads 
 ##          658        14969     20890850        10480        46264 
@@ -142,6 +142,9 @@ MiDAS</code></pre></div>
 ## After: 67 samples and 9430 OTUs</code></pre>
 <p>The <code><a href="../reference/amp_subset_taxa.html">amp_subset_taxa()</a></code> function instead subsets based on the taxonomy, where you simply provide a vector with the taxa you are interested in, separated by a comma:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MiDAS_Chloroflexi_Actinobacteria &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_taxa.html">amp_subset_taxa</a></span>(MiDAS, <span class="dt">tax_vector=</span><span class="kw">c</span>(<span class="st">"p__Chloroflexi"</span>, <span class="st">"p__Actinobacteria"</span>))</code></pre></div>
+<pre><code>## 12245 OTUs have been filtered 
+## Before: 14969 OTUs
+## After: 2724 OTUs</code></pre>
 <p>The taxonomic rank is indicated by fx “p__" for phylum and “g__" for genus etc, followed by the name of the taxon (case-sensitive, first letter almost always capital). To filter individual OTUs simply provide the OTU name(s) as-is in a vector, fx <code>c("OTU_1206")</code>.</p>
 </div>
 <div id="heatmap" class="section level1">

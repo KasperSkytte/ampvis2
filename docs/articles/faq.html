@@ -112,14 +112,14 @@ ampvis2_object<span class="op">$</span>abund &lt;-<span class="st"> </span>custo
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ampvis2)
 <span class="co">#Combine OTU abundance table and taxonomy table from the phyloseq object "my_phyloseq_object":</span>
 obj &lt;-<span class="st"> </span>my_phyloseq_object
-otutable &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">OTU =</span> <span class="kw">rownames</span>(phyloseq<span class="op">::</span><span class="kw">otu_table</span>(obj)<span class="op">@</span>.Data),
-                       phyloseq<span class="op">::</span><span class="kw">otu_table</span>(obj)<span class="op">@</span>.Data,
-                       phyloseq<span class="op">::</span><span class="kw">tax_table</span>(obj)<span class="op">@</span>.Data,
+otutable &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">OTU =</span> <span class="kw">rownames</span>(phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data),
+                       phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data,
+                       phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/tax_table-methods">tax_table</a></span>(obj)<span class="op">@</span>.Data,
                        <span class="dt">check.names =</span> <span class="ot">FALSE</span>
                        )
 
 <span class="co">#Extract metadata from the phyloseq object:</span>
-metadata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(phyloseq<span class="op">::</span><span class="kw">sample_data</span>(obj), 
+metadata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/sample_data-methods">sample_data</a></span>(obj), 
                        <span class="dt">check.names =</span> <span class="ot">FALSE</span>
                        )
 

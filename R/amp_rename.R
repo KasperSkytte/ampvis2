@@ -19,8 +19,6 @@
 #' @importFrom magrittr %>%
 #' @importFrom dplyr mutate
 #' 
-#' @export
-#' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 

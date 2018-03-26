@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A subset of the MiDAS example data — AalborgWWTPs • ampvis2</title>
+<title>Import OTU table from BIOM file — amp_import_biom • ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -27,9 +27,9 @@
 <script src="../pkgdown.js"></script>
   
   
-<meta property="og:title" content="A subset of the MiDAS example data — AalborgWWTPs" />
+<meta property="og:title" content="Import OTU table from BIOM file — amp_import_biom" />
 
-<meta property="og:description" content="A smaller subset of MiDAS with 50 samples from 2 Danish Wastewater Treatment Plants; Aalborg West and Aalborg East." />
+<meta property="og:description" content="Reads a .biom file and converts it into an OTU table compatible with ampvis2. This enables support for both the QIIME and mothur bioinformatic pipelines, as both software tools can output data in the BIOM format (for mothur see make.biom). Utilises the biomformat package, so both the JSON and HDF5 versions of the BIOM format are supported." />
 <meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -89,43 +89,44 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A subset of the MiDAS example data</h1>
+    <h1>Import OTU table from BIOM file</h1>
     </div>
 
     
-    <p>A smaller subset of <code><a href='MiDAS.html'>MiDAS</a></code> with 50 samples from 2 Danish Wastewater Treatment Plants; Aalborg West and Aalborg East.</p>
+    <p>Reads a .biom file and converts it into an OTU table compatible with ampvis2. This enables support for both the <a href='http://qiime.org/'>QIIME</a> and <a href='https://www.mothur.org/'>mothur</a> bioinformatic pipelines, as both software tools can output data in the <a href='http://biom-format.org/'>BIOM format</a> (for mothur see <a href='https://www.mothur.org/wiki/Make.biom'>make.biom</a>). Utilises the <a href='https://github.com/joey711/biomformat'>biomformat</a> package, so both the JSON and HDF5 versions of the BIOM format are supported.</p>
     
 
-    <pre class="usage"><span class='fu'>data</span>(<span class='no'>AalborgWWTPs</span>)</pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <pre class="usage"><span class='fu'>amp_import_biom</span>(<span class='no'>file</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>file</th>
+      <td><p>Path to the .biom file.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>"ampvis2"</code>. See <code><a href='amp_load.html'>amp_load</a></code>.</p>
+    <p>A data frame</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>AalborgWWTPs</span>)
-<span class='no'>AalborgWWTPs</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements. 
-#&gt; Summary of OTU table:
-#&gt;      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
-#&gt;           67         9430      2045128        17772        44326        31209 
-#&gt;    Avg#Reads 
-#&gt;      30524.3 
-#&gt; 
-#&gt; Assigned taxonomy:
-#&gt;      Kingdom       Phylum        Class        Order       Family        Genus 
-#&gt;   9430(100%) 9215(97.72%) 8282(87.83%) 7644(81.06%) 6746(71.54%) 5228(55.44%) 
-#&gt;      Species 
-#&gt;    23(0.24%) 
-#&gt; 
-#&gt; Metadata variables: 5 
-#&gt;  SampleID, Plant, Date, Year, Period</div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>#First import the BIOM format OTU table:</span>
+<span class='no'>biom_otutable</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_import_biom</span>(<span class='st'>"path/to/file.biom"</span>)
+
+<span class='co'>#Then use amp_load() with or without metadata as normal:</span>
+<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='amp_load.html'>amp_load</a></span>(<span class='no'>biom_otutable</span>, <span class='no'>metadata</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
+      <li><a href="#value">Value</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
