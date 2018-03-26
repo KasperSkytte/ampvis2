@@ -29,6 +29,7 @@ amp_import_usearch <- function(otutab, sintax) {
   colnames(otutab)[1] <- "OTU"
   
   sintax <- readLines(sintax)
+  sintax <- lapply(sintax, function(x) {if(str_detect(x,"\\t$|\\-$|\\+$")) paste0(x, "k__") else return(x)})
   tax <- stringr::str_remove(sintax, ".* |.*\t") %>% 
     stringr::str_replace_all(c("k:|d:" = "k__",
                                "p:" = "p__",
