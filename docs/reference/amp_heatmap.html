@@ -114,6 +114,10 @@
       <td><p>Facet the samples by a categorical variable in the metadata.</p></td>
     </tr>
     <tr>
+      <th>normalise</th>
+      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></td>
+    </tr>
+    <tr>
       <th>tax_aggregate</th>
       <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"Phylum"</code>)</p></td>
     </tr>
@@ -139,15 +143,19 @@
     </tr>
     <tr>
       <th>order_x_by</th>
-      <td><p>A taxonomy group or vector to order the x-axis by, or <code>"cluster"</code> for hierarchical clustering by <code><a href='http://www.rdocumentation.org/packages/stats/topics/hclust'>hclust</a></code>.</p></td>
+      <td><p>A sample or vector to order the y-axis by, or <code>"cluster"</code> for hierarchical clustering by <code><a href='http://www.rdocumentation.org/packages/stats/topics/hclust'>hclust</a></code>.</p></td>
     </tr>
     <tr>
       <th>order_y_by</th>
-      <td><p>A sample or vector to order the y-axis by, or <code>"cluster"</code> for hierarchical clustering by <code><a href='http://www.rdocumentation.org/packages/stats/topics/hclust'>hclust</a></code>.</p></td>
+      <td><p>A taxonomy group or vector to order the x-axis by, or <code>"cluster"</code> for hierarchical clustering by <code><a href='http://www.rdocumentation.org/packages/stats/topics/hclust'>hclust</a></code>.</p></td>
     </tr>
     <tr>
       <th>plot_values</th>
       <td><p>(<em>logical</em>) Plot the values on the heatmap or not. (<em>default:</em> <code>TRUE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>plot_values_size</th>
+      <td><p>The size of the plotted values. (<em>default:</em> <code>4</code>)</p></td>
     </tr>
     <tr>
       <th>plot_legendbreaks</th>
@@ -160,10 +168,6 @@
     <tr>
       <th>plot_na</th>
       <td><p>(<em>logical</em>) Whether to color missing values with the lowest color in the scale or not. (<em>default:</em> <code>TRUE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>plot_values_size</th>
-      <td><p>The size of the plotted values. (<em>default:</em> <code>4</code>)</p></td>
     </tr>
     <tr>
       <th>measure</th>
@@ -196,10 +200,6 @@
     <tr>
       <th>round</th>
       <td><p>Number of digits to show with the values. (<em>default:</em> <code>1</code>)</p></td>
-    </tr>
-    <tr>
-      <th>normalise</th>
-      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></td>
     </tr>
     <tr>
       <th>textmap</th>

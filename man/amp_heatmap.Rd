@@ -13,6 +13,8 @@ amp_heatmap(data, group_by = "")
 
 \item{facet_by}{Facet the samples by a categorical variable in the metadata.}
 
+\item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
+
 \item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})}
 
 \item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
@@ -28,19 +30,19 @@ amp_heatmap(data, group_by = "")
    \item \code{"OTU"}: Display the OTU name.
    }}
 
-\item{order_x_by}{A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
+\item{order_x_by}{A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
 
-\item{order_y_by}{A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
+\item{order_y_by}{A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
 
 \item{plot_values}{(\emph{logical}) Plot the values on the heatmap or not. (\emph{default:} \code{TRUE})}
+
+\item{plot_values_size}{The size of the plotted values. (\emph{default:} \code{4})}
 
 \item{plot_legendbreaks}{A vector of breaks for the abundance legend, fx \code{c(1, 10, 20)}.}
 
 \item{plot_colorscale}{The type of scale used for the coloring of abundances, either \code{"sqrt"} or \code{"log10"}. (\emph{default:} \code{"log10"})}
 
 \item{plot_na}{(\emph{logical}) Whether to color missing values with the lowest color in the scale or not. (\emph{default:} \code{TRUE})}
-
-\item{plot_values_size}{The size of the plotted values. (\emph{default:} \code{4})}
 
 \item{measure}{Calculate and display either \code{"mean"}, \code{"max"} or \code{"median"} across the groups. (\emph{default:} \code{"mean"})}
 
@@ -57,8 +59,6 @@ amp_heatmap(data, group_by = "")
 \item{color_vector}{Vector of colors for the colorscale, e.g. \code{c("white", "red")}.}
 
 \item{round}{Number of digits to show with the values. (\emph{default:} \code{1})}
-
-\item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
 
 \item{textmap}{(\emph{logical}) Return a data frame to print as raw text instead of a ggplot2 object. (\emph{default:} \code{FALSE})}
 

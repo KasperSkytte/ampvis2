@@ -21,8 +21,8 @@
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
 #' @param measure Calculate and display either \code{"mean"}, \code{"max"} or \code{"median"} across the groups. (\emph{default:} \code{"mean"})
 #' @param sort_by Sort the heatmap by a specific value of the \code{"group_by"} argument, e.g. \code{"Treatment A"}.
-#' @param order_x_by A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
-#' @param order_y_by A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
+#' @param order_x_by A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
+#' @param order_y_by A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
 #' @param plot_values (\emph{logical}) Plot the values on the heatmap or not. (\emph{default:} \code{TRUE})
 #' @param plot_values_size The size of the plotted values. (\emph{default:} \code{4})
 #' @param plot_legendbreaks A vector of breaks for the abundance legend, fx \code{c(1, 10, 20)}.
@@ -119,6 +119,7 @@
 amp_heatmap <- function(data,
                         group_by = NULL,
                         facet_by = NULL,
+                        normalise = TRUE,
                         tax_aggregate = "Phylum",
                         tax_add = NULL,
                         tax_show = 10,
@@ -127,10 +128,10 @@ amp_heatmap <- function(data,
                         order_x_by = NULL,
                         order_y_by = NULL,
                         plot_values = TRUE,
+                        plot_values_size = 4,
                         plot_legendbreaks = NULL,
                         plot_colorscale = "log10", 
                         plot_na = TRUE, 
-                        plot_values_size = 4,
                         measure = "mean",
                         min_abundance = 0.1,
                         max_abundance = NULL, 
@@ -139,7 +140,6 @@ amp_heatmap <- function(data,
                         scale_by = NULL,
                         color_vector = NULL,
                         round = 1,
-                        normalise = TRUE,
                         textmap = FALSE,
                         plot_functions = FALSE,
                         function_data = NULL, 

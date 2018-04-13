@@ -3,7 +3,10 @@ pkgdown: 0.1.0.9000
 pkgdown_sha: 17f683717d0a1547f13a08a259b34c58927452d6
 articles:
   ampvis2: ampvis2.html
+  example_metadata.csv: example_metadata.csv
+  example_otutable.csv: example_otutable.csv
   faq: faq.html
+  workflow.png: workflow.png
 urls:
   reference: https://github.com/MadsAlbertsen/ampvis2/reference
   article: https://github.com/MadsAlbertsen/ampvis2/articles
