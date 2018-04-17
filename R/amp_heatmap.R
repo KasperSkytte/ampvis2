@@ -107,8 +107,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom dplyr filter desc arrange group_by mutate summarise
 #' @importFrom tidyr gather spread
-#' @importFrom data.table as.data.table data.table setkey
-#' @importFrom reshape2 dcast melt
+#' @importFrom data.table as.data.table data.table setkey dcast melt
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom scales squish
 #' @importFrom cowplot plot_grid
@@ -320,12 +319,11 @@ amp_heatmap <- function(data,
   }
   abund7 <- as.data.frame(abund7)
   
-  ## Normalise to a specific group (The Abundance of the group is set as 1)  
+  ## Normalise to a specific group or sample (The Abundance of the group is set as 1)  
   if(!is.null(normalise_by)){
-    #temp <- dcast(abunds7, Display~Group, value.var = "Abundance") # Is this working?
-    temp <- tidyr::spread(abund7, key = Group, value = Abundance) 
+    temp <- data.table::dcast(abund7, Display~Group, value.var = "Abundance")
     temp1 <- cbind.data.frame(Display = temp$Display, temp[,-1]/temp[,normalise_by])   
-    abund7 <- tidyr::gather(temp1, key = Group, value = Abundance, -Display)
+    abund7 <- data.table::melt(temp1, id.var = "Display", value.name="Abundance", variable.name="Group")
   } 
   
   ## Order.y
@@ -349,8 +347,7 @@ amp_heatmap <- function(data,
       tdata <- mutate(abund7, 
                       Abundance = ifelse(Abundance < min_abundance, min_abundance, Abundance),
                       Abundance = ifelse(Abundance > max_abundance, max_abundance, Abundance))
-      tdata <- dcast(tdata, Display~Group, value.var = "Abundance") #is this working?
-      #tdata <- tidyr::spread(tdata, key = Group, value = Abundance) 
+      tdata <- data.table::dcast(tdata, Display~Group, value.var = "Abundance")
       rownames(tdata) <- tdata$Display
       tdata2 <- tdata[,-1]
       tclust <- hclust(dist(tdata2))
@@ -376,8 +373,7 @@ amp_heatmap <- function(data,
       tdata <- mutate(abund7, 
                       Abundance = ifelse(Abundance < min_abundance, min_abundance, Abundance),
                       Abundance = ifelse(Abundance > max_abundance, max_abundance, Abundance))
-      tdata <- dcast(tdata, Display~Group, value.var = "Abundance") #is this working?
-      #tdata <- tidyr::spread(tdata, key = Group, value = Abundance) 
+      tdata <- data.table::dcast(tdata, Display~Group, value.var = "Abundance")
       rownames(tdata) <- tdata$Display
       tdata2 <- tdata[,-1]
       tclust <- hclust(dist(t(tdata2)))
@@ -471,7 +467,7 @@ amp_heatmap <- function(data,
       # Merge the genus and function information
       nameFunc <- merge(x = names, y = function_data[,c("Genus",functions)], all.x = TRUE, all.y = FALSE) 
       nameFunc[is.na(nameFunc)] <- "NT"
-      nameFuncM <- melt(nameFunc, id.vars = "Genus", value.name = "Value", variable.name = "Function")
+      nameFuncM <- data.table::melt(nameFunc, id.vars = "Genus", value.name = "Value", variable.name = "Function")
       nameFuncM$Value <- factor(nameFuncM$Value, levels = c("POS", "VAR", "NEG", "NT"))
       nameFuncM$Genus <- factor(nameFuncM$Genus, levels = names$Genus)
       
