@@ -206,9 +206,9 @@ amp_timeseries <- function(data,
         dplyr::summarise_at("Value", mean, na.rm = TRUE) -> abund7
     }
     if(isTRUE(split)) {
-      p <- ggplot(abund7, aes_string(x=time_variable, y="Value"))
+      p <- ggplot(abund7, aes_string(x=time_variable, y="Value", group = tax_aggregate))
     } else if(!isTRUE(split)) {
-      p <- ggplot(abund7, aes_string(x=time_variable, y="Value", color = tax_aggregate))
+      p <- ggplot(abund7, aes_string(x=time_variable, y="Value", group = tax_aggregate, color = tax_aggregate))
     }
   } else if(!is.null(group_by)) {
     if(isTRUE(split)) {
