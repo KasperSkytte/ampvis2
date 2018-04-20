@@ -5,7 +5,7 @@
 #' @usage amp_venn(data)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param group_by Group the data based on a sample variable.
+#' @param group_by Group the data based on a sample metadata variable. \code{amp_venn} currently only supports a maximum of 3 different groups.
 #' @param cut_a Abundance cutoff in percent. (\emph{default:} \code{0.1})
 #' @param cut_f Frequency cutoff in percent. (\emph{default:} \code{80})
 #' @param text_size Size of the plotted text. (\emph{default:} \code{5})
@@ -60,7 +60,7 @@ amp_venn <- function(data,
   }
   
   ## Test for number of groups
-  if (length(levels(metadata[,group_by])) > 3){
+  if (length(unique(metadata[,group_by])) > 3){
     stop(paste("Only up to 3 different groups in the group_by variable is supported. The chosen group_by variable has", as.character(length(unique(metadata[,group_by]))), "different groups:\n",
                paste(unique(as.character(metadata[,group_by])), collapse = ", ")), call. = FALSE)
   }
