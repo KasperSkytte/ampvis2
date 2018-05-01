@@ -9,7 +9,9 @@
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Frequently Asked Questions">
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- docsearch --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Frequently Asked Questions">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -18,7 +20,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -27,8 +29,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">ampvis2</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">ampvis2</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.3.7</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -52,7 +58,13 @@
   </a>
 </li>
       </ul>
+<form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
+      </form>
+      
+    </div>
 <!--/.nav-collapse -->
   </div>
 <!--/.container -->
@@ -61,15 +73,18 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Frequently Asked Questions</h1>
             
-          </div>
+      
+      
+      <div class="hidden name"><code>faq.Rmd</code></div>
+
+    </div>
 
     
     
-<div class="contents">
 <div id="your-question-here" class="section level2">
 <h2 class="hasAnchor">
 <a href="#your-question-here" class="anchor"></a>Your question here</h2>
@@ -112,20 +127,19 @@ ampvis2_object<span class="op">$</span>abund &lt;-<span class="st"> </span>custo
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ampvis2)
 <span class="co">#Combine OTU abundance table and taxonomy table from the phyloseq object "my_phyloseq_object":</span>
 obj &lt;-<span class="st"> </span>my_phyloseq_object
-otutable &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">OTU =</span> <span class="kw">rownames</span>(phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data),
-                       phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data,
-                       phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/tax_table-methods">tax_table</a></span>(obj)<span class="op">@</span>.Data,
+otutable &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">OTU =</span> <span class="kw">rownames</span>(phyloseq<span class="op">::</span><span class="kw">otu_table</span>(obj)<span class="op">@</span>.Data),
+                       phyloseq<span class="op">::</span><span class="kw">otu_table</span>(obj)<span class="op">@</span>.Data,
+                       phyloseq<span class="op">::</span><span class="kw">tax_table</span>(obj)<span class="op">@</span>.Data,
                        <span class="dt">check.names =</span> <span class="ot">FALSE</span>
                        )
 
 <span class="co">#Extract metadata from the phyloseq object:</span>
-metadata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/sample_data-methods">sample_data</a></span>(obj), 
+metadata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(phyloseq<span class="op">::</span><span class="kw">sample_data</span>(obj), 
                        <span class="dt">check.names =</span> <span class="ot">FALSE</span>
                        )
 
 <span class="co">#Load the data with amp_load:</span>
 my_ampvis2_object &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_load.html">amp_load</a></span>(otutable, metadata)</code></pre></div>
-</div>
 </div>
   </div>
 
@@ -156,5 +170,21 @@ my_ampvis2_object &lt;-<span class="st"> </span><span class="kw"><a href="../ref
       </footer>
 </div>
 
-  </body>
+  
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script><script>
+  docsearch({
+    
+    
+    apiKey: 'b0ba3a3eb751685982ccf010113f380a',
+    indexName: 'ampvis2',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+</body>
 </html>

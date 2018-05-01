@@ -9,7 +9,7 @@ amp_venn(data)
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{group_by}{Group the data based on a sample variable.}
+\item{group_by}{Group the data based on a sample metadata variable. \code{amp_venn} currently only supports a maximum of 3 different groups.}
 
 \item{cut_a}{Abundance cutoff in percent. (\emph{default:} \code{0.1})}
 

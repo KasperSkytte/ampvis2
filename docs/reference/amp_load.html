@@ -25,12 +25,20 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+<!-- docsearch -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
+
 <meta property="og:title" content="Load data for ampvis functions — amp_load" />
 
 <meta property="og:description" content="This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with amp_load before any other ampvis functions can be used." />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -53,8 +61,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">ampvis2</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">ampvis2</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.3.7</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -79,6 +91,13 @@
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -86,19 +105,23 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Load data for ampvis functions</h1>
+    
+    <div class="hidden name"><code>amp_load.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with <code>amp_load</code> before any other ampvis functions can be used.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>amp_load</span>(<span class='kw'>otutable</span> <span class='kw'>=</span> <span class='no'>dataframe</span>, <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>dataframe</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -130,7 +153,8 @@
     <h2 class="hasAnchor" id="the-otu-table"><a class="anchor" href="#the-otu-table"></a>The OTU-table</h2>
 
     
-    <p>The OTU-table contains information about the OTUs, their assigned taxonomy and their read counts in each sample. The provided OTU-table must be a data frame with the following requirements:</p><ul>
+    <p>The OTU-table contains information about the OTUs, their assigned taxonomy and their read counts in each sample. The provided OTU-table must be a data frame with the following requirements:</p>
+<ul>
 <li><p>The rows are OTU IDs and the columns are samples.</p></li>
 <li><p>The last 7 columns are the corresponding taxonomy assigned to the OTUs, named <code>"Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"</code>.</p></li>
 <li><p>The OTU ID's are expected to be in eiher the rownames of the data frame or in a column called "OTU". Otherwise the function will stop with a message.</p></li>
@@ -142,7 +166,8 @@
     <h2 class="hasAnchor" id="the-metadata"><a class="anchor" href="#the-metadata"></a>The metadata</h2>
 
     
-    <p>The metadata contains additional information about the samples, for example where each sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements:</p><ul>
+    <p>The metadata contains additional information about the samples, for example where each sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements:</p>
+<ul>
 <li><p>The sample IDs must be in the first column. These sample IDs must match exactly to those in the OTU-table.</p></li>
 <li><p>Column classes matter, categorical variables should be loaded either <code>as.character()</code> or <code>as.factor()</code>, and continuous variables <code>as.numeric()</code>. See below.</p></li>
 <li><p>Generally avoid special characters and spaces in row- and column names.</p></li>
@@ -183,14 +208,14 @@
 <span class='no'>example_metadata</span></div><div class='output co'>#&gt; # A tibble: 8 x 4
 #&gt;   SampleID    Plant     Date                 Year
 #&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;dttm&gt;              &lt;dbl&gt;
-#&gt; 1 16SAMP_3893 Aalborg E 2014-02-06 00:00:00 2014.
-#&gt; 2 16SAMP_3913 Aalborg E 2014-07-03 00:00:00 2014.
-#&gt; 3 16SAMP_3941 Aalborg E 2014-08-19 00:00:00 2014.
-#&gt; 4 16SAMP_3946 Aalborg E 2014-11-13 00:00:00 2014.
-#&gt; 5 16SAMP_3953 Aalborg W 2014-02-04 00:00:00 2014.
-#&gt; 6 16SAMP_4591 Aalborg W 2014-05-05 00:00:00 2014.
-#&gt; 7 16SAMP_4597 Aalborg W 2014-08-18 00:00:00 2014.
-#&gt; 8 16SAMP_4603 Aalborg W 2014-11-12 00:00:00 2014.</div><div class='input'>
+#&gt; 1 16SAMP_3893 Aalborg E 2014-02-06 00:00:00  2014
+#&gt; 2 16SAMP_3913 Aalborg E 2014-07-03 00:00:00  2014
+#&gt; 3 16SAMP_3941 Aalborg E 2014-08-19 00:00:00  2014
+#&gt; 4 16SAMP_3946 Aalborg E 2014-11-13 00:00:00  2014
+#&gt; 5 16SAMP_3953 Aalborg W 2014-02-04 00:00:00  2014
+#&gt; 6 16SAMP_4591 Aalborg W 2014-05-05 00:00:00  2014
+#&gt; 7 16SAMP_4597 Aalborg W 2014-08-18 00:00:00  2014
+#&gt; 8 16SAMP_4603 Aalborg W 2014-11-12 00:00:00  2014</div><div class='input'>
 <span class='co'>#Minimal example otutable:</span>
 <span class='fu'>data</span>(<span class='st'>"example_otutable"</span>)
 <span class='no'>example_otutable</span></div><div class='output co'>#&gt;        16SAMP_3893 16SAMP_3913 16SAMP_3941 16SAMP_3946 16SAMP_3953 16SAMP_4591
@@ -278,6 +303,25 @@ Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.
 
       </footer>
    </div>
+
+  
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'b0ba3a3eb751685982ccf010113f380a',
+    indexName: 'ampvis2',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>

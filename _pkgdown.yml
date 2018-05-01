@@ -1,4 +1,4 @@
-url: https://github.com/MadsAlbertsen/ampvis2
+url: https://madsalbertsen.github.io/ampvis2
 
 home:
   links:
@@ -8,6 +8,9 @@ home:
 template:
   params:
     bootswatch: yeti
+    docsearch:
+      api_key: b0ba3a3eb751685982ccf010113f380a
+      index_name: ampvis2
 
 reference:
   - title: Data and filtering
