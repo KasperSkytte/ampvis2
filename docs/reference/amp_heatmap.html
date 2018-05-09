@@ -234,19 +234,27 @@
     </tr>
     <tr>
       <th>function_data</th>
-      <td><p>A data frame with functional information about genus-level OTUs in each column. If <code>NULL</code> the <code>data("MiF")</code> dataset will be used. (<em>default:</em> <code>NULL</code>)</p></td>
+      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A data frame with functional information about genus-level OTUs in each column. If <code>NULL</code> the <code>data("MiF")</code> dataset will be used. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     <tr>
       <th>functions</th>
-      <td><p>A vector with the functions to be displayed. (<em>default:</em> <code>c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")</code>)</p></td>
+      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A vector with the functions to be displayed. (<em>default:</em> <code>c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")</code>)</p></td>
     </tr>
     <tr>
       <th>functions_point_size</th>
-      <td><p>Size of the plotted points in the function grid. (<em>default:</em> <code>5</code>)</p></td>
+      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: Size of the plotted points in the function grid. (<em>default:</em> <code>5</code>)</p></td>
+    </tr>
+    <tr>
+      <th>functions_legend_text_size</th>
+      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: The size of the legend text in the functions plot. (<em>default:</em> <code>10</code>)</p></td>
+    </tr>
+    <tr>
+      <th>functions_axis_text_size</th>
+      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: The size of the x-axis text in the functions plot. (<em>default:</em> <code>10</code>)</p></td>
     </tr>
     <tr>
       <th>rel_widths</th>
-      <td><p>A vector with the relative widths of the heatmap and function grid when <code>plot_functions = TRUE</code>. (<em>default:</em> <code>c(0.75, 0.25)</code>)</p></td>
+      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A vector with the relative widths of the heatmap and function grid when <code>plot_functions = TRUE</code>. (<em>default:</em> <code>c(0.75, 0.25)</code>)</p></td>
     </tr>
     </table>
     
