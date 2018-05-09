@@ -480,14 +480,33 @@ amp_ordinate <- function(data,
     dspecies = NULL
   }
   
-  ##### Base plot object ##### 
-  plot <- ggplot(dsites,
-                 aes_string(x = x_axis_name,
-                            y = y_axis_name,
-                            color = sample_color_by,
-                            shape = sample_shape_by)
-                )
-  
+  ##### Base plot object #####
+  if(is.null(sample_color_by) && is.null(sample_shape_by)) {
+    plot <- ggplot(dsites,
+                   aes_string(x = x_axis_name,
+                              y = y_axis_name)
+                   )
+  } else if(!is.null(sample_color_by) && is.null(sample_shape_by)) {
+    plot <- ggplot(dsites,
+                   aes_string(x = x_axis_name,
+                              y = y_axis_name,
+                              color = sample_color_by)
+    )
+  } else if(is.null(sample_color_by) && !is.null(sample_shape_by)) {
+    plot <- ggplot(dsites,
+                   aes_string(x = x_axis_name,
+                              y = y_axis_name,
+                              shape = sample_shape_by)
+    )
+  } else if(!is.null(sample_color_by) && !is.null(sample_shape_by)) {
+    plot <- ggplot(dsites,
+                   aes_string(x = x_axis_name,
+                              y = y_axis_name,
+                              color = sample_color_by,
+                              shape = sample_shape_by)
+    )
+  }
+    
   ##### Colorframe  ##### 
   if(!sample_colorframe == FALSE) {
     if(is.null(sample_color_by) & sample_colorframe == TRUE)
