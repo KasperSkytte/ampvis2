@@ -35,10 +35,12 @@
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
 #' @param textmap (\emph{logical}) Return a data frame to print as raw text instead of a ggplot2 object. (\emph{default:} \code{FALSE})
 #' @param plot_functions Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. When using this feature, make sure that either \code{tax_aggregate} is set to "Genus" or that \code{tax_add} contains "Genus". (\emph{default:} \code{FALSE})
-#' @param function_data A data frame with functional information about genus-level OTUs in each column. If \code{NULL} the \code{data("MiF")} dataset will be used. (\emph{default:} \code{NULL})
-#' @param functions A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})
-#' @param functions_point_size Size of the plotted points in the function grid. (\emph{default:} \code{5})
-#' @param rel_widths A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})
+#' @param function_data If \code{plot_functions} is set to \code{TRUE}: A data frame with functional information about genus-level OTUs in each column. If \code{NULL} the \code{data("MiF")} dataset will be used. (\emph{default:} \code{NULL})
+#' @param functions If \code{plot_functions} is set to \code{TRUE}: A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})
+#' @param functions_point_size If \code{plot_functions} is set to \code{TRUE}: Size of the plotted points in the function grid. (\emph{default:} \code{5})
+#' @param functions_legend_text_size If \code{plot_functions} is set to \code{TRUE}: The size of the legend text in the functions plot. (\emph{default:} \code{10})
+#' @param functions_axis_text_size If \code{plot_functions} is set to \code{TRUE}: The size of the x-axis text in the functions plot. (\emph{default:} \code{10})
+#' @param rel_widths If \code{plot_functions} is set to \code{TRUE}: A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})
 #' 
 #' @return A ggplot2 object, or a data frame if \code{textmap = TRUE}.
 #' 
@@ -144,6 +146,8 @@ amp_heatmap <- function(data,
                         function_data = NULL, 
                         functions = c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO"),
                         functions_point_size = 5,
+                        functions_legend_text_size = 10,
+                        functions_axis_text_size = 10,
                         rel_widths = c(0.75, 0.25)
                         ) {
   
@@ -474,11 +478,15 @@ amp_heatmap <- function(data,
       functions_plot <- ggplot(nameFuncM, aes(x = Function, y = Genus, color = Value)) +
         geom_point(size = functions_point_size) +
         scale_color_manual(values = c("#31a354", "orange", "#f03b20", "grey90"), drop = FALSE) +
-        theme(axis.text.x = element_text(size = 10, color = "black", angle = 90, hjust = 1, vjust = 0.4),
+        theme(axis.text.x = element_text(size = functions_axis_text_size, 
+                                         color = "black", 
+                                         angle = 90, 
+                                         hjust = 1, 
+                                         vjust = 0.4),
               axis.text.y = element_blank(),
               axis.title = element_blank(),
               legend.title = element_blank(),
-              legend.text = element_text(size = 10),
+              legend.text = element_text(size = functions_legend_text_size),
               axis.ticks.length = unit(1, "mm"),
               axis.ticks = element_blank(),
               axis.line = element_blank(),
@@ -486,6 +494,25 @@ amp_heatmap <- function(data,
               panel.grid.major = element_line(color = "grey95"),
               legend.key = element_blank()
         )
+      ##### Potential future implementation #####
+      #To be able to completely customise both heatmap and functions plot
+      #individually by normal ggplot2 syntax (+ theme() etc...) before 
+      #creating the multiplot, uncomment the following lines:
+      #amp_heatmap_function <- list(heatmap = heatmap, functions_plot = functions_plot)
+      #class(amp_heatmap_function) <- "amp_heatmap_function"
+      #attributes(amp_heatmap_function)[["rel_widths"]] <- rel_widths
+      #return(amp_heatmap_function)
+      #
+      #and then make a custom print method (outside of amp_heatmap()) 
+      #for the custom "amp_heatmap_function" class:
+      #print.amp_heatmap_function <- function(data) {
+      #  print(cowplot::plot_grid(data$heatmap,
+      #                           data$functions_plot,
+      #                           rel_widths = attributes(data)[["rel_widths"]],
+      #                           align = "h",
+      #                           axis = "tb"))
+      #}
+      ###########################################
       return(cowplot::plot_grid(heatmap, functions_plot, ncol = 2, rel_widths = rel_widths, align = "h", axis = "tb"))
     } else if(!isTRUE(plot_functions)) {
       return(heatmap)

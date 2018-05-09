@@ -64,13 +64,17 @@ amp_heatmap(data, group_by = "")
 
 \item{plot_functions}{Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. When using this feature, make sure that either \code{tax_aggregate} is set to "Genus" or that \code{tax_add} contains "Genus". (\emph{default:} \code{FALSE})}
 
-\item{function_data}{A data frame with functional information about genus-level OTUs in each column. If \code{NULL} the \code{data("MiF")} dataset will be used. (\emph{default:} \code{NULL})}
+\item{function_data}{If \code{plot_functions} is set to \code{TRUE}: A data frame with functional information about genus-level OTUs in each column. If \code{NULL} the \code{data("MiF")} dataset will be used. (\emph{default:} \code{NULL})}
 
-\item{functions}{A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})}
+\item{functions}{If \code{plot_functions} is set to \code{TRUE}: A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})}
 
-\item{functions_point_size}{Size of the plotted points in the function grid. (\emph{default:} \code{5})}
+\item{functions_point_size}{If \code{plot_functions} is set to \code{TRUE}: Size of the plotted points in the function grid. (\emph{default:} \code{5})}
 
-\item{rel_widths}{A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})}
+\item{functions_legend_text_size}{If \code{plot_functions} is set to \code{TRUE}: The size of the legend text in the functions plot. (\emph{default:} \code{10})}
+
+\item{functions_axis_text_size}{If \code{plot_functions} is set to \code{TRUE}: The size of the x-axis text in the functions plot. (\emph{default:} \code{10})}
+
+\item{rel_widths}{If \code{plot_functions} is set to \code{TRUE}: A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})}
 }
 \value{
 A ggplot2 object, or a data frame if \code{textmap = TRUE}.
