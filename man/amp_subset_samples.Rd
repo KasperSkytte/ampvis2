@@ -11,7 +11,9 @@ amp_subset_samples(data, ...)
 
 \item{...}{Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}.}
 
-\item{minreads}{Minimum number of reads pr. sample. Samples below this value will be removed. (\emph{default:} \code{0})}
+\item{minreads}{Minimum number of reads pr. sample. Samples below this value will be removed \emph{initially}. (\emph{default:} \code{0})}
+
+\item{rarefy}{Rarefy species richness to this value by using \code{\link[vegan]{rrarefy}}. This is done \emph{initially}, but \emph{after} filtering based on the \code{minreads} value, if set. (\emph{default:} \code{NULL})}
 
 \item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample \code{AFTER} the OTU's have been removed by the \code{minreads} argument. (\emph{default:} \code{FALSE})}
 
@@ -68,8 +70,13 @@ MiDASsubset2 <- amp_subset_samples(MiDAS,
 MiDASsubset2
 
 }
+\references{
+McMurdie, P.J. & Holmes, S. (2014). Waste not, want not: Why
+rarefying microbiome data is inadmissible. \emph{PLoS Comput Biol}
+\strong{10(4):} e1003531. \doi{10.1371/journal.pcbi.1003531}
+}
 \seealso{
-\code{\link{amp_subset_taxa}}, \code{\link{amp_heatmap}}
+\code{\link{amp_load}}, \code{\link{amp_subset_taxa}}
 }
 \author{
 Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}

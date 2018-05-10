@@ -54,6 +54,9 @@ data("AalborgWWTPs")
 amp_rankabundance(amp_subset_samples(AalborgWWTPs, Year \%in\% c("2013")))
 
 }
+\seealso{
+\code{\link{amp_load}}
+}
 \author{
 Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 

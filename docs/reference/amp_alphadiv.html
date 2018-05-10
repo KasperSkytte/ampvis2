@@ -48,6 +48,16 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93913019-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-93913019-2');
+</script>
+
   </head>
 
   <body>
@@ -63,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.3.8</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.3.9</span>
       </span>
     </div>
 
@@ -155,13 +165,23 @@
 
     <p>The alpha-diversity indices are calculated per sample using the vegan function <code><a href='http://www.rdocumentation.org/packages/vegan/topics/diversity'>diversity</a></code>, where the read abundances are first rarefied using <code><a href='http://www.rdocumentation.org/packages/vegan/topics/rarefy'>rrarefy</a></code> by the size of the <code>rarefy</code> argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>McMurdie, P.J. &amp; Holmes, S. (2014). Waste not, want not: Why
+rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
+<strong>10(4):</strong> e1003531. doi: <a href='http://doi.org/10.1371/journal.pcbi.1003531'>10.1371/journal.pcbi.1003531</a></p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='amp_load.html'>amp_load</a></code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>#Load example data</span>
 <span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'>#Subsample/rarefy to 20000 reads and then calculate Shannon and Simpson alpha-diversity indices</span>
-<span class='no'>alphadiversityresult</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_alphadiv</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>measure</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"shannon"</span>, <span class='st'>"simpson"</span>), <span class='kw'>rarefy</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; <span class='message'>The following samples have not been rarefied (less than 20000 reads):</span>
+<span class='no'>alphadiversityresult</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_alphadiv</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>measure</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"shannon"</span>, <span class='st'>"simpson"</span>), <span class='kw'>rarefy</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; <span class='message'>The following sample(s) have not been rarefied (less than 20000 reads):</span>
 #&gt; <span class='message'>16SAMP-703, 16SAMP-739, 16SAMP-10907</span></div><div class='input'>
 #Explore the results in the data frame
 #View(alphadiversityresult)
@@ -176,6 +196,10 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

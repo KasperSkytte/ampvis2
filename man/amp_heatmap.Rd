@@ -146,6 +146,9 @@ textmap <- amp_heatmap(AalborgWWTPs,
 textmap
 
 }
+\seealso{
+\code{\link{amp_load}}
+}
 \author{
 Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 

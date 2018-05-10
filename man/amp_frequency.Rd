@@ -47,6 +47,9 @@ data("AalborgWWTPs")
 amp_frequency(AalborgWWTPs)
 
 }
+\seealso{
+\code{\link{amp_load}}, \code{\link{amp_core}}, \code{\link{amp_venn}}
+}
 \author{
 Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 

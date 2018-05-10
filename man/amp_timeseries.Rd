@@ -71,6 +71,9 @@ amp_timeseries(AalborgWWTPs,
                tax_add = "Phylum")
 
 }
+\seealso{
+\code{\link{amp_load}}
+}
 \author{
 Julie Klessner Thun Pedersen \email{julieklessnerthun@gmail.com}
 

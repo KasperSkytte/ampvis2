@@ -11,6 +11,7 @@ template:
     docsearch:
       api_key: b0ba3a3eb751685982ccf010113f380a
       index_name: ampvis2
+    ganalytics: UA-93913019-2
 
 reference:
   - title: Data and filtering
@@ -30,13 +31,13 @@ reference:
     - amp_boxplot
     - amp_heatmap
     - amp_ordinate
-    - amp_core
     - amp_timeseries
-    - amp_otu_network
+    - amp_venn
+    - amp_core
     - amp_frequency
+    - amp_otu_network
     - amp_rankabundance
     - amp_alphadiv
-    - amp_venn
     
 navbar:
   title: "ampvis2"

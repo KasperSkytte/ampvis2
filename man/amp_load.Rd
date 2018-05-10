@@ -93,6 +93,9 @@ example_otutable
 
 
 }
+\seealso{
+\code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}
+}
 \author{
 Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 

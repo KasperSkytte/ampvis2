@@ -63,6 +63,9 @@ amp_boxplot(AalborgWWTPs,
             tax_add = "Phylum")
 
 }
+\seealso{
+\code{\link{amp_load}}
+}
 \author{
 Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 

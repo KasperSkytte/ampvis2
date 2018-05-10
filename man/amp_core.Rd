@@ -54,6 +54,9 @@ data("AalborgWWTPs")
 amp_core(AalborgWWTPs)
 
 }
+\seealso{
+\code{\link{amp_load}}
+}
 \author{
 Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 

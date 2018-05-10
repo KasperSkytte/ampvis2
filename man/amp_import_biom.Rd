@@ -24,3 +24,6 @@ biom_otutable <- amp_import_biom("path/to/file.biom")
 d <- amp_load(biom_otutable, metadata)
 }
 }
+\seealso{
+\code{\link{amp_load}}, \code{\link{amp_import_usearch}}
+}

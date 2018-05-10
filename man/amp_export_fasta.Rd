@@ -28,6 +28,9 @@ amp_export_fasta(AalborgWWTPs)
 }
 
 }
+\seealso{
+\code{\link{amp_load}}, \code{\link{amp_export_otutable}}
+}
 \author{
 Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 

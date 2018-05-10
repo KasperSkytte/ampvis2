@@ -40,6 +40,9 @@ data("AalborgWWTPs")
 amp_venn(AalborgWWTPs, group_by = "Plant")
 
 }
+\seealso{
+\code{\link{amp_load}}
+}
 \author{
 Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
 

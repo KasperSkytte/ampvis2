@@ -48,6 +48,16 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93913019-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-93913019-2');
+</script>
+
   </head>
 
   <body>
@@ -63,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.3.8</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.3.9</span>
       </span>
     </div>
 
@@ -134,7 +144,11 @@
     </tr>
     <tr>
       <th>minreads</th>
-      <td><p>Minimum number of reads pr. sample. Samples below this value will be removed. (<em>default:</em> <code>0</code>)</p></td>
+      <td><p>Minimum number of reads pr. sample. Samples below this value will be removed <em>initially</em>. (<em>default:</em> <code>0</code>)</p></td>
+    </tr>
+    <tr>
+      <th>rarefy</th>
+      <td><p>Rarefy species richness to this value by using <code><a href='http://www.rdocumentation.org/packages/vegan/topics/rarefy'>rrarefy</a></code>. This is done <em>initially</em>, but <em>after</em> filtering based on the <code>minreads</code> value, if set. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     <tr>
       <th>normalise</th>
@@ -172,9 +186,15 @@ amp_heatmap(subsettedData,
             )
 </pre>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>McMurdie, P.J. &amp; Holmes, S. (2014). Waste not, want not: Why
+rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
+<strong>10(4):</strong> e1003531. doi: <a href='http://doi.org/10.1371/journal.pcbi.1003531'>10.1371/journal.pcbi.1003531</a></p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code>, <code><a href='amp_heatmap.html'>amp_heatmap</a></code></p></div>
+    <div class='dont-index'><p><code><a href='amp_load.html'>amp_load</a></code>, <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -252,6 +272,8 @@ amp_heatmap(subsettedData,
       <li><a href="#details">Details</a></li>
 
       <li><a href="#preserving-relative-abundances-in-a-subset-of-larger-data">Preserving relative abundances in a subset of larger data</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
