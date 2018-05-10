@@ -1,4 +1,39 @@
-#' Tidy up taxonomy
+#' @title Rarefy ampvis2 object (internal function)
+#' @description This is just a wrapper of \code{\link[vegan]{rrarefy}} with convenient error messages and adjusted to work with ampvis2 objects.
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
+#' @param rarefy (\emph{required}) Passed directly to \code{\link[vegan]{rrarefy}}.
+#'
+#' @return An ampvis2 object with rarefied OTU abundances.
+amp_rarefy <- function(data, rarefy) {
+  ### Data must be in ampvis2 format
+  if(class(data) != "ampvis2")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
+  
+  set.seed(0) #for reproducibility
+  
+  reads <- colSums(data$abund)
+  maxreads <- max(reads)
+  minreads <- min(reads)
+  if(is.numeric(rarefy)){
+    if(rarefy > maxreads ) {
+      stop("The chosen rarefy size is larger than the largest amount of reads in any sample (", as.character(maxreads), ").", call. = FALSE)
+    } else if (rarefy < minreads) {
+      data$abund <- suppressWarnings(vegan::rrarefy(t(data$abund), sample = rarefy)) %>% t() %>% as.data.frame() 
+      warning("The chosen rarefy size (", as.character(rarefy), ") is smaller than the smallest amount of reads in any sample (", as.character(minreads), ").", call. = FALSE)
+    } else {
+      data$abund <- suppressWarnings(vegan::rrarefy(t(data$abund), sample = rarefy)) %>% t() %>% as.data.frame()
+      if (minreads < rarefy) {
+        message("The following sample(s) have not been rarefied (less than ", as.character(rarefy), " reads):\n", paste(rownames(data$metadata[which(reads < rarefy),]), collapse = ", "))
+      }
+    }
+  } else if(!is.numeric(rarefy)) {
+    stop("Argument rarefy must be numerical.", call. = FALSE)
+  }
+  
+  return(data)
+}
+
+#' Tidy up taxonomy (internal function)
 #'
 #' Used internally in other ampvis functions.
 #'
@@ -21,8 +56,7 @@
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-
-amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "Genus"){
+amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "Genus") {
   
   tax = data[["tax"]]
   

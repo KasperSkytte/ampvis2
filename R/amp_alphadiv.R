@@ -22,6 +22,14 @@
 #' 
 #' @details The alpha-diversity indices are calculated per sample using the vegan function \code{\link[vegan]{diversity}}, where the read abundances are first rarefied using \code{\link[vegan]{rrarefy}} by the size of the \code{rarefy} argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.
 #' 
+#' @references 
+#' McMurdie, P.J. & Holmes, S. (2014). Waste not, want not: Why
+#' rarefying microbiome data is inadmissible. \emph{PLoS Comput Biol}
+#' \strong{10(4):} e1003531. \doi{10.1371/journal.pcbi.1003531}
+#' 
+#' @seealso 
+#' \code{\link{amp_load}}
+#' 
 #' @examples 
 #' #Load example data
 #' data("AalborgWWTPs")
@@ -54,33 +62,19 @@ amp_alphadiv <- function (data,
     measure <- validMeasures
   }
   
+  if(!is.null(rarefy))
+    data <- amp_rarefy(data, rarefy)
+  
   results <- data$metadata
-  names <- results[,1] %>% as.vector() #for making sure the ordering of the values in the vectors calculated later match the order of the metadata samples
-  abund <- t(data$abund)
+  names <- results[[1]] #for making sure the ordering of the values in the vectors calculated later match the order of the metadata samples
   
   #Add Reads column
   Reads <- colSums(data$abund)
   Reads <- Reads[names]
   results$Reads <- Reads
   
-  if(!is.null(rarefy) & is.numeric(rarefy)){
-    if(rarefy > max(results$Reads) ) {
-      stop("The chosen rarefy size is larger than the largest amount of reads in any sample (", as.character(max(results$Reads)), ").", call. = FALSE)
-    } else if (rarefy < min(results$Reads)) {
-      abund <- suppressWarnings(vegan::rrarefy(abund, sample = rarefy)) %>% as.data.frame()
-      warning("The chosen rarefy size (", as.character(rarefy), ") is smaller than the smallest amount of reads in any sample (", as.character(min(colSums(data$abund))), ").", call. = FALSE)
-    } else {
-      abund <- suppressWarnings(vegan::rrarefy(abund, sample = rarefy)) %>% as.data.frame()
-      if (min(results$Reads) < rarefy) {
-        message("The following samples have not been rarefied (less than ", as.character(rarefy), " reads):\n", paste(rownames(data$metadata[which(results$Reads < rarefy),]), collapse = ", "))
-      }
-    }
-  } else if(!is.null(rarefy) & !is.numeric(rarefy)) {
-    stop("Argument rarefy must be numerical.", call. = FALSE)
-  }
-  
   #warning from phyloseq::estimate_richness
-  if (!any(abund == 1)) {
+  if (!any(data$abund == 1)) {
     warning("The data you have provided does not have\n", 
             "any singletons. This is highly suspicious. Results of richness\n", 
             "estimates (for example) are probably unreliable, or wrong, if you have already\n", 
@@ -88,24 +82,25 @@ amp_alphadiv <- function (data,
             "We recommend that you find the un-trimmed data and retry.", call. = FALSE)
   }
   
+  tabund <- t(data$abund)
   if(any("observed" %in% measure) | is.null(measure)) {
-    ObservedOTUs <- colSums(t(abund) > 0)
+    ObservedOTUs <- colSums(data$abund > 0) #not transposed
     results$ObservedOTUs <- ObservedOTUs[names]
   }
   if(any("shannon" %in% measure)) {
-    Shannon <- vegan::diversity(abund, index = "shannon")
+    Shannon <- vegan::diversity(tabund, index = "shannon")
     results$Shannon = Shannon[names]
   }
   if(any("simpson" %in% measure)) {
-    Simpson <- vegan::diversity(abund, index = "simpson")
+    Simpson <- vegan::diversity(tabund, index = "simpson")
     results$Simpson <- Simpson[names]
   }
   if(any("invsimpson" %in% measure)) {
-    invSimpson <- vegan::diversity(abund, index = "invsimpson")
+    invSimpson <- vegan::diversity(tabund, index = "invsimpson")
     results$invSimpson <- invSimpson[names]
   }
-  if(richness) {
-    richness <- t(vegan::estimateR(abund)) %>% as.data.frame()
+  if(isTRUE(richness)) {
+    richness <- t(vegan::estimateR(tabund)) %>% as.data.frame()
     richness <- richness[names,, drop = FALSE]
     results$Chao1 <- richness[,"S.chao1"]
     results$ACE <- richness[,"S.ACE"]
