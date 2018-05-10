@@ -7,6 +7,10 @@
 #' @export
 #' @importFrom biomformat read_biom biom_data
 #' @importFrom magrittr %>%
+#' 
+#' @seealso 
+#' \code{\link{amp_load}}, \code{\link{amp_import_usearch}}
+#' 
 #' @examples
 #' \dontrun{
 #' #First import the BIOM format OTU table:

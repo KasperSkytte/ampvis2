@@ -24,6 +24,9 @@
 #' @importFrom dplyr group_by mutate summarise if_else n
 #' @importFrom tidyr gather spread
 #' 
+#' @seealso 
+#' \code{\link{amp_load}}
+#' 
 #' @examples 
 #' #Load example data
 #' data("AalborgWWTPs")

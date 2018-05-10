@@ -6,7 +6,8 @@
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param ... Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}. 
-#' @param minreads Minimum number of reads pr. sample. Samples below this value will be removed. (\emph{default:} \code{0})
+#' @param minreads Minimum number of reads pr. sample. Samples below this value will be removed \emph{initially}. (\emph{default:} \code{0})
+#' @param rarefy Rarefy species richness to this value by using \code{\link[vegan]{rrarefy}}. This is done \emph{initially}, but \emph{after} filtering based on the \code{minreads} value, if set. (\emph{default:} \code{NULL})
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample \code{AFTER} the OTU's have been removed by the \code{minreads} argument. (\emph{default:} \code{FALSE})
 #' @param removeAbsents (\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})
 #' 
@@ -58,20 +59,28 @@
 #' #Summary
 #' MiDASsubset2
 #' 
+#' @references 
+#' McMurdie, P.J. & Holmes, S. (2014). Waste not, want not: Why
+#' rarefying microbiome data is inadmissible. \emph{PLoS Comput Biol}
+#' \strong{10(4):} e1003531. \doi{10.1371/journal.pcbi.1003531}
+#' 
 #' @seealso 
-#' \code{\link{amp_subset_taxa}}, \code{\link{amp_heatmap}}
+#' \code{\link{amp_load}}, \code{\link{amp_subset_taxa}}
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-
-
-amp_subset_samples <- function(data, ..., minreads = 0, normalise = FALSE, removeAbsents = TRUE) {
+amp_subset_samples <- function(data,
+                               ..., 
+                               minreads = 0,
+                               rarefy = NULL,
+                               normalise = FALSE, 
+                               removeAbsents = TRUE) {
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
-  if (minreads > max(colSums(data$abund))) {
+  if(minreads > max(colSums(data$abund))) {
     stop(paste("Cannot subset samples with minimum", minreads, "total reads, when highest number of reads in any sample is", max(colSums(data$abund))), call. = FALSE)
   }
   
@@ -84,8 +93,12 @@ amp_subset_samples <- function(data, ..., minreads = 0, normalise = FALSE, remov
   nsamplesbefore <- nrow(data$metadata) %>% as.numeric()
   nOTUsbefore <- nrow(data$abund) %>% as.numeric()
   
-  #remove samples below minreads BEFORE percentages
+  #remove samples below minreads BEFORE normalising and rarefying
   data$abund <- data$abund[, colSums(data$abund) >= minreads, drop = FALSE]
+  
+  #rarefy after filtering by minreads
+  if(!is.null(rarefy))
+    data <- amp_rarefy(data, rarefy)
   
   #Subset the metadata again to match any removed sample(s)
   data$metadata <- data$metadata[which(rownames(data$metadata) %in% colnames(data$abund)), , drop = FALSE]

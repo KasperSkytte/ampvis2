@@ -15,6 +15,10 @@
 #' @importFrom vegan rarefy
 #' 
 #' @return A ggplot2 object.
+#' 
+#' @seealso 
+#' \code{\link{amp_load}}
+#' 
 #' @examples 
 #' #Load example data
 #' data("AalborgWWTPs")

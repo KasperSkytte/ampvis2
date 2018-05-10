@@ -36,6 +36,10 @@
 #' See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
 #' 
 #' @details See \code{\link[GGally]{ggnet2}}
+#' 
+#' @seealso 
+#' \code{\link{amp_load}}
+#' 
 #' @examples 
 #' #Load example data
 #' data("AalborgWWTPs")

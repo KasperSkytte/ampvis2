@@ -13,6 +13,9 @@
 #' @importFrom stringr str_detect str_split
 #' @export
 #' 
+#' @seealso 
+#' \code{\link{amp_load}}, \code{\link{amp_export_otutable}}
+#' 
 #' @examples 
 #' #Load example data
 #' data("AalborgWWTPs")
