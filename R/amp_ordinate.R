@@ -117,8 +117,8 @@
 #'   
 #'   Legendre, P., & Gallagher, E. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia, 129(2), 271-280. \url{http://doi.org/10.1007/s004420100716}
 #'   
-#' @seealso 
-#' \code{\link{amp_load}}
+#' @seealso  
+#' \code{\link{amp_load}} 
 #' 
 #' @examples 
 #' #Load example data
@@ -535,19 +535,20 @@ amp_ordinate <- function(data,
   
   ##### Plot sample points  ##### 
   if (!is.null(sample_plotly)){
-    if(length(sample_plotly) > 1){
-      data_plotly <- apply(data$metadata[,sample_plotly], 1, paste, collapse = "<br>")  
-    } else if(sample_plotly == "all" | sample_plotly == TRUE){
-      data_plotly <- apply(data$metadata[,], 1, paste, collapse = "<br>")  
-    } else{
-      data_plotly <- paste0(sample_plotly,": ",data$metadata[,sample_plotly])
-    }
+    if(sample_plotly == "all" | sample_plotly == TRUE)
+      sample_plotly <- colnames(data$metadata)
+    data_plotly <- apply(data$metadata[,sample_plotly, drop = FALSE], 
+                         1, 
+                         function(x) {
+                           paste0(paste0(names(x), ": "), x, collapse = "<br>")
+                           }
+                         )
     plot <- plot +
       suppressWarnings(geom_point(size = 2, alpha = opacity,
                  aes(text = data_plotly))) + #HER
       theme_minimal() +
       theme(axis.line = element_line(colour = "black", size = 0.5))
-  } else{
+  } else {
     plot <- plot +
       geom_point(size = sample_point_size, alpha = opacity) +
       theme_minimal() +
