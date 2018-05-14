@@ -639,13 +639,12 @@ amp_ordinate <- function(data,
   
   ##### Sample_trajectory  ##### 
   if (!is.null(sample_trajectory)) {
-    traj <- dsites[order(dsites[, sample_trajectory]), ]
+    traj <- dsites[order(dsites[, sample_trajectory, drop = FALSE]), ]
     plot <- plot + geom_path(data = traj, aes_string(group = sample_trajectory_group))
   }
   
   ##### Sample point labels  ##### 
   if(!is.null(sample_label_by)) {
-    
     if (repel_labels == T){plot <- plot + ggrepel::geom_text_repel(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
     else{plot <- plot + geom_text(aes_string(label = sample_label_by),size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)}
   }
@@ -721,11 +720,11 @@ amp_ordinate <- function(data,
   ##### Return  ##### 
   #return plot or additional details
   if(!is.null(sample_plotly)){
-    plotly::ggplotly(plot, tooltip = "text")
+    return(plotly::ggplotly(plot, tooltip = "text"))
   } 
   else if(species_plotly == T){
-    plotly::ggplotly(plot, tooltip = "text")
-    }
+    return(plotly::ggplotly(plot, tooltip = "text"))
+  }
   else if(!detailed_output){
     return(plot)
   }
