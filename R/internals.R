@@ -4,6 +4,10 @@
 #' @param rarefy (\emph{required}) Passed directly to \code{\link[vegan]{rrarefy}}.
 #'
 #' @return An ampvis2 object with rarefied OTU abundances.
+#' 
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
+#' @importFrom vegan rrarefy
 amp_rarefy <- function(data, rarefy) {
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
@@ -29,6 +33,8 @@ amp_rarefy <- function(data, rarefy) {
   } else if(!is.numeric(rarefy)) {
     stop("Argument rarefy must be numerical.", call. = FALSE)
   }
+  
+  data$tax <- dplyr::filter(data$tax, OTU %in% rownames(data$abund))
   
   return(data)
 }
