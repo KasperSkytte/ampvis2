@@ -535,7 +535,7 @@ amp_ordinate <- function(data,
   
   ##### Plot sample points  ##### 
   if (!is.null(sample_plotly)){
-    if(sample_plotly == "all" | sample_plotly == TRUE)
+    if(sample_plotly == "all" | isTRUE(sample_plotly))
       sample_plotly <- colnames(data$metadata)
     data_plotly <- apply(data$metadata[,sample_plotly, drop = FALSE], 
                          1, 
