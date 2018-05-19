@@ -30,6 +30,8 @@ amp_timeseries(data, time_variable = "")
 
 \item{split}{Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE})}
 
+\item{scales}{If \code{split = TRUE}, should the axis scales of each subplot be fixed (\code{fixed}), free (\code{"free"}), or free in one dimension (\code{"free_x"} or \code{"free_y"})? (\emph{default:} \code{"fixed"})}
+
 \item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
 
 \item{plotly}{(\emph{logical}) Returns an interactive plot instead. (\emph{default:} \code{FALSE})}
@@ -65,8 +67,9 @@ amp_timeseries(AalborgWWTPs,
 amp_timeseries(AalborgWWTPs,
                time_variable = "Date",
                group_by = "Plant", 
-               split = TRUE, 
-               tax_show = 6,
+               split = TRUE,
+               scales = "free_y", 
+               tax_show = 9,
                tax_aggregate = "Genus",
                tax_add = "Phylum")
 

@@ -8,6 +8,7 @@
 #' @param time_variable (required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link[lubridate]{as_date}} and preferably of the form \code{"yyyy-mm-dd"} or \code{"\%Y-\%m-\%d"}.
 #' @param group_by Group the samples by a variable in the metadata.
 #' @param split Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE}) 
+#' @param scales If \code{split = TRUE}, should the axis scales of each subplot be fixed (\code{fixed}), free (\code{"free"}), or free in one dimension (\code{"free_x"} or \code{"free_y"})? (\emph{default:} \code{"fixed"}) 
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})
 #' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})
 #' @param tax_show The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{6})
@@ -60,8 +61,9 @@
 #' amp_timeseries(AalborgWWTPs,
 #'                time_variable = "Date",
 #'                group_by = "Plant", 
-#'                split = TRUE, 
-#'                tax_show = 6,
+#'                split = TRUE,
+#'                scales = "free_y", 
+#'                tax_show = 9,
 #'                tax_aggregate = "Genus",
 #'                tax_add = "Phylum")
 #' 
@@ -77,6 +79,7 @@ amp_timeseries <- function(data,
                            tax_class = NULL,
                            tax_empty = "best",
                            split = FALSE,
+                           scales = "fixed",
                            normalise = TRUE,
                            plotly = FALSE,
                            ...) {
@@ -236,7 +239,7 @@ amp_timeseries <- function(data,
   }
   
   if(split == T){
-    p <- p + facet_wrap(tax_aggregate) +
+    p <- p + facet_wrap(tax_aggregate, scales = scales) +
       theme(strip.background = element_rect(colour=NA, fill="grey95"),
             panel.grid.major.x = element_line(color = "grey90"),
             panel.grid.major.y = element_line(color = "grey90"),
