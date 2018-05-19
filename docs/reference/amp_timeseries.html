@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.3.10</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.3.11</span>
       </span>
     </div>
 
@@ -175,6 +175,10 @@
       <td><p>Split the plot into subplots of each taxa. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
+      <th>scales</th>
+      <td><p>If <code>split = TRUE</code>, should the axis scales of each subplot be fixed (<code>fixed</code>), free (<code>"free"</code>), or free in one dimension (<code>"free_x"</code> or <code>"free_y"</code>)? (<em>default:</em> <code>"fixed"</code>)</p></td>
+    </tr>
+    <tr>
       <th>normalise</th>
       <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></td>
     </tr>
@@ -221,7 +225,8 @@
                <span class='kw'>time_variable</span> <span class='kw'>=</span> <span class='st'>"Date"</span>,
                <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
                <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-               <span class='kw'>tax_show</span> <span class='kw'>=</span> <span class='fl'>6</span>,
+               <span class='kw'>scales</span> <span class='kw'>=</span> <span class='st'>"free_y"</span>,
+               <span class='kw'>tax_show</span> <span class='kw'>=</span> <span class='fl'>9</span>,
                <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
                <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>)</div><div class='img'><img src='amp_timeseries-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
