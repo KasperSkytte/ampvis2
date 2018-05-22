@@ -77,6 +77,7 @@ amp_timeseries <- function(data,
                            tax_class = NULL,
                            tax_empty = "best",
                            split = FALSE,
+                           scales = "free_y",
                            normalise = TRUE,
                            plotly = FALSE,
                            ...) {
@@ -236,7 +237,7 @@ amp_timeseries <- function(data,
   }
   
   if(split == T){
-    p <- p + facet_wrap(tax_aggregate) +
+    p <- p + facet_wrap(tax_aggregate, scales = scales) +
       theme(strip.background = element_rect(colour=NA, fill="grey95"),
             panel.grid.major.x = element_line(color = "grey90"),
             panel.grid.major.y = element_line(color = "grey90"),
