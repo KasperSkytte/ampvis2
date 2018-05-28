@@ -79,11 +79,7 @@ amp_timeseries <- function(data,
                            tax_class = NULL,
                            tax_empty = "best",
                            split = FALSE,
-<<<<<<< HEAD
-                           scales = "fixed",
-=======
                            scales = "free_y",
->>>>>>> master
                            normalise = TRUE,
                            plotly = FALSE,
                            ...) {
