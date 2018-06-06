@@ -122,7 +122,7 @@ amp_timeseries <- function(data,
     metadata[group_by] <- lapply(metadata[group_by], factor)
   }
   
-  if (isTRUE(normalise)){
+  if(isTRUE(normalise)){
     if(isTRUE(attributes(data)$normalised))
       warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
     #calculate sample percentages, skip columns with 0 sum to avoid NaN's
@@ -232,10 +232,10 @@ amp_timeseries <- function(data,
           panel.grid.major.x = element_line(color = "grey90"),
           panel.grid.major.y = element_line(color = "grey90"))
   
-  if(!isTRUE(normalise)) {
-    p <- p + ylab("Read counts")
-  } else if(isTRUE(normalise)) {
+  if(isTRUE(normalise) | isTRUE(attributes(data)$normalised)) {
     p <- p + ylab("Read abundance (%)")
+  } else if(!isTRUE(normalise) & !isTRUE(attributes(data)$normalised)) {
+    p <- p + ylab("Read counts")
   }
   
   if(split == T){
