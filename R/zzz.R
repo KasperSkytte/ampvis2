@@ -4,7 +4,7 @@
     return()
   } else {
     local_version <- utils::packageVersion("ampvis2")
-    packageStartupMessage("This is ", pkg, " version ", local_version, ". Great documentation is available at the ampvis2 website: https://madsalbertsen.github.io/ampvis2/\n", appendLF = TRUE)
+    packageStartupMessage("This is ", pkg, " version ", local_version, ". Great documentation is available at the ampvis2 website: https://madsalbertsen.github.io/ampvis2/", appendLF = TRUE)
     if(requireNamespace("remotes", quietly = TRUE)) {
       tryCatch({
         github_ref <- remotes:::github_resolve_ref(
@@ -13,10 +13,10 @@
         github_version <- package_version(gsub("v", "", github_ref))
         if(local_version < github_version) {
           packageStartupMessage(
-            "New release of ", pkg, " (", github_version, ") is available! Install the latest release with (copy/paste): \nremotes::install_github(\"madsalbertsen/ampvis2@*release\")\n\nRead the release notes at: https://github.com/MadsAlbertsen/ampvis2/releases/tag/", github_version)
+            "New release of ", pkg, " (", github_version, ") is available! Install the latest release with (copy/paste): \nremotes::install_github(\"madsalbertsen/ampvis2@*release\")\nRead the release notes at: https://github.com/MadsAlbertsen/ampvis2/releases/tag/", github_version)
         }
       }, error=function(e) {
-        packageStartupMessage("Can't reach GitHub to check for new releases just now. Trying again next time. \n")
+        packageStartupMessage("Can't reach GitHub to check for new releases just now. Trying again next time.")
       })
     }
   }
