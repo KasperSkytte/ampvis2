@@ -62,11 +62,16 @@ amp_alphadiv <- function (data,
     measure <- validMeasures
   }
   
-  if(!is.null(rarefy))
-    data <- amp_rarefy(data, rarefy)
-  
   results <- data$metadata
   names <- results[[1]] #for making sure the ordering of the values in the vectors calculated later match the order of the metadata samples
+  
+  #nreads before rarefying
+  RawReads <- colSums(data$abund)
+  RawReads <- RawReads[names]
+  results$RawReads <- RawReads
+  
+  if(!is.null(rarefy))
+    data <- amp_rarefy(data, rarefy)
   
   #Add Reads column
   Reads <- colSums(data$abund)
@@ -106,6 +111,9 @@ amp_alphadiv <- function (data,
     results$ACE <- richness[,"S.ACE"]
   }
   
-  results <- results %>% arrange(Reads)
+  #arrange by RawReads no matter if rarefied or not, remove the column if rarefy is not set
+  results <- results %>% 
+    arrange(RawReads) %>% 
+    {if(is.null(rarefy)) select(., -RawReads) else return(.)}
   return(results)
 }
