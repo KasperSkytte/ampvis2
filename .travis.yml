@@ -1,6 +1,7 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
+cache: packages #comment if travis fails when installing dependencies
 sudo: false
 r: bioc-devel
 warnings_are_errors: false
