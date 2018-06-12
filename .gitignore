@@ -218,7 +218,7 @@ pip-log.txt
 
 .RData
 
-ampvis2.Rproj
+*.Rproj
 
 
 test/
