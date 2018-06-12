@@ -9,19 +9,27 @@ amp_diffabund(data, group_by)
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group_by}{(required) The group to test.}
+\item{group_by}{(required) The group of samples to test as defined by a categorical variable in the metadata.}
 
-\item{signif_thrh}{Significance treshold. (\emph{default:} \code{0.01})}
+\item{test}{x}
+
+\item{fitType}{x}
+
+\item{num_threads}{x}
+
+\item{signif_thrh}{Significance threshold. (\emph{default:} \code{0.01})}
 
 \item{fold}{Log2fold filter for displaying significant results. (\emph{default:} \code{0})}
 
-\item{plot_type}{Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})}
+\item{label}{x}
+
+\item{signif_plot_type}{Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})}
 
 \item{plot_nshow}{The amount of the most significant results to display. (\emph{default:} \code{10})}
 
 \item{plot_point_size}{The size of the plotted points. (\emph{default:} \code{2})}
 
-\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})}
 
 \item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
@@ -30,7 +38,7 @@ amp_diffabund(data, group_by)
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
 \itemize{
    \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
    \item \code{"OTU"}: Display the OTU name.
    }}
 
@@ -49,10 +57,10 @@ Tests if there is a significant difference in abundances between samples or grou
 data("AalborgWWTPs")
 
 #Save the results in an object
-results <- amp_diffabund(AalborgWWTPs, group_by = "Plant")
+results <- amp_diffabund(AalborgWWTPs, group_by = "Plant", num_threads = 4)
 
 #Show plots
-results$plot_sig
+results$plot_signif
 results$plot_MA
 
 #Or show raw results

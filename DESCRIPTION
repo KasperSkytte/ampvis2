@@ -38,6 +38,9 @@ Imports:
     crayon,
     biomformat,
     DESeq2
-biocViews: DESeq2
-Remotes: github::briatte/ggnet, github::joey711/biomformat
+biocViews: 
+    DESeq2
+Remotes: 
+    github::briatte/ggnet,
+    github::joey711/biomformat
 RoxygenNote: 6.0.1
