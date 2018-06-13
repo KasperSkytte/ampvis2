@@ -126,23 +126,21 @@ amp_diffabund <- function(data,
   groupF <- as.formula(paste("~", group, sep=""))
   
   if(isTRUE(verbose))
-    message(" - Running DESeq2 differential abundance test, this may take a while depending on the size of the data. If not run on a Windows machine, adjust \"num_threads\" to parallelize the calculations and speed up the process.\n---------------------------------")
-  data_deseq <- suppressMessages(DESeq2::DESeqDataSetFromMatrix(countData = abund4,
-                                               colData = metadata,
-                                               design = groupF))
+    message("Running DESeq2 differential abundance test. This may take a while depending on the size of the data. \n---------------------------------")
+  data_deseq <- suppressMessages(DESeq2::DESeqDataSetFromMatrix(countData = abund4, colData = metadata, design = groupF))
   
   data_deseq_test = DESeq2::DESeq(data_deseq, 
                                   test = test,
                                   fitType = fitType, 
                                   quiet = if(!isTRUE(verbose)) TRUE else FALSE,
                                   parallel = if(num_threads > 1L) TRUE else FALSE,
-                                  BPPARAM = MulticoreParam(num_threads))
+                                  BPPARAM = BiocParallel::MulticoreParam(num_threads))
   
   ## Extract the results
   res = DESeq2::results(data_deseq_test, 
                         cooksCutoff = FALSE, 
                         parallel = if(num_threads > 1L) TRUE else FALSE,
-                        BPPARAM = MulticoreParam(num_threads))
+                        BPPARAM = BiocParallel::MulticoreParam(num_threads))
   
   res_tax = data.frame(as.data.frame(res), Tax = rownames(res))
   
@@ -150,7 +148,7 @@ amp_diffabund <- function(data,
     arrange(padj)
   
   if(isTRUE(verbose))
-    message("---------------------------------\n - Done. Generating plots.")
+    message("---------------------------------\nDone. Generating plots.")
   
   ##### MA plot #####
   res_tax$Significant <- ifelse(rownames(res_tax) %in% res_tax_sig$Tax , "Significant", "Not significant")
