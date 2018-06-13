@@ -11,21 +11,21 @@ amp_diffabund(data, group)
 
 \item{group}{(required) A categorical variable in the metadata that defines the sample groups to test.}
 
-\item{test}{x}
+\item{test}{The name of the test to use, either \code{"Wald} or \code{"LRT}. See \code{\link[DESeq2]{DESeq}}. (\emph{default:} \code{"Wald"})}
 
-\item{fitType}{x}
+\item{fitType}{The type of fitting of dispersions to the mean intensity, either \code{"parametric"}, \code{"local"}, or \code{"mean"}. (\emph{default:} \code{"parametric"})}
 
-\item{num_threads}{x}
+\item{num_threads}{The number of threads to use for parallelization by the \href{https://www.bioconductor.org/packages/devel/bioc/vignettes/BiocParallel/inst/doc/Introduction_To_BiocParallel.pdf}{\code{BiocParallel}} backend. Parallelization is not supported on windows machines. (\emph{default:} \code{1})}
 
 \item{signif_thrh}{Significance threshold. (\emph{default:} \code{0.01})}
 
 \item{fold}{Log2fold filter for displaying significant results. (\emph{default:} \code{0})}
 
-\item{label}{x}
+\item{verbose}{(\emph{Logical}) Whether to print status messages during the test calculations. (\emph{Default: } \code{TRUE})}
 
 \item{signif_plot_type}{Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})}
 
-\item{plot_nshow}{The amount of the most significant results to display. (\emph{default:} \code{10})}
+\item{plot_nshow}{The amount of the most significant results to display in the most-significant plot. (\emph{default:} \code{10})}
 
 \item{plot_point_size}{The size of the plotted points. (\emph{default:} \code{2})}
 
@@ -43,14 +43,22 @@ amp_diffabund(data, group)
    }}
 
 \item{adjust_zero}{Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.}
-
-\item{plotly}{Returns an interactive plot instead. (\emph{default:} \code{FALSE})}
 }
 \value{
-A list with multiple elements.
+A list with multiple elements:
+  \itemize{
+    \item \code{"DESeq2_results"}: The raw output result from \code{\link[DESeq2]{DESeq}}.
+    \item \code{"DESeq2_results_signif"}: The raw output result from \code{\link[DESeq2]{DESeq}}, but subset to only taxa with p-value below the threshold set by \code{signif_thrh}.
+    \item \code{"signif_plotdata"}: The data used to generate the ggplots, but subset to only taxa with p-value below the threshold set by \code{signif_thrh}.
+    \item \code{"Clean_results"}: A simpler version of DESeq2_results_signif only with adjusted p-values, log2FoldChange, and average abundance of each taxa per \code{group}.
+    \item \code{"plot_MA"}: MA-plot
+    \item \code{"plot_MA_plotly"}: Interactive \code{plotly} plot of \code{MA-plot} with custom hover information.
+    \item \code{"plot_signif"}: Abundance plot with taxa with the n most significant p-value (below the threshold), where n is set by \code{plot_nshow}.
+    \item \code{"plot_signif_plotly"}: Interactive \code{plotly} plot of \code{plot_signif} with custom hover information. 
+  }
 }
 \description{
-Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions.
+Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions. Returns a list containing test results as well as two different plots; an MA-plot and an abundance plot with taxa with the most significant p-value (below the threshold).
 }
 \examples{
 #Load example data
@@ -64,7 +72,7 @@ results$plot_signif
 results$plot_MA
 
 #Or show raw results
-results$DESeq2_results
+results$Clean_results
 
 }
 \author{

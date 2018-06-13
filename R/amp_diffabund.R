@@ -1,16 +1,15 @@
 #' Differential abundance test
 #'
-#' Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions.
+#' Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions. Returns a list containing test results as well as two different plots; an MA-plot and an abundance plot with taxa with the most significant p-value (below the threshold).
 #'
 #' @usage amp_diffabund(data, group)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
 #' @param group (required) A categorical variable in the metadata that defines the sample groups to test. 
-#' @param test x
-#' @param fitType x
-#' @param verbose 
-#' @param label x
-#' @param num_threads x
+#' @param test The name of the test to use, either \code{"Wald} or \code{"LRT}. See \code{\link[DESeq2]{DESeq}}. (\emph{default:} \code{"Wald"})
+#' @param fitType The type of fitting of dispersions to the mean intensity, either \code{"parametric"}, \code{"local"}, or \code{"mean"}. (\emph{default:} \code{"parametric"})
+#' @param verbose (\emph{Logical}) Whether to print status messages during the test calculations. (\emph{Default: } \code{TRUE}) 
+#' @param num_threads The number of threads to use for parallelization by the \href{https://www.bioconductor.org/packages/devel/bioc/vignettes/BiocParallel/inst/doc/Introduction_To_BiocParallel.pdf}{\code{BiocParallel}} backend. Parallelization is not supported on windows machines. (\emph{default:} \code{1})
 #' @param signif_plot_type Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})
 #' @param signif_thrh Significance threshold. (\emph{default:} \code{0.01})
 #' @param fold Log2fold filter for displaying significant results. (\emph{default:} \code{0})
@@ -23,20 +22,31 @@
 #'    \item \code{"OTU"}: Display the OTU name.
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
-#' @param plot_nshow The amount of the most significant results to display. (\emph{default:} \code{10})
+#' @param plot_nshow The amount of the most significant results to display in the most-significant plot. (\emph{default:} \code{10})
 #' @param plot_point_size The size of the plotted points. (\emph{default:} \code{2})
 #' @param adjust_zero Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.
-#' @param plotly Returns an interactive plot instead. (\emph{default:} \code{FALSE})
 #'
-#' @return A list with multiple elements.
+#' @return A list with multiple elements:
+#'   \itemize{
+#'     \item \code{"DESeq2_results"}: The raw output result from \code{\link[DESeq2]{DESeq}}.
+#'     \item \code{"DESeq2_results_signif"}: The raw output result from \code{\link[DESeq2]{DESeq}}, but subset to only taxa with p-value below the threshold set by \code{signif_thrh}.
+#'     \item \code{"signif_plotdata"}: The data used to generate the ggplots, but subset to only taxa with p-value below the threshold set by \code{signif_thrh}.
+#'     \item \code{"Clean_results"}: A simpler version of DESeq2_results_signif only with adjusted p-values, log2FoldChange, and average abundance of each taxa per \code{group}.
+#'     \item \code{"plot_MA"}: MA-plot
+#'     \item \code{"plot_MA_plotly"}: Interactive \code{plotly} plot of \code{MA-plot} with custom hover information.
+#'     \item \code{"plot_signif"}: Abundance plot with taxa with the n most significant p-value (below the threshold), where n is set by \code{plot_nshow}.
+#'     \item \code{"plot_signif_plotly"}: Interactive \code{plotly} plot of \code{plot_signif} with custom hover information. 
+#'   }
 #' 
 #' @import ggplot2
 #' @importFrom magrittr %>% %<>%
 #' @importFrom DESeq2 DESeq DESeqDataSetFromMatrix results
 #' @importFrom dplyr filter arrange group_by mutate select summarise
 #' @importFrom data.table as.data.table setkey
+#' @importFrom stringr str_split
+#' @importFrom purrr imap
 #' @importFrom plotly ggplotly
-#' @importFrom tidyr gather spread
+#' @importFrom tidyr gather spread unite
 #' 
 #' @export
 #' @examples
@@ -51,7 +61,7 @@
 #' results$plot_MA
 #'
 #' #Or show raw results
-#' results$DESeq2_results
+#' results$Clean_results
 #'
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
@@ -63,7 +73,6 @@ amp_diffabund <- function(data,
                           signif_thrh = 0.01,
                           fold = 0,
                           verbose = TRUE,
-                          label = FALSE,
                           signif_plot_type = "point",
                           plot_nshow = 10,
                           plot_point_size = 2,
@@ -71,11 +80,10 @@ amp_diffabund <- function(data,
                           tax_add = NULL,
                           tax_class = NULL,
                           tax_empty = "best",
-                          adjust_zero = NULL,
-                          plotly = FALSE) {
+                          adjust_zero = NULL) {
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)")
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
   ## Clean up the taxonomy
   data <- ampvis2:::amp_rename(data = data,
@@ -86,7 +94,7 @@ amp_diffabund <- function(data,
   #tax_add and tax_aggregate can't be the same
   if(!is.null(tax_aggregate) & !is.null(tax_add)) {
     if(identical(tax_aggregate, tax_add)) {
-      stop("tax_aggregate and tax_add cannot be the same")
+      stop("tax_aggregate and tax_add cannot be the same", call. = FALSE)
     }
   }
   
@@ -116,18 +124,19 @@ amp_diffabund <- function(data,
   abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
     as.data.frame() %>%
-    select(-Abundance)
+    select(-Abundance) %>%
+    unique()
   
   ##### Convert to DESeq2 format and test for significant differential abundance #####
-  abund4 <- tidyr::spread(data = abund3, key = Sample, value = sum)
-  rownames(abund4) <- abund4$Display
-  abund4 <- abund4[,-1]
+  abund4 <- tidyr::spread(data = abund3, key = Sample, value = sum) %>%
+    column_to_rownames("Display")
   abund4 <- abund4[,metadata[[1]]]
-  groupF <- as.formula(paste("~", group, sep=""))
   
   if(isTRUE(verbose))
     message("Running DESeq2 differential abundance test. This may take a while depending on the size of the data. \n---------------------------------")
-  data_deseq <- suppressMessages(DESeq2::DESeqDataSetFromMatrix(countData = abund4, colData = metadata, design = groupF))
+  data_deseq <- suppressMessages(DESeq2::DESeqDataSetFromMatrix(countData = abund4, 
+                                                                colData = metadata, 
+                                                                design = as.formula(paste("~", group, sep=""))))
   
   data_deseq_test = DESeq2::DESeq(data_deseq, 
                                   test = test,
@@ -138,47 +147,55 @@ amp_diffabund <- function(data,
   
   ## Extract the results
   res = DESeq2::results(data_deseq_test, 
-                        cooksCutoff = FALSE, 
-                        parallel = if(num_threads > 1L) TRUE else FALSE,
-                        BPPARAM = BiocParallel::MulticoreParam(num_threads))
+                        cooksCutoff = FALSE
+                        #,parallel = if(num_threads > 1L) TRUE else FALSE
+                        #,BPPARAM = BiocParallel::MulticoreParam(num_threads)
+                        )
   
   res_tax = data.frame(as.data.frame(res), Tax = rownames(res))
   
-  res_tax_sig = subset(res_tax, padj < signif_thrh & fold < abs(log2FoldChange)) %>%
+  res_tax_sig = filter(res_tax, padj < signif_thrh & fold < abs(log2FoldChange)) %>%
     arrange(padj)
   
   if(isTRUE(verbose))
     message("---------------------------------\nDone. Generating plots.")
   
   ##### MA plot #####
-  res_tax$Significant <- ifelse(rownames(res_tax) %in% res_tax_sig$Tax , "Significant", "Not significant")
-  res_tax$Significant[is.na(res_tax$Significant)] <- "No"
+  res_tax$Significant <- ifelse(rownames(res_tax) %in% res_tax_sig$Tax ,
+                                "Significant",
+                                "Not significant")
+  res_tax$Significant[is.na(res_tax$Significant)] <- "Not significant"
   
-  MAplot <- ggplot(data = res_tax, aes(x = baseMean, y = log2FoldChange, color = Significant)) +
+  MAplot <- ggplot(data = res_tax, 
+                   aes(x = baseMean, 
+                       y = log2FoldChange,
+                       color = Significant)) +
     scale_x_log10() +
     scale_color_manual(values=c("black", "red")) +
     labs(x = "BaseMean read abundance", y = "Log2 fold change") +
     theme_classic() +
     theme(panel.grid.major.x = element_line(color = "grey90"),
           panel.grid.major.y = element_line(color = "grey90"),
-          legend.key = element_blank())
+          legend.title = element_blank())
   
-  if(!isTRUE(plotly)){
-    MAplot <- MAplot + geom_point(size = plot_point_size)
-  }
+  #find the lowest taxonomic level and generate a character vector with taxonomic
+  #information for each taxa (only with taxonomy from the lowest taxonomic level and up)
+  taxlevels <- factor(c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"), 
+                      c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"))
+  if(!is.null(tax_add)) {
+    lowestlevel <- as.character(taxlevels[max(as.numeric(c(taxlevels[which(taxlevels %in% tax_aggregate)], 
+                                                           taxlevels[which(taxlevels %in% tax_add)])))])
+  } else
+    lowestlevel <- tax_aggregate
   
-  if(isTRUE(plotly)){
-    data_plotly <- paste("Kingdom: ", data$tax[,1],"<br>",
-                         "Phylum: ", data$tax[,2],"<br>",
-                         "Class: ", data$tax[,3],"<br>",
-                         "Order: ", data$tax[,4],"<br>",
-                         "Family: ", data$tax[,5],"<br>",
-                         "Genus: ", data$tax[,6],"<br>",
-                         "Species: ", data$tax[,7],"<br>",
-                         "OTU: ", data$tax[,8],sep = "")
-    
-    MAplot <- MAplot + geom_point(size = plot_point_size-1, aes(text = data_plotly))
-  }
+  data_plotly <- data$tax %>% 
+    .[which(.[,which(colnames(.) == lowestlevel)] %in% unlist(stringr::str_split(res_tax$Tax, "; "))),] %>%
+    .[,1:which(colnames(.) == lowestlevel)] %>%
+    purrr::imap(~paste(.y, .x, sep = ": ")) %>%
+    as.data.frame() %>% 
+    tidyr::unite("test", sep = "<br>") %>%
+    unlist(use.names = FALSE) %>%
+    unique()
   
   ##### data for significance plot #####
   abund5 <- mutate(abund4, Tax = rownames(abund4)) %>%
@@ -186,12 +203,11 @@ amp_diffabund <- function(data,
     group_by(Sample) %>%
     mutate(Abundance = Count / sum(Count)*100)
   
-  
   abund6 <- suppressWarnings(dplyr::inner_join(abund5, res_tax, by = "Tax")) %>%
     filter(padj < signif_thrh & fold < abs(log2FoldChange)) %>%
     arrange(padj)
   
-  if(nrow(abund6) == 0){stop("No significant differences found.")}
+  if(nrow(abund6) == 0){stop("No significant differences found.", call. = FALSE)}
   
   if(!is.null(adjust_zero)){
     abund6$Abundance[abund6$Abundance==0] <- adjust_zero
@@ -209,7 +225,7 @@ amp_diffabund <- function(data,
   
   if(!is.null(plot_nshow)){
     if(plot_nshow < nrow(abund6)){plot_nshow <- nrow(abund6)}
-    point_df <- subset(point_df, Tax %in% as.character(unique(point_df$Tax))[1:plot_nshow])
+    point_df <- filter(point_df, Tax %in% as.character(unique(point_df$Tax))[1:plot_nshow])
   }
   
   point_df$Tax <- factor(point_df$Tax, levels = rev(as.character(unique(point_df$Tax))[1:plot_nshow]))
@@ -234,22 +250,28 @@ amp_diffabund <- function(data,
     group_by(Sample) %>%
     arrange(padj)
   
-  colnames(clean_res0)[12] <- "group"
+  colnames(clean_res0)[12] <- "Group"
   
   cr <- mutate(clean_res0,
                padj = signif(padj, 2),
                Log2FC = signif(log2FoldChange, 2),
                Taxonomy = Tax) %>%
-    group_by(group, Taxonomy, padj, Log2FC) %>%
+    group_by(Group, Taxonomy, padj, Log2FC) %>%
     summarise(Avg = round(mean(Abundance), 3)) %>%
-    tidyr::spread(key = group, value = Avg) %>%
+    tidyr::spread(key = Group, value = Avg) %>%
     arrange(padj)
   
   out <- list(DESeq2_results = res, 
-              DESeq2_results_signifi = res_tax_sig, 
+              DESeq2_results_signif = res_tax_sig, 
               signif_plotdata = point_df, 
               Clean_results = cr,
-              plot_MA = if(isTRUE(plotly)) ggplotly(MAplot, tooltip = "text") else MAplot,
-              plot_signif = signifplot)
+              plot_MA = MAplot + 
+                geom_point(size = plot_point_size),
+              plot_MA_plotly = plotly::ggplotly(MAplot + 
+                                                  suppressWarnings(geom_point(size = plot_point_size-1,
+                                                             aes(text = data_plotly))),
+                                                tooltip = "text"),
+              plot_signif = signifplot,
+              plot_signif_plotly = plotly::ggplotly(signifplot))
   return(out)
 }
