@@ -4,12 +4,12 @@
 \alias{amp_diffabund}
 \title{Differential abundance test}
 \usage{
-amp_diffabund(data, group_by)
+amp_diffabund(data, group)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
 
-\item{group_by}{(required) The group of samples to test as defined by a categorical variable in the metadata.}
+\item{group}{(required) A categorical variable in the metadata that defines the sample groups to test.}
 
 \item{test}{x}
 
@@ -57,7 +57,7 @@ Tests if there is a significant difference in abundances between samples or grou
 data("AalborgWWTPs")
 
 #Save the results in an object
-results <- amp_diffabund(AalborgWWTPs, group_by = "Plant", num_threads = 4)
+results <- amp_diffabund(AalborgWWTPs, group = "Plant", num_threads = 4)
 
 #Show plots
 results$plot_signif

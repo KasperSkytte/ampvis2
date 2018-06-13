@@ -2,12 +2,13 @@
 #'
 #' Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions.
 #'
-#' @usage amp_diffabund(data, group_by)
+#' @usage amp_diffabund(data, group)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
-#' @param group_by (required) The group of samples to test as defined by a categorical variable in the metadata.
+#' @param group (required) A categorical variable in the metadata that defines the sample groups to test. 
 #' @param test x
 #' @param fitType x
+#' @param verbose 
 #' @param label x
 #' @param num_threads x
 #' @param signif_plot_type Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})
@@ -30,7 +31,7 @@
 #' @return A list with multiple elements.
 #' 
 #' @import ggplot2
-#' @importFrom magrittr %>%
+#' @importFrom magrittr %>% %<>%
 #' @importFrom DESeq2 DESeq DESeqDataSetFromMatrix results
 #' @importFrom dplyr filter arrange group_by mutate select summarise
 #' @importFrom data.table as.data.table setkey
@@ -43,7 +44,7 @@
 #' data("AalborgWWTPs")
 #'
 #' #Save the results in an object
-#' results <- amp_diffabund(AalborgWWTPs, group_by = "Plant", num_threads = 4)
+#' results <- amp_diffabund(AalborgWWTPs, group = "Plant", num_threads = 4)
 #'
 #' #Show plots
 #' results$plot_signif
@@ -55,12 +56,13 @@
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 amp_diffabund <- function(data,
-                          group_by,
+                          group,
                           test = "Wald",
                           fitType = "parametric",
                           num_threads = 1L,
                           signif_thrh = 0.01,
                           fold = 0,
+                          verbose = TRUE,
                           label = FALSE,
                           signif_plot_type = "point",
                           plot_nshow = 10,
@@ -93,6 +95,9 @@ amp_diffabund <- function(data,
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
   
+  # fix group factors to be syntactically valid
+  metadata[,group] %<>% stringr::str_replace_all("[^[:alnum:]_.]", "_") %>% as.factor()
+  
   ## Make a name variable that can be used instead of tax_aggregate to display multiple levels
   suppressWarnings(
     if (!is.null(tax_add)){
@@ -113,22 +118,23 @@ amp_diffabund <- function(data,
     as.data.frame() %>%
     select(-Abundance)
   
-  ## Convert to DESeq2 format
+  ##### Convert to DESeq2 format and test for significant differential abundance #####
   abund4 <- tidyr::spread(data = abund3, key = Sample, value = sum)
   rownames(abund4) <- abund4$Display
   abund4 <- abund4[,-1]
   abund4 <- abund4[,metadata[[1]]]
-  groupF <- as.formula(paste("~", group_by, sep=""))
+  groupF <- as.formula(paste("~", group, sep=""))
   
-  
-  data_deseq <- DESeq2::DESeqDataSetFromMatrix(countData = abund4,
+  if(isTRUE(verbose))
+    message(" - Running DESeq2 differential abundance test, this may take a while depending on the size of the data. If not run on a Windows machine, adjust \"num_threads\" to parallelize the calculations and speed up the process.\n---------------------------------")
+  data_deseq <- suppressMessages(DESeq2::DESeqDataSetFromMatrix(countData = abund4,
                                                colData = metadata,
-                                               design = groupF)
+                                               design = groupF))
   
-  ## Test for significant differential abundance
   data_deseq_test = DESeq2::DESeq(data_deseq, 
                                   test = test,
                                   fitType = fitType, 
+                                  quiet = if(!isTRUE(verbose)) TRUE else FALSE,
                                   parallel = if(num_threads > 1L) TRUE else FALSE,
                                   BPPARAM = MulticoreParam(num_threads))
   
@@ -137,10 +143,14 @@ amp_diffabund <- function(data,
                         cooksCutoff = FALSE, 
                         parallel = if(num_threads > 1L) TRUE else FALSE,
                         BPPARAM = MulticoreParam(num_threads))
+  
   res_tax = data.frame(as.data.frame(res), Tax = rownames(res))
   
   res_tax_sig = subset(res_tax, padj < signif_thrh & fold < abs(log2FoldChange)) %>%
     arrange(padj)
+  
+  if(isTRUE(verbose))
+    message("---------------------------------\n - Done. Generating plots.")
   
   ##### MA plot #####
   res_tax$Significant <- ifelse(rownames(res_tax) %in% res_tax_sig$Tax , "Significant", "Not significant")
@@ -152,7 +162,8 @@ amp_diffabund <- function(data,
     labs(x = "BaseMean read abundance", y = "Log2 fold change") +
     theme_classic() +
     theme(panel.grid.major.x = element_line(color = "grey90"),
-          panel.grid.major.y = element_line(color = "grey90"))
+          panel.grid.major.y = element_line(color = "grey90"),
+          legend.key = element_blank())
   
   if(!isTRUE(plotly)){
     MAplot <- MAplot + geom_point(size = plot_point_size)
@@ -178,7 +189,7 @@ amp_diffabund <- function(data,
     mutate(Abundance = Count / sum(Count)*100)
   
   
-  abund6 <- dplyr::inner_join(abund5, res_tax, by = "Tax") %>%
+  abund6 <- suppressWarnings(dplyr::inner_join(abund5, res_tax, by = "Tax")) %>%
     filter(padj < signif_thrh & fold < abs(log2FoldChange)) %>%
     arrange(padj)
   
@@ -189,14 +200,14 @@ amp_diffabund <- function(data,
   }
   
   colnames(metadata)[1] <- "Sample"
-  metadata <- metadata[c("Sample",group_by)]
+  metadata <- metadata[c("Sample",group)]
   colnames(metadata)[2] <- "Group"
   
   point_df <- dplyr::inner_join(x = abund6, y = metadata, by = "Sample") %>%
     group_by(Sample) %>%
     arrange(padj)
   
-  colnames(point_df)[12] <- group_by
+  colnames(point_df)[12] <- group
   
   if(!is.null(plot_nshow)){
     if(plot_nshow < nrow(abund6)){plot_nshow <- nrow(abund6)}
@@ -206,7 +217,7 @@ amp_diffabund <- function(data,
   point_df$Tax <- factor(point_df$Tax, levels = rev(as.character(unique(point_df$Tax))[1:plot_nshow]))
   
   ##### significance plot #####
-  signifplot <- ggplot(data = point_df, aes_string(x = "Tax", y = "Abundance", color = group_by)) +
+  signifplot <- ggplot(data = point_df, aes_string(x = "Tax", y = "Abundance", color = group)) +
     labs(x = "", y = "Read Abundance (%)") +
     coord_flip() +
     theme_classic() +
@@ -219,7 +230,8 @@ amp_diffabund <- function(data,
     signifplot <- signifplot + geom_boxplot(outlier.size=1)
   }
   
-  clean_res0 <- dplyr::inner_join(abund5, res_tax, by = "Tax") %>%
+  ##### return results #####
+  clean_res0 <- suppressWarnings(dplyr::inner_join(abund5, res_tax, by = "Tax")) %>%
     dplyr::inner_join(y = metadata, by = "Sample") %>%
     group_by(Sample) %>%
     arrange(padj)
@@ -239,12 +251,7 @@ amp_diffabund <- function(data,
               DESeq2_results_signifi = res_tax_sig, 
               signif_plotdata = point_df, 
               Clean_results = cr,
-              plot_MA = MAplot,
+              plot_MA = if(isTRUE(plotly)) ggplotly(MAplot, tooltip = "text") else MAplot,
               plot_signif = signifplot)
-  
-  if(isTRUE(plotly)) {
-    ggplotly(MAplot, tooltip = "text")
-  } else {
-    return(out)
-  }
+  return(out)
 }
