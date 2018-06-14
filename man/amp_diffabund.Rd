@@ -64,12 +64,13 @@ Tests if there is a significant difference in abundances between samples or grou
 #Load example data
 data("AalborgWWTPs")
 
-#Save the results in an object
-results <- amp_diffabund(AalborgWWTPs, group = "Plant", num_threads = 4)
+#Subset to a few taxa, save the results in an object
+d <- amp_subset_taxa(AalborgWWTPs, tax_vector = c("p__Chloroflexi", "p__Actinobacteria"))
+results <- amp_diffabund(d, group = "Plant", tax_aggregate = "Genus")
 
 #Show plots
 results$plot_signif
-results$plot_MA
+results$plot_MA_plotly
 
 #Or show raw results
 results$Clean_results

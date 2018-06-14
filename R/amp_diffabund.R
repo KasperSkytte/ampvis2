@@ -41,9 +41,10 @@
 #' @import ggplot2
 #' @importFrom magrittr %>% %<>%
 #' @importFrom DESeq2 DESeq DESeqDataSetFromMatrix results
-#' @importFrom dplyr filter arrange group_by mutate select summarise
+#' @importFrom dplyr filter arrange group_by mutate select summarise inner_join
 #' @importFrom data.table as.data.table setkey
-#' @importFrom stringr str_split
+#' @importFrom stringr str_split str_replace_all
+#' @importFrom tibble column_to_rownames
 #' @importFrom purrr imap
 #' @importFrom plotly ggplotly
 #' @importFrom tidyr gather spread unite
@@ -53,12 +54,13 @@
 #' #Load example data
 #' data("AalborgWWTPs")
 #'
-#' #Save the results in an object
-#' results <- amp_diffabund(AalborgWWTPs, group = "Plant", num_threads = 4)
+#' #Subset to a few taxa, save the results in an object
+#' d <- amp_subset_taxa(AalborgWWTPs, tax_vector = c("p__Chloroflexi", "p__Actinobacteria"))
+#' results <- amp_diffabund(d, group = "Plant", tax_aggregate = "Genus")
 #'
 #' #Show plots
 #' results$plot_signif
-#' results$plot_MA
+#' results$plot_MA_plotly
 #'
 #' #Or show raw results
 #' results$Clean_results
@@ -261,16 +263,15 @@ amp_diffabund <- function(data,
     tidyr::spread(key = Group, value = Avg) %>%
     arrange(padj)
   
+  plot_MA_plotly <- plotly::ggplotly(MAplot + 
+                                       suppressWarnings(geom_point(size = plot_point_size-1,
+                                                                   aes(text = data_plotly))), tooltip = "text")
   out <- list(DESeq2_results = res, 
               DESeq2_results_signif = res_tax_sig, 
               signif_plotdata = point_df, 
               Clean_results = cr,
-              plot_MA = MAplot + 
-                geom_point(size = plot_point_size),
-              plot_MA_plotly = plotly::ggplotly(MAplot + 
-                                                  suppressWarnings(geom_point(size = plot_point_size-1,
-                                                             aes(text = data_plotly))),
-                                                tooltip = "text"),
+              plot_MA = MAplot + geom_point(size = plot_point_size),
+              plot_MA_plotly = plot_MA_plotly,
               plot_signif = signifplot,
               plot_signif_plotly = plotly::ggplotly(signifplot))
   return(out)
