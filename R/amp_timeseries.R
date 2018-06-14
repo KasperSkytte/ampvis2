@@ -111,7 +111,7 @@ amp_timeseries <- function(data,
     dateCols <- unlist(lapply(metadata, lubridate::is.Date))
     if(sum(dateCols) == 1) {
       time_variable <- colnames(metadata)[which(dateCols)]
-      message("No \"time_variable\" provided, assuming the column \"", time_variable, "\" contains the dates.\n")
+      message("No \"time_variable\" provided, assuming the column \"", time_variable, "\" contains the dates.")
     } else {
       stop("Please provide a valid date column by the argument time_variable.", call. = FALSE)
     }
@@ -227,6 +227,7 @@ amp_timeseries <- function(data,
     geom_line() +
     geom_point() +
     xlab("") +
+    ylim(c(0, NA)) +
     theme_classic() +
     theme(axis.text.x = element_text(size = 10, vjust = 0.3, angle = 90),
           panel.grid.major.x = element_line(color = "grey90"),
