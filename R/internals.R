@@ -2,7 +2,7 @@
 #' @description This is just a wrapper of \code{\link[vegan]{rrarefy}} with convenient error messages and adjusted to work with ampvis2 objects.
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param rarefy (\emph{required}) Passed directly to \code{\link[vegan]{rrarefy}}.
-#'
+#' 
 #' @return An ampvis2 object with rarefied OTU abundances.
 #' 
 #' @importFrom magrittr %>%

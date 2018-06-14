@@ -16,7 +16,7 @@
 #' @param rarefy Rarefy species richness to this value before calculating alpha diversity and/or richness. Passed directly as the \code{sample} argument to \code{\link[vegan]{rrarefy}}. (\emph{default:} \code{NULL})
 #' 
 #' @export
-#' @importFrom dplyr arrange
+#' @importFrom dplyr arrange select
 #' @importFrom magrittr %>%
 #' @importFrom vegan diversity estimateR
 #' 
@@ -113,7 +113,7 @@ amp_alphadiv <- function (data,
   
   #arrange by RawReads no matter if rarefied or not, remove the column if rarefy is not set
   results <- results %>% 
-    arrange(RawReads) %>% 
-    {if(is.null(rarefy)) select(., -RawReads) else return(.)}
+    dplyr::arrange(RawReads) %>% 
+    {if(is.null(rarefy)) dplyr::select(., -RawReads) else return(.)}
   return(results)
 }

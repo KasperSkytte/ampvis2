@@ -9,6 +9,7 @@ License: AGPL-3
 URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
+Encoding: UTF-8
 Depends:
     R (>= 3.4.3),
     ggplot2
@@ -45,4 +46,4 @@ biocViews:
 Remotes: 
     github::briatte/ggnet,
     github::joey711/biomformat
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
