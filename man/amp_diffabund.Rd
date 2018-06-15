@@ -70,7 +70,7 @@ results <- amp_diffabund(d, group = "Plant", tax_aggregate = "Genus")
 
 #Show plots
 results$plot_signif
-results$plot_MA_plotly
+results$plot_MA
 
 #Or show raw results
 results$Clean_results
