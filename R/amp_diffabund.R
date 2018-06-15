@@ -60,7 +60,7 @@
 #'
 #' #Show plots
 #' results$plot_signif
-#' results$plot_MA_plotly
+#' results$plot_MA
 #'
 #' #Or show raw results
 #' results$Clean_results
@@ -76,7 +76,7 @@ amp_diffabund <- function(data,
                           fold = 0,
                           verbose = TRUE,
                           signif_plot_type = "point",
-                          plot_nshow = 10,
+                          plot_nshow = 10L,
                           plot_point_size = 2,
                           tax_aggregate = "OTU",
                           tax_add = NULL,
@@ -226,8 +226,8 @@ amp_diffabund <- function(data,
   colnames(point_df)[12] <- group
   
   if(!is.null(plot_nshow)){
-    if(plot_nshow < nrow(abund6)){plot_nshow <- nrow(abund6)}
-    point_df <- filter(point_df, Tax %in% as.character(unique(point_df$Tax))[1:plot_nshow])
+    if(plot_nshow > nrow(abund6)){plot_nshow <- nrow(abund6)}
+    point_df <- dplyr::filter(point_df, Tax %in% as.character(unique(point_df$Tax))[1:plot_nshow])
   }
   
   point_df$Tax <- factor(point_df$Tax, levels = rev(as.character(unique(point_df$Tax))[1:plot_nshow]))
