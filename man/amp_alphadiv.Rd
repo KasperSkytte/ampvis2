@@ -44,7 +44,7 @@ alphadiversityresult <- amp_alphadiv(AalborgWWTPs, measure = c("shannon", "simps
 \references{
 McMurdie, P.J. & Holmes, S. (2014). Waste not, want not: Why
 rarefying microbiome data is inadmissible. \emph{PLoS Comput Biol}
-\strong{10(4):} e1003531. \doi{10.1371/journal.pcbi.1003531}
+\strong{10(4):} e1003531. DOI:\code{10.1371/journal.pcbi.1003531}
 }
 \seealso{
 \code{\link{amp_load}}
