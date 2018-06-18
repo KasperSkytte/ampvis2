@@ -172,7 +172,7 @@ amp_heatmap <- function(data,
   }
   
   ## Extract the data into separate objects for readability
-  abund <- data[["abund"]]
+  abund <- data[["abund"]] %>% as.data.frame()
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
   
@@ -227,14 +227,14 @@ amp_heatmap <- function(data,
   
   # Aggregate to a specific taxonomic level
   abund3 <- cbind.data.frame(Display = tax[,"Display"], abund) %>%
-    tidyr::gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
+    tidyr::gather(key = Sample, value = Abundance, -Display) %>% 
+    as.data.table()
   
   abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
     setkey(Display, Sample) %>%
     as.data.frame()
   
   ## Add group information
-  
   if(!is.null(facet_by)){
     ogroup <- group_by
     group_by <- c(group_by, facet_by)
