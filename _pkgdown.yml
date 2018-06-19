@@ -32,7 +32,6 @@ reference:
     - amp_heatmap
     - amp_ordinate
     - amp_timeseries
-    - amp_diffabund
     - amp_venn
     - amp_core
     - amp_frequency
