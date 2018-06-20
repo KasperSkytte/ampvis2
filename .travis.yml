@@ -3,7 +3,7 @@
 language: R
 cache: packages
 sudo: false
-r: bioc-devel
+#r: bioc-devel
 warnings_are_errors: false
 notifications:
     email: false
