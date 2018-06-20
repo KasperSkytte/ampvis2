@@ -121,6 +121,19 @@ amp_ordinate(MiDASsubset,
              sample_colorframe_label = "Plant") + theme(legend.position = "blank")
 ```
 
+It is also possible to track changes over time by setting the `sample_trajectory` and `sample_trajectory_group` arguments, to for example reveal temporal patterns per WWTP:
+
+```{r, message=FALSE, warning=FALSE}
+amp_ordinate(MiDASsubset, 
+             type = "pcoa",
+             distmeasure = "bray",
+             sample_color_by = "Plant",
+             sample_colorframe_label = "Plant", 
+             sample_trajectory = "Date", 
+             sample_trajectory_group = "Plant")
+```
+
+
 And lastly an example of constrained ordination by Canonical Correspondence Analysis (CCA), which in this case reveals how samples taken at different seasonal periods (`constrain = "Period"`) of the year can explain the data:
 
 ```{r, message=FALSE, warning=FALSE}
