@@ -107,6 +107,8 @@
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom ape pcoa
 #' @importFrom vegan cca decorana decostand envfit metaMDS rda scores vegdist
+#' @importFrom purrr imap
+#' @importFrom tidyr unite
 #' 
 #' @export
 #' 
@@ -165,7 +167,7 @@ amp_ordinate <- function(data,
                         sample_label_segment_color = "black",
                         sample_point_size = 2,
                         sample_trajectory = NULL,
-                        sample_trajectory_group = sample_trajectory,
+                        sample_trajectory_group = NULL,
                         sample_plotly = NULL,
                         species_plot = FALSE, 
                         species_nlabels = 0, 
@@ -577,15 +579,14 @@ amp_ordinate <- function(data,
     
   ##### Plot species points  ##### 
   if (species_plot == TRUE) {
-    if(species_plotly == T){
-      data_plotly <- paste("Kingdom: ", data$tax[,1],"<br>",
-                           "Phylum: ", data$tax[,2],"<br>",
-                           "Class: ", data$tax[,3],"<br>",
-                           "Order: ", data$tax[,4],"<br>",
-                           "Family: ", data$tax[,5],"<br>",
-                           "Genus: ", data$tax[,6],"<br>",
-                           "Species: ", data$tax[,7],"<br>",
-                           "OTU: ", data$tax[,8],sep = "")
+    if(species_plotly == T) {
+      #generate hover text for OTU's
+      data_plotly <- data$tax %>%
+        purrr::imap(~paste(.y, .x, sep = ": ")) %>%
+        as.data.frame() %>%
+        tidyr::unite("test", sep = "<br>") %>%
+        unlist(use.names = FALSE) %>%
+        unique()
       plot <- plot + 
         geom_point(data = dspecies,
                    color = "darkgrey",
@@ -640,7 +641,10 @@ amp_ordinate <- function(data,
   ##### Sample_trajectory  ##### 
   if (!is.null(sample_trajectory)) {
     traj <- dsites[order(dsites[, sample_trajectory, drop = FALSE]), ]
-    plot <- plot + geom_path(data = traj, aes_string(group = sample_trajectory_group))
+    if(is.null(sample_trajectory_group)) {
+      plot <- plot + geom_path(data = traj)
+    } else if(!is.null(sample_trajectory_group))
+      plot <- plot + geom_path(data = traj, aes_string(group = sample_trajectory_group))
   }
   
   ##### Sample point labels  ##### 

@@ -20,6 +20,7 @@ Imports:
     magrittr,
     vegan,
     tidyr,
+    purrr,
     data.table,
     plotly,
     stringr,
