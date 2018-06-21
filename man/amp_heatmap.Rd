@@ -68,12 +68,6 @@ amp_heatmap(data, group_by = "")
 
 \item{functions}{If \code{plot_functions} is set to \code{TRUE}: A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})}
 
-\item{functions_point_size}{If \code{plot_functions} is set to \code{TRUE}: Size of the plotted points in the function grid. (\emph{default:} \code{5})}
-
-\item{functions_legend_text_size}{If \code{plot_functions} is set to \code{TRUE}: The size of the legend text in the functions plot. (\emph{default:} \code{10})}
-
-\item{functions_axis_text_size}{If \code{plot_functions} is set to \code{TRUE}: The size of the x-axis text in the functions plot. (\emph{default:} \code{10})}
-
 \item{rel_widths}{If \code{plot_functions} is set to \code{TRUE}: A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})}
 }
 \value{
