@@ -94,15 +94,30 @@ amp_alphadiv <- function (data,
   }
   if(any("shannon" %in% measure)) {
     Shannon <- vegan::diversity(tabund, index = "shannon")
-    results$Shannon = Shannon[names]
+    #For some reason vegan throws away names if only 1 sample
+    if(length(Shannon) == 1) {
+      results$Shannon <- Shannon
+    } else if(length(Shannon) > 1) {
+      results$Shannon <- Shannon[names]
+    }
   }
   if(any("simpson" %in% measure)) {
     Simpson <- vegan::diversity(tabund, index = "simpson")
-    results$Simpson <- Simpson[names]
+    #For some reason vegan throws away names if only 1 sample
+    if(length(Simpson) == 1) {
+      results$Simpson <- Simpson
+    } else if(length(Simpson) > 1) {
+      results$Simpson <- Simpson[names]
+    }
   }
   if(any("invsimpson" %in% measure)) {
     invSimpson <- vegan::diversity(tabund, index = "invsimpson")
-    results$invSimpson <- invSimpson[names]
+    #For some reason vegan throws away names if only 1 sample
+    if(length(invSimpson) == 1) {
+      results$invSimpson <- invSimpson
+    } else if(length(invSimpson) > 1) {
+      results$invSimpson <- invSimpson[names]
+    }
   }
   if(isTRUE(richness)) {
     richness <- t(vegan::estimateR(tabund)) %>% as.data.frame()
