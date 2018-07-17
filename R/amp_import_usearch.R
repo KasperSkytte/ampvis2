@@ -9,7 +9,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom plyr ldply
 #' @importFrom dplyr mutate mutate_all select starts_with
-#' @importFrom stringr str_c str_remove str_replace_all str_split
+#' @importFrom stringr str_c str_replace_all str_split
 #' @examples
 #' \dontrun{
 #' #First import the usearch format OTU table:
@@ -20,7 +20,7 @@
 #' }
 amp_import_usearch <- function(otutab, sintax) {
   otutab <- readLines(otutab)
-  otutab[1] <- stringr::str_remove(otutab[1], "#")
+  otutab[1] <- stringr::str_replace_all(otutab[1], "#", "")
   otutab <- stringr::str_split(otutab, "\t", simplify = TRUE) %>%
     as.data.frame() %>%
     dplyr::mutate_all(as.character) %>%
@@ -30,7 +30,7 @@ amp_import_usearch <- function(otutab, sintax) {
   
   sintax <- readLines(sintax)
   sintax <- lapply(sintax, function(x) {if(str_detect(x,"\\t$|\\-$|\\+$")) paste0(x, "k__") else return(x)})
-  tax <- stringr::str_remove(sintax, ".* |.*\t") %>% 
+  tax <- stringr::str_replace_all(sintax, ".* |.*\t", "") %>% 
     stringr::str_replace_all(c("k:|d:" = "k__",
                                "p:" = "p__",
                                "c:" = "c__",
@@ -40,7 +40,7 @@ amp_import_usearch <- function(otutab, sintax) {
                                "s:" = "s__",
                                "\"" = "")) %>%
     stringr::str_split(",") %>%
-    {`names<-`(.,stringr::str_c(stringr::str_remove(sintax, " .*|\t.*")))} %>%
+    {`names<-`(.,stringr::str_c(stringr::str_replace_all(sintax, " .*|\t.*", "")))} %>%
     lapply(function(x){ `names<-`(x,substr(x, 0, 3)) }) %>%
     plyr::ldply(rbind)
   if(all(c("d__", "k__") %in% colnames(tax))) {
