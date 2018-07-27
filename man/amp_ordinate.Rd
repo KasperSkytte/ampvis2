@@ -41,6 +41,8 @@ You can also write your own math formula, see details in \code{\link[vegan]{vegd
 
 \item{y_axis}{Which axis from the ordination results to plot as the second axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{2})}
 
+\item{make_caption}{Auto-generate a figure caption based on the arguments used. The caption includes a description of how the result has been generated as well as references for the methods used.}
+
 \item{sample_color_by}{Color sample points by a variable in the metadata.}
 
 \item{sample_color_order}{Order the colors in \code{sample_color_by} by the order in a vector.}
