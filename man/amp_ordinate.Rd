@@ -41,7 +41,7 @@ You can also write your own math formula, see details in \code{\link[vegan]{vegd
 
 \item{y_axis}{Which axis from the ordination results to plot as the second axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{2})}
 
-\item{make_caption}{Auto-generate a figure caption based on the arguments used. The caption includes a description of how the result has been generated as well as references for the methods used.}
+\item{print_caption}{Auto-generate a figure caption based on the arguments used. The caption includes a description of how the result has been generated as well as references for the methods used.}
 
 \item{sample_color_by}{Color sample points by a variable in the metadata.}
 
@@ -112,7 +112,7 @@ You can also write your own math formula, see details in \code{\link[vegan]{vegd
    \item \code{"OTU"}: Display the OTU name.
    }}
 
-\item{detailed_output}{(\emph{logical}) Return additional details or not (model, scores, inputmatrix, screeplot etc). If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
+\item{detailed_output}{(\emph{logical}) Return additional details or not (model, scores, figure caption, inputmatrix, screeplot etc). If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 
 \item{...}{Pass additional arguments to the vegan ordination functions, fx the \code{\link[vegan]{rda}}, \code{\link[vegan]{cca}}, \code{\link[vegan]{metaMDS}} functions, see the documentation.}
 }

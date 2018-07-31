@@ -30,7 +30,7 @@
 #' @param constrain (\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.
 #' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})
 #' @param y_axis Which axis from the ordination results to plot as the second axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{2})
-#' @param make_caption Auto-generate a figure caption based on the arguments used. The caption includes a description of how the result has been generated as well as references for the methods used. 
+#' @param print_caption Auto-generate a figure caption based on the arguments used. The caption includes a description of how the result has been generated as well as references for the methods used. 
 #' @param sample_color_by Color sample points by a variable in the metadata.   
 #' @param sample_color_order Order the colors in \code{sample_color_by} by the order in a vector. 
 #' @param sample_label_by Label sample points by a variable in the metadata.
@@ -71,7 +71,7 @@
 #'    \item \code{"best"}: (\emph{default}) Use the best classification possible. 
 #'    \item \code{"OTU"}: Display the OTU name.
 #'    }
-#' @param detailed_output (\emph{logical}) Return additional details or not (model, scores, inputmatrix, screeplot etc). If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
+#' @param detailed_output (\emph{logical}) Return additional details or not (model, scores, figure caption, inputmatrix, screeplot etc). If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' @param ... Pass additional arguments to the vegan ordination functions, fx the \code{\link[vegan]{rda}}, \code{\link[vegan]{cca}}, \code{\link[vegan]{metaMDS}} functions, see the documentation. 
 #'
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
@@ -158,7 +158,7 @@ amp_ordinate <- function(data,
                          constrain = NULL,
                          x_axis = 1,
                          y_axis = 2,
-                         make_caption = FALSE,
+                         print_caption = FALSE,
                          sample_color_by = NULL,
                          sample_color_order = NULL, 
                          sample_shape_by = NULL,
@@ -726,141 +726,143 @@ amp_ordinate <- function(data,
   }
   
   ##### generate figure caption #####
-  if(isTRUE(make_caption)) {
-    #Generate caption
-    caption <- paste0(
-      switch(type,
-             "pca" = "Principal Components Analysis (PCA)",
-             "rda" = "Redundancy Analysis (RDA)",
-             "ca" = "Correspondence Analysis (CA)",
-             "cca" = "Canonical Correspondence Analysis (CCA)",
-             "dca" = "Detrended Correspondence Analysis (DCA)",
-             "nmds" = "non-Metric Multidimensional Scaling Analysis (nMDS)",
-             "pcoa" = "Principal Coordinates Analysis (PCoA)",
-             "mmds" = "metric Multidimensional Scaling (aka Principal Coordinates Analysis, PCoA)"),
-      if(any(type %in% c("nmds", "mmds", "pcoa", "dca"))) {
-        paste0(" based on the ",
-               switch(distmeasure,
-                      "manhattan" = "Manhattan (city-block) distance measure",
-                      "euclidean" = "Euclidean distance measure", 
-                      "canberra" = "Canberra distance measure (Lance & Williams, 1966)",
-                      "clark" = "Clark distance measure (Clark & Evans, 1954)",
-                      "bray" = "Bray-Curtis distance measure (Bray & Curtis, 1957)",
-                      "kulczynski" = "Kulczynski distance measure (Kulczynski, 1928)",
-                      "jaccard" = "Jaccard distance measure (Jaccard, 1901)",
-                      "gower" = "Gower distance measure (Gower, 1971)",
-                      "altGower" = "modified Gower distance measure (Anderson et al., 2006)", 
-                      "morisita" = "morisita distance measure (Morisita, 1959)",
-                      "horn" = "Horn-Morisita distance measure (Horn, 1966)",
-                      "mountford" = "Mountford distance measure (square-root of that described in Mountford, 1962)",
-                      "raup" = "Raup-Crick distance measure (Raup & Crick, 1979)",
-                      "binomial" = "Binomial distance measure (Anderson & Millar, 2004)",
-                      "chao" = "Chao distance measure (Chao et al., 2005)",
-                      "cao" = "Cao (CYd) distance measure (Cao et al, 1997)",
-                      "mahalanobis" = "Mahalanobis distance measure (Mahalanobis, 1936)",
-                      "none" = " using no distance measure"))
-      },
-      " of ", ncol(data$abund), " samples",
-      if(any(type %in% c("cca", "rda"))) {
-        paste0(" constrained to the ",
-               if(length(constrain) == 1) {
-                 paste0("\"", constrain, "\" variable")
-               } else if(length(constrain) > 1) {
-                 paste0("variables: ", paste0(constrain, collapse = "+"))
-               }
-        )
-      },
-      ".",
-      if(filter_species != 0 && is.numeric(filter_species)) {
-        paste0(" Prior to the analysis, OTU's that are not present in more than ", 
-               filter_species, "% relative abundance in any sample have been removed.")
-      },
-      if(transform != "none" && any(transform %in% c("total", "max", "freq", "normalize", "range", 
-                                                     "rank", "rrank", "standardize", "pa", "chi.square", 
-                                                     "hellinger", "log", "sqrt")))
-        switch(transform,
-               "total" = " The data has been transformed initially by dividing the OTU counts in each sample by the total counts of all OTU's in the particular sample.",
-               "max" = " The data has been transformed initially by dividing each OTU count by the maximum of the particular OTU in any sample.",
-               "freq" = " The data has been transformed initially by dividing each OTU count by the maximum of the particular OTU in any sample, and then multiplied by the number of non-zero OTU counts, so that the average of non-zero OTU's is 1 (Oksanen, 1983).",
-               "normalize" = " The data has been normalized initially by making the sum-of-squares of the OTU counts in each sample equal to 1.",
-               "range" = " The data has been normalized initially to range from 0 to 1.",
-               "rank" = " The data has been transformed initially by replacing the OTU counts with their increasing ranks, where zeros are unchanged and the average ranks are used for tied values.",
-               "rrank" = " The data has been transformed initially by replacing the OTU counts with their increasing relative ranks (with max value 1), where zeros are unchanged and the average ranks are used for tied values.",
-               "standardize" = " The data has been standardized initially by scaling to zero mean and unit variance.",
-               "pa" = " The data has been transformed initially by setting all non-zero OTU counts to 1 (presence/absence).",
-               "chi.square" = " The data has been transformed initially by applying the chi-squared transformation (Legendre & Gallagher, 2001).",
-               "hellinger" = " The data has been transformed initially by applying the hellinger transformation (Legendre & Gallagher, 2001).",
-               "log" = " The data has been transformed initially by applying the logarithmic transformation with logbase 2 as suggested by Anderson et al, 2006.",
-               "sqrt" = " The data has been square-root transformed initially.")
-      else " No initial data transformation has been applied.",
-      if(any(type %in% c("pca", "ca", "pcoa", "mmds"))) {
-        " The relative contribution (eigenvalue) of each axis to the total inertia in the data is indicated in percent at the axis titles."
-      } else if(any(type %in% c("rda", "cca"))) {
-        " The relative contribution (eigenvalue) of each axis to the total inertia in the data as well as to the constrained space only, respectively, are indicated in percent at the axis titles."
-      }
-    )
-    
-    #References
-    references <- c("1" = "Legendre, P. and Gallagher, E.D. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia 129, 271–280.",
-                    "2" = "Anderson, M.J., Ellingsen, K.E., McArdle, B.H. (2006). Multivariate dispersion as a measure of beta diversity. Ecology Letters 9, 683–693.",
-                    "3" = "Oksanen, J. (1983). Ordination of boreal heath-like vegetation with principal component analysis, correspondence analysis and multidimensional scaling. Vegetation 52, 181–189.",
-                    "4" = "Legendre, Pierre and Legendre, Louis (2012). Numerical Ecology. Elsevier Science. ISBN: 9780444538680.",
-                    "5" = "Chao, A., Chazdon, R. L., Colwell, R. K., Shen, T. (2005). A new statistical approach for assessing similarity of species composition with incidence and abundance data. Ecology Letters 8, 148–159.",
-                    "6" = "Cao, Y., Williams, W.P., Bark, A.W. (1997). Effects of sample size (replicate number) on similarity measures in river benthic Aufwuchs community analysis. Water Environment Research 69, 95–106.",
-                    "7" = "Gower, J. C. (1971). A general coefficient of similarity and some of its properties. Biometrics 27, 623–637.",
-                    "8" = "Lance, G. N. and Williams, W. T. (1966). Computer Programs for Hierarchical Polythetic Classification (“Similarity Analyses”), The Computer Journal, Volume 9, Issue 1, Pages 60–64.",
-                    "9" = "Bray, J. R., and Curtis, J. T. (1957). An Ordination of the upland forest community of southern Wisconsin. Ecological Monographs, 27(4), 325–349.",
-                    "10" = "Mountford, M. D. (1962). An index of similarity and its application to classification problems. In: P.W.Murphy (ed.), Progress in Soil Zoology, 43–50. Butterworths.",
-                    "11" = "Kulczynski, S. (1928). “Die Pflanzenassoziationen der Pieninen”, Bulletin international de l'Académie polonaise des Sciences et des Lettres, Classe des Sciences mathématiques et naturelles, Série B, Supplément II (1927), 57–203.",
-                    "12" = "Mahalanobis, PC (1936). On the generalised distance in statistics. Proceedings of the National Institute of Sciences of India 2(1): 49–55.",
-                    "13" = "Jaccard, P. (1901.). Étude comparative de la distribution florale dans une portion des alpes et des jura. Bulletin del la Société Vaudoise des Sciences Naturelles, 37:547-579.",
-                    "14" = "Morisita, M. (1959). Measuring of the dispersion and analysis of distribution patterns. Memories of the Faculty of Science, Kyushu University. Series E: Biology, 2, 215-235.",
-                    "15" = "Horn, H. (1966). Measurement of \"Overlap\" in Comparative Ecological Studies. The American Naturalist, 100(914), 419-424.",
-                    "16" = "Raup, D. M. and R. E. Crick. (1979). Measurement of faunal similarity in paleontology. Journal of Paleontology 53:1213–1227.",
-                    "17" = "Anderson, M.J. and Millar, R.B. (2004). Spatial variation and effects of habitat on temperate reef fish assemblages in northeastern New Zealand. Journal of Experimental Marine Biology and Ecology 305, 191–221.",
-                    "18" = "Clark, P. J. and Evans, F. C. (1954), Distance to Nearest Neighbor as a Measure of Spatial Relationships in Populations. Ecology, 35: 445-453. doi:10.2307/1931034.")
-    
-    refs2print <- integer()
+  #Generate caption
+  caption <- paste0(
+    switch(type,
+           "pca" = "Principal Components Analysis (PCA)",
+           "rda" = "Redundancy Analysis (RDA)",
+           "ca" = "Correspondence Analysis (CA)",
+           "cca" = "Canonical Correspondence Analysis (CCA)",
+           "dca" = "Detrended Correspondence Analysis (DCA)",
+           "nmds" = "non-Metric Multidimensional Scaling Analysis (nMDS)",
+           "pcoa" = "Principal Coordinates Analysis (PCoA)",
+           "mmds" = "metric Multidimensional Scaling (aka Principal Coordinates Analysis, PCoA)"),
     if(any(type %in% c("nmds", "mmds", "pcoa", "dca"))) {
-      refs2print %<>% append(switch(distmeasure,
-                                    "manhattan" = NULL,
-                                    "euclidean" = NULL,
-                                    "canberra" = 8L,
-                                    "clark" = 18L,
-                                    "bray" = 9L,
-                                    "kulczynski" = 11L,
-                                    "jaccard" = 13L,
-                                    "gower" = 7L,
-                                    "altGower" = 2L,
-                                    "morisita" = 14L,
-                                    "horn" = 15L,
-                                    "mountford" = 10L,
-                                    "raup" = 16L,
-                                    "binomial" = 17L,
-                                    "chao" = 5L,
-                                    "cao" = 6L,
-                                    "mahalanobis" = 12L,
-                                    "none" = NULL))
+      paste0(" based on the ",
+             switch(distmeasure,
+                    "manhattan" = "Manhattan (city-block) distance measure",
+                    "euclidean" = "Euclidean distance measure", 
+                    "canberra" = "Canberra distance measure (Lance & Williams, 1966)",
+                    "clark" = "Clark distance measure (Clark & Evans, 1954)",
+                    "bray" = "Bray-Curtis distance measure (Bray & Curtis, 1957)",
+                    "kulczynski" = "Kulczynski distance measure (Kulczynski, 1928)",
+                    "jaccard" = "Jaccard distance measure (Jaccard, 1901)",
+                    "gower" = "Gower distance measure (Gower, 1971)",
+                    "altGower" = "modified Gower distance measure (Anderson et al., 2006)", 
+                    "morisita" = "morisita distance measure (Morisita, 1959)",
+                    "horn" = "Horn-Morisita distance measure (Horn, 1966)",
+                    "mountford" = "Mountford distance measure (square-root of that described in Mountford, 1962)",
+                    "raup" = "Raup-Crick distance measure (Raup & Crick, 1979)",
+                    "binomial" = "Binomial distance measure (Anderson & Millar, 2004)",
+                    "chao" = "Chao distance measure (Chao et al., 2005)",
+                    "cao" = "Cao (CYd) distance measure (Cao et al, 1997)",
+                    "mahalanobis" = "Mahalanobis distance measure (Mahalanobis, 1936)",
+                    "none" = " using no distance measure"))
+    },
+    " of ", ncol(data$abund), " samples",
+    if(any(type %in% c("cca", "rda"))) {
+      paste0(" constrained to the ",
+             if(length(constrain) == 1) {
+               paste0("\"", constrain, "\" variable")
+             } else if(length(constrain) > 1) {
+               paste0("variables: ", paste0(constrain, collapse = "+"))
+             }
+      )
+    },
+    ".",
+    if(filter_species != 0 && is.numeric(filter_species)) {
+      paste0(" Prior to the analysis, OTU's that are not present in more than ", 
+             filter_species, "% relative abundance in any sample have been removed.")
+    },
+    if(transform != "none" && any(transform %in% c("total", "max", "freq", "normalize", "range", 
+                                                   "rank", "rrank", "standardize", "pa", "chi.square", 
+                                                   "hellinger", "log", "sqrt")))
+      switch(transform,
+             "total" = " The data has been transformed initially by dividing the OTU counts in each sample by the total counts of all OTU's in the particular sample.",
+             "max" = " The data has been transformed initially by dividing each OTU count by the maximum of the particular OTU in any sample.",
+             "freq" = " The data has been transformed initially by dividing each OTU count by the maximum of the particular OTU in any sample, and then multiplied by the number of non-zero OTU counts, so that the average of non-zero OTU's is 1 (Oksanen, 1983).",
+             "normalize" = " The data has been normalized initially by making the sum-of-squares of the OTU counts in each sample equal to 1.",
+             "range" = " The data has been normalized initially to range from 0 to 1.",
+             "rank" = " The data has been transformed initially by replacing the OTU counts with their increasing ranks, where zeros are unchanged and the average ranks are used for tied values.",
+             "rrank" = " The data has been transformed initially by replacing the OTU counts with their increasing relative ranks (with max value 1), where zeros are unchanged and the average ranks are used for tied values.",
+             "standardize" = " The data has been standardized initially by scaling to zero mean and unit variance.",
+             "pa" = " The data has been transformed initially by setting all non-zero OTU counts to 1 (presence/absence).",
+             "chi.square" = " The data has been transformed initially by applying the chi-squared transformation (Legendre & Gallagher, 2001).",
+             "hellinger" = " The data has been transformed initially by applying the hellinger transformation (Legendre & Gallagher, 2001).",
+             "log" = " The data has been transformed initially by applying the logarithmic transformation with logbase 2 as suggested by Anderson et al, 2006.",
+             "sqrt" = " The data has been square-root transformed initially.")
+    else " No initial data transformation has been applied.",
+    if(any(type %in% c("pca", "ca", "pcoa", "mmds"))) {
+      " The relative contribution (eigenvalue) of each axis to the total inertia in the data is indicated in percent at the axis titles."
+    } else if(any(type %in% c("rda", "cca"))) {
+      " The relative contribution (eigenvalue) of each axis to the total inertia in the data as well as to the constrained space only, respectively, are indicated in percent at the axis titles."
     }
-    if(any(transform %in% c("hellinger", "chi.square", "log", "freq", "frequency"))) {
-      refs2print %<>% append(switch(transform,
-                                    "hellinger" = 1L,
-                                    "chi.square" = 1L,
-                                    "log" = 2L,
-                                    "freq" = 3L,
-                                    "frequency" = 3L))
-    }
-    
-    #Print the caption with references, if any
+  )
+  
+  #References
+  references <- c("1" = "Legendre, P. and Gallagher, E.D. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia 129, 271–280.",
+                  "2" = "Anderson, M.J., Ellingsen, K.E., McArdle, B.H. (2006). Multivariate dispersion as a measure of beta diversity. Ecology Letters 9, 683–693.",
+                  "3" = "Oksanen, J. (1983). Ordination of boreal heath-like vegetation with principal component analysis, correspondence analysis and multidimensional scaling. Vegetation 52, 181–189.",
+                  "4" = "Legendre, Pierre and Legendre, Louis (2012). Numerical Ecology. Elsevier Science. ISBN: 9780444538680.",
+                  "5" = "Chao, A., Chazdon, R. L., Colwell, R. K., Shen, T. (2005). A new statistical approach for assessing similarity of species composition with incidence and abundance data. Ecology Letters 8, 148–159.",
+                  "6" = "Cao, Y., Williams, W.P., Bark, A.W. (1997). Effects of sample size (replicate number) on similarity measures in river benthic Aufwuchs community analysis. Water Environment Research 69, 95–106.",
+                  "7" = "Gower, J. C. (1971). A general coefficient of similarity and some of its properties. Biometrics 27, 623–637.",
+                  "8" = "Lance, G. N. and Williams, W. T. (1966). Computer Programs for Hierarchical Polythetic Classification (“Similarity Analyses”), The Computer Journal, Volume 9, Issue 1, Pages 60–64.",
+                  "9" = "Bray, J. R., and Curtis, J. T. (1957). An Ordination of the upland forest community of southern Wisconsin. Ecological Monographs, 27(4), 325–349.",
+                  "10" = "Mountford, M. D. (1962). An index of similarity and its application to classification problems. In: P.W.Murphy (ed.), Progress in Soil Zoology, 43–50. Butterworths.",
+                  "11" = "Kulczynski, S. (1928). “Die Pflanzenassoziationen der Pieninen”, Bulletin international de l'Académie polonaise des Sciences et des Lettres, Classe des Sciences mathématiques et naturelles, Série B, Supplément II (1927), 57–203.",
+                  "12" = "Mahalanobis, PC (1936). On the generalised distance in statistics. Proceedings of the National Institute of Sciences of India 2(1): 49–55.",
+                  "13" = "Jaccard, P. (1901.). Étude comparative de la distribution florale dans une portion des alpes et des jura. Bulletin del la Société Vaudoise des Sciences Naturelles, 37:547-579.",
+                  "14" = "Morisita, M. (1959). Measuring of the dispersion and analysis of distribution patterns. Memories of the Faculty of Science, Kyushu University. Series E: Biology, 2, 215-235.",
+                  "15" = "Horn, H. (1966). Measurement of \"Overlap\" in Comparative Ecological Studies. The American Naturalist, 100(914), 419-424.",
+                  "16" = "Raup, D. M. and R. E. Crick. (1979). Measurement of faunal similarity in paleontology. Journal of Paleontology 53:1213–1227.",
+                  "17" = "Anderson, M.J. and Millar, R.B. (2004). Spatial variation and effects of habitat on temperate reef fish assemblages in northeastern New Zealand. Journal of Experimental Marine Biology and Ecology 305, 191–221.",
+                  "18" = "Clark, P. J. and Evans, F. C. (1954), Distance to Nearest Neighbor as a Measure of Spatial Relationships in Populations. Ecology, 35: 445-453. doi:10.2307/1931034.")
+  
+  refs2print <- integer()
+  if(any(type %in% c("nmds", "mmds", "pcoa", "dca"))) {
+    refs2print %<>% append(switch(distmeasure,
+                                  "manhattan" = NULL,
+                                  "euclidean" = NULL,
+                                  "canberra" = 8L,
+                                  "clark" = 18L,
+                                  "bray" = 9L,
+                                  "kulczynski" = 11L,
+                                  "jaccard" = 13L,
+                                  "gower" = 7L,
+                                  "altGower" = 2L,
+                                  "morisita" = 14L,
+                                  "horn" = 15L,
+                                  "mountford" = 10L,
+                                  "raup" = 16L,
+                                  "binomial" = 17L,
+                                  "chao" = 5L,
+                                  "cao" = 6L,
+                                  "mahalanobis" = 12L,
+                                  "none" = NULL))
+  }
+  if(any(transform %in% c("hellinger", "chi.square", "log", "freq", "frequency"))) {
+    refs2print %<>% append(switch(transform,
+                                  "hellinger" = 1L,
+                                  "chi.square" = 1L,
+                                  "log" = 2L,
+                                  "freq" = 3L,
+                                  "frequency" = 3L))
+  }
+  #combine caption and references 
+  captionwithrefs <- caption %>% {
+    if(length(refs2print) > 0)
+      paste0(.,
+             "\n\n\nReferences:\n\n",
+             paste0(references[unique(refs2print)], collapse = "\n\n"))
+    else 
+      return(.)
+  }
+  
+  #Print the caption with references, if any
+  if(isTRUE(print_caption)) {
     cli::cat_line(cli::rule("Auto-generated figure caption (start)"))
-    caption %>% {
-      if(length(refs2print) > 0)
-        paste0(.,
-               "\n\n\nReferences:\n\n",
-               paste0(references[unique(refs2print)], collapse = "\n\n"))
-      else 
-        return(.)
-    } %>%
+    captionwithrefs %>%
       strwrap() %>%
       crayon::italic() %>%
       cli::cat_line()
@@ -920,6 +922,7 @@ amp_ordinate <- function(data,
     
   return(list(plot = plot,
               screeplot = screeplot,
+              figcaption = captionwithrefs,
               model = model,
               dsites = dsites,
               dspecies = dspecies,
