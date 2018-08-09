@@ -11,7 +11,11 @@ amp_rarecurve(data)
 
 \item{stepsize}{Step size for the curves. Lower is prettier but takes more time to generate. (\emph{default:} \code{1000})}
 
-\item{color_by}{Color curves by a variable in the metadata.}
+\item{color_by}{Color curves by a variable in the metadata. (\emph{default:} \code{NULL})}
+
+\item{facet_by}{Split the plot into subplots based on a variable in the metadata. (\emph{default:} \code{NULL})}
+
+\item{facet_scales}{If \code{facet_by} is set, should the axis scales of each subplot be fixed (\code{fixed}), free (\code{"free"}), or free in one dimension (\code{"free_x"} or \code{"free_y"})? (\emph{default:} \code{"fixed"})}
 }
 \value{
 A ggplot2 object.
@@ -24,7 +28,7 @@ Generates a rarefaction curve (number of reads vs number of observed OTUs) for e
 data("AalborgWWTPs")
 
 #Rarecurve
-amp_rarecurve(AalborgWWTPs)
+amp_rarecurve(AalborgWWTPs, facet_by = "Plant")
 
 }
 \seealso{
