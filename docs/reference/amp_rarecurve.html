@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.3.17</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.3.18</span>
       </span>
     </div>
 
@@ -148,7 +148,15 @@
     </tr>
     <tr>
       <th>color_by</th>
-      <td><p>Color curves by a variable in the metadata.</p></td>
+      <td><p>Color curves by a variable in the metadata. (<em>default:</em> <code>NULL</code>)</p></td>
+    </tr>
+    <tr>
+      <th>facet_by</th>
+      <td><p>Split the plot into subplots based on a variable in the metadata. (<em>default:</em> <code>NULL</code>)</p></td>
+    </tr>
+    <tr>
+      <th>facet_scales</th>
+      <td><p>If <code>facet_by</code> is set, should the axis scales of each subplot be fixed (<code>fixed</code>), free (<code>"free"</code>), or free in one dimension (<code>"free_x"</code> or <code>"free_y"</code>)? (<em>default:</em> <code>"fixed"</code>)</p></td>
     </tr>
     </table>
     
@@ -166,7 +174,7 @@
 <span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'>#Rarecurve</span>
-<span class='fu'>amp_rarecurve</span>(<span class='no'>AalborgWWTPs</span>)</div><div class='img'><img src='amp_rarecurve-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>amp_rarecurve</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_rarecurve-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
