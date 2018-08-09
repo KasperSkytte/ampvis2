@@ -5,15 +5,14 @@
 #' @usage amp_subset_samples(data, ...)
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param ... Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}. 
 #' @param minreads Minimum number of reads pr. sample. Samples below this value will be removed \emph{initially}. (\emph{default:} \code{0})
 #' @param rarefy Rarefy species richness to this value by using \code{\link[vegan]{rrarefy}}. This is done \emph{initially}, but \emph{after} filtering based on the \code{minreads} value, if set. (\emph{default:} \code{NULL})
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample \code{AFTER} the OTU's have been removed by the \code{minreads} argument. (\emph{default:} \code{FALSE})
 #' @param removeAbsents (\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})
+#' @param ... Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}. 
 #' 
 #' @return A modifed ampvis2 object
 #' 
-#' @importFrom magrittr %>%
 #' @importFrom stringr str_split
 #' 
 #' @export
@@ -70,11 +69,11 @@
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 amp_subset_samples <- function(data,
-                               ..., 
                                minreads = 0,
                                rarefy = NULL,
                                normalise = FALSE, 
-                               removeAbsents = TRUE) {
+                               removeAbsents = TRUE,
+                               ...) {
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")

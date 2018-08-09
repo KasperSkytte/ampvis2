@@ -11,7 +11,6 @@
 #' 
 #' @return A list of class \code{"ampvis2"} with 3 to 5 elements.
 #' 
-#' @importFrom magrittr %>%
 #' @importFrom ape read.FASTA
 #' @importFrom stringr str_replace_all
 #' @importFrom dplyr intersect

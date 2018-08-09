@@ -26,7 +26,6 @@
 #' @keywords timeseries
 #' 
 #' @import ggplot2
-#' @importFrom magrittr %>%
 #' @importFrom dplyr arrange group_by group_by_ summarise desc summarise_at
 #' @importFrom tidyr gather
 #' @importFrom data.table as.data.table setkey
@@ -212,13 +211,13 @@ amp_timeseries <- function(data,
         dplyr::summarise_at("Value", mean, na.rm = TRUE) -> abund7
     }
     if(isTRUE(split)) {
-      p <- ggplot(abund7, aes_string(x=time_variable, y="Value", group = tax_aggregate))
+      p <- ggplot(abund7, aes_string(x = time_variable, y = "Value", group = tax_aggregate))
     } else if(!isTRUE(split)) {
-      p <- ggplot(abund7, aes_string(x=time_variable, y="Value", group = tax_aggregate, color = tax_aggregate))
+      p <- ggplot(abund7, aes_string(x = time_variable, y = "Value", group = tax_aggregate, color = tax_aggregate))
     }
   } else if(!is.null(group_by)) {
     if(isTRUE(split)) {
-      p <- ggplot(abund7, aes_string(x=time_variable, y="Value", color = "Group", group = "DisplayGroup"))
+      p <- ggplot(abund7, aes_string(x = time_variable, y = "Value", color = "Group", group = "DisplayGroup"))
     } else if(!isTRUE(split)) {
       p <- ggplot(abund7, aes_string(x=time_variable, y="Value", color = "Group", group = "DisplayGroup", linetype = tax_aggregate, shape = tax_aggregate))
     }
@@ -241,12 +240,12 @@ amp_timeseries <- function(data,
   
   if(split == T){
     p <- p + facet_wrap(tax_aggregate, scales = scales) +
-      theme(strip.background = element_rect(colour=NA, fill="grey95"),
+      theme(strip.background = element_rect(colour = NA, fill = "grey95"),
             panel.grid.major.x = element_line(color = "grey90"),
             panel.grid.major.y = element_line(color = "grey90"),
             legend.position = "bottom",
             strip.text = element_text(size = 10),
-            legend.title=element_blank())
+            legend.title = element_blank())
   }
   
   if(isTRUE(plotly)) {

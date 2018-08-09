@@ -23,7 +23,6 @@
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 #' 
 #' @import ggplot2
-#' @importFrom magrittr %>%
 #' @importFrom dplyr filter arrange group_by mutate select summarise desc
 #' @importFrom tidyr gather
 #' @importFrom data.table as.data.table data.table setkey

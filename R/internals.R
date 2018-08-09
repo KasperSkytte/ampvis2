@@ -5,7 +5,6 @@
 #' 
 #' @return An ampvis2 object with rarefied OTU abundances.
 #' 
-#' @importFrom magrittr %>%
 #' @importFrom vegan rrarefy
 amp_rarefy <- function(data, rarefy) {
   ### Data must be in ampvis2 format
@@ -53,7 +52,6 @@ amp_rarefy <- function(data, rarefy) {
 #' 
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
 #' 
-#' @importFrom magrittr %>%
 #' @importFrom dplyr mutate
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}

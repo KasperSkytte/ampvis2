@@ -6,7 +6,6 @@
 #'
 #' @return A data frame
 #' @export
-#' @importFrom magrittr %>%
 #' @importFrom plyr ldply
 #' @importFrom dplyr mutate mutate_all select starts_with
 #' @importFrom stringr str_c str_replace_all str_split

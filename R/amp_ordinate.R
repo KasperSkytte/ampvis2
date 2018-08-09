@@ -101,7 +101,6 @@
 #' }
 #' 
 #' @import ggplot2
-#' @importFrom magrittr %>%
 #' @importFrom dplyr arrange group_by summarise desc
 #' @importFrom plotly ggplotly
 #' @importFrom GUniFrac GUniFrac

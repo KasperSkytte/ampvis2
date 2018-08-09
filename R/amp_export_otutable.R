@@ -15,7 +15,6 @@
 #' 
 #' @export
 #' 
-#' @importFrom magrittr %>%
 #' @importFrom dplyr arrange mutate select desc everything
 #' @importFrom digest digest
 #' 

@@ -106,7 +106,6 @@
 #' textmap
 #' 
 #' @import ggplot2
-#' @importFrom magrittr %>%
 #' @importFrom dplyr filter desc arrange group_by mutate summarise
 #' @importFrom tidyr gather spread
 #' @importFrom data.table as.data.table data.table setkey dcast melt

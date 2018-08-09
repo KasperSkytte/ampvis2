@@ -30,7 +30,6 @@
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 #' 
 #' @import ggplot2
-#' @importFrom magrittr %>% %<>%
 #' @importFrom dplyr arrange desc group_by summarise
 #' @importFrom tidyr gather
 #' @importFrom data.table as.data.table setkey
