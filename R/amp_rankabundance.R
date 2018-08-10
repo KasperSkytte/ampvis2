@@ -42,7 +42,7 @@
 #' data("AalborgWWTPs")
 #' 
 #' #Rank abundance plot
-#' amp_rankabundance(amp_subset_samples(AalborgWWTPs, Year %in% c("2013")))
+#' amp_rankabundance(AalborgWWTPs, group_by = "Plant")
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
@@ -130,14 +130,18 @@ amp_rankabundance <- function(data,
       TotalCounts$Group <- factor(TotalCounts$Group, levels = rev(order_group))
     }
     
-    p <- ggplot(data = TotalCounts, aes(x = Rank, y = Cumsum, color = Group)) +
+    if(group_by != "Sample")
+      p <- ggplot(TotalCounts, aes_string("Rank", "Cumsum", color = "Group"))
+    if(group_by == "Sample")
+      p <- ggplot(TotalCounts, aes_string("Rank", "Cumsum"))
+    p <- p +
       geom_line(size = 1) +
       ylim(0,100) +
       xlab("Rank abundance") +
       ylab("Cumulative read abundance (%)") +
       theme_classic()
     
-    if (plot_log ==TRUE){
+    if (plot_log == TRUE){
       p <- p + scale_x_log10() 
     } 
     

@@ -51,7 +51,7 @@ See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.
 data("AalborgWWTPs")
 
 #Rank abundance plot
-amp_rankabundance(amp_subset_samples(AalborgWWTPs, Year \%in\% c("2013")))
+amp_rankabundance(AalborgWWTPs, group_by = "Plant")
 
 }
 \seealso{
