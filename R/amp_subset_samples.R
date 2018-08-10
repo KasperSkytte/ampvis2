@@ -36,7 +36,8 @@
 #'             )
 #' }
 #' 
-#' @examples 
+#' @examples
+#' \dontrun{
 #' #Load example data
 #' data("MiDAS")
 #' 
@@ -57,6 +58,7 @@
 #'     
 #' #Summary
 #' MiDASsubset2
+#' }
 #' 
 #' @references 
 #' McMurdie, P.J. & Holmes, S. (2014). Waste not, want not: Why

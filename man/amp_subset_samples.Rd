@@ -48,6 +48,7 @@ amp_heatmap(subsettedData,
 }
 
 \examples{
+\dontrun{
 #Load example data
 data("MiDAS")
 
@@ -68,6 +69,7 @@ MiDASsubset2 <- amp_subset_samples(MiDAS,
     
 #Summary
 MiDASsubset2
+}
 
 }
 \references{
