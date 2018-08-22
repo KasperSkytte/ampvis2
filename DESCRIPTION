@@ -42,6 +42,4 @@ Imports:
 Remotes: 
     github::briatte/ggnet,
     github::joey711/biomformat
-RoxygenNote: 6.0.1
-Suggests: 
-    testthat
+RoxygenNote: 6.1.0
