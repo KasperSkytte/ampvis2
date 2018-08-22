@@ -37,7 +37,6 @@
 #' }
 #' 
 #' @examples
-#' \dontrun{
 #' #Load example data
 #' data("MiDAS")
 #' 
@@ -58,7 +57,6 @@
 #'     
 #' #Summary
 #' MiDASsubset2
-#' }
 #' 
 #' @references 
 #' McMurdie, P.J. & Holmes, S. (2014). Waste not, want not: Why
@@ -71,11 +69,11 @@
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 amp_subset_samples <- function(data,
+                               ...,
                                minreads = 0,
                                rarefy = NULL,
                                normalise = FALSE, 
-                               removeAbsents = TRUE,
-                               ...) {
+                               removeAbsents = TRUE) {
   
   ### Data must be in ampvis2 format
   if(class(data) != "ampvis2")
