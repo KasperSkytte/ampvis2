@@ -101,35 +101,31 @@ amp_frequency <- function(data,
     mutate(freq = 1)
   
   ## Make a nice frequency plot
-    temp3 <- group_by(abund3, Display) %>%
-      summarise(Frequency = sum(freq), Total = sum(sum)) %>%
-      mutate(Percent = Total / length(unique(abund3$Group))) %>%
-      as.data.frame()
-    
-    if(weight == T){
-      p <- ggplot(data = temp3, aes(x = Frequency, weight = Percent)) +
-        ylab("Read abundance (%)") +
-        xlab(paste("Frequency (Observed in N ", group_by, "s)", sep = ""))
-      if(max(temp3$Frequency) > 30){ p <- p + geom_bar()}
-      if(max(temp3$Frequency) <= 30){ p <- p + geom_bar(binwidth = 1)}
-    }
-    
-    if(weight == F){
-      p <- ggplot(data = temp3, aes(x = Frequency)) +
-        ylab("Count") +
-        xlab(paste("Frequency (Observed in N ", group_by, "s)", sep=""))
-      if(max(temp3$Frequency) > 30){ p <- p + geom_bar()}
-      if(max(temp3$Frequency) <= 30){ p <- p + geom_bar(binwidth = 1)}
-    } 
-
-    p <- p +  
-      theme_classic() +
-      theme(panel.grid.major.x = element_line(color = "grey90"),
-            panel.grid.major.y = element_line(color = "grey90"))
-    if((is.null(attributes(data)$normalised) | isFALSE(attributes(data)$normalised)) &
-       isFALSE(normalise)) {
-      p <- p + ylab("Read counts")
-    }
+  temp3 <- group_by(abund3, Display) %>%
+    summarise(Frequency = sum(freq), Total = sum(sum)) %>%
+    mutate(Percent = Total / length(unique(abund3$Group))) %>%
+    as.data.frame()
+  
+  if(weight == T){
+    p <- ggplot(data = temp3, aes(x = Frequency, weight = Percent)) +
+      ylab("Read abundance (%)") +
+      xlab(paste("Frequency (Observed in N ", group_by, "s)", sep = ""))
+    if(max(temp3$Frequency) > 30){ p <- p + geom_bar()}
+    if(max(temp3$Frequency) <= 30){ p <- p + geom_bar(binwidth = 1)}
+  }
+  
+  if(weight == F){
+    p <- ggplot(data = temp3, aes(x = Frequency)) +
+      ylab("Read counts") +
+      xlab(paste("Frequency (Observed in N ", group_by, "s)", sep=""))
+    if(max(temp3$Frequency) > 30){ p <- p + geom_bar()}
+    if(max(temp3$Frequency) <= 30){ p <- p + geom_bar(binwidth = 1)}
+  } 
+  
+  p <- p +  
+    theme_classic() +
+    theme(panel.grid.major.x = element_line(color = "grey90"),
+          panel.grid.major.y = element_line(color = "grey90"))
       
   if(tax_aggregate == "OTU"){
     colnames(temp3)[1] <- "OTU"

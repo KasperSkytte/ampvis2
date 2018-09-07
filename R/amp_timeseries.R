@@ -68,7 +68,6 @@
 #' 
 #' @author Julie Klessner Thun Pedersen \email{julieklessnerthun@@gmail.com}
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
-
 amp_timeseries <- function(data,
                            time_variable = NULL,
                            group_by = NULL,

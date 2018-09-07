@@ -46,7 +46,6 @@
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-
 amp_rankabundance <- function(data,
                               group_by = "Sample",
                               order_group = NULL,
