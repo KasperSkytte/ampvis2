@@ -124,7 +124,7 @@ amp_core <- function(data,
       p <- p + geom_jitter(size = 3, alpha = 0.5)
     }
         
-    if(plotly == T){
+    if(isTRUE(plotly)){
       data_plotly <- paste("Kingdom: ", data$tax[,1],"<br>",
                            "Phylum: ", data$tax[,2],"<br>",
                            "Class: ", data$tax[,3],"<br>",
@@ -133,9 +133,8 @@ amp_core <- function(data,
                            "Genus: ", data$tax[,6],"<br>",
                            "Species: ", data$tax[,7],"<br>",
                            "OTU: ", data$tax[,8],sep = "")
-      
       p <- p + geom_jitter(size = 2, alpha = 0.5, aes(text = data_plotly))
-      }
+    }
 
   if(tax_aggregate == "OTU"){
     colnames(temp3)[1] <- "OTU"
@@ -143,10 +142,10 @@ amp_core <- function(data,
     temp3 <- core
   }
   
-  if(plotly){
+  if(isTRUE(plotly)){
     ggplotly(p, tooltip = "text") %>% 
-      layout(showlegend = FALSE)
-  } else if (!plotly) {
+      plotly::layout(showlegend = FALSE)
+  } else if (isFALSE(plotly)) {
     if (detailed_output) {
       return(list(data = temp3, plot = p, abund = abund, tax = tax, metadata = metadata))
     } else if (!detailed_output)
