@@ -218,7 +218,7 @@ amp_timeseries <- function(data,
     if(isTRUE(split)) {
       p <- ggplot(abund7, aes_string(x = time_variable, y = "Value", color = "Group", group = "DisplayGroup"))
     } else if(!isTRUE(split)) {
-      p <- ggplot(abund7, aes_string(x=time_variable, y="Value", color = "Group", group = "DisplayGroup", linetype = tax_aggregate, shape = tax_aggregate))
+      p <- ggplot(abund7, aes_string(x=time_variable, y = "Value", color = "Group", group = "DisplayGroup", linetype = tax_aggregate, shape = tax_aggregate))
     }
   }
   p <- p +
@@ -231,11 +231,11 @@ amp_timeseries <- function(data,
           panel.grid.major.x = element_line(color = "grey90"),
           panel.grid.major.y = element_line(color = "grey90"))
   
-  if(isTRUE(normalise) | isTRUE(attributes(data)$normalised)) {
-    p <- p + ylab("Read abundance (%)")
-  } else if(!isTRUE(normalise) & !isTRUE(attributes(data)$normalised)) {
+  if((is.null(attributes(data)$normalised) | isFALSE(attributes(data)$normalised)) &
+     isFALSE(normalise)) {
     p <- p + ylab("Read counts")
-  }
+  } else
+    p <- p + ylab("Read abundance (%)") 
   
   if(split == T){
     p <- p + facet_wrap(tax_aggregate, scales = scales) +

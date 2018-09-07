@@ -114,11 +114,17 @@ amp_core <- function(data,
       as.data.frame()
 
     p <- ggplot(data = temp3, aes(x = Frequency, y = freq_A)) +
-      ylab(paste("Abundant in N ", group_by, "s (>", abund_thrh, "%)" , sep="")) +
       xlab(paste("Observed in N ", group_by, "s", sep="")) +
       theme_classic() +
       theme(panel.grid.major.x = element_line(color = "grey90"),
             panel.grid.major.y = element_line(color = "grey90"))
+    
+    
+    if((is.null(attributes(data)$normalised) | isFALSE(attributes(data)$normalised)) &
+       isFALSE(normalise)) {
+      p <- p + ylab(paste("Abundant in N ", group_by, "s (>", abund_thrh, "read counts)" , sep=""))
+    } else 
+      p <- p + ylab(paste("Abundant in N ", group_by, "s (>", abund_thrh, "%)" , sep=""))
     
     if(plotly == F){
       p <- p + geom_jitter(size = 3, alpha = 0.5)

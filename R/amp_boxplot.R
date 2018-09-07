@@ -177,15 +177,21 @@ amp_boxplot <- function(data,
       if(!is.null(order_group)){
         abund7$Group <- factor(abund7$Group, levels = rev(order_group))
       }
-      p <-ggplot(abund7, aes(x = Display, y = Abundance, color = Group))   
+      p <- ggplot(abund7, aes(x = Display, y = Abundance, color = Group))   
     }
     
-    p <- p +  ylab("Read Abundance (%)") + 
+    p <- p + 
       guides(col = guide_legend(reverse = TRUE)) + 
       xlab("") +
       theme_classic() +
       theme(panel.grid.major.x = element_line(color = "grey90"),
             panel.grid.major.y = element_line(color = "grey90"))
+    
+    if((is.null(attributes(data)$normalised) | isFALSE(attributes(data)$normalised)) &
+       isFALSE(normalise)) {
+      p <- p + ylab("Read counts")
+    } else
+      p <- p + ylab("Read Abundance (%)")
     
     if (plot_flip == F){ p <- p + coord_flip() } else{
       p <- p + theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))

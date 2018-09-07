@@ -115,38 +115,42 @@ amp_rankabundance <- function(data,
     } else{ abund5 <- data.frame(abund3, Group = abund3$Sample)}
   ) 
   
+  temp3 <- group_by(abund5, Display, Group) %>%
+    summarise(Mean = mean(Abundance))
   
-    temp3 <- group_by(abund5, Display, Group) %>%
-      summarise(Mean = mean(Abundance))
-    
-    TotalCounts <- temp3[with(temp3, order(-Mean)),] %>%
-      group_by(Group) %>%
-      mutate(dummy = 1) %>%
-      mutate(Cumsum = cumsum(Mean), Rank = cumsum(dummy)) %>%
-      as.data.frame()
-    
-    if(!is.null(order_group)){
-      TotalCounts$Group <- factor(TotalCounts$Group, levels = rev(order_group))
-    }
-    
-    if(group_by != "Sample")
-      p <- ggplot(TotalCounts, aes_string("Rank", "Cumsum", color = "Group"))
-    if(group_by == "Sample")
-      p <- ggplot(TotalCounts, aes_string("Rank", "Cumsum"))
-    p <- p +
-      geom_line(size = 1) +
-      ylim(0,100) +
-      xlab("Rank abundance") +
-      ylab("Cumulative read abundance (%)") +
-      theme_classic()
-    
-    if (plot_log == TRUE){
-      p <- p + scale_x_log10() 
-    } 
-    
-    ## Define the output 
-    if (detailed_output) {
-      return(list(plot = p, data = TotalCounts))
-    } else if (!detailed_output)
-      return(p)
+  TotalCounts <- temp3[with(temp3, order(-Mean)),] %>%
+    group_by(Group) %>%
+    mutate(dummy = 1) %>%
+    mutate(Cumsum = cumsum(Mean), Rank = cumsum(dummy)) %>%
+    as.data.frame()
+  
+  if(!is.null(order_group)){
+    TotalCounts$Group <- factor(TotalCounts$Group, levels = rev(order_group))
+  }
+  
+  if(group_by != "Sample")
+    p <- ggplot(TotalCounts, aes_string("Rank", "Cumsum", color = "Group"))
+  if(group_by == "Sample")
+    p <- ggplot(TotalCounts, aes_string("Rank", "Cumsum"))
+  p <- p +
+    geom_line(size = 1) +
+    ylim(0,100) +
+    xlab("Rank abundance") +
+    theme_classic()
+  
+  if((is.null(attributes(data)$normalised) | isFALSE(attributes(data)$normalised)) &
+     isFALSE(normalise)) {
+    p <- p + ylab("Cumulative read counts")
+  } else
+    p <- p + ylab("Cumulative read abundance(%)")
+  
+  if (plot_log == TRUE){
+    p <- p + scale_x_log10() 
+  } 
+  
+  ## Define the output 
+  if (detailed_output) {
+    return(list(plot = p, data = TotalCounts))
+  } else if (!detailed_output)
+    return(p)
 }

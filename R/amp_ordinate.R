@@ -87,6 +87,7 @@
 #'   \item Visualise the result with ggplot2 or plotly in various ways defined by the user
 #' }
 #' 
+#' 
 #' @section Using a custom distance matrix:
 #' If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in \code{amp_ordinate}, it can be done by setting \code{filter_species = 0}, \code{transform = "none"}, \code{distmeasure = "none"}, and then override the abundance table (\code{$abund}) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.
 #' \preformatted{
