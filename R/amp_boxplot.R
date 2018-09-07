@@ -51,7 +51,6 @@
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-
 amp_boxplot <- function(data, 
                         group_by = "Sample",
                         sort_by = "median",

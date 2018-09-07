@@ -13,7 +13,7 @@
 #' 
 #' @importFrom ape read.FASTA
 #' @importFrom stringr str_replace_all
-#' @importFrom dplyr intersect
+#' @importFrom dplyr intersect mutate_at
 #' 
 #' @export
 #' 
@@ -113,6 +113,8 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
                            "DummyVariable" = "All samples")
     warning("No sample metadata provided, creating dummy metadata.\n", call. = FALSE)
   }
+  
+  metadata <- dplyr::mutate_at(metadata, vars(1), as.character) #sample names should always be characters
   rownames(metadata) <- as.character(metadata[,1])
   
   ### Only alphanumeric characters in metadata column names, replace others with "_", they may cause problems with ggplot2 groupings etc
