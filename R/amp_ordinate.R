@@ -215,7 +215,7 @@ amp_ordinate <- function(data,
   }
   
   #Check the data
-  data <- amp_rename(data = data, tax_empty = tax_empty)
+  data <- ampvis2:::amp_rename(data = data, tax_empty = tax_empty)
   
   ##### Filter ##### 
   if(filter_species != 0 && is.numeric(filter_species)) {
