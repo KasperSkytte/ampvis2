@@ -42,7 +42,6 @@
 #' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-
 amp_frequency <- function(data,
                           group_by = "Sample", 
                           tax_class = NULL,
@@ -99,7 +98,6 @@ amp_frequency <- function(data,
     mutate(freq = 1)
   
   ## Make a nice frequency plot
-  
     temp3 <- group_by(abund3, Display) %>%
       summarise(Frequency = sum(freq), Total = sum(sum)) %>%
       mutate(Percent = Total / length(unique(abund3$Group))) %>%
@@ -125,6 +123,10 @@ amp_frequency <- function(data,
       theme_classic() +
       theme(panel.grid.major.x = element_line(color = "grey90"),
             panel.grid.major.y = element_line(color = "grey90"))
+    if((is.null(attributes(data)$normalised) | isFALSE(attributes(data)$normalised)) &
+       isFALSE(normalise)) {
+      p <- p + ylab("Read counts")
+    }
       
   if(tax_aggregate == "OTU"){
     colnames(temp3)[1] <- "OTU"
