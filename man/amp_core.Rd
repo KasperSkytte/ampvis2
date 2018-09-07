@@ -54,6 +54,9 @@ data("AalborgWWTPs")
 amp_core(AalborgWWTPs)
 
 }
+\references{
+Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): The activated sludge ecosystem contains a core community of abundant organisms, ISME Journal 10, 11-20. \url{https://doi.org/10.1038/ismej.2015.117}
+}
 \seealso{
 \code{\link{amp_load}}
 }
