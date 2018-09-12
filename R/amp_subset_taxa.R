@@ -29,7 +29,7 @@
 #'             group_by = "Plant",
 #'             tax_aggregate = "Phylum",
 #'             tax_add = "Genus",
-#'             raw = TRUE
+#'             normalise = FALSE
 #'             )
 #' }
 #' 
