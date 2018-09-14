@@ -58,7 +58,7 @@ amp_frequency <- function(data,
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   
   ## Clean up the taxonomy
-  data <- ampvis2:::amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
+  data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
   
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
