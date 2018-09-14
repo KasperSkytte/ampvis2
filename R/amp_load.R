@@ -149,7 +149,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   
   ### check if metadata and otutable match
   if(!all(rownames(metadata) %in% colnames(abund)) | !all(colnames(abund) %in% rownames(metadata))) {
-    if (!any(colnames(abund) %in% rownames(metadata))) {
+    if(!any(colnames(abund) %in% rownames(metadata))) {
       # No samples match
       stop("No sample names match between metadata and otutable. Check that you have loaded matching files and that they meet the requirements described in ?amp_load(). Remember to use check.names = FALSE when loading the files.", call. = FALSE)
     } else {
@@ -158,7 +158,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
       
       #subset both based on shared samples
       abund0 <- abund[,match(sharedSamples, colnames(abund)), drop = FALSE]
-      abund0 <- abund0[rowSums(abund0) > 0,] #after subset, rows with all 0's may be introduced, remove
+      abund0 <- abund0[rowSums(abund0) > 0,, drop = FALSE] #after subset, rows with all 0's may be introduced, remove
       metadata0 <- metadata[match(sharedSamples, rownames(metadata)),, drop = FALSE]
       
       #Vectors with unique sample names in either
@@ -174,9 +174,9 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   } 
   
   ### tax: the last 7 columns from otutable
-  tax <- data.frame(otutable[, (ncol(otutable) - 6):ncol(otutable)] 
+  tax <- data.frame(otutable[, (ncol(otutable) - 6):ncol(otutable), drop = FALSE] 
                     ,OTU = rownames(otutable)) #with added OTU column
-  tax <- tax[which(rownames(abund) %in% rownames(abund0)), c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")]
+  tax <- tax[which(rownames(abund) %in% rownames(abund0)), c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU"), drop = FALSE]
   tax[is.na(tax)] <- ""  
   
   ### data: return the data in a combined list w or w/o refseq. The rows of tax are ordered by the rownames of abund, and the columns of abund are ordered by the metadata rownames
