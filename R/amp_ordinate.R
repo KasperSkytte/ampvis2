@@ -72,6 +72,7 @@
 #'    \item \code{"OTU"}: Display the OTU name.
 #'    }
 #' @param detailed_output (\emph{logical}) Return additional details or not (model, scores, figure caption, inputmatrix, screeplot etc). If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
+#' @param num_threads The number of threads to use whereever in the code parallelisation is possible. Any parallel computation is being performed by using \code{\link[foreach]{foreach}}. (\emph{default:} \code{1})
 #' @param ... Pass additional arguments to the vegan ordination functions, fx the \code{\link[vegan]{rda}}, \code{\link[vegan]{cca}}, \code{\link[vegan]{metaMDS}} functions, see the documentation.
 #'
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
@@ -189,6 +190,7 @@ amp_ordinate <- function(data,
                          opacity = 0.8,
                          tax_empty = "best",
                          detailed_output = FALSE,
+                         num_threads = 1L,
                          ...) {
 
   ### Data must be in ampvis2 format
@@ -291,19 +293,21 @@ amp_ordinate <- function(data,
       } else if (distmeasure == "unifrac") {
         message("Calculating unweighted (normalized) UniFrac distances... ")
         inputmatrix <- unifrac(
-          data$abund,
+          abund = data$abund,
+          tree = data$tree,
           weighted = FALSE,
           normalise = TRUE,
-          num_threads = 1L
+          num_threads = num_threads
         )
         message("Done.")
       } else if (distmeasure == "wunifrac") {
         message("Calculating weighted (normalized) UniFrac distances... ")
         inputmatrix <- unifrac(
-          data$abund,
+          abund = data$abund,
+          tree = data$tree,
           weighted = TRUE,
           normalise = TRUE,
-          num_threads = 1L
+          num_threads = num_threads
         )
         message("Done.")
       }

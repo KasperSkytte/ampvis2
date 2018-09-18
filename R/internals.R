@@ -323,7 +323,8 @@ amp_cleanMiF <- function(data) {
 }
 #' Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq
 #'
-#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
+#' @param abund Abundance table with OTU counts, in \code{ampvis2} objects it is available with simply data$abund
+#' @param tree Phylogenetic tree (rooted and with branch lengths) as loaded with \code{\link[ape]{read.tree}}.
 #' @param weighted Calculate weighted or unweighted UniFrac distances.
 #' @param normalise Should the output be normalised such that values range from 0 to 1 independent of branch length values? Note that unweighted UniFrac is always normalised. (\emph{default:} \code{TRUE})
 #' @param num_threads The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}} (\emph{default:} \code{1})
@@ -331,23 +332,24 @@ amp_cleanMiF <- function(data) {
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach foreach registerDoSEQ %dopar%
 #' @return A distance matrix of class \code{dist}
-unifrac <- function(data,
+unifrac <- function(abund,
+                    tree,
                     weighted = FALSE,
                     normalise = TRUE,
                     num_threads = 1L) {
-  tree <- data$tree
-  if (is.null(tree)) {
-    stop("No phylogenetic tree in the provided data.", call. = FALSE)
-  }
-  if (is.null(tree$edge.length)) {
-    stop("Tree has no branch lengths, cannot compute UniFrac", call. = FALSE)
+  # check tree
+  if (!class(tree) == "phylo") {
+    stop("The provided phylogenetic tree must be of class \"phylo\" as loaded with the ape::read.tree() function.", call. = FALSE)
   }
   if (!ape::is.rooted(tree)) {
     stop("Tree is not rooted!", call. = FALSE)
     # message("Tree is not rooted, performing a midpoint root")
     # tree <- phytools::midpoint.root(tree)
   }
-  OTU <- as.matrix(data$abund)
+  if (is.null(tree$edge.length)) {
+    stop("Tree has no branch lengths, cannot compute UniFrac", call. = FALSE)
+  }
+  OTU <- as.matrix(abund)
   ntip <- length(tree$tip.label)
   if (ntip != nrow(OTU)) {
     stop("OTU table and phylogenetic tree do not match.", call. = FALSE)
