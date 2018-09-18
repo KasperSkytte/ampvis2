@@ -190,7 +190,7 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
 
   # apend refseq if provided
   if (!is.null(fasta)) {
-    data[["refseq"]] <- ape::read.FASTA(file = fasta)
+    data[["refseq"]] <- ape::read.FASTA(file = fasta)[rownames(abund0)]
   }
 
   # apend phylogenetic tree if provided
