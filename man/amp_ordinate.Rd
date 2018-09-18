@@ -17,16 +17,16 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
    \item \code{"RDA"}: Redundancy Analysis (considered the constrained version of PCA)
    \item \code{"CA"}: Correspondence Analysis
    \item \code{"CCA"}: Canonical Correspondence Analysis (considered the constrained version of CA)
-   \item \code{"DCA"}: Detrended Correspondence Analysis 
+   \item \code{"DCA"}: Detrended Correspondence Analysis
    \item \code{"NMDS"}: non-metric Multidimensional Scaling
    \item \code{"PCOA"} or \code{"MMDS"}: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)
    }
    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[ape]{pcoa}} function from the APE package.}}
 
-\item{distmeasure}{(\emph{required for nMDS and PCoA}) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following: 
+\item{distmeasure}{(\emph{required for nMDS and PCoA}) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:
 \itemize{
-  \item \code{"wunifrac"}: Weighted generalized UniFrac distances (alpha=0.5), calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree. 
-  \item \code{"unifrac"}: Unweighted UniFrac distances, calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree. 
+  \item \code{"wunifrac"}: Weighted generalized UniFrac distances (alpha=0.5), calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree.
+  \item \code{"unifrac"}: Unweighted UniFrac distances, calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree.
   \item \code{"jsd"}: Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
   \item Any of the distance measures supported by \code{\link[vegan]{vegdist}}: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}.
   \item or \code{"none"}. (\emph{default})
@@ -108,7 +108,7 @@ You can also write your own math formula, see details in \code{\link[vegan]{vegd
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
 \itemize{
    \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"best"}: (\emph{default}) Use the best classification possible.
    \item \code{"OTU"}: Display the OTU name.
    }}
 
@@ -149,35 +149,34 @@ amp_ordinate(ampvis2_object,
 }
 
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#PCA with data transformation, colored by WWTP
+# PCA with data transformation, colored by WWTP
 amp_ordinate(AalborgWWTPs,
-             type = "PCA",
-             transform = "hellinger",
-             sample_color_by = "Plant",
-             sample_colorframe = TRUE
-             )
-
+  type = "PCA",
+  transform = "hellinger",
+  sample_color_by = "Plant",
+  sample_colorframe = TRUE
+)
 \dontrun{
-#Interactive CCA with data transformation constrained to seasonal period
+# Interactive CCA with data transformation constrained to seasonal period
 amp_ordinate(AalborgWWTPs,
-             type = "CCA",
-             transform = "Hellinger", 
-             constrain = "Period",
-             sample_color_by = "Period",
-             sample_colorframe = TRUE,
-             sample_colorframe_label = "Period",
-             sample_plotly = "all"
-             )
+  type = "CCA",
+  transform = "Hellinger",
+  constrain = "Period",
+  sample_color_by = "Period",
+  sample_colorframe = TRUE,
+  sample_colorframe_label = "Period",
+  sample_plotly = "all"
+)
 }
 }
 \references{
 GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): \url{https://mb3is.megx.net/gustame}
-  
+
   Legendre, Pierre & Legendre, Louis (2012). Numerical Ecology. Elsevier Science. ISBN: 9780444538680
-  
+
   Legendre, P., & Gallagher, E. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia, 129(2), 271-280. \url{http://doi.org/10.1007/s004420100716}
 }
 \seealso{

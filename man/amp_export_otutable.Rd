@@ -27,10 +27,10 @@ amp_export_otutable(data)
 Export otutable (including taxonomy) from an ampvis2 object as CSV using \code{\link{write.table}}.
 }
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#Export OTU-table
+# Export OTU-table
 \dontrun{
 amp_export_otutable(AalborgWWTPs, md5 = TRUE, filename = "AalborgWWTPs_otutable", sep = "\\t")
 }

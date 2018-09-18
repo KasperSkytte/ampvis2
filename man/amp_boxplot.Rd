@@ -26,7 +26,7 @@ amp_boxplot(data)
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
 \itemize{
    \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"best"}: (\emph{default}) Use the best classification possible.
    \item \code{"OTU"}: Display the OTU name.
    }}
 
@@ -53,15 +53,15 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 Generates boxplots of the most abundant taxa.
 }
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#10 boxplots grouped by WWTP with phylum name added
-amp_boxplot(AalborgWWTPs, 
-            group_by = "Plant",
-            tax_show = 10,
-            tax_add = "Phylum")
-
+# 10 boxplots grouped by WWTP with phylum name added
+amp_boxplot(AalborgWWTPs,
+  group_by = "Plant",
+  tax_show = 10,
+  tax_add = "Phylum"
+)
 }
 \seealso{
 \code{\link{amp_load}}

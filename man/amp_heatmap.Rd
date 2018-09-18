@@ -26,7 +26,7 @@ amp_heatmap(data, group_by = "")
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
 \itemize{
    \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"best"}: (\emph{default}) Use the best classification possible.
    \item \code{"OTU"}: Display the OTU name.
    }}
 
@@ -101,44 +101,43 @@ The complete raw data used to generate any ggplot can always be accessed with \c
 }
 
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#Heatmap grouped by WWTP
+# Heatmap grouped by WWTP
 amp_heatmap(AalborgWWTPs, group_by = "Plant")
 
-#Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year, 
-#values not plotted for visibility, phylum name added and colorscale adjusted manually
+# Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year,
+# values not plotted for visibility, phylum name added and colorscale adjusted manually
 amp_heatmap(AalborgWWTPs,
-           group_by = "Plant", 
-           facet_by = "Year",
-           plot_values = FALSE,
-           tax_show = 20,
-           tax_aggregate = "Genus", 
-           tax_add = "Phylum",
-           color_vector = c("white", "red"), 
-           plot_colorscale = "sqrt",
-           plot_legendbreaks = c(1, 5, 10)
-           )
-           
-#Heatmap with known functional information about the Genera shown to the right
-amp_heatmap(AalborgWWTPs, 
-            group_by = "Plant", 
-            tax_aggregate = "Genus", 
-            plot_functions = TRUE, 
-            functions = c("PAO", "GAO", "AOB", "NOB")
-            )
-           
-#A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:
-textmap <- amp_heatmap(AalborgWWTPs, 
-                       group_by = "Plant", 
-                       tax_aggregate = "Genus",
-                       plot_functions = TRUE,
-                       functions = c("PAO", "GAO", "AOB", "NOB"),
-                       textmap = TRUE
-                       )
-textmap
+  group_by = "Plant",
+  facet_by = "Year",
+  plot_values = FALSE,
+  tax_show = 20,
+  tax_aggregate = "Genus",
+  tax_add = "Phylum",
+  color_vector = c("white", "red"),
+  plot_colorscale = "sqrt",
+  plot_legendbreaks = c(1, 5, 10)
+)
 
+# Heatmap with known functional information about the Genera shown to the right
+amp_heatmap(AalborgWWTPs,
+  group_by = "Plant",
+  tax_aggregate = "Genus",
+  plot_functions = TRUE,
+  functions = c("PAO", "GAO", "AOB", "NOB")
+)
+
+# A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:
+textmap <- amp_heatmap(AalborgWWTPs,
+  group_by = "Plant",
+  tax_aggregate = "Genus",
+  plot_functions = TRUE,
+  functions = c("PAO", "GAO", "AOB", "NOB"),
+  textmap = TRUE
+)
+textmap
 }
 \seealso{
 \code{\link{amp_load}}

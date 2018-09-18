@@ -9,7 +9,7 @@ amp_alphadiv(data, measure, rarefy)
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{measure}{Alpha-diversity measure(s) to be included if not all. A vector of one or more of: 
+\item{measure}{Alpha-diversity measure(s) to be included if not all. A vector of one or more of:
 \itemize{
   \item \code{"observed"}
   \item \code{"shannon"}
@@ -31,15 +31,14 @@ Calculate alpha-diversity indices for each sample and combines with the metadata
 The alpha-diversity indices are calculated per sample using the vegan function \code{\link[vegan]{diversity}}, where the read abundances are first rarefied using \code{\link[vegan]{rrarefy}} by the size of the \code{rarefy} argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.
 }
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#Subsample/rarefy to 20000 reads and then calculate Shannon and Simpson alpha-diversity indices
+# Subsample/rarefy to 20000 reads and then calculate Shannon and Simpson alpha-diversity indices
 alphadiversityresult <- amp_alphadiv(AalborgWWTPs, measure = c("shannon", "simpson"), rarefy = 20000)
 
-#Explore the results in the data frame
-#View(alphadiversityresult)
-
+# Explore the results in the data frame
+# View(alphadiversityresult)
 }
 \references{
 McMurdie, P.J. & Holmes, S. (2014). Waste not, want not: Why

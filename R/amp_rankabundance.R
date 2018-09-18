@@ -12,38 +12,37 @@
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
 #' \itemize{
 #'    \item \code{"remove"}: Remove OTUs without taxonomic information.
-#'    \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+#'    \item \code{"best"}: (\emph{default}) Use the best classification possible.
 #'    \item \code{"OTU"}: Display the OTU name.
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
 #' @param plot_log (\emph{logical}) Log10-scale the x-axis. (\emph{default:} \code{FALSE})
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
-#' 
+#'
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
-#' 
+#'
 #' @import ggplot2
 #' @importFrom dplyr group_by mutate summarise
 #' @importFrom tidyr gather
 #' @importFrom data.table as.data.table setkey
-#' 
+#'
 #' @export
-#' 
+#'
 #' @section Preserving relative abundances in a subset of larger data:
 #' See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
-#' 
+#'
 #' @details A rank abundance curve is used to assess the biodiversity by plotting the ranked abundances of the OTUs (rank 1 is the most abundant, rank 2 the second and so on) versus the cumulative read abundance of the particular OTU. The rank abundances of the OTUs can be grouped by any taxonomic level by the \code{tax_aggregate} argument, the default is per OTU. When the samples are grouped by the \code{group_by} argument, the average of the group is used.
-#' 
-#' @seealso 
+#'
+#' @seealso
 #' \code{\link{amp_load}}
-#' 
-#' @examples 
-#' #Load example data
+#'
+#' @examples
+#' # Load example data
 #' data("AalborgWWTPs")
 #' 
-#' #Rank abundance plot
+#' # Rank abundance plot
 #' amp_rankabundance(AalborgWWTPs, group_by = "Plant")
-#' 
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 amp_rankabundance <- function(data,
@@ -56,101 +55,110 @@ amp_rankabundance <- function(data,
                               tax_class = NULL,
                               normalise = TRUE,
                               detailed_output = FALSE) {
-  
+
   ### Data must be in ampvis2 format
-  if(class(data) != "ampvis2")
+  if (class(data) != "ampvis2") {
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
-  
+  }
+
   ## Clean up the taxonomy
   data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
-  
-  #tax_add and tax_aggregate can't be the same
-  if(!is.null(tax_aggregate) & !is.null(tax_add)) {
-    if(tax_aggregate == tax_add) {
+
+  # tax_add and tax_aggregate can't be the same
+  if (!is.null(tax_aggregate) & !is.null(tax_add)) {
+    if (tax_aggregate == tax_add) {
       stop("tax_aggregate and tax_add cannot be the same", call. = FALSE)
     }
   }
-  
+
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
-  
-  if (isTRUE(normalise)){
-    if(isTRUE(attributes(data)$normalised))
+
+  if (isTRUE(normalise)) {
+    if (isTRUE(attributes(data)$normalised)) {
       warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
-    #calculate sample percentages, skip columns with 0 sum to avoid NaN's
-    abund[,which(colSums(abund) != 0)] <- as.data.frame(apply(abund[,which(colSums(abund) != 0), drop = FALSE], 2, function(x) x/sum(x)*100))
+    }
+    # calculate sample percentages, skip columns with 0 sum to avoid NaN's
+    abund[, which(colSums(abund) != 0)] <- as.data.frame(apply(abund[, which(colSums(abund) != 0), drop = FALSE], 2, function(x) x / sum(x) * 100))
   }
-  
-  ## Make a name variable that can be used instead of tax_aggregate to display multiple levels 
+
+  ## Make a name variable that can be used instead of tax_aggregate to display multiple levels
   suppressWarnings(
-    if (!is.null(tax_add)){
+    if (!is.null(tax_add)) {
       if (tax_add != tax_aggregate) {
-        tax <- data.frame(tax, Display = apply(tax[,c(tax_add,tax_aggregate)], 1, paste, collapse="; "))
+        tax <- data.frame(tax, Display = apply(tax[, c(tax_add, tax_aggregate)], 1, paste, collapse = "; "))
       }
     } else {
-      tax <- data.frame(tax, Display = tax[,tax_aggregate])
+      tax <- data.frame(tax, Display = tax[, tax_aggregate])
     }
-  )  
-  
+  )
+
   # Aggregate to a specific taxonomic level
-  abund3 <- cbind.data.frame(Display = tax[,"Display"], abund) %>%
-    tidyr::gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
-  
-  abund3 <- abund3[, "Abundance":=sum(Abundance), by=list(Display, Sample)] %>%
-    setkey(Display, Sample)  %>%
+  abund3 <- cbind.data.frame(Display = tax[, "Display"], abund) %>%
+    tidyr::gather(key = Sample, value = Abundance, -Display) %>%
+    as.data.table()
+
+  abund3 <- abund3[, "Abundance" := sum(Abundance), by = list(Display, Sample)] %>%
+    setkey(Display, Sample) %>%
     as.data.frame()
-  
+
   ## Add group information
   suppressWarnings(
-    if (group_by != "Sample"){
-      if (length(group_by) > 1){
-        grp <- data.frame(Sample = rownames(metadata), Group = apply(metadata[,group_by], 1, paste, collapse = " ")) 
-      } else{
-        grp <- data.frame(Sample = rownames(metadata), Group = metadata[,group_by]) 
+    if (group_by != "Sample") {
+      if (length(group_by) > 1) {
+        grp <- data.frame(Sample = rownames(metadata), Group = apply(metadata[, group_by], 1, paste, collapse = " "))
+      } else {
+        grp <- data.frame(Sample = rownames(metadata), Group = metadata[, group_by])
       }
       abund3$Group <- grp$Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3
-    } else{ abund5 <- data.frame(abund3, Group = abund3$Sample)}
-  ) 
-  
+    } else {
+      abund5 <- data.frame(abund3, Group = abund3$Sample)
+    }
+  )
+
   temp3 <- group_by(abund5, Display, Group) %>%
     summarise(Mean = mean(Abundance))
-  
-  TotalCounts <- temp3[with(temp3, order(-Mean)),] %>%
+
+  TotalCounts <- temp3[with(temp3, order(-Mean)), ] %>%
     group_by(Group) %>%
     mutate(dummy = 1) %>%
     mutate(Cumsum = cumsum(Mean), Rank = cumsum(dummy)) %>%
     as.data.frame()
-  
-  if(!is.null(order_group)){
+
+  if (!is.null(order_group)) {
     TotalCounts$Group <- factor(TotalCounts$Group, levels = rev(order_group))
   }
-  
-  if(group_by != "Sample")
+
+  if (group_by != "Sample") {
     p <- ggplot(TotalCounts, aes_string("Rank", "Cumsum", color = "Group"))
-  if(group_by == "Sample")
+  }
+  if (group_by == "Sample") {
     p <- ggplot(TotalCounts, aes_string("Rank", "Cumsum"))
+  }
   p <- p +
     geom_line(size = 1) +
-    ylim(0,100) +
+    ylim(0, 100) +
     xlab("Rank abundance") +
     theme_classic()
-  
-  if((is.null(attributes(data)$normalised) | isFALSE(attributes(data)$normalised)) &
-     isFALSE(normalise)) {
+
+  if ((is.null(attributes(data)$normalised) | isFALSE(attributes(data)$normalised)) &
+    isFALSE(normalise)) {
     p <- p + ylab("Cumulative read counts")
-  } else
+  } else {
     p <- p + ylab("Cumulative read abundance(%)")
-  
-  if (plot_log == TRUE){
-    p <- p + scale_x_log10() 
-  } 
-  
-  ## Define the output 
+  }
+
+  if (plot_log == TRUE) {
+    p <- p + scale_x_log10()
+  }
+
+  ## Define the output
   if (detailed_output) {
     return(list(plot = p, data = TotalCounts))
-  } else if (!detailed_output)
+  } else if (!detailed_output) {
     return(p)
+  }
 }

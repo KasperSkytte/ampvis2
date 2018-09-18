@@ -41,7 +41,7 @@ A minimal example is available with \code{data("example_otutable")}.
 
 \section{The metadata}{
 
-The metadata contains additional information about the samples, for example where each sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements: 
+The metadata contains additional information about the samples, for example where each sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements:
 
 \itemize{
   \item The sample IDs must be in the first column. These sample IDs must match exactly to those in the OTU-table.
@@ -51,7 +51,7 @@ The metadata contains additional information about the samples, for example wher
 
 If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (\code{as.numeric()}) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded \code{as.factor()} or \code{as.character()} instead. This has consequences for the analysis as R treats them differently. Therefore either use the \code{colClasses = } argument when loading a csv file or \code{col_types = } when loading an excel file, or manually adjust the column classes afterwards with fx \code{metadata$Year <- as.character(metadata$Year)}.
 
-The \code{\link{amp_load}} function will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis. Any unmatched samples between the otutable and metadata will be removed. 
+The \code{\link{amp_load}} function will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis. Any unmatched samples between the otutable and metadata will be removed.
 
 A minimal example is available with \code{data("example_metadata")}.
 }
@@ -62,36 +62,34 @@ A fasta file with the raw sequences can be loaded as well, which will then be av
 }
 
 \examples{
-#Be sure to use the correct function to load your .csv files, see ?read.table()
-
+# Be sure to use the correct function to load your .csv files, see ?read.table()
 \dontrun{
-#Read the OTU-table as a data frame. It is important to set check.names = FALSE.
-myotutable <- read.delim("data/otutable.txt", check.names = FALSE) 
-                        
-#Read the metadata, often an excel sheet. If .csv make sure the first column will be kept and NOT 
-#loaded as rownames! The top row should be loaded column names
-mymetadata <- read_excel("data/metadata.xlsx", col_names = TRUE) 
-                         
-#Combine the data with amp_load() to make it compatible with ampvis2 functions.
-#Uncomment the fasta line to load reference sequences (not required).
-d <- amp_load(otutable = myotutable,
-              metadata = mymetadata,
-              fasta = "path/to/fastafile.fa" #optional
-              )
-              
-#Show a short summary about the data by simply typing the name of the object in the console
+# Read the OTU-table as a data frame. It is important to set check.names = FALSE.
+myotutable <- read.delim("data/otutable.txt", check.names = FALSE)
+
+# Read the metadata, often an excel sheet. If .csv make sure the first column will be kept and NOT
+# loaded as rownames! The top row should be loaded column names
+mymetadata <- read_excel("data/metadata.xlsx", col_names = TRUE)
+
+# Combine the data with amp_load() to make it compatible with ampvis2 functions.
+# Uncomment the fasta line to load reference sequences (not required).
+d <- amp_load(
+  otutable = myotutable,
+  metadata = mymetadata,
+  fasta = "path/to/fastafile.fa" # optional
+)
+
+# Show a short summary about the data by simply typing the name of the object in the console
 d
 }
 
-#Minimal example metadata:
+# Minimal example metadata:
 data("example_metadata")
 example_metadata
 
-#Minimal example otutable:
+# Minimal example otutable:
 data("example_otutable")
 example_otutable
-
-
 }
 \seealso{
 \code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}

@@ -33,12 +33,11 @@ See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.
 }
 
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#Venn diagram grouped by WWTP
+# Venn diagram grouped by WWTP
 amp_venn(AalborgWWTPs, group_by = "Plant")
-
 }
 \seealso{
 \code{\link{amp_load}}

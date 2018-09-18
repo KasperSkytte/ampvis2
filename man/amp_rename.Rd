@@ -14,7 +14,7 @@ amp_rename(data)
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
 \itemize{
    \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"best"}: (\emph{default}) Use the best classification possible.
    \item \code{"OTU"}: Display the OTU name.
    }}
 

@@ -33,7 +33,7 @@ NULL
 #' @format An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.
 #'
 #' @keywords data
-#' 
+#'
 #' @examples
 #' data(AalborgWWTPs)
 #' AalborgWWTPs
@@ -41,7 +41,7 @@ NULL
 
 #' Functional information of microbes in the MiDAS database
 #'
-#' A data frame with known/unknown functional characteristics of the Genera in the MiDAS database. 
+#' A data frame with known/unknown functional characteristics of the Genera in the MiDAS database.
 #'
 #' @name MiF
 #' @docType data
@@ -72,7 +72,7 @@ NULL
 #' @format a data frame.
 #'
 #' @keywords data
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' data(example_otutable)
@@ -92,7 +92,7 @@ NULL
 #' @format a data frame.
 #'
 #' @keywords data
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' data(example_metadata)

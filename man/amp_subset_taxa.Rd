@@ -44,46 +44,47 @@ amp_heatmap(subsettedData,
 }
 
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#An overview heatmap of the data:
-amp_heatmap(AalborgWWTPs, 
-            tax_aggregate = "Genus",
-            group_by = "Plant",
-            tax_add = "Phylum"
-            )
+# An overview heatmap of the data:
+amp_heatmap(AalborgWWTPs,
+  tax_aggregate = "Genus",
+  group_by = "Plant",
+  tax_add = "Phylum"
+)
 
-#Remove all taxa except the phyla Chloroflexi and Actinobacteria 
-#and the Genera Rhodoferax and Trichococcus:
-tax_vector <- c("p__Chloroflexi",
-            "p__Actinobacteria",
-            "g__Rhodoferax",
-            "g__Trichococcus")
-            
-AalborgWWTPs_subset <- amp_subset_taxa(AalborgWWTPs, 
-                                       tax_vector = tax_vector
-                                       )
+# Remove all taxa except the phyla Chloroflexi and Actinobacteria
+# and the Genera Rhodoferax and Trichococcus:
+tax_vector <- c(
+  "p__Chloroflexi",
+  "p__Actinobacteria",
+  "g__Rhodoferax",
+  "g__Trichococcus"
+)
 
-#The resulting subset:
-amp_heatmap(AalborgWWTPs_subset, 
-            tax_aggregate = "Genus",
-            group_by = "Plant",
-            tax_add = "Phylum"
-            )
+AalborgWWTPs_subset <- amp_subset_taxa(AalborgWWTPs,
+  tax_vector = tax_vector
+)
 
-#Or if remove = TRUE then the taxa in tax_vector are the ones being removed:
-AalborgWWTPs_subset <- amp_subset_taxa(AalborgWWTPs, 
-                                       tax_vector = tax_vector,
-                                       remove = TRUE
-                                       )
-#The resulting subset:
-amp_heatmap(AalborgWWTPs_subset, 
-            tax_aggregate = "Genus",
-            group_by = "Plant",
-            tax_add = "Phylum"
-            )
+# The resulting subset:
+amp_heatmap(AalborgWWTPs_subset,
+  tax_aggregate = "Genus",
+  group_by = "Plant",
+  tax_add = "Phylum"
+)
 
+# Or if remove = TRUE then the taxa in tax_vector are the ones being removed:
+AalborgWWTPs_subset <- amp_subset_taxa(AalborgWWTPs,
+  tax_vector = tax_vector,
+  remove = TRUE
+)
+# The resulting subset:
+amp_heatmap(AalborgWWTPs_subset,
+  tax_aggregate = "Genus",
+  group_by = "Plant",
+  tax_add = "Phylum"
+)
 }
 \seealso{
 \code{\link{amp_load}}, \code{\link{amp_subset_samples}}

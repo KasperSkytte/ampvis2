@@ -19,10 +19,10 @@ amp_export_fasta(data)
 Export sequences from an ampvis2 object with added taxonomy.
 }
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#Export fasta sequences as "exported_sequences.fa"
+# Export fasta sequences as "exported_sequences.fa"
 \dontrun{
 amp_export_fasta(AalborgWWTPs)
 }

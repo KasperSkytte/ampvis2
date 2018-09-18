@@ -16,7 +16,7 @@ amp_frequency(data)
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
 \itemize{
    \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"best"}: (\emph{default}) Use the best classification possible.
    \item \code{"OTU"}: Display the OTU name.
    }}
 
@@ -40,12 +40,11 @@ See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.
 }
 
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#Frequency plot
+# Frequency plot
 amp_frequency(AalborgWWTPs)
-
 }
 \references{
 Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): The activated sludge ecosystem contains a core community of abundant organisms, ISME Journal 10, 11-20. \url{https://doi.org/10.1038/ismej.2015.117}

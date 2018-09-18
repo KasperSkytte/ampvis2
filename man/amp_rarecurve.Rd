@@ -24,12 +24,11 @@ A ggplot2 object.
 Generates a rarefaction curve (number of reads vs number of observed OTUs) for each sample.
 }
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#Rarecurve
+# Rarecurve
 amp_rarecurve(AalborgWWTPs, facet_by = "Plant")
-
 }
 \seealso{
 \code{\link{amp_load}}

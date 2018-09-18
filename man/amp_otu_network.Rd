@@ -24,7 +24,7 @@ amp_otu_network(data)
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
 \itemize{
    \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"best"}: (\emph{default}) Use the best classification possible.
    \item \code{"OTU"}: Display the OTU name.
    }}
 
@@ -47,12 +47,11 @@ See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.
 }
 
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#OTU network plot
+# OTU network plot
 amp_otu_network(AalborgWWTPs)
-
 }
 \seealso{
 \code{\link{amp_load}}
