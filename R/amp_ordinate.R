@@ -220,6 +220,10 @@ amp_ordinate <- function(data,
   data <- amp_rename(data = data, tax_empty = tax_empty)
 
   ##### Filter #####
+  if (any(distmeasure %in% c("unifrac", "wunifrac"))) {
+    filter_species <- 0
+    warning("Setting 'filter_species' to 0 when calculating UniFrac distances because it doesn't make sense to subset a rooted phylogenetic tree.", call. = FALSE)
+  }
   if (filter_species != 0 && is.numeric(filter_species)) {
     # First transform to percentages
     abund_pct <- data$abund
