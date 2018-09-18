@@ -19,8 +19,8 @@
 #'    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[ape]{pcoa}} function from the APE package.}
 #' @param distmeasure (\emph{required for nMDS and PCoA}) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:
 #' \itemize{
-#'   \item \code{"wunifrac"}: Weighted generalized UniFrac distances (alpha=0.5), calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree.
-#'   \item \code{"unifrac"}: Unweighted UniFrac distances, calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree.
+#'   \item \code{"wunifrac"}: Weighted UniFrac distances. Requires a rooted phylogenetic tree.
+#'   \item \code{"unifrac"}: Unweighted UniFrac distances. Requires a phylogenetic tree.
 #'   \item \code{"jsd"}: Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
 #'   \item Any of the distance measures supported by \code{\link[vegan]{vegdist}}: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}.
 #'   \item or \code{"none"}. (\emph{default})
@@ -104,7 +104,6 @@
 #' @import ggplot2
 #' @importFrom dplyr arrange group_by summarise desc
 #' @importFrom plotly ggplotly
-#' @importFrom GUniFrac GUniFrac
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom ape pcoa
 #' @importFrom vegan cca decorana decostand envfit metaMDS rda scores vegdist
@@ -290,27 +289,23 @@ amp_ordinate <- function(data,
         inputmatrix <- vegan::vegdist(t(data$abund), method = distmeasure)
         message("Done.")
       } else if (distmeasure == "unifrac") {
-        # no tree no unifrac
-        if (!any(names(data) == "tree")) {
-          stop("No phylogenetic tree in the provided data.", call. = FALSE)
-        }
-        message("Calculating unweighted generalized UniFrac distances... ")
-        unifracs <- suppressWarnings(GUniFrac::GUniFrac(t(data$abund), data$tree, alpha = 0.5)$unifracs)
+        message("Calculating unweighted (normalized) UniFrac distances... ")
+        inputmatrix <- unifrac(
+          data$abund,
+          weighted = FALSE,
+          normalise = TRUE,
+          num_threads = 1L
+        )
         message("Done.")
-        # GUniFrac returns both weighted and unweighted distances in the same dataframe
-        inputmatrix <- unifracs[, , "d_UW"] %>%
-          as.data.frame()
       } else if (distmeasure == "wunifrac") {
-        # no tree no unifrac
-        if (!any(names(data) == "tree")) {
-          stop("No phylogenetic tree in the provided data.", call. = FALSE)
-        }
-        message("Calculating weighted generalized UniFrac distances (alpha=0.5)... ")
-        unifracs <- suppressWarnings(GUniFrac::GUniFrac(t(data$abund), data$tree, alpha = 0.5)$unifracs)
+        message("Calculating weighted (normalized) UniFrac distances... ")
+        inputmatrix <- unifrac(
+          data$abund,
+          weighted = TRUE,
+          normalise = TRUE,
+          num_threads = 1L
+        )
         message("Done.")
-        # GUniFrac returns both weighted and unweighted distances in the same dataframe
-        inputmatrix <- unifracs[, , "d_0.5"] %>%
-          as.data.frame()
       }
     } else if (distmeasure == "none") {
       warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure.", call. = FALSE)

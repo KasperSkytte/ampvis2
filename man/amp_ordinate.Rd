@@ -25,8 +25,8 @@ amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
 
 \item{distmeasure}{(\emph{required for nMDS and PCoA}) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:
 \itemize{
-  \item \code{"wunifrac"}: Weighted generalized UniFrac distances (alpha=0.5), calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree.
-  \item \code{"unifrac"}: Unweighted UniFrac distances, calculated by \code{\link[GUniFrac]{GUniFrac}}. Requires a phylogenetic tree.
+  \item \code{"wunifrac"}: Weighted UniFrac distances. Requires a rooted phylogenetic tree.
+  \item \code{"unifrac"}: Unweighted UniFrac distances. Requires a phylogenetic tree.
   \item \code{"jsd"}: Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
   \item Any of the distance measures supported by \code{\link[vegan]{vegdist}}: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}.
   \item or \code{"none"}. (\emph{default})

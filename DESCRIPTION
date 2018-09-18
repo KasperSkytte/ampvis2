@@ -30,7 +30,6 @@ Imports:
     RColorBrewer,
     ggrepel,
     ape,
-    GUniFrac,
     network,
     ggnet,
     lubridate,
@@ -38,7 +37,9 @@ Imports:
     cowplot,
     readxl,
     crayon,
-    biomformat
+    biomformat,
+    doParallel,
+    foreach
 Remotes: 
     github::briatte/ggnet,
     github::joey711/biomformat

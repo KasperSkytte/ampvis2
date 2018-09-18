@@ -321,3 +321,98 @@ amp_cleanMiF <- function(data) {
   )
   return(MiF)
 }
+#' Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq
+#'
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
+#' @param weighted Calculate weighted or unweighted UniFrac distances.
+#' @param normalise Should the output be normalised such that values range from 0 to 1 independent of branch length values? Note that unweighted UniFrac is always normalised. (\emph{default:} \code{TRUE})
+#' @param num_threads The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}} (\emph{default:} \code{1})
+#' @importFrom ape is.rooted node.depth node.depth.edgelength reorder.phylo
+#' @importFrom doParallel registerDoParallel
+#' @importFrom foreach foreach registerDoSEQ %dopar%
+#' @return A distance matrix of class \code{dist}
+unifrac <- function(data,
+                    weighted = FALSE,
+                    normalise = TRUE,
+                    num_threads = 1L) {
+  tree <- data$tree
+  if (is.null(tree)) {
+    stop("No phylogenetic tree in the provided data.", call. = FALSE)
+  }
+  if (is.null(tree$edge.length)) {
+    stop("Tree has no branch lengths, cannot compute UniFrac", call. = FALSE)
+  }
+  if (!ape::is.rooted(tree)) {
+    stop("Tree is not rooted!", call. = FALSE)
+    # message("Tree is not rooted, performing a midpoint root")
+    # tree <- phytools::midpoint.root(tree)
+  }
+  OTU <- as.matrix(data$abund)
+  ntip <- length(tree$tip.label)
+  if (ntip != nrow(OTU)) {
+    stop("OTU table and phylogenetic tree do not match.", call. = FALSE)
+  }
+  # if(!all(rownames(OTU) == tree$tip.label))
+  #  OTU <- OTU[tree$tip.label, , drop = FALSE]
+  node.desc <- matrix(tree$edge[order(tree$edge[, 1]), ][, 2], byrow = TRUE, ncol = 2)
+  edge_array <- matrix(0,
+    nrow = ntip + tree$Nnode,
+    ncol = ncol(OTU),
+    dimnames = list(NULL, sample_names = colnames(OTU))
+  )
+  edge_array[1:ntip, ] <- OTU
+  ord.node <- order(ape::node.depth(tree))[(ntip + 1):(ntip + tree$Nnode)]
+  for (i in ord.node) {
+    edge_array[i, ] <- colSums(edge_array[node.desc[i - ntip, ], , drop = FALSE], na.rm = TRUE)
+  }
+  edge_array <- edge_array[tree$edge[, 2], ]
+  rm(node.desc)
+  if (isFALSE(weighted)) {
+    edge_occ <- (edge_array > 0) - 0
+  }
+  if (isTRUE(weighted) & isTRUE(normalise)) {
+    z <- ape::reorder.phylo(tree, order = "postorder")
+    tipAges <- ape::node.depth.edgelength(tree)
+    tipAges <- tipAges[1:length(tree$tip.label)]
+    names(tipAges) <- z$tip.label
+    tipAges <- tipAges[rownames(OTU)]
+  }
+  samplesums <- colSums(OTU)
+  if (num_threads == 1L) {
+    foreach::registerDoSEQ()
+  } else if (num_threads > 1) {
+    doParallel::registerDoParallel(num_threads)
+  }
+  spn <- combn(colnames(OTU), 2, simplify = FALSE)
+  distlist <- foreach::foreach(i = spn) %dopar% {
+    A <- i[1]
+    B <- i[2]
+    AT <- samplesums[A]
+    BT <- samplesums[B]
+    if (isTRUE(weighted)) {
+      wUF_branchweight <- abs(edge_array[, A] / AT - edge_array[, B] / BT)
+      numerator <- sum({
+        tree$edge.length * wUF_branchweight
+      }, na.rm = TRUE)
+      if (isFALSE(normalise)) {
+        return(numerator)
+      } else {
+        denominator <- sum({
+          tipAges * (OTU[, A] / AT + OTU[, B] / BT)
+        }, na.rm = TRUE)
+        return(numerator / denominator)
+      }
+    } else {
+      edge_occ_AB <- edge_occ[, c(A, B)]
+      edge_uni_AB_sum <- sum((tree$edge.length * edge_occ_AB)[rowSums(edge_occ_AB, na.rm = TRUE) < 2, ], na.rm = TRUE)
+      uwUFpairdist <- edge_uni_AB_sum / sum(tree$edge.length[rowSums(edge_occ_AB, na.rm = TRUE) > 0])
+      return(uwUFpairdist)
+    }
+  }
+  UniFracMat <- matrix(NA_real_, ncol(OTU), ncol(OTU))
+  rownames(UniFracMat) <- colnames(UniFracMat) <- colnames(OTU)
+  matIndices <- do.call(rbind, spn)[, 2:1]
+  if (!is.matrix(matIndices)) matIndices <- matrix(matIndices, ncol = 2)
+  UniFracMat[matIndices] <- unlist(distlist)
+  return(as.dist(UniFracMat))
+}
