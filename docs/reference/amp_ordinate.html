@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.1</span>
       </span>
     </div>
 
@@ -162,8 +162,8 @@
     <tr>
       <th>distmeasure</th>
       <td><p>(<em>required for nMDS and PCoA</em>) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:</p><ul>
-<li><p><code>"wunifrac"</code>: Weighted generalized UniFrac distances (alpha=0.5), calculated by <code><a href='http://www.rdocumentation.org/packages/GUniFrac/topics/GUniFrac'>GUniFrac</a></code>. Requires a phylogenetic tree.</p></li>
-<li><p><code>"unifrac"</code>: Unweighted UniFrac distances, calculated by <code><a href='http://www.rdocumentation.org/packages/GUniFrac/topics/GUniFrac'>GUniFrac</a></code>. Requires a phylogenetic tree.</p></li>
+<li><p><code>"wunifrac"</code>: Weighted UniFrac distances. Requires a rooted phylogenetic tree.</p></li>
+<li><p><code>"unifrac"</code>: Unweighted UniFrac distances. Requires a phylogenetic tree.</p></li>
 <li><p><code>"jsd"</code>: Jensen-Shannon Divergence, based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>.</p></li>
 <li><p>Any of the distance measures supported by <code><a href='http://www.rdocumentation.org/packages/vegan/topics/vegdist'>vegdist</a></code>: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code>.</p></li>
 <li><p>or <code>"none"</code>. (<em>default</em>)</p></li>
@@ -324,6 +324,10 @@
     <tr>
       <th>detailed_output</th>
       <td><p>(<em>logical</em>) Return additional details or not (model, scores, figure caption, inputmatrix, screeplot etc). If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code>View(object$data)</code>. (<em>default:</em> <code>FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>num_threads</th>
+      <td><p>The number of threads to use whereever in the code parallelisation is possible. Any parallel computation is being performed by using <code><a href='http://www.rdocumentation.org/packages/foreach/topics/foreach'>foreach</a></code>. (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     <tr>
       <th>...</th>

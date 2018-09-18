@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Import OTU table from USEARCH pipelines — amp_import_usearch • ampvis2</title>
+<title>Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq — unifrac • ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,9 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Import OTU table from USEARCH pipelines — amp_import_usearch" />
+<meta property="og:title" content="Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq — unifrac" />
 
-<meta property="og:description" content="Reads an OTU count table and a corresponding sintax taxonomy table from a USEARCH analysis pipeline, and then converts and combines them into an OTU table compatible with ampvis2." />
+<meta property="og:description" content="Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -123,45 +123,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Import OTU table from USEARCH pipelines</h1>
+    <h1>Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq</h1>
     
-    <div class="hidden name"><code>amp_import_usearch.Rd</code></div>
+    <div class="hidden name"><code>unifrac.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Reads an OTU count table and a corresponding sintax taxonomy table from a <a href='http://www.drive5.com/usearch/'>USEARCH</a> analysis <a href='http://www.drive5.com/usearch/manual/ex_miseq.html'>pipeline</a>, and then converts and combines them into an OTU table compatible with ampvis2.</p>
+    <p>Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_import_usearch</span>(<span class='no'>otutab</span>, <span class='no'>sintax</span>)</pre>
+    <pre class="usage"><span class='fu'>unifrac</span>(<span class='no'>abund</span>, <span class='no'>tree</span>, <span class='kw'>weighted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>otutab</th>
-      <td><p>Path to the tabulated OTU count table as created by <code>usearch10 -otutab ... -otutabout</code> commands.</p></td>
+      <th>abund</th>
+      <td><p>Abundance table with OTU counts, in <code>ampvis2</code> objects it is available with simply data$abund</p></td>
     </tr>
     <tr>
-      <th>sintax</th>
-      <td><p>Path to the tabulated sintax taxonomy table as created by <code>usearch10 -sintax ... -tabbedout</code> commands.</p></td>
+      <th>tree</th>
+      <td><p>Phylogenetic tree (rooted and with branch lengths) as loaded with <code><a href='http://www.rdocumentation.org/packages/ape/topics/read.tree'>read.tree</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>weighted</th>
+      <td><p>Calculate weighted or unweighted UniFrac distances.</p></td>
+    </tr>
+    <tr>
+      <th>normalise</th>
+      <td><p>Should the output be normalised such that values range from 0 to 1 independent of branch length values? Note that unweighted UniFrac is always normalised. (<em>default:</em> <code>TRUE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>num_threads</th>
+      <td><p>The number of threads to be used for calculating UniFrac distances. If set to more than <code>1</code> then this is set by using <code><a href='http://www.rdocumentation.org/packages/doParallel/topics/registerDoParallel'>registerDoParallel</a></code> (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame</p>
+    <p>A distance matrix of class <code>dist</code></p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># First import the usearch format OTU table:</span>
-<span class='no'>usearch_otutable</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_import_usearch</span>(<span class='kw'>otutab</span> <span class='kw'>=</span> <span class='st'>"/path/to/otutab.txt"</span>, <span class='kw'>sintax</span> <span class='kw'>=</span> <span class='st'>"/path/to/sintax.txt"</span>)
-
-<span class='co'># Then use amp_load() with or without metadata as normal:</span>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='amp_load.html'>amp_load</a></span>(<span class='no'>usearch_otutable</span>, <span class='no'>metadata</span>)
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -169,9 +174,7 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

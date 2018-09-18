@@ -4,10 +4,13 @@
 \alias{unifrac}
 \title{Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq}
 \usage{
-unifrac(data, weighted = FALSE, normalise = TRUE, num_threads = 1L)
+unifrac(abund, tree, weighted = FALSE, normalise = TRUE,
+  num_threads = 1L)
 }
 \arguments{
-\item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
+\item{abund}{Abundance table with OTU counts, in \code{ampvis2} objects it is available with simply data$abund}
+
+\item{tree}{Phylogenetic tree (rooted and with branch lengths) as loaded with \code{\link[ape]{read.tree}}.}
 
 \item{weighted}{Calculate weighted or unweighted UniFrac distances.}
 

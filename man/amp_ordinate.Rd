@@ -114,6 +114,8 @@ You can also write your own math formula, see details in \code{\link[vegan]{vegd
 
 \item{detailed_output}{(\emph{logical}) Return additional details or not (model, scores, figure caption, inputmatrix, screeplot etc). If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 
+\item{num_threads}{The number of threads to use whereever in the code parallelisation is possible. Any parallel computation is being performed by using \code{\link[foreach]{foreach}}. (\emph{default:} \code{1})}
+
 \item{...}{Pass additional arguments to the vegan ordination functions, fx the \code{\link[vegan]{rda}}, \code{\link[vegan]{cca}}, \code{\link[vegan]{metaMDS}} functions, see the documentation.}
 }
 \value{
