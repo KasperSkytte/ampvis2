@@ -352,7 +352,7 @@ unifrac <- function(abund,
   OTU <- as.matrix(abund)
   ntip <- length(tree$tip.label)
   if (ntip != nrow(OTU)) {
-    stop("OTU table and phylogenetic tree do not match.", call. = FALSE)
+    stop("OTU table and phylogenetic tree do not match. (Note: This may be the result of subsetting if the provided data is a subset of larger data as phylogenetic trees are not subsetted)", call. = FALSE)
   }
   # if(!all(rownames(OTU) == tree$tip.label))
   #  OTU <- OTU[tree$tip.label, , drop = FALSE]
