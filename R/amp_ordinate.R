@@ -822,6 +822,8 @@ amp_ordinate <- function(data,
           "chao" = "Chao distance measure (Chao et al., 2005)",
           "cao" = "Cao (CYd) distance measure (Cao et al, 1997)",
           "mahalanobis" = "Mahalanobis distance measure (Mahalanobis, 1936)",
+          "unifrac" = "Unweighted UniFrac distance measure (Lozupone & Knight, 2005)",
+          "wunifrac" = "Weighted UniFrac distance measure (Lozupone & Knight, 2005)",
           "none" = " using no distance measure"
         )
       )
@@ -893,7 +895,8 @@ amp_ordinate <- function(data,
     "15" = "Horn, H. (1966). Measurement of \"Overlap\" in Comparative Ecological Studies. The American Naturalist, 100(914), 419-424.",
     "16" = "Raup, D. M. and R. E. Crick. (1979). Measurement of faunal similarity in paleontology. Journal of Paleontology 53:1213–1227.",
     "17" = "Anderson, M.J. and Millar, R.B. (2004). Spatial variation and effects of habitat on temperate reef fish assemblages in northeastern New Zealand. Journal of Experimental Marine Biology and Ecology 305, 191–221.",
-    "18" = "Clark, P. J. and Evans, F. C. (1954), Distance to Nearest Neighbor as a Measure of Spatial Relationships in Populations. Ecology, 35: 445-453. doi:10.2307/1931034."
+    "18" = "Clark, P. J. and Evans, F. C. (1954). Distance to Nearest Neighbor as a Measure of Spatial Relationships in Populations. Ecology, 35: 445-453. doi:10.2307/1931034.",
+    "19" = "Lozupone C, Knight R. (2005). UniFrac: a new phylogenetic method for comparing microbial communities. Applied and environmental microbiology. 71(12):8228--35."
   )
 
   refs2print <- integer()
@@ -916,6 +919,8 @@ amp_ordinate <- function(data,
       "chao" = 5L,
       "cao" = 6L,
       "mahalanobis" = 12L,
+      "wunifrac" = 19L,
+      "unifrac" = 19L,
       "none" = NULL
     ))
   }
@@ -934,7 +939,7 @@ amp_ordinate <- function(data,
       paste0(
         .,
         "\n\n\nReferences:\n\n",
-        paste0(references[unique(refs2print)], collapse = "\n\n")
+        paste0(sort(references[unique(refs2print)]), collapse = "\n\n")
       )
     } else {
       return(.)
