@@ -134,6 +134,8 @@ The \code{\code{amp_ordinate}} function is primarily based on two packages; \cod
   \item Perform the actual ordination and calculate the axis scores for both samples and species/OTU's
   \item Visualise the result with ggplot2 or plotly in various ways defined by the user
 }
+
+When the chosen ordination method is an (unconstrained) eigenanalysis-based method (\code{PCA}, \code{PCoA}, \code{CA}, and \code{DCA}) then the relative contribution (eigenvalue) of each axis to the total inertia in the data (sum of all eigenvalues, including those of the constrained space) is indicated in percent at the axis titles. When one of the constrained ordination methods (\code{RDA} and \code{CCA}) is used then a second value is furthermore shown which then indicates the relative contribution of the particular axis to the total constrained space only.
 }
 \section{Using a custom distance matrix}{
 

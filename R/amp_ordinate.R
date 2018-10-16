@@ -88,6 +88,8 @@
 #'   \item Visualise the result with ggplot2 or plotly in various ways defined by the user
 #' }
 #'
+#' When the chosen ordination method is an eigenanalysis-based method then the relative contribution (eigenvalue) of each axis to the total inertia in the data (sum of all eigenvalues, including those of the constrained space) is indicated in percent at the axis titles. When one of the constrained ordination methods (\code{RDA} and \code{CCA}) is used then a second value is furthermore shown which then indicates the relative contribution of the particular axis to the total constrained space only.
+#'
 #'
 #' @section Using a custom distance matrix:
 #' If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in \code{amp_ordinate}, it can be done by setting \code{filter_species = 0}, \code{transform = "none"}, \code{distmeasure = "none"}, and then override the abundance table (\code{$abund}) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.
