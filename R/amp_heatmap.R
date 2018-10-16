@@ -20,9 +20,9 @@
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
 #' @param measure Calculate and display either \code{"mean"}, \code{"max"} or \code{"median"} across the groups. (\emph{default:} \code{"mean"})
-#' @param sort_by Sort the heatmap by a specific value of the \code{"group_by"} argument, e.g. \code{"Treatment A"}.
-#' @param order_x_by A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
-#' @param order_y_by A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
+#' @param sort_by Sorts the heatmap by the most abundant taxa in a specific sample or group of samples. Provide a sample name or a specific value of the group defined by the \code{"group_by"} argument, e.g. \code{"Treatment A"}.
+#' @param order_x_by Reorder the x axis by providing a character vector of the x axis values in the desired order, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
+#' @param order_y_by Reorder the y axis by providing a character vector of the y axis values in the desired order, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
 #' @param plot_values (\emph{logical}) Plot the values on the heatmap or not. (\emph{default:} \code{TRUE})
 #' @param plot_values_size The size of the plotted values. (\emph{default:} \code{4})
 #' @param plot_legendbreaks A vector of breaks for the abundance legend, fx \code{c(1, 10, 20)}.

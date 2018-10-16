@@ -30,9 +30,9 @@ amp_heatmap(data, group_by = "")
    \item \code{"OTU"}: Display the OTU name.
    }}
 
-\item{order_x_by}{A sample or vector to order the y-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
+\item{order_x_by}{Reorder the x axis by providing a character vector of the x axis values in the desired order, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
 
-\item{order_y_by}{A taxonomy group or vector to order the x-axis by, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
+\item{order_y_by}{Reorder the y axis by providing a character vector of the y axis values in the desired order, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.}
 
 \item{plot_values}{(\emph{logical}) Plot the values on the heatmap or not. (\emph{default:} \code{TRUE})}
 
@@ -50,7 +50,7 @@ amp_heatmap(data, group_by = "")
 
 \item{max_abundance}{All values above this value are given the same color.}
 
-\item{sort_by}{Sort the heatmap by a specific value of the \code{"group_by"} argument, e.g. \code{"Treatment A"}.}
+\item{sort_by}{Sorts the heatmap by the most abundant taxa in a specific sample or group of samples. Provide a sample name or a specific value of the group defined by the \code{"group_by"} argument, e.g. \code{"Treatment A"}.}
 
 \item{normalise_by}{A variable or a specific sample in the metadata to normalise the counts by.}
 
