@@ -37,6 +37,7 @@ Imports:
     cowplot,
     readxl,
     crayon,
+    cli,
     biomformat,
     doParallel,
     foreach

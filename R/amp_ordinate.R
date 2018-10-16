@@ -945,15 +945,12 @@ amp_ordinate <- function(data,
       return(.)
     }
   }
+  # set class to use custom print method
+  class(captionwithrefs) <- "figcaption"
 
   # Print the caption with references, if any
   if (isTRUE(print_caption)) {
-    cli::cat_line(cli::rule("Auto-generated figure caption (start)"))
-    captionwithrefs %>%
-      strwrap() %>%
-      crayon::italic() %>%
-      cli::cat_line()
-    cli::cat_line(cli::rule("Auto-generated figure caption (end)"))
+    print(captionwithrefs)
   }
 
   ##### Return  #####
