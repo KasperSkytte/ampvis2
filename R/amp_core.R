@@ -72,12 +72,22 @@ amp_core <- function(data,
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
 
+  # normalise counts
   if (isTRUE(normalise)) {
     if (isTRUE(attributes(data)$normalised)) {
       warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
     }
-    # calculate sample percentages, skip columns with 0 sum to avoid NaN's
-    abund[, which(colSums(abund) != 0)] <- as.data.frame(apply(abund[, which(colSums(abund) != 0), drop = FALSE], 2, function(x) x / sum(x) * 100))
+    # normalise each sample to sample totals, skip samples with 0 sum to avoid NaN's
+    tmp <- abund[, which(colSums(abund) != 0), drop = FALSE]
+    if (nrow(tmp) == 1L) {
+      # apply returns a vector and drops rownames if only 1 row, therefore set to 100 instead
+      tmp[1L, ] <- 100L
+    } else if (nrow(tmp) > 1L) {
+      tmp <- as.data.frame(apply(tmp, 2, function(x) {
+        x / sum(x) * 100
+      }))
+    }
+    abund[, which(colSums(abund) != 0)] <- tmp
   }
 
   # Aggregate to a specific taxonomic level
