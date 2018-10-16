@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Export raw DNA sequences — amp_export_fasta • ampvis2</title>
+<title>Print method for figure caption created by amp_ordinate — print.figcaption • ampvis2</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,9 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Export raw DNA sequences — amp_export_fasta" />
+<meta property="og:title" content="Print method for figure caption created by amp_ordinate — print.figcaption" />
 
-<meta property="og:description" content="Export sequences from an ampvis2 object with added taxonomy." />
+<meta property="og:description" content="Print method for figure caption created by amp_ordinate" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -123,69 +123,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Export raw DNA sequences</h1>
+    <h1>Print method for figure caption created by amp_ordinate</h1>
     
-    <div class="hidden name"><code>amp_export_fasta.Rd</code></div>
+    <div class="hidden name"><code>print.figcaption.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Export sequences from an ampvis2 object with added taxonomy.</p>
+    <p>Print method for figure caption created by amp_ordinate</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_export_fasta</span>(<span class='no'>data</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for figcaption</span>
+<span class='fu'>print</span>(<span class='no'>captionwithrefs</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>filename</th>
-      <td><p>File name of the exported FASTA file. (<em>default:</em> <code>"exported_sequences.fa"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>tax</th>
-      <td><p>(<em>logical</em>) Add taxonomic strings to the output or not. (<em>default:</em> <code>TRUE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments directly passed to <code><a href='http://www.rdocumentation.org/packages/ape/topics/write.dna'>write.dna</a></code>.</p></td>
+      <th>captionwithrefs</th>
+      <td><p>Character vector with the caption</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='amp_load.html'>amp_load</a></code>, <code><a href='amp_export_otutable.html'>amp_export_otutable</a></code></p></div>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
-
-<span class='co'># Export fasta sequences as "exported_sequences.fa"</span></div><span class='co'># NOT RUN {</span>
-<span class='fu'>amp_export_fasta</span>(<span class='no'>AalborgWWTPs</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
     <h2>Author</h2>
     
 Kasper Skytte Andersen <a href='mailto:kasperskytteandersen@gmail.com'>kasperskytteandersen@gmail.com</a>
-
-Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a>
 
   </div>
 </div>

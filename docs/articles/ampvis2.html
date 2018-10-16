@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.2</span>
       </span>
     </div>
 
@@ -97,24 +97,26 @@
 <h2 class="hasAnchor">
 <a href="#loading-data" class="anchor"></a>Loading data</h2>
 <p>ampvis2 imports data directly from any of the commonly used <a href="http://qiime.org/">QIIME</a>, <a href="https://www.mothur.org/">mothur</a>, and <a href="http://www.drive5.com/uparse/">UPARSE</a> amplicon pipelines. Both QIIME and mothur (through the <a href="https://www.mothur.org/wiki/Make.biom">make.biom</a> script) can export data in the <a href="http://biom-format.org/">BIOM format</a> and can be loaded with the <a href="https://madsalbertsen.github.io/ampvis2/reference/amp_import_biom.html">amp_import_biom</a> function. Data from the UPARSE pipeline can be imported by the <a href="https://madsalbertsen.github.io/ampvis2/reference/amp_import_usearch.html">amp_import_uparse</a> function. The data is then loaded into a single <code>ampvis2</code> object by the <code><a href="../reference/amp_load.html">amp_load()</a></code> function, which results in a list of data frames, see the below illustration of the data structure and typical workflow of ampvis2:</p>
-<p><img src="workflow.png"></p>
+<div class="figure">
+<img src="workflow.png">
+</div>
 <p>To demonstrate how to load data from raw CSV files download and unzip this <a href="https://doi.org/10.6084/m9.figshare.6139352">minimal example data</a>. The otutable.csv and metadata.csv files can then be imported into R by an appropriate read function:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">myotutable &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"example_otutable.csv"</span>, <span class="dt">check.names =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">mymetadata &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"example_metadata.csv"</span>, <span class="dt">check.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myotutable &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"example_otutable.csv"</span>, <span class="dt">check.names =</span> <span class="ot">FALSE</span>)
+mymetadata &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"example_metadata.csv"</span>, <span class="dt">check.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p>Note that there are multiple types of CSV files. To change the separator to fx a comma you can adjust with the argument <code>sep = ","</code>. Refer to the documentation of <a href="https://www.rdocumentation.org/packages/utils/versions/3.4.1/topics/read.table">read.table</a>. To load excel files use the <code><a href="http://www.rdocumentation.org/packages/readxl/topics/read_excel">readxl::read_excel</a></code> function instead.</p>
 <p>After the two files have been loaded into R, check that the resulting data frames have been loaded correctly (click them in the working environment to the right under “Data”), so that either the rownames or a column named “OTU” contains the OTU ID’s in the loaded otutable, and that the first column in the metadata are the matching sample ID’s. It is highly recommended to read the documentation of <code><a href="../reference/amp_load.html">amp_load()</a></code> before loading data.</p>
 <p>Now combine the data using <code><a href="../reference/amp_load.html">amp_load()</a></code>, which checks the data and combines it into a single <code>ampvis2</code> object, making it easier to manipulate, filter and subset all elements of the data at once for analysis:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(ampvis2)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_load.html">amp_load</a></span>(<span class="dt">otutable =</span> myotutable,</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">              <span class="dt">metadata =</span> mymetadata)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ampvis2)
+d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_load.html">amp_load</a></span>(<span class="dt">otutable =</span> myotutable,
+              <span class="dt">metadata =</span> mymetadata)</code></pre></div>
 <p>The individual dataframes in the list can be explored with <code>View(d$metadata)</code>.</p>
 </div>
 <div id="filtering-and-subsetting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#filtering-and-subsetting" class="anchor"></a>Filtering and subsetting</h2>
 <p>With the ampvis2 package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with <code>data("MiDAS")</code>. Simply typing the name of any ampvis2 object in the console will show a short summary of the data:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">data</span>(<span class="st">"MiDAS"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">MiDAS</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"MiDAS"</span>)
+MiDAS</code></pre></div>
 <pre><code>## ampvis2 object with 5 elements. 
 ## Summary of OTU table:
 ##      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads 
@@ -131,7 +133,7 @@
 ## Metadata variables: 5 
 ##  SampleID, Plant, Date, Year, Period</code></pre>
 <p>If you have loaded the raw DNA sequences of the OTUs from a FASTA file (with the <code>fasta =</code> argument) you can also get a short summary by typing the name of the ampvis2 object followed by <code>$refseq</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">MiDAS<span class="op">$</span>refseq</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MiDAS<span class="op">$</span>refseq</code></pre></div>
 <pre><code>## 14969 DNA sequences in binary format stored in a list.
 ## 
 ## Mean sequence length: 472.922 
@@ -149,56 +151,57 @@
 ## 
 ## Base composition:
 ##     a     c     g     t 
-## 0.261 0.225 0.319 0.194</code></pre>
+## 0.261 0.225 0.319 0.194 
+## (Total: 7.08 Mb)</code></pre>
 <p>The loaded data can be subsetted based on variables in the metadata using the <code><a href="../reference/amp_subset_samples.html">amp_subset_samples()</a></code> function, which can then be stored as a new object and analysed separately:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">MiDASsubset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS, Plant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MiDASsubset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS, Plant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>))</code></pre></div>
 <pre><code>## 590 samples and 5512 OTUs have been filtered 
 ## Before: 658 samples and 14969 OTUs
 ## After: 68 samples and 9457 OTUs</code></pre>
 <p>or for a more complex subset, you can subset based on two or more variables using “&amp;” to separate the conditions, or simply use the function more than once. The “!” (logical NOT operator) can be thought of as “except” and is useful to remove fx outliers. Furthermore, the <code>minreads = 10000</code> argument removes any sample(s) with total amount of reads below the chosen threshold:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">MiDASsubset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS, Plant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span>SampleID <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"16SAMP-749"</span>), <span class="dt">minreads =</span> <span class="dv">10000</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MiDASsubset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS, Plant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span>SampleID <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"16SAMP-749"</span>), <span class="dt">minreads =</span> <span class="dv">10000</span>)</code></pre></div>
 <pre><code>## 591 samples and 5539 OTUs have been filtered 
 ## Before: 658 samples and 14969 OTUs
 ## After: 67 samples and 9430 OTUs</code></pre>
 <p>The <code><a href="../reference/amp_subset_taxa.html">amp_subset_taxa()</a></code> function instead subsets based on the taxonomy, where you simply provide a vector with the taxa you are interested in, separated by a comma:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">MiDAS_Chloroflexi_Actinobacteria &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_taxa.html">amp_subset_taxa</a></span>(MiDAS, <span class="dt">tax_vector=</span><span class="kw">c</span>(<span class="st">"p__Chloroflexi"</span>, <span class="st">"p__Actinobacteria"</span>))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MiDAS_Chloroflexi_Actinobacteria &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_taxa.html">amp_subset_taxa</a></span>(MiDAS, <span class="dt">tax_vector=</span><span class="kw">c</span>(<span class="st">"p__Chloroflexi"</span>, <span class="st">"p__Actinobacteria"</span>))</code></pre></div>
 <pre><code>## 12245 OTUs have been filtered 
 ## Before: 14969 OTUs
 ## After: 2724 OTUs</code></pre>
-<p>The taxonomic rank is indicated by fx "p__" for phylum and "g__" for genus etc, followed by the name of the taxon (case-sensitive, first letter almost always capital). To filter individual OTUs simply provide the OTU name(s) as-is in a vector, fx <code>c("OTU_1206")</code>.</p>
+<p>The taxonomic rank is indicated by fx “p__" for phylum and “g__" for genus etc, followed by the name of the taxon (case-sensitive, first letter almost always capital). To filter individual OTUs simply provide the OTU name(s) as-is in a vector, fx <code>c("OTU_1206")</code>.</p>
 </div>
 <div id="heatmap" class="section level1">
 <h1 class="hasAnchor">
 <a href="#heatmap" class="anchor"></a>Heatmap</h1>
 <p>All ampvis2 plots are generated using the <a href="http://ggplot2.tidyverse.org/">ggplot2</a> package. You can change the look of the plots to better suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots if needed. Refer to the <a href="http://ggplot2.tidyverse.org/reference/index.html">ggplot2 documentation</a> for more information. <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> by default aggregates to phylum level and shows the top 10 phyla, ordered by mean read abundance across all samples:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset, <span class="dt">group_by =</span> <span class="st">"Plant"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset, <span class="dt">group_by =</span> <span class="st">"Plant"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with “+” after the actual ampvis2 function):</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset,</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">            <span class="dt">group_by =</span> <span class="st">"Plant"</span>,</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">            <span class="dt">facet_by =</span> <span class="st">"Year"</span>,</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">            <span class="dt">tax_aggregate =</span> <span class="st">"Genus"</span>,</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">            <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>,</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">            <span class="dt">tax_show =</span> <span class="dv">25</span>,</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">            <span class="dt">color_vector =</span> <span class="kw">c</span>(<span class="st">"white"</span>, <span class="st">"darkred"</span>),</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">            <span class="dt">plot_colorscale =</span> <span class="st">"sqrt"</span>,</a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">            <span class="dt">plot_values =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">vjust =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb14-11" data-line-number="11">        <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>),</a>
-<a class="sourceLine" id="cb14-12" data-line-number="12">        <span class="dt">legend.position=</span><span class="st">"right"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset,
+            <span class="dt">group_by =</span> <span class="st">"Plant"</span>,
+            <span class="dt">facet_by =</span> <span class="st">"Year"</span>,
+            <span class="dt">tax_aggregate =</span> <span class="st">"Genus"</span>,
+            <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>,
+            <span class="dt">tax_show =</span> <span class="dv">25</span>,
+            <span class="dt">color_vector =</span> <span class="kw">c</span>(<span class="st">"white"</span>, <span class="st">"darkred"</span>),
+            <span class="dt">plot_colorscale =</span> <span class="st">"sqrt"</span>,
+            <span class="dt">plot_values =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">vjust =</span> <span class="dv">1</span>),
+        <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>),
+        <span class="dt">legend.position=</span><span class="st">"right"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
 <div id="boxplot" class="section level1">
 <h1 class="hasAnchor">
 <a href="#boxplot" class="anchor"></a>Boxplot</h1>
 <p><code><a href="../reference/amp_boxplot.html">amp_boxplot()</a></code> generates boxplots, again ordered by mean read abundance across all samples:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDASsubset)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDASsubset)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>The arguments you can provide are similar to those used in <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> and other ampvis2 functions:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDASsubset,</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">            <span class="dt">group_by =</span> <span class="st">"Period"</span>,</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">            <span class="dt">tax_show =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">            <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDASsubset,
+            <span class="dt">group_by =</span> <span class="st">"Period"</span>,
+            <span class="dt">tax_show =</span> <span class="dv">5</span>,
+            <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 <div id="ordination" class="section level1">
@@ -206,33 +209,33 @@
 <a href="#ordination" class="anchor"></a>Ordination</h1>
 <p>The <code><a href="../reference/amp_ordinate.html">amp_ordinate()</a></code> function has been expanded to support 7 different ordination methods, various data transformations and interactive plots by using <a href="https://plot.ly/">Plotly</a>. By default any OTU with an abundance no higher than 0.1% in any sample is removed, which drastically improves the calculation time. You can of course adjust this threshold manually by changing the <code>filter_species = 0.1</code> argument. Other than this, there are only four main arguments that are involved in the actual calculations, the rest are just various plotting features. These four are <code>type = ""</code>, <code>transform = ""</code>, <code>distmeasure = ""</code>, and lastly <code>constrain = ""</code> for constrained ordination (only used in Redundancy Analysis (RDA) or Canonical Correspondence Analysis (CCA)).</p>
 <p>When analysing microbial community composition data it is recommended to use the Hellinger transformation (see <a href="https://doi.org/10.1007/s004420100716">Legendre et al, 2001</a> or <a href="https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0">Numerical Ecology</a> for details) for most types of ordination methods except the distance-based ordination methods (Principal Coordinates Analysis (PCoA) and non-Metric Multidimensional Scaling (nMDS)), where you also have to select a distance measure manually by the <code>distmeasure = ""</code> argument, for example Bray-Curtis dissimilarities:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, </a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">             <span class="dt">type =</span> <span class="st">"pcoa"</span>,</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">             <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">             <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">             <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6">             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"blank"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, 
+             <span class="dt">type =</span> <span class="st">"pcoa"</span>,
+             <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,
+             <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,
+             <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,
+             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"blank"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <p>It is also possible to track changes over time by setting the <code>sample_trajectory</code> and <code>sample_trajectory_group</code> arguments, to for example reveal temporal patterns per WWTP:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, </a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">             <span class="dt">type =</span> <span class="st">"pcoa"</span>,</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">             <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">             <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>, </a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">             <span class="dt">sample_trajectory =</span> <span class="st">"Date"</span>, </a>
-<a class="sourceLine" id="cb18-7" data-line-number="7">             <span class="dt">sample_trajectory_group =</span> <span class="st">"Plant"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, 
+             <span class="dt">type =</span> <span class="st">"pcoa"</span>,
+             <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,
+             <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,
+             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>, 
+             <span class="dt">sample_trajectory =</span> <span class="st">"Date"</span>, 
+             <span class="dt">sample_trajectory_group =</span> <span class="st">"Plant"</span>)</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>And lastly an example of constrained ordination by Canonical Correspondence Analysis (CCA), which in this case reveals how samples taken at different seasonal periods (<code>constrain = "Period"</code>) of the year can explain the data:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">ordinationresult &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, </a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">             <span class="dt">type =</span> <span class="st">"CCA"</span>,</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">             <span class="dt">constrain =</span> <span class="st">"Period"</span>,</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">             <span class="dt">transform =</span> <span class="st">"Hellinger"</span>,</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">             <span class="dt">sample_color_by =</span> <span class="st">"Period"</span>,</a>
-<a class="sourceLine" id="cb19-6" data-line-number="6">             <span class="dt">sample_shape_by =</span> <span class="st">"Plant"</span>,</a>
-<a class="sourceLine" id="cb19-7" data-line-number="7">             <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb19-8" data-line-number="8">             <span class="dt">sample_colorframe_label =</span> <span class="st">"Period"</span>,</a>
-<a class="sourceLine" id="cb19-9" data-line-number="9">             <span class="dt">detailed_output =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb19-10" data-line-number="10">ordinationresult<span class="op">$</span>plot</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ordinationresult &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, 
+             <span class="dt">type =</span> <span class="st">"CCA"</span>,
+             <span class="dt">constrain =</span> <span class="st">"Period"</span>,
+             <span class="dt">transform =</span> <span class="st">"Hellinger"</span>,
+             <span class="dt">sample_color_by =</span> <span class="st">"Period"</span>,
+             <span class="dt">sample_shape_by =</span> <span class="st">"Plant"</span>,
+             <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,
+             <span class="dt">sample_colorframe_label =</span> <span class="st">"Period"</span>,
+             <span class="dt">detailed_output =</span> <span class="ot">TRUE</span>)
+ordinationresult<span class="op">$</span>plot</code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <p>Notice that the plot can be saved as a more detailed object (<code>detailed_output = TRUE</code>), so additional details about the ordination result can be obtained for evaluation, fx a screeplot by <code>ordinationresult$screeplot</code> or some more raw data by <code>ordinationresult$model</code>.</p>
 </div>

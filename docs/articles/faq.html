@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.2</span>
       </span>
     </div>
 
@@ -101,52 +101,52 @@
 <h2 class="hasAnchor">
 <a href="#preserving-relative-abundances-in-a-subset-of-larger-data" class="anchor"></a>Preserving relative abundances in a subset of larger data</h2>
 <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code>amp_timeseries</code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code>amp_subset_taxa</code> and <code>amp_subset_samples</code> functions, and then set <code>raw = TRUE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>raw = TRUE</code> will skip the transformation in the plotting function, see the example below.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">data</span>(<span class="st">"MiDAS"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">subsettedData &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS,</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">                                    Plant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>),</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">                                    <span class="dt">normalise =</span> <span class="ot">TRUE</span> <span class="co">#add this</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">                                    )</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(subsettedData,</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">            <span class="dt">group_by =</span> <span class="st">"Plant"</span>,</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">            <span class="dt">tax_aggregate =</span> <span class="st">"Phylum"</span>,</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">            <span class="dt">tax_add =</span> <span class="st">"Genus"</span>,</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">            <span class="dt">normalise =</span> <span class="ot">FALSE</span> <span class="co">#add this</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">            )</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"MiDAS"</span>)
+subsettedData &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS,
+                                    Plant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>),
+                                    <span class="dt">normalise =</span> <span class="ot">TRUE</span> <span class="co">#add this</span>
+                                    )
+<span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(subsettedData,
+            <span class="dt">group_by =</span> <span class="st">"Plant"</span>,
+            <span class="dt">tax_aggregate =</span> <span class="st">"Phylum"</span>,
+            <span class="dt">tax_add =</span> <span class="st">"Genus"</span>,
+            <span class="dt">normalise =</span> <span class="ot">FALSE</span> <span class="co">#add this</span>
+            )</code></pre></div>
 </div>
 <div id="custom-distance-matrix-for-use-in-ordination" class="section level2">
 <h2 class="hasAnchor">
 <a href="#custom-distance-matrix-for-use-in-ordination" class="anchor"></a>Custom distance matrix for use in ordination</h2>
 <p>If you wan’t to calculate a distance matrix manually and use it for PCoA or nMDS in <code>amp_ordinate</code>, it can be done quite easily by just setting <code>filter_species = 0</code>, <code>transform = "none"</code>, and <code>distmeasure = "none"</code>, like below. The matrix should be a symmetrical matrix containing coefficients for all pairs of samples in the data.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">#Override the abundance table in the ampvis2 object with a custom distance matrix</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">ampvis2_object<span class="op">$</span>abund &lt;-<span class="st"> </span>custom_dist_matrix</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#set filter_species = 0, transform = "none", and distmeasure = "none"</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(ampvis2_object,</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">             <span class="dt">type =</span> <span class="st">"pcoa"</span>,</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">             <span class="dt">filter_species =</span> <span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">             <span class="dt">transform =</span> <span class="st">"none"</span>,</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">             <span class="dt">distmeasure =</span> <span class="st">"none"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Override the abundance table in the ampvis2 object with a custom distance matrix</span>
+ampvis2_object<span class="op">$</span>abund &lt;-<span class="st"> </span>custom_dist_matrix
+
+<span class="co">#set filter_species = 0, transform = "none", and distmeasure = "none"</span>
+<span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(ampvis2_object,
+             <span class="dt">type =</span> <span class="st">"pcoa"</span>,
+             <span class="dt">filter_species =</span> <span class="dv">0</span>,
+             <span class="dt">transform =</span> <span class="st">"none"</span>,
+             <span class="dt">distmeasure =</span> <span class="st">"none"</span>)</code></pre></div>
 </div>
 <div id="loading-phyloseq-objects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#loading-phyloseq-objects" class="anchor"></a>Loading phyloseq objects</h2>
 <p>This is particularly useful if you want to import data in the <strong>QIIME</strong>, <strong>biom</strong>, <strong>mothur</strong>, and <strong>pyrotagger</strong> formats, see the phyloseq <a href="https://joey711.github.io/phyloseq/import-data.html#the_import_family_of_functions">Data Import</a> tutorial. You will first have to extract the OTU-table and the metadata from the phyloseq object, and then import as normal with <code>amp_load</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(ampvis2)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#Combine OTU abundance table and taxonomy table from the phyloseq object "my_phyloseq_object":</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">obj &lt;-<span class="st"> </span>my_phyloseq_object</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">otutable &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">OTU =</span> <span class="kw">rownames</span>(phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data),</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">                       phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data,</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">                       phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/tax_table-methods">tax_table</a></span>(obj)<span class="op">@</span>.Data,</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">                       <span class="dt">check.names =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">                       )</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#Extract metadata from the phyloseq object:</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">metadata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/sample_data-methods">sample_data</a></span>(obj), </a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">                       <span class="dt">check.names =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">                       )</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#Load the data with amp_load:</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">my_ampvis2_object &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_load.html">amp_load</a></span>(otutable, metadata)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ampvis2)
+<span class="co">#Combine OTU abundance table and taxonomy table from the phyloseq object "my_phyloseq_object":</span>
+obj &lt;-<span class="st"> </span>my_phyloseq_object
+otutable &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">OTU =</span> <span class="kw">rownames</span>(phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data),
+                       phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data,
+                       phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/tax_table-methods">tax_table</a></span>(obj)<span class="op">@</span>.Data,
+                       <span class="dt">check.names =</span> <span class="ot">FALSE</span>
+                       )
+
+<span class="co">#Extract metadata from the phyloseq object:</span>
+metadata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(phyloseq<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/phyloseq/topics/sample_data-methods">sample_data</a></span>(obj), 
+                       <span class="dt">check.names =</span> <span class="ot">FALSE</span>
+                       )
+
+<span class="co">#Load the data with amp_load:</span>
+my_ampvis2_object &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_load.html">amp_load</a></span>(otutable, metadata)</code></pre></div>
 </div>
   </div>
 

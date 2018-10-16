@@ -1,6 +1,6 @@
-pandoc: 2.2.1
+pandoc: 1.19.2.4
 pkgdown: 1.1.0.9000
-pkgdown_sha: 8922bbd8e73ced6900d74eb51832bcfe7376dffc
+pkgdown_sha: dd7df10589bd8e24cd7cdef75f1f932726a8b185
 articles:
   ampvis2: ampvis2.html
   faq: faq.html
