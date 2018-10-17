@@ -11,7 +11,7 @@ BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
 Encoding: UTF-8
 Depends:
-    R (>= 3.4.3),
+    R (>= 3.5.0),
     ggplot2
 Imports:
     tidyverse,
