@@ -832,7 +832,7 @@ amp_ordinate <- function(data,
         )
       )
     },
-    " of ", ncol(data$abund), " samples",
+    " of ", ncol(data$abund), " samples and ", nrow(data$abund), " OTUs",
     if (any(type %in% c("cca", "rda"))) {
       paste0(
         " constrained to the ",
