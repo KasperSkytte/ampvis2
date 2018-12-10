@@ -720,7 +720,8 @@ amp_ordinate <- function(data,
   if (!is.null(envfit_factor)) {
     evf_factor_model <- envfit(dsites[, c(x_axis_name, y_axis_name)],
       data$metadata[, envfit_factor, drop = FALSE],
-      permutations = 999
+      permutations = 999,
+      na.rm = TRUE
     )
     evf_factor_data <- data.frame(
       Name = rownames(evf_factor_model$factors$centroids),
@@ -747,7 +748,8 @@ amp_ordinate <- function(data,
   if (!is.null(envfit_numeric)) {
     evf_numeric_model <- envfit(dsites[, c(x_axis_name, y_axis_name)],
       data$metadata[, envfit_numeric, drop = FALSE],
-      permutations = 999
+      permutations = 999,
+      na.rm = TRUE
     )
     evf_numeric_data <- data.frame(
       Name = rownames(evf_numeric_model$vectors$arrows),
