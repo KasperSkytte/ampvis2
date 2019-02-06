@@ -53,6 +53,8 @@ You can also write your own math formula, see details in \code{\link[vegan]{vegd
 
 \item{sample_colorframe_label}{Label by a variable in the metadata.}
 
+\item{sample_colorframe_label_size}{Size of the color frame labels. (\emph{default:} \code{3})}
+
 \item{sample_label_by}{Label sample points by a variable in the metadata.}
 
 \item{sample_label_size}{Sample labels text size. (\emph{default:} \code{4})}
