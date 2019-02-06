@@ -45,7 +45,7 @@
 #' @examples
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # Core plot
 #' amp_core(AalborgWWTPs)
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}

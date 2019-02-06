@@ -29,7 +29,7 @@
 #' @examples
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # Venn diagram grouped by WWTP
 #' amp_venn(AalborgWWTPs, group_by = "Plant")
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}

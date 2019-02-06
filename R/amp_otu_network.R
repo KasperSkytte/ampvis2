@@ -42,7 +42,7 @@
 #' @examples
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # OTU network plot
 #' amp_otu_network(AalborgWWTPs)
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}

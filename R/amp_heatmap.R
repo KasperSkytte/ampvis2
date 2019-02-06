@@ -69,10 +69,10 @@
 #' @examples
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # Heatmap grouped by WWTP
 #' amp_heatmap(AalborgWWTPs, group_by = "Plant")
-#' 
+#'
 #' # Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year,
 #' # values not plotted for visibility, phylum name added and colorscale adjusted manually
 #' amp_heatmap(AalborgWWTPs,
@@ -86,7 +86,7 @@
 #'   plot_colorscale = "sqrt",
 #'   plot_legendbreaks = c(1, 5, 10)
 #' )
-#' 
+#'
 #' # Heatmap with known functional information about the Genera shown to the right
 #' amp_heatmap(AalborgWWTPs,
 #'   group_by = "Plant",
@@ -94,7 +94,7 @@
 #'   plot_functions = TRUE,
 #'   functions = c("PAO", "GAO", "AOB", "NOB")
 #' )
-#' 
+#'
 #' # A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:
 #' textmap <- amp_heatmap(AalborgWWTPs,
 #'   group_by = "Plant",
@@ -260,7 +260,6 @@ amp_heatmap <- function(data,
   )
 
   ## Take the average to group level
-
   if (measure == "mean") {
     abund6 <- data.table(abund5)[, Abundance := mean(sum), by = list(Display, Group)] %>%
       setkey(Display, Group) %>%
@@ -417,7 +416,7 @@ amp_heatmap <- function(data,
   ## Scale to percentages if not normalised and scaled
 
   if (length(group_by) > 1) {
-    abund7 <- merge(abund7, oldGroup)
+    abund7 <- merge(abund7, oldGroup, by = "Group")
   }
 
   if (is.null(min_abundance)) {

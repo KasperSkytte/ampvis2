@@ -14,7 +14,7 @@
 #' \dontrun{
 #' # First import the BIOM format OTU table:
 #' biom_otutable <- amp_import_biom("path/to/file.biom")
-#' 
+#'
 #' # Then use amp_load() with or without metadata as normal:
 #' d <- amp_load(biom_otutable, metadata)
 #' }

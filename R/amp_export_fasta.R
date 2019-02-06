@@ -19,12 +19,12 @@
 #' @examples
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # Export fasta sequences as "exported_sequences.fa"
 #' \dontrun{
 #' amp_export_fasta(AalborgWWTPs)
 #' }
-#' 
+#'
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 

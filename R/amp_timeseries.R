@@ -43,16 +43,16 @@
 #' \code{\link{amp_load}}
 #'
 #' @examples
-#' 
+#'
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # Timeseries of the 5 most abundant OTUs based on the "Date" column
 #' amp_timeseries(AalborgWWTPs,
 #'   time_variable = "Date",
 #'   tax_aggregate = "OTU"
 #' )
-#' 
+#'
 #' # As the above warning suggests, there are more than one sample per date in the data,
 #' # in this case one from Aalborg East and one from Aalborg West. The average of the
 #' # two samples is then shown per date. In such case it is then recommended to either

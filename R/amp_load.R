@@ -58,11 +58,11 @@
 #' \dontrun{
 #' # Read the OTU-table as a data frame. It is important to set check.names = FALSE.
 #' myotutable <- read.delim("data/otutable.txt", check.names = FALSE)
-#' 
+#'
 #' # Read the metadata, often an excel sheet. If .csv make sure the first column will be kept and NOT
 #' # loaded as rownames! The top row should be loaded column names
 #' mymetadata <- read_excel("data/metadata.xlsx", col_names = TRUE)
-#' 
+#'
 #' # Combine the data with amp_load() to make it compatible with ampvis2 functions.
 #' # Uncomment the fasta line to load reference sequences (not required).
 #' d <- amp_load(
@@ -70,15 +70,15 @@
 #'   metadata = mymetadata,
 #'   fasta = "path/to/fastafile.fa" # optional
 #' )
-#' 
+#'
 #' # Show a short summary about the data by simply typing the name of the object in the console
 #' d
 #' }
-#' 
+#'
 #' # Minimal example metadata:
 #' data("example_metadata")
 #' example_metadata
-#' 
+#'
 #' # Minimal example otutable:
 #' data("example_otutable")
 #' example_otutable

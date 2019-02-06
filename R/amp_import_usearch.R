@@ -13,7 +13,7 @@
 #' \dontrun{
 #' # First import the usearch format OTU table:
 #' usearch_otutable <- amp_import_usearch(otutab = "/path/to/otutab.txt", sintax = "/path/to/sintax.txt")
-#' 
+#'
 #' # Then use amp_load() with or without metadata as normal:
 #' d <- amp_load(usearch_otutable, metadata)
 #' }

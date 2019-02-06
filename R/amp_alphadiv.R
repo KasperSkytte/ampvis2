@@ -32,10 +32,10 @@
 #' @examples
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # Subsample/rarefy to 20000 reads and then calculate Shannon and Simpson alpha-diversity indices
 #' alphadiversityresult <- amp_alphadiv(AalborgWWTPs, measure = c("shannon", "simpson"), rarefy = 20000)
-#' 
+#'
 #' # Explore the results in the data frame
 #' # View(alphadiversityresult)
 #' @return A data frame.

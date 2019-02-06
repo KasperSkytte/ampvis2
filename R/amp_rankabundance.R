@@ -40,7 +40,7 @@
 #' @examples
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # Rank abundance plot
 #' amp_rankabundance(AalborgWWTPs, group_by = "Plant")
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}

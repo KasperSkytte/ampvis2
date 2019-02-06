@@ -39,6 +39,7 @@
 #' @param sample_shape_by Shape sample points by a variable in the metadata.
 #' @param sample_colorframe Frame the sample points with a polygon by a variable in the metadata split by the variable defined by \code{sample_color_by}, or simply \code{TRUE} to frame the points colored by \code{sample_color_by}. (\emph{default:} \code{FALSE})
 #' @param sample_colorframe_label Label by a variable in the metadata.
+#' @param sample_colorframe_label_size Size of the color frame labels. (\emph{default:} \code{3})
 #' @param sample_point_size Size of the sample points. (\emph{default:} \code{2})
 #' @param sample_trajectory Make a trajectory between sample points by a variable in the metadata.
 #' @param sample_trajectory_group Make a trajectory between sample points by the \code{sample_trajectory} argument, but within individual groups.
@@ -128,7 +129,7 @@
 #' @examples
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # PCA with data transformation, colored by WWTP
 #' amp_ordinate(AalborgWWTPs,
 #'   type = "PCA",
@@ -164,6 +165,7 @@ amp_ordinate <- function(data,
                          sample_shape_by = NULL,
                          sample_colorframe = FALSE,
                          sample_colorframe_label = NULL,
+                         sample_colorframe_label_size = 3,
                          sample_label_by = NULL,
                          sample_label_size = 4,
                          sample_label_segment_color = "black",
@@ -618,7 +620,7 @@ amp_ordinate <- function(data,
     if (species_plotly == T) {
       # generate hover text for OTU's
       data_plotly <- data$tax %>%
-        purrr::imap(~paste(.y, .x, sep = ": ")) %>%
+        purrr::imap(~ paste(.y, .x, sep = ": ")) %>%
         as.data.frame() %>%
         tidyr::unite("test", sep = "<br>") %>%
         unlist(use.names = FALSE) %>%
@@ -659,7 +661,7 @@ amp_ordinate <- function(data,
       by.y = "group"
     )
     temp3 <- temp2[!duplicated(temp2[, sample_colorframe_label]), ]
-    if (repel_labels == T) {
+    if (isTRUE(repel_labels)) {
       plot <- plot + ggrepel::geom_text_repel(
         data = temp3,
         aes_string(
@@ -667,7 +669,7 @@ amp_ordinate <- function(data,
           y = "cy",
           label = sample_colorframe_label
         ),
-        size = 3,
+        size = sample_colorframe_label_size,
         color = "black",
         fontface = 2
       )
@@ -679,7 +681,7 @@ amp_ordinate <- function(data,
           y = "cy",
           label = sample_colorframe_label
         ),
-        size = 3,
+        size = sample_colorframe_label_size,
         color = "black",
         fontface = 2
       )

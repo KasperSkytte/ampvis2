@@ -39,7 +39,7 @@
 #' @examples
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # Frequency plot
 #' amp_frequency(AalborgWWTPs)
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}

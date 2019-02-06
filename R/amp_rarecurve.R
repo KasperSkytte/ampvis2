@@ -24,7 +24,7 @@
 #' @examples
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # Rarecurve
 #' amp_rarecurve(AalborgWWTPs, facet_by = "Plant")
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
