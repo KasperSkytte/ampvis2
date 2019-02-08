@@ -3,7 +3,7 @@
 language: R
 #cache: packages
 sudo: false
-bioc_required: true
+bioc_required: false
 bioc_use_devel: true
 warnings_are_errors: false
 notifications:
