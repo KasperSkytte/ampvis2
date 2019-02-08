@@ -6,9 +6,9 @@
 #'
 #' @return A data frame
 #' @export
-#' @importFrom plyr ldply
-#' @importFrom dplyr mutate mutate_all select starts_with
-#' @importFrom stringr str_c str_replace_all str_split
+#' @importFrom data.table fread 
+#' @importFrom dplyr left_join
+#' @importFrom stringr str_extract
 #' @examples
 #' \dontrun{
 #' # First import the usearch format OTU table:
@@ -18,64 +18,39 @@
 #' d <- amp_load(usearch_otutable, metadata)
 #' }
 amp_import_usearch <- function(otutab, sintax) {
-  otutab <- readLines(otutab)
-  otutab[1] <- stringr::str_replace_all(otutab[1], "#", "")
-  otutab <- stringr::str_split(otutab, "\t", simplify = TRUE) %>%
-    as.data.frame() %>%
-    dplyr::mutate_all(as.character) %>%
-    `colnames<-`(as.character(t(.[1, ]))) %>%
-    .[-1, ]
-  colnames(otutab)[1] <- "OTU"
-
-  sintax <- readLines(sintax)
-  sintax <- lapply(sintax, function(x) {
-    if (str_detect(x, "\\t$|\\-$|\\+$")) paste0(x, "k__") else return(x)
-  })
-  tax <- stringr::str_replace_all(sintax, ".* |.*\t", "") %>%
-    stringr::str_replace_all(c(
-      "k:|d:" = "k__",
-      "p:" = "p__",
-      "c:" = "c__",
-      "o:" = "o__",
-      "f:" = "f__",
-      "g:" = "g__",
-      "s:" = "s__",
-      "\"" = ""
-    )) %>%
-    stringr::str_split(",") %>%
-    {
-      `names<-`(., stringr::str_c(stringr::str_replace_all(sintax, " .*|\t.*", "")))
-    } %>%
-    lapply(function(x) {
-      `names<-`(x, substr(x, 0, 3))
-    }) %>%
-    plyr::ldply(rbind)
-  if (all(c("d__", "k__") %in% colnames(tax))) {
-    tax <- dplyr::select(tax, -dplyr::starts_with("d__"))
-  }
-  if (!any(tolower(colnames(tax)) == "k__")) {
-    tax <- dplyr::mutate(tax, Kingdom = NA)
-  }
-  if (!any(tolower(colnames(tax)) == "p__")) {
-    tax <- dplyr::mutate(tax, Phylum = NA)
-  }
-  if (!any(tolower(colnames(tax)) == "c__")) {
-    tax <- dplyr::mutate(tax, Class = NA)
-  }
-  if (!any(tolower(colnames(tax)) == "o__")) {
-    tax <- dplyr::mutate(tax, Order = NA)
-  }
-  if (!any(tolower(colnames(tax)) == "f__")) {
-    tax <- dplyr::mutate(tax, Family = NA)
-  }
-  if (!any(tolower(colnames(tax)) == "g__")) {
-    tax <- dplyr::mutate(tax, Genus = NA)
-  }
-  if (!any(tolower(colnames(tax)) == "s__")) {
-    tax <- dplyr::mutate(tax, Species = NA)
-  }
-  tax <- dplyr::mutate_all(tax, as.character)
-  colnames(tax) <- c("OTU", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
-  otutable <- merge(otutab, tax, by = "OTU")
+  #Read otutable (=read counts per sample table)
+  counts <- data.table::fread(otutab,
+                              sep = "\t", 
+                              fill = TRUE,
+                              header = TRUE,
+                              data.table = TRUE)
+  colnames(counts)[1] <- "OTU"
+  
+  #Read taxonomy
+  tax <- data.table::fread(sintax, 
+                           sep = "\t",
+                           fill = TRUE, 
+                           header = FALSE,
+                           data.table = TRUE)[,c(1,4)]
+  colnames(tax) <- c("OTU", "tax")
+  
+  #Separate each taxonomic level into individual columns. 
+  #This has to be done separately as taxonomic levels can be blank 
+  #in between two other levels.
+  tax[,"Kingdom" := gsub("[dk]:", "k__", stringr::str_extract(tax, "[dk]:[^,]*"))]
+  tax[,"Phylum" := gsub("p:", "p__", stringr::str_extract(tax, "p:[^,]*"))]
+  tax[,"Class" := gsub("c:", "c__", stringr::str_extract(tax, "c:[^,]*"))]
+  tax[,"Order" := gsub("o:", "o__", stringr::str_extract(tax, "o:[^,]*"))]
+  tax[,"Family" := gsub("f:", "f__", stringr::str_extract(tax, "f:[^,]*"))]
+  tax[,"Genus" := gsub("g:", "g__", stringr::str_extract(tax, "g:[^,]*"))]
+  tax[,"Species" := gsub("s:", "s__", stringr::str_extract(tax, "s:[^,]*"))]
+  tax <- tax[,-2]
+  #the below would be more concise, but only works if all levels has a value, 
+  #fx d:test,p:test,o:test,f:test,g:test,s:test is missing "c:class" because 
+  #of low bootstrap value, and this would cause the other levels to be skewed and assigned to the wrong levels:
+  #sintax[,c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species") := data.table::tstrsplit(tax, ",", fixed = TRUE)]
+  
+  #Join the counts and taxonomy, keep only OTU's in counts table
+  otutable <- dplyr::left_join(counts, tax, by = "OTU")
   return(otutable)
 }
