@@ -9,7 +9,7 @@ ampvis2 is an R-package to conveniently visualise and analyse 16S rRNA amplicon 
 Installing ampvis2
 ------------------
 
-First, install [R (3.4.1 or later)](https://mirrors.dotsrc.org/cran/) and [RStudio](https://www.rstudio.com/products/rstudio/download/#download). Windows users should also install [RTools](https://mirrors.dotsrc.org/cran/bin/windows/Rtools/). Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console:
+First, install [R (3.5.x or later)](https://mirrors.dotsrc.org/cran/) and [RStudio](https://www.rstudio.com/products/rstudio/download/#download). Windows users should also install [RTools](https://mirrors.dotsrc.org/cran/bin/windows/Rtools/). Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console:
 
 ``` r
 install.packages("remotes")
