@@ -17,6 +17,7 @@
 #' # Then use amp_load() with or without metadata as normal:
 #' d <- amp_load(usearch_otutable, metadata)
 #' }
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 amp_import_usearch <- function(otutab, sintax) {
   # Read otutable (=read counts per sample table)
   counts <- data.table::fread(otutab,

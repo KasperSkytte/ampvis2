@@ -67,7 +67,7 @@ amp_boxplot(AalborgWWTPs,
 \code{\link{amp_load}}
 }
 \author{
-Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

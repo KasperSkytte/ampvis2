@@ -53,7 +53,7 @@ Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): The 
 \code{\link{amp_load}}, \code{\link{amp_core}}, \code{\link{amp_venn}}
 }
 \author{
-Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

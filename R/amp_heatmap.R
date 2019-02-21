@@ -111,7 +111,7 @@
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom scales squish
 #'
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_heatmap <- function(data,

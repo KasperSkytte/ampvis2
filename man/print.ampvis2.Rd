@@ -13,5 +13,5 @@
 Prints ampvis2 object summary (internal function)
 }
 \author{
-Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }

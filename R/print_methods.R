@@ -20,7 +20,7 @@ print.hmfunplot <- function(hmfunplot) {
 #'
 #' @importFrom crayon underline
 #' @export
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 print.ampvis2 <- function(data) {
   ### calculate basic statistics and useful information about the data, print it
   if (!isTRUE(attributes(data)$normalised)) {
@@ -68,7 +68,7 @@ print.ampvis2 <- function(data) {
 #' @importFrom cli cat_line rule
 #' @importFrom crayon italic
 #' @export
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 print.figcaption <- function(captionwithrefs) {
   cli::cat_line(cli::rule("Auto-generated figure caption (start)"))
   captionwithrefs %>%

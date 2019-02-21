@@ -95,7 +95,7 @@ example_otutable
 \code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}
 }
 \author{
-Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

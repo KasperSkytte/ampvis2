@@ -90,7 +90,7 @@ amp_heatmap(AalborgWWTPs_subset,
 \code{\link{amp_load}}, \code{\link{amp_subset_samples}}
 }
 \author{
-Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 

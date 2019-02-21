@@ -78,7 +78,7 @@
 #' @seealso
 #' \code{\link{amp_load}}, \code{\link{amp_subset_samples}}
 #'
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 #' @author Rasmus Hansen Kirkegaard \email{rhk@@bio.aau.dk}
 

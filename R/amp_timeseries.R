@@ -68,7 +68,7 @@
 #'   tax_add = "Phylum"
 #' )
 #' @author Julie Klessner Thun Pedersen \email{julieklessnerthun@@gmail.com}
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 amp_timeseries <- function(data,
                            time_variable = NULL,
                            group_by = NULL,

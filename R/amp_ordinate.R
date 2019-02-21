@@ -149,7 +149,7 @@
 #'   sample_plotly = "all"
 #' )
 #' }
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 amp_ordinate <- function(data,
                          filter_species = 0.1,

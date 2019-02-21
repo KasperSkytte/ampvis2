@@ -82,7 +82,7 @@
 #' # Minimal example otutable:
 #' data("example_otutable")
 #' example_otutable
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {

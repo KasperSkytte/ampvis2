@@ -45,7 +45,7 @@
 #'
 #' # OTU network plot
 #' amp_otu_network(AalborgWWTPs)
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_otu_network <- function(data,

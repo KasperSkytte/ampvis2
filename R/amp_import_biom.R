@@ -18,6 +18,7 @@
 #' # Then use amp_load() with or without metadata as normal:
 #' d <- amp_load(biom_otutable, metadata)
 #' }
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 amp_import_biom <- function(file) {
   # Detect the file type and read the file
   if (tolower(tools::file_ext(file)) == "biom") {

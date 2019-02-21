@@ -37,7 +37,7 @@ amp_export_otutable(AalborgWWTPs, md5 = TRUE, filename = "AalborgWWTPs_otutable"
 
 }
 \author{
-Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 
 Mads Albertsen \email{MadsAlbertsen85@gmail.com}
 }

@@ -27,3 +27,6 @@ d <- amp_load(biom_otutable, metadata)
 \seealso{
 \code{\link{amp_load}}, \code{\link{amp_import_usearch}}
 }
+\author{
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
+}

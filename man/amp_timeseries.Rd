@@ -81,6 +81,6 @@ amp_timeseries(AalborgWWTPs,
 \author{
 Julie Klessner Thun Pedersen \email{julieklessnerthun@gmail.com}
 
-Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
 \keyword{timeseries}

@@ -26,3 +26,6 @@ usearch_otutable <- amp_import_usearch(otutab = "/path/to/otutab.txt", sintax = 
 d <- amp_load(usearch_otutable, metadata)
 }
 }
+\author{
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
+}

@@ -43,7 +43,7 @@
 #'
 #' # Rank abundance plot
 #' amp_rankabundance(AalborgWWTPs, group_by = "Plant")
-#' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 amp_rankabundance <- function(data,
                               group_by = "Sample",
