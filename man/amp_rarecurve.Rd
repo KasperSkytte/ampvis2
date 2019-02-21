@@ -31,7 +31,7 @@ data("AalborgWWTPs")
 amp_rarecurve(AalborgWWTPs, facet_by = "Plant")
 }
 \seealso{
-\code{\link{amp_load}}
+\code{\link{amp_load}}, \code{\link{amp_octave}}
 }
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}

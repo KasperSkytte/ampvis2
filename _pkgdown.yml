@@ -28,6 +28,7 @@ reference:
     desc: Functions for visualising amplicon data.
     contents:
     - amp_rarecurve
+    - amp_octave
     - amp_boxplot
     - amp_heatmap
     - amp_ordinate

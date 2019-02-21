@@ -2,7 +2,7 @@ Package: ampvis2
 Type: Package
 Title: Tools for visualising amplicon data
 Description: ampvis2 is a small set of tools that allows effortless visualisation of amplicon data.
-Version: 2.4.3
+Version: 2.4.4
 Date: 2017-11-15
 Authors@R: c(person("Mads", "Albertsen", role = c("aut", "cre"), email = "MadsAlbertsen85@gmail.com"), person(c("Kasper", "Skytte"), "Andersen", role = c("aut"), email = "ksa@bio.aau.dk"), person(c("Rasmus", "Hansen"), "Kirkegaard", role = c("ctb"), email = "rhk@bio.aau.dk"))
 License: AGPL-3
@@ -25,7 +25,6 @@ Imports:
     plotly,
     stringr,
     digest,
-    reshape2,
     scales,
     RColorBrewer,
     ggrepel,
@@ -40,6 +39,7 @@ Imports:
     cli,
     biomformat,
     doParallel,
+    parallel,
     foreach
 Remotes: 
     github::briatte/ggnet,
