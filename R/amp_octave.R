@@ -50,13 +50,13 @@ amp_octave <- function(data,
                        scales = "fixed",
                        num_threads = parallel::detectCores() - 1L) {
   abund <- data$abund
+  .parallel <- FALSE
   # check if samples in metadata and abund match, and that their order is the same
   if (!identical(colnames(abund), data$metadata[[1]])) {
     if (!all(colnames(abund) %in% data$metadata[[1]]) | !all(data$metadata[[1]] %in% colnames(abund))) {
       stop("The samples in metadata do not match those in the read counts table!", call. = FALSE)
     }
-    warning("The order of samples in the sample metadata ($metadata) and in the read
-            counts table ($abund) are not the same, reordering read counts table...", call. = FALSE)
+    warning("The order of samples in the sample metadata ($metadata) and in the read counts table ($abund) are not the same, reordering read counts table...", call. = FALSE)
     # reorder abund based on metadata
     abund <- abund[, data$metadata[[1]], drop = FALSE]
   }
@@ -67,8 +67,7 @@ amp_octave <- function(data,
     # check if metadata variable exists (both by name or position)
     if ((is.character(facet_by) & !all(facet_by %in% colnames(data$metadata))) |
       (is.numeric(facet_by) & !all(facet_by >= 1 & facet_by <= ncol(data$metadata)))) {
-      stop("One or more of the metadata variables(s) provided 
-           with facet_by was not found in the sample metadata!", call. = FALSE)
+      stop("One or more of the metadata variables(s) provided with facet_by was not found in the sample metadata!", call. = FALSE)
     }
 
     OTUsums$group <- apply(data$metadata[, facet_by, drop = FALSE], 1, paste, collapse = ", ")
@@ -81,7 +80,6 @@ amp_octave <- function(data,
   } else {
     # all samples at once if facet_by is not set
     OTUsums$group <- "All samples"
-    .parallel <- FALSE
   }
 
   # calculate OTU sums for each group and bin them
