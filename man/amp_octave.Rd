@@ -36,13 +36,13 @@ data("MiDAS")
 amp_octave(MiDAS)
 
 # Generate an octave plot for each group as
-# defined by the metadata variable "Year", set the
-# y-axes free and process 4 groups simultaneously using
-# multicore processing
+# defined by the metadata variable "Year" and set the
+# y-axes free. Adjust num_threads to process multiple groups
+# simultaneously using multicore processing
 amp_octave(MiDAS,
   facet_by = "Year",
   scales = "free_y",
-  num_threads = 4
+  num_threads = 1
 )
 }
 \seealso{
