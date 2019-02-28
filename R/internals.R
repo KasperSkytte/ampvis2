@@ -357,3 +357,28 @@ unifrac <- function(abund,
   UniFracMat[matIndices] <- unlist(distlist)
   return(as.dist(UniFracMat))
 }
+
+#' Find lowest taxonomic level
+#'
+#' @description Finds the lowest taxonomic level of two given levels in \code{tax}. The hierarchic order of taxonomic levels is simply taken from the order of column names in \code{tax}
+#'
+#' @param tax_aggregate A character vector of one or more taxonomic levels (exactly as in the column names of \code{ampvis2obj$tax}), fx Genus or Species. (\emph{default:} \code{NULL})
+#' @param tax_add A second character vector similar to \code{tax_aggregate}. (\emph{default:} \code{NULL})
+#' @param tax The taxonomy table from an ampvis2 object (\code{ampvis2obj$tax})
+#'
+#' @return A length one character vector with the lowest taxonomic level
+getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
+  if (is.null(tax_aggregate) & is.null(tax_add)) {
+    tax_aggregate <- colnames(tax)[ncol(tax)]
+  }
+  # find the lowest taxonomic level of tax_aggregate and tax_add
+  taxlevels <- factor(
+    x = colnames(tax),
+    levels = colnames(tax)
+  )
+  lowestlevel <- as.character(taxlevels[max(as.numeric(c(
+    taxlevels[which(taxlevels %in% tax_aggregate)],
+    taxlevels[which(taxlevels %in% tax_add)]
+  )))])
+  return(lowestlevel)
+}
