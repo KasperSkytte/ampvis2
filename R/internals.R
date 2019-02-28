@@ -382,3 +382,93 @@ getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
   )))])
   return(lowestlevel)
 }
+
+#' Aggregate OTUs to a specific taxonomic level
+#'
+#' @description Calculates the sum of OTUs per taxonomic level
+#'
+#' @param abund The OTU abundance table from an ampvis2 object (\code{ampvis2obj$abund})
+#' @param tax The OTU abundance table from an ampvis2 object (\code{ampvis2obj$tax})
+#' @param tax_aggregate Aggregate (sum) OTU's to a specific taxonomic level. (\emph{default:} \code{"OTU"})
+#' @param tax_add Add additional (higher) taxonomic levels to the taxonomy string. The OTU's will be aggregated to whichever level of the \code{tax_aggregate} and \code{tax_add} vectors is the lowest. (\emph{default:} \code{NULL})
+#' @param calcSums Whether to include the sums of read counts for each sample and taxonomic group. (\emph{default:} \code{TRUE})
+#' @param format Output format, \code{"long"} or \code{"abund"}. \code{"abund"} corresponds to that of a read counts table with samples as columns and the aggregated taxa as rows.
+#'
+#' @importFrom data.table data.table melt
+#' @return A data.table
+aggregate_abund <- function(abund,
+                            tax,
+                            tax_aggregate = "OTU",
+                            tax_add = NULL,
+                            calcSums = TRUE,
+                            format = "long") {
+  if (any(colnames(abund) %in% "Display")) {
+    stop("A column is named \"Display\" in the OTU abundance table, please change it to continue", call. = FALSE)
+  }
+
+  # make sure all tax columns are of type character (nchar() does not allow factors)
+  tax[] <- lapply(tax, as.character)
+
+  # find the lowest taxonomic level of tax_aggregate and tax_add
+  lowestTaxLevel <- getLowestTaxLvl(
+    tax = tax,
+    tax_aggregate = tax_aggregate,
+    tax_add = tax_add
+  )
+
+  # Remove all OTUs that are not assigned at the chosen taxonomic level
+  # and print a status message with the number of removed OTUs
+  newtax <- tax[which(nchar(tax[[lowestTaxLevel]]) > 1 &
+    !is.na(tax[[lowestTaxLevel]]) &
+    !grepl("^\\b[dkpcofgs]*[_:;]*\\b$", tax[[lowestTaxLevel]])), ]
+  newabund <- abund[rownames(newtax), ]
+  if (nrow(newtax) != nrow(tax)) {
+    message(paste0(
+      nrow(tax) - nrow(newtax),
+      " OTUs (out of ",
+      nrow(tax),
+      ") with no assigned taxonomy at ",
+      lowestTaxLevel,
+      " level were removed before aggregating OTUs"
+    ))
+  }
+
+  abundTax <- data.table::data.table(
+    newabund,
+    Display = apply(
+      newtax[, c(tax_add, tax_aggregate), drop = FALSE],
+      1,
+      paste,
+      collapse = "; "
+    )
+  )
+  abundAggr <- data.table::melt(
+    abundTax,
+    id.vars = "Display",
+    variable.name = "Sample",
+    value.name = "abundance",
+    variable.factor = FALSE
+  )
+  if (nrow(newtax) != nrow(tax) & isTRUE(calcSums)) {
+    abundAggr[,
+      Sum := sum(abundance),
+      keyby = .(Display, Sample)
+    ]
+  }
+  if (format == "long") {
+    out <- abundAggr
+  } else if (format == "abund") {
+    out <- as.data.frame(
+      data.table::dcast(abundAggr,
+        Display ~ Sample,
+        value.var = "abundance",
+        fun.aggregate = sum
+      )
+    )
+    rownames(out) <- as.character(out[[1]])
+    out <- out[, -1, drop = FALSE]
+  } else {
+    stop("format must be either \"long\" or \"abund\"")
+  }
+  return(out)
+}
