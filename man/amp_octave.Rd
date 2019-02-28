@@ -4,29 +4,39 @@
 \alias{amp_octave}
 \title{Octave plot}
 \usage{
-amp_octave(data, facet_by = "")
+amp_octave(data, facet_by = "Sample")
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{facet_by}{Split the plot into subplots based on a categorical/discrete variable in the samples metadata. (\emph{default:} \code{NULL})}
+\item{tax_aggregate}{Aggregate (sum) OTU's to a specific taxonomic level initially. OTU's that have not been assigned at the chosen level will be removed with a message. (\emph{default:} \code{"OTU"})}
+
+\item{facet_by}{Group the samples based on a categorical/discrete variable in the metadata. It is recommended to look at samples individually. Can be a character vector with variable names as-is or a numerical vector with variable positions in the metadata of any length. Set to \code{NULL} for grouping all samples together (not recommended). (\emph{default:} \code{1})}
 
 \item{scales}{If \code{facet_by} is set, should the axis scales of each subplot be fixed (\code{fixed}), free (\code{"free"}), or free in one dimension (\code{"free_x"} or \code{"free_y"})? (\emph{default:} \code{"fixed"})}
 
-\item{num_threads}{Maximum number of distinct groups as defined by \code{facet_by} to process simultaneously using multicore processors. Only used if \code{facet_by} is set and there are more than one distinct group in the given variable(s). Defaults is the number of available cores minus 1.}
+\item{num_threads}{Maximum number of distinct groups as defined by \code{facet_by} to process simultaneously using multicore processors. Only used if \code{facet_by} is set and there are more than one distinct group in the given variable(s). Default is the number of available cores minus 1.}
 }
 \value{
 A ggplot2 object
 }
 \description{
-Generates an octave plot to assess diversity. An octave plot is a histogram of the number of OTU's observed by bins of read counts, where the bin ranges increase exponentially, see details.
+Generates an octave plot to assess alpha diversity. An octave plot is a histogram of the number of taxa observed by bins of read counts, where the bin ranges increase exponentially, see details.
 }
 \details{
 The \eqn{n}th bin in the histogram has the range \eqn{r(n)=2^n...2^{n+1}-1}.
-The height of the bars then reflect the number of unique OTU's with read counts in each bin.
+The height of the bars then reflect the number of unique taxa with read counts in each bin.
 By judging the distribution one can assess whether the samples have been sequenced deeply
-enough. A full symmetrical bell-shaped distribution with the left part far from the y-axis is the ideal.
+enough at the chosen taxonomic level. A full symmetrical bell-shaped distribution
+with the left part far from the y-axis is the ideal.
 A high amount of OTU's with a low amount of reads indicates noise, chimeras, and even cross talk.
+
+Aggregating OTU's using \code{tax_aggregate} is useful to assess whether the samples
+have been sequenced deep enough to capture the full diversity at the given level, but
+ONLY applies to OTU's that have assigned taxonomy at the given level.
+
+It is recommended to look at samples individually as grouping samples will almost always look ideal.
+It is better to identify "bad" samples individually and remove them.
 }
 \examples{
 # Load example data
