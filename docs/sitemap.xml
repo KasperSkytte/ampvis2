@@ -13,6 +13,9 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/MiF.html</loc>
   </url>
   <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/aggregate_abund.html</loc>
+  </url>
+  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_alphadiv.html</loc>
   </url>
   <url>
@@ -86,6 +89,9 @@
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/example_otutable.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/getLowestTaxLvl.html</loc>
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/print.ampvis2.html</loc>
