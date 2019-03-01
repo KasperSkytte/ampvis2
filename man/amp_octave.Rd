@@ -45,14 +45,14 @@ data("AalborgWWTPs")
 # Subset data
 ds <- amp_subset_samples(AalborgWWTPs, Year \%in\% 2014)
 
-# Generate an octave plot of all samples at Genus level. Adjust num_threads to 
-process multiple groups simultaneously using multicore processing
+# Generate an octave plot of all samples at Genus level. Adjust num_threads to
+# process multiple groups simultaneously using multicore processing
 amp_octave(ds,
-           group_by = "SampleID",
-           tax_aggregate = "Genus",
-           scales = "free_y",
-           num_threads = 1)
-
+  group_by = "SampleID",
+  tax_aggregate = "Genus",
+  scales = "free_y",
+  num_threads = 1
+)
 }
 \seealso{
 \code{\link{amp_load}}, \code{\link{amp_rarecurve}}
