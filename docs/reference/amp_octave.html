@@ -38,7 +38,7 @@
 
 <meta property="og:title" content="Octave plot — amp_octave" />
 
-<meta property="og:description" content="Generates an octave plot to assess diversity. An octave plot is a histogram of the number of OTU's observed by bins of read counts, where the bin ranges increase exponentially, see details." />
+<meta property="og:description" content="Generates an octave plot to assess alpha diversity. An octave plot is a histogram of the number of taxa observed by bins of read counts, where the bin ranges increase exponentially, see details." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.5</span>
       </span>
     </div>
 
@@ -131,11 +131,11 @@
 
     <div class="ref-description">
     
-    <p>Generates an octave plot to assess diversity. An octave plot is a histogram of the number of OTU's observed by bins of read counts, where the bin ranges increase exponentially, see details.</p>
+    <p>Generates an octave plot to assess alpha diversity. An octave plot is a histogram of the number of taxa observed by bins of read counts, where the bin ranges increase exponentially, see details.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_octave</span>(<span class='no'>data</span>, <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_octave</span>(<span class='no'>data</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Sample"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,16 +145,20 @@
       <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
     </tr>
     <tr>
-      <th>facet_by</th>
-      <td><p>Split the plot into subplots based on a categorical/discrete variable in the samples metadata. (<em>default:</em> <code>NULL</code>)</p></td>
+      <th>tax_aggregate</th>
+      <td><p>Aggregate (sum) OTU's to a specific taxonomic level initially. OTU's that have not been assigned at the chosen level will be removed with a message. (<em>default:</em> <code>"OTU"</code>)</p></td>
+    </tr>
+    <tr>
+      <th>group_by</th>
+      <td><p>Group the samples based on a categorical/discrete variable in the metadata. It is recommended to look at samples individually. Can be a character vector with variable names as-is or a numerical vector with variable positions in the metadata of any length. Set to <code>NULL</code> for grouping all samples together (not recommended). (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     <tr>
       <th>scales</th>
-      <td><p>If <code>facet_by</code> is set, should the axis scales of each subplot be fixed (<code>fixed</code>), free (<code>"free"</code>), or free in one dimension (<code>"free_x"</code> or <code>"free_y"</code>)? (<em>default:</em> <code>"fixed"</code>)</p></td>
+      <td><p>If <code>group_by</code> is set, should the axis scales of each subplot be fixed (<code>fixed</code>), free (<code>"free"</code>), or free in one dimension (<code>"free_x"</code> or <code>"free_y"</code>)? (<em>default:</em> <code>"fixed"</code>)</p></td>
     </tr>
     <tr>
       <th>num_threads</th>
-      <td><p>Maximum number of distinct groups as defined by <code>facet_by</code> to process simultaneously using multicore processors. Only used if <code>facet_by</code> is set and there are more than one distinct group in the given variable(s). Defaults is the number of available cores minus 1.</p></td>
+      <td><p>Maximum number of distinct groups as defined by <code>group_by</code> to process simultaneously using multicore processors. Only used if <code>group_by</code> is set and there are more than one distinct group in the given variable(s). Default is the number of available cores minus 1.</p></td>
     </tr>
     </table>
     
@@ -165,10 +169,16 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The \(n\)th bin in the histogram has the range \(r(n)=2^n...2^{n+1}-1\).
-The height of the bars then reflect the number of unique OTU's with read counts in each bin.
+The height of the bars then reflect the number of unique taxa with read counts in each bin.
 By judging the distribution one can assess whether the samples have been sequenced deeply
-enough. A full symmetrical bell-shaped distribution with the left part far from the y-axis is the ideal.
+enough at the chosen taxonomic level. A full symmetrical bell-shaped distribution
+with the left part far from the y-axis is the ideal.
 A high amount of OTU's with a low amount of reads indicates noise, chimeras, and even cross talk.</p>
+<p>Aggregating OTU's using <code>tax_aggregate</code> is useful to assess whether the samples
+have been sequenced deep enough to capture the full diversity at the given level, but
+ONLY applies to OTU's that have assigned taxonomy at the given level.</p>
+<p>It is recommended to look at samples individually as grouping samples will almost always look ideal.
+It is better to identify "bad" samples individually and remove them.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -176,20 +186,24 @@ A high amount of OTU's with a low amount of reads indicates noise, chimeras, and
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"MiDAS"</span>)
+    <pre class="examples"><div class='input'># Load example data
+data("AalborgWWTPs")
 
-<span class='co'># Generate an octave plot of all samples</span>
-<span class='fu'>amp_octave</span>(<span class='no'>MiDAS</span>)</div><div class='img'><img src='amp_octave-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Generate an octave plot for each group as</span>
-<span class='co'># defined by the metadata variable "Year" and set the</span>
-<span class='co'># y-axes free. Adjust num_threads to process multiple groups</span>
-<span class='co'># simultaneously using multicore processing</span>
-<span class='fu'>amp_octave</span>(<span class='no'>MiDAS</span>,
-  <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"Year"</span>,
-  <span class='kw'>scales</span> <span class='kw'>=</span> <span class='st'>"free_y"</span>,
-  <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1</span>
-)</div><div class='output co'>#&gt; <span class='error'>Error in plyr::ddply(.data = OTUsums, .variables = "group", .parallel = .parallel,     .fun = function(x) {        OTUsums &lt;- colSums(x[, -which(colnames(x) == "group")])        bins &lt;- 2^(0:ceiling(log2(max(OTUsums))))        binSums &lt;- foreach::foreach(i = seq_along(bins), .combine = "rbind",             .inorder = TRUE) %do% {            dplyr::tibble(bin = bins[i], nOTUs = sum(OTUsums &gt;=                 bins[i] &amp; OTUsums &lt; bins[i + 1]))        }        binSums$bin &lt;- as.factor(binSums$bin)        binSums    }): object '.parallel' not found</span></div></pre>
+# Subset data
+ds <- amp_subset_samples(AalborgWWTPs, Year %in% 2014)
+
+# Generate an octave plot of all samples at Genus level. Adjust num_threads to 
+process multiple groups simultaneously using multicore processing
+amp_octave(ds,
+           group_by = "SampleID",
+           tax_aggregate = "Genus",
+           scales = "free_y",
+           num_threads = 1)
+
+</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:8:9: unexpected symbol</span>
+#&gt; <span class='error'>7: # Generate an octave plot of all samples at Genus level. Adjust num_threads to </span>
+#&gt; <span class='error'>8: process multiple</span>
+#&gt; <span class='error'>           ^</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

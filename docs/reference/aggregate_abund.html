@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A subset of the MiDAS example data — AalborgWWTPs • ampvis2</title>
+<title>Aggregate OTUs to a specific taxonomic level — aggregate_abund • ampvis2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -36,9 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="A subset of the MiDAS example data — AalborgWWTPs" />
+<meta property="og:title" content="Aggregate OTUs to a specific taxonomic level — aggregate_abund" />
 
-<meta property="og:description" content="A smaller subset of MiDAS with 50 samples from 2 Danish Wastewater Treatment Plants; Aalborg West and Aalborg East." />
+<meta property="og:description" content="Calculates the sum of OTUs per taxonomic level" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,50 +124,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A subset of the MiDAS example data</h1>
+    <h1>Aggregate OTUs to a specific taxonomic level</h1>
     
-    <div class="hidden name"><code>AalborgWWTPs.Rd</code></div>
+    <div class="hidden name"><code>aggregate_abund.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A smaller subset of <code><a href='MiDAS.html'>MiDAS</a></code> with 50 samples from 2 Danish Wastewater Treatment Plants; Aalborg West and Aalborg East.</p>
+    <p>Calculates the sum of OTUs per taxonomic level</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>AalborgWWTPs</span>)</pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <pre class="usage"><span class='fu'>aggregate_abund</span>(<span class='no'>abund</span>, <span class='no'>tax</span>, <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"OTU"</span>, <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>calcSums</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"long"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>abund</th>
+      <td><p>The OTU abundance table from an ampvis2 object (<code>ampvis2obj$abund</code>)</p></td>
+    </tr>
+    <tr>
+      <th>tax</th>
+      <td><p>The OTU abundance table from an ampvis2 object (<code>ampvis2obj$tax</code>)</p></td>
+    </tr>
+    <tr>
+      <th>tax_aggregate</th>
+      <td><p>Aggregate (sum) OTU's to a specific taxonomic level. (<em>default:</em> <code>"OTU"</code>)</p></td>
+    </tr>
+    <tr>
+      <th>tax_add</th>
+      <td><p>Add additional (higher) taxonomic levels to the taxonomy string. The OTU's will be aggregated to whichever level of the <code>tax_aggregate</code> and <code>tax_add</code> vectors is the lowest. (<em>default:</em> <code>NULL</code>)</p></td>
+    </tr>
+    <tr>
+      <th>calcSums</th>
+      <td><p>Whether to include the sums of read counts for each sample and taxonomic group. (<em>default:</em> <code>TRUE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>format</th>
+      <td><p>Output format, <code>"long"</code> or <code>"abund"</code>. <code>"abund"</code> corresponds to that of a read counts table with samples as columns and the aggregated taxa as rows.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>"ampvis2"</code>. See <code><a href='amp_load.html'>amp_load</a></code>.</p>
+    <p>A data.table</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>AalborgWWTPs</span>)
-<span class='no'>AalborgWWTPs</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements. <span style='text-decoration: underline;'>
-#&gt; Summary of OTU table:
-#&gt; </span><span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
-#&gt;           67         9430      2045128        17772        44326        31209 
-#&gt;    Avg#Reads 
-#&gt;      30524.3 
-#&gt; </span><span style='text-decoration: underline;'>
-#&gt; Assigned taxonomy:
-#&gt; </span><span>     Kingdom       Phylum        Class        Order       Family        Genus 
-#&gt;   9430(100%) 9215(97.72%) 8282(87.83%) 7644(81.06%) 6746(71.54%) 5228(55.44%) 
-#&gt;      Species 
-#&gt;    23(0.24%) 
-#&gt; </span><span style='text-decoration: underline;'>
-#&gt; Metadata variables:</span><span> 5 
-#&gt;  SampleID, Plant, Date, Year, Period</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>
