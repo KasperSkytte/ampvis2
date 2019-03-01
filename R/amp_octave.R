@@ -126,7 +126,7 @@ amp_octave <- function(data,
   # generate bins and calculate the number of taxa per bin
   binSums <- plyr::ddply(
     .data = taxSums,
-    .variables = "group",
+    .variables = plyr::.(group),
     .parallel = .parallel,
     .fun = function(x) {
       taxSums <- x[["taxSums"]]
