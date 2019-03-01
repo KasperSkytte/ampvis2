@@ -4,18 +4,18 @@
 \alias{amp_octave}
 \title{Octave plot}
 \usage{
-amp_octave(data, facet_by = "Sample")
+amp_octave(data, group_by = "Sample")
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
 \item{tax_aggregate}{Aggregate (sum) OTU's to a specific taxonomic level initially. OTU's that have not been assigned at the chosen level will be removed with a message. (\emph{default:} \code{"OTU"})}
 
-\item{facet_by}{Group the samples based on a categorical/discrete variable in the metadata. It is recommended to look at samples individually. Can be a character vector with variable names as-is or a numerical vector with variable positions in the metadata of any length. Set to \code{NULL} for grouping all samples together (not recommended). (\emph{default:} \code{1})}
+\item{group_by}{Group the samples based on a categorical/discrete variable in the metadata. It is recommended to look at samples individually. Can be a character vector with variable names as-is or a numerical vector with variable positions in the metadata of any length. Set to \code{NULL} for grouping all samples together (not recommended). (\emph{default:} \code{1})}
 
-\item{scales}{If \code{facet_by} is set, should the axis scales of each subplot be fixed (\code{fixed}), free (\code{"free"}), or free in one dimension (\code{"free_x"} or \code{"free_y"})? (\emph{default:} \code{"fixed"})}
+\item{scales}{If \code{group_by} is set, should the axis scales of each subplot be fixed (\code{fixed}), free (\code{"free"}), or free in one dimension (\code{"free_x"} or \code{"free_y"})? (\emph{default:} \code{"fixed"})}
 
-\item{num_threads}{Maximum number of distinct groups as defined by \code{facet_by} to process simultaneously using multicore processors. Only used if \code{facet_by} is set and there are more than one distinct group in the given variable(s). Default is the number of available cores minus 1.}
+\item{num_threads}{Maximum number of distinct groups as defined by \code{group_by} to process simultaneously using multicore processors. Only used if \code{group_by} is set and there are more than one distinct group in the given variable(s). Default is the number of available cores minus 1.}
 }
 \value{
 A ggplot2 object
@@ -40,20 +40,19 @@ It is better to identify "bad" samples individually and remove them.
 }
 \examples{
 # Load example data
-data("MiDAS")
+data("AalborgWWTPs")
 
-# Generate an octave plot of all samples
-amp_octave(MiDAS)
+# Subset data
+ds <- amp_subset_samples(AalborgWWTPs, Year \%in\% 2014)
 
-# Generate an octave plot for each group as
-# defined by the metadata variable "Year" and set the
-# y-axes free. Adjust num_threads to process multiple groups
-# simultaneously using multicore processing
-amp_octave(MiDAS,
-  facet_by = "Year",
-  scales = "free_y",
-  num_threads = 1
-)
+# Generate an octave plot of all samples at Genus level. Adjust num_threads to 
+process multiple groups simultaneously using multicore processing
+amp_octave(ds,
+           group_by = "SampleID",
+           tax_aggregate = "Genus",
+           scales = "free_y",
+           num_threads = 1)
+
 }
 \seealso{
 \code{\link{amp_load}}, \code{\link{amp_rarecurve}}
