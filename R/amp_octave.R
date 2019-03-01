@@ -60,7 +60,6 @@ amp_octave <- function(data,
                        scales = "fixed",
                        num_threads = parallel::detectCores() - 1L) {
   abund <- data$abund
-  .parallel <- FALSE
 
   # check if samples in metadata and abund match, and that their order is the same
   if (!identical(colnames(abund), data$metadata[[1]])) {
@@ -110,49 +109,41 @@ amp_octave <- function(data,
       ),
       by = Sample
     ]
-
-    # multiprocessing is done by group, so only relevant if there are more than one distinct
-    # group in the variable(s) set with group_by
-    if (length(unique(abundAggr$group)) > 1L & is.numeric(num_threads) & num_threads > 1L) {
-      doParallel::registerDoParallel(num_threads, num_threads)
-      .parallel <- TRUE
-    }
   } else {
     # all samples at once if group_by is not set
     abundAggr[, group := "All samples"]
   }
+  
+  
   taxSums <- abundAggr[, .(taxSums = sum(abundance)), by = .(Display, group)]
-
-  # generate bins and calculate the number of taxa per bin
-  binSums <- plyr::ddply(
-    .data = taxSums,
-    .variables = plyr::.(group),
-    .parallel = .parallel,
-    .fun = function(x) {
-      taxSums <- x[["taxSums"]]
-      bins <- 2^(0:ceiling(log2(max(taxSums)))) # generate bin sizes based on data
-      binSums <- foreach::foreach(
-        i = seq_along(bins),
-        .combine = "rbind",
-        .inorder = TRUE
-      ) %do% {
-        # sum the number of OTUs for each bin with range 2^n...2^(n+1)-1,
-        # meaning including lower bound, but not upper bound as it is
-        # the start of the next bin
-        dplyr::tibble(
-          bin = bins[i],
-          nTaxa = sum(taxSums >= bins[i] &
-            taxSums < bins[i + 1])
-        )
-      }
-      binSums$bin <- as.factor(binSums$bin)
-      binSums
-    }
-  )
-  if (isTRUE(.parallel)) {
-    doParallel::stopImplicitCluster()
-  }
-
+  # not at all concise, but it's by far the fastest 
+  binSums <- data.table::melt(id.vars = "group",
+                              variable.name = "bin",
+                              value.name = "nTaxa",
+                              variable.factor = TRUE,
+    taxSums[,.(`1` = sum(taxSums == 1),
+               `2` = sum(taxSums >= 2 & taxSums < 4),
+               `4` = sum(taxSums >= 4 & taxSums < 8),
+               `8` = sum(taxSums >= 8 & taxSums < 16),
+               `16` = sum(taxSums >= 16 & taxSums < 32),
+               `32` = sum(taxSums >= 32 & taxSums < 64),
+               `64` = sum(taxSums >= 64 & taxSums < 128),
+               `128` = sum(taxSums >= 128 & taxSums < 256),
+               `256` = sum(taxSums >= 256 & taxSums < 512),
+               `512` = sum(taxSums >= 512 & taxSums < 1024),
+               `1024` = sum(taxSums >= 1024 & taxSums < 2048),
+               `2048` = sum(taxSums >= 2048 & taxSums < 4096),
+               `4096` = sum(taxSums >= 4096 & taxSums < 8192),
+               `8192` = sum(taxSums >= 8192 & taxSums < 16384),
+               `16384` = sum(taxSums >= 16384 & taxSums < 32768),
+               `32768` = sum(taxSums >= 32768 & taxSums < 65536),
+               `65536` = sum(taxSums >= 65536 & taxSums < 131072),
+               `131072` = sum(taxSums >= 131072 & taxSums < 262144),
+               `262144` = sum(taxSums >= 262144 & taxSums < 524288),
+               `524288` = sum(taxSums >= 524288 & taxSums < 1048576)),
+                  by = group]
+    )
+  
   # gogo plot, facet if group_by is not NULL
   plot <- ggplot(binSums, aes(bin, nTaxa)) +
     geom_col() +
