@@ -135,7 +135,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_alphadiv</span>(<span class='no'>data</span>, <span class='no'>measure</span>, <span class='no'>rarefy</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_alphadiv</span>(<span class='no'>data</span>, <span class='kw'>measure</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>richness</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>rarefy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,8 +186,12 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
 
-<span class='co'># Subsample/rarefy to 20000 reads and then calculate Shannon and Simpson alpha-diversity indices</span>
-<span class='no'>alphadiversityresult</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_alphadiv</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>measure</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"shannon"</span>, <span class='st'>"simpson"</span>), <span class='kw'>rarefy</span> <span class='kw'>=</span> <span class='fl'>20000</span>)</div><div class='output co'>#&gt; <span class='message'>The following sample(s) have not been rarefied (less than 20000 reads):</span>
+<span class='co'># Subsample/rarefy to 20000 reads and then calculate</span>
+<span class='co'># Shannon and Simpson alpha-diversity indices</span>
+<span class='no'>alphadiversityresult</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_alphadiv</span>(<span class='no'>AalborgWWTPs</span>,
+  <span class='kw'>measure</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"shannon"</span>, <span class='st'>"simpson"</span>),
+  <span class='kw'>rarefy</span> <span class='kw'>=</span> <span class='fl'>20000</span>
+)</div><div class='output co'>#&gt; <span class='message'>The following sample(s) have not been rarefied (less than 20000 reads):</span>
 #&gt; <span class='message'>16SAMP-703, 16SAMP-739, 16SAMP-10907</span></div><div class='input'>
 # Explore the results in the data frame
 # View(alphadiversityresult)
