@@ -5,7 +5,7 @@ Description: ampvis2 is a small set of tools that allows effortless visualisatio
 Version: 2.4.5
 Date: 2017-11-15
 Authors@R: c(person("Mads", "Albertsen", role = c("aut", "cre"), email = "MadsAlbertsen85@gmail.com"), person(c("Kasper", "Skytte"), "Andersen", role = c("aut"), email = "ksa@bio.aau.dk"), person(c("Rasmus", "Hansen"), "Kirkegaard", role = c("ctb"), email = "rhk@bio.aau.dk"))
-License: AGPL-3
+License: AGPL-3 | file LICENSE
 URL: http://dx.plos.org/10.1371/journal.pone.0132783
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
@@ -14,7 +14,9 @@ Depends:
     R (>= 3.5.0),
     ggplot2
 Imports:
+    utils,
     tidyverse,
+    readxl,
     plyr,
     dplyr,
     magrittr,
@@ -34,7 +36,6 @@ Imports:
     lubridate,
     remotes,
     cowplot,
-    readxl,
     crayon,
     cli,
     biomformat,
