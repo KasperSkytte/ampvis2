@@ -13,6 +13,8 @@ amp_export_otutable(data, filename = "exported_otutable",
 
 \item{filename}{File name of the exported OTU-table WITHOUT extension. (\emph{default:} \code{"exported_otutable"})}
 
+\item{extension}{File extension without \code{"."}. (\emph{default:} \code{"csv"})}
+
 \item{md5}{(\emph{logical}) Compute md5 sum of the data (the whole object, not just otutable) and append to the filename. (\emph{default:} \code{FALSE})}
 
 \item{sep}{Separator passed directly to \code{\link{write.table}}. (\emph{default:} \code{"\t"})}
