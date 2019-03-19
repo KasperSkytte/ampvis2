@@ -4,7 +4,9 @@
 \alias{amp_export_otutable}
 \title{Export OTU-table}
 \usage{
-amp_export_otutable(data)
+amp_export_otutable(data, filename = "exported_otutable",
+  extension = "csv", md5 = FALSE, sep = "\\t", id = NULL,
+  sort_samples = NULL, normalise = FALSE, ...)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

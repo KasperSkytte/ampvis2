@@ -2,8 +2,6 @@
 #'
 #' Calculates the number of "core" OTUs shared by groups given thresholds for how frequent the OTUs should be above a certain abundance. Also returns the average abundance of the OTUs in a particular group.
 #'
-#' @usage amp_venn(data)
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param group_by Group the data based on a sample metadata variable. \code{amp_venn} currently only supports a maximum of 3 different groups.
 #' @param cut_a Abundance cutoff in percent. (\emph{default:} \code{0.1})

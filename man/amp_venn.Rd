@@ -4,7 +4,8 @@
 \alias{amp_venn}
 \title{Venn diagram of core OTUs}
 \usage{
-amp_venn(data)
+amp_venn(data, group_by = NULL, cut_a = 0.1, cut_f = 80,
+  text_size = 5, normalise = TRUE, detailed_output = FALSE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

@@ -39,8 +39,6 @@ amp_rarefy <- function(data, rarefy) {
 #'
 #' Used internally in other ampvis functions.
 #'
-#' @usage amp_rename(data)
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
 #' \itemize{
@@ -150,8 +148,6 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
 #' Functional information tool
 #'
 #' Makes raw MiDAS function data compatible with ampvis format. Internal function, not exported.
-#'
-#' @usage amp_cleanMiF(data)
 #'
 #' @param data (required) A data frame with MiDAS functions.
 #' @importFrom dplyr mutate

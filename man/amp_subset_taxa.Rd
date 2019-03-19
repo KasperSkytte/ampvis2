@@ -4,7 +4,8 @@
 \alias{amp_subset_taxa}
 \title{Subset ampvis2 objects based on taxonomy}
 \usage{
-amp_subset_taxa(data, tax_vector)
+amp_subset_taxa(data, tax_vector = c("p__Chloroflexi",
+  "p__Actinobacteria"), normalise = FALSE, remove = FALSE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

@@ -2,10 +2,9 @@
 #'
 #' Export otutable (including taxonomy) from an ampvis2 object as CSV using \code{\link{write.table}}.
 #'
-#' @usage amp_export_otutable(data)
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param filename File name of the exported OTU-table WITHOUT extension. (\emph{default:} \code{"exported_otutable"})
+#' @param extension File extension without \code{"."}. (\emph{default:} \code{"csv"})
 #' @param md5 (\emph{logical}) Compute md5 sum of the data (the whole object, not just otutable) and append to the filename. (\emph{default:} \code{FALSE})
 #' @param sep Separator passed directly to \code{\link{write.table}}. (\emph{default:} \code{"\t"})
 #' @param id Name the samples using a variable in the metadata.

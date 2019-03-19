@@ -4,7 +4,10 @@
 \alias{amp_otu_network}
 \title{Network plot}
 \usage{
-amp_otu_network(data)
+amp_otu_network(data, min_abundance = 0, color_by = NULL,
+  tax_aggregate = "Phylum", tax_add = NULL, tax_show = 10,
+  tax_class = NULL, tax_empty = "best", normalise = TRUE,
+  detailed_output = FALSE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
@@ -39,7 +42,7 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 Generates network plot of taxa and samples based on ggnet2.
 }
 \details{
-See \code{\link[GGally]{ggnet2}}
+See \code{\link[ggnet]{ggnet2}}
 }
 \section{Preserving relative abundances in a subset of larger data}{
 

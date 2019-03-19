@@ -4,7 +4,7 @@
 \alias{amp_load}
 \title{Load data for ampvis functions}
 \usage{
-amp_load(otutable = dataframe, metadata = dataframe)
+amp_load(otutable, metadata = NULL, fasta = NULL, tree = NULL)
 }
 \arguments{
 \item{otutable}{(\emph{required}) OTU-table (data frame) with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species).}

@@ -2,8 +2,6 @@
 #'
 #' @description Generates an octave plot to assess alpha diversity. An octave plot is a histogram of the number of taxa observed by bins of read counts, where the bin ranges increase exponentially, see details.
 #'
-#' @usage amp_octave(data, group_by = "Sample")
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param tax_aggregate Aggregate (sum) OTU's to a specific taxonomic level initially. OTU's that have not been assigned at the chosen level will be removed with a message. (\emph{default:} \code{"OTU"})
 #' @param group_by Group the samples based on a categorical/discrete variable in the metadata. It is recommended to look at samples individually. Can be a character vector with variable names as-is or a numerical vector with variable positions in the metadata of any length. Set to \code{NULL} for grouping all samples together (not recommended). (\emph{default:} \code{1})

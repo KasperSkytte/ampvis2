@@ -4,7 +4,7 @@
 \alias{amp_alphadiv}
 \title{Alpha-diversity analysis}
 \usage{
-amp_alphadiv(data, measure, rarefy)
+amp_alphadiv(data, measure = NULL, richness = FALSE, rarefy = NULL)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
@@ -34,8 +34,12 @@ The alpha-diversity indices are calculated per sample using the vegan function \
 # Load example data
 data("AalborgWWTPs")
 
-# Subsample/rarefy to 20000 reads and then calculate Shannon and Simpson alpha-diversity indices
-alphadiversityresult <- amp_alphadiv(AalborgWWTPs, measure = c("shannon", "simpson"), rarefy = 20000)
+# Subsample/rarefy to 20000 reads and then calculate
+# Shannon and Simpson alpha-diversity indices
+alphadiversityresult <- amp_alphadiv(AalborgWWTPs,
+  measure = c("shannon", "simpson"),
+  rarefy = 20000
+)
 
 # Explore the results in the data frame
 # View(alphadiversityresult)

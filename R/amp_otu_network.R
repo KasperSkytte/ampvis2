@@ -2,8 +2,6 @@
 #'
 #' Generates network plot of taxa and samples based on ggnet2.
 #'
-#' @usage amp_otu_network(data)
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param color_by A metadata variable to color the samples by.
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})
@@ -34,7 +32,7 @@
 #' @section Preserving relative abundances in a subset of larger data:
 #' See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
 #'
-#' @details See \code{\link[GGally]{ggnet2}}
+#' @details See \code{\link[ggnet]{ggnet2}}
 #'
 #' @seealso
 #' \code{\link{amp_load}}

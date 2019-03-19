@@ -4,7 +4,8 @@
 \alias{amp_rename}
 \title{Tidy up taxonomy (internal function)}
 \usage{
-amp_rename(data)
+amp_rename(data, tax_class = NULL, tax_empty = "best",
+  tax_level = "Genus")
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

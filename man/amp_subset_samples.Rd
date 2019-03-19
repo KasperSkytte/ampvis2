@@ -4,7 +4,8 @@
 \alias{amp_subset_samples}
 \title{Subset ampvis2 objects based on sample metadata}
 \usage{
-amp_subset_samples(data, ...)
+amp_subset_samples(data, ..., minreads = 0, rarefy = NULL,
+  normalise = FALSE, removeAbsents = TRUE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
