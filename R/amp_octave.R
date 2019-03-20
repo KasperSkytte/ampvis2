@@ -53,6 +53,10 @@ amp_octave <- function(data,
                        group_by = 1L,
                        scales = "fixed",
                        num_threads = parallel::detectCores() - 1L) {
+  ### Data must be in ampvis2 format
+  if (class(data) != "ampvis2") {
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
+  }
   abund <- data$abund
 
   # check if samples in metadata and abund match, and that their order is the same
