@@ -2,8 +2,6 @@
 #'
 #' Generates a rarefaction curve (number of reads vs number of observed OTUs) for each sample.
 #'
-#' @usage amp_rarecurve(data)
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param stepsize Step size for the curves. Lower is prettier but takes more time to generate. (\emph{default:} \code{1000})
 #' @param color_by Color curves by a variable in the metadata. (\emph{default:} \code{NULL})

@@ -5,8 +5,6 @@
 #' @name MiDAS
 #' @docType data
 #'
-#' @usage data(MiDAS)
-#'
 #' @format An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.
 #'
 #' @keywords data
@@ -28,8 +26,6 @@ NULL
 #' @name AalborgWWTPs
 #' @docType data
 #'
-#' @usage data(AalborgWWTPs)
-#'
 #' @format An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.
 #'
 #' @keywords data
@@ -45,8 +41,6 @@ NULL
 #'
 #' @name MiF
 #' @docType data
-#'
-#' @usage data(MiF)
 #'
 #' @format A data frame.
 #' \describe{
@@ -67,8 +61,6 @@ NULL
 #' @name example_otutable
 #' @docType data
 #'
-#' @usage data(example_otutable)
-#'
 #' @format a data frame.
 #'
 #' @keywords data
@@ -86,8 +78,6 @@ NULL
 #'
 #' @name example_metadata
 #' @docType data
-#'
-#' @usage data(example_metadata)
 #'
 #' @format a data frame.
 #'

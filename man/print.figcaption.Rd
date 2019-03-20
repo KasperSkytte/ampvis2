@@ -4,10 +4,12 @@
 \alias{print.figcaption}
 \title{Print method for figure caption created by amp_ordinate}
 \usage{
-\method{print}{figcaption}(captionwithrefs)
+\method{print}{figcaption}(x, ...)
 }
 \arguments{
-\item{captionwithrefs}{Character vector with the caption}
+\item{x}{Character vector with the caption}
+
+\item{...}{not used}
 }
 \description{
 Print method for figure caption created by amp_ordinate

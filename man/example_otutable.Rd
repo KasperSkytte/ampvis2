@@ -5,9 +5,6 @@
 \alias{example_otutable}
 \title{A minimal example of an OTU-table}
 \format{a data frame.}
-\usage{
-data(example_otutable)
-}
 \description{
 A minimal example of an OTU-table that is compatible with \code{\link{amp_load}} and ampvis2 functions.
 }

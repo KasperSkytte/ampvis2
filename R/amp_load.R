@@ -2,8 +2,6 @@
 #'
 #' This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis functions can be used.
 #'
-#' @usage amp_load(otutable = dataframe, metadata = dataframe)
-#'
 #' @param otutable (\emph{required}) OTU-table (data frame) with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species).
 #' @param metadata (\emph{required}) Sample metadata (dataframe) with information about the samples. If none provided, dummy metadata will be created.
 #' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})

@@ -2,8 +2,6 @@
 #'
 #' Subsets the data in ampvis2 objects based on metadata and returns the subsetted object.
 #'
-#' @usage amp_subset_samples(data, ...)
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param minreads Minimum number of reads pr. sample. Samples below this value will be removed \emph{initially}. (\emph{default:} \code{0})
 #' @param rarefy Rarefy species richness to this value by using \code{\link[vegan]{rrarefy}}. This is done \emph{initially}, but \emph{after} filtering based on the \code{minreads} value, if set. (\emph{default:} \code{NULL})

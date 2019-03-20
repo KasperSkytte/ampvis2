@@ -4,10 +4,12 @@
 \alias{print.ampvis2}
 \title{Prints ampvis2 object summary (internal function)}
 \usage{
-\method{print}{ampvis2}(data)
+\method{print}{ampvis2}(x, ...)
 }
 \arguments{
-\item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
+\item{x}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
+
+\item{...}{not used}
 }
 \description{
 Prints ampvis2 object summary (internal function)

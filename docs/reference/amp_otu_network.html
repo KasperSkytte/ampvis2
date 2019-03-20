@@ -135,7 +135,10 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_otu_network</span>(<span class='no'>data</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_otu_network</span>(<span class='no'>data</span>, <span class='kw'>min_abundance</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>color_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>, <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tax_show</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>tax_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tax_empty</span> <span class='kw'>=</span> <span class='st'>"best"</span>, <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>detailed_output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,7 +195,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>See <code>ggnet2</code></p>
+    <p>See <code><a href='https://www.rdocumentation.org/packages/ggnet/topics/ggnet2'>ggnet2</a></code></p>
     
     <h2 class="hasAnchor" id="preserving-relative-abundances-in-a-subset-of-larger-data"><a class="anchor" href="#preserving-relative-abundances-in-a-subset-of-larger-data"></a>Preserving relative abundances in a subset of larger data</h2>
 
@@ -210,7 +213,7 @@
 
 <span class='co'># OTU network plot</span>
 <span class='fu'>amp_otu_network</span>(<span class='no'>AalborgWWTPs</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: network</span></div><div class='output co'>#&gt; <span class='message'>network: Classes for Relational Data</span>
-#&gt; <span class='message'>Version 1.13.0.1 created on 2015-08-31.</span>
+#&gt; <span class='message'>Version 1.14-377 created on 2019-03-04.</span>
 #&gt; <span class='message'>copyright (c) 2005, Carter T. Butts, University of California-Irvine</span>
 #&gt; <span class='message'>                    Mark S. Handcock, University of California -- Los Angeles</span>
 #&gt; <span class='message'>                    David R. Hunter, Penn State University</span>

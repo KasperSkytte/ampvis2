@@ -135,7 +135,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_export_otutable</span>(<span class='no'>data</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_export_otutable</span>(<span class='no'>data</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"exported_otutable"</span>,
+  <span class='kw'>extension</span> <span class='kw'>=</span> <span class='st'>"csv"</span>, <span class='kw'>md5</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"\t"</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sort_samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,6 +149,10 @@
     <tr>
       <th>filename</th>
       <td><p>File name of the exported OTU-table WITHOUT extension. (<em>default:</em> <code>"exported_otutable"</code>)</p></td>
+    </tr>
+    <tr>
+      <th>extension</th>
+      <td><p>File extension without <code>"."</code>. (<em>default:</em> <code>"csv"</code>)</p></td>
     </tr>
     <tr>
       <th>md5</th>

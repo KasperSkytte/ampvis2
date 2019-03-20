@@ -4,10 +4,12 @@
 \alias{print.hmfunplot}
 \title{Prints heatmap+functions plot (internal function)}
 \usage{
-\method{print}{hmfunplot}(hmfunplot)
+\method{print}{hmfunplot}(x, ...)
 }
 \arguments{
-\item{hmfunplot}{plot}
+\item{x}{plot}
+
+\item{...}{not used}
 }
 \description{
 Prints heatmap+functions plot (internal function)

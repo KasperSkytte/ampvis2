@@ -135,7 +135,25 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_ordinate</span>(<span class='no'>data</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>distmeasure</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>constrain</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_ordinate</span>(<span class='no'>data</span>, <span class='kw'>filter_species</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"PCA"</span>,
+  <span class='kw'>distmeasure</span> <span class='kw'>=</span> <span class='st'>"none"</span>, <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>, <span class='kw'>constrain</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>x_axis</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y_axis</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>print_caption</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_color_order</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sample_shape_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>sample_colorframe_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_colorframe_label_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>sample_label_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_label_size</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>sample_label_segment_color</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>sample_point_size</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>sample_trajectory</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_trajectory_group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sample_plotly</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>species_plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>species_nlabels</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>species_label_taxonomy</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>, <span class='kw'>species_label_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>species_label_color</span> <span class='kw'>=</span> <span class='st'>"grey10"</span>, <span class='kw'>species_rescale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>species_point_size</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>species_shape</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>species_plotly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>envfit_factor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>envfit_numeric</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>envfit_signif_level</span> <span class='kw'>=</span> <span class='fl'>0.005</span>, <span class='kw'>envfit_textsize</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>envfit_textcolor</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>envfit_numeric_arrows_scale</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>envfit_arrowcolor</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>envfit_show</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>repel_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>opacity</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>tax_empty</span> <span class='kw'>=</span> <span class='st'>"best"</span>,
+  <span class='kw'>detailed_output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -346,7 +364,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code><code>amp_ordinate</code></code> function is primarily based on two packages; <code><a href='https://www.rdocumentation.org/packages/vegan/topics/vegan-package'>vegan-package</a></code>, which performs the actual ordination, and the <code><a href='https://ggplot2.tidyverse.org/reference/ggplot2-package.html'>ggplot2-package</a></code> to generate the plot. The function generates an ordination plot by the following process:</p><ol>
+    <p>The <code>amp_ordinate</code> function is primarily based on two packages; <code><a href='https://www.rdocumentation.org/packages/vegan/topics/vegan-package'>vegan-package</a></code>, which performs the actual ordination, and the <code><a href='https://www.rdocumentation.org/packages/ggplot2/topics/ggplot2-package'>ggplot2-package</a></code> to generate the plot. The function generates an ordination plot by the following process:</p><ol>
 <li><p>Various input argument checks and error messages</p></li>
 <li><p>OTU-table filtering, where low abundant OTU's across all samples are removed (if not <code>filter_species = 0</code> is set)</p></li>
 <li><p>Data transformation (if not <code>transform = "none"</code> is set)</p></li>

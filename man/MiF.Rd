@@ -11,9 +11,6 @@
   \item{VAR}{Variable within species.}
   \item{NT}{Not tested.}
 }}
-\usage{
-data(MiF)
-}
 \description{
 A data frame with known/unknown functional characteristics of the Genera in the MiDAS database.
 }

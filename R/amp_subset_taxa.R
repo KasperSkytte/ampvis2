@@ -2,8 +2,6 @@
 #'
 #' Subsets the data in ampvis2 objects based on taxonomy and returns the subsetted object.
 #'
-#' @usage amp_subset_taxa(data, tax_vector)
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param tax_vector (required) A vector with the taxonomic groups with which to perform the subset. The prefixes \code{"k__"}, \code{"p__"}, \code{"c__"}, \code{"o__"}, \code{"f__"}, \code{"g__"}, \code{"s__"} indicates their taxonomic rank and the following characters their name (almost always with a capital first letter), e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.
 #' @param normalise (\emph{logical}) \code{BEFORE} the subset, transform the OTU read counts to be in percent per sample. (\emph{default:} \code{FALSE})

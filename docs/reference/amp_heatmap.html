@@ -135,7 +135,17 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_heatmap</span>(<span class='no'>data</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_heatmap</span>(<span class='no'>data</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>, <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tax_show</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>tax_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tax_empty</span> <span class='kw'>=</span> <span class='st'>"best"</span>, <span class='kw'>order_x_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>order_y_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>plot_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>plot_values_size</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>plot_legendbreaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>plot_colorscale</span> <span class='kw'>=</span> <span class='st'>"log10"</span>,
+  <span class='kw'>plot_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>measure</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>min_abundance</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>max_abundance</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>normalise_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>scale_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>color_vector</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>round</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>textmap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>plot_functions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>function_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"MiDAS"</span>, <span class='st'>"FIL"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>, <span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>),
+  <span class='kw'>rel_widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.75</span>, <span class='fl'>0.25</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

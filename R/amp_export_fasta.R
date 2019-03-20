@@ -2,8 +2,6 @@
 #'
 #' Export sequences from an ampvis2 object with added taxonomy.
 #'
-#' @usage amp_export_fasta(data)
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param filename File name of the exported FASTA file. (\emph{default:} \code{"exported_sequences.fa"})
 #' @param tax (\emph{logical}) Add taxonomic strings to the output or not. (\emph{default:} \code{TRUE})

@@ -4,12 +4,16 @@
 \alias{amp_export_otutable}
 \title{Export OTU-table}
 \usage{
-amp_export_otutable(data)
+amp_export_otutable(data, filename = "exported_otutable",
+  extension = "csv", md5 = FALSE, sep = "\\t", id = NULL,
+  sort_samples = NULL, normalise = FALSE, ...)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
 \item{filename}{File name of the exported OTU-table WITHOUT extension. (\emph{default:} \code{"exported_otutable"})}
+
+\item{extension}{File extension without \code{"."}. (\emph{default:} \code{"csv"})}
 
 \item{md5}{(\emph{logical}) Compute md5 sum of the data (the whole object, not just otutable) and append to the filename. (\emph{default:} \code{FALSE})}
 

@@ -4,7 +4,8 @@
 \alias{amp_rarecurve}
 \title{Rarefaction curve}
 \usage{
-amp_rarecurve(data)
+amp_rarecurve(data, stepsize = 1000, color_by = NULL,
+  facet_by = NULL, facet_scales = "fixed")
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

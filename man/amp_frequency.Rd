@@ -4,7 +4,9 @@
 \alias{amp_frequency}
 \title{Frequency plot}
 \usage{
-amp_frequency(data)
+amp_frequency(data, group_by = "Sample", tax_class = NULL,
+  tax_empty = "best", tax_aggregate = "OTU", weight = TRUE,
+  normalise = TRUE, detailed_output = FALSE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

@@ -4,7 +4,8 @@
 \alias{amp_export_fasta}
 \title{Export raw DNA sequences}
 \usage{
-amp_export_fasta(data)
+amp_export_fasta(data, filename = "exported_sequences.fa", tax = TRUE,
+  ...)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

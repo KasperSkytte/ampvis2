@@ -4,7 +4,25 @@
 \alias{amp_ordinate}
 \title{Ordination plot}
 \usage{
-amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
+amp_ordinate(data, filter_species = 0.1, type = "PCA",
+  distmeasure = "none", transform = "hellinger", constrain = NULL,
+  x_axis = 1, y_axis = 2, print_caption = FALSE,
+  sample_color_by = NULL, sample_color_order = NULL,
+  sample_shape_by = NULL, sample_colorframe = FALSE,
+  sample_colorframe_label = NULL, sample_colorframe_label_size = 3,
+  sample_label_by = NULL, sample_label_size = 4,
+  sample_label_segment_color = "black", sample_point_size = 2,
+  sample_trajectory = NULL, sample_trajectory_group = NULL,
+  sample_plotly = NULL, species_plot = FALSE, species_nlabels = 0,
+  species_label_taxonomy = "Genus", species_label_size = 3,
+  species_label_color = "grey10", species_rescale = FALSE,
+  species_point_size = 2, species_shape = 20, species_plotly = FALSE,
+  envfit_factor = NULL, envfit_numeric = NULL,
+  envfit_signif_level = 0.005, envfit_textsize = 3,
+  envfit_textcolor = "darkred", envfit_numeric_arrows_scale = 1,
+  envfit_arrowcolor = "darkred", envfit_show = TRUE,
+  repel_labels = TRUE, opacity = 0.8, tax_empty = "best",
+  detailed_output = FALSE, num_threads = 1L, ...)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
@@ -127,7 +145,7 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.
 }
 \details{
-The \code{\code{amp_ordinate}} function is primarily based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and the \code{\link[ggplot2]{ggplot2-package}} to generate the plot. The function generates an ordination plot by the following process:
+The \code{\link{amp_ordinate}} function is primarily based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and the \code{\link[ggplot2]{ggplot2-package}} to generate the plot. The function generates an ordination plot by the following process:
 \enumerate{
   \item Various input argument checks and error messages
   \item OTU-table filtering, where low abundant OTU's across all samples are removed (if not \code{filter_species = 0} is set)

@@ -2,8 +2,6 @@
 #'
 #' Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs.
 #'
-#' @usage amp_heatmap(data, group_by = "")
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param group_by (\emph{recommended}) Group the samples by a categorical variable in the metadata. If \code{NULL} then all samples are shown.
 #' @param facet_by Facet the samples by a categorical variable in the metadata.

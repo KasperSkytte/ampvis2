@@ -4,7 +4,9 @@
 \alias{amp_core}
 \title{Core community analysis}
 \usage{
-amp_core(data)
+amp_core(data, group_by = "Sample", abund_thrh = 0.1,
+  tax_aggregate = "OTU", tax_class = NULL, tax_empty = "best",
+  plotly = FALSE, normalise = TRUE, detailed_output = FALSE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

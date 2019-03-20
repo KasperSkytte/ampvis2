@@ -2,8 +2,6 @@
 #'
 #' A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.
 #'
-#' @usage amp_ordinate(data, type = "", transform = "", distmeasure = "", constrain = "")
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param filter_species Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 may drastically increase computation time. (\emph{default}: \code{0.1})
 #' @param type (\emph{required}) Type of ordination method. One of:
@@ -79,7 +77,7 @@
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 #'
 #' @details
-#' The \code{\code{amp_ordinate}} function is primarily based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and the \code{\link[ggplot2]{ggplot2-package}} to generate the plot. The function generates an ordination plot by the following process:
+#' The \code{\link{amp_ordinate}} function is primarily based on two packages; \code{\link[vegan]{vegan-package}}, which performs the actual ordination, and the \code{\link[ggplot2]{ggplot2-package}} to generate the plot. The function generates an ordination plot by the following process:
 #' \enumerate{
 #'   \item Various input argument checks and error messages
 #'   \item OTU-table filtering, where low abundant OTU's across all samples are removed (if not \code{filter_species = 0} is set)

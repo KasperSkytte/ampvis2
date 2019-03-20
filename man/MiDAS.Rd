@@ -8,9 +8,6 @@
 \source{
 \href{http://midasfieldguide.org}{MiDAS: Field Guide to the Microbes of Activated Sludge and Anaerobic Digesters}
 }
-\usage{
-data(MiDAS)
-}
 \description{
 The microbial community composition of the activated sludge of 55 different Danish Wastewater Treatment Plants from 2006-2013 as determined by 16S rRNA amplicon sequencing using the Illumina platform.
 }

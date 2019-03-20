@@ -4,7 +4,10 @@
 \alias{amp_rankabundance}
 \title{Rank abundance plot}
 \usage{
-amp_rankabundance(data)
+amp_rankabundance(data, group_by = "Sample", order_group = NULL,
+  plot_log = FALSE, tax_add = NULL, tax_aggregate = "Genus",
+  tax_empty = "best", tax_class = NULL, normalise = TRUE,
+  detailed_output = FALSE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

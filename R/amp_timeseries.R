@@ -2,8 +2,6 @@
 #'
 #' Generates a timeseries plot showing relative read abundances over time.
 #'
-#' @usage amp_timeseries(data, time_variable = "")
-#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param time_variable (required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link[lubridate]{as_date}} and preferably of the form \code{"yyyy-mm-dd"} or \code{"\%Y-\%m-\%d"}.
 #' @param group_by Group the samples by a variable in the metadata.
