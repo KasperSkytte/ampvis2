@@ -82,7 +82,7 @@
 #' example_otutable
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-
+#'
 amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   ### check data
   otutable <- as.data.frame(otutable)
@@ -183,15 +183,16 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   tax <- tax[which(rownames(abund) %in% rownames(abund0)), c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU"), drop = FALSE]
   tax[is.na(tax)] <- ""
 
-  ### data: return the data in a combined list w or w/o refseq. The rows of tax are ordered by the rownames of abund, and the columns of abund are ordered by the metadata rownames
+  ### data: return the data in a combined list w or w/o refseq. The rows of tax are ordered by
+  # the rownames of abund, and the columns of abund are ordered by the metadata rownames
   data <- list(abund = abund0[, rownames(metadata0), drop = FALSE], tax = tax[rownames(abund0), , drop = FALSE], metadata = metadata0)
 
-  # apend refseq if provided
+  # append refseq if provided
   if (!is.null(fasta)) {
     data[["refseq"]] <- ape::read.FASTA(file = fasta)[rownames(abund0)]
   }
 
-  # apend phylogenetic tree if provided
+  # append phylogenetic tree if provided
   if (!is.null(tree)) {
     data[["tree"]] <- tree
   }
