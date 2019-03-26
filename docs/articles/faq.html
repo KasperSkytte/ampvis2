@@ -7,7 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Frequently Asked Questions • ampvis2</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
@@ -38,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.6</span>
       </span>
     </div>
 
@@ -134,14 +135,14 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ampvis2)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#Combine OTU abundance table and taxonomy table from the phyloseq object "my_phyloseq_object":</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">obj &lt;-<span class="st"> </span>my_phyloseq_object</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">otutable &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">OTU =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">rownames</a></span>(phyloseq<span class="op">::</span><span class="kw">otu_table</span>(obj)<span class="op">@</span>.Data),</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">                       phyloseq<span class="op">::</span><span class="kw">otu_table</span>(obj)<span class="op">@</span>.Data,</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">                       phyloseq<span class="op">::</span><span class="kw">tax_table</span>(obj)<span class="op">@</span>.Data,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">otutable &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">OTU =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">rownames</a></span>(phyloseq<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data),</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">                       phyloseq<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data,</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">                       phyloseq<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/phyloseq/topics/tax_table-methods">tax_table</a></span>(obj)<span class="op">@</span>.Data,</a>
 <a class="sourceLine" id="cb3-7" data-line-number="7">                       <span class="dt">check.names =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8">                       )</a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#Extract metadata from the phyloseq object:</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">metadata &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(phyloseq<span class="op">::</span><span class="kw">sample_data</span>(obj), </a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">metadata &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(phyloseq<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/phyloseq/topics/sample_data-methods">sample_data</a></span>(obj), </a>
 <a class="sourceLine" id="cb3-12" data-line-number="12">                       <span class="dt">check.names =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb3-13" data-line-number="13">                       )</a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"></a>
