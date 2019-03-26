@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A minimal example of an OTU-table — example_otutable • ampvis2</title>
+<title>Merge replicate samples — amp_mergereplicates • ampvis2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -37,9 +37,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="A minimal example of an OTU-table — example_otutable" />
+<meta property="og:title" content="Merge replicate samples — amp_mergereplicates" />
 
-<meta property="og:description" content="A minimal example of an OTU-table that is compatible with amp_load and ampvis2 functions." />
+<meta property="og:description" content="Aggregates read counts in replicate samples by calculating the mean abundances of OTU's." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,38 +125,95 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A minimal example of an OTU-table</h1>
+    <h1>Merge replicate samples</h1>
     
-    <div class="hidden name"><code>example_otutable.Rd</code></div>
+    <div class="hidden name"><code>amp_mergereplicates.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A minimal example of an OTU-table that is compatible with <code><a href='amp_load.html'>amp_load</a></code> and ampvis2 functions.</p>
+    <p>Aggregates read counts in replicate samples by calculating the mean abundances of OTU's.</p>
     
     </div>
 
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <pre class="usage"><span class='fu'>amp_mergereplicates</span>(<span class='no'>data</span>, <span class='no'>merge_var</span>, <span class='kw'>round</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>merge_var</th>
+      <td><p>Variable in the sample metadata that defines the sample groups, see examples.</p></td>
+    </tr>
+    <tr>
+      <th>round</th>
+      <td><p>If the read counts in <code>data$abund</code> are integers, any decimals present after merging will be rounded either <code>"up"</code> or <code>"down"</code>. Make sure this makes sense if the read counts have been normalised, as it may result in 0's, 1's, and 2's everywhere. (<em>default:</em> <code>NULL</code>)</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame.</p>
+    <p>An object of class <code>ampvis2</code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>example_otutable</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/View'>View</a></span>(<span class='no'>example_otutable</span>)
-<span class='co'># }</span></pre>
+    <pre class="examples"><div class='input'><span class='co'># load data</span>
+<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='amp_load.html'>amp_load</a></span>(<span class='kw pkg'>ampvis2</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/ampvis2/topics/example_otutable'>example_otutable</a></span>, <span class='kw pkg'>ampvis2</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/ampvis2/topics/example_metadata'>example_metadata</a></span>)
+
+<span class='co'># add a grouping variable to the sample metadata defining the groups of sample replicates</span>
+<span class='no'>d</span>$<span class='no'>metadata</span></div><div class='output co'>#&gt;                SampleID     Plant       Date Year
+#&gt; 16SAMP_3893 16SAMP_3893 Aalborg E 2014-02-06 2014
+#&gt; 16SAMP_3913 16SAMP_3913 Aalborg E 2014-07-03 2014
+#&gt; 16SAMP_3941 16SAMP_3941 Aalborg E 2014-08-19 2014
+#&gt; 16SAMP_3946 16SAMP_3946 Aalborg E 2014-11-13 2014
+#&gt; 16SAMP_3953 16SAMP_3953 Aalborg W 2014-02-04 2014
+#&gt; 16SAMP_4591 16SAMP_4591 Aalborg W 2014-05-05 2014
+#&gt; 16SAMP_4597 16SAMP_4597 Aalborg W 2014-08-18 2014
+#&gt; 16SAMP_4603 16SAMP_4603 Aalborg W 2014-11-12 2014</div><div class='input'><span class='no'>d</span>$<span class='no'>metadata</span>$<span class='no'>group</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"group1"</span>, <span class='st'>"group1"</span>, <span class='st'>"group2"</span>, <span class='st'>"group2"</span>, <span class='st'>"group3"</span>, <span class='st'>"group4"</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>)
+<span class='no'>d</span>$<span class='no'>metadata</span></div><div class='output co'>#&gt;                SampleID     Plant       Date Year  group
+#&gt; 16SAMP_3893 16SAMP_3893 Aalborg E 2014-02-06 2014 group1
+#&gt; 16SAMP_3913 16SAMP_3913 Aalborg E 2014-07-03 2014 group1
+#&gt; 16SAMP_3941 16SAMP_3941 Aalborg E 2014-08-19 2014 group2
+#&gt; 16SAMP_3946 16SAMP_3946 Aalborg E 2014-11-13 2014 group2
+#&gt; 16SAMP_3953 16SAMP_3953 Aalborg W 2014-02-04 2014 group3
+#&gt; 16SAMP_4591 16SAMP_4591 Aalborg W 2014-05-05 2014 group4
+#&gt; 16SAMP_4597 16SAMP_4597 Aalborg W 2014-08-18 2014   &lt;NA&gt;
+#&gt; 16SAMP_4603 16SAMP_4603 Aalborg W 2014-11-12 2014   &lt;NA&gt;</div><div class='input'>
+<span class='co'># merge by "group" rounding up the resulting values</span>
+<span class='no'>dmerged</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_mergereplicates</span>(<span class='no'>d</span>,
+  <span class='kw'>merge_var</span> <span class='kw'>=</span> <span class='st'>"group"</span>,
+  <span class='kw'>round</span> <span class='kw'>=</span> <span class='st'>"up"</span>
+)
+<span class='no'>dmerged</span></div><div class='output co'>#&gt; ampvis2 object with 3 elements. <span style='text-decoration: underline;'>
+#&gt; Summary of OTU table:
+#&gt; </span><span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
+#&gt;            6           10        25623         3106         5451         4215 
+#&gt;    Avg#Reads 
+#&gt;       4270.5 
+#&gt; </span><span style='text-decoration: underline;'>
+#&gt; Assigned taxonomy:
+#&gt; </span><span> Kingdom   Phylum    Class    Order   Family    Genus  Species 
+#&gt; 10(100%) 10(100%) 10(100%) 10(100%) 10(100%) 10(100%)   1(10%) 
+#&gt; </span><span style='text-decoration: underline;'>
+#&gt; Metadata variables:</span><span> 5 
+#&gt;  SampleID, Plant, Date, Year, group</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
+      <li><a href="#value">Value</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
   </div>
 </div>
 
