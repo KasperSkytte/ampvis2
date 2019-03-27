@@ -17,9 +17,9 @@
 #' @examples
 #' # load data
 #' d <- amp_load(ampvis2::example_otutable, ampvis2::example_metadata)
+#' d
 #'
 #' # add a grouping variable to the sample metadata defining the groups of sample replicates
-#' d$metadata
 #' d$metadata$group <- c("group1", "group1", "group2", "group2", "group3", "group4", NA, NA)
 #' d$metadata
 #'
@@ -28,6 +28,7 @@
 #'   merge_var = "group",
 #'   round = "up"
 #' )
+#' dmerged$metadata
 #' dmerged
 amp_mergereplicates <- function(data,
                                 merge_var,

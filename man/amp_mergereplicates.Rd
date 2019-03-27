@@ -22,9 +22,9 @@ Aggregates read counts in replicate samples by calculating the mean abundances o
 \examples{
 # load data
 d <- amp_load(ampvis2::example_otutable, ampvis2::example_metadata)
+d
 
 # add a grouping variable to the sample metadata defining the groups of sample replicates
-d$metadata
 d$metadata$group <- c("group1", "group1", "group2", "group2", "group3", "group4", NA, NA)
 d$metadata
 
@@ -33,6 +33,7 @@ dmerged <- amp_mergereplicates(d,
   merge_var = "group",
   round = "up"
 )
+dmerged$metadata
 dmerged
 }
 \author{
