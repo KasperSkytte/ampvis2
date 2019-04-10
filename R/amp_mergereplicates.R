@@ -49,7 +49,7 @@ amp_mergereplicates <- function(data,
 
   # warn when user rounds up or down if data is normalised
   if (isTRUE(attributes(data)$normalised) & any(tolower(round) %in% c("down", "up"))) {
-    warning("The data has been normalised, rounding up or down likely does not make sense, at least if merge_fun is \"mean\"",
+    warning("The data has been normalised, rounding up or down likely does not make sense",
       call. = FALSE
     )
   }
@@ -64,7 +64,7 @@ amp_mergereplicates <- function(data,
 
   # add a group column to the abundance table to define the groups
   tempabund <- data$metadata[, c(1, which(colnames(data$metadata) == merge_var))] %>%
-    merge(as.data.frame(t(data$abund)), by.x = 1, by.y = 0) %>%
+    merge(as.data.frame(t(data$abund)), by.x = 1, by.y = 0, sort = FALSE) %>%
     {
       .[, 1] <- ifelse(.[, 2] %chin% groups, .[, 2], .[, 1])
       colnames(.)[1] <- nameoffirstcol
