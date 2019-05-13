@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.8</span>
       </span>
     </div>
 
@@ -136,7 +136,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_subset_taxa</span>(<span class='no'>data</span>, <span class='kw'>tax_vector</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"p__Chloroflexi"</span>,
+    <pre class="usage"><span class='fu'>amp_subset_taxa</span>(<span class='no'>data</span>, <span class='kw'>tax_vector</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"p__Chloroflexi"</span>,
   <span class='st'>"p__Actinobacteria"</span>), <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>remove</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -148,7 +148,7 @@
     </tr>
     <tr>
       <th>tax_vector</th>
-      <td><p>(required) A vector with the taxonomic groups with which to perform the subset. The prefixes <code>"k__"</code>, <code>"p__"</code>, <code>"c__"</code>, <code>"o__"</code>, <code>"f__"</code>, <code>"g__"</code>, <code>"s__"</code> indicates their taxonomic rank and the following characters their name (almost always with a capital first letter), e.g. <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("p__Chloroflexi","p__Actinobacteria")</a></code>.</p></td>
+      <td><p>(required) A vector with the taxonomic groups with which to perform the subset. The prefixes <code>"k__"</code>, <code>"p__"</code>, <code>"c__"</code>, <code>"o__"</code>, <code>"f__"</code>, <code>"g__"</code>, <code>"s__"</code> indicates their taxonomic rank and the following characters their name (almost always with a capital first letter), e.g. <code><a href='https://rdrr.io/r/base/c.html'>c("p__Chloroflexi","p__Actinobacteria")</a></code>.</p></td>
     </tr>
     <tr>
       <th>normalise</th>
@@ -193,7 +193,7 @@ amp_heatmap(subsettedData,
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'># An overview heatmap of the data:</span>
 <span class='fu'><a href='amp_heatmap.html'>amp_heatmap</a></span>(<span class='no'>AalborgWWTPs</span>,
@@ -203,7 +203,7 @@ amp_heatmap(subsettedData,
 )</div><div class='img'><img src='amp_subset_taxa-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Remove all taxa except the phyla Chloroflexi and Actinobacteria</span>
 <span class='co'># and the Genera Rhodoferax and Trichococcus:</span>
-<span class='no'>tax_vector</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
+<span class='no'>tax_vector</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
   <span class='st'>"p__Chloroflexi"</span>,
   <span class='st'>"p__Actinobacteria"</span>,
   <span class='st'>"g__Rhodoferax"</span>,

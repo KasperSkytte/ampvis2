@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.8</span>
       </span>
     </div>
 
@@ -177,7 +177,7 @@
 <li><p><code>"DCA"</code>: Detrended Correspondence Analysis</p></li>
 <li><p><code>"NMDS"</code>: non-metric Multidimensional Scaling</p></li>
 <li><p><code>"PCOA"</code> or <code>"MMDS"</code>: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)</p></li>
-</ul><p><em>Note that PCoA is not performed by the vegan package, but the <code><a href='https://www.rdocumentation.org/packages/ape/topics/pcoa'>pcoa</a></code> function from the APE package.</em></p></td>
+</ul><p><em>Note that PCoA is not performed by the vegan package, but the <code><a href='https://rdrr.io/pkg/ape/man/pcoa.html'>pcoa</a></code> function from the APE package.</em></p></td>
     </tr>
     <tr>
       <th>distmeasure</th>
@@ -185,17 +185,17 @@
 <li><p><code>"wunifrac"</code>: Weighted UniFrac distances. Requires a rooted phylogenetic tree.</p></li>
 <li><p><code>"unifrac"</code>: Unweighted UniFrac distances. Requires a phylogenetic tree.</p></li>
 <li><p><code>"jsd"</code>: Jensen-Shannon Divergence, based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>.</p></li>
-<li><p>Any of the distance measures supported by <code><a href='https://www.rdocumentation.org/packages/vegan/topics/vegdist'>vegdist</a></code>: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code>.</p></li>
+<li><p>Any of the distance measures supported by <code><a href='https://rdrr.io/pkg/vegan/man/vegdist.html'>vegdist</a></code>: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code>.</p></li>
 <li><p>or <code>"none"</code>. (<em>default</em>)</p></li>
-</ul><p>You can also write your own math formula, see details in <code><a href='https://www.rdocumentation.org/packages/vegan/topics/vegdist'>vegdist</a></code>.</p></td>
+</ul><p>You can also write your own math formula, see details in <code><a href='https://rdrr.io/pkg/vegan/man/vegdist.html'>vegdist</a></code>.</p></td>
     </tr>
     <tr>
       <th>transform</th>
-      <td><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href='https://www.rdocumentation.org/packages/vegan/topics/decostand'>decostand</a></code>. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (<em>default:</em> <code>"hellinger"</code>)</p></td>
+      <td><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href='https://rdrr.io/pkg/vegan/man/decostand.html'>decostand</a></code>. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (<em>default:</em> <code>"hellinger"</code>)</p></td>
     </tr>
     <tr>
       <th>constrain</th>
-      <td><p>(<em>required for RDA and CCA</em>) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("Year", "Temperature")</a></code>, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.</p></td>
+      <td><p>(<em>required for RDA and CCA</em>) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx <code><a href='https://rdrr.io/r/base/c.html'>c("Year", "Temperature")</a></code>, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.</p></td>
     </tr>
     <tr>
       <th>x_axis</th>
@@ -259,7 +259,7 @@
     </tr>
     <tr>
       <th>sample_plotly</th>
-      <td><p>Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the metadata variables to show, or <code>"all"</code> to display all. Click or double click the elements in the legend to hide/show parts of the data. To hide the legend use <code><a href='https://www.rdocumentation.org/packages/plotly/topics/layout'>plotly::layout(amp_ordinate(...), showlegend = FALSE)</a></code>, see more options at <a href='https://plot.ly/r/'>https://plot.ly/r/</a>.</p></td>
+      <td><p>Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the metadata variables to show, or <code>"all"</code> to display all. Click or double click the elements in the legend to hide/show parts of the data. To hide the legend use <code><a href='https://rdrr.io/pkg/plotly/man/layout.html'>plotly::layout(amp_ordinate(...), showlegend = FALSE)</a></code>, see more options at <a href='https://plot.ly/r/'>https://plot.ly/r/</a>.</p></td>
     </tr>
     <tr>
       <th>species_plot</th>
@@ -299,11 +299,11 @@
     </tr>
     <tr>
       <th>envfit_factor</th>
-      <td><p>A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in <code><a href='https://www.rdocumentation.org/packages/vegan/topics/envfit'>envfit</a></code>.</p></td>
+      <td><p>A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in <code><a href='https://rdrr.io/pkg/vegan/man/envfit.html'>envfit</a></code>.</p></td>
     </tr>
     <tr>
       <th>envfit_numeric</th>
-      <td><p>A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in <code><a href='https://www.rdocumentation.org/packages/vegan/topics/envfit'>envfit</a></code>.</p></td>
+      <td><p>A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in <code><a href='https://rdrr.io/pkg/vegan/man/envfit.html'>envfit</a></code>.</p></td>
     </tr>
     <tr>
       <th>envfit_signif_level</th>
@@ -347,15 +347,15 @@
     </tr>
     <tr>
       <th>detailed_output</th>
-      <td><p>(<em>logical</em>) Return additional details or not (model, scores, figure caption, inputmatrix, screeplot etc). If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code><a href='https://www.rdocumentation.org/packages/utils/topics/View'>View(object$data)</a></code>. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <td><p>(<em>logical</em>) Return additional details or not (model, scores, figure caption, inputmatrix, screeplot etc). If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code><a href='https://rdrr.io/r/utils/View.html'>View(object$data)</a></code>. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>num_threads</th>
-      <td><p>The number of threads to use whereever in the code parallelisation is possible. Any parallel computation is being performed by using <code><a href='https://www.rdocumentation.org/packages/foreach/topics/foreach'>foreach</a></code>. (<em>default:</em> <code>1</code>)</p></td>
+      <td><p>The number of threads to use whereever in the code parallelisation is possible. Any parallel computation is being performed by using <code><a href='https://rdrr.io/pkg/foreach/man/foreach.html'>foreach</a></code>. (<em>default:</em> <code>1</code>)</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Pass additional arguments to the vegan ordination functions, fx the <code><a href='https://www.rdocumentation.org/packages/vegan/topics/cca'>rda</a></code>, <code><a href='https://www.rdocumentation.org/packages/vegan/topics/cca'>cca</a></code>, <code><a href='https://www.rdocumentation.org/packages/vegan/topics/metaMDS'>metaMDS</a></code> functions, see the documentation.</p></td>
+      <td><p>Pass additional arguments to the vegan ordination functions, fx the <code><a href='https://rdrr.io/pkg/vegan/man/cca.html'>rda</a></code>, <code><a href='https://rdrr.io/pkg/vegan/man/cca.html'>cca</a></code>, <code><a href='https://rdrr.io/pkg/vegan/man/metaMDS.html'>metaMDS</a></code> functions, see the documentation.</p></td>
     </tr>
     </table>
     
@@ -365,7 +365,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>amp_ordinate</code> function is primarily based on two packages; <code><a href='https://www.rdocumentation.org/packages/vegan/topics/vegan-package'>vegan-package</a></code>, which performs the actual ordination, and the <code><a href='https://www.rdocumentation.org/packages/ggplot2/topics/ggplot2-package'>ggplot2-package</a></code> to generate the plot. The function generates an ordination plot by the following process:</p><ol>
+    <p>The <code>amp_ordinate</code> function is primarily based on two packages; <code><a href='https://rdrr.io/pkg/vegan/man/vegan-package.html'>vegan-package</a></code>, which performs the actual ordination, and the <code><a href='https://rdrr.io/pkg/ggplot2/man/ggplot2-package.html'>ggplot2-package</a></code> to generate the plot. The function generates an ordination plot by the following process:</p><ol>
 <li><p>Various input argument checks and error messages</p></li>
 <li><p>OTU-table filtering, where low abundant OTU's across all samples are removed (if not <code>filter_species = 0</code> is set)</p></li>
 <li><p>Data transformation (if not <code>transform = "none"</code> is set)</p></li>
@@ -402,7 +402,7 @@ amp_ordinate(ampvis2_object,
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'># PCA with data transformation, colored by WWTP</span>
 <span class='fu'>amp_ordinate</span>(<span class='no'>AalborgWWTPs</span>,

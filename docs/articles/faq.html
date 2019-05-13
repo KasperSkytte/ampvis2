@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.8</span>
       </span>
     </div>
 
@@ -102,9 +102,9 @@
 <h2 class="hasAnchor">
 <a href="#preserving-relative-abundances-in-a-subset-of-larger-data" class="anchor"></a>Preserving relative abundances in a subset of larger data</h2>
 <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code>amp_timeseries</code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code>amp_subset_taxa</code> and <code>amp_subset_samples</code> functions, and then set <code>raw = TRUE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>raw = TRUE</code> will skip the transformation in the plotting function, see the example below.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"MiDAS"</span>)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"MiDAS"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">subsettedData &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span>(MiDAS,</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">                                    Plant <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>),</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">                                    Plant <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span>),</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4">                                    <span class="dt">normalise =</span> <span class="ot">TRUE</span> <span class="co">#add this</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5">                                    )</a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(subsettedData,</a>
@@ -132,17 +132,17 @@
 <h2 class="hasAnchor">
 <a href="#loading-phyloseq-objects" class="anchor"></a>Loading phyloseq objects</h2>
 <p>This is particularly useful if you want to import data in the <strong>QIIME</strong>, <strong>biom</strong>, <strong>mothur</strong>, and <strong>pyrotagger</strong> formats, see the phyloseq <a href="https://joey711.github.io/phyloseq/import-data.html#the_import_family_of_functions">Data Import</a> tutorial. You will first have to extract the OTU-table and the metadata from the phyloseq object, and then import as normal with <code>amp_load</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ampvis2)</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ampvis2)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#Combine OTU abundance table and taxonomy table from the phyloseq object "my_phyloseq_object":</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">obj &lt;-<span class="st"> </span>my_phyloseq_object</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">otutable &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">OTU =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">rownames</a></span>(phyloseq<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data),</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">                       phyloseq<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/phyloseq/topics/otu_table-methods">otu_table</a></span>(obj)<span class="op">@</span>.Data,</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">                       phyloseq<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/phyloseq/topics/tax_table-methods">tax_table</a></span>(obj)<span class="op">@</span>.Data,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">otutable &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">OTU =</span> <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(phyloseq<span class="op">::</span><span class="kw">otu_table</span>(obj)<span class="op">@</span>.Data),</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">                       phyloseq<span class="op">::</span><span class="kw">otu_table</span>(obj)<span class="op">@</span>.Data,</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">                       phyloseq<span class="op">::</span><span class="kw">tax_table</span>(obj)<span class="op">@</span>.Data,</a>
 <a class="sourceLine" id="cb3-7" data-line-number="7">                       <span class="dt">check.names =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8">                       )</a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#Extract metadata from the phyloseq object:</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">metadata &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(phyloseq<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/phyloseq/topics/sample_data-methods">sample_data</a></span>(obj), </a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">metadata &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(phyloseq<span class="op">::</span><span class="kw">sample_data</span>(obj), </a>
 <a class="sourceLine" id="cb3-12" data-line-number="12">                       <span class="dt">check.names =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb3-13" data-line-number="13">                       )</a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"></a>

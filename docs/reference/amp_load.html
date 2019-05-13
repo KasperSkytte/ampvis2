@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.8</span>
       </span>
     </div>
 
@@ -155,7 +155,7 @@
     </tr>
     <tr>
       <th>tree</th>
-      <td><p>(<em>optional</em>) Phylogenetic tree of class <code>"phylo"</code> as loaded with <code><a href='https://www.rdocumentation.org/packages/ape/topics/read.tree'>read.tree</a></code>. (<em>default:</em> <code>NULL</code>)</p></td>
+      <td><p>(<em>optional</em>) Phylogenetic tree of class <code>"phylo"</code> as loaded with <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>read.tree</a></code>. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     </table>
     
@@ -178,7 +178,7 @@
 <li><p>The column names of the data frame are the sample IDs, exactly matching those in the metadata, (and the last 7 columns named <code>Kingdom</code> -&gt; <code>Species</code>, of course). Thus, the first row should contain the read counts of one of the OTUs in each sample, NOT the sample IDs and taxonomy.</p></li>
 <li><p>Generally avoid special characters and spaces in row- and column names.</p></li>
 </ul>
-    <p>A minimal example is available with <code><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data("example_otutable")</a></code>.</p>
+    <p>A minimal example is available with <code><a href='https://rdrr.io/r/utils/data.html'>data("example_otutable")</a></code>.</p>
     
     <h2 class="hasAnchor" id="the-metadata"><a class="anchor" href="#the-metadata"></a>The metadata</h2>
 
@@ -186,17 +186,17 @@
     <p>The metadata contains additional information about the samples, for example where each sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements:</p>
 <ul>
 <li><p>The sample IDs must be in the first column. These sample IDs must match exactly to those in the OTU-table.</p></li>
-<li><p>Column classes matter, categorical variables should be loaded either <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character()</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/factor'>as.factor()</a></code>, and continuous variables <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>as.numeric()</a></code>. See below.</p></li>
+<li><p>Column classes matter, categorical variables should be loaded either <code><a href='https://rdrr.io/r/base/character.html'>as.character()</a></code> or <code><a href='https://rdrr.io/r/base/factor.html'>as.factor()</a></code>, and continuous variables <code><a href='https://rdrr.io/r/base/numeric.html'>as.numeric()</a></code>. See below.</p></li>
 <li><p>Generally avoid special characters and spaces in row- and column names.</p></li>
 </ul>
-    <p>If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>as.numeric()</a></code>) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded <code><a href='https://www.rdocumentation.org/packages/base/topics/factor'>as.factor()</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character()</a></code> instead. This has consequences for the analysis as R treats them differently. Therefore either use the <code>colClasses = </code> argument when loading a csv file or <code>col_types = </code> when loading an excel file, or manually adjust the column classes afterwards with fx <code>metadata$Year &lt;- as.character(metadata$Year)</code>.</p>
+    <p>If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (<code><a href='https://rdrr.io/r/base/numeric.html'>as.numeric()</a></code>) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded <code><a href='https://rdrr.io/r/base/factor.html'>as.factor()</a></code> or <code><a href='https://rdrr.io/r/base/character.html'>as.character()</a></code> instead. This has consequences for the analysis as R treats them differently. Therefore either use the <code>colClasses = </code> argument when loading a csv file or <code>col_types = </code> when loading an excel file, or manually adjust the column classes afterwards with fx <code>metadata$Year &lt;- as.character(metadata$Year)</code>.</p>
 <p>The <code>amp_load</code> function will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis. Any unmatched samples between the otutable and metadata will be removed.</p>
-<p>A minimal example is available with <code><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data("example_metadata")</a></code>.</p>
+<p>A minimal example is available with <code><a href='https://rdrr.io/r/utils/data.html'>data("example_metadata")</a></code>.</p>
     
     <h2 class="hasAnchor" id="reference-sequences"><a class="anchor" href="#reference-sequences"></a>Reference sequences</h2>
 
     
-    <p>A fasta file with the raw sequences can be loaded as well, which will then be available in the refseq element of the ampvis2 object. These sequences will not be used in any ampvis2 function other than the two subset functions <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> and <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code>, so that they can be exported with <code><a href='amp_export_fasta.html'>amp_export_fasta</a></code>. The fasta file is loaded with the <code><a href='https://www.rdocumentation.org/packages/ape/topics/read.dna'>read.FASTA</a></code> function from the <code>ape</code> package.</p>
+    <p>A fasta file with the raw sequences can be loaded as well, which will then be available in the refseq element of the ampvis2 object. These sequences will not be used in any ampvis2 function other than the two subset functions <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> and <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code>, so that they can be exported with <code><a href='amp_export_fasta.html'>amp_export_fasta</a></code>. The fasta file is loaded with the <code><a href='https://rdrr.io/pkg/ape/man/read.dna.html'>read.FASTA</a></code> function from the <code>ape</code> package.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -207,7 +207,7 @@
     <pre class="examples"><div class='input'># Be sure to use the correct function to load your .csv files, see ?read.table()
 </div><span class='co'># NOT RUN {</span>
 <span class='co'># Read the OTU-table as a data frame. It is important to set check.names = FALSE.</span>
-<span class='no'>myotutable</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/read.table'>read.delim</a></span>(<span class='st'>"data/otutable.txt"</span>, <span class='kw'>check.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>myotutable</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.delim</a></span>(<span class='st'>"data/otutable.txt"</span>, <span class='kw'>check.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># Read the metadata, often an excel sheet. If .csv make sure the first column will be kept and NOT</span>
 <span class='co'># loaded as rownames! The top row should be loaded column names</span>
@@ -225,7 +225,7 @@
 <span class='no'>d</span>
 <span class='co'># }</span><div class='input'>
 <span class='co'># Minimal example metadata:</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"example_metadata"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"example_metadata"</span>)
 <span class='no'>example_metadata</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 4</span><span>
 #&gt;   SampleID    Plant     Date                 Year
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -238,7 +238,7 @@
 #&gt; </span><span style='color: #BCBCBC;'>7</span><span> 16SAMP_4597 Aalborg W 2014-08-18 </span><span style='color: #949494;'>00:00:00</span><span>  </span><span style='text-decoration: underline;'>2</span><span>014
 #&gt; </span><span style='color: #BCBCBC;'>8</span><span> 16SAMP_4603 Aalborg W 2014-11-12 </span><span style='color: #949494;'>00:00:00</span><span>  </span><span style='text-decoration: underline;'>2</span><span>014</div><div class='input'>
 <span class='co'># Minimal example otutable:</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"example_otutable"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"example_otutable"</span>)
 <span class='no'>example_otutable</span></div><div class='output co'>#&gt;        16SAMP_3893 16SAMP_3913 16SAMP_3941 16SAMP_3946 16SAMP_3953 16SAMP_4591
 #&gt; OTU_1           23          15         273          51         127         190
 #&gt; OTU_2          675         565         331         411         430         780

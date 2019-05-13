@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.8</span>
       </span>
     </div>
 
@@ -156,11 +156,11 @@
     </tr>
     <tr>
       <th>richness</th>
-      <td><p>(<em>logical</em>) Also calculate sample richness estimates (Chao1 and ACE) as calculated by <code><a href='https://www.rdocumentation.org/packages/vegan/topics/specpool'>estimateR</a></code>. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <td><p>(<em>logical</em>) Also calculate sample richness estimates (Chao1 and ACE) as calculated by <code><a href='https://rdrr.io/pkg/vegan/man/specpool.html'>estimateR</a></code>. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>rarefy</th>
-      <td><p>Rarefy species richness to this value before calculating alpha diversity and/or richness. Passed directly as the <code>sample</code> argument to <code><a href='https://www.rdocumentation.org/packages/vegan/topics/rarefy'>rrarefy</a></code>. (<em>default:</em> <code>NULL</code>)</p></td>
+      <td><p>Rarefy species richness to this value before calculating alpha diversity and/or richness. Passed directly as the <code>sample</code> argument to <code><a href='https://rdrr.io/pkg/vegan/man/rarefy.html'>rrarefy</a></code>. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     </table>
     
@@ -170,7 +170,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The alpha-diversity indices are calculated per sample using the vegan function <code><a href='https://www.rdocumentation.org/packages/vegan/topics/diversity'>diversity</a></code>, where the read abundances are first rarefied using <code><a href='https://www.rdocumentation.org/packages/vegan/topics/rarefy'>rrarefy</a></code> by the size of the <code>rarefy</code> argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.</p>
+    <p>The alpha-diversity indices are calculated per sample using the vegan function <code><a href='https://rdrr.io/pkg/vegan/man/diversity.html'>diversity</a></code>, where the read abundances are first rarefied using <code><a href='https://rdrr.io/pkg/vegan/man/rarefy.html'>rrarefy</a></code> by the size of the <code>rarefy</code> argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -185,12 +185,12 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'># Subsample/rarefy to 20000 reads and then calculate</span>
 <span class='co'># Shannon and Simpson alpha-diversity indices</span>
 <span class='no'>alphadiversityresult</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_alphadiv</span>(<span class='no'>AalborgWWTPs</span>,
-  <span class='kw'>measure</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"shannon"</span>, <span class='st'>"simpson"</span>),
+  <span class='kw'>measure</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"shannon"</span>, <span class='st'>"simpson"</span>),
   <span class='kw'>rarefy</span> <span class='kw'>=</span> <span class='fl'>20000</span>
 )</div><div class='output co'>#&gt; <span class='message'>The following sample(s) have not been rarefied (less than 20000 reads):</span>
 #&gt; <span class='message'>16SAMP-703, 16SAMP-739, 16SAMP-10907</span></div><div class='input'>
