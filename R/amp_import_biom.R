@@ -49,8 +49,14 @@ amp_import_biom <- function(file) {
       x$id
     })
     tax <- t(as.data.frame(taxlist, check.names = FALSE, stringsAsFactors = FALSE))
-    colnames(tax) <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
-    otutable <- cbind(abund, tax)
+
+    # rename taxonomic levels
+    if (ncol(tax) == 7L) {
+      colnames(tax) <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+    }
+
+    # combine abundances and taxonomy and return
+    otutable <- cbind(abund, tax) # no need for merge()
     return(otutable)
   } else if (tolower(tools::file_ext(file)) != "biom") {
     stop("The provided file is not in .biom format", call. = FALSE)
