@@ -25,11 +25,16 @@ amp_import_biom <- function(file) {
     x <- biomformat::read_biom(file)
 
     # error if no taxonomy found in the file
-    if (all(sapply(sapply(x$rows, function(x) {
-      x$metadata
-    }), is.null))) {
-      stop("Cannot find taxonomy in the provided .biom file", call. = FALSE)
-    }
+    x$rows %>%
+      lapply(function(row) {
+        row$metadata$taxonomy
+      }) %>%
+      unlist(use.names = FALSE) %>%
+      is.null() %>%
+      all() %>%
+      if (.) {
+        stop("Cannot find the taxonomy of one or more OTU's in the provided .biom file", call. = FALSE)
+      }
 
     # extract OTU read counts
     abund <- biomformat::biom_data(x) %>%
