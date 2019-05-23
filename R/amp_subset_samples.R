@@ -12,6 +12,7 @@
 #' @return A modifed ampvis2 object
 #'
 #' @importFrom stringr str_split
+#' @importFrom dplyr filter
 #'
 #' @export
 #'
@@ -124,7 +125,8 @@ amp_subset_samples <- function(data,
   }
 
   # Subset metadata based on ...
-  data$metadata <- subset(data$metadata, ...)
+  data$metadata <- dplyr::filter(data$metadata, ...)
+  rownames(data$metadata) <- data$metadata[[1]]
   if (nrow(data$metadata) == 0) {
     stop("The subset resulted in empty data", call. = FALSE)
   }
