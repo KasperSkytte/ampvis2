@@ -495,9 +495,19 @@ amp_heatmap <- function(data,
       names$Genus <- as.character(names$Genus)
 
       # Merge the genus and function information
-      nameFunc <- merge(x = names, y = function_data[, c("Genus", functions)], all.x = TRUE, all.y = FALSE)
+      nameFunc <- merge(
+        x = names,
+        y = function_data[, c("Genus", functions)],
+        all.x = TRUE,
+        all.y = FALSE
+      )
       nameFunc[is.na(nameFunc)] <- "NT"
-      nameFuncM <- data.table::melt(nameFunc, id.vars = "Genus", value.name = "Value", variable.name = "Function")
+      nameFuncM <- data.table::melt(
+        data.table::as.data.table(nameFunc),
+        id.vars = "Genus",
+        value.name = "Value",
+        variable.name = "Function"
+      )
       nameFuncM$Value <- factor(nameFuncM$Value, levels = c("POS", "VAR", "NEG", "NT"))
       nameFuncM$Genus <- factor(nameFuncM$Genus, levels = names$Genus)
 
