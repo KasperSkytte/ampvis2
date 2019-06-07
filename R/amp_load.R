@@ -6,6 +6,7 @@
 #' @param metadata (\emph{required}) Sample metadata (dataframe) with information about the samples. If none provided, dummy metadata will be created.
 #' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})
 #' @param tree (\emph{optional}) Phylogenetic tree of class \code{"phylo"} as loaded with \code{\link[ape]{read.tree}}. (\emph{default:} \code{NULL})
+#' @param pruneSingletons (\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})
 #'
 #' @return A list of class \code{"ampvis2"} with 3 to 5 elements.
 #'
@@ -83,7 +84,11 @@
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 #'
-amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
+amp_load <- function(otutable,
+                     metadata = NULL,
+                     fasta = NULL,
+                     tree = NULL,
+                     pruneSingletons = FALSE) {
   ### check data
   otutable <- as.data.frame(otutable)
 
@@ -140,10 +145,33 @@ amp_load <- function(otutable, metadata = NULL, fasta = NULL, tree = NULL) {
   otutable$Genus <- trim(as.character(otutable$Genus))
   otutable$Species <- trim(as.character(otutable$Species))
 
-  ### Abundance: all columns from otutable except the first and last 7 and convert to numeric for downstream compliance
+  ### Abundance: all columns from otutable except the first and last 7 and convert to numeric
   abund <- lapply(otutable[, 1:(ncol(otutable) - 7), drop = FALSE], as.numeric) %>%
     as.data.frame(check.names = FALSE, row.names = rownames(otutable))
-  abund[is.na(abund)] <- 0
+  abund[is.na(abund)] <- 0L
+
+  # prune singletons, check if abundances are whole numbers
+  if (isTRUE(pruneSingletons)) {
+    if (any(abund %% 1 != 0L)) {
+      stop("The data contains non-integer values, cannot identify singletons.", call. = FALSE)
+    } else {
+      nOTUsBefore <- nrow(abund)
+      abund <- abund[-which(as.integer(rowSums(abund)) == 1L), , drop = FALSE]
+      nSingletons <- nOTUsBefore - nrow(abund)
+      message(
+        paste0(
+          nSingletons,
+          if (nSingletons == 1L) {
+            " singleton has "
+          } else {
+            " singletons have "
+          },
+          "been removed"
+        )
+      )
+    }
+  }
+
   abund0 <- abund
   metadata0 <- metadata
 

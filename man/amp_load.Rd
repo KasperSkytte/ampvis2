@@ -4,7 +4,8 @@
 \alias{amp_load}
 \title{Load data for ampvis functions}
 \usage{
-amp_load(otutable, metadata = NULL, fasta = NULL, tree = NULL)
+amp_load(otutable, metadata = NULL, fasta = NULL, tree = NULL,
+  pruneSingletons = FALSE)
 }
 \arguments{
 \item{otutable}{(\emph{required}) OTU-table (data frame) with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species).}
@@ -14,6 +15,8 @@ amp_load(otutable, metadata = NULL, fasta = NULL, tree = NULL)
 \item{fasta}{(\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})}
 
 \item{tree}{(\emph{optional}) Phylogenetic tree of class \code{"phylo"} as loaded with \code{\link[ape]{read.tree}}. (\emph{default:} \code{NULL})}
+
+\item{pruneSingletons}{(\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})}
 }
 \value{
 A list of class \code{"ampvis2"} with 3 to 5 elements.
