@@ -10,13 +10,13 @@ amp_subset_samples(data, ..., minreads = 0, rarefy = NULL,
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{...}{Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to \code{subset()}.}
+\item{...}{Logical expression indicating elements or rows to keep in the metadata. Missing values are treated as \code{FALSE}. Passed directly to \code{\link[dplyr]{filter}}.}
 
 \item{minreads}{Minimum number of reads pr. sample. Samples below this value will be removed \emph{initially}. (\emph{default:} \code{0})}
 
 \item{rarefy}{Rarefy species richness to this value by using \code{\link[vegan]{rrarefy}}. This is done \emph{initially}, but \emph{after} filtering based on the \code{minreads} value, if set. (\emph{default:} \code{NULL})}
 
-\item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample \code{AFTER} the OTU's have been removed by the \code{minreads} argument. (\emph{default:} \code{FALSE})}
+\item{normalise}{(\emph{logical}) Normalise the OTU read counts to 100 (ie percent) per sample \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
 
 \item{removeAbsents}{(\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})}
 }
