@@ -4,15 +4,15 @@
 \alias{amp_subset_taxa}
 \title{Subset ampvis2 objects based on taxonomy}
 \usage{
-amp_subset_taxa(data, tax_vector = c("p__Chloroflexi",
-  "p__Actinobacteria"), normalise = FALSE, remove = FALSE)
+amp_subset_taxa(data, tax_vector = NULL, normalise = FALSE,
+  remove = FALSE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{tax_vector}{(required) A vector with the taxonomic groups with which to perform the subset. The prefixes \code{"k__"}, \code{"p__"}, \code{"c__"}, \code{"o__"}, \code{"f__"}, \code{"g__"}, \code{"s__"} indicates their taxonomic rank and the following characters their name (almost always with a capital first letter), e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}.}
+\item{tax_vector}{A character vector with the exact names of taxa to keep. This vector is matched as-is on all taxonomic ranks, so remember to use prefixes if used in your taxonomy, e.g. \code{c("p__Chloroflexi","p__Actinobacteria")}. (\emph{default:} \code{NULL})}
 
-\item{normalise}{(\emph{logical}) \code{BEFORE} the subset, transform the OTU read counts to be in percent per sample. (\emph{default:} \code{FALSE})}
+\item{normalise}{(\emph{logical}) Normalise the OTU read counts to 100 (ie percent) per sample \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
 
 \item{remove}{(\emph{logical}) If set to TRUE, then the taxa matching the provided vector will be removed instead of being the only ones kept in the data. (\emph{default:} \code{FALSE})}
 }
