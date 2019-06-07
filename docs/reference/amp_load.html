@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
       </span>
     </div>
 
@@ -136,7 +136,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_load</span>(<span class='no'>otutable</span>, <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fasta</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_load</span>(<span class='no'>otutable</span>, <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fasta</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pruneSingletons</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,6 +157,10 @@
     <tr>
       <th>tree</th>
       <td><p>(<em>optional</em>) Phylogenetic tree of class <code>"phylo"</code> as loaded with <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>read.tree</a></code>. (<em>default:</em> <code>NULL</code>)</p></td>
+    </tr>
+    <tr>
+      <th>pruneSingletons</th>
+      <td><p>(<em>logical</em>) Remove OTU's only observed once in all samples. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     </table>
     

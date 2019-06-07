@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Logical expression indicating elements or rows to keep in the metadata. Missing values are taken as false. Directly passed to <code><a href='https://rdrr.io/r/base/subset.html'>subset()</a></code>.</p></td>
+      <td><p>Logical expression indicating elements or rows to keep in the metadata. Missing values are treated as <code>FALSE</code>. Passed directly to <code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></code>.</p></td>
     </tr>
     <tr>
       <th>minreads</th>
@@ -160,7 +160,7 @@
     </tr>
     <tr>
       <th>normalise</th>
-      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample <code>AFTER</code> the OTU's have been removed by the <code>minreads</code> argument. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <td><p>(<em>logical</em>) Normalise the OTU read counts to 100 (ie percent) per sample <em>BEFORE</em> the subset. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>removeAbsents</th>
