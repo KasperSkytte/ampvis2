@@ -96,7 +96,7 @@ amp_subset_taxa <- function(data,
     stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().", call. = FALSE)
   }
 
-  nOTUsbefore <- nrow(data$abund) %>% as.numeric()
+  nOTUsbefore <- nrow(data$abund)
 
   # normalise counts
   if (isTRUE(normalise)) {
@@ -137,7 +137,7 @@ amp_subset_taxa <- function(data,
   } else if (!isTRUE(remove)) {
     data$tax <- newtax
   }
-  data$abund <- data$abund[rownames(data$tax), ]
+  data$abund <- data$abund[rownames(data$abund) %in% rownames(data$tax), , drop = FALSE]
 
   if (isTRUE(normalise)) {
     tempabund <- tempabund[which(rownames(tempabund) %in% rownames(data$abund)), , drop = FALSE]
@@ -155,7 +155,7 @@ amp_subset_taxa <- function(data,
     data$refseq <- data$refseq[rownames(data$tax)]
   }
 
-  nOTUsafter <- nrow(data$abund) %>% as.numeric()
+  nOTUsafter <- nrow(data$abund)
   if (nOTUsbefore == nOTUsafter) {
     message("0 OTU's have been filtered.")
   } else {
