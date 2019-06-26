@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.11</span>
       </span>
     </div>
 
@@ -139,7 +139,7 @@
     <pre class="usage"><span class='fu'>amp_otu_network</span>(<span class='no'>data</span>, <span class='kw'>min_abundance</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>color_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>, <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tax_show</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>tax_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tax_empty</span> <span class='kw'>=</span> <span class='st'>"best"</span>, <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>detailed_output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>detailed_output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,6 +187,10 @@
     <tr>
       <th>detailed_output</th>
       <td><p>(<em>logical</em>) Return additional details or not. If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code><a href='https://rdrr.io/r/utils/View.html'>View(object$data)</a></code>. (<em>default:</em> <code>FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed on to <code><a href='https://rdrr.io/pkg/ggnet/man/ggnet2.html'>ggnet2</a></code>.</p></td>
     </tr>
     </table>
     

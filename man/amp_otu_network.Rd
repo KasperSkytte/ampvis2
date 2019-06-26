@@ -7,7 +7,7 @@
 amp_otu_network(data, min_abundance = 0, color_by = NULL,
   tax_aggregate = "Phylum", tax_add = NULL, tax_show = 10,
   tax_class = NULL, tax_empty = "best", normalise = TRUE,
-  detailed_output = FALSE)
+  detailed_output = FALSE, ...)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
@@ -34,6 +34,8 @@ amp_otu_network(data, min_abundance = 0, color_by = NULL,
 \item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
 
 \item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
+
+\item{...}{Additional arguments passed on to \code{\link[ggnet]{ggnet2}}.}
 }
 \value{
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
