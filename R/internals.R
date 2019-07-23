@@ -468,3 +468,53 @@ aggregate_abund <- function(abund,
   }
   return(out)
 }
+
+#' Gather the data into one long-format dataframe, suitable for custom analysis (internal function)
+#'
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
+#' @param metavars (\emph{optional}) Columns from mtgene/mtmeta to keep. (\emph{default:} \code{NULL} (all columns))
+#'
+#' @importFrom dplyr inner_join one_of select everything
+#' @importFrom data.table melt
+#' @importFrom tidyr gather
+#'
+#' @return A data.frame in long format. The OTU counts is stored in the \code{Counts} column.
+#' @export
+#'
+#' @author Thomas Yssing Michaelsen \email{tym@@bio.aau.dk}
+
+amp_gather <- function(data,metavars = c("SampleID","OTU")){
+  
+  "%w/o%" <- function(x, y) x[!x %in% y]
+  
+  samps <- colnames(data$abund)
+  
+  # Setup the vectors for column selection (select all if metavars = NULL).
+  if(is.null(metavars)) metavars <- c(colnames(data$tax),colnames(data$metadata))
+  
+  metaV <- metavars %w/o% c(colnames(data$metadata)[1],colnames(data$tax))
+  otuV  <- metavars %w/o% c("OTU",colnames(data$metadata))
+  if (!all(metaV %in% colnames(data$metadata)) | !all(otuV %in% colnames(data$tax)))
+    stop("'metavars' must be valid column names from either mtgene or mtmeta.",call. = FALSE)
+  
+  # Join the taxonomy and abundance.
+  datlong <- merge(
+    subset(data$tax,select = c("OTU",otuV)),
+    data$abund,by.x = "OTU",by.y = 0)
+  
+  datlong <- data.table::melt(setDT(datlong),
+                              id.vars         = colnames(datlong) %w/o% samps,
+                              measure.vars    = samps,
+                              value.name      = "Count",
+                              variable.name   = colnames(data$metadata)[1],
+                              variable.factor = F)
+  
+  # Join with metadata.
+  datlong <- inner_join(
+    subset(data$metadata,select = c(colnames(data$metadata)[1],metaV)),
+    datlong,by = colnames(data$metadata)[1])
+  
+  # Set correct column order.
+  datlong <- datlong[,c(colnames(data$metadata)[1],"OTU","Count",metaV,otuV)]
+  return(datlong)
+}
