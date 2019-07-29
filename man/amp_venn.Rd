@@ -12,13 +12,13 @@ amp_venn(data, group_by = NULL, cut_a = 0.1, cut_f = 80,
 
 \item{group_by}{Group the data based on a sample metadata variable. \code{amp_venn} currently only supports a maximum of 3 different groups.}
 
-\item{cut_a}{Abundance cutoff in percent. (\emph{default:} \code{0.1})}
+\item{cut_a}{Abundance cutoff in percent. OTU's below this abundance are excluded from the analysis. (\emph{default:} \code{0.1})}
 
-\item{cut_f}{Frequency cutoff in percent. (\emph{default:} \code{80})}
+\item{cut_f}{Frequency cutoff in percent. OTU's within the top \code{cut_f} of the reads are considered a "core" OTU. (\emph{default:} \code{80})}
 
 \item{text_size}{Size of the plotted text. (\emph{default:} \code{5})}
 
-\item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
+\item{normalise}{(\emph{logical}) Normalise the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
 
 \item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
@@ -39,6 +39,9 @@ data("AalborgWWTPs")
 
 # Venn diagram grouped by WWTP
 amp_venn(AalborgWWTPs, group_by = "Plant")
+}
+\references{
+[Saunders et al, 2016](https://www.nature.com/articles/ismej2015117)
 }
 \seealso{
 \code{\link{amp_load}}

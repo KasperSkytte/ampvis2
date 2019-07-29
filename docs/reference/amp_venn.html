@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.12</span>
       </span>
     </div>
 
@@ -152,11 +152,11 @@
     </tr>
     <tr>
       <th>cut_a</th>
-      <td><p>Abundance cutoff in percent. (<em>default:</em> <code>0.1</code>)</p></td>
+      <td><p>Abundance cutoff in percent. OTU's below this abundance are excluded from the analysis. (<em>default:</em> <code>0.1</code>)</p></td>
     </tr>
     <tr>
       <th>cut_f</th>
-      <td><p>Frequency cutoff in percent. (<em>default:</em> <code>80</code>)</p></td>
+      <td><p>Frequency cutoff in percent. OTU's within the top <code>cut_f</code> of the reads are considered a "core" OTU. (<em>default:</em> <code>80</code>)</p></td>
     </tr>
     <tr>
       <th>text_size</th>
@@ -164,7 +164,7 @@
     </tr>
     <tr>
       <th>normalise</th>
-      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></td>
+      <td><p>(<em>logical</em>) Normalise the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></td>
     </tr>
     <tr>
       <th>detailed_output</th>
@@ -180,6 +180,10 @@
 
     
     <p>See <code>?<a href='amp_subset_samples.html'>amp_subset_samples</a></code> or the <a href='https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data'>ampvis2 FAQ</a>.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>[Saunders et al, 2016](https://www.nature.com/articles/ismej2015117)</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -201,6 +205,8 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#preserving-relative-abundances-in-a-subset-of-larger-data">Preserving relative abundances in a subset of larger data</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

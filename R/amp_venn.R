@@ -4,10 +4,10 @@
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param group_by Group the data based on a sample metadata variable. \code{amp_venn} currently only supports a maximum of 3 different groups.
-#' @param cut_a Abundance cutoff in percent. (\emph{default:} \code{0.1})
-#' @param cut_f Frequency cutoff in percent. (\emph{default:} \code{80})
+#' @param cut_a Abundance cutoff in percent. OTU's below this abundance are excluded from the analysis. (\emph{default:} \code{0.1})
+#' @param cut_f Frequency cutoff in percent. OTU's within the top \code{cut_f} of the reads are considered a "core" OTU. (\emph{default:} \code{80})
 #' @param text_size Size of the plotted text. (\emph{default:} \code{5})
-#' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
+#' @param normalise (\emph{logical}) Normalise the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #'
 #' @return A ggplot2 object.
@@ -30,6 +30,8 @@
 #'
 #' # Venn diagram grouped by WWTP
 #' amp_venn(AalborgWWTPs, group_by = "Plant")
+#' @references
+#' [Saunders et al, 2016](https://www.nature.com/articles/ismej2015117)
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
