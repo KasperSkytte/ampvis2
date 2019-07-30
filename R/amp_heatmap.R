@@ -143,9 +143,7 @@ amp_heatmap <- function(data,
                         rel_widths = c(0.75, 0.25)) {
 
   ### Data must be in ampvis2 format
-  if (class(data) != "ampvis2") {
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
-  }
+  is_ampvis2(data)
 
   ## Clean up the taxonomy
   data <- amp_rename(

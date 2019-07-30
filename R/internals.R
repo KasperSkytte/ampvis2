@@ -468,3 +468,17 @@ aggregate_abund <- function(abund,
   }
   return(out)
 }
+
+#' Check if data has class "ampvis2"
+#'
+#' @description Checks if the object is of class "ampvis2".
+#'
+#' @param data Object to check
+#'
+#' @return Returns nothing, only error if \code{class(data) != "ampvis"}.
+is_ampvis2 <- function(data) {
+  if (class(data) != "ampvis2") {
+    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
+  }
+  invisible()
+}

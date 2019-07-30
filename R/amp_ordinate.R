@@ -196,9 +196,7 @@ amp_ordinate <- function(data,
                          ...) {
 
   ### Data must be in ampvis2 format
-  if (class(data) != "ampvis2") {
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
-  }
+  is_ampvis2(data)
 
   ##### Sanity check of options  #####
   if (species_plotly == TRUE & !is.null(sample_plotly)) {

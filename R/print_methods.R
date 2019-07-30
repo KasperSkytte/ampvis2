@@ -24,6 +24,9 @@ print.hmfunplot <- function(x, ...) {
 #' @export
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 print.ampvis2 <- function(x, ...) {
+  ### Data must be in ampvis2 format
+  is_ampvis2(x)
+
   ### calculate basic statistics and useful information about the data, print it
   if (!isTRUE(attributes(x)$normalised)) {
     # calculate basic stats and store in attributes for use in print.ampvis2

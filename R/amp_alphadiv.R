@@ -49,9 +49,7 @@ amp_alphadiv <- function(data,
                          richness = FALSE,
                          rarefy = NULL) {
   ### Data must be in ampvis2 format
-  if (class(data) != "ampvis2") {
-    stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
-  }
+  is_ampvis2(data)
 
   # check measures
   validMeasures <- c("observed", "shannon", "simpson", "invsimpson")
