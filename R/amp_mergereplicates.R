@@ -30,6 +30,7 @@
 #' )
 #' dmerged$metadata
 #' dmerged
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 amp_mergereplicates <- function(data,
                                 merge_var,
                                 round = NULL) {

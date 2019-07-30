@@ -80,7 +80,6 @@
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 #' @author Rasmus Hansen Kirkegaard \email{rhk@@bio.aau.dk}
 
-
 amp_subset_taxa <- function(data,
                             tax_vector = NULL,
                             normalise = FALSE,

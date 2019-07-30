@@ -30,3 +30,8 @@ d_long <- amp_export_long(d, metadata_vars = NULL, tax_levels = c("OTU", "Genus"
 # print the data frame (data.table)
 d_long
 }
+\author{
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
+
+Thomas Yssing Michaelsen \email{tym@bio.aau.dk}
+}

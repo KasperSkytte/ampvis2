@@ -19,6 +19,8 @@
 #'
 #' # print the data frame (data.table)
 #' d_long
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @author Thomas Yssing Michaelsen \email{tym@@bio.aau.dk}
 amp_export_long <- function(data,
                             metadata_vars = colnames(data$metadata),
                             tax_levels = colnames(data$tax)) {
