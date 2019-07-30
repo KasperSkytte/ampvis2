@@ -21,10 +21,14 @@ amp_rarefy <- function(data, rarefy) {
     if (rarefy > maxreads) {
       stop("The chosen rarefy size is larger than the largest amount of reads in any sample (", as.character(maxreads), ").", call. = FALSE)
     } else if (rarefy < minreads) {
-      data$abund <- suppressWarnings(vegan::rrarefy(t(data$abund), sample = rarefy)) %>% t() %>% as.data.frame()
+      data$abund <- suppressWarnings(vegan::rrarefy(t(data$abund), sample = rarefy)) %>%
+        t() %>%
+        as.data.frame()
       warning("The chosen rarefy size (", as.character(rarefy), ") is smaller than the smallest amount of reads in any sample (", as.character(minreads), ").", call. = FALSE)
     } else {
-      data$abund <- suppressWarnings(vegan::rrarefy(t(data$abund), sample = rarefy)) %>% t() %>% as.data.frame()
+      data$abund <- suppressWarnings(vegan::rrarefy(t(data$abund), sample = rarefy)) %>%
+        t() %>%
+        as.data.frame()
       if (minreads < rarefy) {
         message("The following sample(s) have not been rarefied (less than ", as.character(rarefy), " reads):\n", paste(rownames(data$metadata[which(reads < rarefy), ]), collapse = ", "))
       }
@@ -482,3 +486,7 @@ is_ampvis2 <- function(data) {
   }
   invisible()
 }
+
+#' Replacement for ":::" to suppress R CMD CHECK warnings
+`%:::%` <- function(pkg, fun)
+  get(fun, envir = asNamespace(pkg), inherits = FALSE)
