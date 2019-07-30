@@ -31,13 +31,13 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_export_fasta.html</loc>
   </url>
   <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_export_long.html</loc>
+  </url>
+  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_export_otutable.html</loc>
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_frequency.html</loc>
-  </url>
-  <url>
-    <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_gather.html</loc>
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_heatmap.html</loc>
@@ -101,6 +101,12 @@
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/getLowestTaxLvl.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/grapes-colon-colon-colon-grapes.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/is_ampvis2.html</loc>
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/print.ampvis2.html</loc>
