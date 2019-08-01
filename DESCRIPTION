@@ -43,6 +43,6 @@ Imports:
     parallel,
     foreach
 Remotes: 
-    github::briatte/ggnet,
-    github::joey711/biomformat
+    github::kasperskytte/ggnet,
+    github::kasperskytte/biomformat
 RoxygenNote: 6.1.1
