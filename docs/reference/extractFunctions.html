@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Functional information tool — amp_cleanMiF • ampvis2</title>
+<title>Extract functional information about Genera from the MiDAS field guide — extractFunctions • ampvis2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -37,9 +37,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Functional information tool — amp_cleanMiF" />
+<meta property="og:title" content="Extract functional information about Genera from the MiDAS field guide — extractFunctions" />
 
-<meta property="og:description" content="Makes raw MiDAS function data compatible with ampvis format. Internal function, not exported." />
+<meta property="og:description" content="Extract field related to properties and metabolism of all Genera from a list obtained by getMiDASFGData and return in a data frame." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.13</span>
       </span>
     </div>
 
@@ -125,31 +125,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Functional information tool</h1>
+    <h1>Extract functional information about Genera from the MiDAS field guide</h1>
     
-    <div class="hidden name"><code>amp_cleanMiF.Rd</code></div>
+    <div class="hidden name"><code>extractFunctions.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Makes raw MiDAS function data compatible with ampvis format. Internal function, not exported.</p>
+    <p>Extract field related to properties and metabolism of all Genera from a list obtained by <code><a href='getMiDASFGData.html'>getMiDASFGData</a></code> and return in a data frame.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_cleanMiF</span>(<span class='no'>data</span>)</pre>
+    <pre class="usage"><span class='fu'>extractFunctions</span>(<span class='no'>FGList</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>(required) A data frame with MiDAS functions.</p></td>
+      <th>FGList</th>
+      <td><p>Data list obtained by <code><a href='getMiDASFGData.html'>getMiDASFGData</a></code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame.</p>
+    <p>A data frame where each row is a Genus and each column is a "function".</p>
     
 
   </div>
@@ -162,7 +162,7 @@
           </ul>
 
     <h2>Author</h2>
-    <p>Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a></p>
+    <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
   </div>
 </div>
 

@@ -14,8 +14,11 @@ getLowestTaxLvl(tax, tax_aggregate = NULL, tax_add = NULL)
 \item{tax_add}{A second character vector similar to \code{tax_aggregate}. (\emph{default:} \code{NULL})}
 }
 \value{
-A length one character vector with the lowest taxonomic level
+A length one character vector with the lowest taxonomic level.
 }
 \description{
 Finds the lowest taxonomic level of two given levels in \code{tax}. The hierarchic order of taxonomic levels is simply taken from the order of column names in \code{tax}
+}
+\author{
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }

@@ -32,9 +32,9 @@
 #' @param round Number of digits to show with the values. (\emph{default:} \code{1})
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
 #' @param textmap (\emph{logical}) Return a data frame to print as raw text instead of a ggplot2 object. (\emph{default:} \code{FALSE})
-#' @param plot_functions Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. When using this feature, make sure that either \code{tax_aggregate} is set to "Genus" or that \code{tax_add} contains "Genus". (\emph{default:} \code{FALSE})
-#' @param function_data If \code{plot_functions} is set to \code{TRUE}: A data frame with functional information about genus-level OTUs in each column. If \code{NULL} the \code{data("MiF")} dataset will be used. (\emph{default:} \code{NULL})
-#' @param functions If \code{plot_functions} is set to \code{TRUE}: A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})
+#' @param plot_functions Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. By default, this functional information is retrieved directly from \url{midasfieldguide.org}. When using this feature, make sure that either \code{tax_aggregate} or \code{tax_add} is set to "Genus" and that Genus is the lowest level in either. (\emph{default:} \code{FALSE})
+#' @param function_data If \code{plot_functions} is set to \code{TRUE}: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If \code{NULL} then data will be retrieved directly from \url{midasfieldguide.org}, if no internet access, the \code{data("MiF")} dataset will be used instead. (\emph{default:} \code{NULL})
+#' @param functions If \code{plot_functions} is set to \code{TRUE}: A vector with the functions to be displayed (column names in the \code{functions_data} data frame). If data is succesfully retrieved from \url{midasfieldguide.org} then available functions can be listed with \code{colnames(.ampvis2_midasfg_function_data)}. (\emph{default:} \code{c("MiDAS","Filamentous", "AOB", "NOB", "PAO", "GAO")})
 #' @param rel_widths If \code{plot_functions} is set to \code{TRUE}: A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})
 #'
 #' @return A ggplot2 object, or a data frame if \code{textmap = TRUE}.
@@ -86,6 +86,9 @@
 #' )
 #'
 #' # Heatmap with known functional information about the Genera shown to the right
+#' # By default this information is retrieved directly from midasfieldguide.org 
+#' # but you can provide your own with the function_data argument as shown in the 
+#' # textmap 
 #' amp_heatmap(AalborgWWTPs,
 #'   group_by = "Plant",
 #'   tax_aggregate = "Genus",
@@ -93,11 +96,13 @@
 #'   functions = c("PAO", "GAO", "AOB", "NOB")
 #' )
 #'
-#' # A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:
+#' # A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.
+#' # Notice the function_data is now retrieved from the MiF data frame
 #' textmap <- amp_heatmap(AalborgWWTPs,
 #'   group_by = "Plant",
 #'   tax_aggregate = "Genus",
 #'   plot_functions = TRUE,
+#'   function_data = MiF,
 #'   functions = c("PAO", "GAO", "AOB", "NOB"),
 #'   textmap = TRUE
 #' )
@@ -139,7 +144,7 @@ amp_heatmap <- function(data,
                         textmap = FALSE,
                         plot_functions = FALSE,
                         function_data = NULL,
-                        functions = c("MiDAS", "FIL", "AOB", "NOB", "PAO", "GAO"),
+                        functions = c("MiDAS", "Filamentous", "AOB", "NOB", "PAO", "GAO"),
                         rel_widths = c(0.75, 0.25)) {
 
   ### Data must be in ampvis2 format
@@ -165,16 +170,44 @@ amp_heatmap <- function(data,
   tax <- data[["tax"]]
   metadata <- data[["metadata"]]
 
-  # add functions check
+  # Checks an data if plot_functions = TRUE
   if (isTRUE(plot_functions)) {
     if (!any("Genus" %in% c(tax_add, tax_aggregate))) {
       stop("One of the arguments tax_add or tax_aggregate must contain \"Genus\"", call. = FALSE)
     }
-  }
-  # Retrieve the function data if not provided
-  if (is.null(function_data)) {
-    data(MiF, envir = environment())
-    function_data <- MiF
+
+    # Retrieve the function data from MiDAS fieldguide if none is provided
+    # Only once per session, save in a hidden object .ampvis2_midasfg_function_data
+    if (is.null(function_data)) {
+      if (!exists(".ampvis2_midasfg_function_data", envir = .GlobalEnv)) {
+        tryCatch({
+          function_data <- extractFunctions(getMiDASFGData())
+          assign(".ampvis2_midasfg_function_data", function_data, envir = .GlobalEnv)
+        },
+        error = function(e) {
+          warning("Could not reach midasfieldguide.org to retrieve functional information just now", call. = FALSE)
+          data(MiF, envir = environment())
+          function_data <- MiF
+        }
+        )
+      } else {
+        function_data <- .ampvis2_midasfg_function_data
+      }
+    }
+
+    # check if the chosen functions are in the function_data
+    checkFuncs <- functions %in% colnames(function_data)
+    if (!all(checkFuncs)) {
+      stop(
+        paste0(
+          "\"",
+          paste0(functions[!checkFuncs], collapse = "\", \""),
+          "\" not found in function_data. Available ones are:\n",
+          paste0(colnames(function_data)[-1], collapse = ", ")
+        ),
+        call. = FALSE
+      )
+    }
   }
 
   ## Coerce the group_by and facet_by variables to factor to always be considered categorical. Fx Year is automatically loaded as numeric by R, but it should be considered categorical.

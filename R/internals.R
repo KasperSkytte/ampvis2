@@ -1,11 +1,12 @@
-#' @title Rarefy ampvis2 object (internal function)
+#' @title Rarefy ampvis2 object
 #' @description This is just a wrapper of \code{\link[vegan]{rrarefy}} with convenient error messages and adjusted to work with ampvis2 objects.
+#'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param rarefy (\emph{required}) Passed directly to \code{\link[vegan]{rrarefy}}.
 #'
 #' @return An ampvis2 object with rarefied OTU abundances.
-#'
 #' @importFrom vegan rrarefy
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 amp_rarefy <- function(data, rarefy) {
   ### Data must be in ampvis2 format
   if (class(data) != "ampvis2") {
@@ -39,9 +40,8 @@ amp_rarefy <- function(data, rarefy) {
   return(data)
 }
 
-#' Tidy up taxonomy (internal function)
-#'
-#' Used internally in other ampvis functions.
+#' @title Tidy up taxonomy
+#' @description Used internally in other ampvis functions.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
@@ -54,9 +54,7 @@ amp_rarefy <- function(data, rarefy) {
 #' @param tax_level The taxonomic level to remove OTUs with no assigned taxonomy, only used when \code{tax_empty = "remove"}. (\emph{default:} \code{"Genus"})
 #'
 #' @return A list with 3 dataframes (4 if reference sequences are provided).
-#'
 #' @importFrom dplyr mutate
-#'
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "Genus") {
@@ -149,128 +147,65 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
   return(data)
 }
 
-#' Functional information tool
+#' @title Get data from the MiDAS field guide API
+#' @description Gets all fields from the MiDAS field guide (\url{https://midasfieldguide.org}) returned in a list.
 #'
-#' Makes raw MiDAS function data compatible with ampvis format. Internal function, not exported.
-#'
-#' @param data (required) A data frame with MiDAS functions.
-#' @importFrom dplyr mutate
-#' @return A data frame.
-#'
-#' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-amp_cleanMiF <- function(data) {
-  MiF <- mutate(data,
-    MiDAS = "POS",
-    FIL = paste(Filamentous.Other, Filamentous.In.situ),
-    FIL = ifelse(FIL %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", FIL),
-    FIL = ifelse(FIL %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", FIL),
-    FIL = ifelse(FIL %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", FIL),
-    FIL = ifelse(FIL == "NT NT", "NT", FIL),
-
-    AOB = paste(AOB.Other, AOB.In.situ),
-    AOB = ifelse(AOB %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", AOB),
-    AOB = ifelse(AOB %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", AOB),
-    AOB = ifelse(AOB %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", AOB),
-    AOB = ifelse(AOB == "NT NT", "NT", AOB),
-
-    NOB = paste(NOB.Other, NOB.In.situ),
-    NOB = ifelse(NOB %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", NOB),
-    NOB = ifelse(NOB %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", NOB),
-    NOB = ifelse(NOB %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", NOB),
-    NOB = ifelse(NOB == "NT NT", "NT", NOB),
-
-    Anammox = paste(Anammox.Other, Anammox.In.situ),
-    Anammox = ifelse(Anammox %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", Anammox),
-    Anammox = ifelse(Anammox %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", Anammox),
-    Anammox = ifelse(Anammox %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", Anammox),
-    Anammox = ifelse(Anammox == "NT NT", "NT", Anammox),
-
-    AU.MIX = paste(Autotroph.Mixotroph.Other, Autotroph.Mixotroph.In.situ),
-    AU.MIX = ifelse(AU.MIX %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", AU.MIX),
-    AU.MIX = ifelse(AU.MIX %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", AU.MIX),
-    AU.MIX = ifelse(AU.MIX %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", AU.MIX),
-    AU.MIX = ifelse(AU.MIX == "NT NT", "NT", AU.MIX),
-
-    PAO = paste(PAO.Other, PAO.In.situ),
-    PAO = ifelse(PAO %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", PAO),
-    PAO = ifelse(PAO %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", PAO),
-    PAO = ifelse(PAO %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", PAO),
-    PAO = ifelse(PAO == "NT NT", "NT", PAO),
-
-    GAO = paste(GAO.Other, GAO.In.situ),
-    GAO = ifelse(GAO %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", GAO),
-    GAO = ifelse(GAO %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", GAO),
-    GAO = ifelse(GAO %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", GAO),
-    GAO = ifelse(GAO == "NT NT", "NT", GAO),
-
-    HET = paste(Aerobic.heterotroph.Other, Aerobic.heterotroph.In.situ),
-    HET = ifelse(HET %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", HET),
-    HET = ifelse(HET %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", HET),
-    HET = ifelse(HET %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", HET),
-    HET = ifelse(HET == "NT NT", "NT", HET),
-
-    DN = paste(Nitrite.reduction.Other, Nitrite.reduction.In.situ),
-    DN = ifelse(DN %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", DN),
-    DN = ifelse(DN %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", DN),
-    DN = ifelse(DN %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", DN),
-    DN = ifelse(DN == "NT NT", "NT", DN),
-
-    FER = paste(Fermentation.Other, Fermentation.In.situ),
-    FER = ifelse(FER %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", FER),
-    FER = ifelse(FER %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", FER),
-    FER = ifelse(FER %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", FER),
-    FER = ifelse(FER == "NT NT", "NT", FER),
-
-    SUL = paste(Sulphate.reduction.Other, Sulphate.reduction.In.situ),
-    SUL = ifelse(SUL %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", SUL),
-    SUL = ifelse(SUL %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", SUL),
-    SUL = ifelse(SUL %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", SUL),
-    SUL = ifelse(SUL == "NT NT", "NT", SUL),
-
-    ACE = paste(Acetogen.Other, Acetogen.In.situ),
-    ACE = ifelse(ACE %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", ACE),
-    ACE = ifelse(ACE %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", ACE),
-    ACE = ifelse(ACE %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", ACE),
-    ACE = ifelse(ACE == "NT NT", "NT", ACE),
-
-    MET = paste(Methanogen.Other, Methanogen.In.situ),
-    MET = ifelse(MET %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", MET),
-    MET = ifelse(MET %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", MET),
-    MET = ifelse(MET %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", MET),
-    MET = ifelse(MET == "NT NT", "NT", MET),
-
-    FA = paste(Fatty.acids.Other, Fatty.acids.In.situ),
-    FA = ifelse(FA %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", FA),
-    FA = ifelse(FA %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", FA),
-    FA = ifelse(FA %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", FA),
-    FA = ifelse(FA == "NT NT", "NT", FA),
-
-    SUG = paste(Sugars.Other, Sugars.In.situ),
-    SUG = ifelse(SUG %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", SUG),
-    SUG = ifelse(SUG %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", SUG),
-    SUG = ifelse(SUG %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", SUG),
-    SUG = ifelse(SUG == "NT NT", "NT", SUG),
-
-    PRO = paste(Proteins.Amino.acids.Other, Proteins.Amino.acids.In.situ),
-    PRO = ifelse(PRO %in% c("POS POS", "NEG POS", "NT POS", "POS NT", "POS VAR", "VAR POS"), "POS", PRO),
-    PRO = ifelse(PRO %in% c("NEG NEG", "POS NEG", "NT NEG", "NEG NT", "VAR NEG"), "NEG", PRO),
-    PRO = ifelse(PRO %in% c("VAR NT", "NT VAR", "NEG VAR", "VAR VAR"), "VAR", PRO),
-    PRO = ifelse(PRO == "NT NT", "NT", PRO)
-  )
-  return(MiF)
+#' @return A list with all fields.
+#' @importFrom jsonlite read_json
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+getMiDASFGData <- function() {
+  jsonlite::read_json("http://midas.programming.cool/api/microbes/fieldguide")
 }
 
-#' Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq
+#' @title Extract functional information about Genera from the MiDAS field guide
+#' @description Extract field related to properties and metabolism of all Genera from a list obtained by \code{\link{getMiDASFGData}} and return in a data frame.
+#'
+#' @param FGList Data list obtained by \code{\link{getMiDASFGData}}.
+#'
+#' @return A data frame where each row is a Genus and each column is a "function".
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+extractFunctions <- function(FGList) {
+  functions <- lapply(FGList, function(x) {
+    outList <- lapply(c(x[["properties"]], x[["metabolism"]]), function(y) {
+      if (y[["In situ"]] == "Positive" |
+        (any(y[["In situ"]] %in% c("Variable", "Not Assessed")) &
+          y[["Other"]] == "Positive")) {
+        return("POS")
+      }
+      if (y[["In situ"]] == "Negative" |
+        (y[["In situ"]] == "Not Assessed" & y[["Other"]] == "Negative")) {
+        return("NEG")
+      }
+      if (y[["In situ"]] == "Variable" |
+        (y[["In situ"]] == "Not Assessed" & y[["Other"]] == "Variable")) {
+        return("VAR")
+      }
+      if (all(c(y[["In situ"]], y[["Other"]]) %in% "Not Assessed")) {
+        return("NT")
+      }
+    })
+    c(
+      "Genus" = gsub("^Ca ", "Ca_", x[["name"]]),
+      "MiDAS" = "POS",
+      outList
+    )
+  })
+  as.data.frame(do.call("rbind", functions))
+}
+
+#' @title Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq
 #'
 #' @param abund Abundance table with OTU counts, in \code{ampvis2} objects it is available with simply data$abund
 #' @param tree Phylogenetic tree (rooted and with branch lengths) as loaded with \code{\link[ape]{read.tree}}.
 #' @param weighted Calculate weighted or unweighted UniFrac distances.
 #' @param normalise Should the output be normalised such that values range from 0 to 1 independent of branch length values? Note that unweighted UniFrac is always normalised. (\emph{default:} \code{TRUE})
 #' @param num_threads The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}} (\emph{default:} \code{1})
+#'
 #' @importFrom ape is.rooted node.depth node.depth.edgelength reorder.phylo
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach foreach registerDoSEQ %dopar%
-#' @return A distance matrix of class \code{dist}
+#' @return A distance matrix of class \code{dist}.
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 unifrac <- function(abund,
                     tree,
                     weighted = FALSE,
@@ -358,15 +293,15 @@ unifrac <- function(abund,
   return(as.dist(UniFracMat))
 }
 
-#' Find lowest taxonomic level
-#'
+#' @title Find lowest taxonomic level
 #' @description Finds the lowest taxonomic level of two given levels in \code{tax}. The hierarchic order of taxonomic levels is simply taken from the order of column names in \code{tax}
 #'
 #' @param tax_aggregate A character vector of one or more taxonomic levels (exactly as in the column names of \code{ampvis2obj$tax}), fx Genus or Species. (\emph{default:} \code{NULL})
 #' @param tax_add A second character vector similar to \code{tax_aggregate}. (\emph{default:} \code{NULL})
 #' @param tax The taxonomy table from an ampvis2 object (\code{ampvis2obj$tax})
 #'
-#' @return A length one character vector with the lowest taxonomic level
+#' @return A length one character vector with the lowest taxonomic level.
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
   if (is.null(tax_aggregate) & is.null(tax_add)) {
     tax_aggregate <- colnames(tax)[ncol(tax)]
@@ -383,8 +318,7 @@ getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
   return(lowestlevel)
 }
 
-#' Aggregate OTUs to a specific taxonomic level
-#'
+#' @title Aggregate OTUs to a specific taxonomic level
 #' @description Calculates the sum of OTUs per taxonomic level
 #'
 #' @param abund The OTU abundance table from an ampvis2 object (\code{ampvis2obj$abund})
@@ -395,7 +329,8 @@ getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
 #' @param format Output format, \code{"long"} or \code{"abund"}. \code{"abund"} corresponds to that of a read counts table with samples as columns and the aggregated taxa as rows.
 #'
 #' @importFrom data.table data.table melt
-#' @return A data.table
+#' @return A data.table.
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 aggregate_abund <- function(abund,
                             tax,
                             tax_aggregate = "OTU",
@@ -473,13 +408,13 @@ aggregate_abund <- function(abund,
   return(out)
 }
 
-#' Check if data has class "ampvis2"
-#'
+#' @title Check if data has class "ampvis2"
 #' @description Checks if the object is of class "ampvis2".
 #'
 #' @param data Object to check
 #'
 #' @return Returns nothing, only error if \code{class(data) != "ampvis"}.
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 is_ampvis2 <- function(data) {
   if (class(data) != "ampvis2") {
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
@@ -488,5 +423,5 @@ is_ampvis2 <- function(data) {
 }
 
 #' Replacement for ":::" to suppress R CMD CHECK warnings
-`%:::%` <- function(pkg, fun)
-  get(fun, envir = asNamespace(pkg), inherits = FALSE)
+# `%:::%` <- function(pkg, fun)
+#  get(fun, envir = asNamespace(pkg), inherits = FALSE)

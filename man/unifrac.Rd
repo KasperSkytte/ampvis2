@@ -19,8 +19,11 @@ unifrac(abund, tree, weighted = FALSE, normalise = TRUE,
 \item{num_threads}{The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}} (\emph{default:} \code{1})}
 }
 \value{
-A distance matrix of class \code{dist}
+A distance matrix of class \code{dist}.
 }
 \description{
 Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq
+}
+\author{
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }

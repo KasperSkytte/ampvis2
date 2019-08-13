@@ -13,7 +13,7 @@ amp_heatmap(data, group_by = NULL, facet_by = NULL, normalise = TRUE,
   max_abundance = NULL, sort_by = NULL, normalise_by = NULL,
   scale_by = NULL, color_vector = NULL, round = 1, textmap = FALSE,
   plot_functions = FALSE, function_data = NULL,
-  functions = c("MiDAS", "FIL", "AOB", "NOB", "PAO", "GAO"),
+  functions = c("MiDAS", "Filamentous", "AOB", "NOB", "PAO", "GAO"),
   rel_widths = c(0.75, 0.25))
 }
 \arguments{
@@ -72,11 +72,11 @@ amp_heatmap(data, group_by = NULL, facet_by = NULL, normalise = TRUE,
 
 \item{textmap}{(\emph{logical}) Return a data frame to print as raw text instead of a ggplot2 object. (\emph{default:} \code{FALSE})}
 
-\item{plot_functions}{Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. When using this feature, make sure that either \code{tax_aggregate} is set to "Genus" or that \code{tax_add} contains "Genus". (\emph{default:} \code{FALSE})}
+\item{plot_functions}{Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. By default, this functional information is retrieved directly from \url{midasfieldguide.org}. When using this feature, make sure that either \code{tax_aggregate} or \code{tax_add} is set to "Genus" and that Genus is the lowest level in either. (\emph{default:} \code{FALSE})}
 
-\item{function_data}{If \code{plot_functions} is set to \code{TRUE}: A data frame with functional information about genus-level OTUs in each column. If \code{NULL} the \code{data("MiF")} dataset will be used. (\emph{default:} \code{NULL})}
+\item{function_data}{If \code{plot_functions} is set to \code{TRUE}: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If \code{NULL} then data will be retrieved directly from \url{midasfieldguide.org}, if no internet access, the \code{data("MiF")} dataset will be used instead. (\emph{default:} \code{NULL})}
 
-\item{functions}{If \code{plot_functions} is set to \code{TRUE}: A vector with the functions to be displayed. (\emph{default:} \code{c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")})}
+\item{functions}{If \code{plot_functions} is set to \code{TRUE}: A vector with the functions to be displayed (column names in the \code{functions_data} data frame). If data is succesfully retrieved from \url{midasfieldguide.org} then available functions can be listed with \code{colnames(.ampvis2_midasfg_function_data)}. (\emph{default:} \code{c("MiDAS","Filamentous", "AOB", "NOB", "PAO", "GAO")})}
 
 \item{rel_widths}{If \code{plot_functions} is set to \code{TRUE}: A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})}
 }
@@ -132,6 +132,9 @@ amp_heatmap(AalborgWWTPs,
 )
 
 # Heatmap with known functional information about the Genera shown to the right
+# By default this information is retrieved directly from midasfieldguide.org 
+# but you can provide your own with the function_data argument as shown in the 
+# textmap 
 amp_heatmap(AalborgWWTPs,
   group_by = "Plant",
   tax_aggregate = "Genus",
@@ -139,11 +142,13 @@ amp_heatmap(AalborgWWTPs,
   functions = c("PAO", "GAO", "AOB", "NOB")
 )
 
-# A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:
+# A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.
+# Notice the function_data is now retrieved from the MiF data frame
 textmap <- amp_heatmap(AalborgWWTPs,
   group_by = "Plant",
   tax_aggregate = "Genus",
   plot_functions = TRUE,
+  function_data = MiF,
   functions = c("PAO", "GAO", "AOB", "NOB"),
   textmap = TRUE
 )

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Replacement for ":::" to suppress R CMD CHECK warnings — %:::% • ampvis2</title>
+<title>Get data from the MiDAS field guide API — getMiDASFGData • ampvis2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -37,9 +37,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Replacement for ":::" to suppress R CMD CHECK warnings — %:::%" />
+<meta property="og:title" content="Get data from the MiDAS field guide API — getMiDASFGData" />
 
-<meta property="og:description" content="Replacement for &quot;:::&quot; to suppress R CMD CHECK warnings" />
+<meta property="og:description" content="Gets all fields from the MiDAS field guide (https://midasfieldguide.org) returned in a list." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.13</span>
       </span>
     </div>
 
@@ -125,26 +125,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Replacement for ":::" to suppress R CMD CHECK warnings</h1>
+    <h1>Get data from the MiDAS field guide API</h1>
     
-    <div class="hidden name"><code>grapes-colon-colon-colon-grapes.Rd</code></div>
+    <div class="hidden name"><code>getMiDASFGData.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Replacement for ":::" to suppress R CMD CHECK warnings</p>
+    <p>Gets all fields from the MiDAS field guide (<a href='https://midasfieldguide.org'>https://midasfieldguide.org</a>) returned in a list.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>pkg</span> <span class='kw'>%:::%</span> <span class='no'>fun</span></pre>
+    <pre class="usage"><span class='fu'>getMiDASFGData</span>()</pre>
         
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A list with all fields.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
+    <h2>Author</h2>
+    <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
   </div>
 </div>
 

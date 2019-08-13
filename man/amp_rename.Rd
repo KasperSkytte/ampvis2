@@ -2,7 +2,7 @@
 % Please edit documentation in R/internals.R
 \name{amp_rename}
 \alias{amp_rename}
-\title{Tidy up taxonomy (internal function)}
+\title{Tidy up taxonomy}
 \usage{
 amp_rename(data, tax_class = NULL, tax_empty = "best",
   tax_level = "Genus")

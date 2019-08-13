@@ -21,8 +21,11 @@ aggregate_abund(abund, tax, tax_aggregate = "OTU", tax_add = NULL,
 \item{format}{Output format, \code{"long"} or \code{"abund"}. \code{"abund"} corresponds to that of a read counts table with samples as columns and the aggregated taxa as rows.}
 }
 \value{
-A data.table
+A data.table.
 }
 \description{
 Calculates the sum of OTUs per taxonomic level
+}
+\author{
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }

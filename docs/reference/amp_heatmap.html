@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.13</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@
   <span class='kw'>max_abundance</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>normalise_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>scale_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>color_vector</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>round</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>textmap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>plot_functions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>function_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"MiDAS"</span>, <span class='st'>"FIL"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>, <span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>),
+  <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"MiDAS"</span>, <span class='st'>"Filamentous"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>, <span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>),
   <span class='kw'>rel_widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.75</span>, <span class='fl'>0.25</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -257,15 +257,15 @@
     </tr>
     <tr>
       <th>plot_functions</th>
-      <td><p>Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. When using this feature, make sure that either <code>tax_aggregate</code> is set to "Genus" or that <code>tax_add</code> contains "Genus". (<em>default:</em> <code>FALSE</code>)</p></td>
+      <td><p>Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. By default, this functional information is retrieved directly from <a href='midasfieldguide.org'>midasfieldguide.org</a>. When using this feature, make sure that either <code>tax_aggregate</code> or <code>tax_add</code> is set to "Genus" and that Genus is the lowest level in either. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>function_data</th>
-      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A data frame with functional information about genus-level OTUs in each column. If <code>NULL</code> the <code><a href='https://rdrr.io/r/utils/data.html'>data("MiF")</a></code> dataset will be used. (<em>default:</em> <code>NULL</code>)</p></td>
+      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If <code>NULL</code> then data will be retrieved directly from <a href='midasfieldguide.org'>midasfieldguide.org</a>, if no internet access, the <code><a href='https://rdrr.io/r/utils/data.html'>data("MiF")</a></code> dataset will be used instead. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     <tr>
       <th>functions</th>
-      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A vector with the functions to be displayed. (<em>default:</em> <code><a href='https://rdrr.io/r/base/c.html'>c("MiDAS","FIL", "AOB", "NOB", "PAO", "GAO")</a></code>)</p></td>
+      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A vector with the functions to be displayed (column names in the <code>functions_data</code> data frame). If data is succesfully retrieved from <a href='midasfieldguide.org'>midasfieldguide.org</a> then available functions can be listed with <code><a href='https://rdrr.io/r/base/colnames.html'>colnames(.ampvis2_midasfg_function_data)</a></code>. (<em>default:</em> <code><a href='https://rdrr.io/r/base/c.html'>c("MiDAS","Filamentous", "AOB", "NOB", "PAO", "GAO")</a></code>)</p></td>
     </tr>
     <tr>
       <th>rel_widths</th>
@@ -325,17 +325,22 @@ amp_heatmap(subsettedData,
   <span class='kw'>plot_legendbreaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>)
 )</div><div class='img'><img src='amp_heatmap-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Heatmap with known functional information about the Genera shown to the right</span>
+<span class='co'># By default this information is retrieved directly from midasfieldguide.org </span>
+<span class='co'># but you can provide your own with the function_data argument as shown in the </span>
+<span class='co'># textmap </span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
   <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
   <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
   <span class='kw'>plot_functions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>)
 )</div><div class='img'><img src='amp_heatmap-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE:</span>
+<span class='co'># A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.</span>
+<span class='co'># Notice the function_data is now retrieved from the MiF data frame</span>
 <span class='no'>textmap</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
   <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
   <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
   <span class='kw'>plot_functions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>function_data</span> <span class='kw'>=</span> <span class='no'>MiF</span>,
   <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>),
   <span class='kw'>textmap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )

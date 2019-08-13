@@ -22,9 +22,6 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_boxplot.html</loc>
   </url>
   <url>
-    <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_cleanMiF.html</loc>
-  </url>
-  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_core.html</loc>
   </url>
   <url>
@@ -100,10 +97,13 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/example_otutable.html</loc>
   </url>
   <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/extractFunctions.html</loc>
+  </url>
+  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/getLowestTaxLvl.html</loc>
   </url>
   <url>
-    <loc>https://madsalbertsen.github.io/ampvis2/reference/grapes-colon-colon-colon-grapes.html</loc>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/getMiDASFGData.html</loc>
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/is_ampvis2.html</loc>

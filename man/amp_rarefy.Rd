@@ -2,7 +2,7 @@
 % Please edit documentation in R/internals.R
 \name{amp_rarefy}
 \alias{amp_rarefy}
-\title{Rarefy ampvis2 object (internal function)}
+\title{Rarefy ampvis2 object}
 \usage{
 amp_rarefy(data, rarefy)
 }
@@ -16,4 +16,7 @@ An ampvis2 object with rarefied OTU abundances.
 }
 \description{
 This is just a wrapper of \code{\link[vegan]{rrarefy}} with convenient error messages and adjusted to work with ampvis2 objects.
+}
+\author{
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }

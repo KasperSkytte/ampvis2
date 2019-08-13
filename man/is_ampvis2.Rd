@@ -15,3 +15,6 @@ Returns nothing, only error if \code{class(data) != "ampvis"}.
 \description{
 Checks if the object is of class "ampvis2".
 }
+\author{
+Kasper Skytte Andersen \email{ksa@bio.aau.dk}
+}
