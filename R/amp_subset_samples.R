@@ -77,10 +77,6 @@ amp_subset_samples <- function(data,
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 
-  if (minreads > max(colSums(data$abund))) {
-    stop(paste("Cannot subset samples with minimum", minreads, "total reads, when highest number of reads in any sample is", max(colSums(data$abund))), call. = FALSE)
-  }
-
   ### Check if refseq data is in the right format
   if (!is.null(data$refseq) & !class(data$refseq) == "DNAbin") {
     stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().", call. = FALSE)
@@ -91,6 +87,29 @@ amp_subset_samples <- function(data,
   nOTUsbefore <- nrow(data$abund) %>% as.numeric()
 
   # remove samples below minreads BEFORE normalising and rarefying
+  errMsg <- "minreads must be a positive, whole number"
+  if (!is.numeric(minreads)) {
+    stop(errMsg)
+  }
+  if (any(minreads %% 1 != 0) | minreads < 0) {
+    stop(errMsg)
+  }
+
+  if (minreads > 0 & !abundAreCounts(data)) {
+    stop("Cannot filter by a minimum number of reads when data is normalised", call. = FALSE)
+  }
+
+  if (minreads > max(colSums(data$abund))) {
+    stop(paste(
+      "Cannot subset samples with minimum",
+      minreads,
+      "total reads, when highest number of reads in any sample is",
+      max(colSums(data$abund))
+    ),
+    call. = FALSE
+    )
+  }
+
   data$abund <- data$abund[, colSums(data$abund) >= minreads, drop = FALSE]
 
   # rarefy after filtering by minreads
