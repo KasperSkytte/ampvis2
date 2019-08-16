@@ -408,6 +408,45 @@ aggregate_abund <- function(abund,
   return(out)
 }
 
+abundAreCounts <- function(data) {
+  ### Data must be in ampvis2 format
+  is_ampvis2(data)
+
+  # check if $abund contains read counts and not normalised counts or any decimals
+  all(
+    !isTRUE(attributes(data)$normalised),
+    all(data$abund %% 1L == 0),
+    !all(colSums(data$abund) == 100)
+  )
+}
+
+#' @title Normalise read counts to 100, i.e. in percent relative abundance per sample
+#'
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
+#'
+#' @return A modifed ampvis2 object
+normaliseTo100 <- function(data) {
+  ### Data must be in ampvis2 format
+  is_ampvis2(data)
+
+  if (!abundAreCounts(data)) {
+    warning("The data has already been normalised. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
+  }
+  # normalise each sample to sample totals, skip samples with 0 sum to avoid NaN's
+  tmp <- data$abund[, which(colSums(data$abund) != 0), drop = FALSE]
+  if (nrow(tmp) == 1L) {
+    # apply returns a vector and drops rownames if only 1 row, therefore set to 100 instead
+    tmp[1L, ] <- 100L
+  } else if (nrow(tmp) > 1L) {
+    tmp <- as.data.frame(apply(tmp, 2, function(x) {
+      x / sum(x) * 100
+    }))
+  }
+  data$abund[, which(colSums(data$abund) != 0)] <- tmp
+  attributes(data)$normalised <- TRUE
+  return(data)
+}
+
 #' @title Check if data has class "ampvis2"
 #' @description Checks if the object is of class "ampvis2".
 #'

@@ -99,16 +99,11 @@ amp_timeseries <- function(data,
     }
   }
 
-  ## Extract the data into separate objects for readability
-  abund <- data[["abund"]]
-  tax <- data[["tax"]]
-  metadata <- data[["metadata"]]
-
   ## try to find a date column
   if (is.null(time_variable)) {
-    dateCols <- unlist(lapply(metadata, lubridate::is.Date))
+    dateCols <- unlist(lapply(data$metadata, lubridate::is.Date))
     if (sum(dateCols) == 1) {
-      time_variable <- colnames(metadata)[which(dateCols)]
+      time_variable <- colnames(data$metadata)[which(dateCols)]
       message("No \"time_variable\" provided, assuming the column \"", time_variable, "\" contains the dates.")
     } else {
       stop("Please provide a valid date column by the argument time_variable.", call. = FALSE)
@@ -117,40 +112,27 @@ amp_timeseries <- function(data,
 
   ## Coerce the group_by and facet_by variables to factor to always be considered categorical. Fx Year is automatically loaded as numeric by R, but it should be considered categorical.
   if (!is.null(group_by)) {
-    metadata[group_by] <- lapply(metadata[group_by], factor)
+    data$metadata[group_by] <- lapply(data$metadata[group_by], factor)
   }
 
   # normalise counts
   if (isTRUE(normalise)) {
-    if (isTRUE(attributes(data)$normalised)) {
-      warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
-    }
-    # normalise each sample to sample totals, skip samples with 0 sum to avoid NaN's
-    tmp <- abund[, which(colSums(abund) != 0), drop = FALSE]
-    if (nrow(tmp) == 1L) {
-      # apply returns a vector and drops rownames if only 1 row, therefore set to 100 instead
-      tmp[1L, ] <- 100L
-    } else if (nrow(tmp) > 1L) {
-      tmp <- as.data.frame(apply(tmp, 2, function(x) {
-        x / sum(x) * 100
-      }))
-    }
-    abund[, which(colSums(abund) != 0)] <- tmp
+    data <- normaliseTo100(data)
   }
 
   ## Make a name variable that can be used instead of tax_aggregate to display multiple levels
   suppressWarnings(
     if (!is.null(tax_add)) {
       if (tax_add != tax_aggregate) {
-        tax <- data.frame(tax, Display = apply(tax[, c(tax_add, tax_aggregate)], 1, paste, collapse = "; "))
+        data$tax <- data.frame(data$tax, Display = apply(data$tax[, c(tax_add, tax_aggregate)], 1, paste, collapse = "; "))
       }
     } else {
-      tax <- data.frame(tax, Display = tax[, tax_aggregate])
+      data$tax <- data.frame(data$tax, Display = data$tax[, tax_aggregate])
     }
   )
 
   # Aggregate to a specific taxonomic level
-  abund3 <- cbind.data.frame(Display = tax[, "Display"], abund) %>%
+  abund3 <- cbind.data.frame(Display = data$tax[, "Display"], data$abund) %>%
     tidyr::gather(key = Sample, value = Abundance, -Display) %>%
     as.data.table()
 
@@ -161,10 +143,10 @@ amp_timeseries <- function(data,
   suppressWarnings(
     if (!is.null(group_by)) {
       if (length(group_by) > 1) {
-        grp <- data.frame(Sample = metadata[, 1], Group = apply(metadata[, group_by], 1, paste, collapse = "; "))
-        oldGroup <- unique(cbind.data.frame(metadata[, group_by], Group = grp$Group))
+        grp <- data.frame(Sample = data$metadata[, 1], Group = apply(data$metadata[, group_by], 1, paste, collapse = "; "))
+        oldGroup <- unique(cbind.data.frame(data$metadata[, group_by], Group = grp$Group))
       } else {
-        grp <- data.frame(Sample = metadata[, 1], Group = metadata[, group_by])
+        grp <- data.frame(Sample = data$metadata[, 1], Group = data$metadata[, group_by])
       }
       abund3$Group <- grp$Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3
@@ -206,7 +188,7 @@ amp_timeseries <- function(data,
     abund7 <- merge(abund7, oldGroup)
   }
 
-  abund7 <- merge(abund7, metadata, by.x = "Sample", by.y = colnames(metadata)[1])
+  abund7 <- merge(abund7, data$metadata, by.x = "Sample", by.y = colnames(data$metadata)[1])
   abund7[, time_variable] <- lubridate::as_date(abund7[, time_variable], ...)
   abund7$DisplayGroup <- paste(abund7$Display, abund7$Group)
   colnames(abund7)[which(colnames(abund7) == "Display")] <- tax_aggregate
@@ -215,7 +197,7 @@ amp_timeseries <- function(data,
   abund7 <- unique(abund7)
 
   if (is.null(group_by)) {
-    if (any(duplicated(metadata[, time_variable]))) {
+    if (any(duplicated(data$metadata[, time_variable]))) {
       warning("Duplicate dates in column ", time_variable, ", displaying the average for each date.\n Consider grouping dates using the group_by argument or subset the data using amp_subset_samples.\n", call. = FALSE)
       abund7 %>%
         dplyr::group_by_(time_variable, tax_aggregate) %>%

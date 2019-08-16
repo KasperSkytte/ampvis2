@@ -46,56 +46,39 @@ amp_venn <- function(data,
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 
-  ## Extract the data into separate objects for readability
-  abund <- data[["abund"]]
-  tax <- data[["tax"]]
-  OTU <- data[["tax"]]["OTU"]
-  metadata <- data[["metadata"]]
-
   # normalise counts
   if (isTRUE(normalise)) {
-    if (isTRUE(attributes(data)$normalised)) {
-      warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
-    }
-    # normalise each sample to sample totals, skip samples with 0 sum to avoid NaN's
-    tmp <- abund[, which(colSums(abund) != 0), drop = FALSE]
-    if (nrow(tmp) == 1L) {
-      # apply returns a vector and drops rownames if only 1 row, therefore set to 100 instead
-      tmp[1L, ] <- 100L
-    } else if (nrow(tmp) > 1L) {
-      tmp <- as.data.frame(apply(tmp, 2, function(x) {
-        x / sum(x) * 100
-      }))
-    }
-    abund[, which(colSums(abund) != 0)] <- tmp
+    data <- normaliseTo100(data)
   }
 
   ## Test for number of groups
-  if (length(unique(metadata[, group_by])) > 3) {
+  if (length(unique(data$metadata[, group_by])) > 3) {
     stop(paste(
-      "Only up to 3 different groups in the group_by variable is supported. The chosen group_by variable has", as.character(length(unique(metadata[, group_by]))), "different groups:\n",
-      paste(unique(as.character(metadata[, group_by])), collapse = ", ")
+      "Only up to 3 different groups in the group_by variable is supported. The chosen group_by variable has",
+      as.character(length(unique(data$metadata[, group_by]))),
+      "different groups:\n",
+      paste(unique(as.character(data$metadata[, group_by])), collapse = ", ")
     ), call. = FALSE)
   }
 
   ## Select grouping variable
 
-  colnames(metadata)[1] <- "SeqID"
+  colnames(data$metadata)[1] <- "SeqID"
   if (!is.null(group_by)) {
-    metadata <- metadata[, c("SeqID", group_by)]
-    colnames(metadata)[2] <- "GRP"
+    data$metadata <- data$metadata[, c("SeqID", group_by)]
+    colnames(data$metadata)[2] <- "GRP"
   } else {
-    metadata <- data.frame(SeqID = metadata[, 1], GRP = "Core")
+    data$metadata <- data.frame(SeqID = data$metadata[, 1], GRP = "Core")
   }
 
   ## Add OTU names to the abundance information
-  abund1 <- cbind.data.frame(abund, OTU)
+  abund1 <- cbind.data.frame(data[["abund"]], data$tax[,"OTU", drop = FALSE])
 
   ## Melt the dataframe for subsequent processing
   abund2 <- tidyr::gather(data = abund1, key = SeqID, value = Abundance, -OTU)
 
   ## Merge metadata information with the abundance data
-  abund3 <- merge(abund2, metadata, by = "SeqID")
+  abund3 <- merge(abund2, data$metadata, by = "SeqID")
 
   ## Add frequent abundant column
   abund4 <- mutate(abund3,
@@ -166,7 +149,7 @@ amp_venn <- function(data,
 
     ## Generate lists of species in each group
 
-    ot <- cbind.data.frame(tax, abund) %>%
+    ot <- cbind.data.frame(data$tax, data$abund) %>%
       mutate(Shared = "Non-core") %>%
       mutate(Shared = ifelse(OTU %in% as.character(unique(c_A$OTU)), colnames(a)[2], Shared))
 
@@ -245,7 +228,7 @@ amp_venn <- function(data,
         plot.margin = unit(c(0, 0, 0, 0), "mm")
       )
 
-    ot <- cbind.data.frame(tax, abund) %>%
+    ot <- cbind.data.frame(data$tax, data$abund) %>%
       mutate(Shared = "Non-core") %>%
       mutate(
         Shared = ifelse(OTU %in% as.character(unique(c_A$OTU)), colnames(a)[2], Shared),
@@ -369,7 +352,7 @@ amp_venn <- function(data,
         plot.margin = unit(c(0, 0, 0, 0), "mm")
       )
 
-    ot <- cbind.data.frame(tax, abund) %>%
+    ot <- cbind.data.frame(data$tax, data$abund) %>%
       mutate(Shared = "Non-core") %>%
       mutate(
         Shared = ifelse(OTU %in% as.character(unique(c_ABC$OTU)), "Core", Shared),

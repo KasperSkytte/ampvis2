@@ -61,33 +61,20 @@ amp_core <- function(data,
   is_ampvis2(data)
 
   ## Clean up the taxonomy
-  data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
-
-  ## Extract the data into separate objects for readability
-  abund <- data[["abund"]]
-  tax <- data[["tax"]]
-  metadata <- data[["metadata"]]
+  data <- amp_rename(
+    data = data,
+    tax_class = tax_class,
+    tax_empty = tax_empty,
+    tax_level = tax_aggregate
+  )
 
   # normalise counts
   if (isTRUE(normalise)) {
-    if (isTRUE(attributes(data)$normalised)) {
-      warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
-    }
-    # normalise each sample to sample totals, skip samples with 0 sum to avoid NaN's
-    tmp <- abund[, which(colSums(abund) != 0), drop = FALSE]
-    if (nrow(tmp) == 1L) {
-      # apply returns a vector and drops rownames if only 1 row, therefore set to 100 instead
-      tmp[1L, ] <- 100L
-    } else if (nrow(tmp) > 1L) {
-      tmp <- as.data.frame(apply(tmp, 2, function(x) {
-        x / sum(x) * 100
-      }))
-    }
-    abund[, which(colSums(abund) != 0)] <- tmp
+    data <- normaliseTo100(data)
   }
 
   # Aggregate to a specific taxonomic level
-  abund1 <- cbind.data.frame(Display = tax[, tax_aggregate], abund) %>%
+  abund1 <- cbind.data.frame(Display = data$tax[, tax_aggregate], data$abund) %>%
     tidyr::gather(key = Sample, value = Abundance, -Display) %>%
     as.data.table()
 
@@ -99,9 +86,9 @@ amp_core <- function(data,
   suppressWarnings(
     if (group_by != "Sample") {
       if (length(group_by) > 1) {
-        grp <- data.frame(Sample = rownames(metadata), Group = apply(metadata[, group_by], 1, paste, collapse = " "))
+        grp <- data.frame(Sample = rownames(data$metadata), Group = apply(data$metadata[, group_by], 1, paste, collapse = " "))
       } else {
-        grp <- data.frame(Sample = rownames(metadata), Group = metadata[, group_by])
+        grp <- data.frame(Sample = rownames(data$metadata), Group = data$metadata[, group_by])
       }
       abund1$Group <- grp$Group[match(abund1$Sample, grp$Sample)]
       abund2 <- abund1
@@ -159,7 +146,7 @@ amp_core <- function(data,
 
   if (tax_aggregate == "OTU") {
     colnames(temp3)[1] <- "OTU"
-    core <- merge(x = temp3, y = tax, by = "OTU")
+    core <- merge(x = temp3, y = data$tax, by = "OTU")
     temp3 <- core
   }
 
@@ -168,7 +155,7 @@ amp_core <- function(data,
       plotly::layout(showlegend = FALSE)
   } else if (isFALSE(plotly)) {
     if (detailed_output) {
-      return(list(data = temp3, plot = p, abund = abund, tax = tax, metadata = metadata))
+      return(list(data = temp3, plot = p, abund = data$abund, tax = data$tax, metadata = data$metadata))
     } else if (!detailed_output) {
       return(p)
     }

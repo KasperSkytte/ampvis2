@@ -59,13 +59,13 @@ amp_octave <- function(data,
   abund <- data$abund
 
   # check if samples in metadata and abund match, and that their order is the same
-  if (!identical(colnames(abund), data$metadata[[1]])) {
-    if (!all(colnames(abund) %in% data$metadata[[1]]) | !all(data$metadata[[1]] %in% colnames(abund))) {
+  if (!identical(colnames(data$abund), data$metadata[[1]])) {
+    if (!all(colnames(data$abund) %in% data$metadata[[1]]) | !all(data$metadata[[1]] %in% colnames(data$abund))) {
       stop("The samples in metadata do not match those in the read counts table!", call. = FALSE)
     }
     warning("The order of samples in the sample metadata ($metadata) and in the read counts table ($abund) are not the same, reordering read counts table...", call. = FALSE)
     # reorder abund based on metadata
-    abund <- abund[, data$metadata[[1]], drop = FALSE]
+    data$abund <- data$abund[, data$metadata[[1]], drop = FALSE]
   }
 
   # check if metadata variable exists (both by name or position)
@@ -78,14 +78,16 @@ amp_octave <- function(data,
 
   # max number threads to use, data.table only
   DTthreads <- data.table::getDTthreads()
-  if (is.numeric(num_threads) & num_threads > 0L) {
-    data.table::setDTthreads(threads = num_threads)
+  if (is.numeric(num_threads)) {
+    if (num_threads > 0L) {
+      data.table::setDTthreads(threads = num_threads)
+    }
   }
 
   # Aggregate OTUs to a specific taxonomic level
   lowestTaxLevel <- getLowestTaxLvl(data$tax, tax_aggregate)
   abundAggr <- aggregate_abund(
-    abund = abund,
+    abund = data$abund,
     tax = data$tax,
     tax_aggregate = lowestTaxLevel,
     tax_add = NULL,

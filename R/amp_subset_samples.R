@@ -103,23 +103,7 @@ amp_subset_samples <- function(data,
 
   # normalise counts
   if (isTRUE(normalise)) {
-    # create a temporary abund object for calculating raw read stats that are NOT normalised but subsetted in the same way as data$abund
-    tempabund <- data$abund
-    if (isTRUE(attributes(data)$normalised)) {
-      warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
-    }
-    # normalise each sample to sample totals, skip samples with 0 sum to avoid NaN's
-    tmp <- tempabund[, which(colSums(tempabund) != 0), drop = FALSE]
-    if (nrow(tmp) == 1L) {
-      # apply returns a vector and drops rownames if only 1 row, therefore set to 100 instead
-      tmp[1L, ] <- 100L
-    } else if (nrow(tmp) > 1L) {
-      tmp <- as.data.frame(apply(tmp, 2, function(x) {
-        x / sum(x) * 100
-      }))
-    }
-    data$abund[, which(colSums(data$abund) != 0)] <- tmp
-    attributes(data)$normalised <- TRUE
+    data <- normaliseTo100(data)
   }
 
   # Subset metadata based on ...

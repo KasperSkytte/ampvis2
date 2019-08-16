@@ -86,9 +86,9 @@
 #' )
 #'
 #' # Heatmap with known functional information about the Genera shown to the right
-#' # By default this information is retrieved directly from midasfieldguide.org 
-#' # but you can provide your own with the function_data argument as shown in the 
-#' # textmap 
+#' # By default this information is retrieved directly from midasfieldguide.org
+#' # but you can provide your own with the function_data argument as shown in the
+#' # textmap
 #' amp_heatmap(AalborgWWTPs,
 #'   group_by = "Plant",
 #'   tax_aggregate = "Genus",
@@ -165,11 +165,6 @@ amp_heatmap <- function(data,
     }
   }
 
-  ## Extract the data into separate objects for readability
-  abund <- data[["abund"]] %>% as.data.frame()
-  tax <- data[["tax"]]
-  metadata <- data[["metadata"]]
-
   # Checks an data if plot_functions = TRUE
   if (isTRUE(plot_functions)) {
     if (!any("Genus" %in% c(tax_add, tax_aggregate))) {
@@ -213,53 +208,40 @@ amp_heatmap <- function(data,
   ## Coerce the group_by and facet_by variables to factor to always be considered categorical. Fx Year is automatically loaded as numeric by R, but it should be considered categorical.
   ## Grouping a heatmap by a continuous variable doesn't make sense
   if (!is.null(group_by)) {
-    metadata[group_by] <- lapply(metadata[group_by], factor)
+    data$metadata[group_by] <- lapply(data$metadata[group_by], factor)
   }
 
   if (!is.null(facet_by)) {
     if (is.null(group_by)) {
       group_by <- facet_by
     }
-    metadata[facet_by] <- lapply(metadata[facet_by], factor)
+    data$metadata[facet_by] <- lapply(data$metadata[facet_by], factor)
   }
 
   ## Scale the data by a selected metadata sample variable
   if (!is.null(scale_by)) {
-    variable <- as.numeric(metadata[, scale_by])
-    abund <- t(t(abund) * variable)
+    variable <- as.numeric(data$metadata[, scale_by])
+    data$abund <- t(t(data$abund) * variable)
   }
 
   # normalise counts
   if (isTRUE(normalise)) {
-    if (isTRUE(attributes(data)$normalised)) {
-      warning("The data has already been normalised by either amp_subset_samples or amp_subset_taxa. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
-    }
-    # normalise each sample to sample totals, skip samples with 0 sum to avoid NaN's
-    tmp <- abund[, which(colSums(abund) != 0), drop = FALSE]
-    if (nrow(tmp) == 1L) {
-      # apply returns a vector and drops rownames if only 1 row, therefore set to 100 instead
-      tmp[1L, ] <- 100L
-    } else if (nrow(tmp) > 1L) {
-      tmp <- as.data.frame(apply(tmp, 2, function(x) {
-        x / sum(x) * 100
-      }))
-    }
-    abund[, which(colSums(abund) != 0)] <- tmp
+    data <- normaliseTo100(data)
   }
 
   ## Make a name variable that can be used instead of tax_aggregate to display multiple levels
   suppressWarnings(
     if (!is.null(tax_add)) {
       if (tax_add != tax_aggregate) {
-        tax <- data.frame(tax, Display = apply(tax[, c(tax_add, tax_aggregate)], 1, paste, collapse = "; "))
+        data$tax <- data.frame(data$tax, Display = apply(data$tax[, c(tax_add, tax_aggregate)], 1, paste, collapse = "; "))
       }
     } else {
-      tax <- data.frame(tax, Display = tax[, tax_aggregate])
+      data$tax <- data.frame(data$tax, Display = data$tax[, tax_aggregate])
     }
   )
 
   # Aggregate to a specific taxonomic level
-  abund3 <- cbind.data.frame(Display = tax[, "Display"], abund) %>%
+  abund3 <- cbind.data.frame(Display = data$tax[, "Display"], data$abund) %>%
     tidyr::gather(key = Sample, value = Abundance, -Display) %>%
     as.data.table()
 
@@ -276,10 +258,10 @@ amp_heatmap <- function(data,
   suppressWarnings(
     if (!is.null(group_by)) {
       if (length(group_by) > 1) {
-        grp <- data.frame(Sample = metadata[, 1], Group = apply(metadata[, group_by], 1, paste, collapse = " "))
-        oldGroup <- unique(cbind.data.frame(metadata[, group_by], Group = grp$Group))
+        grp <- data.frame(Sample = data$metadata[, 1], Group = apply(data$metadata[, group_by], 1, paste, collapse = " "))
+        oldGroup <- unique(cbind.data.frame(data$metadata[, group_by], Group = grp$Group))
       } else {
-        grp <- data.frame(Sample = metadata[, 1], Group = metadata[, group_by])
+        grp <- data.frame(Sample = data$metadata[, 1], Group = data$metadata[, group_by])
       }
       abund3$Group <- grp$Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3
