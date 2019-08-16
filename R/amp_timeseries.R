@@ -132,12 +132,14 @@ amp_timeseries <- function(data,
   )
 
   # Aggregate to a specific taxonomic level
-  abund3 <- cbind.data.frame(Display = data$tax[, "Display"], data$abund) %>%
-    tidyr::gather(key = Sample, value = Abundance, -Display) %>%
-    as.data.table()
-
-  abund3 <- abund3[, "sum" := sum(Abundance), by = list(Display, Sample)] %>%
-    setkey(Display, Sample) %>%
+  abund3 <- aggregate_abund(
+    abund = data$abund,
+    tax = data$tax,
+    tax_aggregate = tax_aggregate,
+    tax_add = tax_add,
+    calcSums = TRUE,
+    format = "long"
+  ) %>% 
     as.data.frame()
 
   suppressWarnings(
@@ -156,7 +158,7 @@ amp_timeseries <- function(data,
   )
 
   TotalCounts <- group_by(abund5, Display) %>%
-    summarise(Median = median(sum), Total = sum(sum), Mean = mean(sum)) %>%
+    summarise(Median = median(Sum), Total = sum(Sum), Mean = mean(Sum)) %>%
     arrange(desc(Mean))
 
   ## Subset to the x most abundant levels
@@ -192,7 +194,7 @@ amp_timeseries <- function(data,
   abund7[, time_variable] <- lubridate::as_date(abund7[, time_variable], ...)
   abund7$DisplayGroup <- paste(abund7$Display, abund7$Group)
   colnames(abund7)[which(colnames(abund7) == "Display")] <- tax_aggregate
-  colnames(abund7)[which(colnames(abund7) == "sum")] <- "Value"
+  colnames(abund7)[which(colnames(abund7) == "Sum")] <- "Value"
   abund7 <- abund7[, -c(which(colnames(abund7) == "Abundance"))]
   abund7 <- unique(abund7)
 

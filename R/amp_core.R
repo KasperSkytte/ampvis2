@@ -74,12 +74,14 @@ amp_core <- function(data,
   }
 
   # Aggregate to a specific taxonomic level
-  abund1 <- cbind.data.frame(Display = data$tax[, tax_aggregate], data$abund) %>%
-    tidyr::gather(key = Sample, value = Abundance, -Display) %>%
-    as.data.table()
-
-  abund1 <- abund1[, "sum" := sum(Abundance), by = list(Display, Sample)] %>%
-    setkey(Display, Sample) %>%
+  abund1 <- aggregate_abund(
+    abund = data$abund,
+    tax = data$tax,
+    tax_aggregate = tax_aggregate,
+    tax_add = tax_add,
+    calcSums = TRUE,
+    format = "long"
+  ) %>% 
     as.data.frame()
 
   ## Add group information
@@ -98,7 +100,7 @@ amp_core <- function(data,
   )
 
   ## Take the average to group level
-  abund3 <- data.table(abund2)[, Abundance := mean(sum), by = list(Display, Group)] %>%
+  abund3 <- data.table(abund2)[, Abundance := mean(Sum), by = list(Display, Group)] %>%
     setkey(Display, Group) %>%
     unique() %>%
     filter(Abundance > 0) %>%

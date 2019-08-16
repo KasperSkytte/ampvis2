@@ -72,7 +72,7 @@ amp_venn <- function(data,
   }
 
   ## Add OTU names to the abundance information
-  abund1 <- cbind.data.frame(data[["abund"]], data$tax[,"OTU", drop = FALSE])
+  abund1 <- cbind.data.frame(data[["abund"]], data$tax[, "OTU", drop = FALSE])
 
   ## Melt the dataframe for subsequent processing
   abund2 <- tidyr::gather(data = abund1, key = SeqID, value = Abundance, -OTU)

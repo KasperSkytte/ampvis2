@@ -84,12 +84,14 @@ amp_rankabundance <- function(data,
   )
 
   # Aggregate to a specific taxonomic level
-  abund3 <- cbind.data.frame(Display = data$tax[, "Display"], data$abund) %>%
-    tidyr::gather(key = Sample, value = Abundance, -Display) %>%
-    as.data.table()
-
-  abund3 <- abund3[, "Abundance" := sum(Abundance), by = list(Display, Sample)] %>%
-    setkey(Display, Sample) %>%
+  abund3 <- aggregate_abund(
+    abund = data$abund,
+    tax = data$tax,
+    tax_aggregate = tax_aggregate,
+    tax_add = tax_add,
+    calcSums = TRUE,
+    format = "long"
+  ) %>% 
     as.data.frame()
 
   ## Add group information

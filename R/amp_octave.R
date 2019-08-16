@@ -117,7 +117,7 @@ amp_octave <- function(data,
   }
 
   # Count OTU's per group and tax level
-  taxSums <- abundAggr[, .(taxSums = sum(abundance)), by = .(Display, group)]
+  taxSums <- abundAggr[, .(taxSums = sum(Abundance)), by = .(Display, group)]
 
   # Count the number of distinct axa per bin
   # not at all concise, but it's by far the fastest

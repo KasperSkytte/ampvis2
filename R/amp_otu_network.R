@@ -97,13 +97,14 @@ amp_otu_network <- function(data,
   )
 
   # Aggregate to a specific taxonomic level
-  abund3 <- cbind.data.frame(Display = data$tax[, "Display"], data$abund) %>%
-    tidyr::gather(key = Sample, value = Abundance, -Display) %>%
-    mutate(Display = paste("Taxa; ", Display)) %>%
-    as.data.table()
-
-  abund3 <- abund3[, "sum" := sum(Abundance), by = list(Display, Sample)] %>%
-    setkey(Display, Sample) %>%
+  abund3 <- aggregate_abund(
+    abund = data$abund,
+    tax = data$tax,
+    tax_aggregate = tax_aggregate,
+    tax_add = tax_add,
+    calcSums = TRUE,
+    format = "long"
+  ) %>% 
     as.data.frame()
 
   ## Add group information
@@ -111,11 +112,11 @@ amp_otu_network <- function(data,
 
   ## Take the average to group level
 
-  abund6 <- data.table(abund5)[, Abundance := mean(sum), by = list(Display, Group)] %>%
+  abund6 <- data.table(abund5)[, Abundance := mean(Sum), by = list(Display, Group)] %>%
     setkey(Display, Group) %>%
     unique() %>%
     as.data.frame() %>%
-    select(-sum)
+    select(-Sum)
 
   ## Find the X most abundant levels
   TotalCounts <- group_by(abund6, Display) %>%

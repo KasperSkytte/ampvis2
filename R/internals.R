@@ -381,12 +381,12 @@ aggregate_abund <- function(abund,
     abundTax,
     id.vars = "Display",
     variable.name = "Sample",
-    value.name = "abundance",
+    value.name = "Abundance",
     variable.factor = FALSE
   )
-  if (nrow(newtax) != nrow(tax) & isTRUE(calcSums)) {
+  if (isTRUE(calcSums)) {
     abundAggr[,
-      Sum := sum(abundance),
+      Sum := sum(Abundance),
       keyby = .(Display, Sample)
     ]
   }
@@ -396,7 +396,7 @@ aggregate_abund <- function(abund,
     out <- as.data.frame(
       data.table::dcast(abundAggr,
         Display ~ Sample,
-        value.var = "abundance",
+        value.var = "Abundance",
         fun.aggregate = sum
       )
     )
