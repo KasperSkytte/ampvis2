@@ -66,10 +66,10 @@ amp_frequency <- function(data,
     abund = data$abund,
     tax = data$tax,
     tax_aggregate = tax_aggregate,
-    tax_add = tax_add,
+    tax_add = NULL,
     calcSums = TRUE,
     format = "long"
-  ) %>% 
+  ) %>%
     as.data.frame()
 
   ## Add group information
