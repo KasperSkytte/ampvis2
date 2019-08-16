@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5</span>
       </span>
     </div>
 
@@ -144,7 +144,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
+      <td><p>(<em>required</em>) Data list as loaded with <code>amp_load</code>.</p></td>
     </tr>
     <tr>
       <th>metadata_vars</th>
@@ -163,7 +163,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># load minimal example data</span>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='amp_load.html'>amp_load</a></span>(<span class='no'>example_otutable</span>, <span class='no'>example_metadata</span>)
+<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_load</span>(<span class='no'>example_otutable</span>, <span class='no'>example_metadata</span>)
 
 <span class='co'># transform d into a long-format data frame</span>
 <span class='no'>d_long</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_export_long</span>(<span class='no'>d</span>, <span class='kw'>metadata_vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tax_levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"OTU"</span>, <span class='st'>"Genus"</span>))

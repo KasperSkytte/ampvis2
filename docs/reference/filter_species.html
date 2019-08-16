@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Aggregate OTUs to a specific taxonomic level — aggregate_abund • ampvis2</title>
+<title>Filter species by a threshold in percent — filter_species • ampvis2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -37,9 +37,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Aggregate OTUs to a specific taxonomic level — aggregate_abund" />
+<meta property="og:title" content="Filter species by a threshold in percent — filter_species" />
 
-<meta property="og:description" content="Calculates the sum of OTUs per taxonomic level" />
+<meta property="og:description" content="Filter species by a threshold in percent" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,52 +125,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Aggregate OTUs to a specific taxonomic level</h1>
+    <h1>Filter species by a threshold in percent</h1>
     
-    <div class="hidden name"><code>aggregate_abund.Rd</code></div>
+    <div class="hidden name"><code>filter_species.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Calculates the sum of OTUs per taxonomic level</p>
+    <p>Filter species by a threshold in percent</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>aggregate_abund</span>(<span class='no'>abund</span>, <span class='no'>tax</span>, <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"OTU"</span>, <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>calcSums</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"long"</span>)</pre>
+    <pre class="usage"><span class='fu'>filter_species</span>(<span class='no'>data</span>, <span class='kw'>filter_species</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>abund</th>
-      <td><p>The OTU abundance table from an ampvis2 object (<code>ampvis2obj$abund</code>)</p></td>
+      <th>data</th>
+      <td><p>(<em>required</em>) Data list as loaded with <code>amp_load</code>.</p></td>
     </tr>
     <tr>
-      <th>tax</th>
-      <td><p>The OTU abundance table from an ampvis2 object (<code>ampvis2obj$tax</code>)</p></td>
-    </tr>
-    <tr>
-      <th>tax_aggregate</th>
-      <td><p>Aggregate (sum) OTU's to a specific taxonomic level. (<em>default:</em> <code>"OTU"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>tax_add</th>
-      <td><p>Add additional (higher) taxonomic levels to the taxonomy string. The OTU's will be aggregated to whichever level of the <code>tax_aggregate</code> and <code>tax_add</code> vectors is the lowest. (<em>default:</em> <code>NULL</code>)</p></td>
-    </tr>
-    <tr>
-      <th>calcSums</th>
-      <td><p>Whether to include the sums of read counts for each sample and taxonomic group. (<em>default:</em> <code>TRUE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>format</th>
-      <td><p>Output format, <code>"long"</code> or <code>"abund"</code>. <code>"abund"</code> corresponds to that of a read counts table with samples as columns and the aggregated taxa as rows.</p></td>
+      <th>filter_species</th>
+      <td><p>Remove low abundant OTU's across all samples below this threshold in percent. (<em>default</em>: <code>0</code>)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data.table.</p>
+    <p>An ampvis2 object</p>
     
 
   </div>
@@ -182,8 +165,6 @@
       <li><a href="#value">Value</a></li>
           </ul>
 
-    <h2>Author</h2>
-    <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
   </div>
 </div>
 
