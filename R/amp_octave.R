@@ -52,11 +52,14 @@ amp_octave <- function(data,
                        tax_aggregate = "OTU",
                        group_by = 1L,
                        scales = "fixed",
-                       num_threads = parallel::detectCores() - 1L) {
+                       num_threads = parallel::detectCores() - 2L) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 
-  abund <- data$abund
+  # function only works with counts, not relative abundances
+  if (!abundAreCounts(data)) {
+    stop("amp_octave can only be used with read counts, not relative abundances", call. = FALSE)
+  }
 
   # check if samples in metadata and abund match, and that their order is the same
   if (!identical(colnames(data$abund), data$metadata[[1]])) {
