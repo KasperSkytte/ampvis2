@@ -220,22 +220,7 @@ amp_ordinate <- function(data,
   data <- amp_rename(data = data, tax_empty = tax_empty)
 
   ##### Filter #####
-  if (any(distmeasure %in% c("unifrac", "wunifrac"))) {
-    filter_species <- 0
-    warning("Setting 'filter_species' to 0 when calculating UniFrac distances (subsetting a rooted tree is not advised)", call. = FALSE)
-  }
-  if (filter_species != 0 && is.numeric(filter_species)) {
-    # First transform to percentages
-    abund_pct <- data$abund
-    abund_pct[, which(colSums(abund_pct) != 0)] <- as.data.frame(apply(abund_pct[, which(colSums(abund_pct) != 0), drop = FALSE], 2, function(x) x / sum(x) * 100))
-    rownames(abund_pct) <- rownames(data$abund) # keep rownames
-
-    # Then filter low abundant OTU's where ALL samples have below the threshold set with filter_species in percent
-    abund_subset <- abund_pct[!apply(abund_pct, 1, function(row) all(row <= filter_species)), , drop = FALSE] # remove low abundant OTU's
-    data$abund <- data$abund[which(rownames(data$abund) %in% rownames(abund_subset)), , drop = FALSE]
-    rownames(data$tax) <- data$tax$OTU
-    data$tax <- data$tax[which(rownames(data$tax) %in% rownames(abund_subset)), , drop = FALSE] # same with taxonomy
-  }
+  data <- filter_species(data, filter_species)
 
   # to fix user argument characters, so fx PCoA/PCOA/pcoa are all valid
   type <- tolower(type)
@@ -295,7 +280,6 @@ amp_ordinate <- function(data,
         inputmatrix <- vegan::vegdist(t(data$abund), method = distmeasure)
         message("Done.")
       } else if (distmeasure == "unifrac") {
-        message("Calculating unweighted (normalized) UniFrac distances... ")
         inputmatrix <- unifrac(
           abund = data$abund,
           tree = data$tree,
@@ -303,9 +287,7 @@ amp_ordinate <- function(data,
           normalise = TRUE,
           num_threads = num_threads
         )
-        message("Done.")
       } else if (distmeasure == "wunifrac") {
-        message("Calculating weighted (normalized) UniFrac distances... ")
         inputmatrix <- unifrac(
           abund = data$abund,
           tree = data$tree,
@@ -313,7 +295,6 @@ amp_ordinate <- function(data,
           normalise = TRUE,
           num_threads = num_threads
         )
-        message("Done.")
       }
     } else if (distmeasure == "none") {
       warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure.", call. = FALSE)

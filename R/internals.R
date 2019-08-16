@@ -447,6 +447,53 @@ normaliseTo100 <- function(data) {
   return(data)
 }
 
+#' @title Filter species by a threshold in percent
+#'
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
+#' @param filter_species Remove low abundant OTU's across all samples below this threshold in percent. (\emph{default}: \code{0})
+#'
+#' @importFrom ape drop.tip
+#' @return An ampvis2 object
+filter_species <- function(data, filter_species = 0) {
+  ### Data must be in ampvis2 format
+  is_ampvis2(data)
+
+  if (is.numeric(filter_species)) {
+    if (filter_species > 0) {
+      # First transform to percentages
+      abund_pct <- data$abund
+      abund_pct[, which(colSums(abund_pct) != 0)] <- as.data.frame(apply(abund_pct[, which(colSums(abund_pct) != 0), drop = FALSE], 2, function(x) x / sum(x) * 100))
+      rownames(abund_pct) <- rownames(data$abund) # keep rownames
+
+      # Then filter low abundant OTU's where ALL samples have below the threshold set with filter_species in percent
+      abund_subset <- abund_pct[!apply(abund_pct, 1, function(row) all(row <= filter_species)), , drop = FALSE] # remove low abundant OTU's
+      data$abund <- data$abund[which(rownames(data$abund) %in% rownames(abund_subset)), , drop = FALSE]
+      rownames(data$tax) <- data$tax$OTU
+
+      # also filter taxonomy, tree, and sequences
+      data$tax <- data$tax[which(rownames(data$tax) %in% rownames(abund_subset)), , drop = FALSE]
+
+      if (!is.null(data$tree)) {
+        data$tree <- ape::drop.tip(
+          phy = data$tree,
+          tip = data$tree$tip.label[!data$tree$tip.label %in% data$tax$OTU]
+        )
+      }
+
+      if (!is.null(data$refseq)) {
+        if (!is.null(names(data$refseq))) {
+          # sometimes there is taxonomy alongside the OTU ID's. Anything after a ";" will be ignored
+          names_stripped <- stringr::str_split(names(data$refseq), ";", simplify = TRUE)[, 1]
+          data$refseq <- data$refseq[names_stripped %in% rownames(data$abund)]
+        } else if (is.null(names(data$refseq))) {
+          warning("DNA sequences have not been subsetted, could not find the names of the sequences in data$refseq.", call. = FALSE)
+        }
+      }
+    }
+  }
+  return(data)
+}
+
 #' @title Check if data has class "ampvis2"
 #' @description Checks if the object is of class "ampvis2".
 #'
