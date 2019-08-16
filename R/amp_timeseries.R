@@ -139,7 +139,7 @@ amp_timeseries <- function(data,
     tax_add = tax_add,
     calcSums = TRUE,
     format = "long"
-  ) %>% 
+  ) %>%
     as.data.frame()
 
   suppressWarnings(

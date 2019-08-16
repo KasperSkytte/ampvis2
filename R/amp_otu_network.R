@@ -104,7 +104,7 @@ amp_otu_network <- function(data,
     tax_add = tax_add,
     calcSums = TRUE,
     format = "long"
-  ) %>% 
+  ) %>%
     as.data.frame()
 
   ## Add group information
