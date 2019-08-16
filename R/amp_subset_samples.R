@@ -77,9 +77,16 @@ amp_subset_samples <- function(data,
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 
-  ### Check if refseq data is in the right format
-  if (!is.null(data$refseq) & !class(data$refseq) == "DNAbin") {
-    stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().", call. = FALSE)
+  if (!is.null(data$refseq)) {
+    if (!class(data$refseq) == "DNAbin") {
+      stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().", call. = FALSE)
+    }
+  }
+
+  if (!is.null(data$tree)) {
+    if (!class(data$tree) == "phylo") {
+      stop("The tree element is not of class \"phylo\". The tree must be loaded with ape::read.tree().", call. = FALSE)
+    }
   }
 
   # For printing removed samples and OTUs
@@ -148,8 +155,8 @@ amp_subset_samples <- function(data,
   data$abund <- data$abund[, rownames(data$metadata), drop = FALSE]
   data$tax <- data$tax[rownames(data$abund), , drop = FALSE]
 
-  # Subset refseq, if any, based on abund
-  if (any(names(data) == "refseq")) {
+  # Subset sequences
+  if (!is.null(data$refseq)) {
     if (!is.null(names(data$refseq))) {
       # sometimes there is taxonomy alongside the OTU ID's. Anything after a ";" will be ignored
       names_stripped <- stringr::str_split(names(data$refseq), ";", simplify = TRUE)[, 1]
@@ -157,6 +164,14 @@ amp_subset_samples <- function(data,
     } else if (is.null(names(data$refseq))) {
       warning("DNA sequences have not been subsetted, could not find the names of the sequences in data$refseq.", call. = FALSE)
     }
+  }
+
+  # Subset tree
+  if (!is.null(data$tree)) {
+    data$tree <- ape::drop.tip(
+      phy = data$tree,
+      tip = data$tree$tip.label[!data$tree$tip.label %in% data$tax$OTU]
+    )
   }
 
   # Print number of removed samples and OTU's

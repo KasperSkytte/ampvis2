@@ -217,12 +217,16 @@ amp_load <- function(otutable,
 
   # append refseq if provided
   if (!is.null(fasta)) {
-    data[["refseq"]] <- ape::read.FASTA(file = fasta)[rownames(abund0)]
+    data$refseq <- ape::read.FASTA(file = fasta)[rownames(abund0)]
   }
 
   # append phylogenetic tree if provided
   if (!is.null(tree)) {
-    data[["tree"]] <- tree
+    tree <- ape::drop.tip(
+      phy = tree,
+      tip = tree$tip.label[!tree$tip.label %in% data$tax$OTU]
+    )
+    data$tree <- tree
   }
 
   attributes(data)$normalised <- FALSE

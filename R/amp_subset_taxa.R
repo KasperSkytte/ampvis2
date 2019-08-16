@@ -8,7 +8,7 @@
 #' @param remove (\emph{logical}) If set to TRUE, then the taxa matching the provided vector will be removed instead of being the only ones kept in the data. (\emph{default:} \code{FALSE})
 #'
 #' @return A modifed ampvis2 object
-#'
+#' @importFrom ape drop.tip
 #' @export
 #'
 #' @details
@@ -88,19 +88,27 @@ amp_subset_taxa <- function(data,
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 
-  ### Check if refseq data is in the right format
-  if (!is.null(data$refseq) & !class(data$refseq) == "DNAbin") {
-    stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().", call. = FALSE)
+  if (!is.null(data$refseq)) {
+    if (!class(data$refseq) == "DNAbin") {
+      stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().", call. = FALSE)
+    }
   }
 
+  if (!is.null(data$tree)) {
+    if (!class(data$tree) == "phylo") {
+      stop("The tree element is not of class \"phylo\". The tree must be loaded with ape::read.tree().", call. = FALSE)
+    }
+  }
+
+  # For printing removed OTUs
   nOTUsbefore <- nrow(data$abund)
 
-  # normalise counts
+  # normalise counts before subsetting
   if (isTRUE(normalise)) {
     data <- normaliseTo100(data)
   }
 
-  # Make new list
+  # Match tax_vector with all taxonomic levels
   selection <- c(
     which(data$tax$Kingdom %in% tax_vector),
     which(data$tax$Phylum %in% tax_vector),
@@ -113,6 +121,8 @@ amp_subset_taxa <- function(data,
   )
   selection <- unique(selection)
   newtax <- data$tax[selection, ]
+
+  # subset
   if (isTRUE(remove)) {
     data$tax <- subset(data$tax, !OTU %in% newtax$OTU)
   } else if (!isTRUE(remove)) {
@@ -120,8 +130,17 @@ amp_subset_taxa <- function(data,
   }
   data$abund <- data$abund[rownames(data$abund) %in% rownames(data$tax), , drop = FALSE]
 
+  # subset sequences
   if (any(names(data) == "refseq")) {
     data$refseq <- data$refseq[rownames(data$tax)]
+  }
+
+  # subset tree
+  if (!is.null(data$tree)) {
+    data$tree <- ape::drop.tip(
+      phy = data$tree,
+      tip = data$tree$tip.label[!data$tree$tip.label %in% data$tax$OTU]
+    )
   }
 
   nOTUsafter <- nrow(data$abund)
