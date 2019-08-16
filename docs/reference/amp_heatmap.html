@@ -310,7 +310,7 @@ amp_heatmap(subsettedData,
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'># Heatmap grouped by WWTP</span>
-<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The data has already been normalised. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.</span></div><div class='img'><img src='amp_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year,</span>
 <span class='co'># values not plotted for visibility, phylum name added and colorscale adjusted manually</span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
@@ -323,17 +323,17 @@ amp_heatmap(subsettedData,
   <span class='kw'>color_vector</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"white"</span>, <span class='st'>"red"</span>),
   <span class='kw'>plot_colorscale</span> <span class='kw'>=</span> <span class='st'>"sqrt"</span>,
   <span class='kw'>plot_legendbreaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>)
-)</div><div class='img'><img src='amp_heatmap-2.png' alt='' width='700' height='433' /></div><div class='input'>
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: The data has already been normalised. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.</span></div><div class='img'><img src='amp_heatmap-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Heatmap with known functional information about the Genera shown to the right</span>
-<span class='co'># By default this information is retrieved directly from midasfieldguide.org </span>
-<span class='co'># but you can provide your own with the function_data argument as shown in the </span>
-<span class='co'># textmap </span>
+<span class='co'># By default this information is retrieved directly from midasfieldguide.org</span>
+<span class='co'># but you can provide your own with the function_data argument as shown in the</span>
+<span class='co'># textmap</span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
   <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
   <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
   <span class='kw'>plot_functions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>)
-)</div><div class='img'><img src='amp_heatmap-3.png' alt='' width='700' height='433' /></div><div class='input'>
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: The data has already been normalised. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.</span></div><div class='img'><img src='amp_heatmap-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.</span>
 <span class='co'># Notice the function_data is now retrieved from the MiF data frame</span>
 <span class='no'>textmap</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
@@ -343,8 +343,7 @@ amp_heatmap(subsettedData,
   <span class='kw'>function_data</span> <span class='kw'>=</span> <span class='no'>MiF</span>,
   <span class='kw'>functions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>),
   <span class='kw'>textmap</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)
-<span class='no'>textmap</span></div><div class='output co'>#&gt;                          Aalborg East Aalborg West PAO GAO AOB NOB
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: The data has already been normalised. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.</span></div><div class='input'><span class='no'>textmap</span></div><div class='output co'>#&gt;                          Aalborg East Aalborg West PAO GAO AOB NOB
 #&gt; Tetrasphaera                 5.478941     6.842382 POS NEG NEG NEG
 #&gt; Trichococcus                 7.098638     3.028602  NT  NT  NT  NT
 #&gt; Candidatus Microthrix        2.769444     6.503052 NEG NEG NEG NEG

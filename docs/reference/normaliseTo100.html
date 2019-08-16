@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rank abundance plot — amp_rankabundance • ampvis2</title>
+<title>Normalise read counts to 100, i.e. in percent relative abundance per sample — normaliseTo100 • ampvis2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -37,9 +37,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Rank abundance plot — amp_rankabundance" />
+<meta property="og:title" content="Normalise read counts to 100, i.e. in percent relative abundance per sample — normaliseTo100" />
 
-<meta property="og:description" content="Generates a rank abundance curve (rank abundance vs cumulative read abundance)." />
+<meta property="og:description" content="Normalise read counts to 100, i.e. in percent relative abundance per sample" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,21 +125,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Rank abundance plot</h1>
+    <h1>Normalise read counts to 100, i.e. in percent relative abundance per sample</h1>
     
-    <div class="hidden name"><code>amp_rankabundance.Rd</code></div>
+    <div class="hidden name"><code>normaliseTo100.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Generates a rank abundance curve (rank abundance vs cumulative read abundance).</p>
+    <p>Normalise read counts to 100, i.e. in percent relative abundance per sample</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_rankabundance</span>(<span class='no'>data</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Sample"</span>, <span class='kw'>order_group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>plot_log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
-  <span class='kw'>tax_empty</span> <span class='kw'>=</span> <span class='st'>"best"</span>, <span class='kw'>tax_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>detailed_output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>normaliseTo100</span>(<span class='no'>data</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,72 +145,13 @@
       <th>data</th>
       <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
     </tr>
-    <tr>
-      <th>group_by</th>
-      <td><p>Group the samples by a variable in the metadata.</p></td>
-    </tr>
-    <tr>
-      <th>order_group</th>
-      <td><p>A vector to order the groups by.</p></td>
-    </tr>
-    <tr>
-      <th>plot_log</th>
-      <td><p>(<em>logical</em>) Log10-scale the x-axis. (<em>default:</em> <code>FALSE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>tax_add</th>
-      <td><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>tax_aggregate</th>
-      <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"Genus"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>tax_empty</th>
-      <td><p>How to show OTUs without taxonomic information. One of the following:</p><ul>
-<li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
-<li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
-<li><p><code>"OTU"</code>: Display the OTU name.</p></li>
-</ul></td>
-    </tr>
-    <tr>
-      <th>tax_class</th>
-      <td><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>normalise</th>
-      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>detailed_output</th>
-      <td><p>(<em>logical</em>) Return additional details or not. If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code><a href='https://rdrr.io/r/utils/View.html'>View(object$data)</a></code>. (<em>default:</em> <code>FALSE</code>)</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>A rank abundance curve is used to assess the biodiversity by plotting the ranked abundances of the OTUs (rank 1 is the most abundant, rank 2 the second and so on) versus the cumulative read abundance of the particular OTU. The rank abundances of the OTUs can be grouped by any taxonomic level by the <code>tax_aggregate</code> argument, the default is per OTU. When the samples are grouped by the <code>group_by</code> argument, the average of the group is used.</p>
-    
-    <h2 class="hasAnchor" id="preserving-relative-abundances-in-a-subset-of-larger-data"><a class="anchor" href="#preserving-relative-abundances-in-a-subset-of-larger-data"></a>Preserving relative abundances in a subset of larger data</h2>
-
-    
-    <p>See <code>?<a href='amp_subset_samples.html'>amp_subset_samples</a></code> or the <a href='https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data'>ampvis2 FAQ</a>.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='amp_load.html'>amp_load</a></code></p></div>
+    <p>A modifed ampvis2 object</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
-
-<span class='co'># Rank abundance plot</span>
-<span class='fu'>amp_rankabundance</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The data has already been normalised. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.</span></div><div class='img'><img src='amp_rankabundance-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -221,19 +159,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+          </ul>
 
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#preserving-relative-abundances-in-a-subset-of-larger-data">Preserving relative abundances in a subset of larger data</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
-<p>Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a></p>
   </div>
 </div>
 

@@ -122,6 +122,7 @@
 ##          658        14969     20890850        10480        46264 
 ## Median#Reads    Avg#Reads 
 ##        31800     31749.01 
+## (The read counts have been normalised)
 ## 
 ## Assigned taxonomy:
 ##       Kingdom        Phylum         Class         Order        Family 
@@ -174,33 +175,49 @@
 <a href="#heatmap" class="anchor"></a>Heatmap</h1>
 <p>All ampvis2 plots are generated using the <a href="http://ggplot2.tidyverse.org/">ggplot2</a> package. You can change the look of the plots to better suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots if needed. Refer to the <a href="http://ggplot2.tidyverse.org/reference/index.html">ggplot2 documentation</a> for more information. <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> by default aggregates to phylum level and shows the top 10 phyla, ordered by mean read abundance across all samples:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset, <span class="dt">group_by =</span> <span class="st">"Plant"</span>)</a></code></pre></div>
+<pre><code>## Warning: The data has already been normalised. Setting normalise = TRUE
+## (the default) will normalise the data again and the relative abundance
+## information about the original data of which the provided data is a subset
+## will be lost.</code></pre>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>There are many arguments you can use to suit your needs, for a full list see the reference (click the function names to go to its reference page). For example, you can manually select the level at which to aggregate, how many to show, add additional higher level taxonomic information, group the samples differently by the metadata, hide the values, change the colors and scaling, and much more. You can also adjust the text labels for better readability or adjust the positioning of the legend (adjusting ggplot2 plots is always done with “+” after the actual ampvis2 function):</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset,</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">            <span class="dt">group_by =</span> <span class="st">"Plant"</span>,</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">            <span class="dt">facet_by =</span> <span class="st">"Year"</span>,</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">            <span class="dt">tax_aggregate =</span> <span class="st">"Genus"</span>,</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">            <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>,</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">            <span class="dt">tax_show =</span> <span class="dv">25</span>,</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">            <span class="dt">color_vector =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"white"</span>, <span class="st">"darkred"</span>),</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">            <span class="dt">plot_colorscale =</span> <span class="st">"sqrt"</span>,</a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">            <span class="dt">plot_values =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">vjust =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb14-11" data-line-number="11">        <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>),</a>
-<a class="sourceLine" id="cb14-12" data-line-number="12">        <span class="dt">legend.position=</span><span class="st">"right"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span>(MiDASsubset,</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">            <span class="dt">group_by =</span> <span class="st">"Plant"</span>,</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">            <span class="dt">facet_by =</span> <span class="st">"Year"</span>,</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">            <span class="dt">tax_aggregate =</span> <span class="st">"Genus"</span>,</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">            <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>,</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">            <span class="dt">tax_show =</span> <span class="dv">25</span>,</a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">            <span class="dt">color_vector =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"white"</span>, <span class="st">"darkred"</span>),</a>
+<a class="sourceLine" id="cb15-8" data-line-number="8">            <span class="dt">plot_colorscale =</span> <span class="st">"sqrt"</span>,</a>
+<a class="sourceLine" id="cb15-9" data-line-number="9">            <span class="dt">plot_values =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">vjust =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb15-11" data-line-number="11">        <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>),</a>
+<a class="sourceLine" id="cb15-12" data-line-number="12">        <span class="dt">legend.position=</span><span class="st">"right"</span>)</a></code></pre></div>
+<pre><code>## Warning: The data has already been normalised. Setting normalise = TRUE
+## (the default) will normalise the data again and the relative abundance
+## information about the original data of which the provided data is a subset
+## will be lost.</code></pre>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
 <div id="boxplot" class="section level1">
 <h1 class="hasAnchor">
 <a href="#boxplot" class="anchor"></a>Boxplot</h1>
 <p><code><a href="../reference/amp_boxplot.html">amp_boxplot()</a></code> generates boxplots, again ordered by mean read abundance across all samples:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDASsubset)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDASsubset)</a></code></pre></div>
+<pre><code>## Warning: The data has already been normalised. Setting normalise = TRUE
+## (the default) will normalise the data again and the relative abundance
+## information about the original data of which the provided data is a subset
+## will be lost.</code></pre>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>The arguments you can provide are similar to those used in <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> and other ampvis2 functions:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDASsubset,</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">            <span class="dt">group_by =</span> <span class="st">"Period"</span>,</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">            <span class="dt">tax_show =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">            <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span>(MiDASsubset,</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">            <span class="dt">group_by =</span> <span class="st">"Period"</span>,</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">            <span class="dt">tax_show =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">            <span class="dt">tax_add =</span> <span class="st">"Phylum"</span>)</a></code></pre></div>
+<pre><code>## Warning: The data has already been normalised. Setting normalise = TRUE
+## (the default) will normalise the data again and the relative abundance
+## information about the original data of which the provided data is a subset
+## will be lost.</code></pre>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 <div id="ordination" class="section level1">
@@ -208,33 +225,33 @@
 <a href="#ordination" class="anchor"></a>Ordination</h1>
 <p>The <code><a href="../reference/amp_ordinate.html">amp_ordinate()</a></code> function has been expanded to support 7 different ordination methods, various data transformations and interactive plots by using <a href="https://plot.ly/">Plotly</a>. By default any OTU with an abundance no higher than 0.1% in any sample is removed, which drastically improves the calculation time. You can of course adjust this threshold manually by changing the <code>filter_species = 0.1</code> argument. Other than this, there are only four main arguments that are involved in the actual calculations, the rest are just various plotting features. These four are <code>type = ""</code>, <code>transform = ""</code>, <code>distmeasure = ""</code>, and lastly <code>constrain = ""</code> for constrained ordination (only used in Redundancy Analysis (RDA) or Canonical Correspondence Analysis (CCA)).</p>
 <p>When analysing microbial community composition data it is recommended to use the Hellinger transformation (see <a href="https://doi.org/10.1007/s004420100716">Legendre et al, 2001</a> or <a href="https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0">Numerical Ecology</a> for details) for most types of ordination methods except the distance-based ordination methods (Principal Coordinates Analysis (PCoA) and non-Metric Multidimensional Scaling (nMDS)), where you also have to select a distance measure manually by the <code>distmeasure = ""</code> argument, for example Bray-Curtis dissimilarities:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, </a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">             <span class="dt">type =</span> <span class="st">"pcoa"</span>,</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">             <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">             <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">             <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6">             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"blank"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, </a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">             <span class="dt">type =</span> <span class="st">"pcoa"</span>,</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">             <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">             <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">             <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6">             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"blank"</span>)</a></code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <p>It is also possible to track changes over time by setting the <code>sample_trajectory</code> and <code>sample_trajectory_group</code> arguments, to for example reveal temporal patterns per WWTP:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, </a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">             <span class="dt">type =</span> <span class="st">"pcoa"</span>,</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">             <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">             <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>, </a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">             <span class="dt">sample_trajectory =</span> <span class="st">"Date"</span>, </a>
-<a class="sourceLine" id="cb18-7" data-line-number="7">             <span class="dt">sample_trajectory_group =</span> <span class="st">"Plant"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, </a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">             <span class="dt">type =</span> <span class="st">"pcoa"</span>,</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">             <span class="dt">distmeasure =</span> <span class="st">"bray"</span>,</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4">             <span class="dt">sample_color_by =</span> <span class="st">"Plant"</span>,</a>
+<a class="sourceLine" id="cb22-5" data-line-number="5">             <span class="dt">sample_colorframe_label =</span> <span class="st">"Plant"</span>, </a>
+<a class="sourceLine" id="cb22-6" data-line-number="6">             <span class="dt">sample_trajectory =</span> <span class="st">"Date"</span>, </a>
+<a class="sourceLine" id="cb22-7" data-line-number="7">             <span class="dt">sample_trajectory_group =</span> <span class="st">"Plant"</span>)</a></code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>And lastly an example of constrained ordination by Canonical Correspondence Analysis (CCA), which in this case reveals how samples taken at different seasonal periods (<code>constrain = "Period"</code>) of the year can explain the data:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">ordinationresult &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, </a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">             <span class="dt">type =</span> <span class="st">"CCA"</span>,</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">             <span class="dt">constrain =</span> <span class="st">"Period"</span>,</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">             <span class="dt">transform =</span> <span class="st">"Hellinger"</span>,</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">             <span class="dt">sample_color_by =</span> <span class="st">"Period"</span>,</a>
-<a class="sourceLine" id="cb19-6" data-line-number="6">             <span class="dt">sample_shape_by =</span> <span class="st">"Plant"</span>,</a>
-<a class="sourceLine" id="cb19-7" data-line-number="7">             <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb19-8" data-line-number="8">             <span class="dt">sample_colorframe_label =</span> <span class="st">"Period"</span>,</a>
-<a class="sourceLine" id="cb19-9" data-line-number="9">             <span class="dt">detailed_output =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb19-10" data-line-number="10">ordinationresult<span class="op">$</span>plot</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">ordinationresult &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span>(MiDASsubset, </a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">             <span class="dt">type =</span> <span class="st">"CCA"</span>,</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">             <span class="dt">constrain =</span> <span class="st">"Period"</span>,</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">             <span class="dt">transform =</span> <span class="st">"Hellinger"</span>,</a>
+<a class="sourceLine" id="cb23-5" data-line-number="5">             <span class="dt">sample_color_by =</span> <span class="st">"Period"</span>,</a>
+<a class="sourceLine" id="cb23-6" data-line-number="6">             <span class="dt">sample_shape_by =</span> <span class="st">"Plant"</span>,</a>
+<a class="sourceLine" id="cb23-7" data-line-number="7">             <span class="dt">sample_colorframe =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb23-8" data-line-number="8">             <span class="dt">sample_colorframe_label =</span> <span class="st">"Period"</span>,</a>
+<a class="sourceLine" id="cb23-9" data-line-number="9">             <span class="dt">detailed_output =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb23-10" data-line-number="10">ordinationresult<span class="op">$</span>plot</a></code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <p>Notice that the plot can be saved as a more detailed object (<code>detailed_output = TRUE</code>), so additional details about the ordination result can be obtained for evaluation, fx a screeplot by <code>ordinationresult$screeplot</code> or some more raw data by <code>ordinationresult$model</code>.</p>
 </div>

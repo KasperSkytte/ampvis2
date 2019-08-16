@@ -5,7 +5,7 @@
 \title{Octave plot}
 \usage{
 amp_octave(data, tax_aggregate = "OTU", group_by = 1L,
-  scales = "fixed", num_threads = parallel::detectCores() - 1L)
+  scales = "fixed", num_threads = parallel::detectCores() - 2L)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
