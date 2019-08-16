@@ -24,21 +24,18 @@ print.hmfunplot <- function(x, ...) {
 #' @export
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 print.ampvis2 <- function(x, ...) {
-  ### Data must be in ampvis2 format
-  is_ampvis2(x)
-
   ### calculate basic statistics and useful information about the data, print it
-  if (!isTRUE(attributes(x)$normalised)) {
-    # calculate basic stats and store in attributes for use in print.ampvis2
-    readstats <- attributes(x)$readstats <- list(
+  if (abundAreCounts(x)) {
+    # calculate basic stats of reads
+    readstats <- list(
       "Total#Reads" = as.character(sum(x$abund)),
       "Min#Reads" = as.character(min(colSums(x$abund))),
       "Max#Reads" = as.character(max(colSums(x$abund))),
       "Median#Reads" = as.character(median(colSums(x$abund))),
       "Avg#Reads" = as.character(round(mean(colSums(x$abund)), digits = 2))
     )
-  } else if (isTRUE(attributes(x)$normalised)) {
-    readstats <- attributes(x)$readstats
+  } else if (!abundAreCounts(x)) {
+    readstats <- NULL
   }
   cat(class(x), "object with", length(x), "elements.", crayon::underline("\nSummary of OTU table:\n"))
   print.table(c(
@@ -48,7 +45,7 @@ print.ampvis2 <- function(x, ...) {
   ),
   justify = "right"
   )
-  if (isTRUE(attributes(x)$normalised)) {
+  if (!abundAreCounts(x)) {
     cat("(The read counts have been normalised)\n")
   }
   cat(crayon::underline("\nAssigned taxonomy:\n"))
@@ -64,6 +61,7 @@ print.ampvis2 <- function(x, ...) {
   justify = "right"
   )
   cat(crayon::underline("\nMetadata variables:"), as.character(ncol(x$metadata)), "\n", paste(as.character(colnames(x$metadata)), collapse = ", "))
+  cat("\n")
 }
 
 #' Print method for figure caption created by amp_ordinate

@@ -141,18 +141,6 @@ amp_subset_samples <- function(data,
     data$abund <- data$abund[rowSums(data$abund) > 0, , drop = FALSE]
   }
 
-  if (isTRUE(normalise)) {
-    tempabund <- tempabund[which(rownames(tempabund) %in% rownames(data$abund)), which(colnames(tempabund) %in% rownames(data$metadata)), drop = FALSE]
-    # calculate basic stats and store in attributes for use in print.ampvis2
-    attributes(data)$readstats <- list(
-      "Total#Reads" = as.character(sum(tempabund)),
-      "Min#Reads" = as.character(min(colSums(tempabund))),
-      "Max#Reads" = as.character(max(colSums(tempabund))),
-      "Median#Reads" = as.character(median(colSums(tempabund))),
-      "Avg#Reads" = as.character(round(mean(colSums(tempabund)), digits = 2))
-    )
-  }
-
   # Subset taxonomy based on abund
   data$tax <- data$tax[which(rownames(data$tax) %in% rownames(data$abund)), , drop = FALSE]
 

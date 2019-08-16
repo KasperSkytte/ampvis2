@@ -120,18 +120,6 @@ amp_subset_taxa <- function(data,
   }
   data$abund <- data$abund[rownames(data$abund) %in% rownames(data$tax), , drop = FALSE]
 
-  if (isTRUE(normalise)) {
-    tempabund <- tempabund[which(rownames(tempabund) %in% rownames(data$abund)), , drop = FALSE]
-    # calculate basic stats and store in attributes for use in print.ampvis2
-    attributes(data)$readstats <- list(
-      "Total#Reads" = as.character(sum(tempabund)),
-      "Min#Reads" = as.character(min(colSums(tempabund))),
-      "Max#Reads" = as.character(max(colSums(tempabund))),
-      "Median#Reads" = as.character(median(colSums(tempabund))),
-      "Avg#Reads" = as.character(round(mean(colSums(tempabund)), digits = 2))
-    )
-  }
-
   if (any(names(data) == "refseq")) {
     data$refseq <- data$refseq[rownames(data$tax)]
   }
