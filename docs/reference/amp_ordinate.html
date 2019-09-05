@@ -8,10 +8,12 @@
 
 <title>Ordination plot — amp_ordinate • ampvis2</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -37,10 +39,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Ordination plot — amp_ordinate" />
 
+<meta property="og:title" content="Ordination plot — amp_ordinate" />
 <meta property="og:description" content="A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -80,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5.1</span>
       </span>
     </div>
 
@@ -99,7 +102,6 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MadsAlbertsen/ampvis2">
@@ -131,9 +133,7 @@
     </div>
 
     <div class="ref-description">
-    
     <p>A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>amp_ordinate</span>(<span class='no'>data</span>, <span class='kw'>filter_species</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"PCA"</span>,
@@ -155,7 +155,7 @@
   <span class='kw'>envfit_arrowcolor</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>envfit_show</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>repel_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>opacity</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>tax_empty</span> <span class='kw'>=</span> <span class='st'>"best"</span>,
   <span class='kw'>detailed_output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -358,11 +358,10 @@
       <td><p>Pass additional arguments to the vegan ordination functions, fx the <code><a href='https://rdrr.io/pkg/vegan/man/cca.html'>rda</a></code>, <code><a href='https://rdrr.io/pkg/vegan/man/cca.html'>cca</a></code>, <code><a href='https://rdrr.io/pkg/vegan/man/metaMDS.html'>metaMDS</a></code> functions, see the documentation.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>amp_ordinate</code> function is primarily based on two packages; <code><a href='https://rdrr.io/pkg/vegan/man/vegan-package.html'>vegan-package</a></code>, which performs the actual ordination, and the <code><a href='https://ggplot2.tidyverse.org/reference/ggplot2-package.html'>ggplot2-package</a></code> to generate the plot. The function generates an ordination plot by the following process:</p><ol>
@@ -374,7 +373,6 @@
 <li><p>Visualise the result with ggplot2 or plotly in various ways defined by the user</p></li>
 </ol>
     <p>When the chosen ordination method is an eigenanalysis-based method then the relative contribution (eigenvalue) of each axis to the total inertia in the data (sum of all eigenvalues, including those of the constrained space) is indicated in percent at the axis titles. When one of the constrained ordination methods (<code>RDA</code> and <code>CCA</code>) is used then a second value is furthermore shown which then indicates the relative contribution of the particular axis to the total constrained space only.</p>
-    
     <h2 class="hasAnchor" id="using-a-custom-distance-matrix"><a class="anchor" href="#using-a-custom-distance-matrix"></a>Using a custom distance matrix</h2>
 
     
@@ -388,17 +386,14 @@ amp_ordinate(ampvis2_object,
              transform = "none",
              distmeasure = "none")
 </pre>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): <a href='https://mb3is.megx.net/gustame'>https://mb3is.megx.net/gustame</a></p>
 <p>Legendre, Pierre &amp; Legendre, Louis (2012). Numerical Ecology. Elsevier Science. ISBN: 9780444538680</p>
 <p>Legendre, P., &amp; Gallagher, E. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia, 129(2), 271-280. <a href='http://doi.org/10.1007/s004420100716'>http://doi.org/10.1007/s004420100716</a></p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='amp_load.html'>amp_load</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
@@ -427,17 +422,11 @@ amp_ordinate(ampvis2_object,
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#using-a-custom-distance-matrix">Using a custom distance matrix</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

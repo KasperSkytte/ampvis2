@@ -5,7 +5,7 @@
 \title{Rank abundance plot}
 \usage{
 amp_rankabundance(data, group_by = "Sample", order_group = NULL,
-  plot_log = FALSE, tax_add = NULL, tax_aggregate = "Genus",
+  plot_log = FALSE, tax_add = NULL, tax_aggregate = "OTU",
   tax_empty = "best", tax_class = NULL, normalise = TRUE,
   detailed_output = FALSE)
 }
