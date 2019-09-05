@@ -8,3 +8,6 @@
 ^\.travis\.yml$
 ^vignettes$
 ^\.httr-oauth$
+^test$
+^.git$
+^..Rcheck$
