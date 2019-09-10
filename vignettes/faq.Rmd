@@ -39,23 +39,16 @@ amp_ordinate(ampvis2_object,
 ```
 
 ## Loading phyloseq objects
-This is particularly useful if you want to import data in the **QIIME**, **biom**, **mothur**, and **pyrotagger** formats, see the phyloseq [Data Import](https://joey711.github.io/phyloseq/import-data.html#the_import_family_of_functions) tutorial. You will first have to extract the OTU-table and the metadata from the phyloseq object, and then import as normal with `amp_load`:
+Simply source the `phyloseq_to_ampvis2()` function from [this gist](https://gist.github.com/KasperSkytte/8d0ca4206a66be7ff6d76fc4ab8e66c6), either by copy/pasting into R, or by using `devtools::source_gist()` as shown below. You need both the `phyloseq` and `ampvis2` packages installed for it to work.
 
-```{r, eval=FALSE}
-library(ampvis2)
-#Combine OTU abundance table and taxonomy table from the phyloseq object "my_phyloseq_object":
-obj <- my_phyloseq_object
-otutable <- data.frame(OTU = rownames(phyloseq::otu_table(obj)@.Data),
-                       phyloseq::otu_table(obj)@.Data,
-                       phyloseq::tax_table(obj)@.Data,
-                       check.names = FALSE
-                       )
+```{r, eval = FALSE}
+#require the devtools package to source gist
+if(!require("devtools"))
+  install.packages("devtools")
+#source the phyloseq_to_ampvis2() function from the gist
+devtools::source_gist("8d0ca4206a66be7ff6d76fc4ab8e66c6")
 
-#Extract metadata from the phyloseq object:
-metadata <- data.frame(phyloseq::sample_data(obj), 
-                       check.names = FALSE
-                       )
-
-#Load the data with amp_load:
-my_ampvis2_object <- amp_load(otutable, metadata)
+#go converty
+ampvis2_obj <- phyloseq_to_ampvis2(phyloseq_obj)
 ```
+

@@ -9,7 +9,7 @@
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Frequently Asked Questions">
@@ -80,6 +80,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -131,23 +132,15 @@
 <div id="loading-phyloseq-objects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#loading-phyloseq-objects" class="anchor"></a>Loading phyloseq objects</h2>
-<p>This is particularly useful if you want to import data in the <strong>QIIME</strong>, <strong>biom</strong>, <strong>mothur</strong>, and <strong>pyrotagger</strong> formats, see the phyloseq <a href="https://joey711.github.io/phyloseq/import-data.html#the_import_family_of_functions">Data Import</a> tutorial. You will first have to extract the OTU-table and the metadata from the phyloseq object, and then import as normal with <code>amp_load</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ampvis2)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#Combine OTU abundance table and taxonomy table from the phyloseq object "my_phyloseq_object":</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">obj &lt;-<span class="st"> </span>my_phyloseq_object</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">otutable &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">OTU =</span> <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(phyloseq<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/phyloseq/man/otu_table-methods.html">otu_table</a></span>(obj)<span class="op">@</span>.Data),</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">                       phyloseq<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/phyloseq/man/otu_table-methods.html">otu_table</a></span>(obj)<span class="op">@</span>.Data,</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">                       phyloseq<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html">tax_table</a></span>(obj)<span class="op">@</span>.Data,</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">                       <span class="dt">check.names =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">                       )</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#Extract metadata from the phyloseq object:</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">metadata &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(phyloseq<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html">sample_data</a></span>(obj), </a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">                       <span class="dt">check.names =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">                       )</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#Load the data with amp_load:</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">my_ampvis2_object &lt;-<span class="st"> </span><span class="kw"><a href="../reference/amp_load.html">amp_load</a></span>(otutable, metadata)</a></code></pre></div>
+<p>Simply source the <code>phyloseq_to_ampvis2()</code> function from <a href="https://gist.github.com/KasperSkytte/8d0ca4206a66be7ff6d76fc4ab8e66c6">this gist</a>, either by copy/pasting into R, or by using <code><a href="https://rdrr.io/pkg/devtools/man/source_gist.html">devtools::source_gist()</a></code> as shown below. You need both the <code>phyloseq</code> and <code>ampvis2</code> packages installed for it to work.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">#require the devtools package to source gist</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="cf">if</span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"devtools"</span>))</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#source the phyloseq_to_ampvis2() function from the gist</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/source_gist.html">source_gist</a></span>(<span class="st">"8d0ca4206a66be7ff6d76fc4ab8e66c6"</span>)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#go converty</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">ampvis2_obj &lt;-<span class="st"> </span><span class="kw">phyloseq_to_ampvis2</span>(phyloseq_obj)</a></code></pre></div>
 </div>
   </div>
 
@@ -168,13 +161,15 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Mads Albertsen, Kasper Skytte Andersen.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
 </div>
 

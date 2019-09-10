@@ -24,8 +24,9 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -66,6 +67,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script>
+
 
   </head>
 
@@ -122,6 +124,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -173,7 +176,8 @@
     <h2 class="hasAnchor" id="the-otu-table"><a class="anchor" href="#the-otu-table"></a>The OTU-table</h2>
 
     
-    <p>The OTU-table contains information about the OTUs, their assigned taxonomy and their read counts in each sample. The provided OTU-table must be a data frame with the following requirements:</p>
+
+<p>The OTU-table contains information about the OTUs, their assigned taxonomy and their read counts in each sample. The provided OTU-table must be a data frame with the following requirements:</p>
 <ul>
 <li><p>The rows are OTU IDs and the columns are samples.</p></li>
 <li><p>The last 7 columns are the corresponding taxonomy assigned to the OTUs, named <code>"Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"</code>.</p></li>
@@ -181,30 +185,34 @@
 <li><p>The column names of the data frame are the sample IDs, exactly matching those in the metadata, (and the last 7 columns named <code>Kingdom</code> -&gt; <code>Species</code>, of course). Thus, the first row should contain the read counts of one of the OTUs in each sample, NOT the sample IDs and taxonomy.</p></li>
 <li><p>Generally avoid special characters and spaces in row- and column names.</p></li>
 </ul>
-    <p>A minimal example is available with <code><a href='https://rdrr.io/r/utils/data.html'>data("example_otutable")</a></code>.</p>
+
+<p>A minimal example is available with <code><a href='https://rdrr.io/r/utils/data.html'>data("example_otutable")</a></code>.</p>
     <h2 class="hasAnchor" id="the-metadata"><a class="anchor" href="#the-metadata"></a>The metadata</h2>
 
     
-    <p>The metadata contains additional information about the samples, for example where each sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements:</p>
+
+<p>The metadata contains additional information about the samples, for example where each sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements:</p>
 <ul>
 <li><p>The sample IDs must be in the first column. These sample IDs must match exactly to those in the OTU-table.</p></li>
 <li><p>Column classes matter, categorical variables should be loaded either <code><a href='https://rdrr.io/r/base/character.html'>as.character()</a></code> or <code><a href='https://rdrr.io/r/base/factor.html'>as.factor()</a></code>, and continuous variables <code><a href='https://rdrr.io/r/base/numeric.html'>as.numeric()</a></code>. See below.</p></li>
 <li><p>Generally avoid special characters and spaces in row- and column names.</p></li>
 </ul>
-    <p>If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (<code><a href='https://rdrr.io/r/base/numeric.html'>as.numeric()</a></code>) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded <code><a href='https://rdrr.io/r/base/factor.html'>as.factor()</a></code> or <code><a href='https://rdrr.io/r/base/character.html'>as.character()</a></code> instead. This has consequences for the analysis as R treats them differently. Therefore either use the <code>colClasses = </code> argument when loading a csv file or <code>col_types = </code> when loading an excel file, or manually adjust the column classes afterwards with fx <code>metadata$Year &lt;- as.character(metadata$Year)</code>.</p>
+
+<p>If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (<code><a href='https://rdrr.io/r/base/numeric.html'>as.numeric()</a></code>) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded <code><a href='https://rdrr.io/r/base/factor.html'>as.factor()</a></code> or <code><a href='https://rdrr.io/r/base/character.html'>as.character()</a></code> instead. This has consequences for the analysis as R treats them differently. Therefore either use the <code>colClasses = </code> argument when loading a csv file or <code>col_types = </code> when loading an excel file, or manually adjust the column classes afterwards with fx <code>metadata$Year &lt;- as.character(metadata$Year)</code>.</p>
 <p>The <code>amp_load</code> function will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis. Any unmatched samples between the otutable and metadata will be removed.</p>
 <p>A minimal example is available with <code><a href='https://rdrr.io/r/utils/data.html'>data("example_metadata")</a></code>.</p>
     <h2 class="hasAnchor" id="reference-sequences"><a class="anchor" href="#reference-sequences"></a>Reference sequences</h2>
 
     
-    <p>A fasta file with the raw sequences can be loaded as well, which will then be available in the refseq element of the ampvis2 object. These sequences will not be used in any ampvis2 function other than the two subset functions <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> and <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code>, so that they can be exported with <code><a href='amp_export_fasta.html'>amp_export_fasta</a></code>. The fasta file is loaded with the <code><a href='https://rdrr.io/pkg/ape/man/read.dna.html'>read.FASTA</a></code> function from the <code>ape</code> package.</p>
+
+<p>A fasta file with the raw sequences can be loaded as well, which will then be available in the refseq element of the ampvis2 object. These sequences will not be used in any ampvis2 function other than the two subset functions <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> and <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code>, so that they can be exported with <code><a href='amp_export_fasta.html'>amp_export_fasta</a></code>. The fasta file is loaded with the <code><a href='https://rdrr.io/pkg/ape/man/read.dna.html'>read.FASTA</a></code> function from the <code>ape</code> package.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code>amp_load</code>, <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code>, <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># Be sure to use the correct function to load your .csv files, see ?read.table()
-</div><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'><span class='co'># Be sure to use the correct function to load your .csv files, see ?read.table()</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Read the OTU-table as a data frame. It is important to set check.names = FALSE.</span>
 <span class='no'>myotutable</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.delim</a></span>(<span class='st'>"data/otutable.txt"</span>, <span class='kw'>check.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
@@ -222,7 +230,8 @@
 
 <span class='co'># Show a short summary about the data by simply typing the name of the object in the console</span>
 <span class='no'>d</span>
-<span class='co'># }</span><div class='input'>
+}
+
 <span class='co'># Minimal example metadata:</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"example_metadata"</span>)
 <span class='no'>example_metadata</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 4</span><span>
@@ -302,14 +311,16 @@
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Mads Albertsen, Kasper Skytte Andersen.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
@@ -332,6 +343,8 @@
 </script>
 
 
+
   </body>
 </html>
+
 
