@@ -460,7 +460,7 @@ amp_heatmap <- function(data,
     if (!is.null(color_vector)) {
       color.pal <- color_vector
     } else {
-      color.pal <- rev(RColorBrewer::brewer.pal(3, "RdBu"))
+      color.pal <- rev(RColorBrewer::brewer.pal(3, "RdYlBu"))
     }
 
     if (plot_values == TRUE) {
