@@ -175,15 +175,16 @@ amp_heatmap <- function(data,
     # Only once per session, save in a hidden object .ampvis2_midasfg_function_data
     if (is.null(function_data)) {
       if (!exists(".ampvis2_midasfg_function_data", envir = .GlobalEnv)) {
-        tryCatch({
-          function_data <- extractFunctions(getMiDASFGData())
-          assign(".ampvis2_midasfg_function_data", function_data, envir = .GlobalEnv)
-        },
-        error = function(e) {
-          warning("Could not reach midasfieldguide.org to retrieve functional information just now", call. = FALSE)
-          data(MiF, envir = environment())
-          function_data <- MiF
-        }
+        tryCatch(
+          {
+            function_data <- extractFunctions(getMiDASFGData())
+            assign(".ampvis2_midasfg_function_data", function_data, envir = .GlobalEnv)
+          },
+          error = function(e) {
+            warning("Could not reach midasfieldguide.org to retrieve functional information just now", call. = FALSE)
+            data(MiF, envir = environment())
+            function_data <- MiF
+          }
         )
       } else {
         function_data <- .ampvis2_midasfg_function_data
