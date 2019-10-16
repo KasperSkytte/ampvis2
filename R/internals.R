@@ -203,7 +203,7 @@ extractFunctions <- function(FGList) {
 #' @param tree Phylogenetic tree (rooted and with branch lengths) as loaded with \code{\link[ape]{read.tree}}.
 #' @param weighted Calculate weighted or unweighted UniFrac distances.
 #' @param normalise Should the output be normalised such that values range from 0 to 1 independent of branch length values? Note that unweighted UniFrac is always normalised. (\emph{default:} \code{TRUE})
-#' @param num_threads The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}} (\emph{default:} \code{1})
+#' @param num_threads The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}}. (\emph{default:} \code{1})
 #'
 #' @importFrom ape is.rooted node.depth node.depth.edgelength reorder.phylo
 #' @importFrom doParallel registerDoParallel
@@ -230,7 +230,7 @@ unifrac <- function(abund,
   OTU <- as.matrix(abund)
   ntip <- length(tree$tip.label)
   if (ntip != nrow(OTU)) {
-    stop("OTU table and phylogenetic tree do not match. (Note: This may be the result of subsetting if the provided data is a subset of larger data as phylogenetic trees are not subsetted)", call. = FALSE)
+    stop("OTU table and phylogenetic tree do not match", call. = FALSE)
   }
   # if(!all(rownames(OTU) == tree$tip.label))
   #  OTU <- OTU[tree$tip.label, , drop = FALSE]
@@ -271,15 +271,21 @@ unifrac <- function(abund,
     BT <- samplesums[B]
     if (isTRUE(weighted)) {
       wUF_branchweight <- abs(edge_array[, A] / AT - edge_array[, B] / BT)
-      numerator <- sum({
-        tree$edge.length * wUF_branchweight
-      }, na.rm = TRUE)
+      numerator <- sum(
+        {
+          tree$edge.length * wUF_branchweight
+        },
+        na.rm = TRUE
+      )
       if (isFALSE(normalise)) {
         return(numerator)
       } else {
-        denominator <- sum({
-          tipAges * (OTU[, A] / AT + OTU[, B] / BT)
-        }, na.rm = TRUE)
+        denominator <- sum(
+          {
+            tipAges * (OTU[, A] / AT + OTU[, B] / BT)
+          },
+          na.rm = TRUE
+        )
         return(numerator / denominator)
       }
     } else {
@@ -295,6 +301,40 @@ unifrac <- function(abund,
   if (!is.matrix(matIndices)) matIndices <- matrix(matIndices, ncol = 2)
   UniFracMat[matIndices] <- unlist(distlist)
   return(as.dist(UniFracMat))
+}
+
+#' Calculate Jensen-Shannon Divergence distances
+#'
+#' @param abund Abundance table with OTU counts, in \code{ampvis2} objects it is available with simply data$abund.
+#' @param pseudocount Pseudocount to use instead of 0-divisions. (\emph{default:} \code{0.000001})
+#'
+#' @return A distance matrix of class \code{dist}.
+# This is based on http://enterotype.embl.de/enterotypes.html
+# Abundances of 0 will be set to the pseudocount value to avoid 0-value denominators
+# Unfortunately this code is SLOOOOOOOOW
+dist.JSD <- function(abund, pseudocount = 0.000001) {
+  inMatrix <- t(abund)
+  KLD <- function(x, y) sum(x * log(x / y))
+  JSD <- function(x, y) sqrt(0.5 * KLD(x, (x + y) / 2) + 0.5 * KLD(y, (x + y) / 2))
+  matrixColSize <- length(colnames(inMatrix))
+  matrixRowSize <- length(rownames(inMatrix))
+  colnames <- colnames(inMatrix)
+  resultsMatrix <- matrix(0, matrixColSize, matrixColSize)
+
+  inMatrix <- apply(inMatrix, 1:2, function(x) ifelse(x == 0, pseudocount, x))
+
+  for (i in 1:matrixColSize) {
+    for (j in 1:matrixColSize) {
+      resultsMatrix[i, j] <- JSD(
+        as.vector(inMatrix[, i]),
+        as.vector(inMatrix[, j])
+      )
+    }
+  }
+  colnames -> colnames(resultsMatrix) -> rownames(resultsMatrix)
+  as.dist(resultsMatrix) -> resultsMatrix
+  attr(resultsMatrix, "method") <- "dist"
+  return(resultsMatrix)
 }
 
 #' @title Find lowest taxonomic level
