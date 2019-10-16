@@ -231,92 +231,38 @@ amp_ordinate <- function(data,
   if (!type %in% validTypes) {
     stop("type must be one of: ", paste0(validTypes, collapse = ", "))
   }
+
+  # Samples are observations, OTU's are variables
+  data$abund <- t(data$abund)
+
   ##### Data transformation with decostand()  #####
   if (!transform == "none" & transform != "sqrt") {
-    transform <- tolower(transform)
-    data$abund <- t(vegan::decostand(t(data$abund), method = transform))
+    data$abund <- vegan::decostand(data$abund, method = transform)
   } else if (transform == "sqrt") {
-    data$abund <- t(sqrt(t(data$abund)))
+    data$abund <- sqrt(data$abund)
   }
 
-  ##### Inputmatrix AFTER transformation  #####
-  if (any(type == c("nmds", "mmds", "pcoa", "dca"))) {
-    if (!type == "nmds" & (species_plot == TRUE | species_plotly == TRUE)) {
-      stop("No speciesscores available with mMDS/PCoA, DCA.", call. = FALSE)
-    }
-    if (!distmeasure == "none") {
-      # Calculate distance matrix with vegdist()
-      if (distmeasure == "jsd") {
-        # This is based on http://enterotype.embl.de/enterotypes.html
-        # Abundances of 0 will be set to the pseudocount value to avoid 0-value denominators
-        # Unfortunately this code is SLOOOOOOOOW
-        dist.JSD <- function(inMatrix, pseudocount = 0.000001) {
-          KLD <- function(x, y) sum(x * log(x / y))
-          JSD <- function(x, y) sqrt(0.5 * KLD(x, (x + y) / 2) + 0.5 * KLD(y, (x + y) / 2))
-          matrixColSize <- length(colnames(inMatrix))
-          matrixRowSize <- length(rownames(inMatrix))
-          colnames <- colnames(inMatrix)
-          resultsMatrix <- matrix(0, matrixColSize, matrixColSize)
+  validVegdistMethods <- c(
+    "manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower",
+    "altGower", "morisita", "horn", "mountford", "raup", "binomial", "chao", "cao", "mahalanobis"
+  )
 
-          inMatrix <- apply(inMatrix, 1:2, function(x) ifelse(x == 0, pseudocount, x))
+  if ((type == "mmds" | type == "pcoa") &
+    (isTRUE(species_plot) | isTRUE(species_plotly))) {
+    stop("No speciesscores available with mMDS/PCoA", call. = FALSE)
+  }
 
-          for (i in 1:matrixColSize) {
-            for (j in 1:matrixColSize) {
-              resultsMatrix[i, j] <- JSD(
-                as.vector(inMatrix[, i]),
-                as.vector(inMatrix[, j])
-              )
-            }
-          }
-          colnames -> colnames(resultsMatrix) -> rownames(resultsMatrix)
-          as.dist(resultsMatrix) -> resultsMatrix
-          attr(resultsMatrix, "method") <- "dist"
-          return(resultsMatrix)
-        }
-        message("Calculating Jensen-Shannon Divergence (JSD) distances... ")
-        inputmatrix <- dist.JSD(data$abund)
-        message("Done.")
-      } else if (any(distmeasure == c(
-        "manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower",
-        "altGower", "morisita", "horn", "mountford", "raup", "binomial", "chao", "cao", "mahalanobis"
-      ))) {
-        message("Calculating distance matrix... ")
-        inputmatrix <- vegan::vegdist(t(data$abund), method = distmeasure)
-        message("Done.")
-      } else if (distmeasure == "unifrac") {
-        inputmatrix <- unifrac(
-          abund = data$abund,
-          tree = data$tree,
-          weighted = FALSE,
-          normalise = TRUE,
-          num_threads = num_threads
-        )
-      } else if (distmeasure == "wunifrac") {
-        inputmatrix <- unifrac(
-          abund = data$abund,
-          tree = data$tree,
-          weighted = TRUE,
-          normalise = TRUE,
-          num_threads = num_threads
-        )
-      }
-    } else if (distmeasure == "none") {
-      warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure.", call. = FALSE)
-      inputmatrix <- t(data$abund)
-    }
-
-    if (transform != "none" & distmeasure != "none") {
-      warning("Using both transformation AND a distance measure is not recommended for distance-based ordination (nMDS/PCoA/DCA). If this is not deliberate, consider transform = \"none\".", call. = FALSE)
-    }
-  } else if (any(type == c("pca", "rda", "ca", "cca"))) {
-    inputmatrix <- t(data$abund)
+  if (any(type == c("nmds", "mmds", "pcoa", "dca")) &
+    transform != "none" &
+    distmeasure != "none") {
+    warning("Using both transformation AND a distance measure is not recommended for distance-based ordination (nMDS/PCoA). If this is not deliberate, consider transform = \"none\".", call. = FALSE)
   }
 
   ##### Perform ordination  #####
   # Generate data depending on the chosen ordination type
   if (type == "pca") {
     # make the model
-    model <- vegan::rda(inputmatrix, ...)
+    model <- vegan::rda(data$abund, ...)
 
     # axis (and data column) names
     x_axis_name <- paste0("PC", x_axis)
@@ -333,7 +279,7 @@ amp_ordinate <- function(data,
       stop("Argument constrain must be provided when performing constrained/canonical analysis.", call. = FALSE)
     }
     # make the model
-    codestring <- paste0("rda(inputmatrix~", paste(constrain, collapse = "+"), ", data$metadata, ...)") # function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
+    codestring <- paste0("rda(data$abund~", paste(constrain, collapse = "+"), ", data$metadata, ...)") # function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
     model <- eval(parse(text = codestring))
 
     # axes depend on the results
@@ -362,12 +308,16 @@ amp_ordinate <- function(data,
     sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if (type == "nmds") {
+    if (!distmeasure %in% validVegdistMethods) {
+      stop("Valid distance measures for nMDS are only those supported by vegan::vegdist:\n", paste0(validVegdistMethods, collapse = ", "), call. = FALSE)
+    }
+
     # make the model
-    if (ncol(data$abund) > 100) {
+    if (nrow(data$abund) > 100) {
       message("Performing non-Metric Multidimensional Scaling on more than 100 samples, this may take some time ... ")
     }
-    model <- vegan::metaMDS(inputmatrix, trace = FALSE, ...)
-    if (ncol(data$abund) > 100) {
+    model <- vegan::metaMDS(data$abund, distance = distmeasure, trace = FALSE, ...)
+    if (nrow(data$abund) > 100) {
       message("Done.")
     }
 
@@ -387,8 +337,35 @@ amp_ordinate <- function(data,
       speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
     }
   } else if (type == "mmds" | type == "pcoa") {
+    # Calculate distance matrix
+    if (distmeasure == "jsd") {
+      message("Calculating Jensen-Shannon Divergence (JSD) distances... ")
+      distmatrix <- dist.JSD(data$abund)
+      message("Done.")
+    } else if (distmeasure %in% validVegdistMethods) {
+      distmatrix <- vegan::vegdist(data$abund, method = distmeasure)
+    } else if (distmeasure == "unifrac") {
+      distmatrix <- unifrac(
+        abund = t(data$abund),
+        tree = data$tree,
+        weighted = FALSE,
+        normalise = TRUE,
+        num_threads = num_threads
+      )
+    } else if (distmeasure == "wunifrac") {
+      distmatrix <- unifrac(
+        abund = t(data$abund),
+        tree = data$tree,
+        weighted = TRUE,
+        normalise = TRUE,
+        num_threads = num_threads
+      )
+    } else if (!distmeasure %in% c(validVegdistMethods, "wunifrac", "unifrac", "jsd")) {
+      stop("Valid distance measures for PCoA are:\n", paste0(c("wunifrac", "unifrac", "jsd", validVegdistMethods), collapse = ", "), call. = FALSE)
+    }
+
     # make the model
-    model <- ape::pcoa(inputmatrix, ...)
+    model <- ape::pcoa(distmatrix, ...)
 
     # axis (and data column) names
     x_axis_name <- paste0("PCo", x_axis)
@@ -405,7 +382,7 @@ amp_ordinate <- function(data,
     speciesscores <- NULL
   } else if (type == "ca") {
     # make the model
-    model <- vegan::cca(inputmatrix, ...)
+    model <- vegan::cca(data$abund, ...)
 
     # axis (and data column) names
     x_axis_name <- paste0("CA", x_axis)
@@ -422,7 +399,7 @@ amp_ordinate <- function(data,
       stop("Argument constrain must be provided when performing constrained/canonical analysis.", call. = FALSE)
     }
     # make the model
-    codestring <- paste0("cca(inputmatrix~", paste(constrain, collapse = "+"), ", data$metadata, ...)") # function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
+    codestring <- paste0("cca(data$abund~", paste(constrain, collapse = "+"), ", data$metadata, ...)") # function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
     model <- eval(parse(text = codestring))
 
     # axes depend on the results
@@ -452,7 +429,7 @@ amp_ordinate <- function(data,
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if (type == "dca") {
     # make the model
-    model <- vegan::decorana(inputmatrix, ...)
+    model <- vegan::decorana(data$abund, ...)
 
     # axis (and data column) names
     x_axis_name <- paste0("DCA", x_axis)
