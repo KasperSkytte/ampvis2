@@ -400,7 +400,7 @@ aggregate_abund <- function(abund,
   newtax <- tax[which(nchar(tax[[lowestTaxLevel]]) > 1 &
     !is.na(tax[[lowestTaxLevel]]) &
     !grepl("^\\b[dkpcofgs]*[_:;]*\\b$", tax[[lowestTaxLevel]])), ]
-  newabund <- abund[rownames(newtax), ]
+  newabund <- abund[rownames(newtax), , drop = FALSE]
   if (nrow(newtax) != nrow(tax)) {
     message(paste0(
       nrow(tax) - nrow(newtax),
