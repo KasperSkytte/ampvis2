@@ -227,6 +227,10 @@ amp_ordinate <- function(data,
   transform <- tolower(transform)
   distmeasure <- tolower(distmeasure)
 
+  validTypes <- c("pca", "rda", "nmds", "mmds", "pcoa", "ca", "cca", "dca")
+  if (!type %in% validTypes) {
+    stop("type must be one of: ", paste0(validTypes, collapse = ", "))
+  }
   ##### Data transformation with decostand()  #####
   if (!transform == "none" & transform != "sqrt") {
     transform <- tolower(transform)
