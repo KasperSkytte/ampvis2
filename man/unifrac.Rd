@@ -16,7 +16,7 @@ unifrac(abund, tree, weighted = FALSE, normalise = TRUE,
 
 \item{normalise}{Should the output be normalised such that values range from 0 to 1 independent of branch length values? Note that unweighted UniFrac is always normalised. (\emph{default:} \code{TRUE})}
 
-\item{num_threads}{The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}} (\emph{default:} \code{1})}
+\item{num_threads}{The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}}. (\emph{default:} \code{1})}
 }
 \value{
 A distance matrix of class \code{dist}.

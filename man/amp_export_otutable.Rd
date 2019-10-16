@@ -11,13 +11,13 @@ amp_export_otutable(data, filename = "exported_otutable",
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{filename}{File name of the exported OTU-table WITHOUT extension. (\emph{default:} \code{"exported_otutable"})}
+\item{filename}{File name of the exported OTU-table (excluding extension). (\emph{default:} \code{"exported_otutable"})}
 
-\item{extension}{File extension without \code{"."}. (\emph{default:} \code{"csv"})}
+\item{extension}{File extension (without \code{"."}). (\emph{default:} \code{"csv"})}
 
-\item{md5}{(\emph{logical}) Compute md5 sum of the data (the whole object, not just otutable) and append to the filename. (\emph{default:} \code{FALSE})}
+\item{md5}{(\emph{logical}) Compute md5 sum of the data (the whole R-object, not just otutable) and append to the filename. (\emph{default:} \code{FALSE})}
 
-\item{sep}{Separator passed directly to \code{\link{write.table}}. (\emph{default:} \code{"\t"})}
+\item{sep}{Separator passed directly to \code{\link[data.table]{fwrite}}. (\emph{default:} \code{"\t"})}
 
 \item{id}{Name the samples using a variable in the metadata.}
 
@@ -25,7 +25,7 @@ amp_export_otutable(data, filename = "exported_otutable",
 
 \item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{FALSE})}
 
-\item{...}{Additional arguments passed to \code{\link{write.table}} other than \code{sep} and \code{row.names}.}
+\item{...}{Additional arguments passed on to \code{\link[data.table]{fwrite}} (other than \code{sep}).}
 }
 \description{
 Export otutable (including taxonomy) from an ampvis2 object as CSV using \code{\link{write.table}}.
@@ -36,7 +36,7 @@ data("AalborgWWTPs")
 
 # Export OTU-table
 \dontrun{
-amp_export_otutable(AalborgWWTPs, md5 = TRUE, filename = "AalborgWWTPs_otutable", sep = "\\t")
+amp_export_otutable(AalborgWWTPs, md5 = TRUE, filename = "AalborgWWTPs_otutable", sep = "\\\\t")
 }
 
 }

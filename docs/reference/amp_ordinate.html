@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5.2</span>
       </span>
     </div>
 
@@ -140,7 +140,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>amp_ordinate</span>(<span class='no'>data</span>, <span class='kw'>filter_species</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"PCA"</span>,
-  <span class='kw'>distmeasure</span> <span class='kw'>=</span> <span class='st'>"none"</span>, <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>, <span class='kw'>constrain</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>distmeasure</span> <span class='kw'>=</span> <span class='st'>"bray"</span>, <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>, <span class='kw'>constrain</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>x_axis</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y_axis</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>print_caption</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_color_order</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>sample_shape_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -185,12 +185,12 @@
     <tr>
       <th>distmeasure</th>
       <td><p>(<em>required for nMDS and PCoA</em>) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:</p><ul>
-<li><p><code>"wunifrac"</code>: Weighted UniFrac distances. Requires a rooted phylogenetic tree.</p></li>
-<li><p><code>"unifrac"</code>: Unweighted UniFrac distances. Requires a phylogenetic tree.</p></li>
-<li><p><code>"jsd"</code>: Jensen-Shannon Divergence, based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>.</p></li>
+<li><p><code>"wunifrac"</code> (PCoA only): Weighted UniFrac distances. Requires a rooted phylogenetic tree.</p></li>
+<li><p><code>"unifrac"</code> (PCoA only): Unweighted UniFrac distances. Requires a phylogenetic tree.</p></li>
+<li><p><code>"jsd"</code> (PCoA only): Jensen-Shannon Divergence, based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>.</p></li>
 <li><p>Any of the distance measures supported by <code><a href='https://rdrr.io/pkg/vegan/man/vegdist.html'>vegdist</a></code>: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code>.</p></li>
-<li><p>or <code>"none"</code>. (<em>default</em>)</p></li>
-</ul><p>You can also write your own math formula, see details in <code><a href='https://rdrr.io/pkg/vegan/man/vegdist.html'>vegdist</a></code>.</p></td>
+</ul><p>You can also write your own math formula, see details in <code><a href='https://rdrr.io/pkg/vegan/man/vegdist.html'>vegdist</a></code>.
+Default is <code>bray</code>.</p></td>
     </tr>
     <tr>
       <th>transform</th>
