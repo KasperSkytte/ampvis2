@@ -17,13 +17,13 @@
 #'    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[ape]{pcoa}} function from the APE package.}
 #' @param distmeasure (\emph{required for nMDS and PCoA}) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:
 #' \itemize{
-#'   \item \code{"wunifrac"}: Weighted UniFrac distances. Requires a rooted phylogenetic tree.
-#'   \item \code{"unifrac"}: Unweighted UniFrac distances. Requires a phylogenetic tree.
-#'   \item \code{"jsd"}: Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
+#'   \item \code{"wunifrac"} (PCoA only): Weighted UniFrac distances. Requires a rooted phylogenetic tree.
+#'   \item \code{"unifrac"} (PCoA only): Unweighted UniFrac distances. Requires a phylogenetic tree.
+#'   \item \code{"jsd"} (PCoA only): Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
 #'   \item Any of the distance measures supported by \code{\link[vegan]{vegdist}}: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}.
-#'   \item or \code{"none"}. (\emph{default})
 #'  }
 #' You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}.
+#' Default is \code{bray}.
 #' @param transform (\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (\emph{default:} \code{"hellinger"})
 #' @param constrain (\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.
 #' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})
@@ -152,7 +152,7 @@
 amp_ordinate <- function(data,
                          filter_species = 0.1,
                          type = "PCA",
-                         distmeasure = "none",
+                         distmeasure = "bray",
                          transform = "hellinger",
                          constrain = NULL,
                          x_axis = 1,
