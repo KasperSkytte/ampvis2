@@ -175,3 +175,9 @@ pip-log.txt
 *.Rproj
 test/
 .httr-oauth
+
+..Rcheck/
+
+renv/
+
+.Rprofile
