@@ -162,6 +162,8 @@ getMiDASFGData <- function() {
 #'
 #' @param FGList Data list obtained by \code{\link{getMiDASFGData}}.
 #'
+#' @importFrom data.table rbindlist
+#'
 #' @return A data frame where each row is a Genus and each column is a "function".
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 extractFunctions <- function(FGList) {
@@ -190,7 +192,9 @@ extractFunctions <- function(FGList) {
       outList
     )
   })
-  as.data.frame(do.call("rbind", functions))
+  outDF <- as.data.frame(data.table::rbindlist(functions, fill = TRUE))
+  outDF[is.na(outDF)] <- "NT"
+  return(outDF)
 }
 
 #' @title Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq
