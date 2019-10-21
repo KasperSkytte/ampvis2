@@ -577,7 +577,7 @@ amp_ordinate <- function(data,
   if (species_plot == TRUE) {
     if (species_plotly == T) {
       # generate hover text for OTU's
-      data_plotly <- data$tax %>%
+      data_plotly <- data$tax[rownames(dspecies),, drop = FALSE] %>%
         purrr::imap(~ paste(.y, .x, sep = ": ")) %>%
         as.data.frame() %>%
         tidyr::unite("test", sep = "<br>") %>%
