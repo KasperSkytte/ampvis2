@@ -316,7 +316,7 @@ amp_ordinate <- function(data,
     if (nrow(data$abund) > 100) {
       message("Performing non-Metric Multidimensional Scaling on more than 100 samples, this may take some time ... ")
     }
-    model <- vegan::metaMDS(data$abund, distance = distmeasure, trace = FALSE, ...)
+    model <- vegan::metaMDS(data$abund, distance = distmeasure, trace = FALSE, autotransform = FALSE, ...)
     if (nrow(data$abund) > 100) {
       message("Done.")
     }
