@@ -46,30 +46,30 @@ amp_import_biom <- function(file) {
     taxlist <- lapply(x$rows, function(x) {
       x$metadata$taxonomy
     })
-    
+
     names(taxlist) <- lapply(x$rows, function(x) {
       x$id
     })
-    
+
     tax <- as.data.frame(t(as.data.frame(taxlist, check.names = FALSE, stringsAsFactors = FALSE)))
-    
+
     taxLevels <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
-    
-    if(ncol(tax) > 7L) {
+
+    if (ncol(tax) > 7L) {
       warning("Taxonomy had more than 7 levels for at least one OTU, discarding all excess levels except the first 7, and assuming they are Kingdom->Species. You may want to assure that this is correct.", call. = FALSE)
-      tax <- tax[,1:7, drop = FALSE]
+      tax <- tax[, 1:7, drop = FALSE]
     }
-    
+
     # rename taxonomic levels
     colnames(tax) <- taxLevels[1:ncol(tax)]
-    
-    if(ncol(tax) < 7L) {
+
+    if (ncol(tax) < 7L) {
       warning("Taxonomy had less than 7 levels for all OTU's (Kingdom->Species), filling with NA from Species level and up.", call. = FALSE)
       taxSkeleton <- data.frame(matrix(ncol = 7, nrow = 0))
       colnames(taxSkeleton) <- taxLevels
       tax <- dplyr::bind_rows(taxSkeleton, tax)
     }
-    
+
     # combine abundances and taxonomy and return
     otutable <- cbind(abund, tax) # no need for merge()
     return(otutable)
