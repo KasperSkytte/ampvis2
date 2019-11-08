@@ -154,7 +154,7 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
 #' @importFrom jsonlite read_json
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 getMiDASFGData <- function() {
-  jsonlite::read_json("http://midas.programming.cool/api/microbes/fieldguide")
+  jsonlite::read_json("http://midasfieldguide.org/api/microbes/fieldguide")
 }
 
 #' @title Extract functional information about Genera from the MiDAS field guide
