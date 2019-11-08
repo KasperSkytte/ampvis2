@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -42,7 +42,7 @@
 
 
 <meta property="og:title" content="Load data for ampvis functions — amp_load" />
-<meta property="og:description" content="This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with amp_load before any other ampvis functions can be used." />
+<meta property="og:description" content="This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with amp_load before any other ampvis functions can be used." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5.5</span>
       </span>
     </div>
 
@@ -136,22 +136,22 @@
     </div>
 
     <div class="ref-description">
-    <p>This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with <code>amp_load</code> before any other ampvis functions can be used.</p>
+    <p>This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with <code>amp_load</code> before any other ampvis functions can be used.</p>
     </div>
 
     <pre class="usage"><span class='fu'>amp_load</span>(<span class='no'>otutable</span>, <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fasta</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pruneSingletons</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>pruneSingletons</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>otutable</th>
-      <td><p>(<em>required</em>) OTU-table (data frame) with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -&gt; Species).</p></td>
+      <td><p>(<em>required</em>) OTU-table with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -&gt; Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either <code><a href='https://Rdatatable.gitlab.io/data.table/reference/fread.html'>fread</a></code> or <code><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></code>, respectively.</p></td>
     </tr>
     <tr>
       <th>metadata</th>
-      <td><p>(<em>required</em>) Sample metadata (dataframe) with information about the samples. If none provided, dummy metadata will be created.</p></td>
+      <td><p>(<em>recommended</em>) Sample metadata with any information about the samples. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either <code><a href='https://Rdatatable.gitlab.io/data.table/reference/fread.html'>fread</a></code> or <code><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></code>, respectively.</p></td>
     </tr>
     <tr>
       <th>fasta</th>
@@ -164,6 +164,10 @@
     <tr>
       <th>pruneSingletons</th>
       <td><p>(<em>logical</em>) Remove OTU's only observed once in all samples. (<em>default:</em> <code>FALSE</code>)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>(<em>optional</em>) If <code>otutable</code> and/or <code>metadata</code> is a path to a delimited text file, then additional arguments are passed on to <code><a href='https://Rdatatable.gitlab.io/data.table/reference/fread.html'>fread</a></code>.</p></td>
     </tr>
     </table>
 
