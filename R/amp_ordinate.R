@@ -254,7 +254,7 @@ amp_ordinate <- function(data,
 
   if (any(type == c("nmds", "mmds", "pcoa", "dca")) &
     transform != "none" &
-    distmeasure != "none") {
+    !is.null(distmeasure)) {
     warning("Using both transformation AND a distance measure is not recommended for distance-based ordination (nMDS/PCoA). If this is not deliberate, consider transform = \"none\".", call. = FALSE)
   }
 
@@ -577,7 +577,7 @@ amp_ordinate <- function(data,
   if (species_plot == TRUE) {
     if (species_plotly == T) {
       # generate hover text for OTU's
-      data_plotly <- data$tax[rownames(dspecies),, drop = FALSE] %>%
+      data_plotly <- data$tax[rownames(dspecies), , drop = FALSE] %>%
         purrr::imap(~ paste(.y, .x, sep = ": ")) %>%
         as.data.frame() %>%
         tidyr::unite("test", sep = "<br>") %>%
