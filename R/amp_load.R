@@ -1,18 +1,22 @@
 #' Load data for ampvis functions
 #'
-#' This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis functions can be used.
+#' This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis functions can be used.
 #'
-#' @param otutable (\emph{required}) OTU-table (data frame) with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species).
-#' @param metadata (\emph{required}) Sample metadata (dataframe) with information about the samples. If none provided, dummy metadata will be created.
+#' @param otutable (\emph{required}) OTU-table with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively.
+#' @param metadata (\emph{recommended}) Sample metadata with any information about the samples. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively.
 #' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})
 #' @param tree (\emph{optional}) Phylogenetic tree of class \code{"phylo"} as loaded with \code{\link[ape]{read.tree}}. (\emph{default:} \code{NULL})
 #' @param pruneSingletons (\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})
+#' @param ... (\emph{optional}) If \code{otutable} and/or \code{metadata} is a path to a delimited text file, then additional arguments are passed on to \code{\link[data.table]{fread}}.
 #'
 #' @return A list of class \code{"ampvis2"} with 3 to 5 elements.
 #'
 #' @importFrom ape read.FASTA
 #' @importFrom stringr str_replace_all
 #' @importFrom dplyr intersect mutate_at
+#' @importFrom data.table fread
+#' @importFrom readxl read_excel
+#' @importFrom tools file_ext
 #'
 #' @export
 #'
@@ -88,11 +92,24 @@ amp_load <- function(otutable,
                      metadata = NULL,
                      fasta = NULL,
                      tree = NULL,
-                     pruneSingletons = FALSE) {
-  ### check data
+                     pruneSingletons = FALSE,
+                     ...) {
+  ### read otutable from file if otutable is likely a file path and not a data.frame/matrix
+  if (is.character(otutable) &
+    length(otutable) == 1 &
+    is.null(dim(otutable))) {
+    otutableExt <- tolower(tools::file_ext(otutable))
+    if (otutableExt %in% c("csv", "txt", "tsv", "")) {
+      otutable <- data.table::fread(otutable, fill = TRUE, data.table = FALSE, ...)
+    } else if (otutableExt %in% c("xls", "xlsx")) {
+      otutable <- readxl::read_excel(otutable)
+    } else {
+      stop(paste("Unsupported file type \"", otutableExt, "\""), call. = FALSE)
+    }
+  }
   otutable <- as.data.frame(otutable)
 
-  # check tree
+  ### check tree
   if (!is.null(tree) & !class(tree) == "phylo") {
     stop("The provided phylogenetic tree must be of class \"phylo\" as loaded with the ape::read.tree() function.", call. = FALSE)
   }
@@ -108,6 +125,19 @@ amp_load <- function(otutable,
 
   # create dummy metadata if none provided
   if (!is.null(metadata)) {
+    ### read metadata from file if metadata is likely a file path and not a data.frame/matrix
+    if (is.character(metadata) &
+      length(metadata) == 1 &
+      is.null(dim(metadata))) {
+      metadataExt <- tolower(tools::file_ext(metadata))
+      if (metadataExt %in% c("csv", "txt", "tsv", "")) {
+        metadata <- data.table::fread(metadata, fill = TRUE, data.table = FALSE, ...)
+      } else if (metadataExt %in% c("xls", "xlsx")) {
+        metadata <- readxl::read_excel(metadata)
+      } else {
+        stop(paste("Unsupported file type \"", metadataExt, "\""), call. = FALSE)
+      }
+    }
     metadata <- as.data.frame(metadata)
   } else if (is.null(metadata)) {
     metadata <- data.frame(

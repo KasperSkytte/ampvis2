@@ -5,24 +5,26 @@
 \title{Load data for ampvis functions}
 \usage{
 amp_load(otutable, metadata = NULL, fasta = NULL, tree = NULL,
-  pruneSingletons = FALSE)
+  pruneSingletons = FALSE, ...)
 }
 \arguments{
-\item{otutable}{(\emph{required}) OTU-table (data frame) with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species).}
+\item{otutable}{(\emph{required}) OTU-table with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively.}
 
-\item{metadata}{(\emph{required}) Sample metadata (dataframe) with information about the samples. If none provided, dummy metadata will be created.}
+\item{metadata}{(\emph{recommended}) Sample metadata with any information about the samples. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively.}
 
 \item{fasta}{(\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})}
 
 \item{tree}{(\emph{optional}) Phylogenetic tree of class \code{"phylo"} as loaded with \code{\link[ape]{read.tree}}. (\emph{default:} \code{NULL})}
 
 \item{pruneSingletons}{(\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})}
+
+\item{...}{(\emph{optional}) If \code{otutable} and/or \code{metadata} is a path to a delimited text file, then additional arguments are passed on to \code{\link[data.table]{fread}}.}
 }
 \value{
 A list of class \code{"ampvis2"} with 3 to 5 elements.
 }
 \description{
-This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis functions can be used.
+This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis functions can be used.
 }
 \details{
 The \code{\link{amp_load}} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements as described in the following sections to work properly.
