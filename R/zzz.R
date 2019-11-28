@@ -3,7 +3,6 @@
 #' @param lib lib
 #' @param pkg pkg
 #'
-#' @importFrom remotes github_release
 #' @importFrom utils packageVersion
 .onAttach <- function(lib, pkg) {
   options(scipen = 6)
@@ -11,26 +10,42 @@
   if (!interactive()) {
     return()
   } else {
-    local_version <- utils::packageVersion("ampvis2")
-    packageStartupMessage("This is ", pkg, " version ", local_version, ". Great documentation is available at the ampvis2 website: https://madsalbertsen.github.io/ampvis2/", appendLF = TRUE)
-    if (requireNamespace("remotes", quietly = TRUE)) {
-      tryCatch(
-        {
-          github_ref <- remotes:::github_resolve_ref(
-            remotes::github_release(),
-            remotes:::parse_git_repo("madsalbertsen/ampvis2@*release")
-          )$ref
-          github_version <- package_version(gsub("v", "", github_ref))
-          if (local_version < github_version) {
-            packageStartupMessage(
-              "New release of ", pkg, " (", github_version, ") is available! Install the latest release with (copy/paste): \nremotes::install_github(\"madsalbertsen/ampvis2@*release\")\nRead the release notes at: https://github.com/MadsAlbertsen/ampvis2/releases/tag/", github_version
-            )
-          }
-        },
-        error = function(e) {
-          packageStartupMessage("Can't reach GitHub to check for new releases just now. Trying again next time.")
-        }
-      )
+    installed_version <- as.character(utils::packageVersion(pkg))
+    gitHubUser <- "madsalbertsen"
+    tryCatch(
+      {
+        DESCRIPTION <- readLines(
+          paste0(
+            "https://raw.githubusercontent.com/",
+            gitHubUser,
+            "/",
+            pkg,
+            "/master/DESCRIPTION"
+          )
+        )
+        remote_version <- gsub("Version:\\s*", "", DESCRIPTION[grep("Version:", DESCRIPTION)])
+        startupMsg <- ""
+      },
+      error = function(e) {
+        startupMsg <- "\nCan't reach GitHub to check for new version just now. Trying again next time."
+        remote_version <- "0"
+      }
+    )
+
+    if (installed_version < remote_version) {
+      startupMsg <- paste0("\nNew version of ", pkg, " (", remote_version, ") is available! Install the latest version with the following command (copy/paste): \nremotes::install_github(\"madsalbertsen/ampvis2\")")
     }
+    startupMsg <- paste0(
+      "This is ",
+      pkg,
+      " version ",
+      installed_version,
+      if (installed_version >= remote_version) {
+        " (up to date)"
+      },
+      ". Great documentation is available at the ampvis2 website: https://madsalbertsen.github.io/ampvis2/",
+      startupMsg
+    )
+    packageStartupMessage(startupMsg, appendLF = TRUE)
   }
 }

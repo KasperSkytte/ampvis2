@@ -35,7 +35,6 @@ Imports:
     network,
     ggnet,
     lubridate,
-    remotes,
     cowplot,
     crayon,
     cli,
