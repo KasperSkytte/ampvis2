@@ -24,7 +24,7 @@
 #'
 #' # Export OTU-table
 #' \dontrun{
-#' amp_export_otutable(AalborgWWTPs, md5 = TRUE, filename = "AalborgWWTPs_otutable", sep = "\t")
+#' amp_export_otutable(AalborgWWTPs, md5 = TRUE, filename = "AalborgWWTPs_otutable", sep = "\\t")
 #' }
 #'
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
