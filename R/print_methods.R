@@ -25,7 +25,8 @@ print.hmfunplot <- function(x, ...) {
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 print.ampvis2 <- function(x, ...) {
   ### calculate basic statistics and useful information about the data, print it
-  if (abundAreCounts(x)) {
+  abundAreCounts <- abundAreCounts(x)
+  if (isTRUE(abundAreCounts)) {
     # calculate basic stats of reads
     readstats <- list(
       "Total#Reads" = as.character(sum(x$abund)),
@@ -34,7 +35,7 @@ print.ampvis2 <- function(x, ...) {
       "Median#Reads" = as.character(median(colSums(x$abund))),
       "Avg#Reads" = as.character(round(mean(colSums(x$abund)), digits = 2))
     )
-  } else if (!abundAreCounts(x)) {
+  } else if (isFALSE(abundAreCounts)) {
     readstats <- NULL
   }
   cat(class(x), "object with", length(x), "elements.", crayon::underline("\nSummary of OTU table:\n"))
@@ -45,7 +46,7 @@ print.ampvis2 <- function(x, ...) {
   ),
   justify = "right"
   )
-  if (!abundAreCounts(x)) {
+  if (isFALSE(abundAreCounts)) {
     cat("(The read counts have been normalised)\n")
   }
   cat(crayon::underline("\nAssigned taxonomy:\n"))
