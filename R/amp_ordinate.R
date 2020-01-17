@@ -308,8 +308,12 @@ amp_ordinate <- function(data,
     sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if (type == "nmds") {
-    if (!distmeasure %in% validVegdistMethods) {
-      stop("Valid distance measures for nMDS are only those supported by vegan::vegdist:\n", paste0(validVegdistMethods, collapse = ", "), call. = FALSE)
+    if (!distmeasure %in% c(validVegdistMethods, "none")) {
+      stop("Valid distance measures for nMDS are only those supported by vegan::vegdist:\n", paste0(c(validVegdistMethods, "none"), collapse = ", "), call. = FALSE)
+    }
+    if(distmeasure == "none") {
+      if(!any(class(data$abund) %in% "dist"))
+        stop("data$abund must be of class \"dist\" if distmeasure = \"none\" when performing nMDS. (Cheat with \"class(data$abund) <- 'dist'\" if you know you have provided a distance matrix)", call. = FALSE)
     }
 
     # make the model
@@ -361,9 +365,11 @@ amp_ordinate <- function(data,
         num_threads = num_threads
       )
     } else if (distmeasure == "none") {
+      if(!any(class(data$abund) %in% "dist"))
+        stop("data$abund must be of class \"dist\" if distmeasure = \"none\" when performing PCoA. (Cheat with \"class(data$abund) <- 'dist'\" if you know you have provided a distance matrix)", call. = FALSE)
       distmatrix <- data$abund
     } else if (!distmeasure %in% c(validVegdistMethods, "wunifrac", "unifrac", "jsd", "none")) {
-      stop("Valid distance measures for PCoA are:\n", paste0(c("wunifrac", "unifrac", "jsd", validVegdistMethods, "none"), collapse = ", "), call. = FALSE)
+      stop("Valid distance measures for PCoA are only those supported by vegan::vegdist:\n", paste0(c(validVegdistMethods, "none"), collapse = ", "), call. = FALSE)
     }
 
     # make the model
