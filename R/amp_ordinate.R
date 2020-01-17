@@ -360,8 +360,10 @@ amp_ordinate <- function(data,
         normalise = TRUE,
         num_threads = num_threads
       )
-    } else if (!distmeasure %in% c(validVegdistMethods, "wunifrac", "unifrac", "jsd")) {
-      stop("Valid distance measures for PCoA are:\n", paste0(c("wunifrac", "unifrac", "jsd", validVegdistMethods), collapse = ", "), call. = FALSE)
+    } else if (distmeasure == "none") {
+      distmatrix <- data$abund
+    } else if (!distmeasure %in% c(validVegdistMethods, "wunifrac", "unifrac", "jsd", "none")) {
+      stop("Valid distance measures for PCoA are:\n", paste0(c("wunifrac", "unifrac", "jsd", validVegdistMethods, "none"), collapse = ", "), call. = FALSE)
     }
 
     # make the model

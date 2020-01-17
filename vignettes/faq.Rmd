@@ -24,7 +24,7 @@ amp_heatmap(subsettedData,
 ```
 
 ## Custom distance matrix for use in ordination
-If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in `amp_ordinate`, it can be done quite easily by just setting `filter_species = 0`, `transform = "none"`, and `distmeasure = "none"`, like below. The matrix should be a symmetrical matrix containing coefficients for all pairs of samples in the data.
+If you wan't to calculate a distance matrix manually and use it for PCoA in `amp_ordinate`, it can be done quite easily by just setting `filter_species = 0`, `transform = "none"`, and `distmeasure = "none"`, like below. The matrix should be a symmetrical matrix containing coefficients for all pairs of samples in the data. This is not ideal for nMDS (nor possible) since it is not an eigenvalue based method, but if you really want, set `distmeasure = "euclidean"` instead of "none". 
 
 ```{r, eval = FALSE}
 #Override the abundance table in the ampvis2 object with a custom distance matrix
