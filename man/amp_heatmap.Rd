@@ -4,17 +4,37 @@
 \alias{amp_heatmap}
 \title{Heatmap}
 \usage{
-amp_heatmap(data, group_by = NULL, facet_by = NULL, normalise = TRUE,
-  tax_aggregate = "Phylum", tax_add = NULL, tax_show = 10,
-  tax_class = NULL, tax_empty = "best", order_x_by = NULL,
-  order_y_by = NULL, plot_values = TRUE, plot_values_size = 4,
-  plot_legendbreaks = NULL, plot_colorscale = "log10",
-  plot_na = TRUE, measure = "mean", min_abundance = 0.1,
-  max_abundance = NULL, sort_by = NULL, normalise_by = NULL,
-  scale_by = NULL, color_vector = NULL, round = 1, textmap = FALSE,
-  plot_functions = FALSE, function_data = NULL,
+amp_heatmap(
+  data,
+  group_by = NULL,
+  facet_by = NULL,
+  normalise = TRUE,
+  tax_aggregate = "Phylum",
+  tax_add = NULL,
+  tax_show = 10,
+  tax_class = NULL,
+  tax_empty = "best",
+  order_x_by = NULL,
+  order_y_by = NULL,
+  plot_values = TRUE,
+  plot_values_size = 4,
+  plot_legendbreaks = NULL,
+  plot_colorscale = "log10",
+  plot_na = TRUE,
+  measure = "mean",
+  min_abundance = 0.1,
+  max_abundance = NULL,
+  sort_by = NULL,
+  normalise_by = NULL,
+  scale_by = NULL,
+  color_vector = NULL,
+  round = 1,
+  textmap = FALSE,
+  plot_functions = FALSE,
+  function_data = NULL,
   functions = c("MiDAS", "Filamentous", "AOB", "NOB", "PAO", "GAO"),
-  rel_widths = c(0.75, 0.25))
+  rel_widths = c(0.75, 0.25)
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

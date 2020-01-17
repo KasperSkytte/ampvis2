@@ -4,8 +4,14 @@
 \alias{amp_load}
 \title{Load data for ampvis functions}
 \usage{
-amp_load(otutable, metadata = NULL, fasta = NULL, tree = NULL,
-  pruneSingletons = FALSE, ...)
+amp_load(
+  otutable,
+  metadata = NULL,
+  fasta = NULL,
+  tree = NULL,
+  pruneSingletons = FALSE,
+  ...
+)
 }
 \arguments{
 \item{otutable}{(\emph{required}) OTU-table with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively.}

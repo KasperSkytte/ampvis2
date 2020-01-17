@@ -4,10 +4,19 @@
 \alias{amp_otu_network}
 \title{Network plot}
 \usage{
-amp_otu_network(data, min_abundance = 0, color_by = NULL,
-  tax_aggregate = "Phylum", tax_add = NULL, tax_show = 10,
-  tax_class = NULL, tax_empty = "best", normalise = TRUE,
-  detailed_output = FALSE, ...)
+amp_otu_network(
+  data,
+  min_abundance = 0,
+  color_by = NULL,
+  tax_aggregate = "Phylum",
+  tax_add = NULL,
+  tax_show = 10,
+  tax_class = NULL,
+  tax_empty = "best",
+  normalise = TRUE,
+  detailed_output = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

@@ -4,8 +4,11 @@
 \alias{amp_export_long}
 \title{Transform ampvis2 objects into a long-format data frame}
 \usage{
-amp_export_long(data, metadata_vars = colnames(data$metadata),
-  tax_levels = colnames(data$tax))
+amp_export_long(
+  data,
+  metadata_vars = colnames(data$metadata),
+  tax_levels = colnames(data$tax)
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

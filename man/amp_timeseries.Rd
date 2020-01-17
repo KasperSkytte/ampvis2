@@ -4,10 +4,21 @@
 \alias{amp_timeseries}
 \title{Abundance timeseries}
 \usage{
-amp_timeseries(data, time_variable = NULL, group_by = NULL,
-  tax_aggregate = "OTU", tax_add = NULL, tax_show = 5,
-  tax_class = NULL, tax_empty = "best", split = FALSE,
-  scales = "free_y", normalise = TRUE, plotly = FALSE, ...)
+amp_timeseries(
+  data,
+  time_variable = NULL,
+  group_by = NULL,
+  tax_aggregate = "OTU",
+  tax_add = NULL,
+  tax_show = 5,
+  tax_class = NULL,
+  tax_empty = "best",
+  split = FALSE,
+  scales = "free_y",
+  normalise = TRUE,
+  plotly = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

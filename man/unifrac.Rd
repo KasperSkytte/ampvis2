@@ -4,8 +4,7 @@
 \alias{unifrac}
 \title{Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq}
 \usage{
-unifrac(abund, tree, weighted = FALSE, normalise = TRUE,
-  num_threads = 1L)
+unifrac(abund, tree, weighted = FALSE, normalise = TRUE, num_threads = 1L)
 }
 \arguments{
 \item{abund}{Abundance table with OTU counts, in \code{ampvis2} objects it is available with simply data$abund}

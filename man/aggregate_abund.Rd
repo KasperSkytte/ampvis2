@@ -4,8 +4,14 @@
 \alias{aggregate_abund}
 \title{Aggregate OTUs to a specific taxonomic level}
 \usage{
-aggregate_abund(abund, tax, tax_aggregate = "OTU", tax_add = NULL,
-  calcSums = TRUE, format = "long")
+aggregate_abund(
+  abund,
+  tax,
+  tax_aggregate = "OTU",
+  tax_add = NULL,
+  calcSums = TRUE,
+  format = "long"
+)
 }
 \arguments{
 \item{abund}{The OTU abundance table from an ampvis2 object (\code{ampvis2obj$abund})}
