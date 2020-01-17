@@ -4,10 +4,18 @@
 \alias{amp_rankabundance}
 \title{Rank abundance plot}
 \usage{
-amp_rankabundance(data, group_by = "Sample", order_group = NULL,
-  plot_log = FALSE, tax_add = NULL, tax_aggregate = "OTU",
-  tax_empty = "best", tax_class = NULL, normalise = TRUE,
-  detailed_output = FALSE)
+amp_rankabundance(
+  data,
+  group_by = "Sample",
+  order_group = NULL,
+  plot_log = FALSE,
+  tax_add = NULL,
+  tax_aggregate = "OTU",
+  tax_empty = "best",
+  tax_class = NULL,
+  normalise = TRUE,
+  detailed_output = FALSE
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
@@ -20,7 +28,7 @@ amp_rankabundance(data, group_by = "Sample", order_group = NULL,
 
 \item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
-\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Genus"})}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
 
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
 \itemize{

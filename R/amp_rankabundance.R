@@ -5,7 +5,7 @@
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param group_by Group the samples by a variable in the metadata.
 #' @param order_group A vector to order the groups by.
-#' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Genus"})
+#' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})
 #' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
 #' \itemize{
