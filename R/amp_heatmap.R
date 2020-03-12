@@ -110,7 +110,7 @@
 #' @import ggplot2
 #' @importFrom dplyr filter desc arrange group_by mutate summarise
 #' @importFrom tidyr gather spread
-#' @importFrom data.table as.data.table data.table setkey dcast melt
+#' @importFrom data.table as.data.table data.table setkey dcast melt setDT
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom scales squish
 #'
@@ -378,12 +378,15 @@ amp_heatmap <- function(data,
         Abundance = ifelse(Abundance < min_abundance, min_abundance, Abundance),
         Abundance = ifelse(Abundance > max_abundance, max_abundance, Abundance)
       )
-      tdata <- data.table::dcast(tdata, Display ~ Group, value.var = "Abundance")
-      rownames(tdata) <- tdata$Display
-      tdata2 <- tdata[, -1]
-      tclust <- hclust(dist(tdata2))
-      tnames <- levels(droplevels(tdata$Display))[tclust$order]
-      abund7$Display <- factor(abund7$Display, levels = tnames)
+      tdata <- data.table::dcast(data.table::setDT(tdata),
+        Display ~ Group,
+        value.var = "Abundance",
+        fun.aggregate = sum
+      )
+      tdata <- as.matrix(tdata)
+      rownames(tdata) <- tdata[, 1]
+      tclust <- hclust(dist(tdata[, -1]))
+      abund7$Display <- factor(abund7$Display, levels = tclust$labels[tclust$order])
     }
   }
 
@@ -407,12 +410,15 @@ amp_heatmap <- function(data,
         Abundance = ifelse(Abundance < min_abundance, min_abundance, Abundance),
         Abundance = ifelse(Abundance > max_abundance, max_abundance, Abundance)
       )
-      tdata <- data.table::dcast(tdata, Display ~ Group, value.var = "Abundance")
-      rownames(tdata) <- tdata$Display
-      tdata2 <- tdata[, -1]
-      tclust <- hclust(dist(t(tdata2)))
-      tnames <- tclust$labels[tclust$order]
-      abund7$Group <- factor(abund7$Group, levels = tnames)
+      tdata <- data.table::dcast(data.table::setDT(tdata),
+        Display ~ Group,
+        value.var = "Abundance",
+        fun.aggregate = sum
+      )
+      tdata <- as.matrix(tdata)
+      rownames(tdata) <- tdata[, 1]
+      tclust <- hclust(dist(t(tdata[, -1])))
+      abund7$Group <- factor(abund7$Group, levels = tclust$labels[tclust$order])
     }
   }
 
