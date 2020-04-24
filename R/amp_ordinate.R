@@ -367,7 +367,7 @@ amp_ordinate <- function(data,
       )
     } else if (distmeasure == "none") {
       if (!any(class(data$abund) %in% "dist")) {
-        stop("data$abund must be of class \"dist\" if distmeasure = \"none\" when performing PCoA. (Cheat with \"class(data$abund) <- 'dist'\" if you know you have provided a distance matrix)", call. = FALSE)
+        stop("data$abund must be of class \"dist\" if distmeasure = \"none\" when performing PCoA. (Cheat with \"data$abund <- as.dist(data$abund)\" if you know you have provided a distance matrix)", call. = FALSE)
       }
       distmatrix <- data$abund
     } else if (!distmeasure %in% c(validVegdistMethods, "wunifrac", "unifrac", "jsd", "none")) {

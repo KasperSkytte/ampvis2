@@ -28,7 +28,7 @@ If you wan't to calculate a distance matrix manually and use it for PCoA in `amp
 
 ```{r, eval = FALSE}
 #Override the abundance table in the ampvis2 object with a custom distance matrix
-ampvis2_object$abund <- custom_dist_matrix
+ampvis2_object$abund <- as.dist(custom_dist_matrix)
 
 #set filter_species = 0, transform = "none", and distmeasure = "none"
 amp_ordinate(ampvis2_object,
