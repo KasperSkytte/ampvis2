@@ -11,6 +11,13 @@
     return()
   } else {
     installed_version <- as.character(utils::packageVersion(pkg))
+    packageStartupMessage(
+      paste0(
+        "This is ",
+        pkg,
+        " version ",
+        installed_version),
+      appendLF = FALSE)
     gitHubUser <- "madsalbertsen"
     tryCatch(
       {
@@ -24,28 +31,20 @@
           )
         )
         remote_version <- gsub("Version:\\s*", "", DESCRIPTION[grep("Version:", DESCRIPTION)])
-        startupMsg <- ""
+        if (installed_version < remote_version) {
+          packageStartupMessage(
+            paste0(" (newer version ", remote_version, " available)"),
+            appendLF = FALSE)
+        } else if (installed_version >= remote_version)
+          packageStartupMessage(" (up to date)", appendLF = FALSE)
       },
       error = function(e) {
-        startupMsg <- "\nCan't reach GitHub to check for new version just now. Trying again next time."
-        remote_version <- "0"
+        warning("Can't reach GitHub to check for new version just now. Trying again next time.", call. = FALSE)
+      },
+      warning = function(e) {
+        warning("Can't reach GitHub to check for new version just now. Trying again next time.", call. = FALSE)
       }
     )
-
-    if (installed_version < remote_version) {
-      startupMsg <- paste0("\nNew version of ", pkg, " (", remote_version, ") is available! Install the latest version with the following command (copy/paste): \nremotes::install_github(\"madsalbertsen/ampvis2\")")
-    }
-    startupMsg <- paste0(
-      "This is ",
-      pkg,
-      " version ",
-      installed_version,
-      if (installed_version >= remote_version) {
-        " (up to date)"
-      },
-      ". Great documentation is available at the ampvis2 website: https://madsalbertsen.github.io/ampvis2/",
-      startupMsg
-    )
-    packageStartupMessage(startupMsg, appendLF = TRUE)
+    packageStartupMessage(". Great documentation is available at the ampvis2 website: https://madsalbertsen.github.io/ampvis2/", appendLF = TRUE)
   }
 }
