@@ -16,8 +16,10 @@
         "This is ",
         pkg,
         " version ",
-        installed_version),
-      appendLF = FALSE)
+        installed_version
+      ),
+      appendLF = FALSE
+    )
     gitHubUser <- "madsalbertsen"
     tryCatch(
       {
@@ -34,9 +36,11 @@
         if (installed_version < remote_version) {
           packageStartupMessage(
             paste0(" (newer version ", remote_version, " available)"),
-            appendLF = FALSE)
-        } else if (installed_version >= remote_version)
+            appendLF = FALSE
+          )
+        } else if (installed_version >= remote_version) {
           packageStartupMessage(" (up to date)", appendLF = FALSE)
+        }
       },
       error = function(e) {
         warning("Can't reach GitHub to check for new version just now. Trying again next time.", call. = FALSE)
