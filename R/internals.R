@@ -61,9 +61,7 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
   tax <- data[["tax"]]
 
   ## First make sure that all entries are strings
-  for (i in 1:ncol(tax)) {
-    tax[, i] <- as.character(tax[, i])
-  }
+  tax[] <- lapply(tax, as.character)
 
   ## Change a specific phylum to class level
   if (!is.null(tax_class)) {
@@ -74,20 +72,8 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
     }
   }
 
-  ## Remove the underscore classifier from the data
-  tax$Kingdom <- gsub("^k_*", "", tax$Kingdom)
-  tax$Phylum <- gsub("^p_*", "", tax$Phylum)
-  tax$Phylum <- gsub("^c_*", "", tax$Phylum)
-  tax$Class <- gsub("^c_*", "", tax$Class)
-  tax$Order <- gsub("^o_*", "", tax$Order)
-  tax$Family <- gsub("^f_*", "", tax$Family)
-  tax$Genus <- gsub("^g_*", "", tax$Genus)
-  tax$Kingdom <- gsub("uncultured", "", tax$Kingdom)
-  tax$Phylum <- gsub("uncultured", "", tax$Phylum)
-  tax$Class <- gsub("uncultured", "", tax$Class)
-  tax$Order <- gsub("uncultured", "", tax$Order)
-  tax$Family <- gsub("uncultured", "", tax$Family)
-  tax$Genus <- gsub("uncultured", "", tax$Genus)
+  ## Remove QIIME taxonomy format prefixes across all levels
+  tax[] <- lapply(tax, gsub, pattern = "^[dkpcofgs]_*", replacement = "")
 
   ## Check if there is a species level otherwise add it for consistency
   if (!is.null(tax$Species)) {

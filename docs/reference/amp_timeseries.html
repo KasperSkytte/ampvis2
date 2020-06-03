@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2</span>
       </span>
     </div>
 
@@ -241,7 +241,11 @@
   <span class='kw'>time_variable</span> <span class='kw'>=</span> <span class='st'>"Date"</span>,
   <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"OTU"</span>
 )</div><div class='output co'>#&gt; <span class='warning'>Warning: Duplicate dates in column Date, displaying the average for each date.</span>
-#&gt; <span class='warning'> Consider grouping dates using the group_by argument or subset the data using amp_subset_samples.</span></div><div class='img'><img src='amp_timeseries-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; <span class='warning'> Consider grouping dates using the group_by argument or subset the data using amp_subset_samples.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `group_by_()` is deprecated as of dplyr 0.7.0.</span>
+#&gt; <span class='warning'>Please use `group_by()` instead.</span>
+#&gt; <span class='warning'>See vignette('programming') for more help</span>
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='img'><img src='amp_timeseries-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># As the above warning suggests, there are more than one sample per date in the data,</span>
 <span class='co'># in this case one from Aalborg East and one from Aalborg West. The average of the</span>
 <span class='co'># two samples is then shown per date. In such case it is then recommended to either</span>
@@ -255,7 +259,7 @@
   <span class='kw'>tax_show</span> <span class='kw'>=</span> <span class='fl'>9</span>,
   <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
   <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>
-)</div><div class='img'><img src='amp_timeseries-2.png' alt='' width='700' height='433' /></div></pre>
+)</div><div class='img'><img src='amp_timeseries-2.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
