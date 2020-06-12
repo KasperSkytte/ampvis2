@@ -329,6 +329,7 @@ amp_heatmap <- function(data,
   ## Subset to X most abundant levels
   if (is.numeric(tax_show)) {
     if (tax_show > nrow(TotalCounts)) {
+      warning(paste0("There are only ", nrow(TotalCounts), " taxa, showing all"), call. = FALSE)
       tax_show <- nrow(TotalCounts)
     }
     abund7 <- filter(abund6, Display %in% unique(TotalCounts$Display)[1:tax_show])
