@@ -107,42 +107,46 @@ amp_subset_taxa <- function(data,
   if (isTRUE(normalise)) {
     data <- normaliseTo100(data)
   }
-
-  # Match tax_vector with all taxonomic levels
-  selection <- c(
-    which(data$tax$Kingdom %in% tax_vector),
-    which(data$tax$Phylum %in% tax_vector),
-    which(data$tax$Class %in% tax_vector),
-    which(data$tax$Order %in% tax_vector),
-    which(data$tax$Family %in% tax_vector),
-    which(data$tax$Genus %in% tax_vector),
-    which(data$tax$Species %in% tax_vector),
-    which(data$tax$OTU %in% tax_vector)
-  )
-  selection <- unique(selection)
-  newtax <- data$tax[selection, ]
-
-  # subset
-  if (isTRUE(remove)) {
-    data$tax <- subset(data$tax, !OTU %in% newtax$OTU)
-  } else if (!isTRUE(remove)) {
-    data$tax <- newtax
-  }
-  data$abund <- data$abund[rownames(data$abund) %in% rownames(data$tax), , drop = FALSE]
-
-  # subset sequences
-  if (any(names(data) == "refseq")) {
-    data$refseq <- data$refseq[rownames(data$tax)]
-  }
-
-  # subset tree
-  if (!is.null(data$tree)) {
-    data$tree <- ape::drop.tip(
-      phy = data$tree,
-      tip = data$tree$tip.label[!data$tree$tip.label %in% data$tax$OTU]
+  
+  if(!is.null(tax_vector)) {
+    # Match tax_vector with all taxonomic levels
+    selection <- c(
+      which(data$tax$Kingdom %in% tax_vector),
+      which(data$tax$Phylum %in% tax_vector),
+      which(data$tax$Class %in% tax_vector),
+      which(data$tax$Order %in% tax_vector),
+      which(data$tax$Family %in% tax_vector),
+      which(data$tax$Genus %in% tax_vector),
+      which(data$tax$Species %in% tax_vector),
+      which(data$tax$OTU %in% tax_vector)
     )
+    selection <- unique(selection)
+    newtax <- data$tax[selection, ]
+  
+    # subset
+    if (isTRUE(remove)) {
+      data$tax <- subset(data$tax, !OTU %in% newtax$OTU)
+    } else if (!isTRUE(remove)) {
+      data$tax <- newtax
+    }
+    data$abund <- data$abund[rownames(data$abund) %in% rownames(data$tax), , drop = FALSE]
+  
+    # subset sequences
+    if (any(names(data) == "refseq")) {
+      data$refseq <- data$refseq[rownames(data$tax)]
+    }
+  
+    # subset tree
+    if (!is.null(data$tree)) {
+      data$tree <- ape::drop.tip(
+        phy = data$tree,
+        tip = data$tree$tip.label[!data$tree$tip.label %in% data$tax$OTU]
+      )
+    }
   }
 
+  if(any(colSums(data$abund) == 0))
+    warning("One or more samples have 0 total reads", call. = FALSE)
   nOTUsafter <- nrow(data$abund)
   if (nOTUsbefore == nOTUsafter) {
     message("0 OTU's have been filtered.")
