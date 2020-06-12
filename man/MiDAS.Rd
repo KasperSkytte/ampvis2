@@ -4,9 +4,7 @@
 \name{MiDAS}
 \alias{MiDAS}
 \title{MiDAS example data}
-\format{
-An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.
-}
+\format{An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.}
 \source{
 \href{http://midasfieldguide.org}{MiDAS: Field Guide to the Microbes of Activated Sludge and Anaerobic Digesters}
 }

@@ -10,27 +10,23 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
-
-<!-- bootstrap-toc -->
-<link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -39,7 +35,7 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
@@ -47,6 +43,7 @@
 
 <meta property="og:title" content="Heatmap — amp_heatmap" />
 <meta property="og:description" content="Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -74,7 +71,7 @@
 
   </head>
 
-  <body data-spy="scroll" data-target="#toc">
+  <body>
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -88,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
       </span>
     </div>
 
@@ -134,7 +131,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Heatmap</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MadsAlbertsen/ampvis2/blob/master/R/amp_heatmap.R'><code>R/amp_heatmap.R</code></a></small>
+    
     <div class="hidden name"><code>amp_heatmap.Rd</code></div>
     </div>
 
@@ -150,6 +147,7 @@
   <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>,
   <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>tax_show</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>showRemainingTaxa</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>tax_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>tax_empty</span> <span class='kw'>=</span> <span class='st'>"best"</span>,
   <span class='kw'>order_x_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -204,6 +202,10 @@
     <tr>
       <th>tax_show</th>
       <td><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>10</code>)</p></td>
+    </tr>
+    <tr>
+      <th>showRemainingTaxa</th>
+      <td><p>Add an additional row at the bottom displaying the sum of all remaining taxa that are not part of the top <code>tax_show</code> most abundant taxa. (<em>default:</em> <code>FALSE</code>)</p></td>
     </tr>
     <tr>
       <th>tax_class</th>
@@ -308,17 +310,18 @@
 
 <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code><a href='amp_timeseries.html'>amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href='amp_subset_taxa.html'>amp_subset_taxa</a></code> and <code><a href='amp_subset_samples.html'>amp_subset_samples</a></code> functions, and then set <code>normalise = FALSE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>normalise = FALSE</code> will skip the transformation in the plotting function, see the example below.</p>
 <pre>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"MiDAS"</span>)
-<span class='no'>subsettedData</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'><a href='amp_subset_samples.html'>amp_subset_samples</a></span>(<span class='no'>MiDAS</span>,
-                                    <span class='no'>Plant</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>),
-                                    <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+data("MiDAS")
+subsettedData &lt;- amp_subset_samples(MiDAS,
+                                    Plant %in% c("Aalborg West", "Aalborg East"),
+                                    normalise = TRUE
                                     )
-<span class='fu'>amp_heatmap</span>(<span class='no'>subsettedData</span>,
-            <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
-            <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>,
-            <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
-            <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-            )</pre>
+amp_heatmap(subsettedData,
+            group_by = "Plant",
+            tax_aggregate = "Phylum",
+            tax_add = "Genus",
+            normalise = FALSE
+            )
+</pre>
 
     <h2 class="hasAnchor" id="accessing-detailed-raw-data"><a class="anchor" href="#accessing-detailed-raw-data"></a>Accessing detailed raw data</h2>
 
@@ -336,12 +339,14 @@
 <span class='co'># Heatmap grouped by WWTP</span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year,</span>
-<span class='co'># values not plotted for visibility, phylum name added and colorscale adjusted manually</span>
+<span class='co'># values not plotted for visibility, phylum name added, colorscale adjusted manually,</span>
+<span class='co'># and show the sum of remaining taxa not part of the top 20 most abundant taxa</span>
 <span class='fu'>amp_heatmap</span>(<span class='no'>AalborgWWTPs</span>,
   <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
   <span class='kw'>facet_by</span> <span class='kw'>=</span> <span class='st'>"Year"</span>,
   <span class='kw'>plot_values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>tax_show</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>showRemainingTaxa</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>,
   <span class='kw'>tax_add</span> <span class='kw'>=</span> <span class='st'>"Phylum"</span>,
   <span class='kw'>color_vector</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"white"</span>, <span class='st'>"red"</span>),
@@ -380,10 +385,20 @@
 #&gt; Candidatus Defluviifilum     1.824867     1.502981  NEG  NEG  NEG  NEG
 #&gt; Propionicimonas              1.229790     1.726184   NT   NT   NT   NT</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <nav id="toc" data-toggle="toc" class="sticky-top">
-      <h2 data-toc-skip>Contents</h2>
-    </nav>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#preserving-relative-abundances-in-a-subset-of-larger-data">Preserving relative abundances in a subset of larger data</a></li>
+      <li><a href="#accessing-detailed-raw-data">Accessing detailed raw data</a></li>
+      <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
+    </ul>
+
+    <h2>Author</h2>
+    <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
+<p>Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a></p>
   </div>
 </div>
 
@@ -394,7 +409,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
