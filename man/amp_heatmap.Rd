@@ -12,6 +12,7 @@ amp_heatmap(
   tax_aggregate = "Phylum",
   tax_add = NULL,
   tax_show = 10,
+  showRemainingTaxa = FALSE,
   tax_class = NULL,
   tax_empty = "best",
   order_x_by = NULL,
@@ -50,6 +51,8 @@ amp_heatmap(
 \item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
 \item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{10})}
+
+\item{showRemainingTaxa}{Add an additional row at the bottom displaying the sum of all remaining taxa that are not part of the top \code{tax_show} most abundant taxa. (\emph{default:} \code{FALSE})}
 
 \item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
@@ -138,12 +141,14 @@ data("AalborgWWTPs")
 amp_heatmap(AalborgWWTPs, group_by = "Plant")
 
 # Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year,
-# values not plotted for visibility, phylum name added and colorscale adjusted manually
+# values not plotted for visibility, phylum name added, colorscale adjusted manually,
+# and show the sum of remaining taxa not part of the top 20 most abundant taxa
 amp_heatmap(AalborgWWTPs,
   group_by = "Plant",
   facet_by = "Year",
   plot_values = FALSE,
   tax_show = 20,
+  showRemainingTaxa = TRUE,
   tax_aggregate = "Genus",
   tax_add = "Phylum",
   color_vector = c("white", "red"),

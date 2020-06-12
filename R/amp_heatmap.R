@@ -10,6 +10,7 @@
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})
 #' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})
 #' @param tax_show The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{10})
+#' @param showRemainingTaxa Add an additional row at the bottom displaying the sum of all remaining taxa that are not part of the top \code{tax_show} most abundant taxa. (\emph{default:} \code{FALSE})
 #' @param tax_empty How to show OTUs without taxonomic information. One of the following:
 #' \itemize{
 #'    \item \code{"remove"}: Remove OTUs without taxonomic information.
@@ -72,12 +73,14 @@
 #' amp_heatmap(AalborgWWTPs, group_by = "Plant")
 #'
 #' # Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year,
-#' # values not plotted for visibility, phylum name added and colorscale adjusted manually
+#' # values not plotted for visibility, phylum name added, colorscale adjusted manually,
+#' # and show the sum of remaining taxa not part of the top 20 most abundant taxa
 #' amp_heatmap(AalborgWWTPs,
 #'   group_by = "Plant",
 #'   facet_by = "Year",
 #'   plot_values = FALSE,
 #'   tax_show = 20,
+#'   showRemainingTaxa = TRUE,
 #'   tax_aggregate = "Genus",
 #'   tax_add = "Phylum",
 #'   color_vector = c("white", "red"),
@@ -110,7 +113,7 @@
 #' @import ggplot2
 #' @importFrom dplyr filter desc arrange group_by mutate summarise
 #' @importFrom tidyr gather spread
-#' @importFrom data.table as.data.table data.table setkey dcast melt setDT
+#' @importFrom data.table as.data.table data.table setkey dcast melt setDT rbindlist
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom scales squish
 #'
@@ -124,6 +127,7 @@ amp_heatmap <- function(data,
                         tax_aggregate = "Phylum",
                         tax_add = NULL,
                         tax_show = 10,
+                        showRemainingTaxa = FALSE,
                         tax_class = NULL,
                         tax_empty = "best",
                         order_x_by = NULL,
@@ -379,7 +383,8 @@ amp_heatmap <- function(data,
         Abundance = ifelse(Abundance < min_abundance, min_abundance, Abundance),
         Abundance = ifelse(Abundance > max_abundance, max_abundance, Abundance)
       )
-      tdata <- data.table::dcast(data.table::setDT(tdata),
+      tdata <- data.table::dcast(
+        data.table::setDT(tdata),
         Display ~ Group,
         value.var = "Abundance",
         fun.aggregate = sum
@@ -388,6 +393,39 @@ amp_heatmap <- function(data,
       rownames(tdata) <- tdata[, 1]
       tclust <- hclust(dist(tdata[, -1]))
       abund7$Display <- factor(abund7$Display, levels = tclust$labels[tclust$order])
+    }
+  }
+
+  # show a row with the total sum of remaining taxa not among the top tax_show taxa
+  if (isTRUE(showRemainingTaxa)) {
+    uniqueTopTaxa <- unique(as.character(abund7$Display))
+    nUniqueTopTaxa <- length(uniqueTopTaxa)
+    nUniqueTotalTaxa <- length(unique(as.character(TotalCounts$Display)))
+
+    if (nUniqueTopTaxa < nUniqueTotalTaxa) {
+      remainingTaxa <- data.table::data.table(
+        filter(
+          abund6,
+          !Display %in% unique(as.character(abund7$Display))
+        )
+      )
+      remainingTaxa <- remainingTaxa[
+        ,
+        Display := paste0("Remaining taxa (", nUniqueTotalTaxa - nUniqueTopTaxa, ")")
+      ][
+        ,
+        .(
+          Abundance = sum(Abundance),
+          Sum = sum(Sum),
+          Group = Group[1]
+        ),
+        by = .(Display, Sample)
+      ]
+      abund7 <- as.data.frame(
+        data.table::rbindlist(
+          list(remainingTaxa, abund7)
+        )
+      )
     }
   }
 
@@ -435,7 +473,6 @@ amp_heatmap <- function(data,
   }
 
   ## Scale to percentages if not normalised and scaled
-
   if (length(group_by) > 1) {
     abund7 <- merge(abund7, oldGroup, by = "Group")
   }
