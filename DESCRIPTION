@@ -54,13 +54,13 @@ Imports:
     network,
     ggnet,
     lubridate,
-    cowplot,
     crayon,
     cli,
     biomformat,
     doParallel,
     parallel,
-    foreach
+    foreach,
+    patchwork
 Remotes: 
     github::kasperskytte/ggnet,
     github::kasperskytte/biomformat
