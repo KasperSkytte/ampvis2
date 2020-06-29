@@ -4,15 +4,18 @@
 #' @param ... not used
 #'
 #' @export
-#' @importFrom cowplot plot_grid
+#' @importFrom patchwork plot_layout
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 print.hmfunplot <- function(x, ...) {
-  print(cowplot::plot_grid(x$heatmap,
-    x$functions,
-    ncol = 2,
-    rel_widths = attributes(x)[["rel_widths"]],
-    align = "h",
-    axis = "tb"
-  ))
+  p <- x$heatmap +
+    x$functions +
+    patchwork::plot_layout(
+      ncol = 2,
+      widths = attributes(x)[["rel_widths"]],
+      guides = "collect"
+    )
+  print(p)
+}
 }
 
 #' Prints ampvis2 object summary (internal function)
