@@ -16,6 +16,54 @@ print.hmfunplot <- function(x, ...) {
     )
   print(p)
 }
+
+#' Prints amp_core plots if margin plots are also generated (internal function)
+#'
+#' @param x plot
+#' @param ... not used
+#'
+#' @export
+#' @importFrom patchwork plot_layout
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+print.coreplot <- function(x, ...) {
+  # if only y margin plot return two columns
+  if (is.null(x$marginplot_x)) {
+    layout <- NULL
+    p <- x$mainplot +
+      x$marginplot_y +
+      patchwork::plot_layout(
+        widths = attributes(x)[["widths"]]
+      )
+    # if only x margin plot return two rows
+  } else if (is.null(x$marginplot_y)) {
+    layout <- NULL
+    p <- x$marginplot_x /
+      x$mainplot +
+      patchwork::plot_layout(
+        heights = attributes(x)[["heights"]]
+      )
+    # if both x and y margin plots return a grid
+  } else {
+    layout <- "
+      A#
+      CD
+    "
+    p <- x$marginplot_x +
+      x$mainplot +
+      x$marginplot_y +
+      patchwork::plot_layout(
+        widths = attributes(x)[["widths"]],
+        heights = attributes(x)[["heights"]]
+      )
+  }
+
+  # return composed plot with collected guides
+  p <- p +
+    patchwork::plot_layout(
+      guides = "collect",
+      design = layout
+    )
+  print(p)
 }
 
 #' Prints ampvis2 object summary (internal function)
