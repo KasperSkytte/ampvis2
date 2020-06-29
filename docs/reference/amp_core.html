@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Core community analysis — amp_core • ampvis2</title>
+<title>Grouped core community analysis — amp_core • ampvis2</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
 
 
 
-<meta property="og:title" content="Core community analysis — amp_core" />
-<meta property="og:description" content="Generates a core community plot." />
+<meta property="og:title" content="Grouped core community analysis — amp_core" />
+<meta property="og:description" content="Core community plot to investigate how many of the most abundant OTU's comprise the &quot;core&quot; of groups of samples, their abundances etc." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.4</span>
       </span>
     </div>
 
@@ -130,25 +130,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Core community analysis</h1>
+    <h1>Grouped core community analysis</h1>
     
     <div class="hidden name"><code>amp_core.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generates a core community plot.</p>
+    <p>Core community plot to investigate how many of the most abundant OTU's comprise the "core" of groups of samples, their abundances etc.</p>
     </div>
 
     <pre class="usage"><span class='fu'>amp_core</span>(
   <span class='no'>data</span>,
-  <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Sample"</span>,
-  <span class='kw'>abund_thrh</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"OTU"</span>,
-  <span class='kw'>tax_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tax_empty</span> <span class='kw'>=</span> <span class='st'>"best"</span>,
-  <span class='kw'>plotly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>detailed_output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='no'>group_by</span>,
+  <span class='kw'>core_pct</span> <span class='kw'>=</span> <span class='fl'>80</span>,
+  <span class='kw'>margin_plots</span> <span class='kw'>=</span> <span class='st'>"xy"</span>,
+  <span class='kw'>margin_plot_values_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>1</span>),
+  <span class='kw'>heights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>5</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -160,54 +158,41 @@
     </tr>
     <tr>
       <th>group_by</th>
-      <td><p>Group the samples by a variable in the metadata. (<em>default:</em> <code>"Sample"</code>)</p></td>
+      <td><p>(<em>required</em>) Character vector of one or more variable name(s) in the sample metadata which contain the desired grouping of samples, fx where the samples have been taken. Can also be done by sample, just provide the name of the first variable containing unique sample ID's if so.</p></td>
     </tr>
     <tr>
-      <th>abund_thrh</th>
-      <td><p>Threshold in percent for defining "abundant"/"core" taxa. (<em>default:</em> <code>0.1</code>)</p></td>
+      <th>core_pct</th>
+      <td><p>Threshold in percent for defining "abundant" a.k.a. "core" OTU's for each group. (<em>default:</em> <code>80</code>)</p></td>
     </tr>
     <tr>
-      <th>tax_aggregate</th>
-      <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"OTU"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>tax_class</th>
-      <td><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>tax_empty</th>
-      <td><p>How to show OTUs without taxonomic information. One of the following:</p><ul>
-<li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
-<li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
-<li><p><code>"OTU"</code>: Display the OTU name.</p></li>
+      <th>margin_plots</th>
+      <td><p>Character vector defining which margin plots to show. Margin plots display the cumulative read abundances of all OTU's per group sharing either x or y axis with the main plot. Any of:</p><ul>
+<li><p><code>"x"</code>: Only show x axis margin plot.</p></li>
+<li><p><code>"y"</code>: Only show y axis margin plot.</p></li>
+<li><p><code>"xy"</code> (<em>default</em>): Show both x and y margin plots.</p></li>
+<li><p><code>""</code> or <code>NULL</code> (or anything else): Don't show any margin plots.</p></li>
 </ul></td>
     </tr>
     <tr>
-      <th>plotly</th>
-      <td><p>(<em>logical</em>) Returns an interactive plot instead. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <th>margin_plot_values_size</th>
+      <td><p>The size of the values indicated in the margin plots on top of the bars. Set to <code>0</code> to disable. (<em>default:</em> <code>3</code>)</p></td>
     </tr>
     <tr>
-      <th>normalise</th>
-      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></td>
+      <th>widths</th>
+      <td><p>Numeric vector with relative widths of the main and y margin plots. (<em>default:</em> <code><a href='https://rdrr.io/r/base/c.html'>c(5,1)</a></code>)</p></td>
     </tr>
     <tr>
-      <th>detailed_output</th>
-      <td><p>(<em>logical</em>) Return additional details or not. If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code><a href='https://rdrr.io/r/utils/View.html'>View(object$data)</a></code>. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <th>heights</th>
+      <td><p>Numeric vector with relative widths of the main and x margin plots. (<em>default:</em> <code><a href='https://rdrr.io/r/base/c.html'>c(1,5)</a></code>)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
+    <p>If no margin plots a <code>ggplot</code> object, otherwise a list with ggplot objects.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Plots the number of samples a given OTU is observed in (first axis) against the number of samples it is abundant in (second axis), as defined by the threshold. By setting the <code>group_by</code> argument to a variable in the metadata, then the axes will show their frequency in this group instead of per sample.</p>
-<p>The OTU points can be aggregated by the taxonomy by setting fx <code>tax_aggregate = "Phylum"</code>. To see the corresponding taxonomy of the OTUs use <code>plotly = TRUE</code> for an interactive plot.</p>
-    <h2 class="hasAnchor" id="preserving-relative-abundances-in-a-subset-of-larger-data"><a class="anchor" href="#preserving-relative-abundances-in-a-subset-of-larger-data"></a>Preserving relative abundances in a subset of larger data</h2>
-
-    
-
-<p>See <code>?<a href='amp_subset_samples.html'>amp_subset_samples</a></code> or the <a href='https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data'>ampvis2 FAQ</a>.</p>
+    <p>This analysis only makes sense without aggregating OTU's to any taxonomic level, or else it will be biased by taxonomy and only be done on those OTU's that have been classified.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): The activated sludge ecosystem contains a core community of abundant organisms, ISME Journal 10, 11-20. <a href='https://doi.org/10.1038/ismej.2015.117'>https://doi.org/10.1038/ismej.2015.117</a></p>
@@ -216,11 +201,27 @@
     <div class='dont-index'><p><code><a href='amp_load.html'>amp_load</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
+    <pre class="examples"><div class='input'><span class='co'># load example data</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"MiDAS"</span>)
 
-<span class='co'># Core plot</span>
-<span class='fu'>amp_core</span>(<span class='no'>AalborgWWTPs</span>)</div><div class='img'><img src='amp_core-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='co'># generate core analysis plot grouped by WWTP</span>
+<span class='no'>plot</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_core</span>(
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>MiDAS</span>,
+  <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
+  <span class='kw'>core_pct</span> <span class='kw'>=</span> <span class='fl'>80</span>,
+  <span class='kw'>margin_plots</span> <span class='kw'>=</span> <span class='st'>"xy"</span>,
+  <span class='kw'>margin_plot_values_size</span> <span class='kw'>=</span> <span class='fl'>0</span> <span class='co'># set to 0 to not show values in margin plots</span>
+)
+
+<span class='co'># adjust axes manually</span>
+<span class='no'>plot</span>$<span class='no'>mainplot</span> <span class='kw'>&lt;-</span> <span class='no'>plot</span>$<span class='no'>mainplot</span> +
+  <span class='fu'>scale_x_discrete</span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='fl'>36</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>)) +
+  <span class='fu'>scale_y_discrete</span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='fl'>36</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>))
+<span class='no'>plot</span>$<span class='no'>marginplot_x</span> <span class='kw'>&lt;-</span> <span class='no'>plot</span>$<span class='no'>marginplot_x</span> + <span class='fu'>scale_x_discrete</span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='fl'>36</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>))
+<span class='no'>plot</span>$<span class='no'>marginplot_y</span> <span class='kw'>&lt;-</span> <span class='no'>plot</span>$<span class='no'>marginplot_y</span> + <span class='fu'>scale_x_discrete</span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='fl'>36</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>))
+
+<span class='co'># show plot</span>
+<span class='no'>plot</span></div><div class='img'><img src='amp_core-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -228,7 +229,6 @@
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
-      <li><a href="#preserving-relative-abundances-in-a-subset-of-larger-data">Preserving relative abundances in a subset of larger data</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
