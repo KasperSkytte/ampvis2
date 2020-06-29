@@ -107,8 +107,8 @@ amp_subset_taxa <- function(data,
   if (isTRUE(normalise)) {
     data <- normaliseTo100(data)
   }
-  
-  if(!is.null(tax_vector)) {
+
+  if (!is.null(tax_vector)) {
     # Match tax_vector with all taxonomic levels
     selection <- c(
       which(data$tax$Kingdom %in% tax_vector),
@@ -122,7 +122,7 @@ amp_subset_taxa <- function(data,
     )
     selection <- unique(selection)
     newtax <- data$tax[selection, ]
-  
+
     # subset
     if (isTRUE(remove)) {
       data$tax <- subset(data$tax, !OTU %in% newtax$OTU)
@@ -130,12 +130,12 @@ amp_subset_taxa <- function(data,
       data$tax <- newtax
     }
     data$abund <- data$abund[rownames(data$abund) %in% rownames(data$tax), , drop = FALSE]
-  
+
     # subset sequences
     if (any(names(data) == "refseq")) {
       data$refseq <- data$refseq[rownames(data$tax)]
     }
-  
+
     # subset tree
     if (!is.null(data$tree)) {
       data$tree <- ape::drop.tip(
@@ -145,8 +145,9 @@ amp_subset_taxa <- function(data,
     }
   }
 
-  if(any(colSums(data$abund) == 0))
+  if (any(colSums(data$abund) == 0)) {
     warning("One or more samples have 0 total reads", call. = FALSE)
+  }
   nOTUsafter <- nrow(data$abund)
   if (nOTUsbefore == nOTUsafter) {
     message("0 OTU's have been filtered.")
