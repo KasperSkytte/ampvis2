@@ -23,9 +23,9 @@ Authors@R: c(
 Maintainer: Kasper Skytte Andersen <ksa@bio.aau.dk>
 Reference: Andersen, K.S., Kirkegaard, R.H., Karst, S.M., Albertsen, M., (2018). 
   ampvis2: an R package to analyse and visualise 16S rRNA amplicon data
-  bioRxiv, http://dx.plos.org/10.1371/journal.pone.0132783
+  bioRxiv, https://doi.org/10.1101/299537
 License: AGPL-3
-URL: http://dx.plos.org/10.1371/journal.pone.0132783
+URL: https://madsalbertsen.github.io/ampvis2
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
 Encoding: UTF-8

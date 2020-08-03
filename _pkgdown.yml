@@ -3,7 +3,7 @@ url: https://madsalbertsen.github.io/ampvis2
 home:
   links:
     - text: Latest stable release
-      href: https://github.com/MadsAlbertsen/ampvis2/releases/latest/
+      href: https://github.com/MadsAlbertsen/ampvis2
 
 template:
   params:

@@ -5,6 +5,6 @@ citEntry(entry = "article",
   journal = "bioRxiv",
   title = "ampvis2: an R package to analyse and visualise 16S rRNA amplicon data",
   year = "2018",
-  Url = "http://dx.plos.org/10.1371/journal.pone.0132783",
-  textVersion = "ampvis2: an R package to analyse and visualise 16S rRNA amplicon data. Andersen K.S., Kirkegaard R.H., Karst S.M., Albertsen M. (2018) bioRxiv. doi: http://dx.doi.org/10.1101/299537"
+  Url = "https://doi.org/10.1101/299537",
+  textVersion = "ampvis2: an R package to analyse and visualise 16S rRNA amplicon data. Andersen K.S., Kirkegaard R.H., Karst S.M., Albertsen M. (2018) bioRxiv. doi: https://doi.org/10.1101/299537"
 )
