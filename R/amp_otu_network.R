@@ -135,7 +135,8 @@ amp_otu_network <- function(data,
     Abundance = abund7$Abundance,
     stringsAsFactors = F
   ) %>%
-    subset(Abundance > min_abundance) %>% # Subset to dominant species in each sample
+    subset(Abundance > min_abundance) %>%
+    # Subset to dominant species in each sample
     select(-Abundance) %>%
     network::network(directed = FALSE)
 

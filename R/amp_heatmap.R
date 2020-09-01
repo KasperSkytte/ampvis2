@@ -210,7 +210,8 @@ amp_heatmap <- function(data,
     }
   }
 
-  ## Coerce the group_by and facet_by variables to factor to always be considered categorical. Fx Year is automatically loaded as numeric by R, but it should be considered categorical.
+  ## Coerce the group_by and facet_by variables to factor to always be considered categorical.
+  # Fx Year is automatically loaded as numeric by R, but it should be considered categorical.
   ## Grouping a heatmap by a continuous variable doesn't make sense
   if (!is.null(group_by)) {
     data$metadata[group_by] <- lapply(data$metadata[group_by], factor)

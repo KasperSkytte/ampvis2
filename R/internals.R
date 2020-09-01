@@ -73,15 +73,14 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
   }
 
   ## Remove QIIME taxonomy format prefixes across all levels
-  tax[] <- lapply(tax, gsub, pattern = "^[dkpcofgs]_*", replacement = "")
+  tax[] <- lapply(tax, gsub, pattern = "^[dkpcofgs]_+", replacement = "")
 
   ## Check if there is a species level otherwise add it for consistency
-  if (!is.null(tax$Species)) {
-    tax$Species <- gsub("^s_*", "", tax$Species)
-  } else {
+  if (is.null(tax$Species)) {
     tax$Species <- ""
   }
 
+  ## NA's as empty strings
   tax[is.na(tax)] <- ""
 
   ## How to handle empty taxonomic assignments
