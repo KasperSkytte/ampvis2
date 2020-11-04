@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.6</span>
       </span>
     </div>
 
@@ -198,10 +198,12 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 <span class='kw'>alphadiversityresult</span> <span class='op'>&lt;-</span> <span class='fu'>amp_alphadiv</span>(<span class='kw'>AalborgWWTPs</span>,
   measure = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"shannon"</span>, <span class='st'>"simpson"</span>),
   rarefy = <span class='fl'>20000</span>
-)</div><div class='output co'>#&gt; <span class='message'>The following sample(s) have not been rarefied (less than 20000 reads):</span>
+)
+</div><div class='output co'>#&gt; <span class='message'>The following sample(s) have not been rarefied (less than 20000 reads):</span>
 #&gt; <span class='message'>16SAMP-703, 16SAMP-739, 16SAMP-10907</span></div><div class='input'>
 <span class='co'># Explore the results in the data frame</span>
-<span class='co'># View(alphadiversityresult)</span></div></pre>
+<span class='co'># View(alphadiversityresult)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

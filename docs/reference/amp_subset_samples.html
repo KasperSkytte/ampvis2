@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.6</span>
       </span>
     </div>
 
@@ -202,7 +202,8 @@
             tax_aggregate = <span class='st'>"Phylum"</span>,
             tax_add = <span class='st'>"Genus"</span>,
             normalise = <span class='fl'>FALSE</span>
-            )</pre>
+            )
+</pre>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -222,7 +223,8 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"MiDAS"</span>)
 
 <span class='co'># Show a short summary about the data by simply typing the name of the object in the console</span>
-<span class='kw'>MiDAS</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements. <span style='text-decoration: underline;'>
+<span class='kw'>MiDAS</span>
+</div><div class='output co'>#&gt; ampvis2 object with 5 elements. <span style='text-decoration: underline;'>
 #&gt; Summary of OTU table:
 #&gt; </span><span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;          658        14969     20890850        10480        46264        31800 
@@ -238,11 +240,13 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 #&gt; Metadata variables:</span><span> 5 
 #&gt;  SampleID, Plant, Date, Year, Period</div><div class='input'>
 <span class='co'># Keep only samples containing Aalborg West or East in the Plant column</span>
-<span class='kw'>MiDASsubset</span> <span class='op'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='kw'>MiDAS</span>, <span class='kw'>Plant</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>))</div><div class='output co'>#&gt; <span class='message'>590 samples and 5512 OTUs have been filtered </span>
+<span class='kw'>MiDASsubset</span> <span class='op'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='kw'>MiDAS</span>, <span class='kw'>Plant</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>))
+</div><div class='output co'>#&gt; <span class='message'>590 samples and 5512 OTUs have been filtered </span>
 #&gt; <span class='message'>Before: 658 samples and 14969 OTUs</span>
 #&gt; <span class='message'>After: 68 samples and 9457 OTUs</span></div><div class='input'>
 <span class='co'># Summary</span>
-<span class='kw'>MiDASsubset</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements. </span><span style='text-decoration: underline;'>
+<span class='kw'>MiDASsubset</span>
+</div><div class='output co'>#&gt; ampvis2 object with 5 elements. </span><span style='text-decoration: underline;'>
 #&gt; Summary of OTU table:
 #&gt; </span><span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;           68         9457      2072678        17772        44326      30962.5 
@@ -262,11 +266,13 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 <span class='kw'>MiDASsubset2</span> <span class='op'>&lt;-</span> <span class='fu'>amp_subset_samples</span>(<span class='kw'>MiDAS</span>,
   <span class='kw'>Plant</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span>) <span class='op'>&amp;</span> <span class='op'>!</span><span class='kw'>SampleID</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"16SAMP-749"</span>),
   minreads = <span class='fl'>20000</span>
-)</div><div class='output co'>#&gt; <span class='message'>594 samples and 5601 OTUs have been filtered </span>
+)
+</div><div class='output co'>#&gt; <span class='message'>594 samples and 5601 OTUs have been filtered </span>
 #&gt; <span class='message'>Before: 658 samples and 14969 OTUs</span>
 #&gt; <span class='message'>After: 64 samples and 9368 OTUs</span></div><div class='input'>
 <span class='co'># Summary</span>
-<span class='kw'>MiDASsubset2</span></div><div class='output co'>#&gt; ampvis2 object with 5 elements. </span><span style='text-decoration: underline;'>
+<span class='kw'>MiDASsubset2</span>
+</div><div class='output co'>#&gt; ampvis2 object with 5 elements. </span><span style='text-decoration: underline;'>
 #&gt; Summary of OTU table:
 #&gt; </span><span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;           64         9368      1987574        21472        44326      31413.5 

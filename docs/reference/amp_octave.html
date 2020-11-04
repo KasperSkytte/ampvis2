@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.6</span>
       </span>
     </div>
 
@@ -203,7 +203,8 @@ It is better to identify "bad" samples individually and remove them.</p>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'># Subset data</span>
-<span class='kw'>ds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='amp_subset_samples.html'>amp_subset_samples</a></span>(<span class='kw'>AalborgWWTPs</span>, <span class='kw'>Year</span> <span class='op'>%in%</span> <span class='fl'>2014</span>)</div><div class='output co'>#&gt; <span class='message'>59 samples and 4342 OTUs have been filtered </span>
+<span class='kw'>ds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='amp_subset_samples.html'>amp_subset_samples</a></span>(<span class='kw'>AalborgWWTPs</span>, <span class='kw'>Year</span> <span class='op'>%in%</span> <span class='fl'>2014</span>)
+</div><div class='output co'>#&gt; <span class='message'>59 samples and 4342 OTUs have been filtered </span>
 #&gt; <span class='message'>Before: 67 samples and 9430 OTUs</span>
 #&gt; <span class='message'>After: 8 samples and 5088 OTUs</span></div><div class='input'>
 <span class='co'># Generate an octave plot of all samples at Genus level. Adjust num_threads to</span>
@@ -213,7 +214,8 @@ It is better to identify "bad" samples individually and remove them.</p>
   tax_aggregate = <span class='st'>"Genus"</span>,
   scales = <span class='st'>"free_y"</span>,
   num_threads = <span class='fl'>1</span>
-)</div><div class='output co'>#&gt; <span class='message'>2080 OTUs (out of 5088) with no assigned taxonomy at Genus level were removed before aggregating OTUs</span></div><div class='img'><img src='amp_octave-1.png' alt='' width='700' height='433' /></div></pre>
+)
+</div><div class='output co'>#&gt; <span class='message'>2080 OTUs (out of 5088) with no assigned taxonomy at Genus level were removed before aggregating OTUs</span></div><div class='img'><img src='amp_octave-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

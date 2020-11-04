@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.6</span>
       </span>
     </div>
 
@@ -187,7 +187,8 @@
             tax_aggregate = <span class='st'>"Phylum"</span>,
             tax_add = <span class='st'>"Genus"</span>,
             normalise = <span class='fl'>FALSE</span>
-            )</pre>
+            )
+</pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -207,7 +208,8 @@
   tax_aggregate = <span class='st'>"Genus"</span>,
   group_by = <span class='st'>"Plant"</span>,
   tax_add = <span class='st'>"Phylum"</span>
-)</div><div class='img'><img src='amp_subset_taxa-1.png' alt='' width='700' height='433' /></div><div class='input'>
+)
+</div><div class='img'><img src='amp_subset_taxa-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Remove all taxa except the phyla Chloroflexi and Actinobacteria</span>
 <span class='co'># and the Genera Rhodoferax and Trichococcus:</span>
 <span class='kw'>tax_vector</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
@@ -219,7 +221,8 @@
 
 <span class='kw'>AalborgWWTPs_subset</span> <span class='op'>&lt;-</span> <span class='fu'>amp_subset_taxa</span>(<span class='kw'>AalborgWWTPs</span>,
   tax_vector = <span class='kw'>tax_vector</span>
-)</div><div class='output co'>#&gt; <span class='message'>7566 OTUs have been filtered </span>
+)
+</div><div class='output co'>#&gt; <span class='message'>7566 OTUs have been filtered </span>
 #&gt; <span class='message'>Before: 9430 OTUs</span>
 #&gt; <span class='message'>After: 1864 OTUs</span></div><div class='input'>
 <span class='co'># The resulting subset:</span>
@@ -227,19 +230,22 @@
   tax_aggregate = <span class='st'>"Genus"</span>,
   group_by = <span class='st'>"Plant"</span>,
   tax_add = <span class='st'>"Phylum"</span>
-)</div><div class='img'><img src='amp_subset_taxa-2.png' alt='' width='700' height='433' /></div><div class='input'>
+)
+</div><div class='img'><img src='amp_subset_taxa-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Or if remove = TRUE then the taxa in tax_vector are the ones being removed:</span>
 <span class='kw'>AalborgWWTPs_subset</span> <span class='op'>&lt;-</span> <span class='fu'>amp_subset_taxa</span>(<span class='kw'>AalborgWWTPs</span>,
   tax_vector = <span class='kw'>tax_vector</span>,
   remove = <span class='fl'>TRUE</span>
-)</div><div class='output co'>#&gt; <span class='message'>1864 OTUs have been filtered </span>
+)
+</div><div class='output co'>#&gt; <span class='message'>1864 OTUs have been filtered </span>
 #&gt; <span class='message'>Before: 9430 OTUs</span>
 #&gt; <span class='message'>After: 7566 OTUs</span></div><div class='input'><span class='co'># The resulting subset:</span>
 <span class='fu'><a href='amp_heatmap.html'>amp_heatmap</a></span>(<span class='kw'>AalborgWWTPs_subset</span>,
   tax_aggregate = <span class='st'>"Genus"</span>,
   group_by = <span class='st'>"Plant"</span>,
   tax_add = <span class='st'>"Phylum"</span>
-)</div><div class='img'><img src='amp_subset_taxa-3.png' alt='' width='700' height='433' /></div></pre>
+)
+</div><div class='img'><img src='amp_subset_taxa-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

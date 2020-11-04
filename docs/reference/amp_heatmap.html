@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.6</span>
       </span>
     </div>
 
@@ -323,7 +323,8 @@
             tax_aggregate = <span class='st'>"Phylum"</span>,
             tax_add = <span class='st'>"Genus"</span>,
             normalise = <span class='fl'>FALSE</span>
-            )</pre>
+            )
+</pre>
 
     <h2 class="hasAnchor" id="accessing-detailed-raw-data"><a class="anchor" href="#accessing-detailed-raw-data"></a>Accessing detailed raw data</h2>
 
@@ -343,7 +344,8 @@
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'># Heatmap grouped by WWTP</span>
-<span class='fu'>amp_heatmap</span>(<span class='kw'>AalborgWWTPs</span>, group_by = <span class='st'>"Plant"</span>)</div><div class='img'><img src='amp_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>amp_heatmap</span>(<span class='kw'>AalborgWWTPs</span>, group_by = <span class='st'>"Plant"</span>)
+</div><div class='img'><img src='amp_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year,</span>
 <span class='co'># values not plotted for visibility, phylum name added, colorscale adjusted manually,</span>
 <span class='co'># and show the sum of remaining taxa not part of the top 20 most abundant taxa</span>
@@ -358,7 +360,8 @@
   color_vector = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"white"</span>, <span class='st'>"red"</span>),
   plot_colorscale = <span class='st'>"sqrt"</span>,
   plot_legendbreaks = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>)
-)</div><div class='img'><img src='amp_heatmap-2.png' alt='' width='700' height='433' /></div><div class='input'>
+)
+</div><div class='img'><img src='amp_heatmap-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Heatmap with known functional information about the Genera shown to the right</span>
 <span class='co'># By default this information is retrieved directly from midasfieldguide.org</span>
 <span class='co'># but you can provide your own with the function_data argument as shown in the</span>
@@ -368,7 +371,8 @@
   tax_aggregate = <span class='st'>"Genus"</span>,
   plot_functions = <span class='fl'>TRUE</span>,
   functions = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>)
-)</div><div class='img'><img src='amp_heatmap-3.png' alt='' width='700' height='433' /></div><div class='input'>
+)
+</div><div class='img'><img src='amp_heatmap-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.</span>
 <span class='co'># Notice the function_data is now retrieved from the MiF data frame</span>
 <span class='kw'>textmap</span> <span class='op'>&lt;-</span> <span class='fu'>amp_heatmap</span>(<span class='kw'>AalborgWWTPs</span>,
@@ -379,7 +383,8 @@
   functions = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span>),
   textmap = <span class='fl'>TRUE</span>
 )
-<span class='kw'>textmap</span></div><div class='output co'>#&gt;                          Aalborg East Aalborg West  PAO  GAO  AOB  NOB
+<span class='kw'>textmap</span>
+</div><div class='output co'>#&gt;                          Aalborg East Aalborg West  PAO  GAO  AOB  NOB
 #&gt; Tetrasphaera                 5.478941     6.842382  POS  NEG  NEG  NEG
 #&gt; Trichococcus                 7.098638     3.028602   NT   NT   NT   NT
 #&gt; uncultured                   5.236024     4.304019 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;

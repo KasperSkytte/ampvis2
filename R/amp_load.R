@@ -186,7 +186,7 @@ amp_load <- function(otutable,
       stop("The data contains non-integer values, cannot identify singletons.", call. = FALSE)
     } else {
       singletons <- as.integer(rowSums(abund)) == 1L
-      if(!any(singletons)) {
+      if (!any(singletons)) {
         message("No singletons found in the data, none removed")
       } else if (any(singletons)) {
         nOTUsBefore <- nrow(abund)
