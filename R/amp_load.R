@@ -185,20 +185,25 @@ amp_load <- function(otutable,
     if (any(abund %% 1 != 0L)) {
       stop("The data contains non-integer values, cannot identify singletons.", call. = FALSE)
     } else {
-      nOTUsBefore <- nrow(abund)
-      abund <- abund[-which(as.integer(rowSums(abund)) == 1L), , drop = FALSE]
-      nSingletons <- nOTUsBefore - nrow(abund)
-      message(
-        paste0(
-          nSingletons,
-          if (nSingletons == 1L) {
-            " singleton has "
-          } else {
-            " singletons have "
-          },
-          "been removed"
+      singletons <- as.integer(rowSums(abund)) == 1L
+      if(!any(singletons)) {
+        message("No singletons found in the data, none removed")
+      } else if (any(singletons)) {
+        nOTUsBefore <- nrow(abund)
+        abund <- abund[-which(singletons), , drop = FALSE]
+        nSingletons <- nOTUsBefore - nrow(abund)
+        message(
+          paste0(
+            nSingletons,
+            if (nSingletons == 1L) {
+              " singleton has "
+            } else {
+              " singletons have "
+            },
+            "been removed"
+          )
         )
-      )
+      }
     }
   }
 
