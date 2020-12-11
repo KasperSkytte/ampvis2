@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.7</span>
       </span>
     </div>
 
@@ -142,17 +142,17 @@
     <p>Export otutable (including taxonomy) from an ampvis2 object as CSV using <code><a href='https://rdrr.io/r/utils/write.table.html'>write.table</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>amp_export_otutable</span>(
-  <span class='kw'>data</span>,
-  filename = <span class='st'>"exported_otutable"</span>,
-  extension = <span class='st'>"csv"</span>,
-  md5 = <span class='fl'>FALSE</span>,
-  sep = <span class='st'>"\t"</span>,
-  id = <span class='kw'>NULL</span>,
-  sort_samples = <span class='kw'>NULL</span>,
-  normalise = <span class='fl'>FALSE</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>amp_export_otutable</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  filename <span class='op'>=</span> <span class='st'>"exported_otutable"</span>,
+  extension <span class='op'>=</span> <span class='st'>"csv"</span>,
+  md5 <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  sep <span class='op'>=</span> <span class='st'>"\t"</span>,
+  id <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sort_samples <span class='op'>=</span> <span class='cn'>NULL</span>,
+  normalise <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,12 +202,12 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"AalborgWWTPs"</span><span class='op'>)</span>
 
 <span class='co'># Export OTU-table</span>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>amp_export_otutable</span>(<span class='kw'>AalborgWWTPs</span>, md5 = <span class='fl'>TRUE</span>, filename = <span class='st'>"AalborgWWTPs_otutable"</span>, sep = <span class='st'>"\\t"</span>)
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>amp_export_otutable</span><span class='op'>(</span><span class='va'>AalborgWWTPs</span>, md5 <span class='op'>=</span> <span class='cn'>TRUE</span>, filename <span class='op'>=</span> <span class='st'>"AalborgWWTPs_otutable"</span>, sep <span class='op'>=</span> <span class='st'>"\\t"</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 </div></pre>
   </div>
@@ -225,7 +225,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

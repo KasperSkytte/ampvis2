@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.7</span>
       </span>
     </div>
 
@@ -142,11 +142,11 @@
     <p>Transforms any ampvis2 object into a long data frame (<code>data.table</code>) to facilitate custom data analysis. Only the elements OTU counts (<code>data$abund</code>), taxonomy (<code>data$tax</code>), and metadata (<code>data$metadata</code>) are used, not phylogenetic tree or DNA sequences.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>amp_export_long</span>(
-  <span class='kw'>data</span>,
-  metadata_vars = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>metadata</span>),
-  tax_levels = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>tax</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>amp_export_long</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  metadata_vars <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>metadata</span><span class='op'>)</span>,
+  tax_levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>tax</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,13 +175,13 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># load minimal example data</span>
-<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='amp_load.html'>amp_load</a></span>(<span class='kw'>example_otutable</span>, <span class='kw'>example_metadata</span>)
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='amp_load.html'>amp_load</a></span><span class='op'>(</span><span class='va'>example_otutable</span>, <span class='va'>example_metadata</span><span class='op'>)</span>
 
 <span class='co'># transform d into a long-format data frame</span>
-<span class='kw'>d_long</span> <span class='op'>&lt;-</span> <span class='fu'>amp_export_long</span>(<span class='kw'>d</span>, metadata_vars = <span class='kw'>NULL</span>, tax_levels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"OTU"</span>, <span class='st'>"Genus"</span>))
+<span class='va'>d_long</span> <span class='op'>&lt;-</span> <span class='fu'>amp_export_long</span><span class='op'>(</span><span class='va'>d</span>, metadata_vars <span class='op'>=</span> <span class='cn'>NULL</span>, tax_levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"OTU"</span>, <span class='st'>"Genus"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># print the data frame (data.table)</span>
-<span class='kw'>d_long</span>
+<span class='va'>d_long</span>
 </div><div class='output co'>#&gt;        SampleID    OTU count                       Genus
 #&gt;  1: 16SAMP_3893  OTU_1    23    g__Candidatus Amarilinum
 #&gt;  2: 16SAMP_3893 OTU_10   373                     g__MK04
@@ -279,7 +279,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

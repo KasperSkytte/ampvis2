@@ -129,10 +129,9 @@ amp_alphadiv <- function(data,
   }
 
   # arrange by RawReads no matter if rarefied or not, remove the column if rarefy is not set
-  results <- results %>%
-    dplyr::arrange(RawReads) %>%
-    {
-      if (is.null(rarefy)) dplyr::select(., -RawReads) else return(.)
-    }
+  results <- dplyr::arrange(results, RawReads)
+  if (is.null(rarefy)) {
+    results <- dplyr::select(results, -RawReads)
+  }
   return(results)
 }

@@ -916,7 +916,7 @@ amp_ordinate <- function(data,
         paste0(sort(references[unique(refs2print)]), collapse = "\n\n")
       )
     } else {
-      return(.)
+      .
     }
   }
   # set class to use custom print method

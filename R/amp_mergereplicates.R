@@ -67,7 +67,7 @@ amp_mergereplicates <- function(data,
     {
       .[, 1] <- ifelse(.[, 2] %chin% groups, .[, 2], .[, 1])
       colnames(.)[1] <- nameoffirstcol
-      return(.[, -2])
+      .[, -2]
     } %>%
     data.table::data.table()
 
@@ -88,18 +88,18 @@ amp_mergereplicates <- function(data,
       # first column to rownames
       rownames(.) <- .[[1]]
       .[[1]] <- NULL
-      return(.)
+      .
     } %>%
     t() %>%
     {
       if (is.null(round)) {
-        return(.)
+        .
       } else if (tolower(round) == "up") {
-        return(ceiling(.))
+        ceiling(.)
       } else if (tolower(round) == "down") {
-        return(floor(.))
+        floor(.)
       } else {
-        return(.)
+        .
       }
     } %>%
     as.data.frame()
