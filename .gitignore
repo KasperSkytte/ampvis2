@@ -177,7 +177,3 @@ test/
 .httr-oauth
 
 ..Rcheck/
-
-renv/
-
-.Rprofile
