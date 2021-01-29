@@ -104,7 +104,7 @@ amp_heatmap(
 \item{rel_widths}{If \code{plot_functions} is set to \code{TRUE}: A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})}
 }
 \value{
-A ggplot2 object, or a data frame if \code{textmap = TRUE}.
+A ggplot2 object, or a list of ggplot2 objects if \code{plot_functions = TRUE}. A data frame if \code{textmap = TRUE}.
 }
 \description{
 Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs.
@@ -126,6 +126,11 @@ amp_heatmap(subsettedData,
             normalise = FALSE
             )
 }
+}
+
+\section{Saving plot with \code{\link[ggplot2]{ggsave}}}{
+
+When \code{plot_functions = TRUE} a list of ggplot objects is returned to allow adjusting themes etc. of the individual subplots. The list is of class \code{hmfunplot} and a matching print function for the S3 class then stitches together the individual plots using the \code{\link{patchwork}} package. Therefore to save the plot with \code{\link[ggplot2]{ggsave}} simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if \code{plot_functions = FALSE}, as the returned object is then a regular ggplot object.
 }
 
 \section{Accessing detailed raw data}{
@@ -160,12 +165,17 @@ amp_heatmap(AalborgWWTPs,
 # By default this information is retrieved directly from midasfieldguide.org
 # but you can provide your own with the function_data argument as shown in the
 # textmap
-amp_heatmap(AalborgWWTPs,
+heatmapwfunctions <- amp_heatmap(AalborgWWTPs,
   group_by = "Plant",
   tax_aggregate = "Genus",
   plot_functions = TRUE,
   functions = c("PAO", "GAO", "AOB", "NOB")
 )
+
+class(heatmapwfunctions)
+
+# To save the plot with ggsave() wrap the plot object in print()
+# ggsave("plot.png", print(heatmapwfunctions))
 
 # A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.
 # Notice the function_data is now retrieved from the MiF data frame

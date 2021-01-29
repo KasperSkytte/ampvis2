@@ -16,7 +16,9 @@
 #' @param widths Numeric vector with relative widths of the main and y margin plots. (\emph{default:} \code{c(5,1)})
 #' @param heights Numeric vector with relative widths of the main and x margin plots. (\emph{default:} \code{c(1,5)})
 #'
-#' @details This analysis only makes sense without aggregating OTU's to any taxonomic level, or else it will be biased by taxonomy and only be done on those OTU's that have been classified.
+#' @details This analysis only makes sense without aggregating OTU's to any taxonomic level, or else it will be biased by taxonomy and only be done on OTU's that have been classified, which is rarely all.
+#' @section Saving plot with \code{\link[ggplot2]{ggsave}}:
+#' When any margin plots are generated \code{\link{amp_core}} returns a list of ggplot objects to allow adjusting themes etc. of the individual subplots. The list is of class \code{coreplot} and a matching print function for the S3 class then stitches together the individual plots using the \code{\link{patchwork}} package. Therefore to save the plot with \code{\link[ggplot2]{ggsave}} simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if no margin plots are generated, as the returned object is then a regular ggplot object.
 #'
 #' @return If no margin plots a \code{ggplot} object, otherwise a list with ggplot objects.
 #'
@@ -29,7 +31,7 @@
 #' \code{\link{amp_load}}
 #'
 #' @references
-#'   Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): The activated sludge ecosystem contains a core community of abundant organisms, ISME Journal 10, 11-20. \url{https://doi.org/10.1038/ismej.2015.117}
+#' Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): The activated sludge ecosystem contains a core community of abundant organisms, ISME Journal 10, 11-20. \url{https://doi.org/10.1038/ismej.2015.117}
 #'
 #' @examples
 #' # load example data
@@ -53,6 +55,9 @@
 #'
 #' # show plot
 #' plot
+#'
+#' # To save the plot with ggsave() wrap the plot object in print()
+#' # ggsave("plot.png", print(plot))
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 amp_core <- function(data,
