@@ -2,7 +2,7 @@ Package: ampvis2
 Type: Package
 Title: Tools for visualising amplicon data
 Description: ampvis2 is a small set of tools that allows effortless visualisation of amplicon data.
-Version: 2.6.8
+Version: 2.7.0
 Date: 2017-11-15
 Authors@R: c(
   person(
@@ -65,3 +65,6 @@ Remotes:
     github::kasperskytte/ggnet,
     github::kasperskytte/biomformat
 RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
