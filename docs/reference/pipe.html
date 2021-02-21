@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rarefaction curve — amp_rarecurve • ampvis2</title>
+<title>Pipe operator — %&gt;% • ampvis2</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Rarefaction curve — amp_rarecurve" />
-<meta property="og:description" content="Generates a rarefaction curve (number of reads vs number of observed OTUs) for each sample." />
+<meta property="og:title" content="Pipe operator — %&gt;%" />
+<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
 
 
 
@@ -141,66 +141,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Rarefaction curve</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MadsAlbertsen/ampvis2/blob/master/R/amp_rarecurve.R'><code>R/amp_rarecurve.R</code></a></small>
-    <div class="hidden name"><code>amp_rarecurve.Rd</code></div>
+    <h1>Pipe operator</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MadsAlbertsen/ampvis2/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
+    <div class="hidden name"><code>pipe.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generates a rarefaction curve (number of reads vs number of observed OTUs) for each sample.</p>
+    <p>See <code>magrittr::%&gt;%</code> for details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>amp_rarecurve</span><span class='op'>(</span>
-  <span class='va'>data</span>,
-  stepsize <span class='op'>=</span> <span class='fl'>1000</span>,
-  color_by <span class='op'>=</span> <span class='cn'>NULL</span>,
-  facet_by <span class='op'>=</span> <span class='cn'>NULL</span>,
-  facet_scales <span class='op'>=</span> <span class='st'>"fixed"</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>lhs</span> <span class='op'>%&gt;%</span> <span class='va'>rhs</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
+      <th>lhs</th>
+      <td><p>A value or the magrittr placeholder.</p></td>
     </tr>
     <tr>
-      <th>stepsize</th>
-      <td><p>Step size for the curves. Lower is prettier but takes more time to generate. (<em>default:</em> <code>1000</code>)</p></td>
-    </tr>
-    <tr>
-      <th>color_by</th>
-      <td><p>Color curves by a variable in the metadata. (<em>default:</em> <code>NULL</code>)</p></td>
-    </tr>
-    <tr>
-      <th>facet_by</th>
-      <td><p>Split the plot into subplots based on a variable in the metadata. (<em>default:</em> <code>NULL</code>)</p></td>
-    </tr>
-    <tr>
-      <th>facet_scales</th>
-      <td><p>If <code>facet_by</code> is set, should the axis scales of each subplot be fixed (<code>fixed</code>), free (<code>"free"</code>), or free in one dimension (<code>"free_x"</code> or <code>"free_y"</code>)? (<em>default:</em> <code>"fixed"</code>)</p></td>
+      <th>rhs</th>
+      <td><p>A function call using the magrittr semantics.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>The result of calling `rhs(lhs)`.</p>
 
-    <div class='dont-index'><p><code><a href='amp_load.html'>amp_load</a></code>, <code><a href='amp_octave.html'>amp_octave</a></code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
-<p>Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a></p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"AalborgWWTPs"</span><span class='op'>)</span>
-
-<span class='co'># Rarecurve</span>
-<span class='fu'>amp_rarecurve</span><span class='op'>(</span><span class='va'>AalborgWWTPs</span>, facet_by <span class='op'>=</span> <span class='st'>"Plant"</span><span class='op'>)</span>
-</div><div class='img'><img src='amp_rarecurve-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

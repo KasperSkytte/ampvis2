@@ -1,10 +1,10 @@
 pandoc: 2.11.2
 pkgdown: 1.6.1.9000
-pkgdown_sha: 84f234cf19153ce99bf1bcf875dc56248ddf0cbe
+pkgdown_sha: d49c3e8f3e9a244f25a22effa453b842640ef65c
 articles:
   ampvis2: ampvis2.html
   faq: faq.html
-last_built: 2021-01-29T13:06Z
+last_built: 2021-02-21T09:05Z
 urls:
   reference: https://madsalbertsen.github.io/ampvis2/reference
   article: https://madsalbertsen.github.io/ampvis2/articles

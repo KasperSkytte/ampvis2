@@ -74,9 +74,15 @@
 </script>
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -90,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
       </span>
     </div>
 
@@ -248,11 +254,9 @@
   tax_aggregate <span class='op'>=</span> <span class='st'>"OTU"</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Duplicate dates in column Date, displaying the average for each date.</span>
-#&gt; <span class='warning'> Consider grouping dates using the group_by argument or subset the data using amp_subset_samples.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `group_by_()` is deprecated as of dplyr 0.7.0.</span>
+#&gt; <span class='warning'> Consider grouping dates using the group_by argument or subset the data using amp_subset_samples.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `group_by_()` was deprecated in dplyr 0.7.0.</span>
 #&gt; <span class='warning'>Please use `group_by()` instead.</span>
-#&gt; <span class='warning'>See vignette('programming') for more help</span>
-#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='img'><img src='amp_timeseries-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; <span class='warning'>See vignette('programming') for more help</span></div><div class='img'><img src='amp_timeseries-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># As the above warning suggests, there are more than one sample per date in the data,</span>
 <span class='co'># in this case one from Aalborg East and one from Aalborg West. The average of the</span>
 <span class='co'># two samples is then shown per date. In such case it is then recommended to either</span>
@@ -267,7 +271,7 @@
   tax_aggregate <span class='op'>=</span> <span class='st'>"Genus"</span>,
   tax_add <span class='op'>=</span> <span class='st'>"Phylum"</span>
 <span class='op'>)</span>
-</div><div class='img'><img src='amp_timeseries-2.png' alt='' width='700' height='433' /></div></span></pre>
+</div><div class='img'><img src='amp_timeseries-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -308,6 +312,8 @@
 </script>
 
 
+
+  
 
   </body>
 </html>
