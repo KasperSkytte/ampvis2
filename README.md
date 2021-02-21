@@ -1,5 +1,6 @@
-
-[![Travis-CI Build Status](https://travis-ci.org/MadsAlbertsen/ampvis2.svg?branch=master)](https://travis-ci.org/MadsAlbertsen/ampvis2)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/MadsAlbertsen/ampvis2/workflows/R-CMD-check/badge.svg)](https://github.com/MadsAlbertsen/ampvis2/actions)
+<!-- badges: end -->
 
 Tools for visualising amplicon data
 ===================================
