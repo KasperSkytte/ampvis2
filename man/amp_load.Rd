@@ -71,34 +71,49 @@ A minimal example is available with \code{data("example_metadata")}.
 }
 
 \examples{
-# Be sure to use the correct function to load your .csv files, see ?read.table()
 \dontrun{
-# Read the OTU-table as a data frame. It is important to set check.names = FALSE.
+Load data by either giving file paths or by passing already loaded R objects
+### example load with file paths
+d <- amp_load(
+  otutable = "path/to/otutable.tsv",
+  metadata = "path/to/metadata.xlsx",
+  taxonomy = "path/to/taxonomy.txt"
+)
+
+### example load with R objects
+# Read the OTU-table as a data frame. It is important to set check.names = FALSE
 myotutable <- read.delim("data/otutable.txt", check.names = FALSE)
 
-# Read the metadata, often an excel sheet. If .csv make sure the first column will be kept and NOT
-# loaded as rownames! The top row should be loaded column names
+# Read the metadata, probably an excel sheet
 mymetadata <- read_excel("data/metadata.xlsx", col_names = TRUE)
 
-# Combine the data with amp_load() to make it compatible with ampvis2 functions.
-# Uncomment the fasta line to load reference sequences (not required).
+# Read the taxonomy
+mytaxonomy <- read.csv("data/taxonomy.csv", check.names = FALSE)
+
+# Combine the data with amp_load()
 d <- amp_load(
   otutable = myotutable,
   metadata = mymetadata,
-  fasta = "path/to/fastafile.fa" # optional
+  taxonomy = mytaxonomy,
+  pruneSingletons = FALSE,
+  fasta = "path/to/fastafile.fa", # optional
+  tree = "path/to/tree.tree" # optional
 )
 
-# Show a short summary about the data by simply typing the name of the object in the console
+### Show a short summary about the data by simply typing the name of the object in the console
 d
 }
 
-# Minimal example metadata:
+### Minimal example metadata:
 data("example_metadata")
 example_metadata
 
-# Minimal example otutable:
+### Minimal example otutable:
 data("example_otutable")
 example_otutable
+
+### Minimal example taxonomy:
+data("example_taxonomy")
 }
 \seealso{
 \code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}

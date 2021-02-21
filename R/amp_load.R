@@ -55,34 +55,49 @@
 #' \code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}
 #'
 #' @examples
-#' # Be sure to use the correct function to load your .csv files, see ?read.table()
 #' \dontrun{
-#' # Read the OTU-table as a data frame. It is important to set check.names = FALSE.
+#' Load data by either giving file paths or by passing already loaded R objects
+#' ### example load with file paths
+#' d <- amp_load(
+#'   otutable = "path/to/otutable.tsv",
+#'   metadata = "path/to/metadata.xlsx",
+#'   taxonomy = "path/to/taxonomy.txt"
+#' )
+#' 
+#' ### example load with R objects
+#' # Read the OTU-table as a data frame. It is important to set check.names = FALSE
 #' myotutable <- read.delim("data/otutable.txt", check.names = FALSE)
 #'
-#' # Read the metadata, often an excel sheet. If .csv make sure the first column will be kept and NOT
-#' # loaded as rownames! The top row should be loaded column names
+#' # Read the metadata, probably an excel sheet
 #' mymetadata <- read_excel("data/metadata.xlsx", col_names = TRUE)
 #'
-#' # Combine the data with amp_load() to make it compatible with ampvis2 functions.
-#' # Uncomment the fasta line to load reference sequences (not required).
+#' # Read the taxonomy
+#' mytaxonomy <- read.csv("data/taxonomy.csv", check.names = FALSE)
+#' 
+#' # Combine the data with amp_load()
 #' d <- amp_load(
 #'   otutable = myotutable,
 #'   metadata = mymetadata,
-#'   fasta = "path/to/fastafile.fa" # optional
+#'   taxonomy = mytaxonomy,
+#'   pruneSingletons = FALSE,
+#'   fasta = "path/to/fastafile.fa", # optional
+#'   tree = "path/to/tree.tree" # optional
 #' )
 #'
-#' # Show a short summary about the data by simply typing the name of the object in the console
+#' ### Show a short summary about the data by simply typing the name of the object in the console
 #' d
 #' }
 #'
-#' # Minimal example metadata:
+#' ### Minimal example metadata:
 #' data("example_metadata")
 #' example_metadata
 #'
-#' # Minimal example otutable:
+#' ### Minimal example otutable:
 #' data("example_otutable")
 #' example_otutable
+#' 
+#' ### Minimal example taxonomy:
+#' data("example_taxonomy")
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 #'
@@ -94,12 +109,12 @@ amp_load <- function(otutable,
                      pruneSingletons = FALSE,
                      ...) {
   ### the following functions are only useful in the context of amp_load()
-  #function to check if provided object looks like a file path
-  #and if so try to read the file, otherwise expect a data.frame
+  # function to check if provided object looks like a file path
+  # and if so try to read the file, otherwise expect a data.frame
   import <- function(x, ...) {
     if (is.character(x) &
-        length(x) == 1 &
-        is.null(dim(x))) {
+      length(x) == 1 &
+      is.null(dim(x))) {
       ext <- tolower(tools::file_ext(x))
       if (ext %in% c("csv", "txt", "tsv", "")) {
         DF <- data.table::fread(x, fill = TRUE, data.table = FALSE, ...)
@@ -108,25 +123,27 @@ amp_load <- function(otutable,
       } else {
         stop(paste("Unsupported file type \"", ext, "\""), call. = FALSE)
       }
-    } else
+    } else {
       DF <- x
+    }
     DF <- as.data.frame(DF, check.names = FALSE)
     if (sum(dim(DF)) == 0L) {
       stop(paste(deparse(substitute(x)), "is empty"), call. = FALSE)
     }
     return(DF)
   }
-  
-  #function to detect OTU/ASV column
+
+  # function to detect OTU/ASV column
   findOTUcol <- function(x) {
     DF <- as.data.frame(x)
     otucol <- tolower(colnames(DF)) %in% c("otu", "asv", "#otu id")
     if (sum(otucol) > 1L) {
       stop(
         paste(
-          "More than one column in", 
-          deparse(substitute(x)), 
-          "is named OTU/ASV, don't know which one to use."), 
+          "More than one column in",
+          deparse(substitute(x)),
+          "is named OTU/ASV, don't know which one to use."
+        ),
         call. = FALSE
       )
     }
@@ -136,17 +153,18 @@ amp_load <- function(otutable,
     } else if (!any(otucol)) {
       warning(
         paste0(
-          "Could not find a column named OTU/ASV in ", 
-          deparse(substitute(x)), 
-          ", using rownames as sample ID's"),
+          "Could not find a column named OTU/ASV in ",
+          deparse(substitute(x)),
+          ", using rownames as sample ID's"
+        ),
         call. = FALSE
       )
       DF[["OTU"]] <- rownames(DF)
     }
     return(DF)
   }
-  
-  #function to extract and parse taxonomy correctly
+
+  # function to extract and parse taxonomy correctly
   tax.levels <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")
   parseTaxonomy <- function(x) {
     # create empty dummy taxonomy data frame to fill into
@@ -158,58 +176,58 @@ amp_load <- function(otutable,
       )
     )
     tax[["OTU"]] <- rownames(tax)
-    
-    #rename all taxonomy columns except OTU column
+
+    # rename all taxonomy columns except OTU column
     taxcols <- tolower(colnames(x)) %in% c("domain", tolower(tax.levels[-8]))
     colnames(x)[taxcols] <- stringr::str_to_title(colnames(x)[taxcols])
-    
-    #identify which columns contain taxonomy
+
+    # identify which columns contain taxonomy
     taxcolnames <- dplyr::intersect(tax.levels, colnames(x))
-    
+
     # allow both Kingdom or Domain column, but not both at once
     if (all(c("Domain", "Kingdom") %in% taxcolnames)) {
       stop("Cannot have both Domain and Kingdom columns at the same time in taxonomy.", call. = FALSE)
-    } else if(any("Domain" %in% taxcolnames)) {
+    } else if (any("Domain" %in% taxcolnames)) {
       tax.levels[1] <- "Domain" -> colnames(tax)[1]
     }
-    
-    #fill into dummy taxonomy by merging by OTU
+
+    # fill into dummy taxonomy by merging by OTU
     tax <- merge(
       tax[, !colnames(tax) %in% taxcolnames[!taxcolnames %in% "OTU"], drop = FALSE],
-      x[, taxcolnames, drop = FALSE], 
+      x[, taxcolnames, drop = FALSE],
       by = "OTU",
       sort = FALSE,
       all.x = TRUE,
       all.y = FALSE
     )
     rownames(tax) <- tax[["OTU"]]
-    
+
     if (length(taxcolnames) == 1L & all(taxcolnames %in% "OTU")) {
       warning("Could not find or parse taxonomy, creating a dummy taxonomy table with only OTUs.", call. = FALSE)
     }
-    
-    #select and sort columns correctly in Kingdom/Domain -> Species order
+
+    # select and sort columns correctly in Kingdom/Domain -> Species order
     tax <- tax[, tax.levels, drop = FALSE]
-    
-    #remove whitespaces at the either side
+
+    # remove whitespaces at the either side
     tax[] <- lapply(tax, stringr::str_replace_all, pattern = "^\\s+|\\s+$", replacement = "")
-    
-    #only character columns allowed and convert any NA to empty string
+
+    # only character columns allowed and convert any NA to empty string
     tax[] <- lapply(tax, as.character)
     tax[is.na(tax)] <- ""
-    
+
     return(tax)
   }
 
   ### import and check otutable (with or without taxonomy)
   otutable <- import(otutable)
   otutable <- findOTUcol(otutable)
-  
+
   ### extract read abundances from otutable (same if taxonomy present or not)
   taxcols <- tolower(colnames(otutable)) %in% c("domain", tolower(tax.levels))
   abund <- otutable[, !taxcols, drop = FALSE]
   abund[is.na(abund)] <- 0L
-  
+
   ### extract taxonomy from otutable or separate table if provided
   if (is.null(taxonomy)) {
     tax <- parseTaxonomy(otutable)
@@ -217,25 +235,26 @@ amp_load <- function(otutable,
     taxonomy <- import(taxonomy)
     taxonomy <- findOTUcol(taxonomy)
     tax <- parseTaxonomy(taxonomy)
-    
+
     # check if provided otutable and taxonomy match, message with missing/excess OTUs
-    if(!setequal(rownames(tax), rownames(abund))) {
+    if (!setequal(rownames(tax), rownames(abund))) {
       sharedOTUs <- dplyr::intersect(rownames(tax), rownames(abund))
-      if(length(sharedOTUs) == 0L) {
+      if (length(sharedOTUs) == 0L) {
         stop("No OTU's match between otutable and taxonomy", call. = FALSE)
       } else {
         warningMsg <- "The OTU's between otutable and taxonomy do not match exactly."
-        if(all(sharedOTUs %in% rownames(abund)) && nrow(tax) > length(sharedOTUs)) {
+        if (all(sharedOTUs %in% rownames(abund)) && nrow(tax) > length(sharedOTUs)) {
           nOTUremoved <- nrow(tax) - length(sharedOTUs)
           warningMsg <- paste0(
             warningMsg,
             " ",
             nOTUremoved,
             " OTU",
-            if(nOTUremoved > 1L)
+            if (nOTUremoved > 1L) {
               "'s in taxonomy not present in otutable have "
-            else if (nOTUremoved == 1L) 
-              " in taxonomy not present in otutable has ",
+            } else if (nOTUremoved == 1L) {
+              " in taxonomy not present in otutable has "
+            },
             "been removed from taxonomy."
           )
         }
@@ -246,14 +265,15 @@ amp_load <- function(otutable,
             " ",
             length(OTUmissing),
             " OTU",
-            if (length(OTUmissing) == 1L)
+            if (length(OTUmissing) == 1L) {
               paste0(" (", OTUmissing, ") is ")
-            else
-              "'s are ",
+            } else {
+              "'s are "
+            },
             "missing in taxonomy compared to otutable",
-            if (length(OTUmissing) == 1L)
+            if (length(OTUmissing) == 1L) {
               "."
-            else {
+            } else {
               paste0(", some of which are:\n\"", paste0(head(OTUmissing), collapse = "\", \""), "\"")
             }
           )
@@ -262,10 +282,10 @@ amp_load <- function(otutable,
       warning(warningMsg, call. = FALSE)
     }
   }
-  
+
   # filter and order tax based on abund
   tax <- tax[rownames(tax) %in% rownames(abund), , drop = FALSE]
-  
+
   ### prune singletons, check if abundances are whole numbers
   if (isTRUE(pruneSingletons)) {
     if (any(abund %% 1 != 0L)) {
@@ -293,7 +313,7 @@ amp_load <- function(otutable,
       }
     }
   }
-  
+
   ### create dummy metadata if none provided
   if (!is.null(metadata)) {
     metadata <- import(metadata)
@@ -305,14 +325,14 @@ amp_load <- function(otutable,
     )
     warning("No sample metadata provided, creating dummy metadata.\n", call. = FALSE)
   }
-  
-  #sample ID's must be character
+
+  # sample ID's must be character
   metadata[[1]] <- as.character(metadata[[1]])
   rownames(metadata) <- metadata[[1]]
-  
-  #only alphanumeric characters in metadata column names, otherwise replace with "_"
+
+  # only alphanumeric characters in metadata column names, otherwise replace with "_"
   colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "[^[:alnum:]]", "_")
-  
+
   abund0 <- abund
   metadata0 <- metadata
 
@@ -336,19 +356,21 @@ amp_load <- function(otutable,
 
       # print the removed samples
       warning(
-        "Only ", 
-        ncol(abund0), 
-        " of ", 
+        "Only ",
+        ncol(abund0),
+        " of ",
         length(unique(c(rownames(metadata), colnames(abund)))),
         " unique sample names match between metadata and otutable. The following unmatched samples have been removed:",
         ifelse(
-          length(metadataUniques) > 0, 
-          paste0("\nmetadata (", length(metadataUniques), "): \n\t\"", paste(metadataUniques, collapse = "\", \""), "\""), 
-          ""),
+          length(metadataUniques) > 0,
+          paste0("\nmetadata (", length(metadataUniques), "): \n\t\"", paste(metadataUniques, collapse = "\", \""), "\""),
+          ""
+        ),
         ifelse(
-          length(abundUniques) > 0, 
+          length(abundUniques) > 0,
           paste0("\notutable (", length(abundUniques), "): \n\t\"", paste(abundUniques, collapse = "\", \""), "\""),
-          ""),
+          ""
+        ),
         call. = FALSE
       )
     }
@@ -357,30 +379,30 @@ amp_load <- function(otutable,
   ### data: return the data in a combined list w or w/o refseq. The rows of tax are ordered by
   # the rownames of abund, and the columns of abund are ordered by the metadata rownames
   data <- list(
-    abund = abund0[, rownames(metadata0), drop = FALSE], 
+    abund = abund0[, rownames(metadata0), drop = FALSE],
     tax = tax[rownames(tax) %in% rownames(abund0), , drop = FALSE],
     metadata = metadata0
   )
 
   ### append refseq if provided
   # check tree
-  if(!is.null(fasta)) {
+  if (!is.null(fasta)) {
     if (is.character(fasta) &
-        length(fasta) == 1 &
-        is.null(dim(fasta))) {
+      length(fasta) == 1 &
+      is.null(dim(fasta))) {
       refseq <- ape::read.FASTA(fasta, ...)[rownames(abund0)]
     } else if (!inherits(fasta, c("DNAbin", "AAbin"))) {
       stop("fasta must be of class \"DNAbin\" or \"AAbin\" as loaded with the ape::read.FASTA() function.", call. = FALSE)
     }
     data$refseq <- refseq
   }
-  
+
   ### append phylogenetic tree if provided
   # check tree
-  if(!is.null(tree)) {
+  if (!is.null(tree)) {
     if (is.character(tree) &
-        length(tree) == 1 &
-        is.null(dim(tree))) {
+      length(tree) == 1 &
+      is.null(dim(tree))) {
       tree <- ape::read.tree(tree, ...)
     } else if (!inherits(tree, "phylo")) {
       stop("The provided phylogenetic tree must be of class \"phylo\" as loaded with the ape::read.tree() function.", call. = FALSE)
@@ -391,7 +413,7 @@ amp_load <- function(otutable,
     )
     data$tree <- tree
   }
-  
+
   return(
     structure(
       data,
