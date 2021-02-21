@@ -6,6 +6,20 @@ test_that("loading example data with default options returns an ampvis2 class ob
   expect_s3_class(d, class = "ampvis2", exact = TRUE)
 })
 
+test_that("loading example data with separate taxonomy returns identical object", {
+  expect_identical(
+    amp_load(
+      otutable = example_otutable,
+      metadata = example_metadata,
+      taxonomy = example_taxonomy
+    ),
+    amp_load(
+      otutable = example_otutable,
+      metadat = example_metadata
+    )
+  )
+})
+
 test_that("loading otutable with both 'OTU' and 'ASV' columns fails", {
   otutable <- example_otutable
   otutable$ASV <- rownames(example_otutable)
