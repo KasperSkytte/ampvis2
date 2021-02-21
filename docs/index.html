@@ -85,7 +85,48 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-ampvis2 is a small set of tools that allows effortless visualisation of amplicon data.
+
+
+<div id="tools-for-visualising-amplicon-data" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#tools-for-visualising-amplicon-data" class="anchor"></a>Tools for visualising amplicon data</h1></div>
+<p>ampvis2 is an R-package to conveniently visualise and analyse 16S rRNA amplicon data in different ways.</p>
+<div id="installing-ampvis2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installing-ampvis2" class="anchor"></a>Installing ampvis2</h2>
+<p>First, install <a href="https://mirrors.dotsrc.org/cran/" class="external-link">R (3.5.x or later)</a> and <a href="https://www.rstudio.com/products/rstudio/download/#download" class="external-link">RStudio</a>. Windows users should also install <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/" class="external-link">RTools</a>. Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"MadsAlbertsen/ampvis2"</span><span class="op">)</span></code></pre></div>
+<p>Tip: For faster installation you can utilise multicore processors by setting the <code>Ncpus</code> argument, fx <code><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">remotes::install_github("madsalbertsen/ampvis2", Ncpus = 6)</a></code>. Most CPU’s today can run 8 processes simultaneously, so setting it to 6 is a good starting point unless you know you have a CPU with more (logical) cores than 8.</p>
+</div>
+<div id="get-started" class="section level2">
+<h2 class="hasAnchor">
+<a href="#get-started" class="anchor"></a>Get started</h2>
+<p>For a quick guide on how to use ampvis2 go to the <a href="https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html">Get Started</a> page. Detailed documentation of all ampvis2 functions can be found at the <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Functions</a> page.</p>
+</div>
+<div id="blog-posts-about-ampvis2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#blog-posts-about-ampvis2" class="anchor"></a>Blog posts about ampvis2</h2>
+<p>Check out the blog posts at <a href="http://albertsenlab.org/" class="external-link">http://albertsenlab.org/</a> about selected ampvis2 plotting functions. The posts include details as well as example code:</p>
+<ul>
+<li><a href="http://albertsenlab.org/ampvis2-heatmap/" class="external-link">ampvis2: The bread and butter of our amplicon analyses: amp_heatmap!</a></li>
+<li><a href="http://albertsenlab.org/ampvis2-ordination/" class="external-link">ampvis2: A guide to ordination and how to use amp_ordinate in R</a></li>
+<li><a href="http://albertsenlab.org/shinyampvis/" class="external-link">Analysing amplicon data, how easy does it get?</a></li>
+</ul>
+</div>
+<div id="shiny" class="section level2">
+<h2 class="hasAnchor">
+<a href="#shiny" class="anchor"></a>Shiny</h2>
+<p>An interactive Shiny app with some of the basic functionality of ampvis2 can be found at: <a href="https://kasperskytte.shinyapps.io/shinyampvis" class="external-link">https://kasperskytte.shinyapps.io/shinyampvis</a></p>
+</div>
+<div id="releases" class="section level2">
+<h2 class="hasAnchor">
+<a href="#releases" class="anchor"></a>Releases</h2>
+<p>To install a specific (older) release of ampvis2 use <code>"@release"</code> as suffix, fx <code><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">remotes::install_github("madsalbertsen/ampvis2@2.0")</a></code> to install the first release (2.0) of ampvis2. The latest stable release can be installed with <code><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">remotes::install_github("madsalbertsen/ampvis2@*release")</a></code>.</p>
+</div>
+</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -125,18 +166,25 @@ ampvis2 is a small set of tools that allows effortless visualisation of amplicon
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/MadsAlbertsen/ampvis2/actions" class="external-link"><img src="https://github.com/MadsAlbertsen/ampvis2/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Mads Albertsen, Kasper Skytte Andersen, Rasmus Hansen Kirkegaard.</p>
+  <p></p>
+<p>Developed by Mads Albertsen, Kasper Skytte Andersen, Rasmus Hansen Kirkegaard.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

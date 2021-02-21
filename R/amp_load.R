@@ -98,6 +98,8 @@
 #' 
 #' ### Minimal example taxonomy:
 #' data("example_taxonomy")
+#' example_taxonomy
+#' 
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 #'

@@ -114,6 +114,8 @@ example_otutable
 
 ### Minimal example taxonomy:
 data("example_taxonomy")
+example_taxonomy
+
 }
 \seealso{
 \code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}
