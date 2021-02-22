@@ -34,7 +34,7 @@
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
 #' @param textmap (\emph{logical}) Return a data frame to print as raw text instead of a ggplot2 object. (\emph{default:} \code{FALSE})
 #' @param plot_functions Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. By default, this functional information is retrieved directly from \url{midasfieldguide.org}. When using this feature, make sure that either \code{tax_aggregate} or \code{tax_add} is set to "Genus" and that Genus is the lowest level in either. (\emph{default:} \code{FALSE})
-#' @param function_data If \code{plot_functions} is set to \code{TRUE}: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If \code{NULL} then data will be retrieved directly from \url{midasfieldguide.org}, if no internet access, the \code{data("MiF")} dataset will be used instead. (\emph{default:} \code{NULL})
+#' @param function_data If \code{plot_functions} is set to \code{TRUE}: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If \code{NULL} then data will be retrieved directly from \url{midasfieldguide.org}. (\emph{default:} \code{NULL})
 #' @param functions If \code{plot_functions} is set to \code{TRUE}: A vector with the functions to be displayed (column names in the \code{functions_data} data frame). If data is succesfully retrieved from \url{midasfieldguide.org} then available functions can be listed with \code{colnames(.ampvis2_midasfg_function_data)}. (\emph{default:} \code{c("MiDAS","Filamentous", "AOB", "NOB", "PAO", "GAO")})
 #' @param rel_widths If \code{plot_functions} is set to \code{TRUE}: A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})
 #'
@@ -108,12 +108,11 @@
 #' # ggsave("plot.png", print(heatmapwfunctions))
 #'
 #' # A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.
-#' # Notice the function_data is now retrieved from the MiF data frame
 #' textmap <- amp_heatmap(AalborgWWTPs,
 #'   group_by = "Plant",
 #'   tax_aggregate = "Genus",
 #'   plot_functions = TRUE,
-#'   function_data = MiF,
+#'   function_data = NULL,
 #'   functions = c("PAO", "GAO", "AOB", "NOB"),
 #'   textmap = TRUE
 #' )
@@ -187,17 +186,8 @@ amp_heatmap <- function(data,
     # Only once per session, save in a hidden object .ampvis2_midasfg_function_data
     if (is.null(function_data)) {
       if (!exists(".ampvis2_midasfg_function_data", envir = .GlobalEnv)) {
-        tryCatch(
-          {
-            function_data <- extractFunctions(getMiDASFGData())
-            assign(".ampvis2_midasfg_function_data", function_data, envir = .GlobalEnv)
-          },
-          error = function(e) {
-            warning("Could not reach midasfieldguide.org to retrieve functional information just now", call. = FALSE)
-            data(MiF, envir = environment())
-            function_data <- MiF
-          }
-        )
+        function_data <- extractFunctions(getMiDASFGData())
+        assign(".ampvis2_midasfg_function_data", function_data, envir = .GlobalEnv)
       } else {
         function_data <- .ampvis2_midasfg_function_data
       }
@@ -625,7 +615,9 @@ amp_heatmap <- function(data,
       textmap <- merge(cbind(textmap,
         Genus = as.character(data.frame(do.call("rbind", strsplit(levels(droplevels(textmap$Display)), "; ", fixed = TRUE)))[, which(c(tax_add, tax_aggregate) == "Genus")])
       ),
-      function_data[, c("Genus", switch(isTRUE(plot_functions), functions)), drop = FALSE],
+      function_data[, c("Genus", switch(isTRUE(plot_functions),
+        functions
+      )), drop = FALSE],
       by = "Genus",
       all.x = TRUE,
       all.y = FALSE,
