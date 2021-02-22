@@ -55,15 +55,17 @@
 #' \code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}
 #'
 #' @examples
+#'
+#' library(ampvis2)
 #' \dontrun{
-#' Load data by either giving file paths or by passing already loaded R objects
+#' # Load data by either giving file paths or by passing already loaded R objects
 #' ### example load with file paths
 #' d <- amp_load(
 #'   otutable = "path/to/otutable.tsv",
 #'   metadata = "path/to/metadata.xlsx",
 #'   taxonomy = "path/to/taxonomy.txt"
 #' )
-#' 
+#'
 #' ### example load with R objects
 #' # Read the OTU-table as a data frame. It is important to set check.names = FALSE
 #' myotutable <- read.delim("data/otutable.txt", check.names = FALSE)
@@ -73,7 +75,7 @@
 #'
 #' # Read the taxonomy
 #' mytaxonomy <- read.csv("data/taxonomy.csv", check.names = FALSE)
-#' 
+#'
 #' # Combine the data with amp_load()
 #' d <- amp_load(
 #'   otutable = myotutable,
@@ -95,11 +97,20 @@
 #' ### Minimal example otutable:
 #' data("example_otutable")
 #' example_otutable
-#' 
+#'
 #' ### Minimal example taxonomy:
 #' data("example_taxonomy")
 #' example_taxonomy
+#'
+#' # load example data
+#' d <- amp_load(
+#'   otutable = example_otutable,
+#'   metadata = example_metadata,
+#'   taxonomy = example_taxonomy
+#' )
 #' 
+#' # show a summary of the data
+#' d
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 #'

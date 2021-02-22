@@ -71,8 +71,10 @@ A minimal example is available with \code{data("example_metadata")}.
 }
 
 \examples{
+
+library(ampvis2)
 \dontrun{
-Load data by either giving file paths or by passing already loaded R objects
+# Load data by either giving file paths or by passing already loaded R objects
 ### example load with file paths
 d <- amp_load(
   otutable = "path/to/otutable.tsv",
@@ -116,6 +118,15 @@ example_otutable
 data("example_taxonomy")
 example_taxonomy
 
+# load example data
+d <- amp_load(
+  otutable = example_otutable,
+  metadata = example_metadata,
+  taxonomy = example_taxonomy
+)
+
+# show a summary of the data
+d
 }
 \seealso{
 \code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}
