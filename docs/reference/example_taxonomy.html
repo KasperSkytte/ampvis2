@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Functional information of microbes in the MiDAS database — MiF • ampvis2</title>
+<title>A minimal example of taxonomy — example_taxonomy • ampvis2</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Functional information of microbes in the MiDAS database — MiF" />
-<meta property="og:description" content="A data frame with known/unknown functional characteristics of the Genera in the MiDAS database." />
+<meta property="og:title" content="A minimal example of taxonomy — example_taxonomy" />
+<meta property="og:description" content="A minimal example of a taxonomy table that is compatible with amp_load and ampvis2 functions." />
 
 
 
@@ -96,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.1</span>
       </span>
     </div>
 
@@ -141,28 +141,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Functional information of microbes in the MiDAS database</h1>
+    <h1>A minimal example of taxonomy</h1>
     <small class="dont-index">Source: <a href='https://github.com/MadsAlbertsen/ampvis2/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>MiF.Rd</code></div>
+    <div class="hidden name"><code>example_taxonomy.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A data frame with known/unknown functional characteristics of the Genera in the MiDAS database.</p>
+    <p>A minimal example of a taxonomy table that is compatible with <code><a href='amp_load.html'>amp_load</a></code> and ampvis2 functions.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame.</p><dl>
-  <dt>POS</dt><dd><p>Positive.</p></dd>
-  <dt>NEG</dt><dd><p>Negative.</p></dd>
-  <dt>VAR</dt><dd><p>Variable within species.</p></dd>
-  <dt>NT</dt><dd><p>Not tested.</p></dd>
+    <p>a data frame.</p>
 
-</dl>
-
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_taxonomy</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/View.html'>View</a></span><span class='op'>(</span><span class='va'>example_taxonomy</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

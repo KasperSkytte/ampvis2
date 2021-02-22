@@ -96,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.1</span>
       </span>
     </div>
 
@@ -300,7 +300,7 @@
     </tr>
     <tr>
       <th>function_data</th>
-      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If <code>NULL</code> then data will be retrieved directly from <a href='midasfieldguide.org'>midasfieldguide.org</a>, if no internet access, the <code><a href='https://rdrr.io/r/utils/data.html'>data("MiF")</a></code> dataset will be used instead. (<em>default:</em> <code>NULL</code>)</p></td>
+      <td><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If <code>NULL</code> then data will be retrieved directly from <a href='midasfieldguide.org'>midasfieldguide.org</a>. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     <tr>
       <th>functions</th>
@@ -392,12 +392,11 @@
 <span class='co'># ggsave("plot.png", print(heatmapwfunctions))</span>
 
 <span class='co'># A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.</span>
-<span class='co'># Notice the function_data is now retrieved from the MiF data frame</span>
 <span class='va'>textmap</span> <span class='op'>&lt;-</span> <span class='fu'>amp_heatmap</span><span class='op'>(</span><span class='va'>AalborgWWTPs</span>,
   group_by <span class='op'>=</span> <span class='st'>"Plant"</span>,
   tax_aggregate <span class='op'>=</span> <span class='st'>"Genus"</span>,
   plot_functions <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  function_data <span class='op'>=</span> <span class='va'>MiF</span>,
+  function_data <span class='op'>=</span> <span class='cn'>NULL</span>,
   functions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PAO"</span>, <span class='st'>"GAO"</span>, <span class='st'>"AOB"</span>, <span class='st'>"NOB"</span><span class='op'>)</span>,
   textmap <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
@@ -406,12 +405,12 @@
 #&gt; Tetrasphaera                 5.478941     6.842382  POS  NEG  NEG  NEG
 #&gt; Trichococcus                 7.098638     3.028602   NT   NT   NT   NT
 #&gt; uncultured                   5.236024     4.304019 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
-#&gt; Candidatus Microthrix        2.769444     6.503052  NEG  NEG  NEG  NEG
+#&gt; Candidatus Microthrix        2.769444     6.503052 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
 #&gt; Rhodoferax                   3.361297     2.403885  NEG   NT   NT   NT
 #&gt; Rhodobacter                  1.847766     2.967430   NT   NT   NT   NT
-#&gt; Candidatus Promineofilum     1.317348     3.028949  NEG  NEG  NEG  NEG
+#&gt; Candidatus Promineofilum     1.317348     3.028949 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
 #&gt; Dechloromonas                1.220824     2.503898  VAR  NEG   NT   NT
-#&gt; Candidatus Defluviifilum     1.824867     1.502981  NEG  NEG  NEG  NEG
+#&gt; Candidatus Defluviifilum     1.824867     1.502981 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;
 #&gt; Propionicimonas              1.229790     1.726184   NT   NT   NT   NT</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

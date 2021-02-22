@@ -96,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.1</span>
       </span>
     </div>
 
@@ -236,7 +236,160 @@
 <p>Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://madsalbertsen.github.io/ampvis2'>ampvis2</a></span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># Load data by either giving file paths or by passing already loaded R objects</span>
+<span class='co'>### example load with file paths</span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'>amp_load</span><span class='op'>(</span>
+  otutable <span class='op'>=</span> <span class='st'>"path/to/otutable.tsv"</span>,
+  metadata <span class='op'>=</span> <span class='st'>"path/to/metadata.xlsx"</span>,
+  taxonomy <span class='op'>=</span> <span class='st'>"path/to/taxonomy.txt"</span>
+<span class='op'>)</span>
+
+<span class='co'>### example load with R objects</span>
+<span class='co'># Read the OTU-table as a data frame. It is important to set check.names = FALSE</span>
+<span class='va'>myotutable</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.delim</a></span><span class='op'>(</span><span class='st'>"data/otutable.txt"</span>, check.names <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='co'># Read the metadata, probably an excel sheet</span>
+<span class='va'>mymetadata</span> <span class='op'>&lt;-</span> <span class='fu'>read_excel</span><span class='op'>(</span><span class='st'>"data/metadata.xlsx"</span>, col_names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='co'># Read the taxonomy</span>
+<span class='va'>mytaxonomy</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"data/taxonomy.csv"</span>, check.names <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='co'># Combine the data with amp_load()</span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'>amp_load</span><span class='op'>(</span>
+  otutable <span class='op'>=</span> <span class='va'>myotutable</span>,
+  metadata <span class='op'>=</span> <span class='va'>mymetadata</span>,
+  taxonomy <span class='op'>=</span> <span class='va'>mytaxonomy</span>,
+  pruneSingletons <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  fasta <span class='op'>=</span> <span class='st'>"path/to/fastafile.fa"</span>, <span class='co'># optional</span>
+  tree <span class='op'>=</span> <span class='st'>"path/to/tree.tree"</span> <span class='co'># optional</span>
+<span class='op'>)</span>
+
+<span class='co'>### Show a short summary about the data by simply typing the name of the object in the console</span>
+<span class='va'>d</span>
+<span class='op'>}</span>
+
+<span class='co'>### Minimal example metadata:</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"example_metadata"</span><span class='op'>)</span>
+<span class='va'>example_metadata</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 4</span><span>
+#&gt;   SampleID    Plant     Date                 Year
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 16SAMP_3893 Aalborg E 2014-02-06 </span><span style='color: #949494;'>00:00:00</span><span>  </span><span style='text-decoration: underline;'>2</span><span>014
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 16SAMP_3913 Aalborg E 2014-07-03 </span><span style='color: #949494;'>00:00:00</span><span>  </span><span style='text-decoration: underline;'>2</span><span>014
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 16SAMP_3941 Aalborg E 2014-08-19 </span><span style='color: #949494;'>00:00:00</span><span>  </span><span style='text-decoration: underline;'>2</span><span>014
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 16SAMP_3946 Aalborg E 2014-11-13 </span><span style='color: #949494;'>00:00:00</span><span>  </span><span style='text-decoration: underline;'>2</span><span>014
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 16SAMP_3953 Aalborg W 2014-02-04 </span><span style='color: #949494;'>00:00:00</span><span>  </span><span style='text-decoration: underline;'>2</span><span>014
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 16SAMP_4591 Aalborg W 2014-05-05 </span><span style='color: #949494;'>00:00:00</span><span>  </span><span style='text-decoration: underline;'>2</span><span>014
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> 16SAMP_4597 Aalborg W 2014-08-18 </span><span style='color: #949494;'>00:00:00</span><span>  </span><span style='text-decoration: underline;'>2</span><span>014
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> 16SAMP_4603 Aalborg W 2014-11-12 </span><span style='color: #949494;'>00:00:00</span><span>  </span><span style='text-decoration: underline;'>2</span><span>014</div><div class='input'>
+<span class='co'>### Minimal example otutable:</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"example_otutable"</span><span class='op'>)</span>
+<span class='va'>example_otutable</span>
+</div><div class='output co'>#&gt;        16SAMP_3893 16SAMP_3913 16SAMP_3941 16SAMP_3946 16SAMP_3953 16SAMP_4591
+#&gt; OTU_1           23          15         273          51         127         190
+#&gt; OTU_2          675         565         331         411         430         780
+#&gt; OTU_3          780         733         405         199        1346        1114
+#&gt; OTU_4          272         233        1434         256         736        1338
+#&gt; OTU_5          560         339         509         598         223         145
+#&gt; OTU_6          906         766         133         390         232        1458
+#&gt; OTU_7          297         218         418         130        1354         198
+#&gt; OTU_8           28           8         155          72         156         101
+#&gt; OTU_9            0           0           9           0          19          25
+#&gt; OTU_10         373         256          19         415          43         102
+#&gt;        16SAMP_4597 16SAMP_4603     Kingdom            Phylum
+#&gt; OTU_1          220          83 k__Bacteria    p__Chloroflexi
+#&gt; OTU_2          699         820 k__Bacteria p__Actinobacteria
+#&gt; OTU_3         1630         112 k__Bacteria p__Actinobacteria
+#&gt; OTU_4         1224         564 k__Bacteria p__Proteobacteria
+#&gt; OTU_5          212        1619 k__Bacteria    p__Chloroflexi
+#&gt; OTU_6          560         287 k__Bacteria     p__Firmicutes
+#&gt; OTU_7          283         116 k__Bacteria p__Actinobacteria
+#&gt; OTU_8          151          25 k__Bacteria    p__Nitrospirae
+#&gt; OTU_9           58           0 k__Bacteria  p__Bacteroidetes
+#&gt; OTU_10          73         138 k__Bacteria  p__Bacteroidetes
+#&gt;                        Class                 Order                Family
+#&gt; OTU_1              c__SJA-15           o__C10_SB1A           f__C10_SB1A
+#&gt; OTU_2      c__Actinobacteria      o__Micrococcales f__Intrasporangiaceae
+#&gt; OTU_3      c__Acidimicrobiia   o__Acidimicrobiales    f__Microthricaceae
+#&gt; OTU_4  c__Betaproteobacteria      o__Rhodocyclales     f__Rhodocyclaceae
+#&gt; OTU_5        c__Anaerolineae     o__Anaerolineales    f__Anaerolineaceae
+#&gt; OTU_6             c__Bacilli    o__Lactobacillales  f__Carnobacteriaceae
+#&gt; OTU_7      c__Acidimicrobiia   o__Acidimicrobiales    f__Microthricaceae
+#&gt; OTU_8          c__Nitrospira      o__Nitrospirales     f__Nitrospiraceae
+#&gt; OTU_9    c__Sphingobacteriia o__Sphingobacteriales     f__Saprospiraceae
+#&gt; OTU_10   c__Sphingobacteriia o__Sphingobacteriales     f__Saprospiraceae
+#&gt;                              Genus         Species    OTU
+#&gt; OTU_1     g__Candidatus Amarilinum             s__  OTU_1
+#&gt; OTU_2              g__Tetrasphaera             s__  OTU_2
+#&gt; OTU_3     g__Candidatus Microthrix             s__  OTU_3
+#&gt; OTU_4             g__Dechloromonas             s__  OTU_4
+#&gt; OTU_5  g__Candidatus Villogracilis             s__  OTU_5
+#&gt; OTU_6              g__Trichococcus             s__  OTU_6
+#&gt; OTU_7     g__Candidatus Microthrix             s__  OTU_7
+#&gt; OTU_8                g__Nitrospira s__sublineage I  OTU_8
+#&gt; OTU_9                 g__QEDR3BF09             s__  OTU_9
+#&gt; OTU_10                     g__MK04             s__ OTU_10</div><div class='input'>
+<span class='co'>### Minimal example taxonomy:</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"example_taxonomy"</span><span class='op'>)</span>
+<span class='va'>example_taxonomy</span>
+</div><div class='output co'>#&gt;            Kingdom            Phylum                 Class
+#&gt; OTU_1  k__Bacteria    p__Chloroflexi             c__SJA-15
+#&gt; OTU_2  k__Bacteria p__Actinobacteria     c__Actinobacteria
+#&gt; OTU_3  k__Bacteria p__Actinobacteria     c__Acidimicrobiia
+#&gt; OTU_4  k__Bacteria p__Proteobacteria c__Betaproteobacteria
+#&gt; OTU_5  k__Bacteria    p__Chloroflexi       c__Anaerolineae
+#&gt; OTU_6  k__Bacteria     p__Firmicutes            c__Bacilli
+#&gt; OTU_7  k__Bacteria p__Actinobacteria     c__Acidimicrobiia
+#&gt; OTU_8  k__Bacteria    p__Nitrospirae         c__Nitrospira
+#&gt; OTU_9  k__Bacteria  p__Bacteroidetes   c__Sphingobacteriia
+#&gt; OTU_10 k__Bacteria  p__Bacteroidetes   c__Sphingobacteriia
+#&gt;                        Order                Family                       Genus
+#&gt; OTU_1            o__C10_SB1A           f__C10_SB1A    g__Candidatus Amarilinum
+#&gt; OTU_2       o__Micrococcales f__Intrasporangiaceae             g__Tetrasphaera
+#&gt; OTU_3    o__Acidimicrobiales    f__Microthricaceae    g__Candidatus Microthrix
+#&gt; OTU_4       o__Rhodocyclales     f__Rhodocyclaceae            g__Dechloromonas
+#&gt; OTU_5      o__Anaerolineales    f__Anaerolineaceae g__Candidatus Villogracilis
+#&gt; OTU_6     o__Lactobacillales  f__Carnobacteriaceae             g__Trichococcus
+#&gt; OTU_7    o__Acidimicrobiales    f__Microthricaceae    g__Candidatus Microthrix
+#&gt; OTU_8       o__Nitrospirales     f__Nitrospiraceae               g__Nitrospira
+#&gt; OTU_9  o__Sphingobacteriales     f__Saprospiraceae                g__QEDR3BF09
+#&gt; OTU_10 o__Sphingobacteriales     f__Saprospiraceae                     g__MK04
+#&gt;                Species    OTU
+#&gt; OTU_1              s__  OTU_1
+#&gt; OTU_2              s__  OTU_2
+#&gt; OTU_3              s__  OTU_3
+#&gt; OTU_4              s__  OTU_4
+#&gt; OTU_5              s__  OTU_5
+#&gt; OTU_6              s__  OTU_6
+#&gt; OTU_7              s__  OTU_7
+#&gt; OTU_8  s__sublineage I  OTU_8
+#&gt; OTU_9              s__  OTU_9
+#&gt; OTU_10             s__ OTU_10</div><div class='input'>
+<span class='co'># load example data</span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'>amp_load</span><span class='op'>(</span>
+  otutable <span class='op'>=</span> <span class='va'>example_otutable</span>,
+  metadata <span class='op'>=</span> <span class='va'>example_metadata</span>,
+  taxonomy <span class='op'>=</span> <span class='va'>example_taxonomy</span>
+<span class='op'>)</span>
+
+<span class='co'># show a summary of the data</span>
+<span class='va'>d</span>
+</div><div class='output co'>#&gt; ampvis2 object with 3 elements. </span><span style='text-decoration: underline;'>
+#&gt; Summary of OTU table:
+#&gt; </span><span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
+#&gt;            8           10        32246         2522         5451         3839 
+#&gt;    Avg#Reads 
+#&gt;      4030.75 
+#&gt; </span><span style='text-decoration: underline;'>
+#&gt; Assigned taxonomy:
+#&gt; </span><span> Kingdom   Phylum    Class    Order   Family    Genus  Species 
+#&gt; 10(100%) 10(100%) 10(100%) 10(100%) 10(100%) 10(100%)   1(10%) 
+#&gt; </span><span style='text-decoration: underline;'>
+#&gt; Metadata variables:</span><span> 4 
+#&gt;  SampleID, Plant, Date, Year</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
