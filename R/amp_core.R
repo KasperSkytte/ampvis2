@@ -94,7 +94,8 @@ amp_core <- function(data,
     .Data = list(
       mainplot = NULL,
       marginplot_x = NULL,
-      marginplot_y = NULL
+      marginplot_y = NULL,
+      data = gg
     ),
     class = "coreplot",
     widths = widths,
