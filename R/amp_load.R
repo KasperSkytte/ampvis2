@@ -108,7 +108,7 @@
 #'   metadata = example_metadata,
 #'   taxonomy = example_taxonomy
 #' )
-#' 
+#'
 #' # show a summary of the data
 #' d
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
