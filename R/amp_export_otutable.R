@@ -16,7 +16,6 @@
 #'
 #' @importFrom dplyr arrange mutate select desc everything
 #' @importFrom data.table fwrite
-#' @importFrom digest digest
 #'
 #' @examples
 #' # Load example data
@@ -89,7 +88,12 @@ amp_export_otutable <- function(data,
 
   # Append md5 sum to the filename just before the extenstion. Fx "../exported_otutable" will result in ../exported_otutable_md5sum.csv
   data.table::fwrite(select(e_bak2, OTU, everything()),
-    file = if (isTRUE(md5)) sprintf("%s_%s.%s", filename, digest::digest(data), extension) else sprintf("%s.%s", filename, extension),
+    file = if (isTRUE(md5)) {
+      checkReqPkg("digest")
+      sprintf("%s_%s.%s", filename, digest::digest(data), extension) 
+    } else {
+      sprintf("%s.%s", filename, extension)
+    },
     quote = F,
     row.names = F,
     sep = sep,

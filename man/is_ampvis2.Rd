@@ -10,7 +10,7 @@ is_ampvis2(data)
 \item{data}{Object to check}
 }
 \value{
-Returns nothing, only error if \code{class(data) != "ampvis"}.
+Returns error if \code{!inherits(data, "ampvis2")}, otherwise \code{invisible(TRUE)}.
 }
 \description{
 Checks if the object is of class "ampvis2".

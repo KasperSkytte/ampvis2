@@ -28,7 +28,6 @@
 #' @importFrom tidyr gather
 #' @importFrom data.table as.data.table setkey
 #' @importFrom plotly ggplotly
-#' @importFrom lubridate as_date
 #'
 #' @return A ggplot2 object.
 #'
@@ -80,7 +79,8 @@ amp_timeseries <- function(data,
                            normalise = TRUE,
                            plotly = FALSE,
                            ...) {
-
+  checkReqPkg("lubridate")
+  
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 

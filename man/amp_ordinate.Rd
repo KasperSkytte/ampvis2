@@ -229,7 +229,7 @@ GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): \url{https://mb3i
 
   Legendre, Pierre & Legendre, Louis (2012). Numerical Ecology. Elsevier Science. ISBN: 9780444538680
 
-  Legendre, P., & Gallagher, E. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia, 129(2), 271-280. \url{http://doi.org/10.1007/s004420100716}
+  Legendre, P., & Gallagher, E. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia, 129(2), 271-280. \doi{10.1007/s004420100716}
 }
 \seealso{
 \code{\link{amp_load}}

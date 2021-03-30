@@ -5,7 +5,6 @@
 #'
 #' @return A data frame
 #' @export
-#' @importFrom biomformat read_biom biom_data
 #' @importFrom dplyr bind_rows
 #'
 #' @seealso
@@ -21,6 +20,11 @@
 #' }
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 amp_import_biom <- function(file) {
+  checkReqPkg(
+    "biomformat",
+    " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"biomformat\")"
+  )
+  
   # Detect the file type and read the file
   if (tolower(tools::file_ext(file)) == "biom") {
     x <- biomformat::read_biom(file)

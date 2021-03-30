@@ -16,7 +16,6 @@
 #' @importFrom stringr str_replace_all str_to_title
 #' @importFrom dplyr intersect mutate_at
 #' @importFrom data.table fread
-#' @importFrom readxl read_excel
 #' @importFrom tools file_ext
 #'
 #' @export
@@ -132,6 +131,7 @@ amp_load <- function(otutable,
       if (ext %in% c("csv", "txt", "tsv", "")) {
         DF <- data.table::fread(x, fill = TRUE, data.table = FALSE, ...)
       } else if (ext %in% c("xls", "xlsx")) {
+        checkReqPkg("readxl")
         DF <- readxl::read_excel(x, ...)
       } else {
         stop(paste("Unsupported file type \"", ext, "\""), call. = FALSE)

@@ -25,8 +25,6 @@
 #' @importFrom dplyr filter arrange group_by mutate select summarise desc
 #' @importFrom tidyr gather
 #' @importFrom data.table as.data.table data.table setkey
-#' @importFrom network network network.vertex.names set.vertex.attribute
-#' @importFrom ggnet ggnet2
 #'
 #' @export
 #'
@@ -58,7 +56,8 @@ amp_otu_network <- function(data,
                             normalise = TRUE,
                             detailed_output = FALSE,
                             ...) {
-
+  checkReqPkg("ggnet")
+  
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 
