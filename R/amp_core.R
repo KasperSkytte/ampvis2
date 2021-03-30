@@ -31,8 +31,8 @@
 #' \code{\link{amp_load}}
 #'
 #' @references
-#' Marta Nierychlo, Kasper Skytte Andersen, Yijuan Xu, Nicholas Green, Chenjing Jiang, Mads Albertsen, Morten Simonsen Dueholm, Per Halkjær Nielsen (2020): "MiDAS 3: An ecosystem-specific reference database, taxonomy and knowledge platform for activated sludge and anaerobic digesters reveals species-level microbiome composition of activated sludge", Water Research, Volume 182. \url{https://doi.org/10.1016/j.watres.2020.115955}
-#' Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): "The activated sludge ecosystem contains a core community of abundant organisms", ISME Journal 10, 11-20. \url{https://doi.org/10.1038/ismej.2015.117}
+#' Marta Nierychlo, Kasper Skytte Andersen, Yijuan Xu, Nicholas Green, Chenjing Jiang, Mads Albertsen, Morten Simonsen Dueholm, Per Halkjær Nielsen (2020): "MiDAS 3: An ecosystem-specific reference database, taxonomy and knowledge platform for activated sludge and anaerobic digesters reveals species-level microbiome composition of activated sludge", Water Research, Volume 182. \doi{10.1016/j.watres.2020.115955}
+#' Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): "The activated sludge ecosystem contains a core community of abundant organisms", ISME Journal 10, 11-20. \doi{10.1038/ismej.2015.117}
 #'
 #' @examples
 #' # load example data

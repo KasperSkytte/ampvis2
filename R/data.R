@@ -10,7 +10,7 @@
 #' @keywords data
 #'
 #' @references McIlroy et al. (2015); MiDAS: the field guide to the microbes of activated sludge, Database, Volume 2015, bav062
-#' (\href{https://doi.org/10.1093/database/bav062}{https://doi.org/10.1093/database/bav062})
+#' (\doi{10.1093/database/bav062})
 #'
 #' @source \href{http://midasfieldguide.org}{MiDAS: Field Guide to the Microbes of Activated Sludge and Anaerobic Digesters}
 #'
