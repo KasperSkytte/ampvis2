@@ -17,13 +17,13 @@
 #'    \emph{Note that PCoA is not performed by the vegan package, but the \code{\link[ape]{pcoa}} function from the APE package.}
 #' @param distmeasure (\emph{required for nMDS and PCoA}) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:
 #' \itemize{
-#'   \item \code{"wunifrac"}: Weighted UniFrac distances. Requires a rooted phylogenetic tree.
-#'   \item \code{"unifrac"}: Unweighted UniFrac distances. Requires a phylogenetic tree.
-#'   \item \code{"jsd"}: Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
+#'   \item \code{"wunifrac"} (PCoA only): Weighted UniFrac distances. Requires a rooted phylogenetic tree.
+#'   \item \code{"unifrac"} (PCoA only): Unweighted UniFrac distances. Requires a phylogenetic tree.
+#'   \item \code{"jsd"} (PCoA only): Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
 #'   \item Any of the distance measures supported by \code{\link[vegan]{vegdist}}: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}.
-#'   \item or \code{"none"}. (\emph{default})
 #'  }
 #' You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}.
+#' Default is \code{bray}.
 #' @param transform (\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (\emph{default:} \code{"hellinger"})
 #' @param constrain (\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.
 #' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})
@@ -152,7 +152,7 @@
 amp_ordinate <- function(data,
                          filter_species = 0.1,
                          type = "PCA",
-                         distmeasure = "none",
+                         distmeasure = "bray",
                          transform = "hellinger",
                          constrain = NULL,
                          x_axis = 1,
@@ -227,92 +227,42 @@ amp_ordinate <- function(data,
   transform <- tolower(transform)
   distmeasure <- tolower(distmeasure)
 
-  ##### Data transformation with decostand()  #####
-  if (!transform == "none" & transform != "sqrt") {
-    transform <- tolower(transform)
-    data$abund <- t(vegan::decostand(t(data$abund), method = transform))
-  } else if (transform == "sqrt") {
-    data$abund <- t(sqrt(t(data$abund)))
+  validTypes <- c("pca", "rda", "nmds", "mmds", "pcoa", "ca", "cca", "dca")
+  if (!type %in% validTypes) {
+    stop("type must be one of: ", paste0(validTypes, collapse = ", "))
   }
 
-  ##### Inputmatrix AFTER transformation  #####
-  if (any(type == c("nmds", "mmds", "pcoa", "dca"))) {
-    if (!type == "nmds" & (species_plot == TRUE | species_plotly == TRUE)) {
-      stop("No speciesscores available with mMDS/PCoA, DCA.", call. = FALSE)
-    }
-    if (!distmeasure == "none") {
-      # Calculate distance matrix with vegdist()
-      if (distmeasure == "jsd") {
-        # This is based on http://enterotype.embl.de/enterotypes.html
-        # Abundances of 0 will be set to the pseudocount value to avoid 0-value denominators
-        # Unfortunately this code is SLOOOOOOOOW
-        dist.JSD <- function(inMatrix, pseudocount = 0.000001) {
-          KLD <- function(x, y) sum(x * log(x / y))
-          JSD <- function(x, y) sqrt(0.5 * KLD(x, (x + y) / 2) + 0.5 * KLD(y, (x + y) / 2))
-          matrixColSize <- length(colnames(inMatrix))
-          matrixRowSize <- length(rownames(inMatrix))
-          colnames <- colnames(inMatrix)
-          resultsMatrix <- matrix(0, matrixColSize, matrixColSize)
+  # Samples are observations, OTU's are variables
+  data$abund <- t(data$abund)
 
-          inMatrix <- apply(inMatrix, 1:2, function(x) ifelse(x == 0, pseudocount, x))
+  ##### Data transformation with decostand()  #####
+  if (!transform == "none" & transform != "sqrt") {
+    data$abund <- vegan::decostand(data$abund, method = transform)
+  } else if (transform == "sqrt") {
+    data$abund <- sqrt(data$abund)
+  }
 
-          for (i in 1:matrixColSize) {
-            for (j in 1:matrixColSize) {
-              resultsMatrix[i, j] <- JSD(
-                as.vector(inMatrix[, i]),
-                as.vector(inMatrix[, j])
-              )
-            }
-          }
-          colnames -> colnames(resultsMatrix) -> rownames(resultsMatrix)
-          as.dist(resultsMatrix) -> resultsMatrix
-          attr(resultsMatrix, "method") <- "dist"
-          return(resultsMatrix)
-        }
-        message("Calculating Jensen-Shannon Divergence (JSD) distances... ")
-        inputmatrix <- dist.JSD(data$abund)
-        message("Done.")
-      } else if (any(distmeasure == c(
-        "manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower",
-        "altGower", "morisita", "horn", "mountford", "raup", "binomial", "chao", "cao", "mahalanobis"
-      ))) {
-        message("Calculating distance matrix... ")
-        inputmatrix <- vegan::vegdist(t(data$abund), method = distmeasure)
-        message("Done.")
-      } else if (distmeasure == "unifrac") {
-        inputmatrix <- unifrac(
-          abund = data$abund,
-          tree = data$tree,
-          weighted = FALSE,
-          normalise = TRUE,
-          num_threads = num_threads
-        )
-      } else if (distmeasure == "wunifrac") {
-        inputmatrix <- unifrac(
-          abund = data$abund,
-          tree = data$tree,
-          weighted = TRUE,
-          normalise = TRUE,
-          num_threads = num_threads
-        )
-      }
-    } else if (distmeasure == "none") {
-      warning("No distance measure selected, using raw data. If this is not deliberate, please provide one with the argument: distmeasure.", call. = FALSE)
-      inputmatrix <- t(data$abund)
-    }
+  validVegdistMethods <- c(
+    "manhattan", "euclidean", "canberra", "bray", "kulczynski", "jaccard", "gower",
+    "altGower", "morisita", "horn", "mountford", "raup", "binomial", "chao", "cao", "mahalanobis"
+  )
 
-    if (transform != "none" & distmeasure != "none") {
-      warning("Using both transformation AND a distance measure is not recommended for distance-based ordination (nMDS/PCoA/DCA). If this is not deliberate, consider transform = \"none\".", call. = FALSE)
-    }
-  } else if (any(type == c("pca", "rda", "ca", "cca"))) {
-    inputmatrix <- t(data$abund)
+  if ((type == "mmds" | type == "pcoa") &
+    (isTRUE(species_plot) | isTRUE(species_plotly))) {
+    stop("No speciesscores available with mMDS/PCoA", call. = FALSE)
+  }
+
+  if (any(type == c("nmds", "mmds", "pcoa", "dca")) &
+    transform != "none" &
+    !is.null(distmeasure)) {
+    warning("Using both transformation AND a distance measure is not recommended for distance-based ordination (nMDS/PCoA). If this is not deliberate, consider transform = \"none\".", call. = FALSE)
   }
 
   ##### Perform ordination  #####
   # Generate data depending on the chosen ordination type
   if (type == "pca") {
     # make the model
-    model <- vegan::rda(inputmatrix, ...)
+    model <- vegan::rda(data$abund, ...)
 
     # axis (and data column) names
     x_axis_name <- paste0("PC", x_axis)
@@ -329,7 +279,7 @@ amp_ordinate <- function(data,
       stop("Argument constrain must be provided when performing constrained/canonical analysis.", call. = FALSE)
     }
     # make the model
-    codestring <- paste0("rda(inputmatrix~", paste(constrain, collapse = "+"), ", data$metadata, ...)") # function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
+    codestring <- paste0("rda(data$abund~", paste(constrain, collapse = "+"), ", data$metadata, ...)") # function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
     model <- eval(parse(text = codestring))
 
     # axes depend on the results
@@ -358,12 +308,21 @@ amp_ordinate <- function(data,
     sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if (type == "nmds") {
+    if (!distmeasure %in% c(validVegdistMethods, "none")) {
+      stop("Valid distance measures for nMDS are only those supported by vegan::vegdist:\n", paste0(c(validVegdistMethods, "none"), collapse = ", "), call. = FALSE)
+    }
+    if (distmeasure == "none") {
+      if (!any(class(data$abund) %in% "dist")) {
+        stop("data$abund must be of class \"dist\" if distmeasure = \"none\" when performing nMDS. (Cheat with \"class(data$abund) <- 'dist'\" if you know you have provided a distance matrix)", call. = FALSE)
+      }
+    }
+
     # make the model
-    if (ncol(data$abund) > 100) {
+    if (nrow(data$abund) > 100) {
       message("Performing non-Metric Multidimensional Scaling on more than 100 samples, this may take some time ... ")
     }
-    model <- vegan::metaMDS(inputmatrix, trace = FALSE, ...)
-    if (ncol(data$abund) > 100) {
+    model <- vegan::metaMDS(data$abund, distance = distmeasure, trace = FALSE, autotransform = FALSE, ...)
+    if (nrow(data$abund) > 100) {
       message("Done.")
     }
 
@@ -383,8 +342,40 @@ amp_ordinate <- function(data,
       speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
     }
   } else if (type == "mmds" | type == "pcoa") {
+    # Calculate distance matrix
+    if (distmeasure == "jsd") {
+      message("Calculating Jensen-Shannon Divergence (JSD) distances... ")
+      distmatrix <- dist.JSD(data$abund)
+      message("Done.")
+    } else if (distmeasure %in% validVegdistMethods) {
+      distmatrix <- vegan::vegdist(data$abund, method = distmeasure)
+    } else if (distmeasure == "unifrac") {
+      distmatrix <- unifrac(
+        abund = t(data$abund),
+        tree = data$tree,
+        weighted = FALSE,
+        normalise = TRUE,
+        num_threads = num_threads
+      )
+    } else if (distmeasure == "wunifrac") {
+      distmatrix <- unifrac(
+        abund = t(data$abund),
+        tree = data$tree,
+        weighted = TRUE,
+        normalise = TRUE,
+        num_threads = num_threads
+      )
+    } else if (distmeasure == "none") {
+      if (!any(class(data$abund) %in% "dist")) {
+        stop("data$abund must be of class \"dist\" if distmeasure = \"none\" when performing PCoA. (Cheat with \"data$abund <- as.dist(data$abund)\" if you know you have provided a distance matrix)", call. = FALSE)
+      }
+      distmatrix <- data$abund
+    } else if (!distmeasure %in% c(validVegdistMethods, "wunifrac", "unifrac", "jsd", "none")) {
+      stop("Valid distance measures for PCoA are only those supported by vegan::vegdist:\n", paste0(c(validVegdistMethods, "none"), collapse = ", "), call. = FALSE)
+    }
+
     # make the model
-    model <- ape::pcoa(inputmatrix, ...)
+    model <- ape::pcoa(distmatrix, ...)
 
     # axis (and data column) names
     x_axis_name <- paste0("PCo", x_axis)
@@ -401,7 +392,7 @@ amp_ordinate <- function(data,
     speciesscores <- NULL
   } else if (type == "ca") {
     # make the model
-    model <- vegan::cca(inputmatrix, ...)
+    model <- vegan::cca(data$abund, ...)
 
     # axis (and data column) names
     x_axis_name <- paste0("CA", x_axis)
@@ -418,7 +409,7 @@ amp_ordinate <- function(data,
       stop("Argument constrain must be provided when performing constrained/canonical analysis.", call. = FALSE)
     }
     # make the model
-    codestring <- paste0("cca(inputmatrix~", paste(constrain, collapse = "+"), ", data$metadata, ...)") # function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
+    codestring <- paste0("cca(data$abund~", paste(constrain, collapse = "+"), ", data$metadata, ...)") # function arguments written in the format "rda(x ~ y + z)" cannot be directly passed to rda(), now user just provides a vector
     model <- eval(parse(text = codestring))
 
     # axes depend on the results
@@ -448,7 +439,7 @@ amp_ordinate <- function(data,
     speciesscores <- vegan::scores(model, display = "species", choices = c(x_axis, y_axis))
   } else if (type == "dca") {
     # make the model
-    model <- vegan::decorana(inputmatrix, ...)
+    model <- vegan::decorana(data$abund, ...)
 
     # axis (and data column) names
     x_axis_name <- paste0("DCA", x_axis)
@@ -596,7 +587,7 @@ amp_ordinate <- function(data,
   if (species_plot == TRUE) {
     if (species_plotly == T) {
       # generate hover text for OTU's
-      data_plotly <- data$tax %>%
+      data_plotly <- data$tax[rownames(dspecies), , drop = FALSE] %>%
         purrr::imap(~ paste(.y, .x, sep = ": ")) %>%
         as.data.frame() %>%
         tidyr::unite("test", sep = "<br>") %>%
@@ -925,7 +916,7 @@ amp_ordinate <- function(data,
         paste0(sort(references[unique(refs2print)]), collapse = "\n\n")
       )
     } else {
-      return(.)
+      .
     }
   }
   # set class to use custom print method

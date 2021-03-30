@@ -2,40 +2,51 @@
 % Please edit documentation in R/amp_load.R
 \name{amp_load}
 \alias{amp_load}
-\title{Load data for ampvis functions}
+\title{Load data for ampvis2 functions}
 \usage{
-amp_load(otutable, metadata = NULL, fasta = NULL, tree = NULL,
-  pruneSingletons = FALSE)
+amp_load(
+  otutable,
+  metadata = NULL,
+  taxonomy = NULL,
+  fasta = NULL,
+  tree = NULL,
+  pruneSingletons = FALSE,
+  ...
+)
 }
 \arguments{
-\item{otutable}{(\emph{required}) OTU-table (data frame) with the read counts of all OTU's, where the last 7 columns is the taxonomy (Kingdom -> Species).}
+\item{otutable}{(\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively.}
 
-\item{metadata}{(\emph{required}) Sample metadata (dataframe) with information about the samples. If none provided, dummy metadata will be created.}
+\item{metadata}{(\emph{recommended}) Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. (\emph{default:} \code{NULL})}
+
+\item{taxonomy}{(\emph{recommended}) Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain->Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. (\emph{default:} \code{NULL})}
 
 \item{fasta}{(\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})}
 
-\item{tree}{(\emph{optional}) Phylogenetic tree of class \code{"phylo"} as loaded with \code{\link[ape]{read.tree}}. (\emph{default:} \code{NULL})}
+\item{tree}{(\emph{optional}) Path to a phylogenetic tree file which will be read using \code{\link[ape]{read.tree}}, or an object of class \code{"phylo"}. (\emph{default:} \code{NULL})}
 
 \item{pruneSingletons}{(\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})}
+
+\item{...}{(\emph{optional}) Additional arguments are passed on to any of the file reader functions used.}
 }
 \value{
 A list of class \code{"ampvis2"} with 3 to 5 elements.
 }
 \description{
-This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis functions can be used.
+This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis2 functions can be used.
 }
 \details{
-The \code{\link{amp_load}} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis functions. It is important that the provided data frames match the requirements as described in the following sections to work properly.
+The \code{\link{amp_load}} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis2 functions. It is important that the provided data frames match the requirements as described in the following sections to work properly.
 }
 \section{The OTU-table}{
 
-The OTU-table contains information about the OTUs, their assigned taxonomy and their read counts in each sample. The provided OTU-table must be a data frame with the following requirements:
+The OTU-table contains information about the OTUs, their read counts in each sample, and optionally their assigned taxonomy. The provided OTU-table must be a data frame with the following requirements:
 
 \itemize{
   \item The rows are OTU IDs and the columns are samples.
-  \item The last 7 columns are the corresponding taxonomy assigned to the OTUs, named \code{"Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"}.
-  \item The OTU ID's are expected to be in eiher the rownames of the data frame or in a column called "OTU". Otherwise the function will stop with a message.
-  \item The column names of the data frame are the sample IDs, exactly matching those in the metadata, (and the last 7 columns named \code{Kingdom} -> \code{Species}, of course). Thus, the first row should contain the read counts of one of the OTUs in each sample, NOT the sample IDs and taxonomy.
+  \item The last 7 columns are optionally the corresponding taxonomy assigned to the OTUs, named \code{"Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"}.
+  \item The OTU ID's are expected to be in either the row names of the data frame or in a column called "OTU", "ASV", or "#OTU ID". Otherwise the function will stop with a message.
+  \item The column names of the data frame are the sample IDs, exactly matching those in the metadata, (and taxonomy columns named \code{Kingdom} -> \code{Species} if present, of course).
   \item Generally avoid special characters and spaces in row- and column names.
 }
 
@@ -54,45 +65,68 @@ The metadata contains additional information about the samples, for example wher
 
 If for example a column is named "Year" and the entries are simply entered as numbers (2011, 2012, 2013 etc), then R will automatically consider these as numerical values (\code{as.numeric()}) and therefore the column as a continuous variable, while it is a categorical variable and should be loaded \code{as.factor()} or \code{as.character()} instead. This has consequences for the analysis as R treats them differently. Therefore either use the \code{colClasses = } argument when loading a csv file or \code{col_types = } when loading an excel file, or manually adjust the column classes afterwards with fx \code{metadata$Year <- as.character(metadata$Year)}.
 
-The \code{\link{amp_load}} function will automatically use the sample IDs in the first column as rownames, but it is important to also have an actual column with sample IDs, so it is possible to fx group by that column during analysis. Any unmatched samples between the otutable and metadata will be removed.
+The \code{\link{amp_load}} function will automatically use the sample IDs in the first column as row names, but it is important to also have an actual column with sample IDs, so it's possible to fx group by that column during analysis. Any unmatched samples between the otutable and metadata will be removed with a warning.
 
 A minimal example is available with \code{data("example_metadata")}.
 }
 
-\section{Reference sequences}{
-
-A fasta file with the raw sequences can be loaded as well, which will then be available in the refseq element of the ampvis2 object. These sequences will not be used in any ampvis2 function other than the two subset functions \code{\link{amp_subset_samples}} and \code{\link{amp_subset_taxa}}, so that they can be exported with \code{\link{amp_export_fasta}}. The fasta file is loaded with the \code{\link[ape]{read.FASTA}} function from the \code{\link{ape}} package.
-}
-
 \examples{
-# Be sure to use the correct function to load your .csv files, see ?read.table()
+
+library(ampvis2)
 \dontrun{
-# Read the OTU-table as a data frame. It is important to set check.names = FALSE.
+# Load data by either giving file paths or by passing already loaded R objects
+### example load with file paths
+d <- amp_load(
+  otutable = "path/to/otutable.tsv",
+  metadata = "path/to/metadata.xlsx",
+  taxonomy = "path/to/taxonomy.txt"
+)
+
+### example load with R objects
+# Read the OTU-table as a data frame. It is important to set check.names = FALSE
 myotutable <- read.delim("data/otutable.txt", check.names = FALSE)
 
-# Read the metadata, often an excel sheet. If .csv make sure the first column will be kept and NOT
-# loaded as rownames! The top row should be loaded column names
+# Read the metadata, probably an excel sheet
 mymetadata <- read_excel("data/metadata.xlsx", col_names = TRUE)
 
-# Combine the data with amp_load() to make it compatible with ampvis2 functions.
-# Uncomment the fasta line to load reference sequences (not required).
+# Read the taxonomy
+mytaxonomy <- read.csv("data/taxonomy.csv", check.names = FALSE)
+
+# Combine the data with amp_load()
 d <- amp_load(
   otutable = myotutable,
   metadata = mymetadata,
-  fasta = "path/to/fastafile.fa" # optional
+  taxonomy = mytaxonomy,
+  pruneSingletons = FALSE,
+  fasta = "path/to/fastafile.fa", # optional
+  tree = "path/to/tree.tree" # optional
 )
 
-# Show a short summary about the data by simply typing the name of the object in the console
+### Show a short summary about the data by simply typing the name of the object in the console
 d
 }
 
-# Minimal example metadata:
+### Minimal example metadata:
 data("example_metadata")
 example_metadata
 
-# Minimal example otutable:
+### Minimal example otutable:
 data("example_otutable")
 example_otutable
+
+### Minimal example taxonomy:
+data("example_taxonomy")
+example_taxonomy
+
+# load example data
+d <- amp_load(
+  otutable = example_otutable,
+  metadata = example_metadata,
+  taxonomy = example_taxonomy
+)
+
+# show a summary of the data
+d
 }
 \seealso{
 \code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}

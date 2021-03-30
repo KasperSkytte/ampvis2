@@ -2,61 +2,82 @@
 % Please edit documentation in R/amp_core.R
 \name{amp_core}
 \alias{amp_core}
-\title{Core community analysis}
+\title{Grouped core community analysis}
 \usage{
-amp_core(data, group_by = "Sample", abund_thrh = 0.1,
-  tax_aggregate = "OTU", tax_class = NULL, tax_empty = "best",
-  plotly = FALSE, normalise = TRUE, detailed_output = FALSE)
+amp_core(
+  data,
+  group_by,
+  core_pct = 80,
+  margin_plots = "xy",
+  margin_plot_values_size = 3,
+  widths = c(5, 1),
+  heights = c(1, 5)
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{group_by}{Group the samples by a variable in the metadata. (\emph{default:} \code{"Sample"})}
+\item{group_by}{(\emph{required}) Character vector of one or more variable name(s) in the sample metadata which contain the desired grouping of samples, fx where the samples have been taken. Can also be done by sample, just provide the name of the first variable containing unique sample ID's if so.}
 
-\item{abund_thrh}{Threshold in percent for defining "abundant"/"core" taxa. (\emph{default:} \code{0.1})}
+\item{core_pct}{Threshold in percent for defining "abundant" a.k.a. "core" OTU's for each group. (\emph{default:} \code{80})}
 
-\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
-
-\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
-
-\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
+\item{margin_plots}{Character vector defining which margin plots to show. Margin plots display the cumulative read abundances of all OTU's per group sharing either x or y axis with the main plot. Any of:
 \itemize{
-   \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible.
-   \item \code{"OTU"}: Display the OTU name.
+   \item \code{"x"}: Only show x axis margin plot.
+   \item \code{"y"}: Only show y axis margin plot.
+   \item \code{"xy"} (\emph{default}): Show both x and y margin plots.
+   \item \code{""} or \code{NULL} (or anything else): Don't show any margin plots.
    }}
 
-\item{plotly}{(\emph{logical}) Returns an interactive plot instead. (\emph{default:} \code{FALSE})}
+\item{margin_plot_values_size}{The size of the values indicated in the margin plots on top of the bars. Set to \code{0} to disable. (\emph{default:} \code{3})}
 
-\item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
+\item{widths}{Numeric vector with relative widths of the main and y margin plots. (\emph{default:} \code{c(5,1)})}
 
-\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
+\item{heights}{Numeric vector with relative widths of the main and x margin plots. (\emph{default:} \code{c(1,5)})}
 }
 \value{
-A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
+If no margin plots a \code{ggplot} object, otherwise a list with ggplot objects.
 }
 \description{
-Generates a core community plot.
+Core community plot to investigate how many of the most abundant OTU's comprise the "core" of groups of samples, their abundances etc.
 }
 \details{
-Plots the number of samples a given OTU is observed in (first axis) against the number of samples it is abundant in (second axis), as defined by the threshold. By setting the \code{group_by} argument to a variable in the metadata, then the axes will show their frequency in this group instead of per sample.
-
-The OTU points can be aggregated by the taxonomy by setting fx \code{tax_aggregate = "Phylum"}. To see the corresponding taxonomy of the OTUs use \code{plotly = TRUE} for an interactive plot.
+This analysis only makes sense without aggregating OTU's to any taxonomic level, or else it will be biased by taxonomy and only be done on OTU's that have been classified, which is rarely all.
 }
-\section{Preserving relative abundances in a subset of larger data}{
+\section{Saving plot with \code{\link[ggplot2]{ggsave}}}{
 
-See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
+When any margin plots are generated \code{\link{amp_core}} returns a list of ggplot objects to allow adjusting themes etc. of the individual subplots. The list is of class \code{coreplot} and a matching print function for the S3 class then stitches together the individual plots using the \code{\link{patchwork}} package. Therefore to save the plot with \code{\link[ggplot2]{ggsave}} simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if no margin plots are generated, as the returned object is then a regular ggplot object.
 }
 
 \examples{
-# Load example data
-data("AalborgWWTPs")
+# load example data
+data("MiDAS")
 
-# Core plot
-amp_core(AalborgWWTPs)
+# generate core analysis plot grouped by WWTP
+plot <- amp_core(
+  data = MiDAS,
+  group_by = "Plant",
+  core_pct = 80,
+  margin_plots = "xy",
+  margin_plot_values_size = 0 # set to 0 to not show values in margin plots
+)
+
+# adjust axes manually
+plot$mainplot <- plot$mainplot +
+  scale_x_discrete(breaks = seq(from = 0, to = 36, by = 5)) +
+  scale_y_discrete(breaks = seq(from = 0, to = 36, by = 5))
+plot$marginplot_x <- plot$marginplot_x + scale_x_discrete(breaks = seq(from = 0, to = 36, by = 5))
+plot$marginplot_y <- plot$marginplot_y + scale_x_discrete(breaks = seq(from = 0, to = 36, by = 5))
+
+# show plot
+plot
+
+# To save the plot with ggsave() wrap the plot object in print()
+# ggsave("plot.png", print(plot))
 }
 \references{
-Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): The activated sludge ecosystem contains a core community of abundant organisms, ISME Journal 10, 11-20. \url{https://doi.org/10.1038/ismej.2015.117}
+Marta Nierychlo, Kasper Skytte Andersen, Yijuan Xu, Nicholas Green, Chenjing Jiang, Mads Albertsen, Morten Simonsen Dueholm, Per Halkjær Nielsen (2020): "MiDAS 3: An ecosystem-specific reference database, taxonomy and knowledge platform for activated sludge and anaerobic digesters reveals species-level microbiome composition of activated sludge", Water Research, Volume 182. \url{https://doi.org/10.1016/j.watres.2020.115955}
+Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): "The activated sludge ecosystem contains a core community of abundant organisms", ISME Journal 10, 11-20. \url{https://doi.org/10.1038/ismej.2015.117}
 }
 \seealso{
 \code{\link{amp_load}}

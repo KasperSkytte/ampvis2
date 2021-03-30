@@ -4,15 +4,66 @@
 #' @param ... not used
 #'
 #' @export
-#' @importFrom cowplot plot_grid
+#' @importFrom patchwork plot_layout
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 print.hmfunplot <- function(x, ...) {
-  print(cowplot::plot_grid(x$heatmap,
-    x$functions,
-    ncol = 2,
-    rel_widths = attributes(x)[["rel_widths"]],
-    align = "h",
-    axis = "tb"
-  ))
+  p <- x$heatmap +
+    x$functions +
+    patchwork::plot_layout(
+      ncol = 2,
+      widths = attributes(x)[["rel_widths"]],
+      guides = "collect"
+    )
+  print(p)
+}
+
+#' Prints amp_core plots if margin plots are also generated (internal function)
+#'
+#' @param x plot
+#' @param ... not used
+#'
+#' @export
+#' @importFrom patchwork plot_layout
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+print.coreplot <- function(x, ...) {
+  # if only y margin plot return two columns
+  if (is.null(x$marginplot_x)) {
+    layout <- NULL
+    p <- x$mainplot +
+      x$marginplot_y +
+      patchwork::plot_layout(
+        widths = attributes(x)[["widths"]]
+      )
+    # if only x margin plot return two rows
+  } else if (is.null(x$marginplot_y)) {
+    layout <- NULL
+    p <- x$marginplot_x /
+      x$mainplot +
+      patchwork::plot_layout(
+        heights = attributes(x)[["heights"]]
+      )
+    # if both x and y margin plots return a grid
+  } else {
+    layout <- "
+      A#
+      CD
+    "
+    p <- x$marginplot_x +
+      x$mainplot +
+      x$marginplot_y +
+      patchwork::plot_layout(
+        widths = attributes(x)[["widths"]],
+        heights = attributes(x)[["heights"]]
+      )
+  }
+
+  # return composed plot with collected guides
+  p <- p +
+    patchwork::plot_layout(
+      guides = "collect",
+      design = layout
+    )
+  print(p)
 }
 
 #' Prints ampvis2 object summary (internal function)
@@ -25,7 +76,8 @@ print.hmfunplot <- function(x, ...) {
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 print.ampvis2 <- function(x, ...) {
   ### calculate basic statistics and useful information about the data, print it
-  if (abundAreCounts(x)) {
+  abundAreCounts <- abundAreCounts(x)
+  if (isTRUE(abundAreCounts)) {
     # calculate basic stats of reads
     readstats <- list(
       "Total#Reads" = as.character(sum(x$abund)),
@@ -34,7 +86,7 @@ print.ampvis2 <- function(x, ...) {
       "Median#Reads" = as.character(median(colSums(x$abund))),
       "Avg#Reads" = as.character(round(mean(colSums(x$abund)), digits = 2))
     )
-  } else if (!abundAreCounts(x)) {
+  } else if (isFALSE(abundAreCounts)) {
     readstats <- NULL
   }
   cat(class(x), "object with", length(x), "elements.", crayon::underline("\nSummary of OTU table:\n"))
@@ -45,7 +97,7 @@ print.ampvis2 <- function(x, ...) {
   ),
   justify = "right"
   )
-  if (!abundAreCounts(x)) {
+  if (isFALSE(abundAreCounts)) {
     cat("(The read counts have been normalised)\n")
   }
   cat(crayon::underline("\nAssigned taxonomy:\n"))

@@ -2,11 +2,30 @@ Package: ampvis2
 Type: Package
 Title: Tools for visualising amplicon data
 Description: ampvis2 is a small set of tools that allows effortless visualisation of amplicon data.
-Version: 2.5
+Version: 2.7.2
 Date: 2017-11-15
-Authors@R: c(person("Mads", "Albertsen", role = c("aut", "cre"), email = "MadsAlbertsen85@gmail.com"), person(c("Kasper", "Skytte"), "Andersen", role = c("aut"), email = "ksa@bio.aau.dk"), person(c("Rasmus", "Hansen"), "Kirkegaard", role = c("ctb"), email = "rhk@bio.aau.dk"))
-License: AGPL-3 | file LICENSE
-URL: http://dx.plos.org/10.1371/journal.pone.0132783
+Authors@R: c(
+  person(
+    "Mads", "Albertsen", 
+    role = c("aut", "cre"), 
+    email = "MadsAlbertsen85@gmail.com",
+    comment = c(ORCID = "0000-0002-6151-190X")),
+  person(
+    c("Kasper", "Skytte"), "Andersen", 
+    role = c("aut"),
+    email = "ksa@bio.aau.dk",
+    comment = c(ORCID = "0000-0002-5423-0958")),
+  person(
+    c("Rasmus", "Hansen"), "Kirkegaard",
+    role = c("aut"),
+    email = "rhk@bio.aau.dk",
+    comment = c(ORCID = "0000-0003-3349-3617")))
+Maintainer: Kasper Skytte Andersen <ksa@bio.aau.dk>
+Reference: Andersen, K.S., Kirkegaard, R.H., Karst, S.M., Albertsen, M., (2018). 
+  ampvis2: an R package to analyse and visualise 16S rRNA amplicon data
+  bioRxiv, https://doi.org/10.1101/299537
+License: AGPL-3
+URL: https://madsalbertsen.github.io/ampvis2
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
 Encoding: UTF-8
@@ -35,15 +54,17 @@ Imports:
     network,
     ggnet,
     lubridate,
-    remotes,
-    cowplot,
     crayon,
     cli,
     biomformat,
     doParallel,
     parallel,
-    foreach
+    foreach,
+    patchwork
 Remotes: 
     github::kasperskytte/ggnet,
     github::kasperskytte/biomformat
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

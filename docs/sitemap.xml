@@ -10,9 +10,6 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/MiDAS.html</loc>
   </url>
   <url>
-    <loc>https://madsalbertsen.github.io/ampvis2/reference/MiF.html</loc>
-  </url>
-  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/aggregate_abund.html</loc>
   </url>
   <url>
@@ -88,6 +85,9 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/ampvis2.html</loc>
   </url>
   <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/dist.JSD.html</loc>
+  </url>
+  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/dot-onAttach.html</loc>
   </url>
   <url>
@@ -95,6 +95,9 @@
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/example_otutable.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/example_taxonomy.html</loc>
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/extractFunctions.html</loc>
@@ -115,7 +118,13 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/normaliseTo100.html</loc>
   </url>
   <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/pipe.html</loc>
+  </url>
+  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/print.ampvis2.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/print.coreplot.html</loc>
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/print.figcaption.html</loc>

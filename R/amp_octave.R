@@ -156,13 +156,15 @@ amp_octave <- function(data,
   plot <- ggplot(binSums, aes(bin, nTaxa)) +
     geom_col() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    xlab("Minimum reads") + {
+    xlab("Minimum reads") +
+    {
       if (tax_aggregate == "OTU") {
         ylab("Number of distinct OTU's")
       } else {
         ylab(paste0("Number of distinct taxa (", lowestTaxLevel, " level)"))
       }
-    } + {
+    } +
+    {
       if (!is.null(group_by)) {
         facet_wrap(~group, scales = scales)
       }

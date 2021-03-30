@@ -8,22 +8,29 @@
 
 <title>Ordination plot — amp_ordinate • ampvis2</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,15 +39,17 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Ordination plot — amp_ordinate" />
 
+<meta property="og:title" content="Ordination plot — amp_ordinate" />
 <meta property="og:description" content="A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned." />
-<meta name="twitter:card" content="summary" />
+
+
+
 
 
 
@@ -64,9 +73,16 @@
   gtag('config', 'UA-93913019-2');
 </script>
 
+
+  
+
+  
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
       </span>
     </div>
 
@@ -99,11 +115,10 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MadsAlbertsen/ampvis2">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -120,48 +135,75 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Ordination plot</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/MadsAlbertsen/ampvis2/blob/master/R/amp_ordinate.R'><code>R/amp_ordinate.R</code></a></small>
     <div class="hidden name"><code>amp_ordinate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>A wrapper around the vegan package to generate ggplot2 ordination plots suited for analysis and comparison of microbial communities. Simply choose an ordination type and a plot is returned.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>amp_ordinate</span>(<span class='no'>data</span>, <span class='kw'>filter_species</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"PCA"</span>,
-  <span class='kw'>distmeasure</span> <span class='kw'>=</span> <span class='st'>"none"</span>, <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>, <span class='kw'>constrain</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>x_axis</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y_axis</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>print_caption</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_color_order</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sample_shape_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>sample_colorframe_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_colorframe_label_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>sample_label_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_label_size</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>sample_label_segment_color</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>sample_point_size</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>sample_trajectory</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_trajectory_group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sample_plotly</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>species_plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>species_nlabels</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>species_label_taxonomy</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>, <span class='kw'>species_label_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>species_label_color</span> <span class='kw'>=</span> <span class='st'>"grey10"</span>, <span class='kw'>species_rescale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>species_point_size</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>species_shape</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>species_plotly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>envfit_factor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>envfit_numeric</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>envfit_signif_level</span> <span class='kw'>=</span> <span class='fl'>0.005</span>, <span class='kw'>envfit_textsize</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>envfit_textcolor</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>envfit_numeric_arrows_scale</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>envfit_arrowcolor</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>envfit_show</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>repel_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>opacity</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>tax_empty</span> <span class='kw'>=</span> <span class='st'>"best"</span>,
-  <span class='kw'>detailed_output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>num_threads</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>...</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>amp_ordinate</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  filter_species <span class='op'>=</span> <span class='fl'>0.1</span>,
+  type <span class='op'>=</span> <span class='st'>"PCA"</span>,
+  distmeasure <span class='op'>=</span> <span class='st'>"bray"</span>,
+  transform <span class='op'>=</span> <span class='st'>"hellinger"</span>,
+  constrain <span class='op'>=</span> <span class='cn'>NULL</span>,
+  x_axis <span class='op'>=</span> <span class='fl'>1</span>,
+  y_axis <span class='op'>=</span> <span class='fl'>2</span>,
+  print_caption <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  sample_color_by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sample_color_order <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sample_shape_by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sample_colorframe <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  sample_colorframe_label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sample_colorframe_label_size <span class='op'>=</span> <span class='fl'>3</span>,
+  sample_label_by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sample_label_size <span class='op'>=</span> <span class='fl'>4</span>,
+  sample_label_segment_color <span class='op'>=</span> <span class='st'>"black"</span>,
+  sample_point_size <span class='op'>=</span> <span class='fl'>2</span>,
+  sample_trajectory <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sample_trajectory_group <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sample_plotly <span class='op'>=</span> <span class='cn'>NULL</span>,
+  species_plot <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  species_nlabels <span class='op'>=</span> <span class='fl'>0</span>,
+  species_label_taxonomy <span class='op'>=</span> <span class='st'>"Genus"</span>,
+  species_label_size <span class='op'>=</span> <span class='fl'>3</span>,
+  species_label_color <span class='op'>=</span> <span class='st'>"grey10"</span>,
+  species_rescale <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  species_point_size <span class='op'>=</span> <span class='fl'>2</span>,
+  species_shape <span class='op'>=</span> <span class='fl'>20</span>,
+  species_plotly <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  envfit_factor <span class='op'>=</span> <span class='cn'>NULL</span>,
+  envfit_numeric <span class='op'>=</span> <span class='cn'>NULL</span>,
+  envfit_signif_level <span class='op'>=</span> <span class='fl'>0.005</span>,
+  envfit_textsize <span class='op'>=</span> <span class='fl'>3</span>,
+  envfit_textcolor <span class='op'>=</span> <span class='st'>"darkred"</span>,
+  envfit_numeric_arrows_scale <span class='op'>=</span> <span class='fl'>1</span>,
+  envfit_arrowcolor <span class='op'>=</span> <span class='st'>"darkred"</span>,
+  envfit_show <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  repel_labels <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  opacity <span class='op'>=</span> <span class='fl'>0.8</span>,
+  tax_empty <span class='op'>=</span> <span class='st'>"best"</span>,
+  detailed_output <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  num_threads <span class='op'>=</span> <span class='fl'>1L</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(<em>required</em>) Data list as loaded with <code>amp_load</code>.</p></td>
+      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
     </tr>
     <tr>
       <th>filter_species</th>
@@ -182,12 +224,12 @@
     <tr>
       <th>distmeasure</th>
       <td><p>(<em>required for nMDS and PCoA</em>) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:</p><ul>
-<li><p><code>"wunifrac"</code>: Weighted UniFrac distances. Requires a rooted phylogenetic tree.</p></li>
-<li><p><code>"unifrac"</code>: Unweighted UniFrac distances. Requires a phylogenetic tree.</p></li>
-<li><p><code>"jsd"</code>: Jensen-Shannon Divergence, based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>.</p></li>
+<li><p><code>"wunifrac"</code> (PCoA only): Weighted UniFrac distances. Requires a rooted phylogenetic tree.</p></li>
+<li><p><code>"unifrac"</code> (PCoA only): Unweighted UniFrac distances. Requires a phylogenetic tree.</p></li>
+<li><p><code>"jsd"</code> (PCoA only): Jensen-Shannon Divergence, based on <a href='http://enterotype.embl.de/enterotypes.html'>http://enterotype.embl.de/enterotypes.html</a>.</p></li>
 <li><p>Any of the distance measures supported by <code><a href='https://rdrr.io/pkg/vegan/man/vegdist.html'>vegdist</a></code>: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code>.</p></li>
-<li><p>or <code>"none"</code>. (<em>default</em>)</p></li>
-</ul><p>You can also write your own math formula, see details in <code><a href='https://rdrr.io/pkg/vegan/man/vegdist.html'>vegdist</a></code>.</p></td>
+</ul><p>You can also write your own math formula, see details in <code><a href='https://rdrr.io/pkg/vegan/man/vegdist.html'>vegdist</a></code>.
+Default is <code>bray</code>.</p></td>
     </tr>
     <tr>
       <th>transform</th>
@@ -259,7 +301,7 @@
     </tr>
     <tr>
       <th>sample_plotly</th>
-      <td><p>Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the metadata variables to show, or <code>"all"</code> to display all. Click or double click the elements in the legend to hide/show parts of the data. To hide the legend use <code><a href='https://rdrr.io/pkg/plotly/man/layout.html'>plotly::layout(amp_ordinate(...), showlegend = FALSE)</a></code>, see more options at <a href='https://plot.ly/r/'>https://plot.ly/r/</a>.</p></td>
+      <td><p>Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the metadata variables to show, or <code>"all"</code> to display all. Click or double click the elements in the legend to hide/show parts of the data. To hide the legend use <code><a href='https://docs.ropensci.org/plotly/reference/layout.html'>plotly::layout(amp_ordinate(...), showlegend = FALSE)</a></code>, see more options at <a href='https://plot.ly/r/'>https://plot.ly/r/</a>.</p></td>
     </tr>
     <tr>
       <th>species_plot</th>
@@ -358,11 +400,10 @@
       <td><p>Pass additional arguments to the vegan ordination functions, fx the <code><a href='https://rdrr.io/pkg/vegan/man/cca.html'>rda</a></code>, <code><a href='https://rdrr.io/pkg/vegan/man/cca.html'>cca</a></code>, <code><a href='https://rdrr.io/pkg/vegan/man/metaMDS.html'>metaMDS</a></code> functions, see the documentation.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>amp_ordinate</code> function is primarily based on two packages; <code><a href='https://rdrr.io/pkg/vegan/man/vegan-package.html'>vegan-package</a></code>, which performs the actual ordination, and the <code><a href='https://ggplot2.tidyverse.org/reference/ggplot2-package.html'>ggplot2-package</a></code> to generate the plot. The function generates an ordination plot by the following process:</p><ol>
@@ -373,88 +414,78 @@
 <li><p>Perform the actual ordination and calculate the axis scores for both samples and species/OTU's</p></li>
 <li><p>Visualise the result with ggplot2 or plotly in various ways defined by the user</p></li>
 </ol>
-    <p>When the chosen ordination method is an eigenanalysis-based method then the relative contribution (eigenvalue) of each axis to the total inertia in the data (sum of all eigenvalues, including those of the constrained space) is indicated in percent at the axis titles. When one of the constrained ordination methods (<code>RDA</code> and <code>CCA</code>) is used then a second value is furthermore shown which then indicates the relative contribution of the particular axis to the total constrained space only.</p>
-    
+
+<p>When the chosen ordination method is an eigenanalysis-based method then the relative contribution (eigenvalue) of each axis to the total inertia in the data (sum of all eigenvalues, including those of the constrained space) is indicated in percent at the axis titles. When one of the constrained ordination methods (<code>RDA</code> and <code>CCA</code>) is used then a second value is furthermore shown which then indicates the relative contribution of the particular axis to the total constrained space only.</p>
     <h2 class="hasAnchor" id="using-a-custom-distance-matrix"><a class="anchor" href="#using-a-custom-distance-matrix"></a>Using a custom distance matrix</h2>
 
     
-    <p>If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in <code>amp_ordinate</code>, it can be done by setting <code>filter_species = 0</code>, <code>transform = "none"</code>, <code>distmeasure = "none"</code>, and then override the abundance table (<code>$abund</code>) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.</p><pre>
-#Override the abundance table in the ampvis2 object with a custom distance matrix
-ampvis2_object$abund &lt;- custom_dist_matrix
-#set filter_species = 0, transform = "none", and distmeasure = "none"
-amp_ordinate(ampvis2_object,
-             type = "pcoa",
-             filter_species = 0,
-             transform = "none",
-             distmeasure = "none")
+
+<p>If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in <code>amp_ordinate</code>, it can be done by setting <code>filter_species = 0</code>, <code>transform = "none"</code>, <code>distmeasure = "none"</code>, and then override the abundance table (<code>$abund</code>) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.</p><pre>
+<span class='co'>#Override the abundance table in the ampvis2 object with a custom distance matrix</span>
+<span class='va'>ampvis2_object</span><span class='op'>$</span><span class='va'>abund</span> <span class='op'>&lt;-</span> <span class='va'>custom_dist_matrix</span>
+<span class='co'>#set filter_species = 0, transform = "none", and distmeasure = "none"</span>
+<span class='fu'>amp_ordinate</span><span class='op'>(</span><span class='va'>ampvis2_object</span>,
+             type <span class='op'>=</span> <span class='st'>"pcoa"</span>,
+             filter_species <span class='op'>=</span> <span class='fl'>0</span>,
+             transform <span class='op'>=</span> <span class='st'>"none"</span>,
+             distmeasure <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
 </pre>
-    
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>GUide to STatistical Analysis in Microbial Ecology (GUSTA ME): <a href='https://mb3is.megx.net/gustame'>https://mb3is.megx.net/gustame</a></p>
 <p>Legendre, Pierre &amp; Legendre, Louis (2012). Numerical Ecology. Elsevier Science. ISBN: 9780444538680</p>
 <p>Legendre, P., &amp; Gallagher, E. (2001). Ecologically meaningful transformations for ordination of species data. Oecologia, 129(2), 271-280. <a href='http://doi.org/10.1007/s004420100716'>http://doi.org/10.1007/s004420100716</a></p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>amp_load</code></p></div>
-    
+    <div class='dont-index'><p><code><a href='amp_load.html'>amp_load</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
+<p>Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"AalborgWWTPs"</span><span class='op'>)</span>
 
 <span class='co'># PCA with data transformation, colored by WWTP</span>
-<span class='fu'>amp_ordinate</span>(<span class='no'>AalborgWWTPs</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"PCA"</span>,
-  <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>,
-  <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>,
-  <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</div><div class='img'><img src='amp_ordinate-1.png' alt='' width='700' height='433' /></div><span class='co'># NOT RUN {</span>
+<span class='fu'>amp_ordinate</span><span class='op'>(</span><span class='va'>AalborgWWTPs</span>,
+  type <span class='op'>=</span> <span class='st'>"PCA"</span>,
+  transform <span class='op'>=</span> <span class='st'>"hellinger"</span>,
+  sample_color_by <span class='op'>=</span> <span class='st'>"Plant"</span>,
+  sample_colorframe <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+</div><div class='img'><img src='amp_ordinate-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Interactive CCA with data transformation constrained to seasonal period</span>
-<span class='fu'>amp_ordinate</span>(<span class='no'>AalborgWWTPs</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"CCA"</span>,
-  <span class='kw'>transform</span> <span class='kw'>=</span> <span class='st'>"Hellinger"</span>,
-  <span class='kw'>constrain</span> <span class='kw'>=</span> <span class='st'>"Period"</span>,
-  <span class='kw'>sample_color_by</span> <span class='kw'>=</span> <span class='st'>"Period"</span>,
-  <span class='kw'>sample_colorframe</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>sample_colorframe_label</span> <span class='kw'>=</span> <span class='st'>"Period"</span>,
-  <span class='kw'>sample_plotly</span> <span class='kw'>=</span> <span class='st'>"all"</span>
-)
-<span class='co'># }</span></pre>
+<span class='fu'>amp_ordinate</span><span class='op'>(</span><span class='va'>AalborgWWTPs</span>,
+  type <span class='op'>=</span> <span class='st'>"CCA"</span>,
+  transform <span class='op'>=</span> <span class='st'>"Hellinger"</span>,
+  constrain <span class='op'>=</span> <span class='st'>"Period"</span>,
+  sample_color_by <span class='op'>=</span> <span class='st'>"Period"</span>,
+  sample_colorframe <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  sample_colorframe_label <span class='op'>=</span> <span class='st'>"Period"</span>,
+  sample_plotly <span class='op'>=</span> <span class='st'>"all"</span>
+<span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#using-a-custom-distance-matrix">Using a custom distance matrix</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
-<p>Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
-  <p>Developed by Mads Albertsen, Kasper Skytte Andersen.</p>
+  <p><p>Developed by Mads Albertsen, Kasper Skytte Andersen, Rasmus Hansen Kirkegaard.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
+
       </footer>
    </div>
 
@@ -477,6 +508,10 @@ amp_ordinate(ampvis2_object,
 </script>
 
 
+
+  
+
   </body>
 </html>
+
 

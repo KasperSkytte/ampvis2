@@ -3,18 +3,19 @@
 #' Export otutable (including taxonomy) from an ampvis2 object as CSV using \code{\link{write.table}}.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param filename File name of the exported OTU-table WITHOUT extension. (\emph{default:} \code{"exported_otutable"})
-#' @param extension File extension without \code{"."}. (\emph{default:} \code{"csv"})
-#' @param md5 (\emph{logical}) Compute md5 sum of the data (the whole object, not just otutable) and append to the filename. (\emph{default:} \code{FALSE})
-#' @param sep Separator passed directly to \code{\link{write.table}}. (\emph{default:} \code{"\t"})
+#' @param filename File name of the exported OTU-table (excluding extension). (\emph{default:} \code{"exported_otutable"})
+#' @param extension File extension (without \code{"."}). (\emph{default:} \code{"csv"})
+#' @param md5 (\emph{logical}) Compute md5 sum of the data (the whole R-object, not just otutable) and append to the filename. (\emph{default:} \code{FALSE})
+#' @param sep Separator passed directly to \code{\link[data.table]{fwrite}}. (\emph{default:} \code{"\t"})
 #' @param id Name the samples using a variable in the metadata.
 #' @param sort_samples Vector to sort the samples by.
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{FALSE})
-#' @param ... Additional arguments passed to \code{\link{write.table}} other than \code{sep} and \code{row.names}.
+#' @param ... Additional arguments passed on to \code{\link[data.table]{fwrite}} (other than \code{sep}).
 #'
 #' @export
 #'
 #' @importFrom dplyr arrange mutate select desc everything
+#' @importFrom data.table fwrite
 #' @importFrom digest digest
 #'
 #' @examples
@@ -23,7 +24,7 @@
 #'
 #' # Export OTU-table
 #' \dontrun{
-#' amp_export_otutable(AalborgWWTPs, md5 = TRUE, filename = "AalborgWWTPs_otutable", sep = "\t")
+#' amp_export_otutable(AalborgWWTPs, md5 = TRUE, filename = "AalborgWWTPs_otutable", sep = "\\t")
 #' }
 #'
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
@@ -87,11 +88,8 @@ amp_export_otutable <- function(data,
     select(-sum)
 
   # Append md5 sum to the filename just before the extenstion. Fx "../exported_otutable" will result in ../exported_otutable_md5sum.csv
-  write.table(select(e_bak2, OTU, everything()),
-    file = ifelse(md5,
-      sprintf("%s_%s.%s", filename, digest::digest(data), extension),
-      sprintf("%s.%s", filename, extension)
-    ),
+  data.table::fwrite(select(e_bak2, OTU, everything()),
+    file = if (isTRUE(md5)) sprintf("%s_%s.%s", filename, digest::digest(data), extension) else sprintf("%s.%s", filename, extension),
     quote = F,
     row.names = F,
     sep = sep,

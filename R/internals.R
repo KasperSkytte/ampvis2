@@ -61,9 +61,7 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
   tax <- data[["tax"]]
 
   ## First make sure that all entries are strings
-  for (i in 1:ncol(tax)) {
-    tax[, i] <- as.character(tax[, i])
-  }
+  tax[] <- lapply(tax, as.character)
 
   ## Change a specific phylum to class level
   if (!is.null(tax_class)) {
@@ -74,28 +72,15 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
     }
   }
 
-  ## Remove the underscore classifier from the data
-  tax$Kingdom <- gsub("^k_*", "", tax$Kingdom)
-  tax$Phylum <- gsub("^p_*", "", tax$Phylum)
-  tax$Phylum <- gsub("^c_*", "", tax$Phylum)
-  tax$Class <- gsub("^c_*", "", tax$Class)
-  tax$Order <- gsub("^o_*", "", tax$Order)
-  tax$Family <- gsub("^f_*", "", tax$Family)
-  tax$Genus <- gsub("^g_*", "", tax$Genus)
-  tax$Kingdom <- gsub("uncultured", "", tax$Kingdom)
-  tax$Phylum <- gsub("uncultured", "", tax$Phylum)
-  tax$Class <- gsub("uncultured", "", tax$Class)
-  tax$Order <- gsub("uncultured", "", tax$Order)
-  tax$Family <- gsub("uncultured", "", tax$Family)
-  tax$Genus <- gsub("uncultured", "", tax$Genus)
+  ## Remove QIIME taxonomy format prefixes across all levels
+  tax[] <- lapply(tax, gsub, pattern = "^[dkpcofgs]_+", replacement = "")
 
   ## Check if there is a species level otherwise add it for consistency
-  if (!is.null(tax$Species)) {
-    tax$Species <- gsub("^s_*", "", tax$Species)
-  } else {
+  if (is.null(tax$Species)) {
     tax$Species <- ""
   }
 
+  ## NA's as empty strings
   tax[is.na(tax)] <- ""
 
   ## How to handle empty taxonomic assignments
@@ -154,13 +139,15 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
 #' @importFrom jsonlite read_json
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 getMiDASFGData <- function() {
-  jsonlite::read_json("http://midas.programming.cool/api/microbes/fieldguide")
+  jsonlite::read_json("http://midasfieldguide.org/api/microbes/fieldguide")
 }
 
 #' @title Extract functional information about Genera from the MiDAS field guide
 #' @description Extract field related to properties and metabolism of all Genera from a list obtained by \code{\link{getMiDASFGData}} and return in a data frame.
 #'
 #' @param FGList Data list obtained by \code{\link{getMiDASFGData}}.
+#'
+#' @importFrom data.table rbindlist
 #'
 #' @return A data frame where each row is a Genus and each column is a "function".
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
@@ -190,7 +177,9 @@ extractFunctions <- function(FGList) {
       outList
     )
   })
-  as.data.frame(do.call("rbind", functions))
+  outDF <- as.data.frame(data.table::rbindlist(functions, fill = TRUE))
+  outDF[is.na(outDF)] <- "NT"
+  return(outDF)
 }
 
 #' @title Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() from phyloseq
@@ -199,7 +188,7 @@ extractFunctions <- function(FGList) {
 #' @param tree Phylogenetic tree (rooted and with branch lengths) as loaded with \code{\link[ape]{read.tree}}.
 #' @param weighted Calculate weighted or unweighted UniFrac distances.
 #' @param normalise Should the output be normalised such that values range from 0 to 1 independent of branch length values? Note that unweighted UniFrac is always normalised. (\emph{default:} \code{TRUE})
-#' @param num_threads The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}} (\emph{default:} \code{1})
+#' @param num_threads The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}}. (\emph{default:} \code{1})
 #'
 #' @importFrom ape is.rooted node.depth node.depth.edgelength reorder.phylo
 #' @importFrom doParallel registerDoParallel
@@ -226,7 +215,7 @@ unifrac <- function(abund,
   OTU <- as.matrix(abund)
   ntip <- length(tree$tip.label)
   if (ntip != nrow(OTU)) {
-    stop("OTU table and phylogenetic tree do not match. (Note: This may be the result of subsetting if the provided data is a subset of larger data as phylogenetic trees are not subsetted)", call. = FALSE)
+    stop("OTU table and phylogenetic tree do not match", call. = FALSE)
   }
   # if(!all(rownames(OTU) == tree$tip.label))
   #  OTU <- OTU[tree$tip.label, , drop = FALSE]
@@ -267,15 +256,21 @@ unifrac <- function(abund,
     BT <- samplesums[B]
     if (isTRUE(weighted)) {
       wUF_branchweight <- abs(edge_array[, A] / AT - edge_array[, B] / BT)
-      numerator <- sum({
-        tree$edge.length * wUF_branchweight
-      }, na.rm = TRUE)
+      numerator <- sum(
+        {
+          tree$edge.length * wUF_branchweight
+        },
+        na.rm = TRUE
+      )
       if (isFALSE(normalise)) {
         return(numerator)
       } else {
-        denominator <- sum({
-          tipAges * (OTU[, A] / AT + OTU[, B] / BT)
-        }, na.rm = TRUE)
+        denominator <- sum(
+          {
+            tipAges * (OTU[, A] / AT + OTU[, B] / BT)
+          },
+          na.rm = TRUE
+        )
         return(numerator / denominator)
       }
     } else {
@@ -291,6 +286,40 @@ unifrac <- function(abund,
   if (!is.matrix(matIndices)) matIndices <- matrix(matIndices, ncol = 2)
   UniFracMat[matIndices] <- unlist(distlist)
   return(as.dist(UniFracMat))
+}
+
+#' Calculate Jensen-Shannon Divergence distances
+#'
+#' @param abund Abundance table with OTU counts, in \code{ampvis2} objects it is available with simply data$abund.
+#' @param pseudocount Pseudocount to use instead of 0-divisions. (\emph{default:} \code{0.000001})
+#'
+#' @return A distance matrix of class \code{dist}.
+# This is based on http://enterotype.embl.de/enterotypes.html
+# Abundances of 0 will be set to the pseudocount value to avoid 0-value denominators
+# Unfortunately this code is SLOOOOOOOOW
+dist.JSD <- function(abund, pseudocount = 0.000001) {
+  inMatrix <- t(abund)
+  KLD <- function(x, y) sum(x * log(x / y))
+  JSD <- function(x, y) sqrt(0.5 * KLD(x, (x + y) / 2) + 0.5 * KLD(y, (x + y) / 2))
+  matrixColSize <- length(colnames(inMatrix))
+  matrixRowSize <- length(rownames(inMatrix))
+  colnames <- colnames(inMatrix)
+  resultsMatrix <- matrix(0, matrixColSize, matrixColSize)
+
+  inMatrix <- apply(inMatrix, 1:2, function(x) ifelse(x == 0, pseudocount, x))
+
+  for (i in 1:matrixColSize) {
+    for (j in 1:matrixColSize) {
+      resultsMatrix[i, j] <- JSD(
+        as.vector(inMatrix[, i]),
+        as.vector(inMatrix[, j])
+      )
+    }
+  }
+  colnames -> colnames(resultsMatrix) -> rownames(resultsMatrix)
+  as.dist(resultsMatrix) -> resultsMatrix
+  attr(resultsMatrix, "method") <- "dist"
+  return(resultsMatrix)
 }
 
 #' @title Find lowest taxonomic level
@@ -356,7 +385,7 @@ aggregate_abund <- function(abund,
   newtax <- tax[which(nchar(tax[[lowestTaxLevel]]) > 1 &
     !is.na(tax[[lowestTaxLevel]]) &
     !grepl("^\\b[dkpcofgs]*[_:;]*\\b$", tax[[lowestTaxLevel]])), ]
-  newabund <- abund[rownames(newtax), ]
+  newabund <- abund[rownames(newtax), , drop = FALSE]
   if (nrow(newtax) != nrow(tax)) {
     message(paste0(
       nrow(tax) - nrow(newtax),

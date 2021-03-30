@@ -3,7 +3,6 @@
 \docType{package}
 \name{ampvis2}
 \alias{ampvis2}
-\alias{ampvis2-package}
 \title{\code{ampvis2} package}
 \description{
 \code{ampvis2} is an R-package to conveniently visualise and analyse 16S rRNA amplicon data in different ways.

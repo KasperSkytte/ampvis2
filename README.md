@@ -1,5 +1,6 @@
-
-[![Travis-CI Build Status](https://travis-ci.org/MadsAlbertsen/ampvis2.svg?branch=master)](https://travis-ci.org/MadsAlbertsen/ampvis2)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/MadsAlbertsen/ampvis2/workflows/R-CMD-check/badge.svg)](https://github.com/MadsAlbertsen/ampvis2/actions)
+<!-- badges: end -->
 
 Tools for visualising amplicon data
 ===================================
@@ -15,6 +16,9 @@ First, install [R (3.5.x or later)](https://mirrors.dotsrc.org/cran/) and [RStud
 install.packages("remotes")
 remotes::install_github("MadsAlbertsen/ampvis2")
 ```
+
+Tip: For faster installation you can utilise multicore processors by setting the `Ncpus` argument, fx `remotes::install_github("madsalbertsen/ampvis2", Ncpus = 6)`. Most CPU's today can run 8 processes simultaneously, so setting it to 6 is a good starting point unless you know you have a CPU with more (logical) cores than 8.
+
 
 Get started
 -----------

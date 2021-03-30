@@ -3,7 +3,7 @@ url: https://madsalbertsen.github.io/ampvis2
 home:
   links:
     - text: Latest stable release
-      href: https://github.com/MadsAlbertsen/ampvis2/releases/latest/
+      href: https://github.com/MadsAlbertsen/ampvis2
 
 template:
   params:
@@ -26,6 +26,9 @@ reference:
     - amp_export_fasta
     - amp_export_otutable
     - amp_export_long
+  - title: Summary functions
+    contents:
+    - amp_alphadiv
   - title: Plotting functions
     desc: Functions for visualising amplicon data.
     contents:
@@ -40,7 +43,6 @@ reference:
     - amp_frequency
     - amp_otu_network
     - amp_rankabundance
-    - amp_alphadiv
 
 navbar:
   title: "ampvis2"

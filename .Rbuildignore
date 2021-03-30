@@ -5,6 +5,12 @@
 ^test$
 ^ISSUE_TEMPLATE.md$
 ^README.Rmd$
-^\.travis\.yml$
 ^vignettes$
 ^\.httr-oauth$
+^test$
+^.git$
+^..Rcheck$
+^renv$
+^renv\.lock$
+^\.github$
+^pkgdown$

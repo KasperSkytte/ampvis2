@@ -35,25 +35,6 @@ NULL
 #' AalborgWWTPs
 NULL
 
-#' Functional information of microbes in the MiDAS database
-#'
-#' A data frame with known/unknown functional characteristics of the Genera in the MiDAS database.
-#'
-#' @name MiF
-#' @docType data
-#'
-#' @format A data frame.
-#' \describe{
-#'   \item{POS}{Positive.}
-#'   \item{NEG}{Negative.}
-#'   \item{VAR}{Variable within species.}
-#'   \item{NT}{Not tested.}
-#' }
-#'
-#' @keywords data
-#'
-NULL
-
 #' A minimal example of an OTU-table
 #'
 #' A minimal example of an OTU-table that is compatible with \code{\link{amp_load}} and ampvis2 functions.
@@ -87,5 +68,23 @@ NULL
 #' \dontrun{
 #' data(example_metadata)
 #' View(example_metadata)
+#' }
+NULL
+
+#' A minimal example of taxonomy
+#'
+#' A minimal example of a taxonomy table that is compatible with \code{\link{amp_load}} and ampvis2 functions.
+#'
+#' @name example_taxonomy
+#' @docType data
+#'
+#' @format a data frame.
+#'
+#' @keywords data
+#'
+#' @examples
+#' \dontrun{
+#' data(example_taxonomy)
+#' View(example_taxonomy)
 #' }
 NULL

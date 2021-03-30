@@ -4,57 +4,32 @@
 \alias{amp_rankabundance}
 \title{Rank abundance plot}
 \usage{
-amp_rankabundance(data, group_by = "Sample", order_group = NULL,
-  plot_log = FALSE, tax_add = NULL, tax_aggregate = "Genus",
-  tax_empty = "best", tax_class = NULL, normalise = TRUE,
-  detailed_output = FALSE)
+amp_rankabundance(data, group_by, showSD = TRUE, log10_x = TRUE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{group_by}{Group the samples by a variable in the metadata.}
+\item{group_by}{(\emph{required}) Group the samples by a variable in the metadata.}
 
-\item{order_group}{A vector to order the groups by.}
+\item{showSD}{Show standard deviation from mean or not. (\emph{default:} \code{TRUE})}
 
-\item{plot_log}{(\emph{logical}) Log10-scale the x-axis. (\emph{default:} \code{FALSE})}
-
-\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
-
-\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Genus"})}
-
-\item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
-\itemize{
-   \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible.
-   \item \code{"OTU"}: Display the OTU name.
-   }}
-
-\item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
-
-\item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
-
-\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
+\item{log10_x}{Log10-transform the x-axis or not. Often most variation is observed among the most abundant OTU's, log10-transforming the x-axis will highlight this better. (\emph{default:} \code{TRUE})}
 }
 \value{
-A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
+A ggplot2 object.
 }
 \description{
-Generates a rank abundance curve (rank abundance vs cumulative read abundance).
+Generates a rank abundance curve (rank abundance vs cumulative read abundance), optionally with standard deviation from mean intervals.
 }
 \details{
-A rank abundance curve is used to assess the biodiversity by plotting the ranked abundances of the OTUs (rank 1 is the most abundant, rank 2 the second and so on) versus the cumulative read abundance of the particular OTU. The rank abundances of the OTUs can be grouped by any taxonomic level by the \code{tax_aggregate} argument, the default is per OTU. When the samples are grouped by the \code{group_by} argument, the average of the group is used.
+Currently only OTU level is supported.
 }
-\section{Preserving relative abundances in a subset of larger data}{
-
-See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
-}
-
 \examples{
 # Load example data
 data("AalborgWWTPs")
 
 # Rank abundance plot
-amp_rankabundance(AalborgWWTPs, group_by = "Plant")
+amp_rankabundance(AalborgWWTPs, group_by = "Plant", showSD = TRUE, log10_x = TRUE)
 }
 \seealso{
 \code{\link{amp_load}}

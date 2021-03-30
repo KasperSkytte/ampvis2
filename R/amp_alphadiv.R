@@ -132,7 +132,7 @@ amp_alphadiv <- function(data,
   results <- results %>%
     dplyr::arrange(RawReads) %>%
     {
-      if (is.null(rarefy)) dplyr::select(., -RawReads) else return(.)
+      if (is.null(rarefy)) dplyr::select(., -RawReads) else .
     }
   return(results)
 }

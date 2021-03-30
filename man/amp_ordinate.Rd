@@ -4,25 +4,53 @@
 \alias{amp_ordinate}
 \title{Ordination plot}
 \usage{
-amp_ordinate(data, filter_species = 0.1, type = "PCA",
-  distmeasure = "none", transform = "hellinger", constrain = NULL,
-  x_axis = 1, y_axis = 2, print_caption = FALSE,
-  sample_color_by = NULL, sample_color_order = NULL,
-  sample_shape_by = NULL, sample_colorframe = FALSE,
-  sample_colorframe_label = NULL, sample_colorframe_label_size = 3,
-  sample_label_by = NULL, sample_label_size = 4,
-  sample_label_segment_color = "black", sample_point_size = 2,
-  sample_trajectory = NULL, sample_trajectory_group = NULL,
-  sample_plotly = NULL, species_plot = FALSE, species_nlabels = 0,
-  species_label_taxonomy = "Genus", species_label_size = 3,
-  species_label_color = "grey10", species_rescale = FALSE,
-  species_point_size = 2, species_shape = 20, species_plotly = FALSE,
-  envfit_factor = NULL, envfit_numeric = NULL,
-  envfit_signif_level = 0.005, envfit_textsize = 3,
-  envfit_textcolor = "darkred", envfit_numeric_arrows_scale = 1,
-  envfit_arrowcolor = "darkred", envfit_show = TRUE,
-  repel_labels = TRUE, opacity = 0.8, tax_empty = "best",
-  detailed_output = FALSE, num_threads = 1L, ...)
+amp_ordinate(
+  data,
+  filter_species = 0.1,
+  type = "PCA",
+  distmeasure = "bray",
+  transform = "hellinger",
+  constrain = NULL,
+  x_axis = 1,
+  y_axis = 2,
+  print_caption = FALSE,
+  sample_color_by = NULL,
+  sample_color_order = NULL,
+  sample_shape_by = NULL,
+  sample_colorframe = FALSE,
+  sample_colorframe_label = NULL,
+  sample_colorframe_label_size = 3,
+  sample_label_by = NULL,
+  sample_label_size = 4,
+  sample_label_segment_color = "black",
+  sample_point_size = 2,
+  sample_trajectory = NULL,
+  sample_trajectory_group = NULL,
+  sample_plotly = NULL,
+  species_plot = FALSE,
+  species_nlabels = 0,
+  species_label_taxonomy = "Genus",
+  species_label_size = 3,
+  species_label_color = "grey10",
+  species_rescale = FALSE,
+  species_point_size = 2,
+  species_shape = 20,
+  species_plotly = FALSE,
+  envfit_factor = NULL,
+  envfit_numeric = NULL,
+  envfit_signif_level = 0.005,
+  envfit_textsize = 3,
+  envfit_textcolor = "darkred",
+  envfit_numeric_arrows_scale = 1,
+  envfit_arrowcolor = "darkred",
+  envfit_show = TRUE,
+  repel_labels = TRUE,
+  opacity = 0.8,
+  tax_empty = "best",
+  detailed_output = FALSE,
+  num_threads = 1L,
+  ...
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
@@ -43,13 +71,13 @@ amp_ordinate(data, filter_species = 0.1, type = "PCA",
 
 \item{distmeasure}{(\emph{required for nMDS and PCoA}) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:
 \itemize{
-  \item \code{"wunifrac"}: Weighted UniFrac distances. Requires a rooted phylogenetic tree.
-  \item \code{"unifrac"}: Unweighted UniFrac distances. Requires a phylogenetic tree.
-  \item \code{"jsd"}: Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
+  \item \code{"wunifrac"} (PCoA only): Weighted UniFrac distances. Requires a rooted phylogenetic tree.
+  \item \code{"unifrac"} (PCoA only): Unweighted UniFrac distances. Requires a phylogenetic tree.
+  \item \code{"jsd"} (PCoA only): Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
   \item Any of the distance measures supported by \code{\link[vegan]{vegdist}}: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}.
-  \item or \code{"none"}. (\emph{default})
  }
-You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}.}
+You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}.
+Default is \code{bray}.}
 
 \item{transform}{(\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (\emph{default:} \code{"hellinger"})}
 

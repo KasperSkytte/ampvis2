@@ -6,24 +6,31 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Core community analysis — amp_core • ampvis2</title>
+<title>Grouped core community analysis — amp_core • ampvis2</title>
+
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,15 +39,17 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Core community analysis — amp_core" />
 
-<meta property="og:description" content="Generates a core community plot." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Grouped core community analysis — amp_core" />
+<meta property="og:description" content="Core community plot to investigate how many of the most abundant OTU's comprise the &quot;core&quot; of groups of samples, their abundances etc." />
+
+
+
 
 
 
@@ -64,9 +73,16 @@
   gtag('config', 'UA-93913019-2');
 </script>
 
+
+  
+
+  
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
       </span>
     </div>
 
@@ -99,11 +115,10 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MadsAlbertsen/ampvis2">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -120,133 +135,136 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Core community analysis</h1>
-    
+    <h1>Grouped core community analysis</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MadsAlbertsen/ampvis2/blob/master/R/amp_core.R'><code>R/amp_core.R</code></a></small>
     <div class="hidden name"><code>amp_core.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-    <p>Generates a core community plot.</p>
-    
+    <p>Core community plot to investigate how many of the most abundant OTU's comprise the "core" of groups of samples, their abundances etc.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>amp_core</span>(<span class='no'>data</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='st'>"Sample"</span>, <span class='kw'>abund_thrh</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"OTU"</span>, <span class='kw'>tax_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tax_empty</span> <span class='kw'>=</span> <span class='st'>"best"</span>,
-  <span class='kw'>plotly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>normalise</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>detailed_output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>amp_core</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>group_by</span>,
+  core_pct <span class='op'>=</span> <span class='fl'>80</span>,
+  margin_plots <span class='op'>=</span> <span class='st'>"xy"</span>,
+  margin_plot_values_size <span class='op'>=</span> <span class='fl'>3</span>,
+  widths <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>)</span>,
+  heights <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>5</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(<em>required</em>) Data list as loaded with <code>amp_load</code>.</p></td>
+      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
     </tr>
     <tr>
       <th>group_by</th>
-      <td><p>Group the samples by a variable in the metadata. (<em>default:</em> <code>"Sample"</code>)</p></td>
+      <td><p>(<em>required</em>) Character vector of one or more variable name(s) in the sample metadata which contain the desired grouping of samples, fx where the samples have been taken. Can also be done by sample, just provide the name of the first variable containing unique sample ID's if so.</p></td>
     </tr>
     <tr>
-      <th>abund_thrh</th>
-      <td><p>Threshold in percent for defining "abundant"/"core" taxa. (<em>default:</em> <code>0.1</code>)</p></td>
+      <th>core_pct</th>
+      <td><p>Threshold in percent for defining "abundant" a.k.a. "core" OTU's for each group. (<em>default:</em> <code>80</code>)</p></td>
     </tr>
     <tr>
-      <th>tax_aggregate</th>
-      <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"OTU"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>tax_class</th>
-      <td><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>tax_empty</th>
-      <td><p>How to show OTUs without taxonomic information. One of the following:</p><ul>
-<li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
-<li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
-<li><p><code>"OTU"</code>: Display the OTU name.</p></li>
+      <th>margin_plots</th>
+      <td><p>Character vector defining which margin plots to show. Margin plots display the cumulative read abundances of all OTU's per group sharing either x or y axis with the main plot. Any of:</p><ul>
+<li><p><code>"x"</code>: Only show x axis margin plot.</p></li>
+<li><p><code>"y"</code>: Only show y axis margin plot.</p></li>
+<li><p><code>"xy"</code> (<em>default</em>): Show both x and y margin plots.</p></li>
+<li><p><code>""</code> or <code>NULL</code> (or anything else): Don't show any margin plots.</p></li>
 </ul></td>
     </tr>
     <tr>
-      <th>plotly</th>
-      <td><p>(<em>logical</em>) Returns an interactive plot instead. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <th>margin_plot_values_size</th>
+      <td><p>The size of the values indicated in the margin plots on top of the bars. Set to <code>0</code> to disable. (<em>default:</em> <code>3</code>)</p></td>
     </tr>
     <tr>
-      <th>normalise</th>
-      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></td>
+      <th>widths</th>
+      <td><p>Numeric vector with relative widths of the main and y margin plots. (<em>default:</em> <code><a href='https://rdrr.io/r/base/c.html'>c(5,1)</a></code>)</p></td>
     </tr>
     <tr>
-      <th>detailed_output</th>
-      <td><p>(<em>logical</em>) Return additional details or not. If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code><a href='https://rdrr.io/r/utils/View.html'>View(object$data)</a></code>. (<em>default:</em> <code>FALSE</code>)</p></td>
+      <th>heights</th>
+      <td><p>Numeric vector with relative widths of the main and x margin plots. (<em>default:</em> <code><a href='https://rdrr.io/r/base/c.html'>c(1,5)</a></code>)</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
-    
+    <p>If no margin plots a <code>ggplot</code> object, otherwise a list with ggplot objects.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Plots the number of samples a given OTU is observed in (first axis) against the number of samples it is abundant in (second axis), as defined by the threshold. By setting the <code>group_by</code> argument to a variable in the metadata, then the axes will show their frequency in this group instead of per sample.</p>
-<p>The OTU points can be aggregated by the taxonomy by setting fx <code>tax_aggregate = "Phylum"</code>. To see the corresponding taxonomy of the OTUs use <code>plotly = TRUE</code> for an interactive plot.</p>
-    
-    <h2 class="hasAnchor" id="preserving-relative-abundances-in-a-subset-of-larger-data"><a class="anchor" href="#preserving-relative-abundances-in-a-subset-of-larger-data"></a>Preserving relative abundances in a subset of larger data</h2>
+    <p>This analysis only makes sense without aggregating OTU's to any taxonomic level, or else it will be biased by taxonomy and only be done on OTU's that have been classified, which is rarely all.</p>
+    <h2 class="hasAnchor" id="saving-plot-with-ggsave"><a class="anchor" href="#saving-plot-with-ggsave"></a>Saving plot with <code><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggsave</a></code></h2>
 
     
-    <p>See <code>?amp_subset_samples</code> or the <a href='https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data'>ampvis2 FAQ</a>.</p>
-    
+
+<p>When any margin plots are generated <code>amp_core</code> returns a list of ggplot objects to allow adjusting themes etc. of the individual subplots. The list is of class <code>coreplot</code> and a matching print function for the S3 class then stitches together the individual plots using the <code>patchwork</code> package. Therefore to save the plot with <code><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggsave</a></code> simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if no margin plots are generated, as the returned object is then a regular ggplot object.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): The activated sludge ecosystem contains a core community of abundant organisms, ISME Journal 10, 11-20. <a href='https://doi.org/10.1038/ismej.2015.117'>https://doi.org/10.1038/ismej.2015.117</a></p>
-    
+    <p>Marta Nierychlo, Kasper Skytte Andersen, Yijuan Xu, Nicholas Green, Chenjing Jiang, Mads Albertsen, Morten Simonsen Dueholm, Per Halkjær Nielsen (2020): "MiDAS 3: An ecosystem-specific reference database, taxonomy and knowledge platform for activated sludge and anaerobic digesters reveals species-level microbiome composition of activated sludge", Water Research, Volume 182. <a href='https://doi.org/10.1016/j.watres.2020.115955'>https://doi.org/10.1016/j.watres.2020.115955</a>
+Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): "The activated sludge ecosystem contains a core community of abundant organisms", ISME Journal 10, 11-20. <a href='https://doi.org/10.1038/ismej.2015.117'>https://doi.org/10.1038/ismej.2015.117</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>amp_load</code></p></div>
-    
+    <div class='dont-index'><p><code><a href='amp_load.html'>amp_load</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
-
-<span class='co'># Core plot</span>
-<span class='fu'>amp_core</span>(<span class='no'>AalborgWWTPs</span>)</div><div class='img'><img src='amp_core-1.png' alt='' width='700' height='433' /></div></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#preserving-relative-abundances-in-a-subset-of-larger-data">Preserving relative abundances in a subset of larger data</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
     <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
 <p>Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a></p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># load example data</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"MiDAS"</span><span class='op'>)</span>
+
+<span class='co'># generate core analysis plot grouped by WWTP</span>
+<span class='va'>plot</span> <span class='op'>&lt;-</span> <span class='fu'>amp_core</span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='va'>MiDAS</span>,
+  group_by <span class='op'>=</span> <span class='st'>"Plant"</span>,
+  core_pct <span class='op'>=</span> <span class='fl'>80</span>,
+  margin_plots <span class='op'>=</span> <span class='st'>"xy"</span>,
+  margin_plot_values_size <span class='op'>=</span> <span class='fl'>0</span> <span class='co'># set to 0 to not show values in margin plots</span>
+<span class='op'>)</span>
+
+<span class='co'># adjust axes manually</span>
+<span class='va'>plot</span><span class='op'>$</span><span class='va'>mainplot</span> <span class='op'>&lt;-</span> <span class='va'>plot</span><span class='op'>$</span><span class='va'>mainplot</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_discrete</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>0</span>, to <span class='op'>=</span> <span class='fl'>36</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_discrete</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>0</span>, to <span class='op'>=</span> <span class='fl'>36</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>plot</span><span class='op'>$</span><span class='va'>marginplot_x</span> <span class='op'>&lt;-</span> <span class='va'>plot</span><span class='op'>$</span><span class='va'>marginplot_x</span> <span class='op'>+</span> <span class='fu'>scale_x_discrete</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>0</span>, to <span class='op'>=</span> <span class='fl'>36</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>plot</span><span class='op'>$</span><span class='va'>marginplot_y</span> <span class='op'>&lt;-</span> <span class='va'>plot</span><span class='op'>$</span><span class='va'>marginplot_y</span> <span class='op'>+</span> <span class='fu'>scale_x_discrete</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>0</span>, to <span class='op'>=</span> <span class='fl'>36</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># show plot</span>
+<span class='va'>plot</span>
+</div><div class='img'><img src='amp_core-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># To save the plot with ggsave() wrap the plot object in print()</span>
+<span class='co'># ggsave("plot.png", print(plot))</span>
+</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
-  <p>Developed by Mads Albertsen, Kasper Skytte Andersen.</p>
+  <p><p>Developed by Mads Albertsen, Kasper Skytte Andersen, Rasmus Hansen Kirkegaard.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
+
       </footer>
    </div>
 
@@ -269,6 +287,10 @@
 </script>
 
 
+
+  
+
   </body>
 </html>
+
 

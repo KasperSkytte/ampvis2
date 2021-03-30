@@ -4,7 +4,9 @@
 \name{example_metadata}
 \alias{example_metadata}
 \title{A minimal example of sample metadata}
-\format{a data frame.}
+\format{
+a data frame.
+}
 \description{
 A minimal example of a metadata sheet that is compatible with \code{\link{amp_load}} and ampvis2 functions.
 }

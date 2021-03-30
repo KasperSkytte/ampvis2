@@ -4,17 +4,38 @@
 \alias{amp_heatmap}
 \title{Heatmap}
 \usage{
-amp_heatmap(data, group_by = NULL, facet_by = NULL, normalise = TRUE,
-  tax_aggregate = "Phylum", tax_add = NULL, tax_show = 10,
-  tax_class = NULL, tax_empty = "best", order_x_by = NULL,
-  order_y_by = NULL, plot_values = TRUE, plot_values_size = 4,
-  plot_legendbreaks = NULL, plot_colorscale = "log10",
-  plot_na = TRUE, measure = "mean", min_abundance = 0.1,
-  max_abundance = NULL, sort_by = NULL, normalise_by = NULL,
-  scale_by = NULL, color_vector = NULL, round = 1, textmap = FALSE,
-  plot_functions = FALSE, function_data = NULL,
+amp_heatmap(
+  data,
+  group_by = NULL,
+  facet_by = NULL,
+  normalise = TRUE,
+  tax_aggregate = "Phylum",
+  tax_add = NULL,
+  tax_show = 10,
+  showRemainingTaxa = FALSE,
+  tax_class = NULL,
+  tax_empty = "best",
+  order_x_by = NULL,
+  order_y_by = NULL,
+  plot_values = TRUE,
+  plot_values_size = 4,
+  plot_legendbreaks = NULL,
+  plot_colorscale = "log10",
+  plot_na = TRUE,
+  measure = "mean",
+  min_abundance = 0.1,
+  max_abundance = NULL,
+  sort_by = NULL,
+  normalise_by = NULL,
+  scale_by = NULL,
+  color_vector = NULL,
+  round = 1,
+  textmap = FALSE,
+  plot_functions = FALSE,
+  function_data = NULL,
   functions = c("MiDAS", "Filamentous", "AOB", "NOB", "PAO", "GAO"),
-  rel_widths = c(0.75, 0.25))
+  rel_widths = c(0.75, 0.25)
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
@@ -30,6 +51,8 @@ amp_heatmap(data, group_by = NULL, facet_by = NULL, normalise = TRUE,
 \item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
 
 \item{tax_show}{The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{10})}
+
+\item{showRemainingTaxa}{Add an additional row at the bottom displaying the sum of all remaining taxa that are not part of the top \code{tax_show} most abundant taxa. (\emph{default:} \code{FALSE})}
 
 \item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 
@@ -74,14 +97,14 @@ amp_heatmap(data, group_by = NULL, facet_by = NULL, normalise = TRUE,
 
 \item{plot_functions}{Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. By default, this functional information is retrieved directly from \url{midasfieldguide.org}. When using this feature, make sure that either \code{tax_aggregate} or \code{tax_add} is set to "Genus" and that Genus is the lowest level in either. (\emph{default:} \code{FALSE})}
 
-\item{function_data}{If \code{plot_functions} is set to \code{TRUE}: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If \code{NULL} then data will be retrieved directly from \url{midasfieldguide.org}, if no internet access, the \code{data("MiF")} dataset will be used instead. (\emph{default:} \code{NULL})}
+\item{function_data}{If \code{plot_functions} is set to \code{TRUE}: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If \code{NULL} then data will be retrieved directly from \url{midasfieldguide.org}. (\emph{default:} \code{NULL})}
 
 \item{functions}{If \code{plot_functions} is set to \code{TRUE}: A vector with the functions to be displayed (column names in the \code{functions_data} data frame). If data is succesfully retrieved from \url{midasfieldguide.org} then available functions can be listed with \code{colnames(.ampvis2_midasfg_function_data)}. (\emph{default:} \code{c("MiDAS","Filamentous", "AOB", "NOB", "PAO", "GAO")})}
 
 \item{rel_widths}{If \code{plot_functions} is set to \code{TRUE}: A vector with the relative widths of the heatmap and function grid when \code{plot_functions = TRUE}. (\emph{default:} \code{c(0.75, 0.25)})}
 }
 \value{
-A ggplot2 object, or a data frame if \code{textmap = TRUE}.
+A ggplot2 object, or a list of ggplot2 objects if \code{plot_functions = TRUE}. A data frame if \code{textmap = TRUE}.
 }
 \description{
 Generates a heatmap of amplicon data by using sample metadata to aggregate samples and taxonomy to aggregate OTUs.
@@ -105,6 +128,11 @@ amp_heatmap(subsettedData,
 }
 }
 
+\section{Saving plot with \code{\link[ggplot2]{ggsave}}}{
+
+When \code{plot_functions = TRUE} a list of ggplot objects is returned to allow adjusting themes etc. of the individual subplots. The list is of class \code{hmfunplot} and a matching print function for the S3 class then stitches together the individual plots using the \code{\link{patchwork}} package. Therefore to save the plot with \code{\link[ggplot2]{ggsave}} simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if \code{plot_functions = FALSE}, as the returned object is then a regular ggplot object.
+}
+
 \section{Accessing detailed raw data}{
 
 The complete raw data used to generate any ggplot can always be accessed with \code{ggplot2_object$data} when the plot is saved as a ggplot2 object. Additionally, a "textmap" version of the generated heatmap can also be generated by setting \code{textmap = TRUE} to only extract the raw data as shown on the particular heatmap, see examples.
@@ -118,12 +146,14 @@ data("AalborgWWTPs")
 amp_heatmap(AalborgWWTPs, group_by = "Plant")
 
 # Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year,
-# values not plotted for visibility, phylum name added and colorscale adjusted manually
+# values not plotted for visibility, phylum name added, colorscale adjusted manually,
+# and show the sum of remaining taxa not part of the top 20 most abundant taxa
 amp_heatmap(AalborgWWTPs,
   group_by = "Plant",
   facet_by = "Year",
   plot_values = FALSE,
   tax_show = 20,
+  showRemainingTaxa = TRUE,
   tax_aggregate = "Genus",
   tax_add = "Phylum",
   color_vector = c("white", "red"),
@@ -135,20 +165,24 @@ amp_heatmap(AalborgWWTPs,
 # By default this information is retrieved directly from midasfieldguide.org
 # but you can provide your own with the function_data argument as shown in the
 # textmap
-amp_heatmap(AalborgWWTPs,
+heatmapwfunctions <- amp_heatmap(AalborgWWTPs,
   group_by = "Plant",
   tax_aggregate = "Genus",
   plot_functions = TRUE,
   functions = c("PAO", "GAO", "AOB", "NOB")
 )
 
+class(heatmapwfunctions)
+
+# To save the plot with ggsave() wrap the plot object in print()
+# ggsave("plot.png", print(heatmapwfunctions))
+
 # A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.
-# Notice the function_data is now retrieved from the MiF data frame
 textmap <- amp_heatmap(AalborgWWTPs,
   group_by = "Plant",
   tax_aggregate = "Genus",
   plot_functions = TRUE,
-  function_data = MiF,
+  function_data = NULL,
   functions = c("PAO", "GAO", "AOB", "NOB"),
   textmap = TRUE
 )

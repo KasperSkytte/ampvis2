@@ -4,12 +4,25 @@
 \alias{amp_boxplot}
 \title{Boxplot}
 \usage{
-amp_boxplot(data, group_by = "Sample", sort_by = "median",
-  plot_type = "boxplot", point_size = 1, tax_aggregate = "Genus",
-  tax_add = NULL, tax_show = 20, tax_empty = "best",
-  tax_class = NULL, order_group = NULL, order_y = NULL,
-  plot_flip = FALSE, plot_log = FALSE, adjust_zero = NULL,
-  normalise = TRUE, detailed_output = FALSE)
+amp_boxplot(
+  data,
+  group_by = "Sample",
+  sort_by = "median",
+  plot_type = "boxplot",
+  point_size = 1,
+  tax_aggregate = "Genus",
+  tax_add = NULL,
+  tax_show = 20,
+  tax_empty = "best",
+  tax_class = NULL,
+  order_group = NULL,
+  order_y = NULL,
+  plot_flip = FALSE,
+  plot_log = FALSE,
+  adjust_zero = NULL,
+  normalise = TRUE,
+  detailed_output = FALSE
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
