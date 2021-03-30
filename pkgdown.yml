@@ -1,0 +1,11 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  ampvis2: ampvis2.html
+  faq: faq.html
+last_built: 2021-03-30T12:20Z
+urls:
+  reference: https://madsalbertsen.github.io/ampvis2/reference
+  article: https://madsalbertsen.github.io/ampvis2/articles
+
