@@ -13,3 +13,4 @@
 ^renv$
 ^renv\.lock$
 ^\.github$
+^pkgdown$
