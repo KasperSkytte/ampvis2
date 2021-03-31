@@ -11,7 +11,9 @@ An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.
 A smaller subset of \code{\link{MiDAS}} with 50 samples from 2 Danish Wastewater Treatment Plants; Aalborg West and Aalborg East.
 }
 \examples{
-data(AalborgWWTPs)
-AalborgWWTPs
+\dontrun{
+data("AalborgWWTPs")
+View(AalborgWWTPs)
+}
 }
 \keyword{data}

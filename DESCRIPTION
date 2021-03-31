@@ -2,19 +2,19 @@ Package: ampvis2
 Type: Package
 Title: Tools for visualising amplicon data
 Description: ampvis2 is a small set of tools that allows effortless visualisation of amplicon data.
-Version: 2.7.2
+Version: 2.7.4
 Date: 2017-11-15
 Authors@R: c(
-  person(
-    "Mads", "Albertsen", 
-    role = c("aut", "cre"), 
-    email = "MadsAlbertsen85@gmail.com",
-    comment = c(ORCID = "0000-0002-6151-190X")),
   person(
     c("Kasper", "Skytte"), "Andersen", 
     role = c("aut"),
     email = "ksa@bio.aau.dk",
     comment = c(ORCID = "0000-0002-5423-0958")),
+  person(
+    "Mads", "Albertsen", 
+    role = c("aut", "cre"), 
+    email = "MadsAlbertsen85@gmail.com",
+    comment = c(ORCID = "0000-0002-6151-190X")),
   person(
     c("Rasmus", "Hansen"), "Kirkegaard",
     role = c("aut"),
@@ -24,47 +24,44 @@ Maintainer: Kasper Skytte Andersen <ksa@bio.aau.dk>
 Reference: Andersen, K.S., Kirkegaard, R.H., Karst, S.M., Albertsen, M., (2018). 
   ampvis2: an R package to analyse and visualise 16S rRNA amplicon data
   bioRxiv, https://doi.org/10.1101/299537
-License: AGPL-3
+License: AGPL-3 + file LICENSE
 URL: https://madsalbertsen.github.io/ampvis2
 BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
 LazyData: true
+LazyDataCompression: bzip2
 Encoding: UTF-8
 Depends:
     R (>= 3.5.0),
     ggplot2
 Imports:
     utils,
-    tidyverse,
-    readxl,
     plyr,
     dplyr,
     magrittr,
     vegan,
     tidyr,
     purrr,
-    jsonlite,
     data.table,
     plotly,
     stringr,
-    digest,
     scales,
     RColorBrewer,
     ggrepel,
     ape,
-    network,
-    ggnet,
-    lubridate,
     crayon,
     cli,
-    biomformat,
-    doParallel,
-    parallel,
-    foreach,
-    patchwork
-Remotes: 
-    github::kasperskytte/ggnet,
-    github::kasperskytte/biomformat
+    parallel
 RoxygenNote: 7.1.1
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tidyverse,
+    readxl,
+    jsonlite,
+    digest,
+    ggnet (>= 0.1.0),
+    lubridate,
+    biomformat,
+    doParallel,
+    foreach,
+    patchwork
 Config/testthat/edition: 3

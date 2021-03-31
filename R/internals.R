@@ -136,9 +136,9 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
 #' @description Gets all fields from the MiDAS field guide (\url{https://midasfieldguide.org}) returned in a list.
 #'
 #' @return A list with all fields.
-#' @importFrom jsonlite read_json
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 getMiDASFGData <- function() {
+  checkReqPkg("jsonlite")
   jsonlite::read_json("http://midasfieldguide.org/api/microbes/fieldguide")
 }
 
@@ -191,8 +191,6 @@ extractFunctions <- function(FGList) {
 #' @param num_threads The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}}. (\emph{default:} \code{1})
 #'
 #' @importFrom ape is.rooted node.depth node.depth.edgelength reorder.phylo
-#' @importFrom doParallel registerDoParallel
-#' @importFrom foreach foreach registerDoSEQ %dopar%
 #' @return A distance matrix of class \code{dist}.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 unifrac <- function(abund,
@@ -200,6 +198,10 @@ unifrac <- function(abund,
                     weighted = FALSE,
                     normalise = TRUE,
                     num_threads = 1L) {
+  checkReqPkg("doParallel")
+  # foreach is installed with doParallel, but its namespace needs to be loaded
+  checkReqPkg("foreach")
+
   # check tree
   if (!class(tree) == "phylo") {
     stop("The provided phylogenetic tree must be of class \"phylo\" as loaded with the ape::read.tree() function.", call. = FALSE)
@@ -528,13 +530,33 @@ filter_species <- function(data, filter_species = 0) {
 #'
 #' @param data Object to check
 #'
-#' @return Returns nothing, only error if \code{class(data) != "ampvis"}.
+#' @return Returns error if \code{!inherits(data, "ampvis2")}, otherwise \code{invisible(TRUE)}.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 is_ampvis2 <- function(data) {
-  if (class(data) != "ampvis2") {
+  if (!inherits(data, "ampvis2")) {
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   }
-  invisible()
+  invisible(TRUE)
+}
+
+#' @title Check for installed package
+#' @description Returns error if a required package is not installed. Mostly used for checking whether packages listed under the Suggests field in the DESCRIPTION file is installed.
+#'
+#' @param pkg The package to check for, a character of length 1.
+#' @param msg Optionally additional text appended (with \code{paste0}) to the default error message.
+#'
+#' @return Returns error and message if not installed, otherwise \code{invisible(TRUE)}
+#' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+checkReqPkg <- function(pkg, msg = "") {
+  stopifnot(is.character(pkg), length(pkg) == 1L, nchar(pkg) > 0)
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stopifnot(is.character(msg))
+    stop(
+      paste0("Package '", pkg, "' is required but not installed.", msg),
+      call. = FALSE
+    )
+  }
+  require(pkg, quietly = TRUE, character.only = TRUE)
 }
 
 #' Replacement for ":::" to suppress R CMD CHECK warnings
