@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Export OTU-table — amp_export_otutable • ampvis2</title>
+<title>Check for installed package — checkReqPkg • ampvis2</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Export OTU-table — amp_export_otutable" />
-<meta property="og:description" content="Export otutable (including taxonomy) from an ampvis2 object as CSV using write.table." />
+<meta property="og:title" content="Check for installed package — checkReqPkg" />
+<meta property="og:description" content="Returns error if a required package is not installed. Mostly used for checking whether packages listed under the Suggests field in the DESCRIPTION file is installed." />
 
 
 
@@ -133,83 +133,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Export OTU-table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MadsAlbertsen/ampvis2/blob/master/R/amp_export_otutable.R'><code>R/amp_export_otutable.R</code></a></small>
-    <div class="hidden name"><code>amp_export_otutable.Rd</code></div>
+    <h1>Check for installed package</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MadsAlbertsen/ampvis2/blob/master/R/internals.R'><code>R/internals.R</code></a></small>
+    <div class="hidden name"><code>checkReqPkg.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Export otutable (including taxonomy) from an ampvis2 object as CSV using <code><a href='https://rdrr.io/r/utils/write.table.html'>write.table</a></code>.</p>
+    <p>Returns error if a required package is not installed. Mostly used for checking whether packages listed under the Suggests field in the DESCRIPTION file is installed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>amp_export_otutable</span><span class='op'>(</span>
-  <span class='va'>data</span>,
-  filename <span class='op'>=</span> <span class='st'>"exported_otutable"</span>,
-  extension <span class='op'>=</span> <span class='st'>"csv"</span>,
-  md5 <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  sep <span class='op'>=</span> <span class='st'>"\t"</span>,
-  id <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sort_samples <span class='op'>=</span> <span class='cn'>NULL</span>,
-  normalise <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>checkReqPkg</span><span class='op'>(</span><span class='va'>pkg</span>, msg <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>(<em>required</em>) Data list as loaded with <code><a href='amp_load.html'>amp_load</a></code>.</p></td>
+      <th>pkg</th>
+      <td><p>The package to check for, a character of length 1.</p></td>
     </tr>
     <tr>
-      <th>filename</th>
-      <td><p>File name of the exported OTU-table (excluding extension). (<em>default:</em> <code>"exported_otutable"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>extension</th>
-      <td><p>File extension (without <code>"."</code>). (<em>default:</em> <code>"csv"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>md5</th>
-      <td><p>(<em>logical</em>) Compute md5 sum of the data (the whole R-object, not just otutable) and append to the filename. (<em>default:</em> <code>FALSE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>sep</th>
-      <td><p>Separator passed directly to <code><a href='https://Rdatatable.gitlab.io/data.table/reference/fwrite.html'>fwrite</a></code>. (<em>default:</em> <code>"\t"</code>)</p></td>
-    </tr>
-    <tr>
-      <th>id</th>
-      <td><p>Name the samples using a variable in the metadata.</p></td>
-    </tr>
-    <tr>
-      <th>sort_samples</th>
-      <td><p>Vector to sort the samples by.</p></td>
-    </tr>
-    <tr>
-      <th>normalise</th>
-      <td><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>FALSE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed on to <code><a href='https://Rdatatable.gitlab.io/data.table/reference/fwrite.html'>fwrite</a></code> (other than <code>sep</code>).</p></td>
+      <th>msg</th>
+      <td><p>Optionally additional text appended (with <code>paste0</code>) to the default error message.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Returns error and message if not installed, otherwise <code><a href='https://rdrr.io/r/base/invisible.html'>invisible(TRUE)</a></code></p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
-<p>Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a></p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"AalborgWWTPs"</span><span class='op'>)</span>
-
-<span class='co'># Export OTU-table</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>amp_export_otutable</span><span class='op'>(</span><span class='va'>AalborgWWTPs</span>, md5 <span class='op'>=</span> <span class='cn'>TRUE</span>, filename <span class='op'>=</span> <span class='st'>"AalborgWWTPs_otutable"</span>, sep <span class='op'>=</span> <span class='st'>"\\t"</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

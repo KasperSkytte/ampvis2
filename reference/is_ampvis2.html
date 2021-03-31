@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.4</span>
       </span>
     </div>
 
@@ -155,7 +155,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns nothing, only error if <code>class(data) != "ampvis"</code>.</p>
+    <p>Returns error if <code>!inherits(data, "ampvis2")</code>, otherwise <code><a href='https://rdrr.io/r/base/invisible.html'>invisible(TRUE)</a></code>.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Kasper Skytte Andersen <a href='mailto:ksa@bio.aau.dk'>ksa@bio.aau.dk</a></p>
@@ -171,7 +171,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Mads Albertsen, Kasper Skytte Andersen, Rasmus Hansen Kirkegaard.</p>
+  <p>Developed by Kasper Skytte Andersen, Mads Albertsen, Rasmus Hansen Kirkegaard.</p>
 </div>
 
 <div class="pkgdown">
