@@ -46,7 +46,7 @@ This analysis only makes sense without aggregating OTU's to any taxonomic level,
 }
 \section{Saving plot with \code{\link[ggplot2]{ggsave}}}{
 
-When any margin plots are generated \code{\link{amp_core}} returns a list of ggplot objects to allow adjusting themes etc. of the individual subplots. The list is of class \code{coreplot} and a matching print function for the S3 class then stitches together the individual plots using the \code{\link{patchwork}} package. Therefore to save the plot with \code{\link[ggplot2]{ggsave}} simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if no margin plots are generated, as the returned object is then a regular ggplot object.
+When any margin plots are generated \code{\link{amp_core}} returns a list of ggplot objects to allow adjusting themes etc. of the individual subplots. The list is of class \code{coreplot} and a matching print function for the S3 class then stitches together the individual plots using the \href{https://patchwork.data-imaginist.com/}{patchwork} package. Therefore to save the plot with \code{\link[ggplot2]{ggsave}} simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if no margin plots are generated, as the returned object is then a regular ggplot object.
 }
 
 \examples{
@@ -76,8 +76,8 @@ plot
 # ggsave("plot.png", print(plot))
 }
 \references{
-Marta Nierychlo, Kasper Skytte Andersen, Yijuan Xu, Nicholas Green, Chenjing Jiang, Mads Albertsen, Morten Simonsen Dueholm, Per Halkjær Nielsen (2020): "MiDAS 3: An ecosystem-specific reference database, taxonomy and knowledge platform for activated sludge and anaerobic digesters reveals species-level microbiome composition of activated sludge", Water Research, Volume 182. \url{https://doi.org/10.1016/j.watres.2020.115955}
-Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): "The activated sludge ecosystem contains a core community of abundant organisms", ISME Journal 10, 11-20. \url{https://doi.org/10.1038/ismej.2015.117}
+Marta Nierychlo, Kasper Skytte Andersen, Yijuan Xu, Nicholas Green, Chenjing Jiang, Mads Albertsen, Morten Simonsen Dueholm, Per Halkjær Nielsen (2020): "MiDAS 3: An ecosystem-specific reference database, taxonomy and knowledge platform for activated sludge and anaerobic digesters reveals species-level microbiome composition of activated sludge", Water Research, Volume 182. \doi{10.1016/j.watres.2020.115955}
+Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): "The activated sludge ecosystem contains a core community of abundant organisms", ISME Journal 10, 11-20. \doi{10.1038/ismej.2015.117}
 }
 \seealso{
 \code{\link{amp_load}}
