@@ -51,7 +51,9 @@ Imports:
     crayon,
     cli,
     parallel
-RoxygenNote: 7.1.1
+Remotes: 
+    github::kasperskytte/ggnet,
+    github::kasperskytte/biomformat
 Suggests: 
     testthat (>= 3.0.0),
     tidyverse,
@@ -64,4 +66,5 @@ Suggests:
     doParallel,
     foreach,
     patchwork
+RoxygenNote: 7.1.1
 Config/testthat/edition: 3
