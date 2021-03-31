@@ -198,11 +198,10 @@ unifrac <- function(abund,
                     weighted = FALSE,
                     normalise = TRUE,
                     num_threads = 1L) {
-  
   checkReqPkg("doParallel")
-  #foreach is installed with doParallel, but its namespace needs to be loaded
+  # foreach is installed with doParallel, but its namespace needs to be loaded
   checkReqPkg("foreach")
-  
+
   # check tree
   if (!class(tree) == "phylo") {
     stop("The provided phylogenetic tree must be of class \"phylo\" as loaded with the ape::read.tree() function.", call. = FALSE)
@@ -534,7 +533,7 @@ filter_species <- function(data, filter_species = 0) {
 #' @return Returns error if \code{!inherits(data, "ampvis2")}, otherwise \code{invisible(TRUE)}.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 is_ampvis2 <- function(data) {
-  if (inherits(data, "ampvis2")) {
+  if (!inherits(data, "ampvis2")) {
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   }
   invisible(TRUE)
@@ -550,14 +549,14 @@ is_ampvis2 <- function(data) {
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 checkReqPkg <- function(pkg, msg = "") {
   stopifnot(is.character(pkg), length(pkg) == 1L, nchar(pkg) > 0)
-  if(!requireNamespace(pkg, quietly = TRUE)) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
     stopifnot(is.character(msg))
     stop(
-      paste0("Package '", pkg, "' is required but not installed.", msg), 
+      paste0("Package '", pkg, "' is required but not installed.", msg),
       call. = FALSE
     )
   }
-  invisible(TRUE)
+  require(pkg, quietly = TRUE, character.only = TRUE)
 }
 
 #' Replacement for ":::" to suppress R CMD CHECK warnings
