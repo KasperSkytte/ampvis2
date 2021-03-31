@@ -56,8 +56,11 @@ amp_otu_network <- function(data,
                             normalise = TRUE,
                             detailed_output = FALSE,
                             ...) {
-  checkReqPkg("ggnet")
-  
+  checkReqPkg(
+    "ggnet",
+    " Please install with:\n  remotes::install_github(\"kasperskytte/ggnet\")")
+  checkReqPkg("network")
+
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 
@@ -137,10 +140,10 @@ amp_otu_network <- function(data,
     subset(Abundance > min_abundance) %>%
     # Subset to dominant species in each sample
     select(-Abundance) %>%
-    network::network(directed = FALSE)
+    network(directed = FALSE)
 
   ## Add data to nodes
-  x <- data.frame(SampleID = network::network.vertex.names(netw), stringsAsFactors = F)
+  x <- data.frame(SampleID = network.vertex.names(netw), stringsAsFactors = F)
 
   xsamples <- filter(x, !grepl("Taxa", SampleID)) %>%
     merge(data$metadata, all.x = T, by = 1)
@@ -151,13 +154,13 @@ amp_otu_network <- function(data,
     xsamples$Description <- as.character(xsamples[, color_by])
   }
 
-  network::set.vertex.attribute(netw, "snames", c(rep("Sample", nrow(xsamples)), rep("Taxa", nrow(x) - nrow(xsamples))))
-  network::set.vertex.attribute(netw, "stype", c(xsamples$Description, rep("Taxa", nrow(x) - nrow(xsamples))))
-  network::set.vertex.attribute(netw, "nsize", c(rep(3, nrow(xsamples)), rep(1, nrow(x) - nrow(xsamples))))
+  set.vertex.attribute(netw, "snames", c(rep("Sample", nrow(xsamples)), rep("Taxa", nrow(x) - nrow(xsamples))))
+  set.vertex.attribute(netw, "stype", c(xsamples$Description, rep("Taxa", nrow(x) - nrow(xsamples))))
+  set.vertex.attribute(netw, "nsize", c(rep(3, nrow(xsamples)), rep(1, nrow(x) - nrow(xsamples))))
 
   ## Make network plot
 
-  p <- ggnet::ggnet2(netw,
+  p <- ggnet2(netw,
     color = "stype",
     node.alpha = 0.7,
     edge.color = "grey80",
