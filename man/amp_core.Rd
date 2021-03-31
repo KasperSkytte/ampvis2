@@ -46,7 +46,7 @@ This analysis only makes sense without aggregating OTU's to any taxonomic level,
 }
 \section{Saving plot with \code{\link[ggplot2]{ggsave}}}{
 
-When any margin plots are generated \code{\link{amp_core}} returns a list of ggplot objects to allow adjusting themes etc. of the individual subplots. The list is of class \code{coreplot} and a matching print function for the S3 class then stitches together the individual plots using the \code{\link{patchwork}} package. Therefore to save the plot with \code{\link[ggplot2]{ggsave}} simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if no margin plots are generated, as the returned object is then a regular ggplot object.
+When any margin plots are generated \code{\link{amp_core}} returns a list of ggplot objects to allow adjusting themes etc. of the individual subplots. The list is of class \code{coreplot} and a matching print function for the S3 class then stitches together the individual plots using the \href{https://patchwork.data-imaginist.com/}{patchwork} package. Therefore to save the plot with \code{\link[ggplot2]{ggsave}} simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if no margin plots are generated, as the returned object is then a regular ggplot object.
 }
 
 \examples{

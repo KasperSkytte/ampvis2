@@ -7,7 +7,7 @@
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 print.hmfunplot <- function(x, ...) {
   checkReqPkg("patchwork")
-  
+
   p <- x$heatmap +
     x$functions +
     patchwork::plot_layout(
@@ -27,7 +27,7 @@ print.hmfunplot <- function(x, ...) {
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 print.coreplot <- function(x, ...) {
   checkReqPkg("patchwork")
-  
+
   # if only y margin plot return two columns
   if (is.null(x$marginplot_x)) {
     layout <- NULL

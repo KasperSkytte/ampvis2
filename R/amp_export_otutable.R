@@ -90,7 +90,7 @@ amp_export_otutable <- function(data,
   data.table::fwrite(select(e_bak2, OTU, everything()),
     file = if (isTRUE(md5)) {
       checkReqPkg("digest")
-      sprintf("%s_%s.%s", filename, digest::digest(data), extension) 
+      sprintf("%s_%s.%s", filename, digest::digest(data), extension)
     } else {
       sprintf("%s.%s", filename, extension)
     },

@@ -80,7 +80,7 @@ amp_timeseries <- function(data,
                            plotly = FALSE,
                            ...) {
   checkReqPkg("lubridate")
-  
+
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 
