@@ -15,8 +15,10 @@
 #' @source \href{http://midasfieldguide.org}{MiDAS: Field Guide to the Microbes of Activated Sludge and Anaerobic Digesters}
 #'
 #' @examples
-#' data(MiDAS)
-#' MiDAS
+#' \dontrun{
+#' data("MiDAS")
+#' View(MiDAS)
+#' }
 NULL
 
 #' A subset of the MiDAS example data
@@ -31,8 +33,10 @@ NULL
 #' @keywords data
 #'
 #' @examples
-#' data(AalborgWWTPs)
-#' AalborgWWTPs
+#' \dontrun{
+#' data("AalborgWWTPs")
+#' View(AalborgWWTPs)
+#' }
 NULL
 
 #' A minimal example of an OTU-table

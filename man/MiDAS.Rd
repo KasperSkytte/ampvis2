@@ -14,8 +14,10 @@ An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.
 The microbial community composition of the activated sludge of 55 different Danish Wastewater Treatment Plants from 2006-2013 as determined by 16S rRNA amplicon sequencing using the Illumina platform.
 }
 \examples{
-data(MiDAS)
-MiDAS
+\dontrun{
+data("MiDAS")
+View(MiDAS)
+}
 }
 \references{
 McIlroy et al. (2015); MiDAS: the field guide to the microbes of activated sludge, Database, Volume 2015, bav062
