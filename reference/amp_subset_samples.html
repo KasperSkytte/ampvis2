@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.5</span>
       </span>
     </div>
 
@@ -226,18 +226,18 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 <span class='va'>MiDAS</span>
 </div><div class='output co'>#&gt; ampvis2 object with 5 elements. <span style='text-decoration: underline;'>
 #&gt; Summary of OTU table:
-#&gt; </span><span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
+#&gt; </span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;          658        14969     20890850        10480        46264        31800 
 #&gt;    Avg#Reads 
 #&gt;     31749.01 
-#&gt; </span><span style='text-decoration: underline;'>
+#&gt; <span style='text-decoration: underline;'>
 #&gt; Assigned taxonomy:
-#&gt; </span><span>      Kingdom        Phylum         Class         Order        Family 
+#&gt; </span>      Kingdom        Phylum         Class         Order        Family 
 #&gt;   14969(100%) 14477(96.71%) 12737(85.09%) 11470(76.63%)  9841(65.74%) 
 #&gt;         Genus       Species 
 #&gt;   7380(49.3%)     28(0.19%) 
-#&gt; </span><span style='text-decoration: underline;'>
-#&gt; Metadata variables:</span><span> 5 
+#&gt; <span style='text-decoration: underline;'>
+#&gt; Metadata variables:</span> 5 
 #&gt;  SampleID, Plant, Date, Year, Period</div><div class='input'>
 <span class='co'># Keep only samples containing Aalborg West or East in the Plant column</span>
 <span class='va'>MiDASsubset</span> <span class='op'>&lt;-</span> <span class='fu'>amp_subset_samples</span><span class='op'>(</span><span class='va'>MiDAS</span>, <span class='va'>Plant</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Aalborg West"</span>, <span class='st'>"Aalborg East"</span><span class='op'>)</span><span class='op'>)</span>
@@ -246,20 +246,20 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 #&gt; <span class='message'>After: 68 samples and 9457 OTUs</span></div><div class='input'>
 <span class='co'># Summary</span>
 <span class='va'>MiDASsubset</span>
-</div><div class='output co'>#&gt; ampvis2 object with 5 elements. </span><span style='text-decoration: underline;'>
+</div><div class='output co'>#&gt; ampvis2 object with 5 elements. <span style='text-decoration: underline;'>
 #&gt; Summary of OTU table:
-#&gt; </span><span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
+#&gt; </span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;           68         9457      2072678        17772        44326      30962.5 
 #&gt;    Avg#Reads 
 #&gt;     30480.56 
-#&gt; </span><span style='text-decoration: underline;'>
+#&gt; <span style='text-decoration: underline;'>
 #&gt; Assigned taxonomy:
-#&gt; </span><span>     Kingdom       Phylum        Class        Order       Family        Genus 
+#&gt; </span>     Kingdom       Phylum        Class        Order       Family        Genus 
 #&gt;   9457(100%) 9240(97.71%) 8305(87.82%) 7665(81.05%) 6767(71.56%) 5244(55.45%) 
 #&gt;      Species 
 #&gt;    23(0.24%) 
-#&gt; </span><span style='text-decoration: underline;'>
-#&gt; Metadata variables:</span><span> 5 
+#&gt; <span style='text-decoration: underline;'>
+#&gt; Metadata variables:</span> 5 
 #&gt;  SampleID, Plant, Date, Year, Period</div><div class='input'>
 <span class='co'># Keep only samples containing Aalborg West or East in the Plant column</span>
 <span class='co'># and remove the sample "16SAMP-749". Remove any sample(s) with less than 20000 total reads</span>
@@ -272,21 +272,21 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 #&gt; <span class='message'>After: 64 samples and 9368 OTUs</span></div><div class='input'>
 <span class='co'># Summary</span>
 <span class='va'>MiDASsubset2</span>
-</div><div class='output co'>#&gt; ampvis2 object with 5 elements. </span><span style='text-decoration: underline;'>
+</div><div class='output co'>#&gt; ampvis2 object with 5 elements. <span style='text-decoration: underline;'>
 #&gt; Summary of OTU table:
-#&gt; </span><span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
+#&gt; </span>     Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads 
 #&gt;           64         9368      1987574        21472        44326      31413.5 
 #&gt;    Avg#Reads 
 #&gt;     31055.84 
-#&gt; </span><span style='text-decoration: underline;'>
+#&gt; <span style='text-decoration: underline;'>
 #&gt; Assigned taxonomy:
-#&gt; </span><span>     Kingdom       Phylum        Class        Order       Family        Genus 
+#&gt; </span>     Kingdom       Phylum        Class        Order       Family        Genus 
 #&gt;   9368(100%) 9154(97.72%) 8222(87.77%) 7589(81.01%) 6699(71.51%) 5194(55.44%) 
 #&gt;      Species 
 #&gt;    23(0.25%) 
-#&gt; </span><span style='text-decoration: underline;'>
-#&gt; Metadata variables:</span><span> 5 
-#&gt;  SampleID, Plant, Date, Year, Period</div></span></pre>
+#&gt; <span style='text-decoration: underline;'>
+#&gt; Metadata variables:</span> 5 
+#&gt;  SampleID, Plant, Date, Year, Period</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
