@@ -168,7 +168,7 @@ amp_load <- function(otutable,
         paste0(
           "Could not find a column named OTU/ASV in ",
           deparse(substitute(x)),
-          ", using rownames as sample ID's"
+          ", using rownames as OTU ID's"
         ),
         call. = FALSE
       )
