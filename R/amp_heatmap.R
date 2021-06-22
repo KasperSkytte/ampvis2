@@ -217,7 +217,7 @@ amp_heatmap <- function(data,
 
   if (!is.null(facet_by)) {
     if (is.null(group_by)) {
-      group_by <- facet_by
+      group_by <- names(data$metadata)[[1]]
     }
     data$metadata[facet_by] <- lapply(data$metadata[facet_by], factor)
   }
