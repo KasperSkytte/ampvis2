@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Import OTU table from USEARCH pipelines — amp_import_usearch • ampvis2</title>
+<title>(Defunct) Import OTU table from USEARCH pipelines — amp_import_usearch • ampvis2</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,9 @@
 
 
 
-<meta property="og:title" content="Import OTU table from USEARCH pipelines — amp_import_usearch" />
-<meta property="og:description" content="Reads an OTU count table and a corresponding sintax taxonomy table from a USEARCH analysis pipeline, and then converts and combines them into an OTU table compatible with ampvis2." />
+<meta property="og:title" content="(Defunct) Import OTU table from USEARCH pipelines — amp_import_usearch" />
+<meta property="og:description" content="Since ampvis2 v2.7.6 amp_import_usearch() has been implemented directly in amp_load instead. Don't use.
+Reads an OTU count table and a corresponding sintax taxonomy table from a USEARCH analysis pipeline, and then converts and combines them into an OTU table compatible with ampvis2." />
 
 
 
@@ -88,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.6</span>
       </span>
     </div>
 
@@ -133,27 +134,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Import OTU table from USEARCH pipelines</h1>
+    <h1>(Defunct) Import OTU table from USEARCH pipelines</h1>
     <small class="dont-index">Source: <a href='https://github.com/MadsAlbertsen/ampvis2/blob/master/R/amp_import_usearch.R'><code>R/amp_import_usearch.R</code></a></small>
     <div class="hidden name"><code>amp_import_usearch.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Reads an OTU count table and a corresponding sintax taxonomy table from a <a href='http://www.drive5.com/usearch/'>USEARCH</a> analysis <a href='http://www.drive5.com/usearch/manual/ex_miseq.html'>pipeline</a>, and then converts and combines them into an OTU table compatible with ampvis2.</p>
+    <p>Since ampvis2 v2.7.6 <code>amp_import_usearch()</code> has been implemented directly in <code><a href='amp_load.html'>amp_load</a></code> instead. Don't use.</p>
+<p>Reads an OTU count table and a corresponding sintax taxonomy table from a <a href='http://www.drive5.com/usearch/'>USEARCH</a> analysis <a href='http://www.drive5.com/usearch/manual/ex_miseq.html'>pipeline</a>, and then converts and combines them into an OTU table compatible with ampvis2.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>amp_import_usearch</span><span class='op'>(</span><span class='va'>otutab</span>, <span class='va'>sintax</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>amp_import_usearch</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>otutab</th>
-      <td><p>Path to the tabulated OTU count table as created by <code>usearch10 -otutab ... -otutabout</code> commands.</p></td>
-    </tr>
-    <tr>
-      <th>sintax</th>
-      <td><p>Path to the tabulated sintax taxonomy table as created by <code>usearch10 -sintax ... -tabbedout</code> commands.</p></td>
+      <th>...</th>
+      <td><p>Capture and ignore all args</p></td>
     </tr>
     </table>
 

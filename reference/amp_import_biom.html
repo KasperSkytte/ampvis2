@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Import OTU table from BIOM file — amp_import_biom • ampvis2</title>
+<title>(Defunct) Import OTU table from BIOM file — amp_import_biom • ampvis2</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,9 @@
 
 
 
-<meta property="og:title" content="Import OTU table from BIOM file — amp_import_biom" />
-<meta property="og:description" content="Reads a .biom file and converts it into an OTU table compatible with ampvis2. This enables support for both the QIIME and mothur bioinformatic pipelines, as both software tools can output data in the BIOM format (for mothur see make.biom). Utilises the biomformat package, so both the JSON and HDF5 versions of the BIOM format are supported." />
+<meta property="og:title" content="(Defunct) Import OTU table from BIOM file — amp_import_biom" />
+<meta property="og:description" content="Since ampvis2 v2.7.6 amp_import_biom() has been implemented directly in amp_load instead. Don't use.
+Reads a .biom file and converts it into an OTU table compatible with ampvis2. This enables support for both the QIIME and mothur bioinformatic pipelines, as both software tools can output data in the BIOM format (for mothur see make.biom). Utilises the biomformat package, so both the JSON and HDF5 versions of the BIOM format are supported." />
 
 
 
@@ -88,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.6</span>
       </span>
     </div>
 
@@ -133,23 +134,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Import OTU table from BIOM file</h1>
+    <h1>(Defunct) Import OTU table from BIOM file</h1>
     <small class="dont-index">Source: <a href='https://github.com/MadsAlbertsen/ampvis2/blob/master/R/amp_import_biom.R'><code>R/amp_import_biom.R</code></a></small>
     <div class="hidden name"><code>amp_import_biom.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Reads a .biom file and converts it into an OTU table compatible with ampvis2. This enables support for both the <a href='http://qiime.org/'>QIIME</a> and <a href='https://www.mothur.org/'>mothur</a> bioinformatic pipelines, as both software tools can output data in the <a href='http://biom-format.org/'>BIOM format</a> (for mothur see <a href='https://www.mothur.org/wiki/Make.biom'>make.biom</a>). Utilises the <a href='https://github.com/joey711/biomformat'>biomformat</a> package, so both the JSON and HDF5 versions of the BIOM format are supported.</p>
+    <p>Since ampvis2 v2.7.6 <code>amp_import_biom()</code> has been implemented directly in <code><a href='amp_load.html'>amp_load</a></code> instead. Don't use.</p>
+<p>Reads a .biom file and converts it into an OTU table compatible with ampvis2. This enables support for both the <a href='http://qiime.org/'>QIIME</a> and <a href='https://www.mothur.org/'>mothur</a> bioinformatic pipelines, as both software tools can output data in the <a href='http://biom-format.org/'>BIOM format</a> (for mothur see <a href='https://www.mothur.org/wiki/Make.biom'>make.biom</a>). Utilises the <a href='https://github.com/joey711/biomformat'>biomformat</a> package, so both the JSON and HDF5 versions of the BIOM format are supported.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>amp_import_biom</span><span class='op'>(</span><span class='va'>file</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>amp_import_biom</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file</th>
-      <td><p>Path to the .biom file.</p></td>
+      <th>...</th>
+      <td><p>Capture and ignore all args</p></td>
     </tr>
     </table>
 

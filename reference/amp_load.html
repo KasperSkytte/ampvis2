@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.6</span>
       </span>
     </div>
 
@@ -157,7 +157,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>otutable</th>
-      <td><p>(<em>required</em>) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -&gt; Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either <code><a href='https://Rdatatable.gitlab.io/data.table/reference/fread.html'>fread</a></code> or <code><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></code>, respectively.</p></td>
+      <td><p>(<em>required</em>) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -&gt; Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either <code><a href='https://Rdatatable.gitlab.io/data.table/reference/fread.html'>fread</a></code> or <code><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></code>, respectively. Can also be a path to a BIOM file, which will then be parsed using the <a href='https://github.com/joey711/biomformat'>biomformat</a> package, so both the JSON and HDF5 versions of the BIOM format are supported.</p></td>
     </tr>
     <tr>
       <th>metadata</th>
@@ -165,7 +165,7 @@
     </tr>
     <tr>
       <th>taxonomy</th>
-      <td><p>(<em>recommended</em>) Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain-&gt;Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either <code><a href='https://Rdatatable.gitlab.io/data.table/reference/fread.html'>fread</a></code> or <code><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></code>, respectively. (<em>default:</em> <code>NULL</code>)</p></td>
+      <td><p>(<em>recommended</em>) Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain-&gt;Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either <code><a href='https://Rdatatable.gitlab.io/data.table/reference/fread.html'>fread</a></code> or <code><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></code>, respectively. Can also be a path to a .sintax taxonomy table from a <a href='http://www.drive5.com/usearch/'>USEARCH</a> analysis <a href='http://www.drive5.com/usearch/manual/ex_miseq.html'>pipeline</a>, file extension must be <code>.sintax</code>. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     <tr>
       <th>fasta</th>
