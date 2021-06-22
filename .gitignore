@@ -173,7 +173,7 @@ pip-log.txt
 .Rhistory
 .RData
 *.Rproj
-test/
+ignore/
 .httr-oauth
 
 ..Rcheck/
