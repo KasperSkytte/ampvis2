@@ -2,19 +2,19 @@
 % Please edit documentation in R/amp_import_usearch.R
 \name{amp_import_usearch}
 \alias{amp_import_usearch}
-\title{Import OTU table from USEARCH pipelines}
+\title{(Defunct) Import OTU table from USEARCH pipelines}
 \usage{
-amp_import_usearch(otutab, sintax)
+amp_import_usearch(...)
 }
 \arguments{
-\item{otutab}{Path to the tabulated OTU count table as created by \code{usearch10 -otutab ... -otutabout} commands.}
-
-\item{sintax}{Path to the tabulated sintax taxonomy table as created by \code{usearch10 -sintax ... -tabbedout} commands.}
+\item{...}{Capture and ignore all args}
 }
 \value{
 A data frame
 }
 \description{
+Since ampvis2 v2.7.6 \code{amp_import_usearch()} has been implemented directly in \code{\link{amp_load}} instead. Don't use.
+
 Reads an OTU count table and a corresponding sintax taxonomy table from a \href{http://www.drive5.com/usearch/}{USEARCH} analysis \href{http://www.drive5.com/usearch/manual/ex_miseq.html}{pipeline}, and then converts and combines them into an OTU table compatible with ampvis2.
 }
 \examples{
