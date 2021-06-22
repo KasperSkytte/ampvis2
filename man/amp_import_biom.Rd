@@ -2,17 +2,19 @@
 % Please edit documentation in R/amp_import_biom.R
 \name{amp_import_biom}
 \alias{amp_import_biom}
-\title{Import OTU table from BIOM file}
+\title{(Defunct) Import OTU table from BIOM file}
 \usage{
-amp_import_biom(file)
+amp_import_biom(...)
 }
 \arguments{
-\item{file}{Path to the .biom file.}
+\item{...}{Capture and ignore all args}
 }
 \value{
 A data frame
 }
 \description{
+Since ampvis2 v2.7.6 \code{amp_import_biom()} has been implemented directly in \code{\link{amp_load}} instead. Don't use.
+
 Reads a .biom file and converts it into an OTU table compatible with ampvis2. This enables support for both the \href{http://qiime.org/}{QIIME} and \href{https://www.mothur.org/}{mothur} bioinformatic pipelines, as both software tools can output data in the \href{http://biom-format.org/}{BIOM format} (for mothur see \href{https://www.mothur.org/wiki/Make.biom}{make.biom}). Utilises the \href{https://github.com/joey711/biomformat}{biomformat} package, so both the JSON and HDF5 versions of the BIOM format are supported.
 }
 \examples{

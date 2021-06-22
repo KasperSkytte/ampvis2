@@ -2,7 +2,7 @@
 #'
 #' This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis2 functions can be used.
 #'
-#' @param otutable (\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively.
+#' @param otutable (\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Can also be a path to a BIOM file, which will then be parsed using the \href{https://github.com/joey711/biomformat}{biomformat} package, so both the JSON and HDF5 versions of the BIOM format are supported.
 #' @param metadata (\emph{recommended}) Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. (\emph{default:} \code{NULL})
 #' @param taxonomy (\emph{recommended}) Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain->Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. (\emph{default:} \code{NULL})
 #' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})
@@ -121,20 +121,76 @@ amp_load <- function(otutable,
                      pruneSingletons = FALSE,
                      ...) {
   ### the following functions are only useful in the context of amp_load()
+  # default (and expected) taxonomic levels
+  tax.levels <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")
   # function to check if provided object looks like a file path
   # and if so try to read the file, otherwise expect a data.frame
   import <- function(x, ...) {
+    # check if x is a length 1 string (i.e. a file path)
     if (is.character(x) &
       length(x) == 1 &
       is.null(dim(x))) {
       ext <- tolower(tools::file_ext(x))
+      # use fread() if it's a delimited text file
       if (ext %in% c("csv", "txt", "tsv", "")) {
         DF <- data.table::fread(x, fill = TRUE, data.table = FALSE, ...)
+        # use read_excel() if xls, xlsx
       } else if (ext %in% c("xls", "xlsx")) {
         checkReqPkg("readxl")
         DF <- readxl::read_excel(x, ...)
+        # if ext is .biom expect BIOM format and parse correctly
+      } else if (ext %in% "biom") {
+        checkReqPkg(
+          "biomformat",
+          " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"biomformat\")"
+        )
+        biom <- biomformat::read_biom(x)
+
+        # error if no taxonomy found in the file
+        biom$rows %>%
+          lapply(function(row) {
+            row$metadata$taxonomy
+          }) %>%
+          unlist(use.names = FALSE) %>%
+          is.null() %>%
+          all() %>%
+          if (.) {
+            stop("Cannot find the taxonomy of one or more OTU's in the provided .biom file", call. = FALSE)
+          }
+
+        # extract read counts
+        abund <- biomformat::biom_data(biom) %>%
+          as.matrix(check.names = FALSE) %>%
+          as.data.frame(check.names = FALSE)
+
+        # if only one sample biom_data() drops the name of it for some reason
+        if (ncol(abund) == 1L) {
+          colnames(abund) <- biom$columns[[1]][["id"]]
+        }
+
+        # extract the taxonomy
+        taxlist <- lapply(biom$rows, function(x) {
+          x$metadata$taxonomy
+        })
+
+        # extract OTU names
+        names(taxlist) <- lapply(biom$rows, function(x) {
+          x$id
+        })
+
+        tax <- as.data.frame(t(as.data.frame(taxlist, check.names = FALSE, stringsAsFactors = FALSE)))
+
+        # rename taxonomic levels
+        colnames(tax) <- tax.levels[1:ncol(tax)]
+
+        if (ncol(tax) < 7L) {
+          warning("Taxonomy had less than 7 levels for all OTU's (Kingdom->Species), filling with NA from Species level and up.", call. = FALSE)
+        }
+
+        # combine abundances and taxonomy and return
+        DF <- cbind(abund, tax) # no need for merge()
       } else {
-        stop(paste("Unsupported file type \"", ext, "\""), call. = FALSE)
+        stop(paste0("Unsupported file type \".", ext, "\""), call. = FALSE)
       }
     } else {
       DF <- x
@@ -178,7 +234,6 @@ amp_load <- function(otutable,
   }
 
   # function to extract and parse taxonomy correctly
-  tax.levels <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")
   parseTaxonomy <- function(x) {
     # create empty dummy taxonomy data frame to fill into
     tax <- as.data.frame(

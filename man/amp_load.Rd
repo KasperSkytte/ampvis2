@@ -15,7 +15,7 @@ amp_load(
 )
 }
 \arguments{
-\item{otutable}{(\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively.}
+\item{otutable}{(\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Can also be a path to a BIOM file, which will then be parsed using the \href{https://github.com/joey711/biomformat}{biomformat} package, so both the JSON and HDF5 versions of the BIOM format are supported.}
 
 \item{metadata}{(\emph{recommended}) Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. (\emph{default:} \code{NULL})}
 
