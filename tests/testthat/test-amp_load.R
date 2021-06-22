@@ -74,7 +74,7 @@ test_that("warning if no OTU column in otutable", {
       tree = NULL,
       pruneSingletons = FALSE
     ),
-    regexp = "Could not find a column named OTU/ASV in otutable, using rownames as sample ID's")
+    regexp = "Could not find a column named OTU/ASV in otutable, using rownames as OTU ID's")
 })
 
 test_that("loading separate taxonomy table returns an ampvis2 class object", {
