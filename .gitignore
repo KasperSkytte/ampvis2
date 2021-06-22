@@ -178,3 +178,5 @@ test/
 
 ..Rcheck/
 docs
+
+renv/
