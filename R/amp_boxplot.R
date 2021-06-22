@@ -109,14 +109,14 @@ amp_boxplot <- function(data,
   suppressWarnings(
     if (group_by != "Sample") {
       if (length(group_by) > 1) {
-        grp <- data.frame(Sample = rownames(data$metadata), Group = apply(data$metadata[, group_by], 1, paste, collapse = " "))
+        grp <- data.frame(Sample = rownames(data$metadata), .Group = apply(data$metadata[, group_by], 1, paste, collapse = " "))
       } else {
-        grp <- data.frame(Sample = rownames(data$metadata), Group = data$metadata[, group_by])
+        grp <- data.frame(Sample = rownames(data$metadata), .Group = data$metadata[, group_by])
       }
-      abund3$Group <- grp$Group[match(abund3$Sample, grp$Sample)]
+      abund3$.Group <- grp$.Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3
     } else {
-      abund5 <- data.frame(abund3, Group = abund3$Sample)
+      abund5 <- data.frame(abund3, .Group = abund3$Sample)
     }
   )
 
@@ -174,9 +174,9 @@ amp_boxplot <- function(data,
   }
   if (group_by != "Sample") {
     if (!is.null(order_group)) {
-      abund7$Group <- factor(abund7$Group, levels = rev(order_group))
+      abund7$.Group <- factor(abund7$.Group, levels = rev(order_group))
     }
-    p <- ggplot(abund7, aes(x = Display, y = Abundance, color = Group))
+    p <- ggplot(abund7, aes(x = Display, y = Abundance, color = .Group))
   }
 
   p <- p +

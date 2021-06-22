@@ -58,7 +58,8 @@ amp_otu_network <- function(data,
                             ...) {
   checkReqPkg(
     "ggnet",
-    " Please install with:\n  remotes::install_github(\"kasperskytte/ggnet\")")
+    " Please install with:\n  remotes::install_github(\"kasperskytte/ggnet\")"
+  )
   checkReqPkg("network")
 
   ### Data must be in ampvis2 format
@@ -110,12 +111,12 @@ amp_otu_network <- function(data,
     as.data.frame()
 
   ## Add group information
-  abund5 <- data.frame(abund3, Group = abund3$Sample)
+  abund5 <- data.frame(abund3, .Group = abund3$Sample)
 
   ## Take the average to group level
 
-  abund6 <- data.table(abund5)[, Abundance := mean(Sum), by = list(Display, Group)] %>%
-    setkey(Display, Group) %>%
+  abund6 <- data.table(abund5)[, Abundance := mean(Sum), by = list(Display, .Group)] %>%
+    setkey(Display, .Group) %>%
     unique() %>%
     as.data.frame() %>%
     select(-Sum)
@@ -132,7 +133,7 @@ amp_otu_network <- function(data,
 
   ## Convert to network
   netw <- data.frame(
-    SampleID = as.character(abund7$Group),
+    SampleID = as.character(abund7$.Group),
     Taxa = abund7$Display,
     Abundance = abund7$Abundance,
     stringsAsFactors = F

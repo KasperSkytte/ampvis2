@@ -264,22 +264,22 @@ amp_heatmap <- function(data,
   suppressWarnings(
     if (!is.null(group_by)) {
       if (length(group_by) > 1) {
-        grp <- data.frame(Sample = data$metadata[, 1], Group = apply(data$metadata[, group_by], 1, paste, collapse = " "))
-        oldGroup <- unique(cbind.data.frame(data$metadata[, group_by], Group = grp$Group))
+        grp <- data.frame(Sample = data$metadata[, 1], .Group = apply(data$metadata[, group_by], 1, paste, collapse = " "))
+        oldGroup <- unique(cbind.data.frame(data$metadata[, group_by], .Group = grp$.Group))
       } else {
-        grp <- data.frame(Sample = data$metadata[, 1], Group = data$metadata[, group_by])
+        grp <- data.frame(Sample = data$metadata[, 1], .Group = data$metadata[, group_by])
       }
-      abund3$Group <- grp$Group[match(abund3$Sample, grp$Sample)]
+      abund3$.Group <- grp$.Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3
     } else {
-      abund5 <- data.frame(abund3, Group = abund3$Sample)
+      abund5 <- data.frame(abund3, .Group = abund3$Sample)
     }
   )
 
   ## Take the average to group level
   if (measure == "mean") {
-    abund6 <- data.table(abund5)[, Abundance := mean(Sum), by = list(Display, Group)] %>%
-      setkey(Display, Group) %>%
+    abund6 <- data.table(abund5)[, Abundance := mean(Sum), by = list(Display, .Group)] %>%
+      setkey(Display, .Group) %>%
       unique() %>%
       as.data.frame()
     TotalCounts <- group_by(abund6, Display) %>%
@@ -288,8 +288,8 @@ amp_heatmap <- function(data,
   }
 
   if (measure == "max") {
-    abund6 <- data.table(abund5)[, Abundance := max(Sum), by = list(Display, Group)] %>%
-      setkey(Display, Group) %>%
+    abund6 <- data.table(abund5)[, Abundance := max(Sum), by = list(Display, .Group)] %>%
+      setkey(Display, .Group) %>%
       unique() %>%
       as.data.frame()
     TotalCounts <- group_by(abund6, Display) %>%
@@ -298,8 +298,8 @@ amp_heatmap <- function(data,
   }
 
   if (measure == "median") {
-    abund6 <- data.table(abund5)[, Abundance := median(Sum), by = list(Display, Group)] %>%
-      setkey(Display, Group) %>%
+    abund6 <- data.table(abund5)[, Abundance := median(Sum), by = list(Display, .Group)] %>%
+      setkey(Display, .Group) %>%
       unique() %>%
       as.data.frame()
     TotalCounts <- group_by(abund6, Display) %>%
@@ -315,15 +315,15 @@ amp_heatmap <- function(data,
       TotalCounts <- filter(abund6, Sample == sort_by) %>%
         arrange(desc(Abundance))
     } else if (!is.null(group_by)) {
-      if (any(sort_by %in% abund6$Group) & any(sort_by %in% abund6$Sample)) {
+      if (any(sort_by %in% abund6$.Group) & any(sort_by %in% abund6$Sample)) {
         stop(paste0(sort_by, " is both found among samples and in the group_by variable (", group_by, "). Cannot sort by both a sample and a group."), call. = FALSE)
-      } else if (!any(sort_by %in% abund6$Group) & any(sort_by %in% abund6$Sample)) {
+      } else if (!any(sort_by %in% abund6$.Group) & any(sort_by %in% abund6$Sample)) {
         TotalCounts <- filter(abund6, Sample == sort_by) %>%
           arrange(desc(Abundance))
-      } else if (any(sort_by %in% abund6$Group) & !any(sort_by %in% abund6$Sample)) {
-        TotalCounts <- filter(abund6, Group == sort_by) %>%
+      } else if (any(sort_by %in% abund6$.Group) & !any(sort_by %in% abund6$Sample)) {
+        TotalCounts <- filter(abund6, .Group == sort_by) %>%
           arrange(desc(Abundance))
-      } else if (!any(sort_by %in% abund6$Group) & !any(sort_by %in% abund6$Sample)) {
+      } else if (!any(sort_by %in% abund6$.Group) & !any(sort_by %in% abund6$Sample)) {
         stop("Can't find \"", sort_by, "\" among sample or group names", call. = FALSE)
       }
     }
@@ -353,9 +353,9 @@ amp_heatmap <- function(data,
 
   ## Normalise to a specific group or sample (The Abundance of the group is set as 1)
   if (!is.null(normalise_by)) {
-    temp <- data.table::dcast(abund7, Display ~ Group, value.var = "Abundance")
+    temp <- data.table::dcast(abund7, Display ~ .Group, value.var = "Abundance")
     temp1 <- cbind.data.frame(Display = temp$Display, temp[, -1] / temp[, normalise_by])
-    abund7 <- data.table::melt(temp1, id.var = "Display", value.name = "Abundance", variable.name = "Group")
+    abund7 <- data.table::melt(temp1, id.var = "Display", value.name = "Abundance", variable.name = ".Group")
   }
 
   ## Order.y
@@ -364,7 +364,7 @@ amp_heatmap <- function(data,
   }
   if (!is.null(order_y_by)) {
     if ((length(order_y_by) == 1) && (order_y_by != "cluster")) {
-      temp1 <- filter(abund7, Group == order_y_by) %>%
+      temp1 <- filter(abund7, .Group == order_y_by) %>%
         group_by(Display) %>%
         summarise(Mean = mean(Abundance)) %>%
         arrange(desc(Mean))
@@ -384,7 +384,7 @@ amp_heatmap <- function(data,
       )
       tdata <- data.table::dcast(
         data.table::setDT(tdata),
-        Display ~ Group,
+        Display ~ .Group,
         value.var = "Abundance",
         fun.aggregate = sum
       )
@@ -416,7 +416,7 @@ amp_heatmap <- function(data,
         .(
           Abundance = sum(Abundance),
           Sum = sum(Sum),
-          Group = Group[1]
+          .Group = .Group[1]
         ),
         by = .(Display, Sample)
       ]
@@ -432,13 +432,13 @@ amp_heatmap <- function(data,
   if (!is.null(order_x_by)) {
     if ((length(order_x_by) == 1) && (order_x_by != "cluster")) {
       temp1 <- filter(abund7, Display == order_x_by) %>%
-        group_by(Group) %>%
+        group_by(.Group) %>%
         summarise(Mean = mean(Abundance)) %>%
         arrange(desc(Mean))
-      abund7$Group <- factor(abund7$Group, levels = as.character(temp1$Group))
+      abund7$.Group <- factor(abund7$.Group, levels = as.character(temp1$.Group))
     }
     if (length(order_x_by) > 1) {
-      abund7$Group <- factor(abund7$Group, levels = order_x_by)
+      abund7$.Group <- factor(abund7$.Group, levels = order_x_by)
     }
     if ((length(order_x_by) == 1) && (order_x_by == "cluster")) {
       if (is.null(max_abundance)) {
@@ -449,14 +449,14 @@ amp_heatmap <- function(data,
         Abundance = ifelse(Abundance > max_abundance, max_abundance, Abundance)
       )
       tdata <- data.table::dcast(data.table::setDT(tdata),
-        Display ~ Group,
+        Display ~ .Group,
         value.var = "Abundance",
         fun.aggregate = sum
       )
       tdata <- as.matrix(tdata)
       rownames(tdata) <- tdata[, 1]
       tclust <- hclust(dist(t(tdata[, -1])))
-      abund7$Group <- factor(abund7$Group, levels = tclust$labels[tclust$order])
+      abund7$.Group <- factor(abund7$.Group, levels = tclust$labels[tclust$order])
     }
   }
 
@@ -473,7 +473,7 @@ amp_heatmap <- function(data,
 
   ## Scale to percentages if not normalised and scaled
   if (length(group_by) > 1) {
-    abund7 <- merge(abund7, oldGroup, by = "Group")
+    abund7 <- merge(abund7, oldGroup, by = ".Group")
   }
 
   if (is.null(min_abundance)) {
@@ -486,7 +486,7 @@ amp_heatmap <- function(data,
   ## Define the output
   if (!isTRUE(textmap)) {
     ## Make a heatmap style plot
-    heatmap <- ggplot(abund7, aes_string(x = "Group", y = "Display", label = formatC("Abundance", format = "f", digits = 1))) +
+    heatmap <- ggplot(abund7, aes_string(x = ".Group", y = "Display", label = formatC("Abundance", format = "f", digits = 1))) +
       geom_tile(aes(fill = Abundance), colour = "white", size = 0.5) +
       theme(
         axis.text.y = element_text(size = 12, color = "black", vjust = 0.4),
@@ -530,16 +530,16 @@ amp_heatmap <- function(data,
 
     if (!is.null(facet_by)) {
       if (length(ogroup) > 1) {
-        heatmap$data$Group <- apply(heatmap$data[, ogroup], 1, paste, collapse = " ")
+        heatmap$data$.Group <- apply(heatmap$data[, ogroup], 1, paste, collapse = " ")
       } else {
-        heatmap$data$Group <- heatmap$data[, ogroup]
+        heatmap$data$.Group <- heatmap$data[, ogroup]
       }
 
       if (plot_values == TRUE) {
         if (length(ogroup) > 1) {
-          heatmap$layers[[2]]$data$Group <- apply(heatmap$layers[[2]]$data[, ogroup], 1, paste, collapse = " ")
+          heatmap$layers[[2]]$data$.Group <- apply(heatmap$layers[[2]]$data[, ogroup], 1, paste, collapse = " ")
         } else {
-          heatmap$layers[[2]]$data$Group <- heatmap$layers[[2]]$data[, ogroup]
+          heatmap$layers[[2]]$data$.Group <- heatmap$layers[[2]]$data[, ogroup]
         }
       }
       heatmap <- heatmap + facet_grid(reformulate(facet_by), scales = "free_x", space = "free")
@@ -608,9 +608,9 @@ amp_heatmap <- function(data,
     }
   } else if (isTRUE(textmap)) {
     # raw text heatmap data frame
-    textmap <- abund7[, c("Display", "Abundance", "Group"), drop = FALSE] %>%
+    textmap <- abund7[, c("Display", "Abundance", ".Group"), drop = FALSE] %>%
       unique() %>%
-      spread(key = Group, value = Abundance)
+      spread(key = .Group, value = Abundance)
     if (isTRUE(plot_functions)) {
       textmap <- merge(cbind(textmap,
         Genus = as.character(data.frame(do.call("rbind", strsplit(levels(droplevels(textmap$Display)), "; ", fixed = TRUE)))[, which(c(tax_add, tax_aggregate) == "Genus")])
