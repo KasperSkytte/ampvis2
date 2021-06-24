@@ -45,8 +45,14 @@ RUN echo "RENV_PATHS_CACHE=${RENV_PATHS_CACHE_CONTAINER}" >> /usr/local/lib/R/et
 RUN R -e "renv::install('madsalbertsen/ampvis2@${ampvis2_rel}')"
 Dockerfile
 
-#build the container image
-docker build -t "${image_name}" .
+#optionally pull the image instead of building
+if [ "$1" == "pull" ]
+then
+  docker pull "${image_name}"
+else
+  #build the container image
+  docker build -t "${image_name}" .
+fi
 
 checkPort() {
   randomPort() {
