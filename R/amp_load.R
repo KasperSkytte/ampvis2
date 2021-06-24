@@ -141,7 +141,7 @@ amp_load <- function(otutable,
         # if ext is .sintax expect sintax format and parse correctly
       } else if (ext %in% "sintax") {
         # Read file, has no headers
-        DF <- data.table::fread(sintax,
+        DF <- data.table::fread(x,
           sep = "\t",
           fill = TRUE,
           header = FALSE,
