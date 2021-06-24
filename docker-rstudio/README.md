@@ -5,7 +5,7 @@ Run the `buildandrun.sh` script to build from scratch and start RStudio. This ca
 
 ```
 r_ver="4.1.0"
-ampvis2_rel="2.7.6"
+ampvis2_rel="2.7.7"
 image_name="kasperskytte/rstudio_r${r_ver}_ampvis2:${ampvis2_rel}"
 password="supersafepassword"
 port="8787"
