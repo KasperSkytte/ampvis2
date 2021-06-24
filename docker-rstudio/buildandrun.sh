@@ -3,7 +3,7 @@ set -eu
 
 #set variables
 r_ver="4.1.0"
-ampvis2_rel="2.7.6"
+ampvis2_rel="2.7.7"
 image_name="kasperskytte/rstudio_r${r_ver}_ampvis2:${ampvis2_rel}"
 password="supersafepassword"
 port="8787" #will generate a random one if unavailable
@@ -12,7 +12,7 @@ RENV_PATHS_CACHE_CONTAINER="/usr/local/lib/R/renv-cache/" #path to renv cache wi
 num_threads=$(($(nproc) - 2)) #all cores except 2
 #done setting variables
 
-wget -q https://raw.githubusercontent.com/MadsAlbertsen/ampvis2/2.7.5/renv.lock -O renv.lock
+wget -q https://raw.githubusercontent.com/MadsAlbertsen/ampvis2/2.7.7/renv.lock -O renv.lock
 
 cat << Dockerfile > Dockerfile
 FROM rocker/rstudio:${r_ver}
