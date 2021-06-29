@@ -233,7 +233,7 @@ test_that("loading hdf5 and non-hdf5 format BIOM file returns identical ampvis2 
 test_that("loading sintax format taxonomy returns an ampvis2 class object", {
   expect_s3_class(
     suppressWarnings(
-      amp_load("tests/testdata/ASVtable.tsv", taxonomy = "tests/testdata/ASVs.sintax")
+      amp_load("../testdata/ASVtable.tsv", taxonomy = "../testdata/ASVs.sintax")
     ),
     class = "ampvis2",
     exact = TRUE
