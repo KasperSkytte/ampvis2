@@ -43,6 +43,9 @@ RUN echo "RENV_PATHS_CACHE=${RENV_PATHS_CACHE_CONTAINER}" >> /usr/local/lib/R/et
      lockfile = 'renv.lock', \\
      prompt = FALSE)"
 RUN R -e "renv::install('madsalbertsen/ampvis2@${ampvis2_rel}')"
+
+#silence RStudio warnings about not being able to write dictionary stuff to /root
+VOLUME /root
 Dockerfile
 
 #optionally pull the image instead of building
