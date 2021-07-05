@@ -26,3 +26,6 @@ RUN echo "RENV_PATHS_CACHE=/usr/local/lib/R/renv-cache/" >> /usr/local/lib/R/etc
      lockfile = 'renv.lock', \
      prompt = FALSE)"
 RUN R -e "renv::install('madsalbertsen/ampvis2@2.7.7')"
+
+#silence RStudio warnings about not being able to write dictionary stuff to /root
+VOLUME /root
