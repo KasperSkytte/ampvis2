@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   ampvis2: ampvis2.html
   faq: faq.html
-last_built: 2021-07-06T12:14Z
+last_built: 2021-07-06T12:18Z
 urls:
   reference: https://madsalbertsen.github.io/ampvis2/reference
   article: https://madsalbertsen.github.io/ampvis2/articles
