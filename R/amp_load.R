@@ -478,14 +478,17 @@ amp_load <- function(otutable,
   )
 
   ### append refseq if provided
-  # check tree
+  # check file
   if (!is.null(fasta)) {
     if (is.character(fasta) &
       length(fasta) == 1 &
       is.null(dim(fasta))) {
-      refseq <- ape::read.FASTA(fasta, ...)[rownames(abund0)]
+      refseq <- ape::read.FASTA(fasta, ...)[data$tax$OTU]
     } else if (!inherits(fasta, c("DNAbin", "AAbin"))) {
       stop("fasta must be of class \"DNAbin\" or \"AAbin\" as loaded with the ape::read.FASTA() function.", call. = FALSE)
+    }
+    if(all(lapply(refseq, is.null))) {
+      stop("No sequences match any OTU's", call. = FALSE)
     }
     data$refseq <- refseq
   }
@@ -504,6 +507,9 @@ amp_load <- function(otutable,
       phy = tree,
       tip = tree$tip.label[!tree$tip.label %in% data$tax$OTU]
     )
+    if(is.null(tree)) {
+      stop("No tree tip labels match any OTU's", call. = FALSE)
+    }
     data$tree <- tree
   }
 
