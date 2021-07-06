@@ -173,51 +173,47 @@ amp_load <- function(otutable,
           "biomformat",
           " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"biomformat\")"
         )
+        
         biom <- biomformat::read_biom(x)
-
-        # error if no taxonomy found in the file
-        biom$rows %>%
-          lapply(function(row) {
-            row$metadata$taxonomy
-          }) %>%
-          unlist(use.names = FALSE) %>%
-          is.null() %>%
-          all() %>%
-          if (.) {
-            stop("Cannot find the taxonomy of one or more OTU's in the provided .biom file", call. = FALSE)
-          }
-
+        
         # extract read counts
         abund <- biomformat::biom_data(biom) %>%
           as.matrix(check.names = FALSE) %>%
           as.data.frame(check.names = FALSE)
-
+        
         # if only one sample biom_data() drops the name of it for some reason
         if (ncol(abund) == 1L) {
           colnames(abund) <- biom$columns[[1]][["id"]]
         }
-
+        
         # extract the taxonomy
         taxlist <- lapply(biom$rows, function(x) {
           x$metadata$taxonomy
         })
-
-        # extract OTU names
-        names(taxlist) <- lapply(biom$rows, function(x) {
-          x$id
-        })
-
-        tax <- as.data.frame(t(as.data.frame(taxlist, check.names = FALSE, stringsAsFactors = FALSE)))
-
-        # rename taxonomic levels
-        colnames(tax) <- tax.levels[1:ncol(tax)]
-
-        if (ncol(tax) < 7L) {
-          warning("Taxonomy had less than 7 levels for all OTU's (Kingdom->Species), filling with NA from Species level and up.", call. = FALSE)
+        
+        # check if taxonomy is empty for all OTU's, use ID's as OTU's if so
+        if(all(is.null(unlist(taxlist, use.names = F)))) {
+          warning("Could not find the taxonomy of one or more OTU's in the provided .biom file", call. = FALSE)
+          DF <- abund
+        } else {
+          # extract OTU names
+          names(taxlist) <- lapply(biom$rows, function(x) {
+            x$id
+          })
+          
+          # coerce to data frame
+          tax <- as.data.frame(t(as.data.frame(taxlist, check.names = FALSE, stringsAsFactors = FALSE)))
+          
+          # rename taxonomic levels
+          colnames(tax) <- tax.levels[1:ncol(tax)]
+          
+          if (ncol(tax) < 7L) {
+            warning("Taxonomy had less than 7 levels for all OTU's (Kingdom->Species), filling with NA from Species level and up.", call. = FALSE)
+          }
+          
+          # combine abundances and taxonomy and return
+          DF <- cbind(abund, tax) # no need for merge()
         }
-
-        # combine abundances and taxonomy and return
-        DF <- cbind(abund, tax) # no need for merge()
       } else {
         stop(paste0("Unsupported file type \".", ext, "\""), call. = FALSE)
       }

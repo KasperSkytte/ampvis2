@@ -196,15 +196,19 @@ test_that("loading data with unique OTU's in both otutable and taxonomy", {
   )
 })
 
-test_that("loading a (non-hdf5 format) BIOM file with no taxonomy fails", {
-  expect_error(
-    amp_load("../testdata/min_sparse_otu_table.biom")
+test_that("loading a (non-hdf5 format) BIOM file with no taxonomy returns an ampvis2 class object", {
+  expect_s3_class(
+    suppressWarnings(amp_load("../testdata/min_sparse_otu_table.biom")),
+    class = "ampvis2",
+    exact = TRUE
   )
 })
 
 test_that("loading a (hdf5 format) BIOM file with no taxonomy fails", {
-  expect_error(
-    amp_load("../testdata/min_sparse_otu_table_hdf5.biom")
+  expect_s3_class(
+    suppressWarnings(amp_load("../testdata/min_sparse_otu_table_hdf5.biom")),
+    class = "ampvis2",
+    exact = TRUE
   )
 })
 
