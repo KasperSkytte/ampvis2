@@ -180,3 +180,7 @@ ignore/
 docs
 
 renv/
+
+docker-rstudio/Dockerfile
+
+docker-rstudio/renv.lock

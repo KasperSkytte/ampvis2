@@ -17,7 +17,9 @@ wget https://raw.githubusercontent.com/MadsAlbertsen/ampvis2/${ampvis2_rel}/renv
 cat << Dockerfile > Dockerfile
 FROM rocker/rstudio:${r_ver}
 
-ARG MAKEFLAGS="-j ${num_threads} "
+#multithreaded make
+ENV MAKEFLAGS="-j ${num_threads} "
+ENV CRAN=https://mirrors.dotsrc.org/cran
 
 COPY renv.lock .
 
