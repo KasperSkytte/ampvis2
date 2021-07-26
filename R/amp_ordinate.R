@@ -670,8 +670,7 @@ amp_ordinate <- function(data,
   if (!is.null(sample_label_by)) {
     if (repel_labels == T) {
       plot <- plot + ggrepel::geom_text_repel(aes_string(label = sample_label_by), size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)
-    }
-    else {
+    } else {
       plot <- plot + geom_text(aes_string(label = sample_label_by), size = sample_label_size, color = "grey40", segment.color = sample_label_segment_color)
     }
   }
@@ -680,8 +679,7 @@ amp_ordinate <- function(data,
   if (species_nlabels > 0) {
     if (repel_labels == T) {
       plot <- plot + ggrepel::geom_text_repel(data = dspecies[1:species_nlabels, ], aes_string(x = x_axis_name, y = y_axis_name, label = species_label_taxonomy), colour = species_label_color, size = species_label_size, fontface = 4, inherit.aes = FALSE)
-    }
-    else {
+    } else {
       plot <- plot + geom_text(data = dspecies[1:species_nlabels, ], aes_string(x = x_axis_name, y = y_axis_name, label = species_label_taxonomy), colour = species_label_color, size = species_label_size, fontface = 4, inherit.aes = FALSE)
     }
   }
@@ -702,8 +700,7 @@ amp_ordinate <- function(data,
     if (nrow(evf_factor_data) > 0 & envfit_show == TRUE) {
       if (repel_labels == T) {
         plot <- plot + ggrepel::geom_text_repel(data = evf_factor_data, aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_textcolor, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")
-      }
-      else {
+      } else {
         plot <- plot + geom_text(data = evf_factor_data, aes_string(x = x_axis_name, y = y_axis_name, label = "Name"), colour = envfit_textcolor, inherit.aes = FALSE, size = envfit_textsize, fontface = "bold")
       }
     }
@@ -931,14 +928,11 @@ amp_ordinate <- function(data,
   # return plot or additional details
   if (!is.null(sample_plotly)) {
     return(plotly::ggplotly(plot, tooltip = "text"))
-  }
-  else if (species_plotly == T) {
+  } else if (species_plotly == T) {
     return(plotly::ggplotly(plot, tooltip = "text"))
-  }
-  else if (!detailed_output) {
+  } else if (!detailed_output) {
     return(plot)
-  }
-  else if (detailed_output) {
+  } else if (detailed_output) {
     if (type == "nmds") {
       screeplot <- NULL
     } else {

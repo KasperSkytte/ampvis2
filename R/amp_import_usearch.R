@@ -1,9 +1,9 @@
 #' @title (Defunct) Import OTU table from USEARCH pipelines
 #' @description Since ampvis2 v2.7.6 \code{amp_import_usearch()} has been implemented directly in \code{\link{amp_load}} instead. Don't use.
 #' @description Reads an OTU count table and a corresponding sintax taxonomy table from a \href{http://www.drive5.com/usearch/}{USEARCH} analysis \href{http://www.drive5.com/usearch/manual/ex_miseq.html}{pipeline}, and then converts and combines them into an OTU table compatible with ampvis2.
-#' 
+#'
 #' @param ... Capture and ignore all args
-#' 
+#'
 #' @return A data frame
 #' @export
 #' @examples
