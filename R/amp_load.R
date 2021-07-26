@@ -321,6 +321,11 @@ amp_load <- function(otutable,
   abund <- otutable[, !taxcols, drop = FALSE]
   abund[is.na(abund)] <- 0L
 
+  # warn if any empty sample(s)
+  if (any(colSums(abund) == 0L)) {
+    warning("One or more sample(s) have 0 reads", call. = FALSE)
+  }
+
   ### extract taxonomy from otutable or separate table if provided
   if (is.null(taxonomy)) {
     tax <- parseTaxonomy(otutable)

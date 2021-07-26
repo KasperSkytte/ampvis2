@@ -50,11 +50,15 @@ amp_rarecurve <- function(data,
   tot <- rowSums(abund)
   nr <- nrow(abund)
   out <- lapply(seq_len(nr), function(i) {
-    n <- seq(1, tot[i], by = stepsize)
-    if (n[length(n)] != tot[i]) {
-      n <- c(n, tot[i])
+    if (tot[i] > 0L) {
+      n <- seq(1L, tot[i], by = stepsize)
+      if (n[length(n)] != tot[i]) {
+        n <- c(n, tot[i])
+      }
+      drop(vegan::rarefy(abund[i, ], n))
+    } else {
+      structure(0L, Subsample = 0L)
     }
-    drop(vegan::rarefy(abund[i, ], n))
   })
   names(out) <- names(tot)
   df <- plyr::ldply(out, function(x) {

@@ -243,3 +243,15 @@ test_that("loading sintax format taxonomy returns an ampvis2 class object", {
     exact = TRUE
   )
 })
+
+test_that("loading data with one or more empty samples(s) gives a warning", {
+  otutable <- example_otutable
+  otutable[,2] <- 0L
+  expect_warning(
+    amp_load(
+      otutable = otutable,
+      metadata = example_metadata
+    ),
+    regexp = "One or more sample\\(s\\) have 0 reads"
+  )
+})
