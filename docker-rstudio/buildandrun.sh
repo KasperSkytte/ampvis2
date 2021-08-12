@@ -12,8 +12,6 @@ RENV_PATHS_CACHE_CONTAINER="/usr/local/lib/R/renv-cache/" #path to renv cache wi
 num_threads=$(($(nproc) - 2)) #all cores except 2
 #done setting variables
 
-wget https://raw.githubusercontent.com/MadsAlbertsen/ampvis2/${ampvis2_rel}/renv.lock -O renv.lock
-
 cat << Dockerfile > Dockerfile
 FROM rocker/rstudio:${r_ver}
 
@@ -65,6 +63,7 @@ then
   docker pull "${image_name}"
 else
   #build the container image
+  wget https://raw.githubusercontent.com/MadsAlbertsen/ampvis2/${ampvis2_rel}/renv.lock -O renv.lock
   docker build -t "${image_name}" .
 fi
 
