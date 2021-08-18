@@ -92,7 +92,7 @@ port=$(checkPort "$port")
 mkdir -p ${RENV_PATHS_CACHE_HOST}
 
 #launch the container with the host cache mounted in the container
-docker run -d --rm \
+docker run -d \
   -e "PASSWORD=${password}" \
   -e "RENV_PATHS_CACHE=${RENV_PATHS_CACHE_CONTAINER}" \
   -v "${RENV_PATHS_CACHE_HOST}:${RENV_PATHS_CACHE_CONTAINER}" \
