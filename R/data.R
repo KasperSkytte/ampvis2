@@ -92,3 +92,21 @@ NULL
 #' View(example_taxonomy)
 #' }
 NULL
+
+#' Functional information about microbes at Genus level
+#'
+#' Grabbed from midasfieldguide.org at 2020-12-01
+#'
+#' @name midasfunctions_20201201
+#' @docType data
+#'
+#' @format a data frame.
+#'
+#' @keywords data
+#'
+#' @examples
+#' \dontrun{
+#' data(midasfunctions_20201201)
+#' View(midasfunctions_20201201)
+#' }
+NULL

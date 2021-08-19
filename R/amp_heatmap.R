@@ -91,15 +91,18 @@
 #'   plot_legendbreaks = c(1, 5, 10)
 #' )
 #'
-#' # Heatmap with known functional information about the Genera shown to the right
+#' # Heatmap with known functional traits about the Genera shown to the right
 #' # By default this information is retrieved directly from midasfieldguide.org
-#' # but you can provide your own with the function_data argument as shown in the
-#' # textmap
+#' # but you can provide your own with the function_data argument as shown with
+#' # the textmap further down
+#' 
+#' suppressWarnings(
 #' heatmapwfunctions <- amp_heatmap(AalborgWWTPs,
 #'   group_by = "Plant",
 #'   tax_aggregate = "Genus",
 #'   plot_functions = TRUE,
 #'   functions = c("PAO", "GAO", "AOB", "NOB")
+#' )
 #' )
 #'
 #' class(heatmapwfunctions)
@@ -112,7 +115,7 @@
 #'   group_by = "Plant",
 #'   tax_aggregate = "Genus",
 #'   plot_functions = TRUE,
-#'   function_data = NULL,
+#'   function_data = midasfunctions_20201201,
 #'   functions = c("PAO", "GAO", "AOB", "NOB"),
 #'   textmap = TRUE
 #' )
@@ -186,10 +189,14 @@ amp_heatmap <- function(data,
     # Only once per session, save in a hidden object .ampvis2_midasfg_function_data
     if (is.null(function_data)) {
       if (!exists(".ampvis2_midasfg_function_data", envir = .GlobalEnv)) {
-        function_data <- extractFunctions(getMiDASFGData())
+        function_data <- try(getMiDASFGData(), silent = TRUE)
+        if(inherits(function_data, "try-error")) {
+          warning("Can't reach the midasfieldguide.org API to download functional data just now. The reason can be issues with either the site or your internet connection. Using the data set \"midasfunctions_20201201\" instead, which is probably not up-to-date. You can also supply your own data frame by using the function_data argument.", call. = FALSE)
+          function_data <- midasfunctions_20201201
+        } else {
+          function_data <- extractFunctions(function_data)
+        }
         assign(".ampvis2_midasfg_function_data", function_data, envir = .GlobalEnv)
-      } else {
-        function_data <- .ampvis2_midasfg_function_data
       }
     }
 

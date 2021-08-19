@@ -161,15 +161,18 @@ amp_heatmap(AalborgWWTPs,
   plot_legendbreaks = c(1, 5, 10)
 )
 
-# Heatmap with known functional information about the Genera shown to the right
+# Heatmap with known functional traits about the Genera shown to the right
 # By default this information is retrieved directly from midasfieldguide.org
-# but you can provide your own with the function_data argument as shown in the
-# textmap
+# but you can provide your own with the function_data argument as shown with
+# the textmap further down
+
+suppressWarnings(
 heatmapwfunctions <- amp_heatmap(AalborgWWTPs,
   group_by = "Plant",
   tax_aggregate = "Genus",
   plot_functions = TRUE,
   functions = c("PAO", "GAO", "AOB", "NOB")
+)
 )
 
 class(heatmapwfunctions)
@@ -182,7 +185,7 @@ textmap <- amp_heatmap(AalborgWWTPs,
   group_by = "Plant",
   tax_aggregate = "Genus",
   plot_functions = TRUE,
-  function_data = NULL,
+  function_data = midasfunctions_20201201,
   functions = c("PAO", "GAO", "AOB", "NOB"),
   textmap = TRUE
 )
