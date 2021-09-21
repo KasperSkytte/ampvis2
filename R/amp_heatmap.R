@@ -345,17 +345,12 @@ amp_heatmap <- function(data,
       tax_show <- nrow(TotalCounts)
     }
     abund7 <- filter(abund6, Display %in% unique(TotalCounts$Display)[1:tax_show])
-  }
-
-  ## Subset to a list of level names
-  if (!is.numeric(tax_show)) {
-    if (tax_show != "all") {
+  } else if(!is.numeric(tax_show)) {
+    tax_show <- as.character(tax_show)
+    if(all(tolower(tax_show) == "all")) {
+      abund7 <- abund6
+    } else {
       abund7 <- filter(abund6, Display %in% tax_show)
-    }
-    ### Or just show all
-    if (tax_show == "all") {
-      tax_show <- nrow(TotalCounts)
-      abund7 <- filter(abund6, Display %in% TotalCounts$Display[1:tax_show])
     }
   }
   abund7 <- as.data.frame(abund7)

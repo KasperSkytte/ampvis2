@@ -3,7 +3,7 @@ set -eu
 
 #set variables
 r_ver="${r_ver:-"4.1.0"}"
-ampvis2_rel="${ampvis2_rel:-"2.7.10"}"
+ampvis2_rel="${ampvis2_rel:-"2.7.11"}"
 image_name="${image_name:-"kasperskytte/rstudio_r${r_ver}_ampvis2:${ampvis2_rel}"}"
 password="${password:-"supersafepassword"}"
 port="${port:-"8787"}" #will generate a random one if unavailable
