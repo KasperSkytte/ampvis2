@@ -197,6 +197,8 @@ amp_heatmap <- function(data,
           function_data <- extractFunctions(function_data)
         }
         assign(".ampvis2_midasfg_function_data", function_data, envir = .GlobalEnv)
+      } else if(exists(".ampvis2_midasfg_function_data", envir = .GlobalEnv)) {
+        function_data <- get(".ampvis2_midasfg_function_data", envir = .GlobalEnv)
       }
     }
 
