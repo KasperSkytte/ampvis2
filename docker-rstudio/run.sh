@@ -28,8 +28,6 @@ then
   ENV MAKEFLAGS="-j ${num_threads} "
   ENV CRAN=https://mirrors.dotsrc.org/cran
 
-  COPY renv.lock .
-
   #install nice-to-have system dependencies for R, and netstat to scan ports
   ARG DEBIAN_FRONTEND=noninteractive
   RUN apt-get update -qqy && \\
@@ -43,8 +41,7 @@ then
       libfribidi-dev \\
       libfreetype6-dev \\
       libpng-dev \\
-      libtiff5-dev \\
-      libjpeg-dev
+      libtiff5-dev
 
   #set default renv cache path in container
   #change CRAN mirror from https://packagemanager.rstudio.com to AAU mirror
@@ -57,14 +54,16 @@ then
       library = '/usr/local/lib/R/site-library/', \\
       rebuild = TRUE, \\
       clean = TRUE, \\
-      lockfile = 'renv.lock', \\
+      lockfile = 'https://raw.githubusercontent.com/MadsAlbertsen/ampvis2/${ampvis2_rel}/renv.lock', \\
       prompt = FALSE)"
   RUN R -e "renv::install('madsalbertsen/ampvis2@${ampvis2_rel}')"
+
+  #enable users to install R packages
+  RUN chown 1000:1000 -R /usr/local/lib/R/site-library /usr/local/lib/R/library
 
   #silence RStudio warnings about not being able to write dictionary stuff to /root
   VOLUME /root
 Dockerfile
-  wget https://raw.githubusercontent.com/MadsAlbertsen/ampvis2/${ampvis2_rel}/renv.lock -O renv.lock
   docker build -t "${image_name}" .
   echo "Removing temporary folder..."
   popd > /dev/null && rm -rf "$tmpdir"
