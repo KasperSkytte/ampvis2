@@ -12,12 +12,10 @@ RENV_PATHS_CACHE_CONTAINER="/usr/local/lib/R/renv-cache/" #path to renv cache wi
 num_threads=$(($(nproc) - 2)) #all cores except 2
 #done setting variables
 
-#optionally pull the image instead of building
-pull=${1:-""}
-if [ "$pull" == "pull" ]
+#optionally build the image instead of pulling
+build=${1:-""}
+if [ "$build" == "build" ]
 then
-  docker pull "${image_name}"
-else
   #build the container image
   echo "Creating temporary folder for the Dockerfile..."
   tmpdir=$(mktemp -dt "rstudio_r${r_ver}_ampvis2:${ampvis2_rel}_XXXXX")
@@ -70,6 +68,8 @@ Dockerfile
   docker build -t "${image_name}" .
   echo "Removing temporary folder..."
   popd > /dev/null && rm -rf "$tmpdir"
+else
+  docker pull "${image_name}"
 fi
 
 checkPort() {
