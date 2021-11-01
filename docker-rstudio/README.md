@@ -13,6 +13,6 @@ curl -fsSL https://raw.githubusercontent.com/MadsAlbertsen/ampvis2/master/docker
 
 A few environment variables can be set before running the script to adjust things: `r_ver`, `ampvis2_rel`, `image_name`, `password`, and `port`. Otherwise default values will be used.
 
-You can then access RStudio from a browser at http://127.0.0.1:${port}.
+You can then access RStudio from a browser at http://127.0.0.1:8787. The default port is 8787, but if it's unavailable (i.e. for multiple separate RStudio instances), a random one will be used instead. The script will notify which port will be used.
 
 The `run.sh` script will by default mount the current user's home directory at `/home/rstudio`, and also mount a host [renv](https://rstudio.github.io/renv/index.html) library cache to avoid having to install additional R packages with every container launch. Set `renv::settings$use.cache(FALSE)` in R to disable the cache if problems should occur due to fx mismatching shared libraries between the host and container, or if you just want pure isolation with a project specific R library.
