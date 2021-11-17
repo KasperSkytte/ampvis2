@@ -173,7 +173,12 @@ amp_otu_network <- function(data,
 
   ## Define the output
   if (detailed_output) {
-    return(list(heatmap = p, data = abund7))
+    invisible(
+      list(
+        heatmap = p,
+        data = abund7
+      )
+    )
   } else {
     return(p)
   }

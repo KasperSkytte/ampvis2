@@ -138,7 +138,15 @@ amp_frequency <- function(data,
   }
 
   if (detailed_output) {
-    return(list(data = temp3, plot = p, abund = data$abund, tax = data$tax, metadata = data$metadata))
+    invisible(
+      list(
+        data = temp3,
+        plot = p,
+        abund = data$abund,
+        tax = data$tax,
+        metadata = data$metadata
+      )
+    )
   } else if (!detailed_output) {
     return(p)
   }

@@ -392,7 +392,7 @@ amp_venn <- function(data,
 
   ## Export data
   if (detailed_output) {
-    return(res)
+    invisible(res)
   }
   if (!detailed_output) {
     return(p)

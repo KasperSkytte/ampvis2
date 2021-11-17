@@ -212,7 +212,12 @@ amp_boxplot <- function(data,
   }
 
   if (detailed_output) {
-    return(list(plot = p, data = abund7))
+    invisible(
+      list(
+        plot = p,
+        data = abund7
+      )
+    )
   } else {
     return(p)
   }

@@ -972,15 +972,17 @@ amp_ordinate <- function(data,
       }
     }
 
-    return(list(
-      plot = plot,
-      screeplot = screeplot,
-      figcaption = captionwithrefs,
-      model = model,
-      dsites = dsites,
-      dspecies = dspecies,
-      evf_factor_model = evf_factor_model,
-      evf_numeric_model = evf_numeric_model
-    ))
+    invisible(
+      list(
+        plot = plot,
+        screeplot = screeplot,
+        figcaption = captionwithrefs,
+        model = model,
+        dsites = dsites,
+        dspecies = dspecies,
+        evf_factor_model = evf_factor_model,
+        evf_numeric_model = evf_numeric_model
+      )
+    )
   }
 }
