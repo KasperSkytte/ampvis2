@@ -103,6 +103,17 @@
 <a href="#get-started" class="anchor"></a>Get started</h2>
 <p>For a quick guide on how to use ampvis2 go to the <a href="https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html">Get Started</a> page. Detailed documentation of all ampvis2 functions can be found at the <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Functions</a> page.</p>
 </div>
+<div id="rstudio-docker-container" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio-docker-container" class="anchor"></a>RStudio Docker container</h2>
+<p>A Docker container based on the <a href="https://hub.docker.com/r/rocker/rstudio">rocker/rstudio</a> image is also provided with ampvis2 preinstalled. This is ideal for complete reproducibility and portability. All you need to do is <a href="https://docs.docker.com/">install Docker</a> and then run:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">docker</span> run -d \</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  -e <span class="st">"PASSWORD=supersafepassword"</span> \</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  -v <span class="st">"local/folder/to/mount"</span>:/home/rstudio \</span>
+<span id="cb2-4"><a href="#cb2-4"></a>  -p 8787:8787 \</span>
+<span id="cb2-5"><a href="#cb2-5"></a>  ghcr.io/madsalbertsen/ampvis2:main</span></code></pre></div>
+<p>Access RStudio server through a browser at <code>http://localhost:8787</code> with username <code>rstudio</code>. Ideally use a specific version tag, fx <code>v2.7.12</code>, instead of <code>main</code> to not just pull the latest image with every pull.</p>
+</div>
 <div id="blog-posts-about-ampvis2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#blog-posts-about-ampvis2" class="anchor"></a>Blog posts about ampvis2</h2>
