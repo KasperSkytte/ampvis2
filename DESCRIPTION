@@ -7,12 +7,12 @@ Date: 2021-09-21
 Authors@R: c(
   person(
     c("Kasper", "Skytte"), "Andersen", 
-    role = c("aut"),
+    role = c("aut", "cre"),
     email = "ksa@bio.aau.dk",
     comment = c(ORCID = "0000-0002-5423-0958")),
   person(
   "Mads", "Albertsen",
-    role = c("aut", "cre"), 
+    role = c("aut"), 
     email = "MadsAlbertsen85@gmail.com",
     comment = c(ORCID = "0000-0002-6151-190X")),
   person(
