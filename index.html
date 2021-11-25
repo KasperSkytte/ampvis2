@@ -112,7 +112,7 @@
 <span id="cb2-3"><a href="#cb2-3"></a>  -v <span class="st">"local/folder/to/mount"</span>:/home/rstudio \</span>
 <span id="cb2-4"><a href="#cb2-4"></a>  -p 8787:8787 \</span>
 <span id="cb2-5"><a href="#cb2-5"></a>  ghcr.io/madsalbertsen/ampvis2:main</span></code></pre></div>
-<p>Access RStudio server through a browser at <code>http://localhost:8787</code> with username <code>rstudio</code>. Ideally use a specific version tag, fx <code>v2.7.12</code>, instead of <code>main</code> to not just pull the latest image with every pull.</p>
+<p>Access RStudio server through a browser at <code>http://localhost:8787</code> with username <code>rstudio</code>. Ideally use a specific version tag, fx <code>v2.7.12</code>, instead of <code>main</code> to not just pull the latest image every time.</p>
 </div>
 <div id="blog-posts-about-ampvis2" class="section level2">
 <h2 class="hasAnchor">
@@ -124,15 +124,10 @@
 <li><a href="http://albertsenlab.org/shinyampvis/">Analysing amplicon data, how easy does it get?</a></li>
 </ul>
 </div>
-<div id="shiny" class="section level2">
+<div id="shiny-app" class="section level2">
 <h2 class="hasAnchor">
-<a href="#shiny" class="anchor"></a>Shiny</h2>
+<a href="#shiny-app" class="anchor"></a>Shiny app</h2>
 <p>An interactive Shiny app with some of the basic functionality of ampvis2 can be found at: <a href="https://kasperskytte.shinyapps.io/shinyampvis" class="uri">https://kasperskytte.shinyapps.io/shinyampvis</a></p>
-</div>
-<div id="releases" class="section level2">
-<h2 class="hasAnchor">
-<a href="#releases" class="anchor"></a>Releases</h2>
-<p>To install a specific (older) release of ampvis2 use <code>"@release"</code> as suffix, fx <code>remotes::install_github("madsalbertsen/ampvis2@2.0")</code> to install the first release (2.0) of ampvis2. The latest stable release can be installed with <code>remotes::install_github("madsalbertsen/ampvis2@*release")</code>.</p>
 </div>
 </div>
 
@@ -167,8 +162,8 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Kasper Skytte Andersen <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-5423-0958" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Mads Albertsen <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6151-190X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Kasper Skytte Andersen <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5423-0958" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Mads Albertsen <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6151-190X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Rasmus Hansen Kirkegaard <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3349-3617" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
