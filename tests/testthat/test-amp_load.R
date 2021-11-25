@@ -74,7 +74,7 @@ test_that("warning if no OTU column in otutable", {
       tree = NULL,
       pruneSingletons = FALSE
     ),
-    regexp = "Could not find a column named OTU/ASV in otutable, using rownames as sample ID's")
+    regexp = "Could not find a column named OTU/ASV in otutable, using rownames as OTU ID's")
 })
 
 test_that("loading separate taxonomy table returns an ampvis2 class object", {
@@ -193,5 +193,65 @@ test_that("loading data with unique OTU's in both otutable and taxonomy", {
       metadata = example_metadata
     ),
     regexp = "The OTU's between otutable and taxonomy do not match exactly. 3 OTU's in taxonomy not present in otutable have been removed from taxonomy. 4 OTU's are missing "
+  )
+})
+
+test_that("loading a (non-hdf5 format) BIOM file with no taxonomy returns an ampvis2 class object", {
+  expect_s3_class(
+    suppressWarnings(amp_load("../testdata/min_sparse_otu_table.biom")),
+    class = "ampvis2",
+    exact = TRUE
+  )
+})
+
+test_that("loading a (hdf5 format) BIOM file with no taxonomy fails", {
+  expect_s3_class(
+    suppressWarnings(amp_load("../testdata/min_sparse_otu_table_hdf5.biom")),
+    class = "ampvis2",
+    exact = TRUE
+  )
+})
+
+test_that("loading a (non-hdf5 format) BIOM file returns an ampvis2 class object", {
+  expect_s3_class(
+    suppressWarnings(amp_load("../testdata/rich_sparse_otu_table.biom")),
+    class = "ampvis2",
+    exact = TRUE
+  )
+})
+
+test_that("loading a (hdf5 format) BIOM file returns an ampvis2 class object", {
+  expect_s3_class(
+    suppressWarnings(amp_load("../testdata/rich_sparse_otu_table_hdf5.biom")),
+    class = "ampvis2",
+    exact = TRUE
+  )
+})
+
+test_that("loading hdf5 and non-hdf5 format BIOM file returns identical ampvis2 class objects", {
+  biom_nonhdf5 <- suppressWarnings(amp_load("../testdata/rich_sparse_otu_table.biom"))
+  biom_hdf5 <- suppressWarnings(amp_load("../testdata/rich_sparse_otu_table_hdf5.biom"))
+  expect_identical(biom_hdf5, biom_nonhdf5)
+})
+
+test_that("loading sintax format taxonomy returns an ampvis2 class object", {
+  expect_s3_class(
+    suppressWarnings(
+      amp_load("../testdata/ASVtable.tsv", taxonomy = "../testdata/ASVs.sintax")
+    ),
+    class = "ampvis2",
+    exact = TRUE
+  )
+})
+
+test_that("loading data with one or more empty samples(s) gives a warning", {
+  otutable <- example_otutable
+  otutable[,2] <- 0L
+  expect_warning(
+    amp_load(
+      otutable = otutable,
+      metadata = example_metadata
+    ),
+    regexp = "One or more sample\\(s\\) have 0 reads"
   )
 })

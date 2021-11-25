@@ -173,8 +173,14 @@ pip-log.txt
 .Rhistory
 .RData
 *.Rproj
-test/
+ignore/
 .httr-oauth
 
 ..Rcheck/
 docs
+
+renv/
+
+docker-rstudio/Dockerfile
+
+docker-rstudio/renv.lock

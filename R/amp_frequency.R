@@ -76,20 +76,20 @@ amp_frequency <- function(data,
   suppressWarnings(
     if (group_by != "Sample") {
       if (length(group_by) > 1) {
-        grp <- data.frame(Sample = rownames(data$metadata), Group = apply(data$metadata[, group_by], 1, paste, collapse = " "))
+        grp <- data.frame(Sample = rownames(data$metadata), .Group = apply(data$metadata[, group_by], 1, paste, collapse = " "))
       } else {
-        grp <- data.frame(Sample = rownames(data$metadata), Group = data$metadata[, group_by])
+        grp <- data.frame(Sample = rownames(data$metadata), .Group = data$metadata[, group_by])
       }
-      abund1$Group <- grp$Group[match(abund1$Sample, grp$Sample)]
+      abund1$.Group <- grp$.Group[match(abund1$Sample, grp$Sample)]
       abund2 <- abund1
     } else {
-      abund2 <- data.frame(abund1, Group = abund1$Sample)
+      abund2 <- data.frame(abund1, .Group = abund1$Sample)
     }
   )
 
   ## Take the average to group level
-  abund3 <- data.table(abund2)[, Abundance := mean(Sum), by = list(Display, Group)] %>%
-    setkey(Display, Group) %>%
+  abund3 <- data.table(abund2)[, Abundance := mean(Sum), by = list(Display, .Group)] %>%
+    setkey(Display, .Group) %>%
     unique() %>%
     filter(Abundance > 0) %>%
     mutate(freq = 1)
@@ -97,7 +97,7 @@ amp_frequency <- function(data,
   ## Make a nice frequency plot
   temp3 <- group_by(abund3, Display) %>%
     summarise(Frequency = sum(freq), Total = sum(Sum)) %>%
-    mutate(Percent = Total / length(unique(abund3$Group))) %>%
+    mutate(Percent = Total / length(unique(abund3$.Group))) %>%
     as.data.frame()
 
   if (weight == T) {
@@ -138,7 +138,15 @@ amp_frequency <- function(data,
   }
 
   if (detailed_output) {
-    return(list(data = temp3, plot = p, abund = data$abund, tax = data$tax, metadata = data$metadata))
+    invisible(
+      list(
+        data = temp3,
+        plot = p,
+        abund = data$abund,
+        tax = data$tax,
+        metadata = data$metadata
+      )
+    )
   } else if (!detailed_output) {
     return(p)
   }

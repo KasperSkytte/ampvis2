@@ -145,15 +145,15 @@ amp_timeseries <- function(data,
   suppressWarnings(
     if (!is.null(group_by)) {
       if (length(group_by) > 1) {
-        grp <- data.frame(Sample = data$metadata[, 1], Group = apply(data$metadata[, group_by], 1, paste, collapse = "; "))
-        oldGroup <- unique(cbind.data.frame(data$metadata[, group_by], Group = grp$Group))
+        grp <- data.frame(Sample = data$metadata[, 1], .Group = apply(data$metadata[, group_by], 1, paste, collapse = "; "))
+        oldGroup <- unique(cbind.data.frame(data$metadata[, group_by], .Group = grp$.Group))
       } else {
-        grp <- data.frame(Sample = data$metadata[, 1], Group = data$metadata[, group_by])
+        grp <- data.frame(Sample = data$metadata[, 1], .Group = data$metadata[, group_by])
       }
-      abund3$Group <- grp$Group[match(abund3$Sample, grp$Sample)]
+      abund3$.Group <- grp$.Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3
     } else {
-      abund5 <- data.frame(abund3, Group = abund3$Sample)
+      abund5 <- data.frame(abund3, .Group = abund3$Sample)
     }
   )
 
@@ -192,7 +192,7 @@ amp_timeseries <- function(data,
 
   abund7 <- merge(abund7, data$metadata, by.x = "Sample", by.y = colnames(data$metadata)[1])
   abund7[, time_variable] <- lubridate::as_date(abund7[, time_variable], ...)
-  abund7$DisplayGroup <- paste(abund7$Display, abund7$Group)
+  abund7$DisplayGroup <- paste(abund7$Display, abund7$.Group)
   colnames(abund7)[which(colnames(abund7) == "Display")] <- tax_aggregate
   colnames(abund7)[which(colnames(abund7) == "Sum")] <- "Value"
   abund7 <- abund7[, -c(which(colnames(abund7) == "Abundance"))]
@@ -212,9 +212,9 @@ amp_timeseries <- function(data,
     }
   } else if (!is.null(group_by)) {
     if (isTRUE(split)) {
-      p <- ggplot(abund7, aes_string(x = time_variable, y = "Value", color = "Group", group = "DisplayGroup"))
+      p <- ggplot(abund7, aes_string(x = time_variable, y = "Value", color = ".Group", group = "DisplayGroup"))
     } else if (!isTRUE(split)) {
-      p <- ggplot(abund7, aes_string(x = time_variable, y = "Value", color = "Group", group = "DisplayGroup", linetype = tax_aggregate, shape = tax_aggregate))
+      p <- ggplot(abund7, aes_string(x = time_variable, y = "Value", color = ".Group", group = "DisplayGroup", linetype = tax_aggregate, shape = tax_aggregate))
     }
   }
   p <- p +
@@ -249,7 +249,7 @@ amp_timeseries <- function(data,
   }
 
   if (isTRUE(plotly)) {
-    return(ggplotly(p, tooltip = c("Group", tax_aggregate, "Date", "Value")))
+    return(ggplotly(p, tooltip = c(".Group", tax_aggregate, "Date", "Value")))
   } else if (!isTRUE(plotly)) {
     return(p)
   }

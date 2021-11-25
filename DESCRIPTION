@@ -2,8 +2,8 @@ Package: ampvis2
 Type: Package
 Title: Tools for visualising amplicon data
 Description: ampvis2 is a small set of tools that allows effortless visualisation of amplicon data.
-Version: 2.7.4
-Date: 2017-11-15
+Version: 2.7.12
+Date: 2021-09-21
 Authors@R: c(
   person(
     c("Kasper", "Skytte"), "Andersen", 
@@ -11,7 +11,7 @@ Authors@R: c(
     email = "ksa@bio.aau.dk",
     comment = c(ORCID = "0000-0002-5423-0958")),
   person(
-    "Mads", "Albertsen", 
+  "Mads", "Albertsen",
     role = c("aut", "cre"), 
     email = "MadsAlbertsen85@gmail.com",
     comment = c(ORCID = "0000-0002-6151-190X")),
@@ -51,9 +51,13 @@ Imports:
     crayon,
     cli,
     parallel
-RoxygenNote: 7.1.1
+Remotes: 
+    github::kasperskytte/ggnet,
+    github::kasperskytte/biomformat
 Suggests: 
     testthat (>= 3.0.0),
+    devtools,
+    usethis,
     tidyverse,
     readxl,
     jsonlite,
@@ -64,4 +68,5 @@ Suggests:
     doParallel,
     foreach,
     patchwork
+RoxygenNote: 7.1.2
 Config/testthat/edition: 3

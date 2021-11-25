@@ -2,9 +2,9 @@
 #'
 #' This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis2 functions can be used.
 #'
-#' @param otutable (\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively.
+#' @param otutable (\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Can also be a path to a BIOM file, which will then be parsed using the \href{https://github.com/joey711/biomformat}{biomformat} package, so both the JSON and HDF5 versions of the BIOM format are supported.
 #' @param metadata (\emph{recommended}) Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. (\emph{default:} \code{NULL})
-#' @param taxonomy (\emph{recommended}) Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain->Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. (\emph{default:} \code{NULL})
+#' @param taxonomy (\emph{recommended}) Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain->Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Can also be a path to a .sintax taxonomy table from a \href{http://www.drive5.com/usearch/}{USEARCH} analysis \href{http://www.drive5.com/usearch/manual/ex_miseq.html}{pipeline}, file extension must be \code{.sintax}. (\emph{default:} \code{NULL})
 #' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})
 #' @param tree (\emph{optional}) Path to a phylogenetic tree file which will be read using \code{\link[ape]{read.tree}}, or an object of class \code{"phylo"}. (\emph{default:} \code{NULL})
 #' @param pruneSingletons (\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})
@@ -15,7 +15,7 @@
 #' @importFrom ape read.FASTA
 #' @importFrom stringr str_replace_all str_to_title
 #' @importFrom dplyr intersect mutate_at
-#' @importFrom data.table fread
+#' @importFrom data.table fread setDF
 #' @importFrom tools file_ext
 #'
 #' @export
@@ -121,20 +121,101 @@ amp_load <- function(otutable,
                      pruneSingletons = FALSE,
                      ...) {
   ### the following functions are only useful in the context of amp_load()
+  # default (and expected) taxonomic levels
+  tax.levels <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")
   # function to check if provided object looks like a file path
   # and if so try to read the file, otherwise expect a data.frame
   import <- function(x, ...) {
+    # check if x is a length 1 string (i.e. a file path)
     if (is.character(x) &
       length(x) == 1 &
       is.null(dim(x))) {
       ext <- tolower(tools::file_ext(x))
+      # use fread() if it's a delimited text file
       if (ext %in% c("csv", "txt", "tsv", "")) {
         DF <- data.table::fread(x, fill = TRUE, data.table = FALSE, ...)
+        # use read_excel() if xls, xlsx
       } else if (ext %in% c("xls", "xlsx")) {
         checkReqPkg("readxl")
         DF <- readxl::read_excel(x, ...)
+        # if ext is .sintax expect sintax format and parse correctly
+      } else if (ext %in% "sintax") {
+        # Read file, has no headers
+        DF <- data.table::fread(x,
+          sep = "\t",
+          fill = TRUE,
+          header = FALSE,
+          data.table = TRUE
+        )[, c(1, 4)]
+        colnames(DF) <- c("OTU", "tax")
+
+        # Separate each taxonomic level into individual columns.
+        # This has to be done separately as taxonomic levels can be blank
+        # in between two other levels.
+        DF[, "Kingdom" := gsub("[dk]:", "k__", stringr::str_extract(tax, "[dk]:[^,]*"))]
+        DF[, "Phylum" := gsub("p:", "p__", stringr::str_extract(tax, "p:[^,]*"))]
+        DF[, "Class" := gsub("c:", "c__", stringr::str_extract(tax, "c:[^,]*"))]
+        DF[, "Order" := gsub("o:", "o__", stringr::str_extract(tax, "o:[^,]*"))]
+        DF[, "Family" := gsub("f:", "f__", stringr::str_extract(tax, "f:[^,]*"))]
+        DF[, "Genus" := gsub("g:", "g__", stringr::str_extract(tax, "g:[^,]*"))]
+        DF[, "Species" := gsub("s:", "s__", stringr::str_extract(tax, "s:[^,]*"))]
+        DF <- DF[, -2]
+        # the below would be more concise, but only works if all levels has a value,
+        # fx d:test,p:test,o:test,f:test,g:test,s:test is missing "c:class" because
+        # of low bootstrap value, and this would cause the other levels to be skewed and assigned to the wrong levels:
+        # sintax[,c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species") := data.table::tstrsplit(tax, ",", fixed = TRUE)]
+
+        # coerce to data.frame
+        data.table::setDF(DF, rownames = DF[, OTU])
+        # if ext is .biom expect BIOM format and parse correctly
+      } else if (ext %in% "biom") {
+        checkReqPkg(
+          "biomformat",
+          " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"biomformat\")"
+        )
+
+        biom <- biomformat::read_biom(x)
+
+        # extract read counts
+        abund <- biomformat::biom_data(biom) %>%
+          as.matrix(check.names = FALSE) %>%
+          as.data.frame(check.names = FALSE)
+
+        # if only one sample biom_data() drops the name of it for some reason
+        if (ncol(abund) == 1L) {
+          colnames(abund) <- biom$columns[[1]][["id"]]
+        }
+
+        # extract the taxonomy
+        taxlist <- lapply(biom$rows, function(x) {
+          x$metadata$taxonomy
+        })
+
+        # check if taxonomy is empty for all OTU's, use ID's as OTU's if so
+        if (all(is.null(unlist(taxlist, use.names = F)))) {
+          warning("Could not find the taxonomy of one or more OTU's in the provided .biom file", call. = FALSE)
+          DF <- abund
+        } else {
+          # extract OTU names
+          names(taxlist) <- lapply(biom$rows, function(x) {
+            x$id
+          })
+
+          # coerce to data frame
+          tax <- as.data.frame(t(as.data.frame(taxlist, check.names = FALSE, stringsAsFactors = FALSE)))
+
+          # rename taxonomic levels
+          colnames(tax) <- tax.levels[1:ncol(tax)]
+
+          if (ncol(tax) < 7L) {
+            warning("Taxonomy had less than 7 levels for all OTU's (Kingdom->Species), filling with NA from Species level and up.", call. = FALSE)
+          }
+
+          # combine abundances and taxonomy and return
+          DF <- cbind(abund, tax) # no need for merge()
+        }
       } else {
-        stop(paste("Unsupported file type \"", ext, "\""), call. = FALSE)
+        stop(paste0("Unsupported file type \".", ext, "\""), call. = FALSE)
       }
     } else {
       DF <- x
@@ -168,7 +249,7 @@ amp_load <- function(otutable,
         paste0(
           "Could not find a column named OTU/ASV in ",
           deparse(substitute(x)),
-          ", using rownames as sample ID's"
+          ", using rownames as OTU ID's"
         ),
         call. = FALSE
       )
@@ -178,7 +259,6 @@ amp_load <- function(otutable,
   }
 
   # function to extract and parse taxonomy correctly
-  tax.levels <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")
   parseTaxonomy <- function(x) {
     # create empty dummy taxonomy data frame to fill into
     tax <- as.data.frame(
@@ -240,6 +320,11 @@ amp_load <- function(otutable,
   taxcols <- tolower(colnames(otutable)) %in% c("domain", tolower(tax.levels))
   abund <- otutable[, !taxcols, drop = FALSE]
   abund[is.na(abund)] <- 0L
+
+  # warn if any empty sample(s)
+  if (any(colSums(abund) == 0L)) {
+    warning("One or more sample(s) have 0 reads", call. = FALSE)
+  }
 
   ### extract taxonomy from otutable or separate table if provided
   if (is.null(taxonomy)) {
@@ -398,14 +483,17 @@ amp_load <- function(otutable,
   )
 
   ### append refseq if provided
-  # check tree
+  # check file
   if (!is.null(fasta)) {
     if (is.character(fasta) &
       length(fasta) == 1 &
       is.null(dim(fasta))) {
-      refseq <- ape::read.FASTA(fasta, ...)[rownames(abund0)]
+      refseq <- ape::read.FASTA(fasta, ...)[data$tax$OTU]
     } else if (!inherits(fasta, c("DNAbin", "AAbin"))) {
       stop("fasta must be of class \"DNAbin\" or \"AAbin\" as loaded with the ape::read.FASTA() function.", call. = FALSE)
+    }
+    if (all(lapply(refseq, is.null))) {
+      stop("No sequences match any OTU's", call. = FALSE)
     }
     data$refseq <- refseq
   }
@@ -424,6 +512,9 @@ amp_load <- function(otutable,
       phy = tree,
       tip = tree$tip.label[!tree$tip.label %in% data$tax$OTU]
     )
+    if (is.null(tree)) {
+      stop("No tree tip labels match any OTU's", call. = FALSE)
+    }
     data$tree <- tree
   }
 
