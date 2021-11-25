@@ -17,6 +17,8 @@ remotes::install_github("MadsAlbertsen/ampvis2", Ncpus = 6)
 library(ampvis2)
 ```
 
+Alternatively use the RStudio docker image with ampvis2 preinstalled as described on the [home page](https://madsalbertsen.github.io/ampvis2/index.html).
+
 ## Loading data
 The first step is always to import some data by using the `amp_load` function. The `amp_load` function is quite flexible and auto-detects several different formats, including csv or excel files, BIOM files, or even R objects directly. As a minimum, you always need to import an abundance table with counts of OTU's/ASV's per sample, the rest are optional, but any useful analysis involves loading at least some sample metadata and taxonomy too. Refer to the [amp_load](https://madsalbertsen.github.io/ampvis2/reference/amp_load.html) help page for details. A simple example would be:
 

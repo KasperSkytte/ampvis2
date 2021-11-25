@@ -37,7 +37,7 @@ docker run -d \
   ghcr.io/madsalbertsen/ampvis2:main
 ```
 
-Access RStudio server through a browser at `http://localhost:8787` with username `rstudio`. Ideally use a specific version tag, fx `v2.7.12`, instead of `main` to not just pull the latest image with every pull.
+Access RStudio server through a browser at `http://localhost:8787` with username `rstudio`. Ideally use a specific version tag, fx `v2.7.12`, instead of `main` to not just pull the latest image every time.
 
 Blog posts about ampvis2
 ------------------------
@@ -48,12 +48,7 @@ Check out the blog posts at <http://albertsenlab.org/> about selected ampvis2 pl
 -   [ampvis2: A guide to ordination and how to use amp\_ordinate in R](http://albertsenlab.org/ampvis2-ordination/)
 -   [Analysing amplicon data, how easy does it get?](http://albertsenlab.org/shinyampvis/)
 
-Shiny
+Shiny app
 -----
 
 An interactive Shiny app with some of the basic functionality of ampvis2 can be found at: <https://kasperskytte.shinyapps.io/shinyampvis>
-
-Releases
---------
-
-To install a specific (older) release of ampvis2 use `"@release"` as suffix, fx `remotes::install_github("madsalbertsen/ampvis2@2.0")` to install the first release (2.0) of ampvis2. The latest stable release can be installed with `remotes::install_github("madsalbertsen/ampvis2@*release")`.
