@@ -491,18 +491,37 @@ filter_species <- function(data, filter_species = 0) {
 
   if (is.numeric(filter_species)) {
     if (filter_species > 0) {
+      # For printing removed OTUs
+      nOTUsbefore <- nrow(data$abund)
+      
       # First transform to percentages
       abund_pct <- data$abund
-      abund_pct[, which(colSums(abund_pct) != 0)] <- as.data.frame(apply(abund_pct[, which(colSums(abund_pct) != 0), drop = FALSE], 2, function(x) x / sum(x) * 100))
+      abund_pct[
+        ,
+        colSums(abund_pct) != 0
+      ] <- as.data.frame(
+        apply(
+          abund_pct[, colSums(abund_pct) != 0, drop = FALSE],
+          2,
+          function(x) x / sum(x) * 100)
+        )
       rownames(abund_pct) <- rownames(data$abund) # keep rownames
 
-      # Then filter low abundant OTU's where ALL samples have below the threshold set with filter_species in percent
-      abund_subset <- abund_pct[!apply(abund_pct, 1, function(row) all(row <= filter_species)), , drop = FALSE] # remove low abundant OTU's
-      data$abund <- data$abund[which(rownames(data$abund) %in% rownames(abund_subset)), , drop = FALSE]
+      # Then filter low abundant OTU's where ALL samples have 
+      # below the threshold set with filter_species in percent
+      abund_subset <- abund_pct[
+        !apply(
+          abund_pct,
+          1,
+          function(row) all(row <= filter_species)
+        ),
+        , drop = FALSE] # remove low abundant OTU's
+      
+      data$abund <- data$abund[rownames(data$abund) %in% rownames(abund_subset), , drop = FALSE]
       rownames(data$tax) <- data$tax$OTU
 
       # also filter taxonomy, tree, and sequences
-      data$tax <- data$tax[which(rownames(data$tax) %in% rownames(abund_subset)), , drop = FALSE]
+      data$tax <- data$tax[rownames(data$tax) %in% rownames(abund_subset), , drop = FALSE]
 
       if (!is.null(data$tree)) {
         data$tree <- ape::drop.tip(
@@ -510,7 +529,6 @@ filter_species <- function(data, filter_species = 0) {
           tip = data$tree$tip.label[!data$tree$tip.label %in% data$tax$OTU]
         )
       }
-
       if (!is.null(data$refseq)) {
         if (!is.null(names(data$refseq))) {
           # sometimes there is taxonomy alongside the OTU ID's. Anything after a ";" will be ignored
@@ -519,6 +537,23 @@ filter_species <- function(data, filter_species = 0) {
         } else if (is.null(names(data$refseq))) {
           warning("DNA sequences have not been subsetted, could not find the names of the sequences in data$refseq.", call. = FALSE)
         }
+      }
+      nOTUsafter <- nrow(data$abund)
+      if (nOTUsbefore == nOTUsafter) {
+        message("0 OTU's have been filtered.")
+      } else {
+        message(
+          paste0(
+            nOTUsbefore - nOTUsafter,
+            " OTUs not present in more than ",
+            filter_species,
+            "% relative abundance in any sample have been filtered \nBefore:",
+            nOTUsbefore,
+            " OTUs\nAfter:",
+            nOTUsafter,
+            " OTUs"
+          )
+        )
       }
     }
   }
