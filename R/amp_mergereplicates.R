@@ -73,7 +73,8 @@ amp_mergereplicates <- function(data,
 
   # melt to long format, calculate mean per group and
   # taxon, and cast back to wide format
-  newabund <- data.table::melt(tempabund, id.vars = "SampleID")[
+  sample_id <- names(data$metadata)[1]
+  newabund <- data.table::melt(tempabund, id.vars = sample_id)[
     ,
     .(value = mean(value)),
     by = c(nameoffirstcol, "variable")
