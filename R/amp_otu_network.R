@@ -56,10 +56,7 @@ amp_otu_network <- function(data,
                             normalise = TRUE,
                             detailed_output = FALSE,
                             ...) {
-  checkReqPkg(
-    "ggnet",
-    " Please install with:\n  remotes::install_github(\"kasperskytte/ggnet\")"
-  )
+  checkReqPkg("GGally")
   checkReqPkg("network")
 
   ### Data must be in ampvis2 format

@@ -62,7 +62,7 @@ Suggests:
     readxl,
     jsonlite,
     digest,
-    ggnet (>= 0.1.0),
+    GGally,
     lubridate,
     biomformat,
     doParallel,
