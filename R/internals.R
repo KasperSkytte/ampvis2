@@ -198,9 +198,11 @@ unifrac <- function(abund,
                     weighted = FALSE,
                     normalise = TRUE,
                     num_threads = 1L) {
-  checkReqPkg("doParallel")
-  # foreach is installed with doParallel, but its namespace needs to be loaded
-  checkReqPkg("foreach")
+  if (num_threads == 1L) {
+    checkReqPkg("foreach")
+  } else if (num_threads > 1) {
+    checkReqPkg("doParallel")
+  }
 
   # check tree
   if (!class(tree) == "phylo") {
