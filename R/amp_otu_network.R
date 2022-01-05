@@ -16,7 +16,6 @@
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
 #' @param min_abundance Minimum taxa abundance pr. sample. (\emph{default:} \code{0})
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
-#' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #' @param ... Additional arguments passed on to \code{\link[GGally]{ggnet2}}.
 #'
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
@@ -54,7 +53,6 @@ amp_otu_network <- function(data,
                             tax_class = NULL,
                             tax_empty = "best",
                             normalise = TRUE,
-                            detailed_output = FALSE,
                             ...) {
   checkReqPkg("GGally")
   checkReqPkg("network")
@@ -169,15 +167,5 @@ amp_otu_network <- function(data,
     scale_color_brewer(palette = "Set1", name = "") +
     scale_size_discrete(guide = F, range = c(3, 6))
 
-  ## Define the output
-  if (detailed_output) {
-    invisible(
-      list(
-        heatmap = p,
-        data = abund7
-      )
-    )
-  } else {
-    return(p)
-  }
+  return(p)
 }

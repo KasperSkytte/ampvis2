@@ -23,7 +23,6 @@
 #' @param sort_by Sort the boxplots by \code{"median"}, \code{"mean"} or \code{"total"}. (\emph{default:} \code{"median"})
 #' @param plot_type Plot type. \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"boxplot"})
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
-#' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
 #'
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 #'
@@ -64,8 +63,8 @@ amp_boxplot <- function(data,
                         plot_flip = FALSE,
                         plot_log = FALSE,
                         adjust_zero = NULL,
-                        normalise = TRUE,
-                        detailed_output = FALSE) {
+                        normalise = TRUE
+) {
 
   ### Data must be in ampvis2 format
   is_ampvis2(data)
@@ -210,15 +209,6 @@ amp_boxplot <- function(data,
   if (plot_log == TRUE) {
     p <- p + scale_y_log10()
   }
-
-  if (detailed_output) {
-    invisible(
-      list(
-        plot = p,
-        data = abund7
-      )
-    )
-  } else {
-    return(p)
-  }
+  
+  return(p)
 }

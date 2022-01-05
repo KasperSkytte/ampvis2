@@ -391,10 +391,9 @@ amp_venn <- function(data,
   p <- p + theme(axis.line = element_blank())
 
   ## Export data
-  if (detailed_output) {
+  if (isTRUE(detailed_output)) {
     invisible(res)
-  }
-  if (!detailed_output) {
+  } else if (isFALSE(detailed_output)) {
     return(p)
   }
 }

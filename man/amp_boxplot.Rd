@@ -20,8 +20,7 @@ amp_boxplot(
   plot_flip = FALSE,
   plot_log = FALSE,
   adjust_zero = NULL,
-  normalise = TRUE,
-  detailed_output = FALSE
+  normalise = TRUE
 )
 }
 \arguments{
@@ -61,8 +60,6 @@ amp_boxplot(
 \item{adjust_zero}{Keep abundances of 0 in the calculation of medians by adding this value. (\emph{default:} \code{NULL})}
 
 \item{normalise}{(\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})}
-
-\item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 }
 \value{
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
