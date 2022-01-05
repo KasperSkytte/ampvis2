@@ -123,7 +123,7 @@
 #' @import ggplot2
 #' @importFrom dplyr filter desc arrange group_by mutate summarise
 #' @importFrom tidyr gather spread
-#' @importFrom data.table as.data.table data.table setkey dcast melt setDT rbindlist
+#' @importFrom data.table as.data.table data.table setkey dcast melt setDT setDF rbindlist
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom scales squish
 #'
@@ -357,9 +357,12 @@ amp_heatmap <- function(data,
 
   ## Normalise to a specific group or sample (The Abundance of the group is set as 1)
   if (!is.null(normalise_by)) {
-    temp <- data.table::dcast(abund7, Display ~ .Group, value.var = "Abundance")
-    temp1 <- cbind.data.frame(Display = temp$Display, temp[, -1] / temp[, normalise_by])
-    abund7 <- data.table::melt(temp1, id.var = "Display", value.name = "Abundance", variable.name = ".Group")
+    if(!normalise_by %chin% unique(abund7$.Group))
+      stop(paste0(normalise_by, " is not found among group names, cannot normalise"), call. = FALSE)
+    setDT(abund7)
+    normalise_by <- abund7[.Group == normalise_by, Abundance]
+    abund7[, Abundance := Abundance / normalise_by, by = .Group]
+    setDF(abund7)
   }
 
   ## Order.y

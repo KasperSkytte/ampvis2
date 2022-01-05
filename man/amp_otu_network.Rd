@@ -44,7 +44,7 @@ amp_otu_network(
 
 \item{detailed_output}{(\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})}
 
-\item{...}{Additional arguments passed on to \code{\link[ggnet]{ggnet2}}.}
+\item{...}{Additional arguments passed on to \code{\link[GGally]{ggnet2}}.}
 }
 \value{
 A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
@@ -53,7 +53,7 @@ A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object 
 Generates network plot of taxa and samples based on ggnet2.
 }
 \details{
-See \code{\link[ggnet]{ggnet2}}
+See \code{\link[GGally]{ggnet2}}
 }
 \section{Preserving relative abundances in a subset of larger data}{
 
