@@ -52,7 +52,6 @@ Imports:
     cli,
     parallel
 Remotes: 
-    github::kasperskytte/ggnet,
     github::kasperskytte/biomformat
 Suggests: 
     testthat (>= 3.0.0),
@@ -62,7 +61,9 @@ Suggests:
     readxl,
     jsonlite,
     digest,
-    ggnet (>= 0.1.0),
+    GGally,
+    network,
+    sna,
     lubridate,
     biomformat,
     doParallel,

@@ -17,7 +17,7 @@
 #' @param min_abundance Minimum taxa abundance pr. sample. (\emph{default:} \code{0})
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
 #' @param detailed_output (\emph{logical}) Return additional details or not. If \code{TRUE}, it is recommended to save to an object and then access the additional data by \code{View(object$data)}. (\emph{default:} \code{FALSE})
-#' @param ... Additional arguments passed on to \code{\link[ggnet]{ggnet2}}.
+#' @param ... Additional arguments passed on to \code{\link[GGally]{ggnet2}}.
 #'
 #' @return A ggplot2 object. If \code{detailed_output = TRUE} a list with a ggplot2 object and additional data.
 #'
@@ -31,7 +31,7 @@
 #' @section Preserving relative abundances in a subset of larger data:
 #' See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
 #'
-#' @details See \code{\link[ggnet]{ggnet2}}
+#' @details See \code{\link[GGally]{ggnet2}}
 #'
 #' @seealso
 #' \code{\link{amp_load}}
@@ -56,11 +56,9 @@ amp_otu_network <- function(data,
                             normalise = TRUE,
                             detailed_output = FALSE,
                             ...) {
-  checkReqPkg(
-    "ggnet",
-    " Please install with:\n  remotes::install_github(\"kasperskytte/ggnet\")"
-  )
+  checkReqPkg("GGally")
   checkReqPkg("network")
+  checkReqPkg("sna")
 
   ### Data must be in ampvis2 format
   is_ampvis2(data)
