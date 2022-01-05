@@ -200,7 +200,7 @@ unifrac <- function(abund,
                     num_threads = 1L) {
   if (num_threads == 1L) {
     checkReqPkg("foreach")
-  } else if (num_threads > 1) {
+  } else if (num_threads > 1L) {
     checkReqPkg("doParallel")
   }
 
