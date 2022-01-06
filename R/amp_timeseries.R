@@ -26,7 +26,7 @@
 #' @import ggplot2
 #' @importFrom dplyr arrange group_by summarise desc summarise_at
 #' @importFrom tidyr gather
-#' @importFrom data.table as.data.table setkey
+#' @importFrom data.table as.data.table setkey setDT
 #' @importFrom plotly ggplotly
 #'
 #' @return A ggplot2 object.
@@ -201,9 +201,8 @@ amp_timeseries <- function(data,
   if (is.null(group_by)) {
     if (any(duplicated(data$metadata[, time_variable]))) {
       warning("Duplicate dates in column ", time_variable, ", displaying the average for each date.\n Consider grouping dates using the group_by argument or subset the data using amp_subset_samples.\n", call. = FALSE)
-      abund7 %>%
-        dplyr::group_by(time_variable, tax_aggregate) %>%
-        dplyr::summarise_at("Value", mean, na.rm = TRUE) -> abund7
+      setDT(abund7)
+      abund7 <- abund7[, .(Value = mean(Value, na.rm = TRUE)), by = c(time_variable, tax_aggregate)]
     }
     if (isTRUE(split)) {
       p <- ggplot(abund7, aes_string(x = time_variable, y = "Value", group = tax_aggregate))
