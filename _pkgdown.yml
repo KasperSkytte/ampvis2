@@ -14,42 +14,42 @@ reference:
 - title: Data and filtering
   desc: Functions for loading, exporting and subsetting the data.
   contents:
-  - amp_load
-  - amp_subset_samples
-  - amp_subset_taxa
-  - amp_mergereplicates
-  - amp_import_biom
-  - amp_import_usearch
-  - amp_export_fasta
+    - amp_load
+    - amp_subset_samples
+    - amp_subset_taxa
+    - amp_mergereplicates
+    - amp_import_biom
+    - amp_import_usearch
+    - amp_export_fasta
     - amp_export_otutable
     - amp_export_long
   - title: Summary functions
     contents:
-    - amp_alphadiv
+      - amp_alphadiv
   - title: Plotting functions
     desc: Functions for visualising amplicon data.
     contents:
-  - amp_rarecurve
-  - amp_octave
-  - amp_boxplot
-  - amp_heatmap
-  - amp_ordinate
-  - amp_timeseries
-  - amp_venn
-  - amp_core
-  - amp_frequency
-  - amp_otu_network
-  - amp_rankabundance
+      - amp_rarecurve
+      - amp_octave
+      - amp_boxplot
+      - amp_heatmap
+      - amp_ordinate
+      - amp_timeseries
+      - amp_venn
+      - amp_core
+      - amp_frequency
+      - amp_otu_network
+      - amp_rankabundance
 navbar:
-  title: ampvis2
+  title: "ampvis2"
   left:
-  - text: Home
+  - text: "Home"
     href: index.html
-  - text: Get Started
+  - text: "Get Started"
     href: articles/ampvis2.html
-  - text: Functions
+  - text: "Functions"
     href: reference/index.html
-  - text: FAQ
+  - text: "FAQ"
     href: articles/faq.html
   right:
   - icon: fa-github fa-lg
