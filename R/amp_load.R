@@ -3,7 +3,7 @@
 #' This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis2 functions can be used.
 #'
 #' @param otutable (\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Can also be a path to a BIOM file, which will then be parsed using the \href{https://github.com/joey711/biomformat}{biomformat} package, so both the JSON and HDF5 versions of the BIOM format are supported.
-#' @param metadata (\emph{recommended}) Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. (\emph{default:} \code{NULL})
+#' @param metadata (\emph{recommended}) Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. If \code{otutable} is a BIOM file and contains sample metadata, \code{metadata} will take precedence if provided. (\emph{default:} \code{NULL})
 #' @param taxonomy (\emph{recommended}) Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain->Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Can also be a path to a .sintax taxonomy table from a \href{http://www.drive5.com/usearch/}{USEARCH} analysis \href{http://www.drive5.com/usearch/manual/ex_miseq.html}{pipeline}, file extension must be \code{.sintax}. (\emph{default:} \code{NULL})
 #' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})
 #' @param tree (\emph{optional}) Path to a phylogenetic tree file which will be read using \code{\link[ape]{read.tree}}, or an object of class \code{"phylo"}. (\emph{default:} \code{NULL})
@@ -15,7 +15,7 @@
 #' @importFrom ape read.FASTA
 #' @importFrom stringr str_replace_all str_to_title
 #' @importFrom dplyr intersect mutate_at
-#' @importFrom data.table fread setDF
+#' @importFrom data.table fread setDF rbindlist
 #' @importFrom tools file_ext
 #'
 #' @export
@@ -192,7 +192,7 @@ amp_load <- function(otutable,
         })
 
         # check if taxonomy is empty for all OTU's, use ID's as OTU's if so
-        if (all(is.null(unlist(taxlist, use.names = F)))) {
+        if (all(is.null(unlist(taxlist, use.names = FALSE)))) {
           warning("Could not find the taxonomy of one or more OTU's in the provided .biom file", call. = FALSE)
           DF <- abund
         } else {
@@ -213,6 +213,29 @@ amp_load <- function(otutable,
 
           # combine abundances and taxonomy and return
           DF <- cbind(abund, tax) # no need for merge()
+        }
+        
+        # extract the sample metadata
+        metadatalist <- lapply(biom$columns, function(x) {
+          x$metadata
+        })
+        
+        # check whether metadata is empty
+        if (all(is.null(unlist(metadatalist, use.names = FALSE)))) {
+          warning("Could not find any sample metadata in the provided .biom file", call. = FALSE)
+          metadata <- NULL
+        } else {
+          # extract sample names
+          names(metadatalist) <- lapply(biom$columns, function(x) {
+            x$id
+          })
+          
+          # coerce to data table, then data frame
+          metadata <- setDF(rbindlist(metadatalist, idcol = "SampleID"))
+          
+          # append metadata to DF as an attribute
+          # (best solution for now)
+          attr(DF, "metadata") <- metadata
         }
       } else {
         stop(paste0("Unsupported file type \".", ext, "\""), call. = FALSE)
@@ -412,9 +435,12 @@ amp_load <- function(otutable,
     }
   }
 
-  ### create dummy metadata if none provided
+  ### create dummy metadata if not provided or passed on as an attribute of otutable
   if (!is.null(metadata)) {
     metadata <- import(metadata)
+  } else if (!is.null(attr(otutable, "metadata"))) {
+    # if otutable is loaded from a biom file, sample metadata is also there
+    metadata <- attr(otutable, "metadata")
   } else if (is.null(metadata)) {
     metadata <- data.frame(
       "SampleID" = colnames(abund),
