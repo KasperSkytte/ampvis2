@@ -15,3 +15,4 @@ Gets all fields from the MiDAS field guide (\url{https://midasfieldguide.org}) r
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}

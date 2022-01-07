@@ -17,3 +17,4 @@ Prints heatmap+functions plot (internal function)
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}

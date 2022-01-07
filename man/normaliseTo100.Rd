@@ -15,3 +15,4 @@ A modifed ampvis2 object
 \description{
 Normalise read counts to 100, i.e. in percent relative abundance per sample
 }
+\keyword{internal}

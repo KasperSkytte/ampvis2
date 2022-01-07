@@ -43,7 +43,9 @@ reference:
     - amp_frequency
     - amp_otu_network
     - amp_rankabundance
-
+  - title: Data sets
+    contents:
+    - has_keyword("data")
 navbar:
   title: "ampvis2"
   left:

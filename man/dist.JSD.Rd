@@ -17,3 +17,4 @@ A distance matrix of class \code{dist}.
 \description{
 Calculate Jensen-Shannon Divergence distances
 }
+\keyword{internal}

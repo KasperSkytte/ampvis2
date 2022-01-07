@@ -22,3 +22,4 @@ Finds the lowest taxonomic level of two given levels in \code{tax}. The hierarch
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}

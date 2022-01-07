@@ -18,3 +18,4 @@ Extract field related to properties and metabolism of all Genera from a list obt
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}

@@ -17,3 +17,4 @@ Prints amp_core plots if margin plots are also generated (internal function)
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}

@@ -35,3 +35,4 @@ Calculates the sum of OTUs per taxonomic level
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}

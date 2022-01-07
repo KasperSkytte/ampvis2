@@ -5,6 +5,7 @@
 #'
 #' @export
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 print.hmfunplot <- function(x, ...) {
   checkReqPkg("patchwork")
 
@@ -25,6 +26,7 @@ print.hmfunplot <- function(x, ...) {
 #'
 #' @export
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 print.coreplot <- function(x, ...) {
   checkReqPkg("patchwork")
 
@@ -76,6 +78,7 @@ print.coreplot <- function(x, ...) {
 #' @importFrom crayon underline
 #' @export
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 print.ampvis2 <- function(x, ...) {
   ### calculate basic statistics and useful information about the data, print it
   abundAreCounts <- abundAreCounts(x)
@@ -127,6 +130,7 @@ print.ampvis2 <- function(x, ...) {
 #' @importFrom crayon italic
 #' @export
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 print.figcaption <- function(x, ...) {
   cli::cat_line(cli::rule("Auto-generated figure caption (start)"))
   x %>%

@@ -17,3 +17,4 @@ An ampvis2 object
 \description{
 Filter species by a threshold in percent
 }
+\keyword{internal}

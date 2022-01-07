@@ -4,6 +4,7 @@
 #' @param pkg pkg
 #'
 #' @importFrom utils packageVersion
+#' @keywords internal
 .onAttach <- function(lib, pkg) {
   options(scipen = 6)
   # Check for new github release version. (Not master branch version, release version!)

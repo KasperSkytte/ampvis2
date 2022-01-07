@@ -7,6 +7,7 @@
 #' @return An ampvis2 object with rarefied OTU abundances.
 #' @importFrom vegan rrarefy
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 amp_rarefy <- function(data, rarefy) {
   ### Data must be in ampvis2 format
   if (class(data) != "ampvis2") {
@@ -57,6 +58,7 @@ amp_rarefy <- function(data, rarefy) {
 #' @importFrom dplyr mutate
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
+#' @keywords internal
 amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "Genus") {
   tax <- data[["tax"]]
 
@@ -137,6 +139,7 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
 #'
 #' @return A list with all fields.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 getMiDASFGData <- function() {
   checkReqPkg("jsonlite")
   jsonlite::read_json("http://midasfieldguide.org/api/microbes/fieldguide")
@@ -151,6 +154,7 @@ getMiDASFGData <- function() {
 #'
 #' @return A data frame where each row is a Genus and each column is a "function".
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 extractFunctions <- function(FGList) {
   functions <- lapply(FGList, function(x) {
     outList <- lapply(c(x[["properties"]], x[["metabolism"]]), function(y) {
@@ -193,6 +197,7 @@ extractFunctions <- function(FGList) {
 #' @importFrom ape is.rooted node.depth node.depth.edgelength reorder.phylo
 #' @return A distance matrix of class \code{dist}.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 unifrac <- function(abund,
                     tree,
                     weighted = FALSE,
@@ -301,6 +306,7 @@ unifrac <- function(abund,
 # This is based on http://enterotype.embl.de/enterotypes.html
 # Abundances of 0 will be set to the pseudocount value to avoid 0-value denominators
 # Unfortunately this code is SLOOOOOOOOW
+#' @keywords internal
 dist.JSD <- function(abund, pseudocount = 0.000001) {
   inMatrix <- t(abund)
   KLD <- function(x, y) sum(x * log(x / y))
@@ -335,6 +341,7 @@ dist.JSD <- function(abund, pseudocount = 0.000001) {
 #'
 #' @return A length one character vector with the lowest taxonomic level.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
   if (is.null(tax_aggregate) & is.null(tax_add)) {
     tax_aggregate <- colnames(tax)[ncol(tax)]
@@ -364,6 +371,7 @@ getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
 #' @importFrom data.table data.table melt
 #' @return A data.table.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 aggregate_abund <- function(abund,
                             tax,
                             tax_aggregate = "OTU",
@@ -441,6 +449,12 @@ aggregate_abund <- function(abund,
   return(out)
 }
 
+#' @title Check whether abundances appear to be read counts (i.e. not normalised)
+#'
+#' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
+#'
+#' @return Logical
+#' @keywords internal
 abundAreCounts <- function(data) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
@@ -458,6 +472,7 @@ abundAreCounts <- function(data) {
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #'
 #' @return A modifed ampvis2 object
+#' @keywords internal
 normaliseTo100 <- function(data) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
@@ -487,6 +502,7 @@ normaliseTo100 <- function(data) {
 #'
 #' @importFrom ape drop.tip
 #' @return An ampvis2 object
+#' @keywords internal
 filter_species <- function(data, filter_species = 0) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
@@ -569,6 +585,7 @@ filter_species <- function(data, filter_species = 0) {
 #'
 #' @return Returns error if \code{!inherits(data, "ampvis2")}, otherwise \code{invisible(TRUE)}.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 is_ampvis2 <- function(data) {
   if (!inherits(data, "ampvis2")) {
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
@@ -584,6 +601,7 @@ is_ampvis2 <- function(data) {
 #'
 #' @return Returns error and message if not installed, otherwise \code{invisible(TRUE)}
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
+#' @keywords internal
 checkReqPkg <- function(pkg, msg = "") {
   stopifnot(is.character(pkg), length(pkg) == 1L, nchar(pkg) > 0)
   if (!requireNamespace(pkg, quietly = TRUE)) {

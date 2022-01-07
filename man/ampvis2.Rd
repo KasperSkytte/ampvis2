@@ -10,3 +10,4 @@
 \details{
 Please use the online documentation webpage at \href{https://madsalbertsen.github.io/ampvis2/}{https://madsalbertsen.github.io/ampvis2}
 }
+\keyword{internal}

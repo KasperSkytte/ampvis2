@@ -20,3 +20,4 @@ Returns error if a required package is not installed. Mostly used for checking w
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}

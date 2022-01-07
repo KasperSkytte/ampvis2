@@ -18,3 +18,4 @@ Checks if the object is of class "ampvis2".
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}

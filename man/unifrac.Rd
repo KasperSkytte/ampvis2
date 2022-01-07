@@ -26,3 +26,4 @@ Calculate weighted or unweighted UniFrac distances. Adopted from fastUniFrac() f
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}

@@ -17,3 +17,4 @@ Print method for figure caption created by amp_ordinate
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}

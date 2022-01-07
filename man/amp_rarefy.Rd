@@ -20,3 +20,4 @@ This is just a wrapper of \code{\link[vegan]{rrarefy}} with convenient error mes
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
+\keyword{internal}
