@@ -27,6 +27,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.17</span>
       </span>
     </div>
 
@@ -60,7 +62,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2">
+  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -87,26 +89,26 @@
       <h1 data-toc-skip>Frequently Asked Questions</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/master/vignettes/faq.Rmd"><code>vignettes/faq.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/HEAD/vignettes/faq.Rmd" class="external-link"><code>vignettes/faq.Rmd</code></a></small>
       <div class="hidden name"><code>faq.Rmd</code></div>
 
     </div>
 
     
     
-<div id="your-question-here" class="section level2">
-<h2 class="hasAnchor">
-<a href="#your-question-here" class="anchor"></a>Your question here</h2>
-<p>If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <a href="https://github.com/MadsAlbertsen/ampvis2/issues" class="uri">https://github.com/MadsAlbertsen/ampvis2/issues</a> or email one of the developers, anything and everything is welcome.</p>
+<div class="section level2">
+<h2 id="your-question-here">Your question here<a class="anchor" aria-label="anchor" href="#your-question-here"></a>
+</h2>
+<p>If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <a href="https://github.com/MadsAlbertsen/ampvis2/issues" class="external-link uri">https://github.com/MadsAlbertsen/ampvis2/issues</a> or email one of the developers, anything and everything is welcome.</p>
 </div>
-<div id="preserving-relative-abundances-in-a-subset-of-larger-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#preserving-relative-abundances-in-a-subset-of-larger-data" class="anchor"></a>Preserving relative abundances in a subset of larger data</h2>
+<div class="section level2">
+<h2 id="preserving-relative-abundances-in-a-subset-of-larger-data">Preserving relative abundances in a subset of larger data<a class="anchor" aria-label="anchor" href="#preserving-relative-abundances-in-a-subset-of-larger-data"></a>
+</h2>
 <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code>amp_timeseries</code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code>amp_subset_taxa</code> and <code>amp_subset_samples</code> functions, and then set <code>raw = TRUE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>raw = TRUE</code> will skip the transformation in the plotting function, see the example below.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span>
 <span class="va">subsettedData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span><span class="op">(</span><span class="va">MiDAS</span>,
-                                    <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span>,
+                                    <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span>,
                                     normalise <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#add this</span>
                                     <span class="op">)</span>
 <span class="fu"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">subsettedData</span>,
@@ -116,13 +118,13 @@
             normalise <span class="op">=</span> <span class="cn">FALSE</span> <span class="co">#add this</span>
             <span class="op">)</span></code></pre></div>
 </div>
-<div id="custom-distance-matrix-for-use-in-ordination" class="section level2">
-<h2 class="hasAnchor">
-<a href="#custom-distance-matrix-for-use-in-ordination" class="anchor"></a>Custom distance matrix for use in ordination</h2>
+<div class="section level2">
+<h2 id="custom-distance-matrix-for-use-in-ordination">Custom distance matrix for use in ordination<a class="anchor" aria-label="anchor" href="#custom-distance-matrix-for-use-in-ordination"></a>
+</h2>
 <p>If you wan’t to calculate a distance matrix manually and use it for PCoA in <code>amp_ordinate</code>, it can be done quite easily by just setting <code>filter_species = 0</code>, <code>transform = "none"</code>, and <code>distmeasure = "none"</code>, like below. The matrix should be a symmetrical matrix containing coefficients for all pairs of samples in the data. This is not ideal for nMDS (nor possible) since it is not an eigenvalue based method, but if you really want, set <code>distmeasure = "euclidean"</code> instead of “none”.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Override the abundance table in the ampvis2 object with a custom distance matrix</span>
-<span class="va">ampvis2_object</span><span class="op">$</span><span class="va">abund</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html">as.dist</a></span><span class="op">(</span><span class="va">custom_dist_matrix</span><span class="op">)</span>
+<span class="va">ampvis2_object</span><span class="op">$</span><span class="va">abund</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="va">custom_dist_matrix</span><span class="op">)</span>
 
 <span class="co">#set filter_species = 0, transform = "none", and distmeasure = "none"</span>
 <span class="fu"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span><span class="op">(</span><span class="va">ampvis2_object</span>,
@@ -131,16 +133,16 @@
              transform <span class="op">=</span> <span class="st">"none"</span>,
              distmeasure <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="loading-phyloseq-objects" class="section level2">
-<h2 class="hasAnchor">
-<a href="#loading-phyloseq-objects" class="anchor"></a>Loading phyloseq objects</h2>
-<p>Simply source the <code>phyloseq_to_ampvis2()</code> function from <a href="https://gist.github.com/KasperSkytte/8d0ca4206a66be7ff6d76fc4ab8e66c6">this gist</a>, either by copy/pasting into R, or by using <code><a href="https://devtools.r-lib.org//reference/source_gist.html">devtools::source_gist()</a></code> as shown below. You need both the <code>phyloseq</code> and <code>ampvis2</code> packages installed for it to work.</p>
+<div class="section level2">
+<h2 id="loading-phyloseq-objects">Loading phyloseq objects<a class="anchor" aria-label="anchor" href="#loading-phyloseq-objects"></a>
+</h2>
+<p>Simply source the <code>phyloseq_to_ampvis2()</code> function from <a href="https://gist.github.com/KasperSkytte/8d0ca4206a66be7ff6d76fc4ab8e66c6" class="external-link">this gist</a>, either by copy/pasting into R, or by using <code><a href="https://devtools.r-lib.org/reference/source_gist.html" class="external-link">devtools::source_gist()</a></code> as shown below. You need both the <code>phyloseq</code> and <code>ampvis2</code> packages installed for it to work.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#require the devtools package to source gist</span>
-<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/">"devtools"</a></span><span class="op">)</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="co">#source the phyloseq_to_ampvis2() function from the gist</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/source_gist.html">source_gist</a></span><span class="op">(</span><span class="st">"8d0ca4206a66be7ff6d76fc4ab8e66c6"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/source_gist.html" class="external-link">source_gist</a></span><span class="op">(</span><span class="st">"8d0ca4206a66be7ff6d76fc4ab8e66c6"</span><span class="op">)</span>
 
 <span class="co">#go converty</span>
 <span class="va">ampvis2_obj</span> <span class="op">&lt;-</span> <span class="fu">phyloseq_to_ampvis2</span><span class="op">(</span><span class="va">phyloseq_obj</span><span class="op">)</span></code></pre></div>
@@ -158,11 +160,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Kasper Skytte Andersen, Mads Albertsen, Rasmus Hansen Kirkegaard.</p>
+  <p></p>
+<p>Developed by Kasper Skytte Andersen, Mads Albertsen, Rasmus Hansen Kirkegaard.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>

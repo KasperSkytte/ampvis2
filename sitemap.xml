@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/404.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/ISSUE_TEMPLATE.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/articles/faq.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/authors.html</loc>
+  </url>
+  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/index.html</loc>
   </url>
   <url>
@@ -8,6 +29,9 @@
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/MiDAS.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/abundAreCounts.html</loc>
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/aggregate_abund.html</loc>
@@ -115,6 +139,9 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/getMiDASFGData.html</loc>
   </url>
   <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/is_ampvis2.html</loc>
   </url>
   <url>
@@ -140,11 +167,5 @@
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/unifrac.html</loc>
-  </url>
-  <url>
-    <loc>https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html</loc>
-  </url>
-  <url>
-    <loc>https://madsalbertsen.github.io/ampvis2/articles/faq.html</loc>
   </url>
 </urlset>

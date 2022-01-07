@@ -27,6 +27,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.17</span>
       </span>
     </div>
 
@@ -60,7 +62,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2">
+  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -85,28 +87,28 @@
   <div class="contents col-md-9">
 
 
-<div id="tools-for-visualising-amplicon-data" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#tools-for-visualising-amplicon-data" class="anchor"></a>Tools for visualising amplicon data</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="tools-for-visualising-amplicon-data">Tools for visualising amplicon data<a class="anchor" aria-label="anchor" href="#tools-for-visualising-amplicon-data"></a>
+</h1></div>
 <p>ampvis2 is an R-package to conveniently visualise and analyse 16S rRNA amplicon data in different ways.</p>
-<div id="installing-ampvis2" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installing-ampvis2" class="anchor"></a>Installing ampvis2</h2>
-<p>First, install <a href="https://mirrors.dotsrc.org/cran/">R (3.5.x or later)</a> and <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio</a>. Windows users should also install <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/">RTools</a>. Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console:</p>
+<div class="section level2">
+<h2 id="installing-ampvis2">Installing ampvis2<a class="anchor" aria-label="anchor" href="#installing-ampvis2"></a>
+</h2>
+<p>First, install <a href="https://mirrors.dotsrc.org/cran/" class="external-link">R (3.5.x or later)</a> and <a href="https://www.rstudio.com/products/rstudio/download/#download" class="external-link">RStudio</a>. Windows users should also install <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/" class="external-link">RTools</a>. Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"MadsAlbertsen/ampvis2"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"MadsAlbertsen/ampvis2"</span><span class="op">)</span></code></pre></div>
 <p>Tip: For faster installation you can utilise multicore processors by setting the <code>Ncpus</code> argument, fx <code>remotes::install_github("madsalbertsen/ampvis2", Ncpus = 6)</code>. Most CPU’s today can run 8 processes simultaneously, so setting it to 6 is a good starting point unless you know you have a CPU with more (logical) cores than 8.</p>
 </div>
-<div id="get-started" class="section level2">
-<h2 class="hasAnchor">
-<a href="#get-started" class="anchor"></a>Get started</h2>
+<div class="section level2">
+<h2 id="get-started">Get started<a class="anchor" aria-label="anchor" href="#get-started"></a>
+</h2>
 <p>For a quick guide on how to use ampvis2 go to the <a href="https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html">Get Started</a> page. Detailed documentation of all ampvis2 functions can be found at the <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Functions</a> page.</p>
 </div>
-<div id="rstudio-docker-container" class="section level2">
-<h2 class="hasAnchor">
-<a href="#rstudio-docker-container" class="anchor"></a>RStudio Docker container</h2>
-<p>A Docker container based on the <a href="https://hub.docker.com/r/rocker/rstudio">rocker/rstudio</a> image is also provided with ampvis2 preinstalled. This is ideal for complete reproducibility and portability. All you need to do is <a href="https://docs.docker.com/">install Docker</a> and then run:</p>
+<div class="section level2">
+<h2 id="rstudio-docker-container">RStudio Docker container<a class="anchor" aria-label="anchor" href="#rstudio-docker-container"></a>
+</h2>
+<p>A Docker container based on the <a href="https://hub.docker.com/r/rocker/rstudio" class="external-link">rocker/rstudio</a> image is also provided with ampvis2 preinstalled. This is ideal for complete reproducibility and portability. All you need to do is <a href="https://docs.docker.com/" class="external-link">install Docker</a> and then run:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">docker</span> run -d \</span>
 <span id="cb2-2"><a href="#cb2-2"></a>  -e <span class="st">"PASSWORD=supersafepassword"</span> \</span>
 <span id="cb2-3"><a href="#cb2-3"></a>  -v <span class="st">"local/folder/to/mount"</span>:/home/rstudio \</span>
@@ -114,20 +116,20 @@
 <span id="cb2-5"><a href="#cb2-5"></a>  ghcr.io/madsalbertsen/ampvis2:main</span></code></pre></div>
 <p>Access RStudio server through a browser at <code>http://localhost:8787</code> with username <code>rstudio</code>. Ideally use a specific version tag, fx <code>v2.7.12</code>, instead of <code>main</code> to not just pull the latest image every time.</p>
 </div>
-<div id="blog-posts-about-ampvis2" class="section level2">
-<h2 class="hasAnchor">
-<a href="#blog-posts-about-ampvis2" class="anchor"></a>Blog posts about ampvis2</h2>
-<p>Check out the blog posts at <a href="http://albertsenlab.org/" class="uri">http://albertsenlab.org/</a> about selected ampvis2 plotting functions. The posts include details as well as example code:</p>
+<div class="section level2">
+<h2 id="blog-posts-about-ampvis2">Blog posts about ampvis2<a class="anchor" aria-label="anchor" href="#blog-posts-about-ampvis2"></a>
+</h2>
+<p>Check out the blog posts at <a href="http://albertsenlab.org/" class="external-link uri">http://albertsenlab.org/</a> about selected ampvis2 plotting functions. The posts include details as well as example code:</p>
 <ul>
-<li><a href="http://albertsenlab.org/ampvis2-heatmap/">ampvis2: The bread and butter of our amplicon analyses: amp_heatmap!</a></li>
-<li><a href="http://albertsenlab.org/ampvis2-ordination/">ampvis2: A guide to ordination and how to use amp_ordinate in R</a></li>
-<li><a href="http://albertsenlab.org/shinyampvis/">Analysing amplicon data, how easy does it get?</a></li>
+<li><a href="http://albertsenlab.org/ampvis2-heatmap/" class="external-link">ampvis2: The bread and butter of our amplicon analyses: amp_heatmap!</a></li>
+<li><a href="http://albertsenlab.org/ampvis2-ordination/" class="external-link">ampvis2: A guide to ordination and how to use amp_ordinate in R</a></li>
+<li><a href="http://albertsenlab.org/shinyampvis/" class="external-link">Analysing amplicon data, how easy does it get?</a></li>
 </ul>
 </div>
-<div id="shiny-app" class="section level2">
-<h2 class="hasAnchor">
-<a href="#shiny-app" class="anchor"></a>Shiny app</h2>
-<p>An interactive Shiny app with some of the basic functionality of ampvis2 can be found at: <a href="https://kasperskytte.shinyapps.io/shinyampvis" class="uri">https://kasperskytte.shinyapps.io/shinyampvis</a></p>
+<div class="section level2">
+<h2 id="shiny-app">Shiny app<a class="anchor" aria-label="anchor" href="#shiny-app"></a>
+</h2>
+<p>An interactive Shiny app with some of the basic functionality of ampvis2 can be found at: <a href="https://kasperskytte.shinyapps.io/shinyampvis" class="external-link uri">https://kasperskytte.shinyapps.io/shinyampvis</a></p>
 </div>
 </div>
 
@@ -135,55 +137,59 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/MadsAlbertsen/ampvis2/">https://​github.com/​MadsAlbertsen/​ampvis2/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/MadsAlbertsen/ampvis2/issues">https://​github.com/​MadsAlbertsen/​ampvis2/​issues</a>
-</li>
-<li>Latest stable release at <br><a href="https://github.com/MadsAlbertsen/ampvis2">https://​github.com/​MadsAlbertsen/​ampvis2</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://www.r-project.org/Licenses/AGPL-3">AGPL-3</a> + file <a href="LICENSE-text.html">LICENSE</a>
-</li>
-</ul>
-</div>
-<div class="citation">
-<h2>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html">Citing ampvis2</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Kasper Skytte Andersen <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5423-0958" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Mads Albertsen <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6151-190X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Rasmus Hansen Kirkegaard <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3349-3617" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="https://github.com/MadsAlbertsen/ampvis2/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/MadsAlbertsen/ampvis2/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">Latest stable release</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/MadsAlbertsen/ampvis2/actions"><img src="https://github.com/MadsAlbertsen/ampvis2/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li>
+<a href="https://www.r-project.org/Licenses/AGPL-3" class="external-link">AGPL-3</a> + file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing ampvis2</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Kasper Skytte Andersen <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5423-0958" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Mads Albertsen <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6151-190X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Rasmus Hansen Kirkegaard <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3349-3617" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/MadsAlbertsen/ampvis2/actions" class="external-link"><img src="https://github.com/MadsAlbertsen/ampvis2/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Kasper Skytte Andersen, Mads Albertsen, Rasmus Hansen Kirkegaard.</p>
+  <p></p>
+<p>Developed by Kasper Skytte Andersen, Mads Albertsen, Rasmus Hansen Kirkegaard.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
