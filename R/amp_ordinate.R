@@ -29,12 +29,12 @@
 #' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})
 #' @param y_axis Which axis from the ordination results to plot as the second axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{2})
 #' @param print_caption Auto-generate a figure caption based on the arguments used. The caption includes a description of how the result has been generated as well as references for the methods used.
-#' @param sample_color_by Color sample points by a variable in the metadata.
+#' @param sample_color_by Color sample points by a ??? variable in the metadata.
 #' @param sample_color_order Order the colors in \code{sample_color_by} by the order in a vector.
 #' @param sample_label_by Label sample points by a variable in the metadata.
 #' @param sample_label_size Sample labels text size. (\emph{default:} \code{4})
 #' @param sample_label_segment_color Sample labels repel-segment color. (\emph{default:} \code{"black"})
-#' @param sample_shape_by Shape sample points by a variable in the metadata.
+#' @param sample_shape_by Shape sample points by a categorical/discrete variable in the metadata.
 #' @param sample_colorframe Frame the sample points with a polygon by a variable in the metadata split by the variable defined by \code{sample_color_by}, or simply \code{TRUE} to frame the points colored by \code{sample_color_by}. (\emph{default:} \code{FALSE})
 #' @param sample_colorframe_label Label by a variable in the metadata.
 #' @param sample_colorframe_label_size Size of the color frame labels. (\emph{default:} \code{3})
@@ -53,7 +53,7 @@
 #' @param species_rescale (\emph{logical}) Rescale species points or not. Basically they will be multiplied by 0.8, for visual convenience only. (\emph{default:} \code{FALSE})
 #' @param species_plotly (\emph{logical}) Enable interactive species points so that they can be hovered to show complete taxonomic information. (\emph{default:} \code{FALSE})
 #'
-#' @param envfit_factor A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in \code{\link[vegan]{envfit}}.
+#' @param envfit_factor A vector of character/categorical environmental variables from the metadata to fit onto the ordination plot. See details in \code{\link[vegan]{envfit}}.
 #' @param envfit_numeric A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in \code{\link[vegan]{envfit}}.
 #' @param envfit_signif_level The significance threshold for displaying the results of \code{envfit_factor} or \code{envfit_numeric}. (\emph{default:} \code{0.005})
 #' @param envfit_textsize Size of the envfit text on the plot. (\emph{default:} \code{3})

@@ -4,7 +4,7 @@
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param time_variable (required) The name of the column in the metadata containing the time variables, e.g. \code{"Date"}. Must be directly compatible with \code{\link[lubridate]{as_date}} and preferably of the form \code{"yyyy-mm-dd"} or \code{"\%Y-\%m-\%d"}.
-#' @param group_by Group the samples by a variable in the metadata.
+#' @param group_by Group the samples by a categorical/discrete variable in the metadata.
 #' @param split Split the plot into subplots of each taxa. (\emph{default:} \code{FALSE})
 #' @param scales If \code{split = TRUE}, should the axis scales of each subplot be fixed (\code{fixed}), free (\code{"free"}), or free in one dimension (\code{"free_x"} or \code{"free_y"})? (\emph{default:} \code{"fixed"})
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})

@@ -4,8 +4,8 @@
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param stepsize Step size for the curves. Lower is prettier but takes more time to generate. (\emph{default:} \code{1000})
-#' @param color_by Color curves by a variable in the metadata. (\emph{default:} \code{NULL})
-#' @param facet_by Split the plot into subplots based on a variable in the metadata. (\emph{default:} \code{NULL})
+#' @param color_by Color curves by a ??? variable in the metadata. (\emph{default:} \code{NULL})
+#' @param facet_by Split the plot into subplots based on a categorical/discrete variable in the metadata. (\emph{default:} \code{NULL})
 #' @param facet_scales If \code{facet_by} is set, should the axis scales of each subplot be fixed (\code{fixed}), free (\code{"free"}), or free in one dimension (\code{"free_x"} or \code{"free_y"})? (\emph{default:} \code{"fixed"})
 #'
 #' @export

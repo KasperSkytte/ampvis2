@@ -3,7 +3,7 @@
 #' @description Generates a rank abundance curve (rank abundance vs cumulative read abundance), optionally with standard deviation from mean intervals.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param group_by (\emph{required}) Group the samples by a variable in the metadata.
+#' @param group_by (\emph{required}) Group the samples by a categorical/discrete variable in the metadata.
 #' @param showSD Show standard deviation from mean or not. (\emph{default:} \code{TRUE})
 #' @param log10_x Log10-transform the x-axis or not. Often most variation is observed among the most abundant OTU's, log10-transforming the x-axis will highlight this better. (\emph{default:} \code{TRUE})
 #'

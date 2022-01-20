@@ -3,7 +3,7 @@
 #' Calculates the number of "core" OTUs shared by groups given thresholds for how frequent the OTUs should be above a certain abundance. Also returns the average abundance of the OTUs in a particular group.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param group_by Group the data based on a sample metadata variable. \code{amp_venn} currently only supports a maximum of 3 different groups.
+#' @param group_by Group the data based on a categorical/discrete sample metadata variable. \code{amp_venn} currently only supports a maximum of 3 different groups.
 #' @param cut_a Abundance cutoff in percent. OTU's below this abundance are excluded from the analysis. (\emph{default:} \code{0.1})
 #' @param cut_f Frequency cutoff in percent. OTU's within the top \code{cut_f} of the reads are considered a "core" OTU. (\emph{default:} \code{80})
 #' @param text_size Size of the plotted text. (\emph{default:} \code{5})
