@@ -21,6 +21,7 @@ reference:
     - amp_subset_samples
     - amp_subset_taxa
     - amp_mergereplicates
+    - amp_merge_ampvis2
     - amp_import_biom
     - amp_import_usearch
     - amp_export_fasta
