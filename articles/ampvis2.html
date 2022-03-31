@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.2</span>
       </span>
     </div>
 
@@ -97,18 +97,18 @@
     
     
 <p>This is a short guide to the basics of <code>ampvis2</code>, how to load data, as well as a few basic visualisation functions using example data. A complete explanation of all functions, their purpose, different arguments and examples can be found in the <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Functions</a> tab.</p>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
+<div class="section level3">
+<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
 <p>Install <code>ampvis2</code> as described on the <a href="https://madsalbertsen.github.io/ampvis2/index.html">home page</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"MadsAlbertsen/ampvis2"</span>, Ncpus <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
 <p>Alternatively use the RStudio docker image with ampvis2 preinstalled as described on the <a href="https://madsalbertsen.github.io/ampvis2/index.html">home page</a>.</p>
 </div>
-<div class="section level2">
-<h2 id="loading-data">Loading data<a class="anchor" aria-label="anchor" href="#loading-data"></a>
-</h2>
+<div class="section level3">
+<h3 id="loading-data">Loading data<a class="anchor" aria-label="anchor" href="#loading-data"></a>
+</h3>
 <p>The first step is always to import some data by using the <code>amp_load</code> function. The <code>amp_load</code> function is quite flexible and auto-detects several different formats, including csv or excel files, BIOM files, or even R objects directly. As a minimum, you always need to import an abundance table with counts of OTU’s/ASV’s per sample, the rest are optional, but any useful analysis involves loading at least some sample metadata and taxonomy too. Refer to the <a href="https://madsalbertsen.github.io/ampvis2/reference/amp_load.html">amp_load</a> help page for details. A simple example would be:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://madsalbertsen.github.io/ampvis2">ampvis2</a></span><span class="op">)</span>
@@ -121,9 +121,9 @@
 <p>The data is then loaded and combined into a single <code>ampvis2</code> class object by the <code><a href="../reference/amp_load.html">amp_load()</a></code> function, which makes the workflow a bit simpler as everything is performed on a single object and can be manipulated by dedicated functions. The data structure used in <code>ampvis2</code> is inspired by that of the <a href="https://joey711.github.io/phyloseq/index.html" class="external-link">phyloseq</a> R package, but instead of being an abstract S4 class object it’s a simple <code>list</code> of data frames. The individual elements of the object is otherwise the same and resembles that of a typical amplicon data set (otutable, metadata, taxonomy, FASTA sequences, tree). Below is a simple illustration of the data structure and typical workflow of <code>ampvis2</code>:</p>
 <p><img src="workflow.png"></p>
 </div>
-<div class="section level2">
-<h2 id="filtering-and-subsetting">Filtering and subsetting<a class="anchor" aria-label="anchor" href="#filtering-and-subsetting"></a>
-</h2>
+<div class="section level3">
+<h3 id="filtering-and-subsetting">Filtering and subsetting<a class="anchor" aria-label="anchor" href="#filtering-and-subsetting"></a>
+</h3>
 <p>With the <code>ampvis2</code> package comes a large example data set with 573 samples taken from the activated sludge from 55 Danish Wastewater Treatment Plants in the period 2006-2013, which can be loaded with <code>data("MiDAS")</code>. Simply typing the name of any ampvis2 object in the console will show a short summary of the data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span>
@@ -195,9 +195,9 @@
 <span class="co">## After: 2724 OTUs</span></code></pre>
 <p>The taxonomic rank is indicated by fx "p__" for phylum and "g__" for genus etc, followed by the name of the taxon (case-sensitive, first letter almost always capital). To filter individual OTUs simply provide the OTU name(s) as-is in a vector, fx <code>c("OTU_1206")</code>.</p>
 </div>
-<div class="section level1">
-<h1 id="heatmap">Heatmap<a class="anchor" aria-label="anchor" href="#heatmap"></a>
-</h1>
+<div class="section level2">
+<h2 id="heatmap">Heatmap<a class="anchor" aria-label="anchor" href="#heatmap"></a>
+</h2>
 <p>All ampvis2 plots are generated using the <a href="http://ggplot2.tidyverse.org/" class="external-link">ggplot2</a> package. You can change the look of the plots to better suit your needs, add more layers to the plots and use other ggplot2 functions in combination with ampvis plots if needed. Refer to the <a href="http://ggplot2.tidyverse.org/reference/index.html" class="external-link">ggplot2 documentation</a> for more information. <code><a href="../reference/amp_heatmap.html">amp_heatmap()</a></code> by default aggregates to phylum level and shows the top 10 phyla, ordered by mean read abundance across all samples:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span>
@@ -221,9 +221,9 @@
         legend.position<span class="op">=</span><span class="st">"right"</span><span class="op">)</span></code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
-<div class="section level1">
-<h1 id="boxplot">Boxplot<a class="anchor" aria-label="anchor" href="#boxplot"></a>
-</h1>
+<div class="section level2">
+<h2 id="boxplot">Boxplot<a class="anchor" aria-label="anchor" href="#boxplot"></a>
+</h2>
 <p><code><a href="../reference/amp_boxplot.html">amp_boxplot()</a></code> generates boxplots, again ordered by mean read abundance across all samples:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/amp_boxplot.html">amp_boxplot</a></span><span class="op">(</span><span class="va">MiDASsubset</span><span class="op">)</span></code></pre></div>
@@ -238,9 +238,9 @@
 <span class="op">)</span></code></pre></div>
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
-<div class="section level1">
-<h1 id="ordination">Ordination<a class="anchor" aria-label="anchor" href="#ordination"></a>
-</h1>
+<div class="section level2">
+<h2 id="ordination">Ordination<a class="anchor" aria-label="anchor" href="#ordination"></a>
+</h2>
 <p>The <code><a href="../reference/amp_ordinate.html">amp_ordinate()</a></code> function has been expanded to support 7 different ordination methods, various data transformations and interactive plots by using <a href="https://plot.ly/" class="external-link">Plotly</a>. By default any OTU with an abundance no higher than 0.1% in any sample is removed, which drastically improves the calculation time. You can of course adjust this threshold manually by changing the <code>filter_species = 0.1</code> argument. Other than this, there are only four main arguments that are involved in the actual calculations, the rest are just various plotting features. These four are <code>type = ""</code>, <code>transform = ""</code>, <code>distmeasure = ""</code>, and lastly <code>constrain = ""</code> for constrained ordination (only used in Redundancy Analysis (RDA) or Canonical Correspondence Analysis (CCA)).</p>
 <p>When analysing microbial community composition data it is recommended to use the Hellinger transformation (see <a href="https://doi.org/10.1007/s004420100716" class="external-link">Legendre et al, 2001</a> or <a href="https://www.elsevier.com/books/numerical-ecology/legendre/978-0-444-53868-0" class="external-link">Numerical Ecology</a> for details) for most types of ordination methods except the distance-based ordination methods (Principal Coordinates Analysis (PCoA) and non-Metric Multidimensional Scaling (nMDS)), where you also have to select a distance measure manually by the <code>distmeasure = ""</code> argument, for example Bray-Curtis dissimilarities:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -283,9 +283,9 @@
 <p><img src="ampvis2_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <p>Notice that the plot can be saved as a more detailed object (<code>detailed_output = TRUE</code>), so additional details about the ordination result can be obtained for evaluation, fx a screeplot by <code>ordinationresult$screeplot</code> or some more raw data by <code>ordinationresult$model</code>.</p>
 </div>
-<div class="section level1">
-<h1 id="read-more">Read more<a class="anchor" aria-label="anchor" href="#read-more"></a>
-</h1>
+<div class="section level2">
+<h2 id="read-more">Read more<a class="anchor" aria-label="anchor" href="#read-more"></a>
+</h2>
 <p>There are numerous other functions to try out as well as complete documentation for each function highlighted above. Go explore in the <a href="../reference/index.html">Functions</a> tab.</p>
 </div>
   </div>
@@ -307,7 +307,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
