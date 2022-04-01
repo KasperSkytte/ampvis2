@@ -42,8 +42,7 @@
 #'   d_2012
 #' )
 amp_merge_ampvis2 <- function(...) {
-  warning("This function is still experimental... Inspecting the code is advised")
-  obj_list <<- list(...)
+  obj_list <- list(...)
   
   #all objects must be ampvis2-class objects
   if(!all(sapply(obj_list, inherits, "ampvis2"))) {
@@ -63,7 +62,7 @@ amp_merge_ampvis2 <- function(...) {
     stop("All objects must be either normalised or not, not mixed", call. = FALSE)
   }
   
-  #no duplicate samples between objects allowed (to-do: ALSO CHECK METADATA!!!!!!!!!!!!!!!!!!!!!!!!!!
+  #no duplicate samples between objects are allowed (check abund)
   obj_list %>% 
     lapply(
       function(x) {
@@ -74,11 +73,24 @@ amp_merge_ampvis2 <- function(...) {
     duplicated %>% 
     any %>% 
     if(.) {
-      stop("One or more samples occurs more than once between the objects", call. = FALSE)
+      stop("One or more samples occurs more than once between the objects (according to abundance table)", call. = FALSE)
     }
   
-  #merge objects individually
-  ##abundance table
+  #no duplicate samples between objects are allowed (check sample metadata)
+  obj_list %>% 
+    lapply(
+      function(x) {
+        x[["metadata"]][[1]]
+      }
+    ) %>% 
+    unlist %>% 
+    duplicated %>% 
+    any %>% 
+    if(.) {
+      stop("One or more samples occurs more than once between the objects (according to sample metadata)", call. = FALSE)
+    }
+  
+  #merge abundance tables
   abund <- obj_list %>% 
     lapply(
       function(obj) {
@@ -91,7 +103,7 @@ amp_merge_ampvis2 <- function(...) {
       by = "OTU"
     )
     
-  ##metadata
+  #merge metadata
   #ensure the first sample ID column are named the same, just use that of the first obj
   idcolname <- colnames(obj_list[[1]][["metadata"]])[1]
   metadata <- obj_list %>% 
@@ -103,9 +115,9 @@ amp_merge_ampvis2 <- function(...) {
     ) %>%
     rbindlist(
       fill = TRUE
-    )
+    ) 
   
-  ##taxonomy
+  #merge taxonomy
   taxonomy <- obj_list %>% 
     lapply(
       `[[`,
@@ -116,7 +128,11 @@ amp_merge_ampvis2 <- function(...) {
     ) %>% 
     unique
   
-  # check for same number of ASVs to make sure taxonomy identical !!!!!!!!!!!!!!!!!!!!!!!
+  #check for contradictions in taxonomy. If an OTU occurs more than once 
+  #after running unique() in the code above there are conflicts
+  if(any(duplicated(taxonomy[["OTU"]]))) {
+    stop("Conflicting taxonomy between one or more OTU's across all objects. Have they been classified in the exact same way across all objects?")
+  }
   
   ##sequences
   refseq <- lapply(obj_list, `[[`, "refseq")
@@ -140,4 +156,3 @@ amp_merge_ampvis2 <- function(...) {
     pruneSingletons = FALSE
   )
 }
-
