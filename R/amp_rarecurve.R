@@ -110,3 +110,7 @@ amp_rarecurve <- function(data,
   }
   return(p)
 }
+
+#' @rdname amp_rarecurve
+#' @export
+amp_rarefaction_curve <- amp_rarecurve

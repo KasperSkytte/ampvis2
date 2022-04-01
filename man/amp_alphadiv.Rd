@@ -2,9 +2,12 @@
 % Please edit documentation in R/amp_alphadiv.R
 \name{amp_alphadiv}
 \alias{amp_alphadiv}
+\alias{amp_alpha_diversity}
 \title{Alpha-diversity analysis}
 \usage{
 amp_alphadiv(data, measure = NULL, richness = FALSE, rarefy = NULL)
+
+amp_alpha_diversity(data, measure = NULL, richness = FALSE, rarefy = NULL)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

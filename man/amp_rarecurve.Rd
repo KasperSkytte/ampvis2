@@ -2,9 +2,18 @@
 % Please edit documentation in R/amp_rarecurve.R
 \name{amp_rarecurve}
 \alias{amp_rarecurve}
+\alias{amp_rarefaction_curve}
 \title{Rarefaction curve}
 \usage{
 amp_rarecurve(
+  data,
+  stepsize = 1000,
+  color_by = NULL,
+  facet_by = NULL,
+  facet_scales = "fixed"
+)
+
+amp_rarefaction_curve(
   data,
   stepsize = 1000,
   color_by = NULL,

@@ -31,9 +31,11 @@
 #' dmerged$metadata
 #' dmerged
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
-amp_mergereplicates <- function(data,
-                                merge_var,
-                                round = NULL) {
+amp_merge_replicates <- function(
+  data,
+  merge_var,
+  round = NULL
+) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 
@@ -114,3 +116,7 @@ amp_mergereplicates <- function(data,
   out$abund <- out$abund[, rownames(out$metadata), drop = FALSE]
   return(out)
 }
+
+#' @rdname amp_merge_replicates
+#' @export
+amp_mergereplicates <- amp_merge_replicates

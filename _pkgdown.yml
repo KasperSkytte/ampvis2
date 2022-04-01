@@ -18,9 +18,9 @@ reference:
     desc: Functions for loading, exporting and subsetting the data.
     contents:
     - amp_load
-    - amp_subset_samples
-    - amp_subset_taxa
-    - amp_mergereplicates
+    - amp_filter_samples
+    - amp_filter_taxa
+    - amp_merge_replicates
     - amp_merge_ampvis2
     - amp_import_biom
     - amp_import_usearch
@@ -43,7 +43,7 @@ reference:
     - amp_core
     - amp_frequency
     - amp_otu_network
-    - amp_rankabundance
+    - amp_rank_abundance
   - title: Data sets
     contents:
     - has_keyword("data")

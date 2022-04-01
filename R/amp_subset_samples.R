@@ -185,3 +185,7 @@ amp_subset_samples <- function(data,
 
   return(data)
 }
+
+#' @rdname amp_subset_samples
+#' @export
+amp_filter_samples <- amp_subset_samples

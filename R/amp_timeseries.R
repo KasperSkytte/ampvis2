@@ -253,3 +253,7 @@ amp_timeseries <- function(data,
     return(p)
   }
 }
+
+#' @rdname amp_timeseries
+#' @export
+amp_time_series <- amp_timeseries

@@ -2,9 +2,12 @@
 % Please edit documentation in R/amp_subset_taxa.R
 \name{amp_subset_taxa}
 \alias{amp_subset_taxa}
+\alias{amp_filter_taxa}
 \title{Subset ampvis2 objects based on taxonomy}
 \usage{
 amp_subset_taxa(data, tax_vector = NULL, normalise = FALSE, remove = FALSE)
+
+amp_filter_taxa(data, tax_vector = NULL, normalise = FALSE, remove = FALSE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

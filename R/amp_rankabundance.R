@@ -84,3 +84,7 @@ amp_rankabundance <- function(data,
     }
   return(plot)
 }
+
+#' @rdname amp_rankabundance
+#' @export
+amp_rank_abundance <- amp_rankabundance

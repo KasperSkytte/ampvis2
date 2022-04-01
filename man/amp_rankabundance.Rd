@@ -2,9 +2,12 @@
 % Please edit documentation in R/amp_rankabundance.R
 \name{amp_rankabundance}
 \alias{amp_rankabundance}
+\alias{amp_rank_abundance}
 \title{Rank abundance plot}
 \usage{
 amp_rankabundance(data, group_by, showSD = TRUE, log10_x = TRUE)
+
+amp_rank_abundance(data, group_by, showSD = TRUE, log10_x = TRUE)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}

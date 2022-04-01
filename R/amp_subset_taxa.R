@@ -157,3 +157,7 @@ amp_subset_taxa <- function(data,
 
   return(data)
 }
+
+#' @rdname amp_subset_taxa
+#' @export
+amp_filter_taxa <- amp_subset_taxa

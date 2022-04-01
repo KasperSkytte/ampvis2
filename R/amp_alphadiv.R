@@ -136,3 +136,7 @@ amp_alphadiv <- function(data,
     }
   return(results)
 }
+
+#' @rdname amp_alphadiv
+#' @export
+amp_alpha_diversity <- amp_alphadiv

@@ -2,9 +2,26 @@
 % Please edit documentation in R/amp_timeseries.R
 \name{amp_timeseries}
 \alias{amp_timeseries}
+\alias{amp_time_series}
 \title{Abundance timeseries}
 \usage{
 amp_timeseries(
+  data,
+  time_variable = NULL,
+  group_by = NULL,
+  tax_aggregate = "OTU",
+  tax_add = NULL,
+  tax_show = 5,
+  tax_class = NULL,
+  tax_empty = "best",
+  split = FALSE,
+  scales = "free_y",
+  normalise = TRUE,
+  plotly = FALSE,
+  ...
+)
+
+amp_time_series(
   data,
   time_variable = NULL,
   group_by = NULL,

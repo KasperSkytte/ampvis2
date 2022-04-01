@@ -2,9 +2,19 @@
 % Please edit documentation in R/amp_subset_samples.R
 \name{amp_subset_samples}
 \alias{amp_subset_samples}
+\alias{amp_filter_samples}
 \title{Subset ampvis2 objects based on sample metadata}
 \usage{
 amp_subset_samples(
+  data,
+  ...,
+  minreads = 0,
+  rarefy = NULL,
+  normalise = FALSE,
+  removeAbsents = TRUE
+)
+
+amp_filter_samples(
   data,
   ...,
   minreads = 0,
