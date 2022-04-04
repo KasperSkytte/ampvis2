@@ -135,17 +135,10 @@ amp_merge_ampvis2 <- function(...) {
     stop("Conflicting taxonomy between one or more OTU's across all objects. Have they been classified in the exact same way across all objects?")
   }
 
-  ##sequences
-  refseq <- lapply(obj_list, `[[`, "refseq")
-  if(!any(sapply(refseq, is.null))) {
-    warning("Merging DNA sequences is currently not supported. Work in progress, sorry...", call. = TRUE)
-  }
-
-  ##tree
-  tree <- lapply(obj_list, `[[`, "tree")
-  if(!any(sapply(tree, is.null))) {
-    warning("Merging phylogenetic trees is currently not supported. Work in progress, sorry...", call. = TRUE)
-  }
+  #merge refseq
+  fasta <- sapply(obj_list, function(obj) {
+    strsplit(obj$tax$OTU, "")
+  })
 
   #load and return
   amp_load(
