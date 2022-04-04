@@ -51,4 +51,3 @@ amp_import_biom <- function(...) {
   args <- list(...)
   .Defunct(new = "amp_load(otutable = \"path/to/file.biom\")")
 }
-

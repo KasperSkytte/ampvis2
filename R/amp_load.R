@@ -113,15 +113,13 @@
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 #'
-amp_load <- function(
-  otutable,
-  metadata = NULL,
-  taxonomy = NULL,
-  fasta = NULL,
-  tree = NULL,
-  pruneSingletons = FALSE,
-  ...
-) {
+amp_load <- function(otutable,
+                     metadata = NULL,
+                     taxonomy = NULL,
+                     fasta = NULL,
+                     tree = NULL,
+                     pruneSingletons = FALSE,
+                     ...) {
   ### the following functions are only useful in the context of amp_load()
   # default (and expected) taxonomic levels
   tax_levels <- c(
@@ -225,12 +223,12 @@ amp_load <- function(
           # combine abundances and taxonomy and return
           DF <- cbind(abund, tax) # no need for merge()
         }
-        
+
         # extract the sample metadata
         metadatalist <- lapply(biom$columns, function(x) {
           x$metadata
         })
-        
+
         # check whether metadata is empty
         if (all(is.null(unlist(metadatalist, use.names = FALSE)))) {
           warning("Could not find any sample metadata in the provided .biom file", call. = FALSE)
@@ -240,10 +238,10 @@ amp_load <- function(
           names(metadatalist) <- lapply(biom$columns, function(x) {
             x$id
           })
-          
+
           # coerce to data table, then data frame
           metadata <- setDF(rbindlist(metadatalist, idcol = "SampleID"))
-          
+
           # append metadata to DF as an attribute
           # (best solution for now)
           attr(DF, "metadata") <- metadata

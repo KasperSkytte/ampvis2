@@ -63,8 +63,7 @@ amp_boxplot <- function(data,
                         plot_flip = FALSE,
                         plot_log = FALSE,
                         adjust_zero = NULL,
-                        normalise = TRUE
-) {
+                        normalise = TRUE) {
 
   ### Data must be in ampvis2 format
   is_ampvis2(data)
@@ -209,6 +208,6 @@ amp_boxplot <- function(data,
   if (plot_log == TRUE) {
     p <- p + scale_y_log10()
   }
-  
+
   return(p)
 }

@@ -31,11 +31,9 @@
 #' dmerged$metadata
 #' dmerged
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
-amp_merge_replicates <- function(
-  data,
-  merge_var,
-  round = NULL
-) {
+amp_merge_replicates <- function(data,
+                                 merge_var,
+                                 round = NULL) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 

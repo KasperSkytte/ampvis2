@@ -95,14 +95,14 @@
 #' # By default this information is retrieved directly from midasfieldguide.org
 #' # but you can provide your own with the function_data argument as shown with
 #' # the textmap further down
-#' 
+#'
 #' suppressWarnings(
-#' heatmapwfunctions <- amp_heatmap(AalborgWWTPs,
-#'   group_by = "Plant",
-#'   tax_aggregate = "Genus",
-#'   plot_functions = TRUE,
-#'   functions = c("PAO", "GAO", "AOB", "NOB")
-#' )
+#'   heatmapwfunctions <- amp_heatmap(AalborgWWTPs,
+#'     group_by = "Plant",
+#'     tax_aggregate = "Genus",
+#'     plot_functions = TRUE,
+#'     functions = c("PAO", "GAO", "AOB", "NOB")
+#'   )
 #' )
 #'
 #' class(heatmapwfunctions)
@@ -190,14 +190,14 @@ amp_heatmap <- function(data,
     if (is.null(function_data)) {
       if (!exists(".ampvis2_midasfg_function_data", envir = .GlobalEnv)) {
         function_data <- try(getMiDASFGData(), silent = TRUE)
-        if(inherits(function_data, "try-error")) {
+        if (inherits(function_data, "try-error")) {
           warning("Can't reach the midasfieldguide.org API to download functional data just now. The reason can be issues with either the site or your internet connection. Using the data set \"midasfunctions_20201201\" instead, which is probably not up-to-date. You can also supply your own data frame by using the function_data argument.", call. = FALSE)
           function_data <- midasfunctions_20201201
         } else {
           function_data <- extractFunctions(function_data)
         }
         assign(".ampvis2_midasfg_function_data", function_data, envir = .GlobalEnv)
-      } else if(exists(".ampvis2_midasfg_function_data", envir = .GlobalEnv)) {
+      } else if (exists(".ampvis2_midasfg_function_data", envir = .GlobalEnv)) {
         function_data <- get(".ampvis2_midasfg_function_data", envir = .GlobalEnv)
       }
     }
@@ -345,9 +345,9 @@ amp_heatmap <- function(data,
       tax_show <- nrow(TotalCounts)
     }
     abund7 <- filter(abund6, Display %in% unique(TotalCounts$Display)[1:tax_show])
-  } else if(!is.numeric(tax_show)) {
+  } else if (!is.numeric(tax_show)) {
     tax_show <- as.character(tax_show)
-    if(all(tolower(tax_show) == "all")) {
+    if (all(tolower(tax_show) == "all")) {
       abund7 <- abund6
     } else {
       abund7 <- filter(abund6, Display %in% tax_show)
@@ -357,8 +357,9 @@ amp_heatmap <- function(data,
 
   ## Normalise to a specific group or sample (The Abundance of the group is set as 1)
   if (!is.null(normalise_by)) {
-    if(!normalise_by %chin% unique(abund7$.Group))
+    if (!normalise_by %chin% unique(abund7$.Group)) {
       stop(paste0(normalise_by, " is not found among group names, cannot normalise"), call. = FALSE)
+    }
     setDT(abund7)
     normalise_by <- abund7[.Group == normalise_by, Abundance]
     abund7[, Abundance := Abundance / normalise_by, by = .Group]

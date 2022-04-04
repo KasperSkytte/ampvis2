@@ -21,7 +21,7 @@ test_that("Merging two ampvis2-class objects originating from the same data set 
       Year %in% "2015"
     )
   })
-  
+
   res <- expect_s3_class(
     suppressWarnings({
       amp_merge_ampvis2(
@@ -32,7 +32,7 @@ test_that("Merging two ampvis2-class objects originating from the same data set 
     class = "ampvis2",
     exact = TRUE
   )
-  
+
   suppressMessages({
     compare <- amp_filter_samples(AalborgWWTPs, Year %in% c("2014", "2015"))
   })
@@ -40,22 +40,22 @@ test_that("Merging two ampvis2-class objects originating from the same data set 
     nrow(res$abund),
     nrow(compare$abund)
   )
-  
+
   expect_equal(
     sort(colnames(res[["abund"]])),
     sort(colnames(compare[["abund"]]))
   )
-  
+
   expect_equal(
     sort(rownames(res[["abund"]])),
     sort(rownames(compare[["abund"]]))
   )
-  
+
   expect_equal(
     sort(rownames(res[["tax"]])),
     sort(rownames(compare[["tax"]]))
   )
-  
+
   expect_equal(
     sort(res$metadata[[1]]),
     sort(compare$metadata[[1]])
@@ -73,9 +73,9 @@ test_that("Merging two ampvis2-class objects with contradicting taxonomy errors"
       Year %in% "2015"
     )
   })
-  
+
   obj2[["tax"]]["OTU_1", "Species"] <- "thisisnotthesame as in obj1"
-  
+
   res <- expect_error(
     suppressWarnings({
       amp_merge_ampvis2(
@@ -103,7 +103,7 @@ test_that("Merging three ampvis2-class objects with some non-unique samples erro
       Year %in% "2013"
     )
   })
-  
+
   expect_error(
     suppressWarnings({
       amp_merge_ampvis2(
@@ -130,7 +130,7 @@ test_that("Merging two objects where one is normalised and the other is not erro
       normalise = TRUE
     )
   })
-  
+
   expect_error(
     suppressWarnings({
       amp_merge_ampvis2(

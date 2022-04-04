@@ -905,17 +905,18 @@ amp_ordinate <- function(data,
     ))
   }
   # combine caption and references
-  captionwithrefs <- caption %>% {
-    if (length(refs2print) > 0) {
-      paste0(
-        .,
-        "\n\n\nReferences:\n\n",
-        paste0(sort(references[unique(refs2print)]), collapse = "\n\n")
-      )
-    } else {
-      .
+  captionwithrefs <- caption %>%
+    {
+      if (length(refs2print) > 0) {
+        paste0(
+          .,
+          "\n\n\nReferences:\n\n",
+          paste0(sort(references[unique(refs2print)]), collapse = "\n\n")
+        )
+      } else {
+        .
+      }
     }
-  }
   # set class to use custom print method
   class(captionwithrefs) <- "figcaption"
 
