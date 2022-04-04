@@ -113,16 +113,27 @@
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 #'
-amp_load <- function(otutable,
-                     metadata = NULL,
-                     taxonomy = NULL,
-                     fasta = NULL,
-                     tree = NULL,
-                     pruneSingletons = FALSE,
-                     ...) {
+amp_load <- function(
+  otutable,
+  metadata = NULL,
+  taxonomy = NULL,
+  fasta = NULL,
+  tree = NULL,
+  pruneSingletons = FALSE,
+  ...
+) {
   ### the following functions are only useful in the context of amp_load()
   # default (and expected) taxonomic levels
-  tax.levels <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")
+  tax_levels <- c(
+    "Kingdom",
+    "Phylum",
+    "Class",
+    "Order",
+    "Family",
+    "Genus",
+    "Species",
+    "OTU"
+  )
   # function to check if provided object looks like a file path
   # and if so try to read the file, otherwise expect a data.frame
   import <- function(x, ...) {
@@ -205,7 +216,7 @@ amp_load <- function(otutable,
           tax <- as.data.frame(t(as.data.frame(taxlist, check.names = FALSE, stringsAsFactors = FALSE)))
 
           # rename taxonomic levels
-          colnames(tax) <- tax.levels[1:ncol(tax)]
+          colnames(tax) <- tax_levels[1:ncol(tax)]
 
           if (ncol(tax) < 7L) {
             warning("Taxonomy had less than 7 levels for all OTU's (Kingdom->Species), filling with NA from Species level and up.", call. = FALSE)
@@ -287,24 +298,24 @@ amp_load <- function(otutable,
     tax <- as.data.frame(
       matrix(
         nrow = nrow(x),
-        ncol = length(tax.levels),
-        dimnames = list(rownames(x), tax.levels)
+        ncol = length(tax_levels),
+        dimnames = list(rownames(x), tax_levels)
       )
     )
     tax[["OTU"]] <- rownames(tax)
 
     # rename all taxonomy columns except OTU column
-    taxcols <- tolower(colnames(x)) %in% c("domain", tolower(tax.levels[-8]))
+    taxcols <- tolower(colnames(x)) %in% c("domain", tolower(tax_levels[-8]))
     colnames(x)[taxcols] <- stringr::str_to_title(colnames(x)[taxcols])
 
     # identify which columns contain taxonomy
-    taxcolnames <- dplyr::intersect(tax.levels, colnames(x))
+    taxcolnames <- dplyr::intersect(tax_levels, colnames(x))
 
     # allow both Kingdom or Domain column, but not both at once
     if (all(c("Domain", "Kingdom") %in% taxcolnames)) {
       stop("Cannot have both Domain and Kingdom columns at the same time in taxonomy.", call. = FALSE)
     } else if (any("Domain" %in% taxcolnames)) {
-      tax.levels[1] <- "Domain" -> colnames(tax)[1]
+      tax_levels[1] <- "Domain" -> colnames(tax)[1]
     }
 
     # fill into dummy taxonomy by merging by OTU
@@ -323,7 +334,7 @@ amp_load <- function(otutable,
     }
 
     # select and sort columns correctly in Kingdom/Domain -> Species order
-    tax <- tax[, tax.levels, drop = FALSE]
+    tax <- tax[, tax_levels, drop = FALSE]
 
     # remove whitespaces at the either side
     tax[] <- lapply(tax, stringr::str_replace_all, pattern = "^\\s+|\\s+$", replacement = "")
@@ -340,7 +351,7 @@ amp_load <- function(otutable,
   otutable <- findOTUcol(otutable)
 
   ### extract read abundances from otutable (same if taxonomy present or not)
-  taxcols <- tolower(colnames(otutable)) %in% c("domain", tolower(tax.levels))
+  taxcols <- tolower(colnames(otutable)) %in% c("domain", tolower(tax_levels))
   abund <- otutable[, !taxcols, drop = FALSE]
   abund[is.na(abund)] <- 0L
 
