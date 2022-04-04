@@ -1,8 +1,9 @@
 #' Merge ampvis2 object(s)
 #'
-#' @description Merge any number of ampvis2 objects into a single object
+#' @description Merge any number of ampvis2 objects into a single object.
 #'
-#' @param ... Any number of ampvis2-class objects to merge
+#' @param ... (required) Any number of ampvis2-class objects to merge
+#' @param by_refseq (recommended) Merge by exact matches between DNA reference sequences. The full DNA sequences will then be used as the new names in the output. (\emph{default:} \code{TRUE})
 #'
 #' @return An ampvis2-class object
 #' @importFrom data.table rbindlist
@@ -10,7 +11,9 @@
 #' @importFrom dplyr full_join
 #'
 #' @details
-#' Use with care. It is the users responsibility alone to ensure that OTU ID's are not arbitrary and that they are corresponding to the same sequences across data sets (objects). The same applies to the taxonomy, which must be generated in the exact same way with the same database across data sets.
+#' It's important to ensure that the taxonomy for all OTU's across data sets is generated in the exact same way with the same database.
+#' When \code{by_refseq = FALSE} it's likewise important to ensure that OTU ID's are not arbitrary between data sets and that they are corresponding to the same sequences across data sets (objects).
+#' When \code{by_refseq = TRUE} the full DNA sequences will be used as the new OTU ID's. If the length of the names is a problem you can manually adjust the names in the output object in the \code{data$tax$OTU} column as well as setting the row names on both the \code{data$abund} and \code{data$tax} data frames. They must all be identical.
 #' @export
 #'
 #' @examples
@@ -41,11 +44,14 @@
 #'   d_2011,
 #'   d_2012
 #' )
-amp_merge_ampvis2 <- function(...) {
+amp_merge_ampvis2 <- function(
+  ...,
+  by_refseq = TRUE
+) {
   obj_list <- list(...)
 
   #all objects must be ampvis2-class objects
-  if(!all(sapply(obj_list, inherits, "ampvis2"))) {
+  if (!all(sapply(obj_list, inherits, "ampvis2"))) {
     stop("One or more objects is not an ampvis2-class object", call. = FALSE)
   }
 
@@ -86,9 +92,42 @@ amp_merge_ampvis2 <- function(...) {
     unlist %>%
     duplicated %>%
     any %>%
-    if(.) {
+    if (.) {
       stop("One or more samples occurs more than once between the objects (according to sample metadata)", call. = FALSE)
     }
+
+  if (isTRUE(by_refseq)) {
+    #ensure all objects have refseqs loaded
+    has_refseq <- sapply(
+      obj_list,
+      function(obj) {
+        inherits(obj$refseq, c("DNAbin", "AAbin"))
+      }
+    )
+    if (!all(has_refseq)) {
+      stop("All objects must have DNA sequences loaded to be \
+        able to merge by DNA sequence (recommended). Otherwise \
+        merge by OTU name by setting by_refseq = FALSE if you're \
+        sure it makes sense for your data.", call. = FALSE)
+    }
+
+    obj_list <- obj_list %>%
+    lapply(
+      function(obj) {
+        obj$abund$OTU <- rownames(obj$abund)
+        refseq_chr <- obj$refseq %>%
+          as.character() %>%
+          lapply(paste, collapse = "") %>%
+          unlist(use.names = TRUE)
+        obj$abund <- obj$abund[names(refseq_chr), ]
+        obj$abund$OTU <- refseq_chr -> rownames(obj$abund)
+
+        obj$tax <- obj$tax[names(refseq_chr), ]
+        obj$tax$OTU <- refseq_chr -> rownames(obj$tax)
+        obj
+      }
+    )
+  }
 
   #merge abundance tables
   abund <- obj_list %>%
