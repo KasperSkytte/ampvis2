@@ -14,6 +14,8 @@
 #' It's important to ensure that the taxonomy for all OTU's across data sets is generated in the exact same way with the same database.
 #' When \code{by_refseq = FALSE} it's likewise important to ensure that OTU ID's are not arbitrary between data sets and that they are corresponding to the same sequences across data sets (objects).
 #' When \code{by_refseq = TRUE} the full DNA sequences will be used as the new OTU ID's. If the length of the names is a problem you can manually adjust the names in the output object in the \code{data$tax$OTU} column as well as setting the row names on both the \code{data$abund} and \code{data$tax} data frames. They must all be identical.
+#'
+#' Currently, phylogenetic trees are not merged. Feel free to contribute.
 #' @export
 #'
 #' @examples
@@ -44,14 +46,21 @@
 #'   d_2011,
 #'   d_2012
 #' )
-amp_merge_ampvis2 <- function(...,
-                              by_refseq = TRUE) {
+amp_merge_ampvis2 <- function(..., by_refseq = TRUE) {
   obj_list <- list(...)
 
   # all objects must be ampvis2-class objects
   if (!all(sapply(obj_list, inherits, "ampvis2"))) {
     stop("One or more objects is not an ampvis2-class object", call. = FALSE)
   }
+
+  # which ones have DNA seqs loaded
+  has_refseq <- sapply(
+    obj_list,
+    function(obj) {
+      inherits(obj$refseq, c("DNAbin", "AAbin"))
+    }
+  )
 
   # all objects must be either normalised or not, cant have both
   normalised <- obj_list %>%
@@ -63,7 +72,7 @@ amp_merge_ampvis2 <- function(...,
     unlist()
 
   if (sum(normalised) > 0L & sum(normalised) != length(obj_list)) {
-    stop("All objects must be either normalised or not, not mixed", call. = FALSE)
+    stop("All objects must be either normalised or not, not mixed", call. = FALSE) # nolint
   }
 
   # no duplicate samples between objects are allowed (check abund)
@@ -77,7 +86,7 @@ amp_merge_ampvis2 <- function(...,
     duplicated() %>%
     any() %>%
     if (.) {
-      stop("One or more samples occurs more than once between the objects (according to abundance table)", call. = FALSE)
+      stop("One or more samples occurs more than once between the objects (according to abundance table)", call. = FALSE) # nolint
     }
 
   # no duplicate samples between objects are allowed (check sample metadata)
@@ -91,24 +100,17 @@ amp_merge_ampvis2 <- function(...,
     duplicated() %>%
     any() %>%
     if (.) {
-      stop("One or more samples occurs more than once between the objects (according to sample metadata)", call. = FALSE)
+      stop("One or more samples occurs more than once between the objects (according to sample metadata)", call. = FALSE) # nolint
     }
 
   if (isTRUE(by_refseq)) {
     # ensure all objects have refseqs loaded
-    has_refseq <- sapply(
-      obj_list,
-      function(obj) {
-        inherits(obj$refseq, c("DNAbin", "AAbin"))
-      }
-    )
     if (!all(has_refseq)) {
-      stop("All objects must have DNA sequences loaded to be \
-        able to merge by DNA sequence (recommended). Otherwise \
-        merge by OTU name by setting by_refseq = FALSE if you're \
-        sure it makes sense for your data.", call. = FALSE)
+      stop("All objects must have DNA sequences loaded to be able to merge by DNA sequence (recommended). Otherwise merge by OTU name by setting by_refseq = FALSE if you're sure it makes sense for your data.", call. = FALSE) # nolint
     }
 
+    # for each object replace OTU names and rownames with the full DNA sequences
+    # in both abund and tax, also making sure the order is identical
     obj_list <- obj_list %>%
       lapply(
         function(obj) {
@@ -141,7 +143,7 @@ amp_merge_ampvis2 <- function(...,
     )
 
   # merge metadata
-  # ensure the first sample ID column are named the same, just use that of the first obj
+  # ensure the first sample ID column are named the same, just use that of the first obj # nolint
   idcolname <- colnames(obj_list[[1]][["metadata"]])[1]
   metadata <- obj_list %>%
     lapply(
@@ -169,20 +171,32 @@ amp_merge_ampvis2 <- function(...,
   # after running unique() in the code above there must be conflicts where
   # where taxonomy is different
   if (any(duplicated(taxonomy[["OTU"]]))) {
-    stop("Conflicting taxonomy between one or more OTU's across all objects. Have they been classified in the exact same way across all objects?")
+    stop("Conflicting taxonomy between one or more OTU's across all objects. Have they been classified in the exact same way across all objects?") # nolint
   }
 
   # merge refseq
-  fasta <- sapply(obj_list, function(obj) {
-    strsplit(obj$tax$OTU, "")
-  })
+  if (isTRUE(by_refseq)) {
+    seqs <- strsplit(abund$OTU, "")
+    names(seqs) <- abund$OTU
+    fasta <- ape::as.DNAbin(seqs)
+  } else {
+    # all or none
+    if (sum(has_refseq) > 0L & sum(has_refseq) != length(obj_list)) {
+      fasta <- NULL
+      warning("All objects must have sequences loaded to be able to merge them. Returning NULL in the output object") # nolint
+    } else {
+      fasta <- obj_list %>%
+        lapply(`[[`, "refseq") %>%
+        reduce(c)
+    }
+  }
 
   # load and return
   amp_load(
     otutable = abund,
     taxonomy = taxonomy,
     metadata = metadata,
-    fasta = NULL,
+    fasta = fasta,
     tree = NULL,
     pruneSingletons = FALSE
   )

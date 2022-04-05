@@ -4,30 +4,36 @@
 \alias{amp_merge_ampvis2}
 \title{Merge ampvis2 object(s)}
 \usage{
-amp_merge_ampvis2(...)
+amp_merge_ampvis2(..., by_refseq = TRUE)
 }
 \arguments{
-\item{...}{Any number of ampvis2-class objects to merge}
+\item{...}{(required) Any number of ampvis2-class objects to merge}
+
+\item{by_refseq}{(recommended) Merge by exact matches between DNA reference sequences. The full DNA sequences will then be used as the new names in the output. (\emph{default:} \code{TRUE})}
 }
 \value{
 An ampvis2-class object
 }
 \description{
-Merge any number of ampvis2 objects into a single object
+Merge any number of ampvis2 objects into a single object.
 }
 \details{
-Use with care. It is the users responsibility alone to ensure that OTU ID's are not arbitrary and that they are corresponding to the same sequences across data sets (objects). The same applies to the taxonomy, which must be generated in the exact same way with the same database across data sets.
+It's important to ensure that the taxonomy for all OTU's across data sets is generated in the exact same way with the same database.
+When \code{by_refseq = FALSE} it's likewise important to ensure that OTU ID's are not arbitrary between data sets and that they are corresponding to the same sequences across data sets (objects).
+When \code{by_refseq = TRUE} the full DNA sequences will be used as the new OTU ID's. If the length of the names is a problem you can manually adjust the names in the output object in the \code{data$tax$OTU} column as well as setting the row names on both the \code{data$abund} and \code{data$tax} data frames. They must all be identical.
+
+Currently, phylogenetic trees are not merged. Feel free to contribute.
 }
 \examples{
 data("MiDAS")
 
-#summary of samples from 2010-2012
+# summary of samples from 2010-2012
 amp_subset_samples(
   MiDAS,
   Year \%in\% c("2010", "2011", "2012")
 )
 
-#now merge individual objects and verify summary is the same
+# now merge individual objects and verify summary is the same
 d_2010 <- amp_subset_samples(
   MiDAS,
   Year \%in\% "2010"

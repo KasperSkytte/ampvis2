@@ -26,7 +26,8 @@ test_that("Merging two ampvis2-class objects originating from the same data set 
     suppressWarnings({
       amp_merge_ampvis2(
         obj1,
-        obj2
+        obj2,
+        by_refseq = FALSE
       )
     }),
     class = "ampvis2",
