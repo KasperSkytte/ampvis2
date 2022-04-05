@@ -170,8 +170,17 @@ amp_merge_ampvis2 <- function(..., by_refseq = TRUE) {
   # check for contradictions in taxonomy. If an OTU occurs more than once
   # after running unique() in the code above there must be conflicts where
   # where taxonomy is different
-  if (any(duplicated(taxonomy[["OTU"]]))) {
-    stop("Conflicting taxonomy between one or more OTU's across all objects. Have they been classified in the exact same way across all objects?") # nolint
+  dups <- duplicated(taxonomy[["OTU"]])
+  if (any(dups)) {
+    warning(
+      paste(
+        sum(dups),
+        "OTU(s) had conflicting taxonomy between the objects.",
+        "Discarding taxonomy further down the list only keeping the first observation for each OTU.",
+        "Discarded taxonomy is available in the output object as obj$discarded_tax for inspection."
+      ),
+      call. = FALSE
+    )
   }
 
   # merge refseq
@@ -192,12 +201,16 @@ amp_merge_ampvis2 <- function(..., by_refseq = TRUE) {
   }
 
   # load and return
-  amp_load(
+  out_obj <- amp_load(
     otutable = abund,
-    taxonomy = taxonomy,
+    taxonomy = taxonomy[!dups],
     metadata = metadata,
     fasta = fasta,
     tree = NULL,
     pruneSingletons = FALSE
   )
+  
+  out_obj$discarded_tax <- taxonomy[dups]
+  
+  return(out_obj)
 }
