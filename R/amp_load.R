@@ -526,8 +526,10 @@ amp_load <- function(otutable,
       refseq <- ape::read.FASTA(fasta, ...)[data$tax$OTU]
     } else if (!inherits(fasta, c("DNAbin", "AAbin"))) {
       stop("fasta must be of class \"DNAbin\" or \"AAbin\" as loaded with the ape::read.FASTA() function.", call. = FALSE)
+    } else if(inherits(fasta, c("DNAbin", "AAbin"))) {
+      refseq <- fasta[data$tax$OTU]
     }
-    if (all(lapply(refseq, is.null))) {
+    if (all(sapply(refseq, is.null))) {
       stop("No sequences match any OTU's", call. = FALSE)
     }
     data$refseq <- refseq

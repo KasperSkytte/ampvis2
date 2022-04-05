@@ -167,12 +167,12 @@ amp_heatmap(AalborgWWTPs,
 # the textmap further down
 
 suppressWarnings(
-heatmapwfunctions <- amp_heatmap(AalborgWWTPs,
-  group_by = "Plant",
-  tax_aggregate = "Genus",
-  plot_functions = TRUE,
-  functions = c("PAO", "GAO", "AOB", "NOB")
-)
+  heatmapwfunctions <- amp_heatmap(AalborgWWTPs,
+    group_by = "Plant",
+    tax_aggregate = "Genus",
+    plot_functions = TRUE,
+    functions = c("PAO", "GAO", "AOB", "NOB")
+  )
 )
 
 class(heatmapwfunctions)
