@@ -122,7 +122,16 @@ amp_load <- function(otutable,
                      ...) {
   ### the following functions are only useful in the context of amp_load()
   # default (and expected) taxonomic levels
-  tax.levels <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")
+  tax_levels <- c(
+    "Kingdom",
+    "Phylum",
+    "Class",
+    "Order",
+    "Family",
+    "Genus",
+    "Species",
+    "OTU"
+  )
   # function to check if provided object looks like a file path
   # and if so try to read the file, otherwise expect a data.frame
   import <- function(x, ...) {
@@ -205,7 +214,7 @@ amp_load <- function(otutable,
           tax <- as.data.frame(t(as.data.frame(taxlist, check.names = FALSE, stringsAsFactors = FALSE)))
 
           # rename taxonomic levels
-          colnames(tax) <- tax.levels[1:ncol(tax)]
+          colnames(tax) <- tax_levels[1:ncol(tax)]
 
           if (ncol(tax) < 7L) {
             warning("Taxonomy had less than 7 levels for all OTU's (Kingdom->Species), filling with NA from Species level and up.", call. = FALSE)
@@ -214,12 +223,12 @@ amp_load <- function(otutable,
           # combine abundances and taxonomy and return
           DF <- cbind(abund, tax) # no need for merge()
         }
-        
+
         # extract the sample metadata
         metadatalist <- lapply(biom$columns, function(x) {
           x$metadata
         })
-        
+
         # check whether metadata is empty
         if (all(is.null(unlist(metadatalist, use.names = FALSE)))) {
           warning("Could not find any sample metadata in the provided .biom file", call. = FALSE)
@@ -229,10 +238,10 @@ amp_load <- function(otutable,
           names(metadatalist) <- lapply(biom$columns, function(x) {
             x$id
           })
-          
+
           # coerce to data table, then data frame
           metadata <- setDF(rbindlist(metadatalist, idcol = "SampleID"))
-          
+
           # append metadata to DF as an attribute
           # (best solution for now)
           attr(DF, "metadata") <- metadata
@@ -287,24 +296,24 @@ amp_load <- function(otutable,
     tax <- as.data.frame(
       matrix(
         nrow = nrow(x),
-        ncol = length(tax.levels),
-        dimnames = list(rownames(x), tax.levels)
+        ncol = length(tax_levels),
+        dimnames = list(rownames(x), tax_levels)
       )
     )
     tax[["OTU"]] <- rownames(tax)
 
     # rename all taxonomy columns except OTU column
-    taxcols <- tolower(colnames(x)) %in% c("domain", tolower(tax.levels[-8]))
+    taxcols <- tolower(colnames(x)) %in% c("domain", tolower(tax_levels[-8]))
     colnames(x)[taxcols] <- stringr::str_to_title(colnames(x)[taxcols])
 
     # identify which columns contain taxonomy
-    taxcolnames <- dplyr::intersect(tax.levels, colnames(x))
+    taxcolnames <- dplyr::intersect(tax_levels, colnames(x))
 
     # allow both Kingdom or Domain column, but not both at once
     if (all(c("Domain", "Kingdom") %in% taxcolnames)) {
       stop("Cannot have both Domain and Kingdom columns at the same time in taxonomy.", call. = FALSE)
     } else if (any("Domain" %in% taxcolnames)) {
-      tax.levels[1] <- "Domain" -> colnames(tax)[1]
+      tax_levels[1] <- "Domain" -> colnames(tax)[1]
     }
 
     # fill into dummy taxonomy by merging by OTU
@@ -323,7 +332,7 @@ amp_load <- function(otutable,
     }
 
     # select and sort columns correctly in Kingdom/Domain -> Species order
-    tax <- tax[, tax.levels, drop = FALSE]
+    tax <- tax[, tax_levels, drop = FALSE]
 
     # remove whitespaces at the either side
     tax[] <- lapply(tax, stringr::str_replace_all, pattern = "^\\s+|\\s+$", replacement = "")
@@ -340,7 +349,7 @@ amp_load <- function(otutable,
   otutable <- findOTUcol(otutable)
 
   ### extract read abundances from otutable (same if taxonomy present or not)
-  taxcols <- tolower(colnames(otutable)) %in% c("domain", tolower(tax.levels))
+  taxcols <- tolower(colnames(otutable)) %in% c("domain", tolower(tax_levels))
   abund <- otutable[, !taxcols, drop = FALSE]
   abund[is.na(abund)] <- 0L
 
@@ -517,8 +526,10 @@ amp_load <- function(otutable,
       refseq <- ape::read.FASTA(fasta, ...)[data$tax$OTU]
     } else if (!inherits(fasta, c("DNAbin", "AAbin"))) {
       stop("fasta must be of class \"DNAbin\" or \"AAbin\" as loaded with the ape::read.FASTA() function.", call. = FALSE)
+    } else if(inherits(fasta, c("DNAbin", "AAbin"))) {
+      refseq <- fasta[data$tax$OTU]
     }
-    if (all(lapply(refseq, is.null))) {
+    if (all(sapply(refseq, is.null))) {
       stop("No sequences match any OTU's", call. = FALSE)
     }
     data$refseq <- refseq

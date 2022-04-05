@@ -67,20 +67,21 @@ test_that("loading otutable with '#OTU ID' column return an ampvis2 class object
 test_that("warning if no OTU column in otutable", {
   testthat::expect_warning(
     amp_load(
-      otutable = example_otutable[,-16],
+      otutable = example_otutable[, -16],
       metadata = example_metadata,
       taxonomy = NULL,
       fasta = NULL,
       tree = NULL,
       pruneSingletons = FALSE
     ),
-    regexp = "Could not find a column named OTU/ASV in otutable, using rownames as OTU ID's")
+    regexp = "Could not find a column named OTU/ASV in otutable, using rownames as OTU ID's"
+  )
 })
 
 test_that("loading separate taxonomy table returns an ampvis2 class object", {
-  otutable <- example_otutable[,1:8, drop = FALSE]
+  otutable <- example_otutable[, 1:8, drop = FALSE]
   otutable$OTU <- rownames(otutable)
-  taxonomy <- example_otutable[,9:16, drop = FALSE]
+  taxonomy <- example_otutable[, 9:16, drop = FALSE]
   d <- amp_load(
     otutable = otutable,
     metadata = example_metadata,
@@ -93,7 +94,7 @@ test_that("loading separate taxonomy table returns an ampvis2 class object", {
 })
 
 test_that("loading taxonomy with less than 7 levels returns an ampvis2 class object", {
-  otutable <- example_otutable[,-15]
+  otutable <- example_otutable[, -15]
   d <- amp_load(
     otutable = otutable,
     metadata = example_metadata,
@@ -106,7 +107,7 @@ test_that("loading taxonomy with less than 7 levels returns an ampvis2 class obj
 })
 
 test_that("loading data with no taxonomy creates dummy taxonomy table and throws warning", {
-  otutable <- example_otutable[,1:8]
+  otutable <- example_otutable[, 1:8]
   otutable$OTU <- rownames(otutable)
   expect_warning(
     amp_load(
@@ -125,7 +126,7 @@ test_that("loading otutable with more samples than metadata returns a warning", 
   expect_warning(
     amp_load(
       otutable = example_otutable,
-      metadata = example_metadata[1:5,],
+      metadata = example_metadata[1:5, ],
       taxonomy = NULL,
       fasta = NULL,
       tree = NULL,
@@ -136,8 +137,8 @@ test_that("loading otutable with more samples than metadata returns a warning", 
 })
 
 test_that("loading data with only rownames containing OTUs", {
-  otutable <- example_otutable[,1:8, drop = FALSE]
-  taxonomy <- example_otutable[,9:15, drop = FALSE]
+  otutable <- example_otutable[, 1:8, drop = FALSE]
+  taxonomy <- example_otutable[, 9:15, drop = FALSE]
   rownames(otutable) <- NULL
   rownames(taxonomy) <- NULL
   suppressWarnings(
@@ -147,7 +148,7 @@ test_that("loading data with only rownames containing OTUs", {
       taxonomy = taxonomy
     )
   )
-  
+
   expect_setequal(d$tax$OTU, rownames(d$abund))
   expect_true(nrow(d$tax) == nrow(d$abund))
   expect_s3_class(
@@ -158,12 +159,12 @@ test_that("loading data with only rownames containing OTUs", {
 })
 
 test_that("loading data with more OTUs in taxonomy than in otutable", {
-  otutable <- example_otutable[1:5,c(1:8, 16), drop = FALSE]
-  taxonomy <- example_otutable[,9:16, drop = FALSE]
+  otutable <- example_otutable[1:5, c(1:8, 16), drop = FALSE]
+  taxonomy <- example_otutable[, 9:16, drop = FALSE]
   expect_warning(
     amp_load(
-      otutable = otutable, 
-      taxonomy = taxonomy, 
+      otutable = otutable,
+      taxonomy = taxonomy,
       metadata = example_metadata
     ),
     regexp = "The OTU's between otutable and taxonomy do not match exactly. 5 OTU's in taxonomy not present in otutable have been removed from taxonomy."
@@ -171,12 +172,12 @@ test_that("loading data with more OTUs in taxonomy than in otutable", {
 })
 
 test_that("loading data with more OTUs in otutable than in taxonomy", {
-  otutable <- example_otutable[,c(1:8,16)]
-  taxonomy <- example_otutable[5:10,9:16, drop = FALSE]
+  otutable <- example_otutable[, c(1:8, 16)]
+  taxonomy <- example_otutable[5:10, 9:16, drop = FALSE]
   expect_warning(
     amp_load(
-      otutable = otutable, 
-      taxonomy = taxonomy, 
+      otutable = otutable,
+      taxonomy = taxonomy,
       metadata = example_metadata
     ),
     regexp = "The OTU's between otutable and taxonomy do not match exactly. 4 OTU's are missing "
@@ -188,8 +189,8 @@ test_that("loading data with unique OTU's in both otutable and taxonomy", {
   taxonomy <- example_otutable[5:10, 9:16, drop = FALSE]
   expect_warning(
     amp_load(
-      otutable = otutable, 
-      taxonomy = taxonomy, 
+      otutable = otutable,
+      taxonomy = taxonomy,
       metadata = example_metadata
     ),
     regexp = "The OTU's between otutable and taxonomy do not match exactly. 3 OTU's in taxonomy not present in otutable have been removed from taxonomy. 4 OTU's are missing "
@@ -240,7 +241,7 @@ test_that("loading sintax format taxonomy returns an ampvis2 class object", {
 
 test_that("loading data with one or more empty samples(s) gives a warning", {
   otutable <- example_otutable
-  otutable[,2] <- 0L
+  otutable[, 2] <- 0L
   expect_warning(
     amp_load(
       otutable = otutable,

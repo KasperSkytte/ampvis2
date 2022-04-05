@@ -16,3 +16,4 @@
 ^pkgdown$
 ^docker-rstudio$
 ^Dockerfile$
+^.devcontainer$

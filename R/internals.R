@@ -511,7 +511,7 @@ filter_species <- function(data, filter_species = 0) {
     if (filter_species > 0) {
       # For printing removed OTUs
       nOTUsbefore <- nrow(data$abund)
-      
+
       # First transform to percentages
       abund_pct <- data$abund
       abund_pct[
@@ -521,20 +521,22 @@ filter_species <- function(data, filter_species = 0) {
         apply(
           abund_pct[, colSums(abund_pct) != 0, drop = FALSE],
           2,
-          function(x) x / sum(x) * 100)
+          function(x) x / sum(x) * 100
         )
+      )
       rownames(abund_pct) <- rownames(data$abund) # keep rownames
 
-      # Then filter low abundant OTU's where ALL samples have 
+      # Then filter low abundant OTU's where ALL samples have
       # below the threshold set with filter_species in percent
       abund_subset <- abund_pct[
         !apply(
           abund_pct,
           1,
           function(row) all(row <= filter_species)
-        ),
-        , drop = FALSE] # remove low abundant OTU's
-      
+        ), ,
+        drop = FALSE
+      ] # remove low abundant OTU's
+
       data$abund <- data$abund[rownames(data$abund) %in% rownames(abund_subset), , drop = FALSE]
       rownames(data$tax) <- data$tax$OTU
 
