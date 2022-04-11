@@ -121,17 +121,6 @@ amp_load <- function(otutable,
                      pruneSingletons = FALSE,
                      ...) {
   ### the following functions are only useful in the context of amp_load()
-  # default (and expected) taxonomic levels
-  tax_levels <- c(
-    "Kingdom",
-    "Phylum",
-    "Class",
-    "Order",
-    "Family",
-    "Genus",
-    "Species",
-    "OTU"
-  )
   # function to check if provided object looks like a file path
   # and if so try to read the file, otherwise expect a data.frame
   import <- function(x, ...) {
