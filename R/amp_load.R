@@ -134,7 +134,8 @@ amp_load <- function(otutable,
       
       # use fread() if it's a delimited text file
       if (ext %in% c("csv", "txt", "tsv", "gz", "zip", "bz2", "sintax", "")) {
-        fread_args <- match.arg(names(add_args), names(formals(fread)), several.ok = TRUE)
+        fread_args <- add_args[names(add_args) %chin% names(formals(fread))]
+        
         # if ext is .sintax expect sintax format and parse accordingly
         if (ext %in% "sintax") {
           DF <- do.call(
@@ -145,14 +146,14 @@ amp_load <- function(otutable,
               fill = TRUE,
               header = FALSE,
               data.table = TRUE,
-              add_args[fread_args]
+              fread_args
             )
           )[, c(1, 4)]
           colnames(DF) <- c("OTU", "tax")
-          
+
           # Separate each taxonomic level into individual columns.
-          # This has to be done separately as taxonomic levels can be blank
-          # in between two other levels.
+          # This has to be done in separate lines as taxonomic 
+          # levels can be blank in between two other levels.
           DF[, "Kingdom" := gsub("[dk]:", "k__", stringr::str_extract(tax, "[dk]:[^,]*"))]
           DF[, "Phylum" := gsub("p:", "p__", stringr::str_extract(tax, "p:[^,]*"))]
           DF[, "Class" := gsub("c:", "c__", stringr::str_extract(tax, "c:[^,]*"))]
@@ -161,10 +162,6 @@ amp_load <- function(otutable,
           DF[, "Genus" := gsub("g:", "g__", stringr::str_extract(tax, "g:[^,]*"))]
           DF[, "Species" := gsub("s:", "s__", stringr::str_extract(tax, "s:[^,]*"))]
           DF <- DF[, -2]
-          # the below would be more concise, but only works if all levels has a value,
-          # fx d:test,p:test,o:test,f:test,g:test,s:test is missing "c:class" because
-          # of low bootstrap value, and this would cause the other levels to be skewed and assigned to the wrong levels:
-          # sintax[,c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species") := data.table::tstrsplit(tax, ",", fixed = TRUE)]
           
           # coerce to data.frame
           data.table::setDF(DF, rownames = DF[, OTU])
@@ -176,7 +173,7 @@ amp_load <- function(otutable,
               input = x,
               data.table = FALSE,
               fill = TRUE,
-              add_args[fread_args]
+              fread_args
             ))
         }
         # use read_excel() if xls, xlsx
