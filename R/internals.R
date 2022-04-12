@@ -594,6 +594,27 @@ is_ampvis2 <- function(data) {
   }
   invisible(TRUE)
 }
+#' @title Valid taxonomic levels
+#'
+#' @description Valid taxonomic levels
+#'
+#' @name tax_levels
+#' @docType data
+#'
+#' @format A charactor vector with the taxonomic levels Kingdom->OTU
+#'
+#' @keywords data internal
+#'
+tax_levels <- c(
+  "Kingdom",
+  "Phylum",
+  "Class",
+  "Order",
+  "Family",
+  "Genus",
+  "Species",
+  "OTU"
+)
 
 #' @title Check for installed package
 #' @description Returns error if a required package is not installed. Mostly used for checking whether packages listed under the Suggests field in the DESCRIPTION file is installed.
