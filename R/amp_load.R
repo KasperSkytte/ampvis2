@@ -2,9 +2,9 @@
 #'
 #' This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis2 functions can be used.
 #'
-#' @param otutable (\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Can also be a path to a BIOM file, which will then be parsed using the \href{https://github.com/joey711/biomformat}{biomformat} package, so both the JSON and HDF5 versions of the BIOM format are supported.
-#' @param metadata (\emph{recommended}) Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. If \code{otutable} is a BIOM file and contains sample metadata, \code{metadata} will take precedence if provided. (\emph{default:} \code{NULL})
-#' @param taxonomy (\emph{recommended}) Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain->Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Can also be a path to a .sintax taxonomy table from a \href{http://www.drive5.com/usearch/}{USEARCH} analysis \href{http://www.drive5.com/usearch/manual/ex_miseq.html}{pipeline}, file extension must be \code{.sintax}. (\emph{default:} \code{NULL})
+#' @param otutable (\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file. Can also be a path to a BIOM file, which will then be parsed using the \href{https://github.com/joey711/biomformat}{biomformat} package, so both the JSON and HDF5 versions of the BIOM format are supported.
+#' @param metadata (\emph{recommended}) Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file. If \code{otutable} is a BIOM file and contains sample metadata, \code{metadata} will take precedence if provided. (\emph{default:} \code{NULL})
+#' @param taxonomy (\emph{recommended}) Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain->Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file. Can also be a path to a .sintax taxonomy table from a \href{http://www.drive5.com/usearch/}{USEARCH} analysis \href{http://www.drive5.com/usearch/manual/ex_miseq.html}{pipeline}, file extension must be \code{.sintax}. bzip2 or gzip compression is currently NOT supported if sintax format. (\emph{default:} \code{NULL})
 #' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})
 #' @param tree (\emph{optional}) Path to a phylogenetic tree file which will be read using \code{\link[ape]{read.tree}}, or an object of class \code{"phylo"}. (\emph{default:} \code{NULL})
 #' @param pruneSingletons (\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})
@@ -136,6 +136,25 @@ amp_load <- function(otutable,
       if (ext %in% c("csv", "txt", "tsv", "gz", "zip", "bz2", "sintax", "")) {
         fread_args <- add_args[names(add_args) %chin% names(formals(fread))]
         
+        # if it's a zip file replace extension with that of the filename 
+        # inside the archive to detect whether it's a sintax file
+        # Currently, sintax format taxonomy CANNOT be loaded if gzip or bz2, only zip
+        zip_signature = charToRaw("PK\x03\x04")
+        file_signature = readBin(x, raw(), 8L)
+        if (identical(head(file_signature, 4L), zip_signature)) {
+          archive_files = unzip(x, list = TRUE)
+          if (is.data.frame(archive_files)) {
+            archive_files = archive_files[, 1L, drop = TRUE]
+          }
+          if (length(archive_files) > 1L) {
+            stop("Compressed zip files containing more than 1 file are not supported. Decompress manually and supply a path to a single file.", call. = FALSE)
+          }
+          archive_file_ext <- tools::file_ext(archive_files[[1]])
+          if (archive_file_ext == "sintax") {
+            ext <- archive_file_ext
+          }
+        }
+        
         # if ext is .sintax expect sintax format and parse accordingly
         if (ext %in% "sintax") {
           DF <- do.call(
@@ -165,7 +184,6 @@ amp_load <- function(otutable,
           
           # coerce to data.frame
           data.table::setDF(DF, rownames = DF[, OTU])
-          # if ext is .biom expect BIOM format and parse correctly
         } else {
           DF <- do.call(
             fread,
@@ -180,6 +198,7 @@ amp_load <- function(otutable,
       } else if (ext %in% c("xls", "xlsx")) {
         checkReqPkg("readxl")
         DF <- readxl::read_excel(x, ...)
+        # if ext is .biom expect BIOM format and parse correctly
       } else if (ext %in% "biom") {
         checkReqPkg(
           "biomformat",

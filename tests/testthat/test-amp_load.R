@@ -250,3 +250,15 @@ test_that("loading data with one or more empty samples(s) gives a warning", {
     regexp = "One or more sample\\(s\\) have 0 reads"
   )
 })
+
+test_that("loading data where taxonomy is from a zip compressed sintax formatted file returns an ampvis2 class object", {
+  tmpfile <- tempfile(fileext = ".zip")
+  zip(tmpfile, "../testdata/ASVs.sintax", flags = "-q")
+  expect_s3_class(
+    suppressWarnings(
+      amp_load("../testdata/ASVtable.tsv", taxonomy = tmpfile)
+    ),
+    class = "ampvis2",
+    exact = TRUE
+  )
+})
