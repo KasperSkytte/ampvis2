@@ -1,7 +1,10 @@
 FROM rocker/rstudio
 
-#multithreaded make
+#multithreaded make for container build time
 ENV MAKEFLAGS="-j"
+
+#default password for RStudio Server
+ENV PASSWORD=supersafepassword
 
 #nice-to-have system dependencies for R
 ARG DEBIAN_FRONTEND=noninteractive
@@ -25,21 +28,21 @@ RUN apt-get update -qqy && \
     libxml2-dev \
     libgit2-dev
 
-RUN Rscript -e 'install.packages("devtools", Ncpus = parallel::detectCores())'
-COPY . /opt/ampvis2/
 
-RUN Rscript -e 'devtools::install("/opt/ampvis2/", reload = FALSE, dependencies = TRUE, Ncpus = parallel::detectCores())'
-
-#set default renv cache path in container
-#change CRAN mirror from https://packagemanager.rstudio.com to AAU mirror
-#install renv, and install all packages in the lock file to /usr/local/lib/R/site-library/ in container
-#RUN echo "RENV_PATHS_CACHE=${RENV_PATHS_CACHE_CONTAINER}" >> /usr/local/lib/R/etc/Renviron.site && \\
-
+#install devtools and ampvis2
+COPY . /opt/ampvis2
+RUN Rscript -e 'install.packages("devtools", Ncpus = parallel::detectCores())' \
+  && Rscript -e 'devtools::install("/opt/ampvis2/", reload = FALSE, dependencies = TRUE, Ncpus = parallel::detectCores())'
 
 #enable users to install R packages
-#RUN chown 1000:1000 -R /usr/local/lib/R/site-library /usr/local/lib/R/library
+RUN chown 1000:1000 -R /usr/local/lib/R/site-library /usr/local/lib/R/library
+
+# enable multithreaded make when installing packages by default
+RUN mkdir -p /home/rstudio/.R \
+  && echo "MAKEFLAGS = -j" > /home/rstudio/.R/Makevars
 
 #silence RStudio warnings about not being able to write dictionary stuff to /root
 VOLUME /root
 
+USER rstudio
 WORKDIR /home/rstudio
