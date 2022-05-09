@@ -4,16 +4,19 @@
 #'
 #' @param ... (required) Any number of ampvis2-class objects to merge
 #' @param by_refseq (recommended) Merge by exact matches between DNA reference sequences. The full DNA sequences will then be used as the new names in the output. (\emph{default:} \code{TRUE})
+#' @param refseq_names Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100% sequence identity). Any unmatched sequences will be renamed with a prefix set by \code{unmatched_prefix}. (\emph{default:} \code{NULL})
+#' @param unmatched_prefix Prefix used to name any unmatched sequences when \code{refseq_names} is provided. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})
 #'
 #' @return An ampvis2-class object
 #' @importFrom data.table rbindlist
 #' @importFrom purrr reduce
 #' @importFrom dplyr full_join
+#' @importFrom ape read.FASTA
 #'
 #' @details
 #' It's important to ensure that the taxonomy for all OTU's across data sets is generated in the exact same way with the same database.
 #' When \code{by_refseq = FALSE} it's likewise important to ensure that OTU ID's are not arbitrary between data sets and that they are corresponding to the same sequences across data sets (objects).
-#' When \code{by_refseq = TRUE} the full DNA sequences will be used as the new OTU ID's. If the length of the names is a problem you can manually adjust the names in the output object in the \code{data$tax$OTU} column as well as setting the row names on both the \code{data$abund} and \code{data$tax} data frames. They must all be identical.
+#' When \code{by_refseq = TRUE} the full DNA sequences will be used as the new OTU ID's unless \code{refseq_names} is provided.
 #'
 #' Currently, phylogenetic trees are not merged. Feel free to contribute.
 #' @export
@@ -46,7 +49,12 @@
 #'   d_2011,
 #'   d_2012
 #' )
-amp_merge_ampvis2 <- function(..., by_refseq = TRUE) {
+amp_merge_ampvis2 <- function(
+  ...,
+  by_refseq = TRUE,
+  refseq_names = NULL,
+  unmatched_prefix = "unmatched"
+) {
   obj_list <- list(...)
 
   # all objects must be ampvis2-class objects
@@ -62,71 +70,71 @@ amp_merge_ampvis2 <- function(..., by_refseq = TRUE) {
     }
   )
 
-  # all objects must be either normalised or not, cant have both
-  normalised <- obj_list %>%
-    lapply(
-      attr,
-      which = "normalised",
-      exact = TRUE
-    ) %>%
-    unlist()
-
-  if (sum(normalised) > 0L & sum(normalised) != length(obj_list)) {
-    stop("All objects must be either normalised or not, not mixed", call. = FALSE) # nolint
-  }
-
-  # no duplicate samples between objects are allowed (check abund)
-  obj_list %>%
-    lapply(
-      function(x) {
-        colnames(x[["abund"]])
-      }
-    ) %>%
-    unlist() %>%
-    duplicated() %>%
-    any() %>%
-    if (.) {
-      stop("One or more samples occurs more than once between the objects (according to abundance table)", call. = FALSE) # nolint
-    }
-
-  # no duplicate samples between objects are allowed (check sample metadata)
-  obj_list %>%
-    lapply(
-      function(x) {
-        x[["metadata"]][[1]]
-      }
-    ) %>%
-    unlist() %>%
-    duplicated() %>%
-    any() %>%
-    if (.) {
-      stop("One or more samples occurs more than once between the objects (according to sample metadata)", call. = FALSE) # nolint
-    }
-
+  # ensure all objects have refseqs loaded when merging by refseq
   if (isTRUE(by_refseq)) {
-    # ensure all objects have refseqs loaded
     if (!all(has_refseq)) {
       stop("All objects must have DNA sequences loaded to be able to merge by DNA sequence (recommended). Otherwise merge by OTU name by setting by_refseq = FALSE if you're sure it makes sense for your data.", call. = FALSE) # nolint
     }
-
-    # for each object replace OTU names and rownames with the full DNA sequences
-    # in both abund and tax, also making sure the order is identical
-    obj_list <- obj_list %>%
+  
+    # all objects must be either normalised or not, cant have both
+    normalised <- obj_list %>%
       lapply(
-        function(obj) {
-          obj$abund$OTU <- rownames(obj$abund)
-          refseq_chr <- obj$refseq %>%
-            as.character() %>%
-            lapply(paste, collapse = "") %>%
-            unlist(use.names = TRUE)
-          obj$abund <- obj$abund[names(refseq_chr), ]
-          obj$abund$OTU <- refseq_chr -> rownames(obj$abund)
-
-          obj$tax <- obj$tax[names(refseq_chr), ]
-          obj$tax$OTU <- refseq_chr -> rownames(obj$tax)
-          obj
+        attr,
+        which = "normalised",
+        exact = TRUE
+      ) %>%
+      unlist()
+  
+    if (sum(normalised) > 0L & sum(normalised) != length(obj_list)) {
+      stop("All objects must be either normalised or not, not mixed", call. = FALSE) # nolint
+    }
+  
+    # no duplicate samples between objects are allowed (check abund)
+    obj_list %>%
+      lapply(
+        function(x) {
+          colnames(x[["abund"]])
         }
-      )
+      ) %>%
+      unlist() %>%
+      duplicated() %>%
+      any() %>%
+      if (.) {
+        stop("One or more samples occurs more than once between the objects (according to abundance table)", call. = FALSE) # nolint
+      }
+  
+    # no duplicate samples between objects are allowed (check sample metadata)
+    obj_list %>%
+      lapply(
+        function(x) {
+          x[["metadata"]][[1]]
+        }
+      ) %>%
+      unlist() %>%
+      duplicated() %>%
+      any() %>%
+      if (.) {
+        stop("One or more samples occurs more than once between the objects (according to sample metadata)", call. = FALSE) # nolint
+      }
+  
+      # for each object replace OTU names and rownames with the full DNA sequences
+      # in both abund and tax, also making sure the order is identical
+      obj_list <- obj_list %>%
+        lapply(
+          function(obj) {
+            obj$abund$OTU <- rownames(obj$abund)
+            refseq_chr <- obj$refseq %>%
+              as.character() %>%
+              lapply(paste, collapse = "") %>%
+              unlist(use.names = TRUE)
+            obj$abund <- obj$abund[names(refseq_chr), ]
+            obj$abund$OTU <- refseq_chr -> rownames(obj$abund)
+  
+            obj$tax <- obj$tax[names(refseq_chr), ]
+            obj$tax$OTU <- refseq_chr -> rownames(obj$tax)
+            obj
+          }
+        )
   }
 
   # merge abundance tables
@@ -183,11 +191,39 @@ amp_merge_ampvis2 <- function(..., by_refseq = TRUE) {
     )
   }
 
-  # merge refseq
+  # merge refseq and rename sequences if chosen
   if (isTRUE(by_refseq)) {
     seqs <- strsplit(abund$OTU, "")
     names(seqs) <- abund$OTU
     fasta <- ape::as.DNAbin(seqs)
+    
+    if (!is.null(refseq_names)) {
+      if (is.character(refseq_names) &
+          length(refseq_names) == 1 &
+          is.null(dim(refseq_names))) {
+        refseq_names_dt <- as.data.table(read.FASTA(refseq_names))
+      } else if (!inherits(refseq_names, c("DNAbin", "AAbin"))) {
+        stop("refseq_names must be of class \"DNAbin\" or \"AAbin\" as loaded with the ape::read.FASTA() function.", call. = FALSE)
+      } else if(inherits(refseq_names, c("DNAbin", "AAbin"))) {
+        refseq_names_dt <- as.data.table(refseq_names)
+      }
+      
+      refseq_dt <- as.data.table(fasta)
+      
+      #inner join (i.e. keep only rows in d_seqs_dt and order rows according to d_seqs_dt)
+      merged_seqs <- refseq_names_dt[refseq_dt, on = "seq"]
+      
+      #generate new names for those with no match in ASV DB
+      merged_seqs[is.na(name), name := paste0(unmatched_prefix, 1:nrow(.SD))]
+      
+      #rename everywhere in ampvis2 object
+      rownames(abund) <- merged_seqs[["name"]]
+      abund[["OTU"]] <- merged_seqs[["name"]]
+      rownames(taxonomy) <- merged_seqs[["name"]]
+      taxonomy[["OTU"]] <- merged_seqs[["name"]]
+      names(fasta) <- merged_seqs[["name"]]
+      
+    }
   } else {
     # all or none
     if (sum(has_refseq) > 0L & sum(has_refseq) != length(obj_list)) {

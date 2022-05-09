@@ -28,7 +28,6 @@ RUN apt-get update -qqy && \
     libxml2-dev \
     libgit2-dev
 
-
 #install devtools and ampvis2
 COPY . /opt/ampvis2
 RUN Rscript -e 'install.packages("devtools", Ncpus = parallel::detectCores())' \

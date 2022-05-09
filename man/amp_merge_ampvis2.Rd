@@ -4,12 +4,21 @@
 \alias{amp_merge_ampvis2}
 \title{Merge ampvis2 object(s)}
 \usage{
-amp_merge_ampvis2(..., by_refseq = TRUE)
+amp_merge_ampvis2(
+  ...,
+  by_refseq = TRUE,
+  refseq_names = NULL,
+  unmatched_prefix = "unmatched"
+)
 }
 \arguments{
 \item{...}{(required) Any number of ampvis2-class objects to merge}
 
 \item{by_refseq}{(recommended) Merge by exact matches between DNA reference sequences. The full DNA sequences will then be used as the new names in the output. (\emph{default:} \code{TRUE})}
+
+\item{refseq_names}{Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100% sequence identity). Any unmatched sequences will be renamed with a prefix set by \code{unmatched_prefix}. (\emph{default:} \code{NULL})}
+
+\item{unmatched_prefix}{Prefix used to name any unmatched sequences when \code{refseq_names} is provided. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})}
 }
 \value{
 An ampvis2-class object
@@ -20,7 +29,7 @@ Merge any number of ampvis2 objects into a single object.
 \details{
 It's important to ensure that the taxonomy for all OTU's across data sets is generated in the exact same way with the same database.
 When \code{by_refseq = FALSE} it's likewise important to ensure that OTU ID's are not arbitrary between data sets and that they are corresponding to the same sequences across data sets (objects).
-When \code{by_refseq = TRUE} the full DNA sequences will be used as the new OTU ID's. If the length of the names is a problem you can manually adjust the names in the output object in the \code{data$tax$OTU} column as well as setting the row names on both the \code{data$abund} and \code{data$tax} data frames. They must all be identical.
+When \code{by_refseq = TRUE} the full DNA sequences will be used as the new OTU ID's unless \code{refseq_names} is provided.
 
 Currently, phylogenetic trees are not merged. Feel free to contribute.
 }

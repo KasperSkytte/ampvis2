@@ -637,6 +637,22 @@ checkReqPkg <- function(pkg, msg = "") {
   require(pkg, quietly = TRUE, character.only = TRUE)
 }
 
+#' S3 generic function to create a data table from a DNAbin class object
+#'
+#' @param x (\emph{required}) A DNAbin class object
+#' @param ... Not used
+#' 
+#' @importFrom data.table data.table
+#'
+#' @return a data.table
+as.data.table.DNAbin <- function(x, ...) {
+  dt <- data.table(
+    name = names(x),
+    seq = sapply(as.character(x), paste, collapse = "")
+  )
+  dt
+}
+
 #' Replacement for ":::" to suppress R CMD CHECK warnings
 # `%:::%` <- function(pkg, fun)
 #  get(fun, envir = asNamespace(pkg), inherits = FALSE)
