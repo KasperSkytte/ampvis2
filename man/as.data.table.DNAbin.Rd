@@ -2,7 +2,7 @@
 % Please edit documentation in R/internals.R
 \name{as.data.table.DNAbin}
 \alias{as.data.table.DNAbin}
-\title{S3 generic function to create a data table from a DNAbin class object}
+\title{Coerce DNAbin object to data.table}
 \usage{
 \method{as.data.table}{DNAbin}(x, ...)
 }

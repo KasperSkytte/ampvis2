@@ -4,7 +4,8 @@
 #'
 #' @param ... (required) Any number of ampvis2-class objects to merge
 #' @param by_refseq (recommended) Merge by exact matches between DNA reference sequences. The full DNA sequences will then be used as the new names in the output. (\emph{default:} \code{TRUE})
-#' @param refseq_names Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100% sequence identity). Any unmatched sequences will be renamed with a prefix set by \code{unmatched_prefix}. (\emph{default:} \code{NULL})
+#' @param refseq_names Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100% sequence identity). (\emph{default:} \code{NULL})
+#' @param rename_unmatched Whether to rename any unmatched sequences or not when \code{refseq_names} is provided. (\emph{default:} \code{TRUE})
 #' @param unmatched_prefix Prefix used to name any unmatched sequences when \code{refseq_names} is provided. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})
 #'
 #' @return An ampvis2-class object
@@ -53,6 +54,7 @@ amp_merge_ampvis2 <- function(
   ...,
   by_refseq = TRUE,
   refseq_names = NULL,
+  rename_unmatched = TRUE,
   unmatched_prefix = "unmatched"
 ) {
   obj_list <- list(...)
@@ -196,34 +198,6 @@ amp_merge_ampvis2 <- function(
     seqs <- strsplit(abund$OTU, "")
     names(seqs) <- abund$OTU
     fasta <- ape::as.DNAbin(seqs)
-    
-    if (!is.null(refseq_names)) {
-      if (is.character(refseq_names) &
-          length(refseq_names) == 1 &
-          is.null(dim(refseq_names))) {
-        refseq_names_dt <- as.data.table(read.FASTA(refseq_names))
-      } else if (!inherits(refseq_names, c("DNAbin", "AAbin"))) {
-        stop("refseq_names must be of class \"DNAbin\" or \"AAbin\" as loaded with the ape::read.FASTA() function.", call. = FALSE)
-      } else if(inherits(refseq_names, c("DNAbin", "AAbin"))) {
-        refseq_names_dt <- as.data.table(refseq_names)
-      }
-      
-      refseq_dt <- as.data.table(fasta)
-      
-      #inner join (i.e. keep only rows in d_seqs_dt and order rows according to d_seqs_dt)
-      merged_seqs <- refseq_names_dt[refseq_dt, on = "seq"]
-      
-      #generate new names for those with no match in ASV DB
-      merged_seqs[is.na(name), name := paste0(unmatched_prefix, 1:nrow(.SD))]
-      
-      #rename everywhere in ampvis2 object
-      rownames(abund) <- merged_seqs[["name"]]
-      abund[["OTU"]] <- merged_seqs[["name"]]
-      rownames(taxonomy) <- merged_seqs[["name"]]
-      taxonomy[["OTU"]] <- merged_seqs[["name"]]
-      names(fasta) <- merged_seqs[["name"]]
-      
-    }
   } else {
     # all or none
     if (sum(has_refseq) > 0L & sum(has_refseq) != length(obj_list)) {
@@ -235,8 +209,8 @@ amp_merge_ampvis2 <- function(
         reduce(c)
     }
   }
-
-  # load and return
+  
+  #combine
   out_obj <- amp_load(
     otutable = abund,
     taxonomy = taxonomy[!dups],
@@ -245,8 +219,16 @@ amp_merge_ampvis2 <- function(
     tree = NULL,
     pruneSingletons = FALSE
   )
-  
   out_obj$discarded_tax <- taxonomy[dups]
+  
+  if (!is.null(refseq_names)) {
+    out_obj <- matchOTUs(
+      out_obj,
+      fasta = refseq_names,
+      unmatched_prefix = unmatched_prefix,
+      rename_unmatched = TRUE
+    )
+  }
   
   return(out_obj)
 }

@@ -637,7 +637,8 @@ checkReqPkg <- function(pkg, msg = "") {
   require(pkg, quietly = TRUE, character.only = TRUE)
 }
 
-#' S3 generic function to create a data table from a DNAbin class object
+#' @title Coerce DNAbin object to data.table
+#' @description S3 generic function to create a data table from a DNAbin class object
 #'
 #' @param x (\emph{required}) A DNAbin class object
 #' @param ... Not used
@@ -651,6 +652,63 @@ as.data.table.DNAbin <- function(x, ...) {
     seq = sapply(as.character(x), paste, collapse = "")
   )
   dt
+}
+
+#' @title Rename OTU's by sequence matching with a FASTA file
+#' @description Match and rename OTU's in an ampvis2 object by sequence to a FASTA file
+#'
+#' @param data data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
+#' @param fasta Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100% sequence identity). (\emph{default:} \code{NULL})
+#' @param unmatched_prefix Prefix used to name any unmatched sequences when \code{refseq_names} is provided. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})
+#' @param rename_unmatched Whether to rename any unmatched sequences or not when \code{refseq_names} is provided. (\emph{default:} \code{TRUE})
+#'
+#' @return An ampvis2 class object
+matchOTUs <- function(
+  data,
+  fasta,
+  unmatched_prefix = "unmatched",
+  rename_unmatched = TRUE
+) {
+  #assure data is an ampvis2 class object
+  is_ampvis2(data)
+  
+  if (!inherits(data$refseq, c("DNAbin", "AAbin"))) {
+    stop("No DNA sequences available in the ampvis2 object", call. = FALSE)
+  }
+  
+  #if fasta is a character expect a file path
+  if (is.character(fasta) &
+      length(fasta) == 1 &
+      is.null(dim(fasta))) {
+    fasta_dt <- as.data.table(read.FASTA(fasta))
+  } else if (!inherits(fasta, c("DNAbin", "AAbin"))) {
+    stop("refseq_names must be of class \"DNAbin\" or \"AAbin\" as loaded with the ape::read.FASTA() function.", call. = FALSE)
+  } else if(inherits(fasta, c("DNAbin", "AAbin"))) {
+    fasta_dt <- as.data.table(fasta)
+  }
+  
+  refseq_dt <- as.data.table(data$refseq)
+  
+  #inner join (i.e. keep only rows in d_seqs_dt and order rows according to d_seqs_dt)
+  merged_seqs <- fasta_dt[refseq_dt, on = "seq"]
+  
+  #generate new names for those with no match in ASV DB
+  if (isTRUE(rename_unmatched)) {
+    merged_seqs[is.na(name), name := paste0(unmatched_prefix, 1:nrow(.SD))]
+  } else if (isFALSE(rename_unmatched)) {
+    merged_seqs[is.na(name), name := i.name]
+  }
+  
+  #rename everywhere in ampvis2 object
+  rownames(data$abund) <- merged_seqs[["name"]]
+  if(any(colnames(data$abund) %in% "OTU")) {
+    data$abund[["OTU"]] <- merged_seqs[["name"]]
+  }
+  rownames(data$tax) <- merged_seqs[["name"]]
+  data$tax[["OTU"]] <- merged_seqs[["name"]]
+  names(data$refseq) <- merged_seqs[["name"]]
+  
+  return(data)
 }
 
 #' Replacement for ":::" to suppress R CMD CHECK warnings
