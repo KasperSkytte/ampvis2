@@ -567,9 +567,9 @@ filter_species <- function(data, filter_species = 0) {
             nOTUsbefore - nOTUsafter,
             " OTUs not present in more than ",
             filter_species,
-            "% relative abundance in any sample have been filtered \nBefore:",
+            "% relative abundance in any sample have been filtered \nBefore: ",
             nOTUsbefore,
-            " OTUs\nAfter:",
+            " OTUs\nAfter: ",
             nOTUsafter,
             " OTUs"
           )
@@ -658,7 +658,7 @@ as.data.table.DNAbin <- function(x, ...) {
 #' @description Match and rename OTU's in an ampvis2 object by sequence to a FASTA file
 #'
 #' @param data data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param fasta Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100% sequence identity). (\emph{default:} \code{NULL})
+#' @param fasta Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100\% sequence identity). (\emph{default:} \code{NULL})
 #' @param unmatched_prefix Prefix used to name any unmatched sequences when \code{refseq_names} is provided. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})
 #' @param rename_unmatched Whether to rename any unmatched sequences or not when \code{refseq_names} is provided. (\emph{default:} \code{TRUE})
 #'

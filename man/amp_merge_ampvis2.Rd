@@ -17,7 +17,7 @@ amp_merge_ampvis2(
 
 \item{by_refseq}{(recommended) Merge by exact matches between DNA reference sequences. The full DNA sequences will then be used as the new names in the output. (\emph{default:} \code{TRUE})}
 
-\item{refseq_names}{Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100% sequence identity). (\emph{default:} \code{NULL})}
+\item{refseq_names}{Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100\% sequence identity). (\emph{default:} \code{NULL})}
 
 \item{rename_unmatched}{Whether to rename any unmatched sequences or not when \code{refseq_names} is provided. (\emph{default:} \code{TRUE})}
 
