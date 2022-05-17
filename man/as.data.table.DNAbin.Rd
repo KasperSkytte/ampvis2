@@ -17,3 +17,4 @@ a data.table
 \description{
 S3 generic function to create a data table from a DNAbin class object
 }
+\keyword{internal}

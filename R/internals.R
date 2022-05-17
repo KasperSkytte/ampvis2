@@ -646,6 +646,7 @@ checkReqPkg <- function(pkg, msg = "") {
 #' @importFrom data.table data.table
 #'
 #' @return a data.table
+#' @keywords internal
 as.data.table.DNAbin <- function(x, ...) {
   dt <- data.table(
     name = names(x),
@@ -663,6 +664,7 @@ as.data.table.DNAbin <- function(x, ...) {
 #' @param rename_unmatched Whether to rename any unmatched sequences or not when \code{refseq_names} is provided. (\emph{default:} \code{TRUE})
 #'
 #' @return An ampvis2 class object
+#' @keywords internal
 matchOTUs <- function(
   data,
   fasta,

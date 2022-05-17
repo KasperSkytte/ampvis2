@@ -21,3 +21,4 @@ An ampvis2 class object
 \description{
 Match and rename OTU's in an ampvis2 object by sequence to a FASTA file
 }
+\keyword{internal}
