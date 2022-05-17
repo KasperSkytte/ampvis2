@@ -112,6 +112,9 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/ampvis2.html</loc>
   </url>
   <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/as.data.table.DNAbin.html</loc>
+  </url>
+  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/checkReqPkg.html</loc>
   </url>
   <url>
@@ -146,6 +149,9 @@
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/is_ampvis2.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/matchOTUs.html</loc>
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/midasfunctions_20201201.html</loc>

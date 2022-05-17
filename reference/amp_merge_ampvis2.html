@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.25</span>
       </span>
     </div>
 
@@ -70,7 +70,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_merge_ampvis2</span><span class="op">(</span><span class="va">...</span>, by_refseq <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_merge_ampvis2</span><span class="op">(</span>
+  <span class="va">...</span>,
+  by_refseq <span class="op">=</span> <span class="cn">TRUE</span>,
+  refseq_names <span class="op">=</span> <span class="cn">NULL</span>,
+  rename_unmatched <span class="op">=</span> <span class="cn">TRUE</span>,
+  unmatched_prefix <span class="op">=</span> <span class="st">"unmatched"</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -79,6 +85,12 @@
 <dd><p>(required) Any number of ampvis2-class objects to merge</p></dd>
 <dt>by_refseq</dt>
 <dd><p>(recommended) Merge by exact matches between DNA reference sequences. The full DNA sequences will then be used as the new names in the output. (<em>default:</em> <code>TRUE</code>)</p></dd>
+<dt>refseq_names</dt>
+<dd><p>Path to a FASTA file or a <code>DNAbin</code> class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100% sequence identity). (<em>default:</em> <code>NULL</code>)</p></dd>
+<dt>rename_unmatched</dt>
+<dd><p>Whether to rename any unmatched sequences or not when <code>refseq_names</code> is provided. (<em>default:</em> <code>TRUE</code>)</p></dd>
+<dt>unmatched_prefix</dt>
+<dd><p>Prefix used to name any unmatched sequences when <code>refseq_names</code> is provided. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named <code>unmatched123</code>, and so on. (<em>default:</em> <code>"unmatched"</code>)</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -88,7 +100,7 @@
     <h2>Details</h2>
     <p>It's important to ensure that the taxonomy for all OTU's across data sets is generated in the exact same way with the same database.
 When <code>by_refseq = FALSE</code> it's likewise important to ensure that OTU ID's are not arbitrary between data sets and that they are corresponding to the same sequences across data sets (objects).
-When <code>by_refseq = TRUE</code> the full DNA sequences will be used as the new OTU ID's. If the length of the names is a problem you can manually adjust the names in the output object in the <code>data$tax$OTU</code> column as well as setting the row names on both the <code>data$abund</code> and <code>data$tax</code> data frames. They must all be identical.</p>
+When <code>by_refseq = TRUE</code> the full DNA sequences will be used as the new OTU ID's unless <code>refseq_names</code> is provided.</p>
 <p>Currently, phylogenetic trees are not merged. Feel free to contribute.</p>
     </div>
 
