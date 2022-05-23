@@ -2,7 +2,7 @@
 % Please edit documentation in R/internals.R
 \name{matchOTUs}
 \alias{matchOTUs}
-\title{Rename OTU's by sequence matching with a FASTA file}
+\title{Rename OTUs by exact sequence matches from a FASTA file}
 \usage{
 matchOTUs(data, fasta, unmatched_prefix = "unmatched", rename_unmatched = TRUE)
 }
@@ -11,14 +11,13 @@ matchOTUs(data, fasta, unmatched_prefix = "unmatched", rename_unmatched = TRUE)
 
 \item{fasta}{Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100\% sequence identity). (\emph{default:} \code{NULL})}
 
-\item{unmatched_prefix}{Prefix used to name any unmatched sequences when \code{refseq_names} is provided. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})}
+\item{unmatched_prefix}{Prefix used to name any unmatched sequences in the FASTA file An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})}
 
-\item{rename_unmatched}{Whether to rename any unmatched sequences or not when \code{refseq_names} is provided. (\emph{default:} \code{TRUE})}
+\item{rename_unmatched}{Whether to rename any unmatched sequences or not. (\emph{default:} \code{TRUE})}
 }
 \value{
 An ampvis2 class object
 }
 \description{
-Match and rename OTU's in an ampvis2 object by sequence to a FASTA file
+Renames sequences loaded in an ampvis2 object based on exact matches (100% identity and exact same length) in a FASTA file. This is useful for enabling direct cross-study/cross-dataset comparison of OTU/ASV names. This function is also used internally in \code{amp_merge_ampvis2}.
 }
-\keyword{internal}

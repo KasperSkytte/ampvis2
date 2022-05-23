@@ -2,7 +2,7 @@
 % Please edit documentation in R/internals.R
 \name{filter_species}
 \alias{filter_species}
-\title{Filter species by a threshold in percent}
+\title{Filter OTUs by a threshold in percent}
 \usage{
 filter_species(data, filter_species = 0)
 }
@@ -15,6 +15,11 @@ filter_species(data, filter_species = 0)
 An ampvis2 object
 }
 \description{
-Filter species by a threshold in percent
+Removes all OTUs that are not found with a higher relative abundance than the set threshold in percent in at least one sample.
 }
-\keyword{internal}
+\examples{
+data("AalborgWWTPs")
+AalborgWWTPs
+filtered <- filter_species(AalborgWWTPs, filter_species = 0.1)
+filtered
+}

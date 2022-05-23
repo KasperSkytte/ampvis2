@@ -7,7 +7,12 @@
 #' @return An ampvis2 object with rarefied OTU abundances.
 #' @importFrom vegan rrarefy
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
-#' @keywords internal
+#' @export
+#' @examples
+#' data("AalborgWWTPs")
+#' AalborgWWTPs
+#' rarefied <- amp_rarefy(AalborgWWTPs, 20000)
+#' rarefied
 amp_rarefy <- function(data, rarefy) {
   ### Data must be in ampvis2 format
   if (class(data) != "ampvis2") {
@@ -198,7 +203,7 @@ extractFunctions <- function(FGList) {
 #' @return A distance matrix of class \code{dist}.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @keywords internal
-unifrac <- function(abund,
+dist.unifrac <- function(abund,
                     tree,
                     weighted = FALSE,
                     normalise = TRUE,
@@ -359,7 +364,7 @@ getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
 }
 
 #' @title Aggregate OTUs to a specific taxonomic level
-#' @description Calculates the sum of OTUs per taxonomic level
+#' @description Sums up all OTU read counts at the chosen taxonomic level. Used internally in many ampvis2 functions, but can also be used separately for custom purposes.
 #'
 #' @param abund The OTU abundance table from an ampvis2 object (\code{ampvis2obj$abund})
 #' @param tax The OTU abundance table from an ampvis2 object (\code{ampvis2obj$tax})
@@ -371,7 +376,18 @@ getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
 #' @importFrom data.table data.table melt
 #' @return A data.table.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
-#' @keywords internal
+#' @export
+#' @examples
+#' data("AalborgWWTPs")
+#' aggregated <- aggregate_abund(
+#'   AalborgWWTPs$abund,
+#'   AalborgWWTPs$tax,
+#'   tax_aggregate = "Genus",
+#'   tax_add = "Phylum",
+#'   format = "long",
+#'   calcSums = TRUE
+#' )
+#' aggregated
 aggregate_abund <- function(abund,
                             tax,
                             tax_aggregate = "OTU",
@@ -471,8 +487,13 @@ abundAreCounts <- function(data) {
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #'
-#' @return A modifed ampvis2 object
-#' @keywords internal
+#' @return A modified ampvis2 object
+#' @export
+#' @examples
+#' data("AalborgWWTPs")
+#' AalborgWWTPs
+#' normalised <- normaliseTo100(AalborgWWTPs)
+#' normalised
 normaliseTo100 <- function(data) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
@@ -495,14 +516,20 @@ normaliseTo100 <- function(data) {
   return(data)
 }
 
-#' @title Filter species by a threshold in percent
+#' @title Filter OTUs by a threshold in percent
+#' @description Removes all OTUs that are not found with a higher relative abundance than the set threshold in percent in at least one sample.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param filter_species Remove low abundant OTU's across all samples below this threshold in percent. (\emph{default}: \code{0})
 #'
 #' @importFrom ape drop.tip
 #' @return An ampvis2 object
-#' @keywords internal
+#' @export
+#' @examples
+#' data("AalborgWWTPs")
+#' AalborgWWTPs
+#' filtered <- filter_species(AalborgWWTPs, filter_species = 0.1)
+#' filtered
 filter_species <- function(data, filter_species = 0) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
@@ -555,7 +582,7 @@ filter_species <- function(data, filter_species = 0) {
           names_stripped <- stringr::str_split(names(data$refseq), ";", simplify = TRUE)[, 1]
           data$refseq <- data$refseq[names_stripped %in% rownames(data$abund)]
         } else if (is.null(names(data$refseq))) {
-          warning("DNA sequences have not been subsetted, could not find the names of the sequences in data$refseq.", call. = FALSE)
+          warning("DNA sequences have not been filtered, could not find the names of the sequences in data$refseq.", call. = FALSE)
         }
       }
       nOTUsafter <- nrow(data$abund)
@@ -655,16 +682,16 @@ as.data.table.DNAbin <- function(x, ...) {
   dt
 }
 
-#' @title Rename OTU's by sequence matching with a FASTA file
-#' @description Match and rename OTU's in an ampvis2 object by sequence to a FASTA file
+#' @title Rename OTUs by exact sequence matches from a FASTA file
+#' @description Renames sequences loaded in an ampvis2 object based on exact matches (100% identity and exact same length) in a FASTA file. This is useful for enabling direct cross-study/cross-dataset comparison of OTU/ASV names. This function is also used internally in \code{amp_merge_ampvis2}.
 #'
 #' @param data data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param fasta Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100\% sequence identity). (\emph{default:} \code{NULL})
-#' @param unmatched_prefix Prefix used to name any unmatched sequences when \code{refseq_names} is provided. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})
-#' @param rename_unmatched Whether to rename any unmatched sequences or not when \code{refseq_names} is provided. (\emph{default:} \code{TRUE})
+#' @param unmatched_prefix Prefix used to name any unmatched sequences in the FASTA file An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})
+#' @param rename_unmatched Whether to rename any unmatched sequences or not. (\emph{default:} \code{TRUE})
 #'
 #' @return An ampvis2 class object
-#' @keywords internal
+#' @export
 matchOTUs <- function(
   data,
   fasta,

@@ -350,7 +350,7 @@ amp_ordinate <- function(data,
     } else if (distmeasure %in% validVegdistMethods) {
       distmatrix <- vegan::vegdist(data$abund, method = distmeasure)
     } else if (distmeasure == "unifrac") {
-      distmatrix <- unifrac(
+      distmatrix <- dist.unifrac(
         abund = t(data$abund),
         tree = data$tree,
         weighted = FALSE,
@@ -358,7 +358,7 @@ amp_ordinate <- function(data,
         num_threads = num_threads
       )
     } else if (distmeasure == "wunifrac") {
-      distmatrix <- unifrac(
+      distmatrix <- dist.unifrac(
         abund = t(data$abund),
         tree = data$tree,
         weighted = TRUE,

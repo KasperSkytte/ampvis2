@@ -44,6 +44,14 @@ reference:
     - amp_frequency
     - amp_otu_network
     - amp_rank_abundance
+  - title: Utility functions
+    desc: Various utility functions that are also used internally in several ampvis2 functions, but may also be useful in other custom scenarios.
+    contents:
+    - amp_rarefy
+    - normaliseTo100
+    - filter_species
+    - aggregate_abund
+    - matchOTUs
   - title: Data sets
     contents:
     - has_keyword("data")

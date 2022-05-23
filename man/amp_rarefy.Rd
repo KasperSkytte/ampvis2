@@ -17,7 +17,12 @@ An ampvis2 object with rarefied OTU abundances.
 \description{
 This is just a wrapper of \code{\link[vegan]{rrarefy}} with convenient error messages and adjusted to work with ampvis2 objects.
 }
+\examples{
+data("AalborgWWTPs")
+AalborgWWTPs
+rarefied <- amp_rarefy(AalborgWWTPs, 20000)
+rarefied
+}
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
-\keyword{internal}

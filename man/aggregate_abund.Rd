@@ -30,9 +30,20 @@ aggregate_abund(
 A data.table.
 }
 \description{
-Calculates the sum of OTUs per taxonomic level
+Sums up all OTU read counts at the chosen taxonomic level. Used internally in many ampvis2 functions, but can also be used separately for custom purposes.
+}
+\examples{
+data("AalborgWWTPs")
+aggregated <- aggregate_abund(
+  AalborgWWTPs$abund,
+  AalborgWWTPs$tax,
+  tax_aggregate = "Genus",
+  tax_add = "Phylum",
+  format = "long",
+  calcSums = TRUE
+)
+aggregated
 }
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}
 }
-\keyword{internal}

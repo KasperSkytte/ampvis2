@@ -10,9 +10,14 @@ normaliseTo100(data)
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 }
 \value{
-A modifed ampvis2 object
+A modified ampvis2 object
 }
 \description{
 Normalise read counts to 100, i.e. in percent relative abundance per sample
 }
-\keyword{internal}
+\examples{
+data("AalborgWWTPs")
+AalborgWWTPs
+normalised <- normaliseTo100(AalborgWWTPs)
+normalised
+}
