@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.26</span>
       </span>
     </div>
 
@@ -80,9 +80,46 @@
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A modifed ampvis2 object</p>
+    <p>A modified ampvis2 object</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">AalborgWWTPs</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ampvis2 object with 5 elements. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Summary of OTU table:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           67         9430      2045128        17772        44326        31209 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Avg#Reads </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      30524.3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Assigned taxonomy:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Kingdom       Phylum        Class        Order       Family        Genus </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   9430(100%) 9215(97.72%) 8282(87.83%) 7644(81.06%) 6746(71.54%) 5228(55.44%) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Species </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    23(0.24%) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Metadata variables:</span> 5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  SampleID, Plant, Date, Year, Period</span>
+<span class="r-in"><span class="va">normalised</span> <span class="op">&lt;-</span> <span class="fu">normaliseTo100</span><span class="op">(</span><span class="va">AalborgWWTPs</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">normalised</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ampvis2 object with 5 elements. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Summary of OTU table:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Samples    OTUs </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      67    9430 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (The read counts have been normalised)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Assigned taxonomy:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Kingdom       Phylum        Class        Order       Family        Genus </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   9430(100%) 9215(97.72%) 8282(87.83%) 7644(81.06%) 6746(71.54%) 5228(55.44%) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Species </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    23(0.24%) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Metadata variables:</span> 5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  SampleID, Plant, Date, Year, Period</span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
