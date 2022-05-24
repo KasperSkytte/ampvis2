@@ -683,7 +683,7 @@ as.data.table.DNAbin <- function(x, ...) {
 }
 
 #' @title Rename OTUs by exact sequence matches from a FASTA file
-#' @description Renames sequences loaded in an ampvis2 object based on exact matches (100% identity and exact same length) in a FASTA file. This is useful for enabling direct cross-study/cross-dataset comparison of OTU/ASV names. This function is also used internally in \code{amp_merge_ampvis2}.
+#' @description Renames sequences loaded in an ampvis2 object based on exact matches (100\% identity and exact same length) in a FASTA file. This is useful for enabling direct cross-study/cross-dataset comparison of OTU/ASV names. This function is also used internally in \code{amp_merge_ampvis2}.
 #'
 #' @param data data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param fasta Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100\% sequence identity). (\emph{default:} \code{NULL})

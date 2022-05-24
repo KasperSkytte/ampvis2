@@ -19,5 +19,5 @@ matchOTUs(data, fasta, unmatched_prefix = "unmatched", rename_unmatched = TRUE)
 An ampvis2 class object
 }
 \description{
-Renames sequences loaded in an ampvis2 object based on exact matches (100% identity and exact same length) in a FASTA file. This is useful for enabling direct cross-study/cross-dataset comparison of OTU/ASV names. This function is also used internally in \code{amp_merge_ampvis2}.
+Renames sequences loaded in an ampvis2 object based on exact matches (100\% identity and exact same length) in a FASTA file. This is useful for enabling direct cross-study/cross-dataset comparison of OTU/ASV names. This function is also used internally in \code{amp_merge_ampvis2}.
 }
