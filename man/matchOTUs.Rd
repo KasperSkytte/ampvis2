@@ -11,7 +11,7 @@ matchOTUs(data, fasta, unmatched_prefix = "unmatched", rename_unmatched = TRUE)
 
 \item{fasta}{Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100\% sequence identity). (\emph{default:} \code{NULL})}
 
-\item{unmatched_prefix}{Prefix used to name any unmatched sequences in the FASTA file An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})}
+\item{unmatched_prefix}{Prefix used to name any unmatched sequences in the FASTA file. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})}
 
 \item{rename_unmatched}{Whether to rename any unmatched sequences or not. (\emph{default:} \code{TRUE})}
 }

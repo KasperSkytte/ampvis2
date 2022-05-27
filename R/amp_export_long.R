@@ -3,8 +3,8 @@
 #' @description Transforms any ampvis2 object into a long data frame (\code{data.table}) to facilitate custom data analysis. Only the elements OTU counts (\code{data$abund}), taxonomy (\code{data$tax}), and metadata (\code{data$metadata}) are used, not phylogenetic tree or DNA sequences.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param metadata_vars A character vector of sample metadata variables to include from \code{data$metadata}. The first column (sample IDs) will always be included. Default includes all.
-#' @param tax_levels A character vector of taxonomic levels to include from \code{data$tax}. The OTU column will always be included. Default includes all.
+#' @param metadata_vars A character vector of sample metadata variables to include from \code{data$metadata}, or \code{NULL}. The first column (sample IDs) will always be included. Default includes all.
+#' @param tax_levels A character vector of taxonomic levels to include from \code{data$tax}, or \code{NULL}. The OTU column will always be included. Default includes all.
 #'
 #' @return A \code{data.table} in long format.
 #' @export
@@ -15,7 +15,7 @@
 #' d <- amp_load(example_otutable, example_metadata)
 #'
 #' # transform d into a long-format data frame
-#' d_long <- amp_export_long(d, metadata_vars = NULL, tax_levels = c("OTU", "Genus"))
+#' d_long <- amp_export_long(d, metadata_vars = "Date", tax_levels = c("OTU", "Genus"))
 #'
 #' # print the data frame (data.table)
 #' d_long
@@ -30,11 +30,8 @@ amp_export_long <- function(data,
   # find name of first (samples) column
   samplesCol <- colnames(data$metadata)[[1]]
 
-  # columns to include from metadata, and taxonomy,
   # always include OTU column from taxonomy and first column (sample IDs) from metadata
   data$tax <- data$tax[, unique(c("OTU", tax_levels)), drop = FALSE]
-  data$metadata <- data$metadata[, unique(c(samplesCol, metadata_vars)), drop = FALSE]
-  setDT(data$metadata)
 
   # merge tax and abund by rownames
   otutable <- base::merge(
@@ -56,9 +53,13 @@ amp_export_long <- function(data,
   )
 
   # merge with chosen sample metadata variables
-  out <- data$metadata[long_data, on = samplesCol]
+  if (!is.null(metadata_vars)) {
+    data$metadata <- data$metadata[, unique(c(samplesCol, metadata_vars)), drop = FALSE]
+    setDT(data$metadata)
+    long_data <- data$metadata[long_data, on = samplesCol]
+  }
 
   # reorder and return
-  setcolorder(out, c(samplesCol, "OTU", "count"))
-  return(out)
+  setcolorder(long_data, c(samplesCol, "OTU", "count"))
+  return(long_data)
 }

@@ -13,9 +13,9 @@ amp_export_long(
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
-\item{metadata_vars}{A character vector of sample metadata variables to include from \code{data$metadata}. The first column (sample IDs) will always be included. Default includes all.}
+\item{metadata_vars}{A character vector of sample metadata variables to include from \code{data$metadata}, or \code{NULL}. The first column (sample IDs) will always be included. Default includes all.}
 
-\item{tax_levels}{A character vector of taxonomic levels to include from \code{data$tax}. The OTU column will always be included. Default includes all.}
+\item{tax_levels}{A character vector of taxonomic levels to include from \code{data$tax}, or \code{NULL}. The OTU column will always be included. Default includes all.}
 }
 \value{
 A \code{data.table} in long format.
@@ -28,7 +28,7 @@ Transforms any ampvis2 object into a long data frame (\code{data.table}) to faci
 d <- amp_load(example_otutable, example_metadata)
 
 # transform d into a long-format data frame
-d_long <- amp_export_long(d, metadata_vars = NULL, tax_levels = c("OTU", "Genus"))
+d_long <- amp_export_long(d, metadata_vars = "Date", tax_levels = c("OTU", "Genus"))
 
 # print the data frame (data.table)
 d_long
