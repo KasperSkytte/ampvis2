@@ -488,6 +488,7 @@ abundAreCounts <- function(data) {
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #'
 #' @return A modified ampvis2 object
+#' @importFrom data.table dcast setDF
 #' @export
 #' @examples
 #' data("AalborgWWTPs")
@@ -501,17 +502,29 @@ normaliseTo100 <- function(data) {
   if (!abundAreCounts(data)) {
     warning("The data has already been normalised. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
   }
-  # normalise each sample to sample totals, skip samples with 0 sum to avoid NaN's
-  tmp <- data$abund[, which(colSums(data$abund) != 0), drop = FALSE]
-  if (nrow(tmp) == 1L) {
-    # apply returns a vector and drops rownames if only 1 row, therefore set to 100 instead
-    tmp[1L, ] <- 100L
-  } else if (nrow(tmp) > 1L) {
-    tmp <- as.data.frame(apply(tmp, 2, function(x) {
-      x / sum(x) * 100
-    }))
-  }
-  data$abund[, which(colSums(data$abund) != 0)] <- tmp
+  
+  # grouped operations on long/melted data.tables are just faaaast
+  abund_long <- amp_export_long(
+    data,
+    metadata_vars = NULL,
+    tax_levels = "OTU"
+  )
+  colnames(abund_long)[1] = ".SampleID"
+  abund_long[
+    ,
+    .rel_abund := count/sum(count) * 100,
+    by = ".SampleID"
+  ]
+  abund <- dcast(
+    abund_long,
+    OTU ~ .SampleID,
+    value.var = ".rel_abund"
+  )
+  rownames <- abund[, as.character(OTU)]
+  abund[, OTU := NULL]
+  data.table::setDF(abund, rownames = rownames)
+  
+  data$abund <- abund
   attributes(data)$normalised <- TRUE
   return(data)
 }
@@ -533,59 +546,52 @@ normaliseTo100 <- function(data) {
 filter_species <- function(data, filter_species = 0) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
-
+  
   if (is.numeric(filter_species)) {
     if (filter_species > 0) {
       # For printing removed OTUs
       nOTUsbefore <- nrow(data$abund)
-
-      # First transform to percentages
-      abund_pct <- data$abund
-      abund_pct[
-        ,
-        colSums(abund_pct) != 0
-      ] <- as.data.frame(
-        apply(
-          abund_pct[, colSums(abund_pct) != 0, drop = FALSE],
-          2,
-          function(x) x / sum(x) * 100
-        )
+      
+      # grouped operations on long/melted data.tables are just faaaast
+      abund_tmp <- amp_export_long(
+        data,
+        metadata_vars = NULL,
+        tax_levels = "OTU"
       )
-      rownames(abund_pct) <- rownames(data$abund) # keep rownames
-
-      # Then filter low abundant OTU's where ALL samples have
-      # below the threshold set with filter_species in percent
-      abund_subset <- abund_pct[
-        !apply(
-          abund_pct,
-          1,
-          function(row) all(row <= filter_species)
-        ), ,
-        drop = FALSE
-      ] # remove low abundant OTU's
-
-      data$abund <- data$abund[rownames(data$abund) %in% rownames(abund_subset), , drop = FALSE]
+      colnames(abund_tmp)[1] = ".SampleID"
+      
+      #dont normalise
+      if (isTRUE(abundAreCounts(data))) {
+        abund_tmp[, .rel_abund := count/sum(count), by = ".SampleID"]
+      } else if (isFALSE(abundAreCounts(data))) {
+        abund_tmp[, .rel_abund := count]
+      }
+      
+      abund_tmp <- abund_tmp[,.SD[any(.rel_abund >= filter_species/100)], by = "OTU"]
+      OTUs_keep <- abund_tmp[, unique(as.character(OTU))]
+      
+      data$abund <- data$abund[OTUs_keep, , drop = FALSE]
       rownames(data$tax) <- data$tax$OTU
-
+      
       # also filter taxonomy, tree, and sequences
-      data$tax <- data$tax[rownames(data$tax) %in% rownames(abund_subset), , drop = FALSE]
-
+      data$tax <- data$tax[OTUs_keep, , drop = FALSE]
+      
       if (!is.null(data$tree)) {
         data$tree <- ape::drop.tip(
           phy = data$tree,
-          tip = data$tree$tip.label[!data$tree$tip.label %in% data$tax$OTU]
+          tip = data$tree$tip.label[!data$tree$tip.label %in% OTUs_keep]
         )
       }
       if (!is.null(data$refseq)) {
         if (!is.null(names(data$refseq))) {
           # sometimes there is taxonomy alongside the OTU ID's. Anything after a ";" will be ignored
           names_stripped <- stringr::str_split(names(data$refseq), ";", simplify = TRUE)[, 1]
-          data$refseq <- data$refseq[names_stripped %in% rownames(data$abund)]
+          data$refseq <- data$refseq[names_stripped %in% OTUs_keep]
         } else if (is.null(names(data$refseq))) {
           warning("DNA sequences have not been filtered, could not find the names of the sequences in data$refseq.", call. = FALSE)
         }
       }
-      nOTUsafter <- nrow(data$abund)
+      nOTUsafter <- length(OTUs_keep)
       if (nOTUsbefore == nOTUsafter) {
         message("0 OTU's have been filtered.")
       } else {
@@ -687,7 +693,7 @@ as.data.table.DNAbin <- function(x, ...) {
 #'
 #' @param data data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param fasta Path to a FASTA file or a \code{DNAbin} class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100\% sequence identity). (\emph{default:} \code{NULL})
-#' @param unmatched_prefix Prefix used to name any unmatched sequences in the FASTA file An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})
+#' @param unmatched_prefix Prefix used to name any unmatched sequences in the FASTA file. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named \code{unmatched123}, and so on. (\emph{default:} \code{"unmatched"})
 #' @param rename_unmatched Whether to rename any unmatched sequences or not. (\emph{default:} \code{TRUE})
 #'
 #' @return An ampvis2 class object
