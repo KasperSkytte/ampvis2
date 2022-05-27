@@ -4,9 +4,11 @@
 #' @param pkg pkg
 #'
 #' @importFrom utils packageVersion
+#' @importFrom data.table setDTthreads
 #' @keywords internal
 .onAttach <- function(lib, pkg) {
   options(scipen = 6)
+  setDTthreads(0)
   # Check for new github release version. (Not master branch version, release version!)
   if (!interactive()) {
     return()
