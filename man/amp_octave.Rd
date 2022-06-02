@@ -49,7 +49,7 @@ It is better to identify "bad" samples individually and remove them.
 data("AalborgWWTPs")
 
 # Subset data
-ds <- amp_subset_samples(AalborgWWTPs, Year \%in\% 2014)
+ds <- amp_filter_samples(AalborgWWTPs, Year \%in\% 2014)
 
 # Generate an octave plot of all samples at Genus level. Adjust num_threads to
 # process multiple groups simultaneously using multicore processing

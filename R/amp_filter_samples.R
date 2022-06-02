@@ -19,11 +19,11 @@
 #' @details The subset is performed on the metadata by \code{subset()} and the abundance- and taxonomy tables are then adjusted accordingly.
 #'
 #' @section Preserving relative abundances in a subset of larger data:
-#' By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example \code{\link{amp_heatmap}}, \code{\link{amp_timeseries}}, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_subset_taxa}} and \code{\link{amp_subset_samples}} functions, and then set \code{normalise = FALSE} in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting \code{normalise = FALSE} will skip the transformation in the plotting function, see the example below.
+#' By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example \code{\link{amp_heatmap}}, \code{\link{amp_timeseries}}, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_filter_taxa}} and \code{\link{amp_filter_samples}} functions, and then set \code{normalise = FALSE} in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting \code{normalise = FALSE} will skip the transformation in the plotting function, see the example below.
 #'
 #' \preformatted{
 #' data("MiDAS")
-#' subsettedData <- amp_subset_samples(MiDAS,
+#' subsettedData <- amp_filter_samples(MiDAS,
 #'                                     Plant \%in\% c("Aalborg West", "Aalborg East"),
 #'                                     normalise = TRUE
 #'                                     )
@@ -43,14 +43,14 @@
 #' MiDAS
 #'
 #' # Keep only samples containing Aalborg West or East in the Plant column
-#' MiDASsubset <- amp_subset_samples(MiDAS, Plant %in% c("Aalborg West", "Aalborg East"))
+#' MiDASsubset <- amp_filter_samples(MiDAS, Plant %in% c("Aalborg West", "Aalborg East"))
 #'
 #' # Summary
 #' MiDASsubset
 #'
 #' # Keep only samples containing Aalborg West or East in the Plant column
 #' # and remove the sample "16SAMP-749". Remove any sample(s) with less than 20000 total reads
-#' MiDASsubset2 <- amp_subset_samples(MiDAS,
+#' MiDASsubset2 <- amp_filter_samples(MiDAS,
 #'   Plant %in% c("Aalborg West", "Aalborg East") & !SampleID %in% c("16SAMP-749"),
 #'   minreads = 20000
 #' )
@@ -63,11 +63,11 @@
 #' \strong{10(4):} e1003531. DOI:\code{10.1371/journal.pcbi.1003531}
 #'
 #' @seealso
-#' \code{\link{amp_load}}, \code{\link{amp_subset_taxa}}
+#' \code{\link{amp_load}}, \code{\link{amp_filter_taxa}}
 #'
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
-amp_subset_samples <- function(data,
+amp_filter_samples <- function(data,
                                ...,
                                minreads = 0,
                                rarefy = NULL,
@@ -186,6 +186,6 @@ amp_subset_samples <- function(data,
   return(data)
 }
 
-#' @rdname amp_subset_samples
+#' @rdname amp_filter_samples
 #' @export
-amp_filter_samples <- amp_subset_samples
+amp_subset_samples <- amp_filter_samples

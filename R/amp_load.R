@@ -51,7 +51,7 @@
 #' A minimal example is available with \code{data("example_metadata")}.
 #'
 #' @seealso
-#' \code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}
+#' \code{\link{amp_load}}, \code{\link{amp_filter_samples}}, \code{\link{amp_filter_taxa}}
 #'
 #' @examples
 #'

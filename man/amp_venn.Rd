@@ -37,7 +37,7 @@ Calculates the number of "core" OTUs shared by groups given thresholds for how f
 }
 \section{Preserving relative abundances in a subset of larger data}{
 
-See \code{?\link{amp_subset_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
+See \code{?\link{amp_filter_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
 }
 
 \examples{

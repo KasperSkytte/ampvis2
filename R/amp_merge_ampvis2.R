@@ -26,21 +26,21 @@
 #' data("MiDAS")
 #'
 #' # summary of samples from 2010-2012
-#' amp_subset_samples(
+#' amp_filter_samples(
 #'   MiDAS,
 #'   Year %in% c("2010", "2011", "2012")
 #' )
 #'
 #' # now merge individual objects and verify summary is the same
-#' d_2010 <- amp_subset_samples(
+#' d_2010 <- amp_filter_samples(
 #'   MiDAS,
 #'   Year %in% "2010"
 #' )
-#' d_2011 <- amp_subset_samples(
+#' d_2011 <- amp_filter_samples(
 #'   MiDAS,
 #'   Year %in% "2011"
 #' )
-#' d_2012 <- amp_subset_samples(
+#' d_2012 <- amp_filter_samples(
 #'   MiDAS,
 #'   Year %in% "2012"
 #' )

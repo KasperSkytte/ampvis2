@@ -129,7 +129,7 @@ d <- amp_load(
 d
 }
 \seealso{
-\code{\link{amp_load}}, \code{\link{amp_subset_samples}}, \code{\link{amp_subset_taxa}}
+\code{\link{amp_load}}, \code{\link{amp_filter_samples}}, \code{\link{amp_filter_taxa}}
 }
 \author{
 Kasper Skytte Andersen \email{ksa@bio.aau.dk}

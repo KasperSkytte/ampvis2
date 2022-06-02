@@ -15,11 +15,11 @@
 #' The taxonomy subset is done by providing a \code{tax_vector} of taxa names which are then matched to the taxonomy table, where all other taxa not matching the \code{tax_vector} are removed. If \code{remove = TRUE}, then the matching taxa are the ones being removed instead. The taxa names in \code{tax_vector} will be matched in all columns of the taxonomy table.
 #'
 #' @section Preserving relative abundances in a subset of larger data:
-#' By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example \code{\link{amp_heatmap}}, \code{\link{amp_timeseries}}, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_subset_taxa}} and \code{\link{amp_subset_samples}} functions, and then set \code{raw = TRUE} in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting \code{raw = TRUE} will skip the transformation in the plotting function, see the example below.
+#' By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example \code{\link{amp_heatmap}}, \code{\link{amp_timeseries}}, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set \code{normalise = TRUE} when subsetting with the \code{\link{amp_filter_taxa}} and \code{\link{amp_filter_samples}} functions, and then set \code{raw = TRUE} in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting \code{raw = TRUE} will skip the transformation in the plotting function, see the example below.
 #'
 #' \preformatted{
 #' data("MiDAS")
-#' subsettedData <- amp_subset_samples(MiDAS,
+#' subsettedData <- amp_filter_samples(MiDAS,
 #'                                     Plant \%in\% c("Aalborg West", "Aalborg East"),
 #'                                     normalise = TRUE
 #'                                     )
@@ -51,7 +51,7 @@
 #'   "g__Trichococcus"
 #' )
 #'
-#' AalborgWWTPs_subset <- amp_subset_taxa(AalborgWWTPs,
+#' AalborgWWTPs_subset <- amp_filter_taxa(AalborgWWTPs,
 #'   tax_vector = tax_vector
 #' )
 #'
@@ -63,7 +63,7 @@
 #' )
 #'
 #' # Or if remove = TRUE then the taxa in tax_vector are the ones being removed:
-#' AalborgWWTPs_subset <- amp_subset_taxa(AalborgWWTPs,
+#' AalborgWWTPs_subset <- amp_filter_taxa(AalborgWWTPs,
 #'   tax_vector = tax_vector,
 #'   remove = TRUE
 #' )
@@ -74,13 +74,13 @@
 #'   tax_add = "Phylum"
 #' )
 #' @seealso
-#' \code{\link{amp_load}}, \code{\link{amp_subset_samples}}
+#' \code{\link{amp_load}}, \code{\link{amp_filter_samples}}
 #'
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 #' @author Rasmus Hansen Kirkegaard \email{rhk@@bio.aau.dk}
 
-amp_subset_taxa <- function(data,
+amp_filter_taxa <- function(data,
                             tax_vector = NULL,
                             normalise = FALSE,
                             remove = FALSE) {
@@ -158,6 +158,6 @@ amp_subset_taxa <- function(data,
   return(data)
 }
 
-#' @rdname amp_subset_taxa
+#' @rdname amp_filter_taxa
 #' @export
-amp_filter_taxa <- amp_subset_taxa
+amp_subset_taxa <- amp_filter_taxa
