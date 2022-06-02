@@ -533,7 +533,7 @@ normaliseTo100 <- function(data) {
 #' @description Removes all OTUs that are not found with a higher relative abundance than the set threshold in percent in at least one sample.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param filter_species Remove low abundant OTU's across all samples below this threshold in percent. (\emph{default}: \code{0})
+#' @param filter_otus Remove low abundant OTU's across all samples below this threshold in percent. (\emph{default}: \code{0})
 #'
 #' @importFrom ape drop.tip
 #' @return An ampvis2 object
@@ -541,14 +541,14 @@ normaliseTo100 <- function(data) {
 #' @examples
 #' data("AalborgWWTPs")
 #' AalborgWWTPs
-#' filtered <- filter_species(AalborgWWTPs, filter_species = 0.1)
+#' filtered <- filter_otus(AalborgWWTPs, filter_otus = 0.1)
 #' filtered
-filter_species <- function(data, filter_species = 0) {
+filter_otus <- function(data, filter_otus = 0) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
   
-  if (is.numeric(filter_species)) {
-    if (filter_species > 0) {
+  if (is.numeric(filter_otus)) {
+    if (filter_otus > 0) {
       # For printing removed OTUs
       nOTUsbefore <- nrow(data$abund)
       
@@ -567,7 +567,7 @@ filter_species <- function(data, filter_species = 0) {
         abund_tmp[, .rel_abund := count]
       }
       
-      abund_tmp <- abund_tmp[,.SD[any(.rel_abund >= filter_species/100)], by = "OTU"]
+      abund_tmp <- abund_tmp[,.SD[any(.rel_abund >= filter_otus/100)], by = "OTU"]
       OTUs_keep <- abund_tmp[, unique(as.character(OTU))]
       
       data$abund <- data$abund[OTUs_keep, , drop = FALSE]
@@ -599,7 +599,7 @@ filter_species <- function(data, filter_species = 0) {
           paste0(
             nOTUsbefore - nOTUsafter,
             " OTUs not present in more than ",
-            filter_species,
+            filter_otus,
             "% relative abundance in any sample have been filtered \nBefore: ",
             nOTUsbefore,
             " OTUs\nAfter: ",
@@ -612,6 +612,11 @@ filter_species <- function(data, filter_species = 0) {
   }
   return(data)
 }
+
+#' @rdname filter_otus
+#' @export
+filter_species <- filter_otus
+
 
 #' @title Check if data has class "ampvis2"
 #' @description Checks if the object is of class "ampvis2".

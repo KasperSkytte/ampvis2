@@ -49,7 +49,7 @@ reference:
     contents:
     - amp_rarefy
     - normaliseTo100
-    - filter_species
+    - filter_otus
     - aggregate_abund
     - matchOTUs
   - title: Data sets

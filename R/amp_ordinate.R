@@ -220,7 +220,7 @@ amp_ordinate <- function(data,
   data <- amp_rename(data = data, tax_empty = tax_empty)
 
   ##### Filter #####
-  data <- filter_species(data, filter_species)
+  data <- filter_otus(data, filter_species)
 
   # to fix user argument characters, so fx PCoA/PCOA/pcoa are all valid
   type <- tolower(type)
