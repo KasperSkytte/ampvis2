@@ -524,7 +524,8 @@ normaliseTo100 <- function(data) {
   abund[, OTU := NULL]
   data.table::setDF(abund, rownames = rownames)
   
-  data$abund <- abund
+  #ensure ordering between abundances and taxonomy is identical
+  data$abund <- abund[rownames(data$tax), ]
   attributes(data)$normalised <- TRUE
   return(data)
 }
