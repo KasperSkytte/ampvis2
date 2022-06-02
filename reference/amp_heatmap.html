@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.27</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.28</span>
       </span>
     </div>
 
@@ -178,9 +178,9 @@
     <h2>Preserving relative abundances in a subset of larger data</h2>
     
 
-<p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code><a href="amp_timeseries.html">amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href="amp_subset_taxa.html">amp_subset_taxa</a></code> and <code><a href="amp_subset_samples.html">amp_subset_samples</a></code> functions, and then set <code>normalise = FALSE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>normalise = FALSE</code> will skip the transformation in the plotting function, see the example below.</p>
+<p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code><a href="amp_timeseries.html">amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href="amp_filter_taxa.html">amp_filter_taxa</a></code> and <code><a href="amp_filter_samples.html">amp_filter_samples</a></code> functions, and then set <code>normalise = FALSE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>normalise = FALSE</code> will skip the transformation in the plotting function, see the example below.</p>
 <div class="sourceCode"><pre><code><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span>
-<span class="va">subsettedData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/amp_subset_samples.html">amp_subset_samples</a></span><span class="op">(</span><span class="va">MiDAS</span>,
+<span class="va">subsettedData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span><span class="va">MiDAS</span>,
                                     <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span>,
                                     normalise <span class="op">=</span> <span class="cn">TRUE</span>
                                     <span class="op">)</span>

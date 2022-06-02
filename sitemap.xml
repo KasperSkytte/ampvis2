@@ -55,6 +55,12 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_export_otutable.html</loc>
   </url>
   <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_filter_samples.html</loc>
+  </url>
+  <url>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_filter_taxa.html</loc>
+  </url>
+  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_frequency.html</loc>
   </url>
   <url>
@@ -97,12 +103,6 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_rename.html</loc>
   </url>
   <url>
-    <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_subset_samples.html</loc>
-  </url>
-  <url>
-    <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_subset_taxa.html</loc>
-  </url>
-  <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/amp_timeseries.html</loc>
   </url>
   <url>
@@ -139,7 +139,7 @@
     <loc>https://madsalbertsen.github.io/ampvis2/reference/extractFunctions.html</loc>
   </url>
   <url>
-    <loc>https://madsalbertsen.github.io/ampvis2/reference/filter_species.html</loc>
+    <loc>https://madsalbertsen.github.io/ampvis2/reference/filter_otus.html</loc>
   </url>
   <url>
     <loc>https://madsalbertsen.github.io/ampvis2/reference/getLowestTaxLvl.html</loc>
