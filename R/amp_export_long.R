@@ -38,6 +38,7 @@ amp_export_long <- function(data,
     x = data$tax,
     y = data$abund,
     by = 0,
+    sort = FALSE,
     all = TRUE
   )
   setDT(otutable)
