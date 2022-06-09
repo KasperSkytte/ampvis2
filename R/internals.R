@@ -503,7 +503,6 @@ normaliseTo100 <- function(data) {
     warning("The data has already been normalised. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
   }
   
-  # grouped operations on long/melted data.tables are just faaaast
   abund_long <- amp_export_long(
     data,
     metadata_vars = NULL,
