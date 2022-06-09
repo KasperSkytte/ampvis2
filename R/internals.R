@@ -488,7 +488,6 @@ abundAreCounts <- function(data) {
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #'
 #' @return A modified ampvis2 object
-#' @importFrom data.table dcast setDF
 #' @export
 #' @examples
 #' data("AalborgWWTPs")
@@ -498,33 +497,21 @@ abundAreCounts <- function(data) {
 normaliseTo100 <- function(data) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
-
+  
   if (!abundAreCounts(data)) {
     warning("The data has already been normalised. Setting normalise = TRUE (the default) will normalise the data again and the relative abundance information about the original data of which the provided data is a subset will be lost.", call. = FALSE)
   }
-  
-  abund_long <- amp_export_long(
-    data,
-    metadata_vars = NULL,
-    tax_levels = "OTU"
-  )
-  colnames(abund_long)[1] = ".SampleID"
-  abund_long[
-    ,
-    .rel_abund := count/sum(count) * 100,
-    by = ".SampleID"
-  ]
-  abund <- dcast(
-    abund_long,
-    OTU ~ .SampleID,
-    value.var = ".rel_abund"
-  )
-  rownames <- abund[, as.character(OTU)]
-  abund[, OTU := NULL]
-  data.table::setDF(abund, rownames = rownames)
-  
-  #ensure ordering between abundances and taxonomy is identical
-  data$abund <- abund[rownames(data$tax), ]
+  # normalise each sample to sample totals, skip samples with 0 sum to avoid NaN's
+  tmp <- data$abund[, which(colSums(data$abund) != 0), drop = FALSE]
+  if (nrow(tmp) == 1L) {
+    # apply returns a vector and drops rownames if only 1 row, therefore set to 100 instead
+    tmp[1L, ] <- 100L
+  } else if (nrow(tmp) > 1L) {
+    tmp <- as.data.frame(apply(tmp, 2, function(x) {
+      x / sum(x) * 100
+    }))
+  }
+  data$abund[, which(colSums(data$abund) != 0)] <- tmp
   attributes(data)$normalised <- TRUE
   return(data)
 }
