@@ -11,6 +11,7 @@ amp_load(
   fasta = NULL,
   tree = NULL,
   pruneSingletons = FALSE,
+  removeAbsentOTUs = TRUE,
   ...
 )
 }
@@ -26,6 +27,8 @@ amp_load(
 \item{tree}{(\emph{optional}) Path to a phylogenetic tree file which will be read using \code{\link[ape]{read.tree}}, or an object of class \code{"phylo"}. (\emph{default:} \code{NULL})}
 
 \item{pruneSingletons}{(\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})}
+
+\item{removeAbsentOTUs}{(\emph{logical}) Remove OTU's with 0 abundance in all samples. Absent OTUs are rarely in the input data itself, but can occur when some samples are removed because of a mismatch between samples in the OTU-table and sample metadata. (\emph{default:} \code{TRUE})}
 
 \item{...}{(\emph{optional}) Additional arguments are passed on to any of the file reader functions used.}
 }

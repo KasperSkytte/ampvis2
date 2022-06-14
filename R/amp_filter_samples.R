@@ -6,7 +6,7 @@
 #' @param minreads Minimum number of reads pr. sample. Samples below this value will be removed \emph{initially}. (\emph{default:} \code{0})
 #' @param rarefy Rarefy species richness to this value by using \code{\link[vegan]{rrarefy}}. This is done \emph{initially}, but \emph{after} filtering based on the \code{minreads} value, if set. (\emph{default:} \code{NULL})
 #' @param normalise (\emph{logical}) Normalise the OTU read counts to 100 (ie percent) per sample \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})
-#' @param removeAbsents (\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})
+#' @param removeAbsentOTUs (\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})
 #' @param ... Logical expression indicating elements or rows to keep in the metadata. Missing values are treated as \code{FALSE}. Passed directly to \code{\link[dplyr]{filter}}.
 #'
 #' @return A modifed ampvis2 object
@@ -72,7 +72,7 @@ amp_filter_samples <- function(data,
                                minreads = 0,
                                rarefy = NULL,
                                normalise = FALSE,
-                               removeAbsents = TRUE) {
+                               removeAbsentOTUs = TRUE) {
 
   ### Data must be in ampvis2 format
   is_ampvis2(data)
@@ -144,7 +144,7 @@ amp_filter_samples <- function(data,
   data$abund <- data$abund[, which(colnames(data$abund) %in% rownames(data$metadata)), drop = FALSE]
 
   # After subsetting the samples, remove OTU's that may have 0 reads in all samples
-  if (isTRUE(removeAbsents)) {
+  if (isTRUE(removeAbsentOTUs)) {
     data$abund <- data$abund[rowSums(data$abund) > 0, , drop = FALSE]
   }
 

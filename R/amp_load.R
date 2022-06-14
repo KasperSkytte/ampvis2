@@ -8,6 +8,7 @@
 #' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})
 #' @param tree (\emph{optional}) Path to a phylogenetic tree file which will be read using \code{\link[ape]{read.tree}}, or an object of class \code{"phylo"}. (\emph{default:} \code{NULL})
 #' @param pruneSingletons (\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})
+#' @param removeAbsentOTUs (\emph{logical}) Remove OTU's with 0 abundance in all samples. Absent OTUs are rarely in the input data itself, but can occur when some samples are removed because of a mismatch between samples in the OTU-table and sample metadata. (\emph{default:} \code{TRUE})
 #' @param ... (\emph{optional}) Additional arguments are passed on to any of the file reader functions used.
 #'
 #' @return A list of class \code{"ampvis2"} with 3 to 5 elements.
@@ -119,6 +120,7 @@ amp_load <- function(otutable,
                      fasta = NULL,
                      tree = NULL,
                      pruneSingletons = FALSE,
+                     removeAbsentOTUs = TRUE,
                      ...) {
   #enlist additional arguments to be able to parse correctly
   add_args <- list(...)
@@ -491,6 +493,7 @@ amp_load <- function(otutable,
   colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "[^[:alnum:]]", "_")
 
   abund0 <- abund
+  nOTUsbefore <- nrow(abund) #used if removeAbsentOTUs = TRUE
   metadata0 <- metadata
 
   ### check if metadata and otutable match
@@ -504,7 +507,6 @@ amp_load <- function(otutable,
 
       # subset both based on shared samples
       abund0 <- abund[, match(sharedSamples, colnames(abund)), drop = FALSE]
-      abund0 <- abund0[rowSums(abund0) > 0, , drop = FALSE] # after subset, rows with all 0's may be introduced, remove
       metadata0 <- metadata[match(sharedSamples, rownames(metadata)), , drop = FALSE]
 
       # Vectors with unique sample names in either
@@ -532,7 +534,29 @@ amp_load <- function(otutable,
       )
     }
   }
-
+  
+  if (isTRUE(removeAbsentOTUs)) {
+    abund0 <- abund0[rowSums(abund0) > 0, , drop = FALSE]
+    nOTUsremoved <- nOTUsbefore - nrow(abund0)
+    if (nOTUsremoved > 0) {
+      message(
+        nOTUsremoved,
+        if (nOTUsremoved == 1L) {
+          " OTU"
+        } else {
+          " OTUs"
+        },
+        " with 0 total abundance across all samples",
+        if (nOTUsremoved == 1L) {
+          " has"
+        } else {
+          " have"
+        },
+        " been removed."
+      )
+    }
+  }
+  
   ### data: return the data in a combined list w or w/o refseq. The rows of tax are ordered by
   # the rownames of abund, and the columns of abund are ordered by the metadata rownames
   data <- list(

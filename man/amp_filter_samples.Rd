@@ -11,7 +11,7 @@ amp_filter_samples(
   minreads = 0,
   rarefy = NULL,
   normalise = FALSE,
-  removeAbsents = TRUE
+  removeAbsentOTUs = TRUE
 )
 
 amp_subset_samples(
@@ -20,7 +20,7 @@ amp_subset_samples(
   minreads = 0,
   rarefy = NULL,
   normalise = FALSE,
-  removeAbsents = TRUE
+  removeAbsentOTUs = TRUE
 )
 }
 \arguments{
@@ -34,7 +34,7 @@ amp_subset_samples(
 
 \item{normalise}{(\emph{logical}) Normalise the OTU read counts to 100 (ie percent) per sample \emph{BEFORE} the subset. (\emph{default:} \code{FALSE})}
 
-\item{removeAbsents}{(\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})}
+\item{removeAbsentOTUs}{(\emph{logical}) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (\emph{default:} \code{TRUE})}
 }
 \value{
 A modifed ampvis2 object
