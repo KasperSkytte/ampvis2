@@ -185,7 +185,7 @@ textmap <- amp_heatmap(AalborgWWTPs,
   group_by = "Plant",
   tax_aggregate = "Genus",
   plot_functions = TRUE,
-  function_data = midasfunctions_20201201,
+  function_data = midasfunctions,
   functions = c("PAO", "GAO", "AOB", "NOB"),
   textmap = TRUE
 )

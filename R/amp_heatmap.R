@@ -115,7 +115,7 @@
 #'   group_by = "Plant",
 #'   tax_aggregate = "Genus",
 #'   plot_functions = TRUE,
-#'   function_data = midasfunctions_20201201,
+#'   function_data = midasfunctions,
 #'   functions = c("PAO", "GAO", "AOB", "NOB"),
 #'   textmap = TRUE
 #' )
@@ -191,8 +191,8 @@ amp_heatmap <- function(data,
       if (!exists(".ampvis2_midasfg_function_data", envir = .GlobalEnv)) {
         function_data <- try(getMiDASFGData(), silent = TRUE)
         if (inherits(function_data, "try-error")) {
-          warning("Can't reach the midasfieldguide.org API to download functional data just now. The reason can be issues with either the site or your internet connection. Using the data set \"midasfunctions_20201201\" instead, which is probably not up-to-date. You can also supply your own data frame by using the function_data argument.", call. = FALSE)
-          function_data <- midasfunctions_20201201
+          warning("Can't reach the midasfieldguide.org API to download functional data just now. The reason can be issues with either the site or your internet connection. Using the data set \"midasfunctions\" instead, which is probably not up-to-date. You can also supply your own data frame by using the function_data argument.", call. = FALSE)
+          function_data <- midasfunctions
         } else {
           function_data <- extractFunctions(function_data)
         }

@@ -97,7 +97,7 @@ NULL
 #'
 #' Grabbed from midasfieldguide.org at 2020-12-01
 #'
-#' @name midasfunctions_20201201
+#' @name midasfunctions
 #' @docType data
 #'
 #' @format a data frame.
@@ -106,7 +106,7 @@ NULL
 #'
 #' @examples
 #' \dontrun{
-#' data(midasfunctions_20201201)
-#' View(midasfunctions_20201201)
+#' data(midasfunctions)
+#' View(midasfunctions)
 #' }
 NULL
