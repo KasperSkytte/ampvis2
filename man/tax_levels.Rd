@@ -13,5 +13,5 @@ tax_levels
 \description{
 Valid taxonomic levels
 }
-\keyword{data}
+\keyword{datasets}
 \keyword{internal}

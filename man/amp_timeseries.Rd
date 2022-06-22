@@ -77,7 +77,7 @@ Generates a timeseries plot showing relative read abundances over time.
 }
 \section{Preserving relative abundances in a subset of larger data}{
 
-See \code{?\link{amp_filter_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
+See \code{?\link{amp_filter_samples}} or the \href{https://kasperskytte.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
 }
 
 \examples{

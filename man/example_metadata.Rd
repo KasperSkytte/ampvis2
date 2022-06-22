@@ -16,4 +16,4 @@ data(example_metadata)
 View(example_metadata)
 }
 }
-\keyword{data}
+\keyword{datasets}

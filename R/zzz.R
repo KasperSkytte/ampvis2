@@ -23,7 +23,7 @@
       ),
       appendLF = FALSE
     )
-    gitHubUser <- "madsalbertsen"
+    gitHubUser <- "kasperskytte"
     tryCatch(
       {
         DESCRIPTION <- readLines(
@@ -52,6 +52,6 @@
         warning("Can't reach GitHub to check for new version just now. Trying again next time.", call. = FALSE)
       }
     )
-    packageStartupMessage(". Great documentation is available at the ampvis2 website: https://madsalbertsen.github.io/ampvis2/", appendLF = TRUE)
+    packageStartupMessage(". Great documentation is available at the ampvis2 website: https://kasperskytte.github.io/ampvis2/", appendLF = TRUE)
   }
 }

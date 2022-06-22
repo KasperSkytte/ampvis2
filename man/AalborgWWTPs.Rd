@@ -16,4 +16,4 @@ data("AalborgWWTPs")
 View(AalborgWWTPs)
 }
 }
-\keyword{data}
+\keyword{datasets}

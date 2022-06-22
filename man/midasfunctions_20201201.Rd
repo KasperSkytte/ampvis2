@@ -16,4 +16,4 @@ data(midasfunctions_20201201)
 View(midasfunctions_20201201)
 }
 }
-\keyword{data}
+\keyword{datasets}

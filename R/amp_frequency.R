@@ -26,7 +26,7 @@
 #' @export
 #'
 #' @section Preserving relative abundances in a subset of larger data:
-#' See \code{?\link{amp_filter_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
+#' See \code{?\link{amp_filter_samples}} or the \href{https://kasperskytte/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
 #'
 #' @references
 #'   Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): The activated sludge ecosystem contains a core community of abundant organisms, ISME Journal 10, 11-20. \doi{10.1038/ismej.2015.117}

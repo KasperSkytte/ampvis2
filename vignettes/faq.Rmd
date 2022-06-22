@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ## Your question here
-If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <https://github.com/MadsAlbertsen/ampvis2/issues> or email one of the developers, anything and everything is welcome.
+If you have problems or questions, ideas for improvements, or even found a bug or two, feel free to post at <https://github.com/kasperskytte/ampvis2/issues> or email one of the developers, anything and everything is welcome.
 
 ## Preserving relative abundances in a subset of larger data
 By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example `amp_heatmap`, `amp_timeseries`, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set `normalise = TRUE` when subsetting with the `amp_subset_taxa` and `amp_subset_samples` functions, and then set `raw = TRUE` in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting `raw = TRUE` will skip the transformation in the plotting function, see the example below.

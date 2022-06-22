@@ -2,7 +2,7 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.205.2/containers/r
 {
 	"name": "rstudio-ampvis2",
-	"image": "ghcr.io/madsalbertsen/ampvis2:main",
+	"image": "ghcr.io/kasperskytte/ampvis2:main",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {

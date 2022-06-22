@@ -8,6 +8,6 @@
 \code{ampvis2} is an R-package to conveniently visualise and analyse 16S rRNA amplicon data in different ways.
 }
 \details{
-Please use the online documentation webpage at \href{https://madsalbertsen.github.io/ampvis2/}{https://madsalbertsen.github.io/ampvis2}
+Please use the online documentation webpage at \href{https://kasperskytte.github.io/ampvis2/}{https://kasperskytte.github.io/ampvis2}
 }
 \keyword{internal}

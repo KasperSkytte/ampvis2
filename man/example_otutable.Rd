@@ -16,4 +16,4 @@ data(example_otutable)
 View(example_otutable)
 }
 }
-\keyword{data}
+\keyword{datasets}

@@ -2,25 +2,25 @@
 title: "Introduction to ampvis2"
 ---
 
-This is a short guide to the basics of `ampvis2`, how to load data, as well as a few basic visualisation functions using example data. A complete explanation of all functions, their purpose, different arguments and examples can be found in the [Functions](https://madsalbertsen.github.io/ampvis2/reference/index.html) tab.
+This is a short guide to the basics of `ampvis2`, how to load data, as well as a few basic visualisation functions using example data. A complete explanation of all functions, their purpose, different arguments and examples can be found in the [Functions](https://kasperskytte.github.io/ampvis2/reference/index.html) tab.
 
 ## Installation
 
-Install `ampvis2` as described on the [home page](https://madsalbertsen.github.io/ampvis2/index.html):
+Install `ampvis2` as described on the [home page](https://kasperskytte.github.io/ampvis2/index.html):
 
 ```{r, eval = FALSE}
 install.packages("remotes")
-remotes::install_github("MadsAlbertsen/ampvis2", Ncpus = 6)
+remotes::install_github("kasperskytte/ampvis2", Ncpus = 6)
 ```
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ampvis2)
 ```
 
-Alternatively use the RStudio docker image with ampvis2 preinstalled as described on the [home page](https://madsalbertsen.github.io/ampvis2/index.html).
+Alternatively use the RStudio docker image with ampvis2 preinstalled as described on the [home page](https://kasperskytte.github.io/ampvis2/index.html).
 
 ## Loading data
-The first step is always to import some data by using the `amp_load` function. The `amp_load` function is quite flexible and auto-detects several different formats, including csv or excel files, BIOM files, or even R objects directly. As a minimum, you always need to import an abundance table with counts of OTU's/ASV's per sample, the rest are optional, but any useful analysis involves loading at least some sample metadata and taxonomy too. Refer to the [amp_load](https://madsalbertsen.github.io/ampvis2/reference/amp_load.html) help page for details. A simple example would be:
+The first step is always to import some data by using the `amp_load` function. The `amp_load` function is quite flexible and auto-detects several different formats, including csv or excel files, BIOM files, or even R objects directly. As a minimum, you always need to import an abundance table with counts of OTU's/ASV's per sample, the rest are optional, but any useful analysis involves loading at least some sample metadata and taxonomy too. Refer to the [amp_load](https://kasperskytte.github.io/ampvis2/reference/amp_load.html) help page for details. A simple example would be:
 
 ```{r, eval = FALSE}
 library(ampvis2)

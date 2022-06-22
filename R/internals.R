@@ -628,7 +628,7 @@ is_ampvis2 <- function(data) {
 #'
 #' @format A charactor vector with the taxonomic levels Kingdom->OTU
 #'
-#' @keywords data internal
+#' @keywords datasets internal
 #'
 tax_levels <- c(
   "Kingdom",

@@ -1,5 +1,5 @@
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/MadsAlbertsen/ampvis2/workflows/R-CMD-check/badge.svg)](https://github.com/MadsAlbertsen/ampvis2/actions)
+[![R-CMD-check](https://github.com/kasperskytte/ampvis2/workflows/R-CMD-check/badge.svg)](https://github.com/kasperskytte/ampvis2/actions)
 <!-- badges: end -->
 
 Tools for visualising amplicon data
@@ -14,15 +14,15 @@ First, install [R (3.5.x or later)](https://mirrors.dotsrc.org/cran/) and [RStud
 
 ``` r
 install.packages("remotes")
-remotes::install_github("MadsAlbertsen/ampvis2")
+remotes::install_github("kasperskytte/ampvis2")
 ```
 
-Tip: For faster installation you can utilise multicore processors by setting the `Ncpus` argument, fx `remotes::install_github("madsalbertsen/ampvis2", Ncpus = 6)`. Most CPU's today can run 8 processes simultaneously, so setting it to 6 is a good starting point unless you know you have a CPU with more (logical) cores than 8.
+Tip: For faster installation you can utilise multicore processors by setting the `Ncpus` argument, fx `remotes::install_github("kasperskytte/ampvis2", Ncpus = 6)`. Most CPU's today can run 8 processes simultaneously, so setting it to 6 is a good starting point unless you know you have a CPU with more (logical) cores than 8.
 
 Get started
 -----------
 
-For a quick guide on how to use ampvis2 go to the [Get Started](https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html) page. Detailed documentation of all ampvis2 functions can be found at the [Functions](https://madsalbertsen.github.io/ampvis2/reference/index.html) page.
+For a quick guide on how to use ampvis2 go to the [Get Started](https://kasperskytte.github.io/ampvis2/articles/ampvis2.html) page. Detailed documentation of all ampvis2 functions can be found at the [Functions](https://kasperskytte.github.io/ampvis2/reference/index.html) page.
 
 RStudio Docker container
 ------------------
@@ -34,10 +34,10 @@ docker run -d \
   -e "PASSWORD=supersafepassword" \
   -v "local/folder/to/mount":/home/rstudio \
   -p 8787:8787 \
-  ghcr.io/madsalbertsen/ampvis2:main
+  ghcr.io/kasperskytte/ampvis2:main
 ```
 
-Access RStudio server through a browser at `http://localhost:8787` with username `rstudio`. Ideally use a specific version tag, fx `v2.7.12`, instead of `main` to not just pull the latest image every time.
+Access RStudio server through a browser at `http://localhost:8787` with username `rstudio`. Ideally use a specific version tag, fx `v2.7.31`, instead of `main` to not just pull the latest image every time.
 
 Blog posts about ampvis2
 ------------------------

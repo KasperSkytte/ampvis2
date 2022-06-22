@@ -16,4 +16,4 @@ data(example_taxonomy)
 View(example_taxonomy)
 }
 }
-\keyword{data}
+\keyword{datasets}

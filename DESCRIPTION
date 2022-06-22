@@ -2,7 +2,7 @@ Package: ampvis2
 Type: Package
 Title: Tools for visualising amplicon data
 Description: ampvis2 is a small set of tools that allows effortless visualisation of amplicon data.
-Version: 2.7.30
+Version: 2.7.31
 Authors@R: c(
   person(
     c("Kasper", "Skytte"), "Andersen", 
@@ -24,8 +24,8 @@ Reference: Andersen, K.S., Kirkegaard, R.H., Karst, S.M., Albertsen, M., (2018).
   ampvis2: an R package to analyse and visualise 16S rRNA amplicon data
   bioRxiv, https://doi.org/10.1101/299537
 License: AGPL-3 + file LICENSE
-URL: https://madsalbertsen.github.io/ampvis2
-BugReports: https://github.com/MadsAlbertsen/ampvis2/issues
+URL: https://kasperskytte.github.io/ampvis2
+BugReports: https://github.com/kasperskytte/ampvis2/issues
 LazyData: true
 LazyDataCompression: bzip2
 Encoding: UTF-8

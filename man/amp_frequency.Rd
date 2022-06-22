@@ -45,7 +45,7 @@ Generates a barplot with frequency vs read abundance.
 }
 \section{Preserving relative abundances in a subset of larger data}{
 
-See \code{?\link{amp_filter_samples}} or the \href{https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
+See \code{?\link{amp_filter_samples}} or the \href{https://kasperskytte/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data}{ampvis2 FAQ}.
 }
 
 \examples{

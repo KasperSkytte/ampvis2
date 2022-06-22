@@ -7,7 +7,7 @@
 #'
 #' @format An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.
 #'
-#' @keywords data
+#' @keywords datasets
 #'
 #' @references McIlroy et al. (2015); MiDAS: the field guide to the microbes of activated sludge, Database, Volume 2015, bav062
 #' (\doi{10.1093/database/bav062})
@@ -30,7 +30,7 @@ NULL
 #'
 #' @format An object of class \code{"ampvis2"}. See \code{\link[ampvis2]{amp_load}}.
 #'
-#' @keywords data
+#' @keywords datasets
 #'
 #' @examples
 #' \dontrun{
@@ -48,7 +48,7 @@ NULL
 #'
 #' @format a data frame.
 #'
-#' @keywords data
+#' @keywords datasets
 #'
 #' @examples
 #' \dontrun{
@@ -66,7 +66,7 @@ NULL
 #'
 #' @format a data frame.
 #'
-#' @keywords data
+#' @keywords datasets
 #'
 #' @examples
 #' \dontrun{
@@ -84,7 +84,7 @@ NULL
 #'
 #' @format a data frame.
 #'
-#' @keywords data
+#' @keywords datasets
 #'
 #' @examples
 #' \dontrun{
@@ -102,7 +102,7 @@ NULL
 #'
 #' @format a data frame.
 #'
-#' @keywords data
+#' @keywords datasets
 #'
 #' @examples
 #' \dontrun{

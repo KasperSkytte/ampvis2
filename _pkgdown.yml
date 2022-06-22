@@ -1,9 +1,9 @@
-url: https://madsalbertsen.github.io/ampvis2
+url: https://kasperskytte.github.io/ampvis2
 
 home:
   links:
     - text: Latest stable release
-      href: https://github.com/MadsAlbertsen/ampvis2
+      href: https://github.com/kasperskytte/ampvis2
 
 template:
   params:
@@ -54,7 +54,7 @@ reference:
     - matchOTUs
   - title: Data sets
     contents:
-    - has_keyword("data")
+    - has_keyword("datasets")
 navbar:
   title: "ampvis2"
   left:
@@ -68,4 +68,4 @@ navbar:
       href: articles/faq.html
   right:
   - icon: fa-github fa-lg
-    href: https://github.com/MadsAlbertsen/ampvis2
+    href: https://github.com/kasperskytte/ampvis2
