@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.31</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
+  <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Tidy up taxonomy</h1>
-    <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/HEAD/R/internals.R" class="external-link"><code>R/internals.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/internals.R" class="external-link"><code>R/internals.R</code></a></small>
     <div class="hidden name"><code>amp_rename.Rd</code></div>
     </div>
 
@@ -77,19 +77,28 @@
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
+
+
 <dt>tax_class</dt>
 <dd><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></dd>
+
+
 <dt>tax_empty</dt>
 <dd><p>How to show OTUs without taxonomic information. One of the following:</p><ul><li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
 <li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
 <li><p><code>"OTU"</code>: Display the OTU name.</p></li>
 </ul></dd>
+
+
 <dt>tax_level</dt>
 <dd><p>The taxonomic level to remove OTUs with no assigned taxonomy, only used when <code>tax_empty = "remove"</code>. (<em>default:</em> <code>"Genus"</code>)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with 3 dataframes (4 if reference sequences are provided).</p>
+    
+
+<p>A list with 3 dataframes (4 if reference sequences are provided).</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -109,7 +118,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

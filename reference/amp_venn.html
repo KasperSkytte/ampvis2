@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.31</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
+  <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Venn diagram of core OTUs</h1>
-    <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/HEAD/R/amp_venn.R" class="external-link"><code>R/amp_venn.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_venn.R" class="external-link"><code>R/amp_venn.R</code></a></small>
     <div class="hidden name"><code>amp_venn.Rd</code></div>
     </div>
 
@@ -85,28 +85,43 @@
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
+
+
 <dt>group_by</dt>
 <dd><p>Group the data based on a sample metadata variable. <code>amp_venn</code> currently only supports a maximum of 3 different groups.</p></dd>
+
+
 <dt>cut_a</dt>
 <dd><p>Abundance cutoff in percent. OTU's below this abundance are excluded from the analysis. (<em>default:</em> <code>0.1</code>)</p></dd>
+
+
 <dt>cut_f</dt>
 <dd><p>Frequency cutoff in percent. OTU's within the top <code>cut_f</code> of the reads are considered a "core" OTU. (<em>default:</em> <code>80</code>)</p></dd>
+
+
 <dt>text_size</dt>
 <dd><p>Size of the plotted text. (<em>default:</em> <code>5</code>)</p></dd>
+
+
 <dt>normalise</dt>
 <dd><p>(<em>logical</em>) Normalise the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></dd>
+
+
 <dt>detailed_output</dt>
 <dd><p>(<em>logical</em>) Return additional details or not. If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code>View(object$data)</code>. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
     <div id="preserving-relative-abundances-in-a-subset-of-larger-data">
     <h2>Preserving relative abundances in a subset of larger data</h2>
     
 
-<p>See <code>?<a href="amp_filter_samples.html">amp_filter_samples</a></code> or the <a href="https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data">ampvis2 FAQ</a>.</p>
+<p>See <code>?<a href="amp_filter_samples.html">amp_filter_samples</a></code> or the <a href="https://kasperskytte.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data">ampvis2 FAQ</a>.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -144,7 +159,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

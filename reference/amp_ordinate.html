@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.31</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
+  <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Ordination plot</h1>
-    <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/HEAD/R/amp_ordinate.R" class="external-link"><code>R/amp_ordinate.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_ordinate.R" class="external-link"><code>R/amp_ordinate.R</code></a></small>
     <div class="hidden name"><code>amp_ordinate.Rd</code></div>
     </div>
 
@@ -123,8 +123,12 @@
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
+
+
 <dt>filter_species</dt>
 <dd><p>Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 may drastically increase computation time. (<em>default</em>: <code>0.1</code>)</p></dd>
+
+
 <dt>type</dt>
 <dd><p>(<em>required</em>) Type of ordination method. One of:</p><ul><li><p><code>"PCA"</code>: (<em>default</em>) Principal Components Analysis</p></li>
 <li><p><code>"RDA"</code>: Redundancy Analysis (considered the constrained version of PCA)</p></li>
@@ -134,6 +138,8 @@
 <li><p><code>"NMDS"</code>: non-metric Multidimensional Scaling</p></li>
 <li><p><code>"PCOA"</code> or <code>"MMDS"</code>: metric Multidimensional Scaling a.k.a Principal Coordinates Analysis (not to be confused with PCA)</p></li>
 </ul><p><em>Note that PCoA is not performed by the vegan package, but the <code><a href="https://rdrr.io/pkg/ape/man/pcoa.html" class="external-link">pcoa</a></code> function from the APE package.</em></p></dd>
+
+
 <dt>distmeasure</dt>
 <dd><p>(<em>required for nMDS and PCoA</em>) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:</p><ul><li><p><code>"wunifrac"</code> (PCoA only): Weighted UniFrac distances. Requires a rooted phylogenetic tree.</p></li>
 <li><p><code>"unifrac"</code> (PCoA only): Unweighted UniFrac distances. Requires a phylogenetic tree.</p></li>
@@ -141,95 +147,180 @@
 <li><p>Any of the distance measures supported by <code><a href="https://rdrr.io/pkg/vegan/man/vegdist.html" class="external-link">vegdist</a></code>: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"jaccard"</code>, <code>"gower"</code>, <code>"altGower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"cao"</code>, <code>"mahalanobis"</code>.</p></li>
 </ul><p>You can also write your own math formula, see details in <code><a href="https://rdrr.io/pkg/vegan/man/vegdist.html" class="external-link">vegdist</a></code>.
 Default is <code>bray</code>.</p></dd>
+
+
 <dt>transform</dt>
 <dd><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href="https://rdrr.io/pkg/vegan/man/decostand.html" class="external-link">decostand</a></code>. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (<em>default:</em> <code>"hellinger"</code>)</p></dd>
+
+
 <dt>constrain</dt>
 <dd><p>(<em>required for RDA and CCA</em>) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx <code>c("Year", "Temperature")</code>, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.</p></dd>
+
+
 <dt>x_axis</dt>
 <dd><p>Which axis from the ordination results to plot as the first axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. (<em>default:</em> <code>1</code>)</p></dd>
+
+
 <dt>y_axis</dt>
 <dd><p>Which axis from the ordination results to plot as the second axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. (<em>default:</em> <code>2</code>)</p></dd>
+
+
 <dt>print_caption</dt>
 <dd><p>Auto-generate a figure caption based on the arguments used. The caption includes a description of how the result has been generated as well as references for the methods used.</p></dd>
+
+
 <dt>sample_color_by</dt>
 <dd><p>Color sample points by a variable in the metadata.</p></dd>
+
+
 <dt>sample_color_order</dt>
 <dd><p>Order the colors in <code>sample_color_by</code> by the order in a vector.</p></dd>
+
+
 <dt>sample_shape_by</dt>
 <dd><p>Shape sample points by a variable in the metadata.</p></dd>
+
+
 <dt>sample_colorframe</dt>
 <dd><p>Frame the sample points with a polygon by a variable in the metadata split by the variable defined by <code>sample_color_by</code>, or simply <code>TRUE</code> to frame the points colored by <code>sample_color_by</code>. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
+
 <dt>sample_colorframe_label</dt>
 <dd><p>Label by a variable in the metadata.</p></dd>
+
+
 <dt>sample_colorframe_label_size</dt>
 <dd><p>Size of the color frame labels. (<em>default:</em> <code>3</code>)</p></dd>
+
+
 <dt>sample_label_by</dt>
 <dd><p>Label sample points by a variable in the metadata.</p></dd>
+
+
 <dt>sample_label_size</dt>
 <dd><p>Sample labels text size. (<em>default:</em> <code>4</code>)</p></dd>
+
+
 <dt>sample_label_segment_color</dt>
 <dd><p>Sample labels repel-segment color. (<em>default:</em> <code>"black"</code>)</p></dd>
+
+
 <dt>sample_point_size</dt>
 <dd><p>Size of the sample points. (<em>default:</em> <code>2</code>)</p></dd>
+
+
 <dt>sample_trajectory</dt>
 <dd><p>Make a trajectory between sample points by a variable in the metadata.</p></dd>
+
+
 <dt>sample_trajectory_group</dt>
 <dd><p>Make a trajectory between sample points by the <code>sample_trajectory</code> argument, but within individual groups.</p></dd>
+
+
 <dt>sample_plotly</dt>
 <dd><p>Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the metadata variables to show, or <code>"all"</code> to display all. Click or double click the elements in the legend to hide/show parts of the data. To hide the legend use <code>plotly::layout(amp_ordinate(...), showlegend = FALSE)</code>, see more options at <a href="https://plot.ly/r/" class="external-link">https://plot.ly/r/</a>.</p></dd>
+
+
 <dt>species_plot</dt>
 <dd><p>(<em>logical</em>) Plot species points or not. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
+
 <dt>species_nlabels</dt>
 <dd><p>Number of the most extreme species labels to plot (ordered by the sum of the numerical values of the x,y coordinates. Only makes sense with PCA/RDA).</p></dd>
+
+
 <dt>species_label_taxonomy</dt>
 <dd><p>Taxonomic level by which to label the species points. (<em>default:</em> <code>"Genus"</code>)</p></dd>
+
+
 <dt>species_label_size</dt>
 <dd><p>Size of the species text labels. (<em>default:</em> <code>3</code>)</p></dd>
+
+
 <dt>species_label_color</dt>
 <dd><p>Color of the species text labels. (<em>default:</em> <code>"grey10"</code>)</p></dd>
+
+
 <dt>species_rescale</dt>
 <dd><p>(<em>logical</em>) Rescale species points or not. Basically they will be multiplied by 0.8, for visual convenience only. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
+
 <dt>species_point_size</dt>
 <dd><p>Size of the species points. (<em>default:</em> <code>2</code>)</p></dd>
+
+
 <dt>species_shape</dt>
 <dd><p>The shape of the species points, fx <code>1</code> for hollow circles or <code>20</code> for dots. (<em>default:</em> <code>20</code>)</p></dd>
+
+
 <dt>species_plotly</dt>
 <dd><p>(<em>logical</em>) Enable interactive species points so that they can be hovered to show complete taxonomic information. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
+
 <dt>envfit_factor</dt>
 <dd><p>A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in <code><a href="https://rdrr.io/pkg/vegan/man/envfit.html" class="external-link">envfit</a></code>.</p></dd>
+
+
 <dt>envfit_numeric</dt>
 <dd><p>A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in <code><a href="https://rdrr.io/pkg/vegan/man/envfit.html" class="external-link">envfit</a></code>.</p></dd>
+
+
 <dt>envfit_signif_level</dt>
 <dd><p>The significance threshold for displaying the results of <code>envfit_factor</code> or <code>envfit_numeric</code>. (<em>default:</em> <code>0.005</code>)</p></dd>
+
+
 <dt>envfit_textsize</dt>
 <dd><p>Size of the envfit text on the plot. (<em>default:</em> <code>3</code>)</p></dd>
+
+
 <dt>envfit_textcolor</dt>
 <dd><p>Color of the envfit text on the plot. (<em>default:</em> <code>"darkred"</code>)</p></dd>
+
+
 <dt>envfit_numeric_arrows_scale</dt>
 <dd><p>Scale the size of the numeric arrows. (<em>default:</em> <code>1</code>)</p></dd>
+
+
 <dt>envfit_arrowcolor</dt>
 <dd><p>Color of the envfit arrows on the plot. (<em>default:</em> <code>"darkred"</code>)</p></dd>
+
+
 <dt>envfit_show</dt>
 <dd><p>(<em>logical</em>) Show the results on the plot or not. (<em>default:</em> <code>TRUE</code>)</p></dd>
+
+
 <dt>repel_labels</dt>
 <dd><p>(<em>logical</em>) Repel all labels to prevent cluttering of the plot. (<em>default:</em> <code>TRUE</code>)</p></dd>
+
+
 <dt>opacity</dt>
 <dd><p>Opacity of all plotted points and sample_colorframe. <code>0</code>: invisible, <code>1</code>: opaque. (<em>default:</em> <code>0.8</code>)</p></dd>
+
+
 <dt>tax_empty</dt>
 <dd><p>How to show OTUs without taxonomic information. One of the following:</p><ul><li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
 <li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
 <li><p><code>"OTU"</code>: Display the OTU name.</p></li>
 </ul></dd>
+
+
 <dt>detailed_output</dt>
 <dd><p>(<em>logical</em>) Return additional details or not (model, scores, figure caption, inputmatrix, screeplot etc). If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code>View(object$data)</code>. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
+
 <dt>num_threads</dt>
 <dd><p>The number of threads to use whereever in the code parallelisation is possible. Any parallel computation is being performed by using <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></code>. (<em>default:</em> <code>1</code>)</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Pass additional arguments to the vegan ordination functions, fx the <code><a href="https://rdrr.io/pkg/vegan/man/cca.html" class="external-link">rda</a></code>, <code><a href="https://rdrr.io/pkg/vegan/man/cca.html" class="external-link">cca</a></code>, <code><a href="https://rdrr.io/pkg/vegan/man/metaMDS.html" class="external-link">metaMDS</a></code> functions, see the documentation.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
+    
+
+<p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -313,7 +404,7 @@ Default is <code>bray</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

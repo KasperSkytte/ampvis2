@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.31</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
+  <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Rename OTUs by exact sequence matches from a FASTA file</h1>
-    <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/HEAD/R/internals.R" class="external-link"><code>R/internals.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/internals.R" class="external-link"><code>R/internals.R</code></a></small>
     <div class="hidden name"><code>matchOTUs.Rd</code></div>
     </div>
 
@@ -77,16 +77,25 @@
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>data (<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
+
+
 <dt>fasta</dt>
 <dd><p>Path to a FASTA file or a <code>DNAbin</code> class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100% sequence identity). (<em>default:</em> <code>NULL</code>)</p></dd>
+
+
 <dt>unmatched_prefix</dt>
 <dd><p>Prefix used to name any unmatched sequences in the FASTA file. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named <code>unmatched123</code>, and so on. (<em>default:</em> <code>"unmatched"</code>)</p></dd>
+
+
 <dt>rename_unmatched</dt>
 <dd><p>Whether to rename any unmatched sequences or not. (<em>default:</em> <code>TRUE</code>)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An ampvis2 class object</p>
+    
+
+<p>An ampvis2 class object</p>
     </div>
 
   </div>
@@ -101,7 +110,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

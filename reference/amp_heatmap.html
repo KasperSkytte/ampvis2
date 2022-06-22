@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.31</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
+  <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Heatmap</h1>
-    <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/HEAD/R/amp_heatmap.R" class="external-link"><code>R/amp_heatmap.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_heatmap.R" class="external-link"><code>R/amp_heatmap.R</code></a></small>
     <div class="hidden name"><code>amp_heatmap.Rd</code></div>
     </div>
 
@@ -108,71 +108,132 @@
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
+
+
 <dt>group_by</dt>
 <dd><p>(<em>recommended</em>) Group the samples by a categorical variable in the metadata. If <code>NULL</code> then all samples are shown.</p></dd>
+
+
 <dt>facet_by</dt>
 <dd><p>Facet the samples by a categorical variable in the metadata.</p></dd>
+
+
 <dt>normalise</dt>
 <dd><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></dd>
+
+
 <dt>tax_aggregate</dt>
 <dd><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"Phylum"</code>)</p></dd>
+
+
 <dt>tax_add</dt>
 <dd><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></dd>
+
+
 <dt>tax_show</dt>
 <dd><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>10</code>)</p></dd>
+
+
 <dt>showRemainingTaxa</dt>
 <dd><p>Add an additional row at the bottom displaying the sum of all remaining taxa that are not part of the top <code>tax_show</code> most abundant taxa. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
+
 <dt>tax_class</dt>
 <dd><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></dd>
+
+
 <dt>tax_empty</dt>
 <dd><p>How to show OTUs without taxonomic information. One of the following:</p><ul><li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
 <li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
 <li><p><code>"OTU"</code>: Display the OTU name.</p></li>
 </ul></dd>
+
+
 <dt>order_x_by</dt>
 <dd><p>Reorder the x axis by providing a character vector of the x axis values in the desired order, or <code>"cluster"</code> for hierarchical clustering by <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></code>.</p></dd>
+
+
 <dt>order_y_by</dt>
 <dd><p>Reorder the y axis by providing a character vector of the y axis values in the desired order, or <code>"cluster"</code> for hierarchical clustering by <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></code>.</p></dd>
+
+
 <dt>plot_values</dt>
 <dd><p>(<em>logical</em>) Plot the values on the heatmap or not. (<em>default:</em> <code>TRUE</code>)</p></dd>
+
+
 <dt>plot_values_size</dt>
 <dd><p>The size of the plotted values. (<em>default:</em> <code>4</code>)</p></dd>
+
+
 <dt>plot_legendbreaks</dt>
 <dd><p>A vector of breaks for the abundance legend, fx <code>c(1, 10, 20)</code>.</p></dd>
+
+
 <dt>plot_colorscale</dt>
 <dd><p>The type of scale used for the coloring of abundances, either <code>"sqrt"</code> or <code>"log10"</code>. (<em>default:</em> <code>"log10"</code>)</p></dd>
+
+
 <dt>plot_na</dt>
 <dd><p>(<em>logical</em>) Whether to color missing values with the lowest color in the scale or not. (<em>default:</em> <code>TRUE</code>)</p></dd>
+
+
 <dt>measure</dt>
 <dd><p>Calculate and display either <code>"mean"</code>, <code>"max"</code> or <code>"median"</code> across the groups. (<em>default:</em> <code>"mean"</code>)</p></dd>
+
+
 <dt>min_abundance</dt>
 <dd><p>All values below this value are given the same color. (<em>default:</em> <code>0.1</code>)</p></dd>
+
+
 <dt>max_abundance</dt>
 <dd><p>All values above this value are given the same color.</p></dd>
+
+
 <dt>sort_by</dt>
 <dd><p>Sorts the heatmap by the most abundant taxa in a specific sample or group of samples. Provide a sample name or a specific value of the group defined by the <code>"group_by"</code> argument, e.g. <code>"Treatment A"</code>.</p></dd>
+
+
 <dt>normalise_by</dt>
 <dd><p>A variable or a specific sample in the metadata to normalise the counts by.</p></dd>
+
+
 <dt>scale_by</dt>
 <dd><p>Scale the abundances by a variable in the metadata.</p></dd>
+
+
 <dt>color_vector</dt>
 <dd><p>Vector of colors for the colorscale, e.g. <code>c("white", "red")</code>.</p></dd>
+
+
 <dt>round</dt>
 <dd><p>Number of digits to show with the values. (<em>default:</em> <code>1</code>)</p></dd>
+
+
 <dt>textmap</dt>
 <dd><p>(<em>logical</em>) Return a data frame to print as raw text instead of a ggplot2 object. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
+
 <dt>plot_functions</dt>
 <dd><p>Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. By default, this functional information is retrieved directly from <a href="midasfieldguide.org">midasfieldguide.org</a>. When using this feature, make sure that either <code>tax_aggregate</code> or <code>tax_add</code> is set to "Genus" and that Genus is the lowest level in either. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
+
 <dt>function_data</dt>
 <dd><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If <code>NULL</code> then data will be retrieved directly from <a href="midasfieldguide.org">midasfieldguide.org</a>. (<em>default:</em> <code>NULL</code>)</p></dd>
+
+
 <dt>functions</dt>
 <dd><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A vector with the functions to be displayed (column names in the <code>functions_data</code> data frame). If data is succesfully retrieved from <a href="midasfieldguide.org">midasfieldguide.org</a> then available functions can be listed with <code>colnames(.ampvis2_midasfg_function_data)</code>. (<em>default:</em> <code>c("MiDAS","Filamentous", "AOB", "NOB", "PAO", "GAO")</code>)</p></dd>
+
+
 <dt>rel_widths</dt>
 <dd><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A vector with the relative widths of the heatmap and function grid when <code>plot_functions = TRUE</code>. (<em>default:</em> <code>c(0.75, 0.25)</code>)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object, or a list of ggplot2 objects if <code>plot_functions = TRUE</code>. A data frame if <code>textmap = TRUE</code>.</p>
+    
+
+<p>A ggplot2 object, or a list of ggplot2 objects if <code>plot_functions = TRUE</code>. A data frame if <code>textmap = TRUE</code>.</p>
     </div>
     <div id="preserving-relative-abundances-in-a-subset-of-larger-data">
     <h2>Preserving relative abundances in a subset of larger data</h2>
@@ -265,22 +326,13 @@
 <span class="r-in">  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
 <span class="r-in">  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span>
 <span class="r-in">  plot_functions <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  function_data <span class="op">=</span> <span class="va">midasfunctions_20201201</span>,</span>
+<span class="r-in">  function_data <span class="op">=</span> <span class="va">midasfunctions</span>,</span>
 <span class="r-in">  functions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PAO"</span>, <span class="st">"GAO"</span>, <span class="st">"AOB"</span>, <span class="st">"NOB"</span><span class="op">)</span>,</span>
 <span class="r-in">  textmap <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in"><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in amp_heatmap(AalborgWWTPs, group_by = "Plant", tax_aggregate = "Genus",     plot_functions = TRUE, function_data = midasfunctions, functions = c("PAO",         "GAO", "AOB", "NOB"), textmap = TRUE):</span> object 'midasfunctions' not found</span>
 <span class="r-in"><span class="va">textmap</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                          Aalborg East Aalborg West  PAO  GAO  AOB  NOB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tetrasphaera                 5.478941     6.842382  POS  NEG  NEG  NEG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Trichococcus                 7.098638     3.028602   NT   NT   NT   NT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> uncultured                   5.236024     4.304019 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Candidatus Microthrix        2.769444     6.503052 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rhodoferax                   3.361297     2.403885  NEG   NT   NT   NT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rhodobacter                  1.847766     2.967430   NT   NT   NT   NT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Candidatus Promineofilum     1.317348     3.028949 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dechloromonas                1.220824     2.503898 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Candidatus Defluviifilum     1.824867     1.502981 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Propionicimonas              1.229790     1.726184 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'textmap' not found</span>
 </code></pre></div>
     </div>
   </div>
@@ -295,7 +347,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

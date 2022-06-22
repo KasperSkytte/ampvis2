@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.31</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
+  <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Abundance timeseries</h1>
-    <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/HEAD/R/amp_timeseries.R" class="external-link"><code>R/amp_timeseries.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_timeseries.R" class="external-link"><code>R/amp_timeseries.R</code></a></small>
     <div class="hidden name"><code>amp_timeseries.Rd</code></div>
     </div>
 
@@ -107,43 +107,70 @@
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
+
+
 <dt>time_variable</dt>
 <dd><p>(required) The name of the column in the metadata containing the time variables, e.g. <code>"Date"</code>. Must be directly compatible with <code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></code> and preferably of the form <code>"yyyy-mm-dd"</code> or <code>"%Y-%m-%d"</code>.</p></dd>
+
+
 <dt>group_by</dt>
 <dd><p>Group the samples by a variable in the metadata.</p></dd>
+
+
 <dt>tax_aggregate</dt>
 <dd><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"OTU"</code>)</p></dd>
+
+
 <dt>tax_add</dt>
 <dd><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></dd>
+
+
 <dt>tax_show</dt>
 <dd><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>6</code>)</p></dd>
+
+
 <dt>tax_class</dt>
 <dd><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></dd>
+
+
 <dt>tax_empty</dt>
 <dd><p>How to show OTUs without taxonomic information. One of the following:</p><ul><li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
 <li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
 <li><p><code>"OTU"</code>: Display the OTU name.</p></li>
 </ul></dd>
+
+
 <dt>split</dt>
 <dd><p>Split the plot into subplots of each taxa. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
+
 <dt>scales</dt>
 <dd><p>If <code>split = TRUE</code>, should the axis scales of each subplot be fixed (<code>fixed</code>), free (<code>"free"</code>), or free in one dimension (<code>"free_x"</code> or <code>"free_y"</code>)? (<em>default:</em> <code>"fixed"</code>)</p></dd>
+
+
 <dt>normalise</dt>
 <dd><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></dd>
+
+
 <dt>plotly</dt>
 <dd><p>(<em>logical</em>) Returns an interactive plot instead. (<em>default:</em> <code>FALSE</code>)</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to <code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></code> to make the time_variable compatible with the timeseries plot, fx the <code>format</code> or <code>tz</code> arguments, see <code>?as_date</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
     <div id="preserving-relative-abundances-in-a-subset-of-larger-data">
     <h2>Preserving relative abundances in a subset of larger data</h2>
     
 
-<p>See <code>?<a href="amp_filter_samples.html">amp_filter_samples</a></code> or the <a href="https://madsalbertsen.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data">ampvis2 FAQ</a>.</p>
+<p>See <code>?<a href="amp_filter_samples.html">amp_filter_samples</a></code> or the <a href="https://kasperskytte.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data">ampvis2 FAQ</a>.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -204,7 +231,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

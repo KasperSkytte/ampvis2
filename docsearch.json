@@ -2,21 +2,21 @@
   "index_name": "ampvis2",
   "start_urls": [
     {
-      "url": "https://madsalbertsen.github.io/ampvis2/index.html",
+      "url": "https://kasperskytte.github.io/ampvis2/index.html",
       "selectors_key": "homepage",
       "tags": [
         "homepage"
       ]
     },
     {
-      "url": "https://madsalbertsen.github.io/ampvis2/reference",
+      "url": "https://kasperskytte.github.io/ampvis2/reference",
       "selectors_key": "reference",
       "tags": [
         "reference"
       ]
     },
     {
-      "url": "https://madsalbertsen.github.io/ampvis2/articles",
+      "url": "https://kasperskytte.github.io/ampvis2/articles",
       "selectors_key": "articles",
       "tags": [
         "articles"
@@ -30,7 +30,7 @@
     "/articles/index.html"
   ],
   "sitemap_urls": [
-    "https://madsalbertsen.github.io/ampvis2/sitemap.xml"
+    "https://kasperskytte.github.io/ampvis2/sitemap.xml"
   ],
   "selectors": {
     "homepage": {

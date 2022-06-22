@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.31</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
+  <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Rarefaction curve</h1>
-    <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/HEAD/R/amp_rarecurve.R" class="external-link"><code>R/amp_rarecurve.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_rarecurve.R" class="external-link"><code>R/amp_rarecurve.R</code></a></small>
     <div class="hidden name"><code>amp_rarecurve.Rd</code></div>
     </div>
 
@@ -91,18 +91,29 @@
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
+
+
 <dt>stepsize</dt>
 <dd><p>Step size for the curves. Lower is prettier but takes more time to generate. (<em>default:</em> <code>1000</code>)</p></dd>
+
+
 <dt>color_by</dt>
 <dd><p>Color curves by a variable in the metadata. (<em>default:</em> <code>NULL</code>)</p></dd>
+
+
 <dt>facet_by</dt>
 <dd><p>Split the plot into subplots based on a variable in the metadata. (<em>default:</em> <code>NULL</code>)</p></dd>
+
+
 <dt>facet_scales</dt>
 <dd><p>If <code>facet_by</code> is set, should the axis scales of each subplot be fixed (<code>fixed</code>), free (<code>"free"</code>), or free in one dimension (<code>"free_x"</code> or <code>"free_y"</code>)? (<em>default:</em> <code>"fixed"</code>)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2 object.</p>
+    
+
+<p>A ggplot2 object.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -136,7 +147,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

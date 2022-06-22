@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.31</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
   <a href="../articles/faq.html">FAQ</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
+  <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Subset ampvis2 objects based on sample metadata</h1>
-    <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/HEAD/R/amp_filter_samples.R" class="external-link"><code>R/amp_filter_samples.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_filter_samples.R" class="external-link"><code>R/amp_filter_samples.R</code></a></small>
     <div class="hidden name"><code>amp_filter_samples.Rd</code></div>
     </div>
 
@@ -76,7 +76,7 @@
   minreads <span class="op">=</span> <span class="fl">0</span>,
   rarefy <span class="op">=</span> <span class="cn">NULL</span>,
   normalise <span class="op">=</span> <span class="cn">FALSE</span>,
-  removeAbsents <span class="op">=</span> <span class="cn">TRUE</span>
+  removeAbsentOTUs <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
 
 <span class="fu">amp_subset_samples</span><span class="op">(</span>
@@ -85,7 +85,7 @@
   minreads <span class="op">=</span> <span class="fl">0</span>,
   rarefy <span class="op">=</span> <span class="cn">NULL</span>,
   normalise <span class="op">=</span> <span class="cn">FALSE</span>,
-  removeAbsents <span class="op">=</span> <span class="cn">TRUE</span>
+  removeAbsentOTUs <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -93,20 +93,33 @@
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Logical expression indicating elements or rows to keep in the metadata. Missing values are treated as <code>FALSE</code>. Passed directly to <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></code>.</p></dd>
+
+
 <dt>minreads</dt>
 <dd><p>Minimum number of reads pr. sample. Samples below this value will be removed <em>initially</em>. (<em>default:</em> <code>0</code>)</p></dd>
+
+
 <dt>rarefy</dt>
 <dd><p>Rarefy species richness to this value by using <code><a href="https://rdrr.io/pkg/vegan/man/rarefy.html" class="external-link">rrarefy</a></code>. This is done <em>initially</em>, but <em>after</em> filtering based on the <code>minreads</code> value, if set. (<em>default:</em> <code>NULL</code>)</p></dd>
+
+
 <dt>normalise</dt>
 <dd><p>(<em>logical</em>) Normalise the OTU read counts to 100 (ie percent) per sample <em>BEFORE</em> the subset. (<em>default:</em> <code>FALSE</code>)</p></dd>
-<dt>removeAbsents</dt>
+
+
+<dt>removeAbsentOTUs</dt>
 <dd><p>(<em>logical</em>) Whether to remove OTU's that may have 0 read abundance in all samples after the subset. (<em>default:</em> <code>TRUE</code>)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A modifed ampvis2 object</p>
+    
+
+<p>A modifed ampvis2 object</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -234,7 +247,7 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

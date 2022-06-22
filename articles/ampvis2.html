@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.31</span>
       </span>
     </div>
 
@@ -62,7 +62,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/MadsAlbertsen/ampvis2" class="external-link">
+  <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -89,29 +89,29 @@
       <h1 data-toc-skip>Introduction to ampvis2</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/MadsAlbertsen/ampvis2/blob/HEAD/vignettes/ampvis2.Rmd" class="external-link"><code>vignettes/ampvis2.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/vignettes/ampvis2.Rmd" class="external-link"><code>vignettes/ampvis2.Rmd</code></a></small>
       <div class="hidden name"><code>ampvis2.Rmd</code></div>
 
     </div>
 
     
     
-<p>This is a short guide to the basics of <code>ampvis2</code>, how to load data, as well as a few basic visualisation functions using example data. A complete explanation of all functions, their purpose, different arguments and examples can be found in the <a href="https://madsalbertsen.github.io/ampvis2/reference/index.html">Functions</a> tab.</p>
+<p>This is a short guide to the basics of <code>ampvis2</code>, how to load data, as well as a few basic visualisation functions using example data. A complete explanation of all functions, their purpose, different arguments and examples can be found in the <a href="https://kasperskytte.github.io/ampvis2/reference/index.html">Functions</a> tab.</p>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
-<p>Install <code>ampvis2</code> as described on the <a href="https://madsalbertsen.github.io/ampvis2/index.html">home page</a>:</p>
+<p>Install <code>ampvis2</code> as described on the <a href="https://kasperskytte.github.io/ampvis2/index.html">home page</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"MadsAlbertsen/ampvis2"</span>, Ncpus <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
-<p>Alternatively use the RStudio docker image with ampvis2 preinstalled as described on the <a href="https://madsalbertsen.github.io/ampvis2/index.html">home page</a>.</p>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"kasperskytte/ampvis2"</span>, Ncpus <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
+<p>Alternatively use the RStudio docker image with ampvis2 preinstalled as described on the <a href="https://kasperskytte.github.io/ampvis2/index.html">home page</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="loading-data">Loading data<a class="anchor" aria-label="anchor" href="#loading-data"></a>
 </h3>
-<p>The first step is always to import some data by using the <code>amp_load</code> function. The <code>amp_load</code> function is quite flexible and auto-detects several different formats, including csv or excel files, BIOM files, or even R objects directly. As a minimum, you always need to import an abundance table with counts of OTU’s/ASV’s per sample, the rest are optional, but any useful analysis involves loading at least some sample metadata and taxonomy too. Refer to the <a href="https://madsalbertsen.github.io/ampvis2/reference/amp_load.html">amp_load</a> help page for details. A simple example would be:</p>
+<p>The first step is always to import some data by using the <code>amp_load</code> function. The <code>amp_load</code> function is quite flexible and auto-detects several different formats, including csv or excel files, BIOM files, or even R objects directly. As a minimum, you always need to import an abundance table with counts of OTU’s/ASV’s per sample, the rest are optional, but any useful analysis involves loading at least some sample metadata and taxonomy too. Refer to the <a href="https://kasperskytte.github.io/ampvis2/reference/amp_load.html">amp_load</a> help page for details. A simple example would be:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://madsalbertsen.github.io/ampvis2">ampvis2</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kasperskytte.github.io/ampvis2">ampvis2</a></span><span class="op">)</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/amp_load.html">amp_load</a></span><span class="op">(</span>
   otutable <span class="op">=</span> <span class="st">"path/to/otutable.csv"</span>,
   metadata <span class="op">=</span> <span class="st">"path/to/samplemetadata.xlsx"</span>,
@@ -307,7 +307,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>
