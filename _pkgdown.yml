@@ -54,7 +54,12 @@ reference:
     - matchOTUs
   - title: Data sets
     contents:
-    - has_keyword("datasets")
+    - MiDAS
+    - AalborgWWTPs
+    - example_metadata
+    - example_otutable
+    - example_taxonomy
+    - midasfunctions
 navbar:
   title: "ampvis2"
   left:
