@@ -70,11 +70,11 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_export_long</span><span class="op">(</span>
-  <span class="va">data</span>,
-  metadata_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">metadata</span><span class="op">)</span>,
-  tax_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">tax</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">amp_export_long</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  metadata_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">metadata</span><span class="op">)</span>,</span>
+<span>  tax_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">tax</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -105,14 +105,14 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># load minimal example data</span></span>
-<span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="amp_load.html">amp_load</a></span><span class="op">(</span><span class="va">example_otutable</span>, <span class="va">example_metadata</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># transform d into a long-format data frame</span></span>
-<span class="r-in"><span class="va">d_long</span> <span class="op">&lt;-</span> <span class="fu">amp_export_long</span><span class="op">(</span><span class="va">d</span>, metadata_vars <span class="op">=</span> <span class="st">"Date"</span>, tax_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OTU"</span>, <span class="st">"Genus"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># print the data frame (data.table)</span></span>
-<span class="r-in"><span class="va">d_long</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># load minimal example data</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="amp_load.html">amp_load</a></span><span class="op">(</span><span class="va">example_otutable</span>, <span class="va">example_metadata</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># transform d into a long-format data frame</span></span></span>
+<span class="r-in"><span><span class="va">d_long</span> <span class="op">&lt;-</span> <span class="fu">amp_export_long</span><span class="op">(</span><span class="va">d</span>, metadata_vars <span class="op">=</span> <span class="st">"Date"</span>, tax_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OTU"</span>, <span class="st">"Genus"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># print the data frame (data.table)</span></span></span>
+<span class="r-in"><span><span class="va">d_long</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        SampleID    OTU count       Date                       Genus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1: 16SAMP_3893  OTU_1    23 2014-02-06    g__Candidatus Amarilinum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2: 16SAMP_3893  OTU_2   675 2014-02-06             g__Tetrasphaera</span>
@@ -209,7 +209,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -70,9 +70,9 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_filter_taxa</span><span class="op">(</span><span class="va">data</span>, tax_vector <span class="op">=</span> <span class="cn">NULL</span>, normalise <span class="op">=</span> <span class="cn">FALSE</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">amp_subset_taxa</span><span class="op">(</span><span class="va">data</span>, tax_vector <span class="op">=</span> <span class="cn">NULL</span>, normalise <span class="op">=</span> <span class="cn">FALSE</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">amp_filter_taxa</span><span class="op">(</span><span class="va">data</span>, tax_vector <span class="op">=</span> <span class="cn">NULL</span>, normalise <span class="op">=</span> <span class="cn">FALSE</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">amp_subset_taxa</span><span class="op">(</span><span class="va">data</span>, tax_vector <span class="op">=</span> <span class="cn">NULL</span>, normalise <span class="op">=</span> <span class="cn">FALSE</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -108,17 +108,18 @@
     
 
 <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code><a href="amp_heatmap.html">amp_heatmap</a></code>, <code><a href="amp_timeseries.html">amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code>amp_filter_taxa</code> and <code><a href="amp_filter_samples.html">amp_filter_samples</a></code> functions, and then set <code>raw = TRUE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>raw = TRUE</code> will skip the transformation in the plotting function, see the example below.</p>
-<div class="sourceCode"><pre><code><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span>
-<span class="va">subsettedData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span><span class="va">MiDAS</span>,
-                                    <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span>,
-                                    normalise <span class="op">=</span> <span class="cn">TRUE</span>
-                                    <span class="op">)</span>
-<span class="fu"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">subsettedData</span>,
-            group_by <span class="op">=</span> <span class="st">"Plant"</span>,
-            tax_aggregate <span class="op">=</span> <span class="st">"Phylum"</span>,
-            tax_add <span class="op">=</span> <span class="st">"Genus"</span>,
-            normalise <span class="op">=</span> <span class="cn">FALSE</span>
-            <span class="op">)</span></code></pre></div>
+<div class="sourceCode"><pre><code><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span></span>
+<span><span class="va">subsettedData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span><span class="va">MiDAS</span>,</span>
+<span>                                    <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span>,</span>
+<span>                                    normalise <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>                                    <span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">subsettedData</span>,</span>
+<span>            group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
+<span>            tax_aggregate <span class="op">=</span> <span class="st">"Phylum"</span>,</span>
+<span>            tax_add <span class="op">=</span> <span class="st">"Genus"</span>,</span>
+<span>            normalise <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>            <span class="op">)</span></span></code></pre></div>
 
     </div>
     <div id="see-also">
@@ -134,55 +135,55 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load example data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># An overview heatmap of the data:</span></span>
-<span class="r-in"><span class="fu"><a href="amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span>
-<span class="r-in">  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span>
-<span class="r-in">  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
-<span class="r-in">  tax_add <span class="op">=</span> <span class="st">"Phylum"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load example data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># An overview heatmap of the data:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
+<span class="r-in"><span>  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span></span>
+<span class="r-in"><span>  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span></span>
+<span class="r-in"><span>  tax_add <span class="op">=</span> <span class="st">"Phylum"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="amp_filter_taxa-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Remove all taxa except the phyla Chloroflexi and Actinobacteria</span></span>
-<span class="r-in"><span class="co"># and the Genera Rhodoferax and Trichococcus:</span></span>
-<span class="r-in"><span class="va">tax_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"p__Chloroflexi"</span>,</span>
-<span class="r-in">  <span class="st">"p__Actinobacteria"</span>,</span>
-<span class="r-in">  <span class="st">"g__Rhodoferax"</span>,</span>
-<span class="r-in">  <span class="st">"g__Trichococcus"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">AalborgWWTPs_subset</span> <span class="op">&lt;-</span> <span class="fu">amp_filter_taxa</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span>
-<span class="r-in">  tax_vector <span class="op">=</span> <span class="va">tax_vector</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remove all taxa except the phyla Chloroflexi and Actinobacteria</span></span></span>
+<span class="r-in"><span><span class="co"># and the Genera Rhodoferax and Trichococcus:</span></span></span>
+<span class="r-in"><span><span class="va">tax_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"p__Chloroflexi"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"p__Actinobacteria"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"g__Rhodoferax"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"g__Trichococcus"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">AalborgWWTPs_subset</span> <span class="op">&lt;-</span> <span class="fu">amp_filter_taxa</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
+<span class="r-in"><span>  tax_vector <span class="op">=</span> <span class="va">tax_vector</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 7566 OTUs have been filtered </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Before: 9430 OTUs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> After: 1864 OTUs</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The resulting subset:</span></span>
-<span class="r-in"><span class="fu"><a href="amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">AalborgWWTPs_subset</span>,</span>
-<span class="r-in">  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span>
-<span class="r-in">  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
-<span class="r-in">  tax_add <span class="op">=</span> <span class="st">"Phylum"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The resulting subset:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">AalborgWWTPs_subset</span>,</span></span>
+<span class="r-in"><span>  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span></span>
+<span class="r-in"><span>  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span></span>
+<span class="r-in"><span>  tax_add <span class="op">=</span> <span class="st">"Phylum"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="amp_filter_taxa-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Or if remove = TRUE then the taxa in tax_vector are the ones being removed:</span></span>
-<span class="r-in"><span class="va">AalborgWWTPs_subset</span> <span class="op">&lt;-</span> <span class="fu">amp_filter_taxa</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span>
-<span class="r-in">  tax_vector <span class="op">=</span> <span class="va">tax_vector</span>,</span>
-<span class="r-in">  remove <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Or if remove = TRUE then the taxa in tax_vector are the ones being removed:</span></span></span>
+<span class="r-in"><span><span class="va">AalborgWWTPs_subset</span> <span class="op">&lt;-</span> <span class="fu">amp_filter_taxa</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
+<span class="r-in"><span>  tax_vector <span class="op">=</span> <span class="va">tax_vector</span>,</span></span>
+<span class="r-in"><span>  remove <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 1864 OTUs have been filtered </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Before: 9430 OTUs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> After: 7566 OTUs</span>
-<span class="r-in"><span class="co"># The resulting subset:</span></span>
-<span class="r-in"><span class="fu"><a href="amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">AalborgWWTPs_subset</span>,</span>
-<span class="r-in">  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span>
-<span class="r-in">  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
-<span class="r-in">  tax_add <span class="op">=</span> <span class="st">"Phylum"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># The resulting subset:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">AalborgWWTPs_subset</span>,</span></span>
+<span class="r-in"><span>  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span></span>
+<span class="r-in"><span>  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span></span>
+<span class="r-in"><span>  tax_add <span class="op">=</span> <span class="st">"Phylum"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="amp_filter_taxa-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -198,7 +199,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

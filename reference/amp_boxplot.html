@@ -70,24 +70,24 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_boxplot</span><span class="op">(</span>
-  <span class="va">data</span>,
-  group_by <span class="op">=</span> <span class="st">"Sample"</span>,
-  sort_by <span class="op">=</span> <span class="st">"median"</span>,
-  plot_type <span class="op">=</span> <span class="st">"boxplot"</span>,
-  point_size <span class="op">=</span> <span class="fl">1</span>,
-  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,
-  tax_add <span class="op">=</span> <span class="cn">NULL</span>,
-  tax_show <span class="op">=</span> <span class="fl">20</span>,
-  tax_empty <span class="op">=</span> <span class="st">"best"</span>,
-  tax_class <span class="op">=</span> <span class="cn">NULL</span>,
-  order_group <span class="op">=</span> <span class="cn">NULL</span>,
-  order_y <span class="op">=</span> <span class="cn">NULL</span>,
-  plot_flip <span class="op">=</span> <span class="cn">FALSE</span>,
-  plot_log <span class="op">=</span> <span class="cn">FALSE</span>,
-  adjust_zero <span class="op">=</span> <span class="cn">NULL</span>,
-  normalise <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">amp_boxplot</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  group_by <span class="op">=</span> <span class="st">"Sample"</span>,</span>
+<span>  sort_by <span class="op">=</span> <span class="st">"median"</span>,</span>
+<span>  plot_type <span class="op">=</span> <span class="st">"boxplot"</span>,</span>
+<span>  point_size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span>
+<span>  tax_add <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tax_show <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  tax_empty <span class="op">=</span> <span class="st">"best"</span>,</span>
+<span>  tax_class <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  order_group <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  order_y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot_flip <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot_log <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  adjust_zero <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  normalise <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -177,15 +177,15 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load example data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># 10 boxplots grouped by WWTP with phylum name added</span></span>
-<span class="r-in"><span class="fu">amp_boxplot</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span>
-<span class="r-in">  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
-<span class="r-in">  tax_show <span class="op">=</span> <span class="fl">10</span>,</span>
-<span class="r-in">  tax_add <span class="op">=</span> <span class="st">"Phylum"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load example data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 10 boxplots grouped by WWTP with phylum name added</span></span></span>
+<span class="r-in"><span><span class="fu">amp_boxplot</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
+<span class="r-in"><span>  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span></span>
+<span class="r-in"><span>  tax_show <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>  tax_add <span class="op">=</span> <span class="st">"Phylum"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="amp_boxplot-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -201,7 +201,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

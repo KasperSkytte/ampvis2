@@ -70,14 +70,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">aggregate_abund</span><span class="op">(</span>
-  <span class="va">abund</span>,
-  <span class="va">tax</span>,
-  tax_aggregate <span class="op">=</span> <span class="st">"OTU"</span>,
-  tax_add <span class="op">=</span> <span class="cn">NULL</span>,
-  calcSums <span class="op">=</span> <span class="cn">TRUE</span>,
-  format <span class="op">=</span> <span class="st">"long"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">aggregate_abund</span><span class="op">(</span></span>
+<span>  <span class="va">abund</span>,</span>
+<span>  <span class="va">tax</span>,</span>
+<span>  tax_aggregate <span class="op">=</span> <span class="st">"OTU"</span>,</span>
+<span>  tax_add <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  calcSums <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  format <span class="op">=</span> <span class="st">"long"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -119,17 +119,17 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">aggregated</span> <span class="op">&lt;-</span> <span class="fu">aggregate_abund</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">AalborgWWTPs</span><span class="op">$</span><span class="va">abund</span>,</span>
-<span class="r-in">  <span class="va">AalborgWWTPs</span><span class="op">$</span><span class="va">tax</span>,</span>
-<span class="r-in">  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span>
-<span class="r-in">  tax_add <span class="op">=</span> <span class="st">"Phylum"</span>,</span>
-<span class="r-in">  format <span class="op">=</span> <span class="st">"long"</span>,</span>
-<span class="r-in">  calcSums <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">aggregated</span> <span class="op">&lt;-</span> <span class="fu">aggregate_abund</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">AalborgWWTPs</span><span class="op">$</span><span class="va">abund</span>,</span></span>
+<span class="r-in"><span>  <span class="va">AalborgWWTPs</span><span class="op">$</span><span class="va">tax</span>,</span></span>
+<span class="r-in"><span>  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span></span>
+<span class="r-in"><span>  tax_add <span class="op">=</span> <span class="st">"Phylum"</span>,</span></span>
+<span class="r-in"><span>  format <span class="op">=</span> <span class="st">"long"</span>,</span></span>
+<span class="r-in"><span>  calcSums <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 4202 OTUs (out of 9430) with no assigned taxonomy at Genus level were removed before aggregating OTUs</span>
-<span class="r-in"><span class="va">aggregated</span></span>
+<span class="r-in"><span><span class="va">aggregated</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                     Display       Sample Abundance Sum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      1: p__Acidobacteria; g__Acidobacterium 16S-AMP-1098         0   0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      2: p__Acidobacteria; g__Acidobacterium 16S-AMP-1099         0   0</span>
@@ -156,7 +156,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

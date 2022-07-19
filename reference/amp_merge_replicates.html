@@ -70,9 +70,9 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_merge_replicates</span><span class="op">(</span><span class="va">data</span>, <span class="va">merge_var</span>, round <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">amp_mergereplicates</span><span class="op">(</span><span class="va">data</span>, <span class="va">merge_var</span>, round <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">amp_merge_replicates</span><span class="op">(</span><span class="va">data</span>, <span class="va">merge_var</span>, round <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">amp_mergereplicates</span><span class="op">(</span><span class="va">data</span>, <span class="va">merge_var</span>, round <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -104,9 +104,9 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># load data</span></span>
-<span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="amp_load.html">amp_load</a></span><span class="op">(</span><span class="fu">ampvis2</span><span class="fu">::</span><span class="va"><a href="example_otutable.html">example_otutable</a></span>, <span class="fu">ampvis2</span><span class="fu">::</span><span class="va"><a href="example_metadata.html">example_metadata</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">d</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># load data</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="amp_load.html">amp_load</a></span><span class="op">(</span><span class="fu">ampvis2</span><span class="fu">::</span><span class="va"><a href="example_otutable.html">example_otutable</a></span>, <span class="fu">ampvis2</span><span class="fu">::</span><span class="va"><a href="example_metadata.html">example_metadata</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ampvis2 object with 3 elements. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Summary of OTU table:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads </span>
@@ -120,10 +120,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Metadata variables:</span> 4 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  SampleID, Plant, Date, Year</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add a grouping variable to the sample metadata defining the groups of sample replicates</span></span>
-<span class="r-in"><span class="va">d</span><span class="op">$</span><span class="va">metadata</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"group1"</span>, <span class="st">"group1"</span>, <span class="st">"group2"</span>, <span class="st">"group2"</span>, <span class="st">"group3"</span>, <span class="st">"group4"</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">d</span><span class="op">$</span><span class="va">metadata</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># add a grouping variable to the sample metadata defining the groups of sample replicates</span></span></span>
+<span class="r-in"><span><span class="va">d</span><span class="op">$</span><span class="va">metadata</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"group1"</span>, <span class="st">"group1"</span>, <span class="st">"group2"</span>, <span class="st">"group2"</span>, <span class="st">"group3"</span>, <span class="st">"group4"</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span><span class="op">$</span><span class="va">metadata</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                SampleID     Plant       Date Year  group</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16SAMP_3893 16SAMP_3893 Aalborg E 2014-02-06 2014 group1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16SAMP_3913 16SAMP_3913 Aalborg E 2014-07-03 2014 group1</span>
@@ -133,13 +133,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16SAMP_4591 16SAMP_4591 Aalborg W 2014-05-05 2014 group4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16SAMP_4597 16SAMP_4597 Aalborg W 2014-08-18 2014   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16SAMP_4603 16SAMP_4603 Aalborg W 2014-11-12 2014   &lt;NA&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># merge by "group" rounding up the resulting values</span></span>
-<span class="r-in"><span class="va">dmerged</span> <span class="op">&lt;-</span> <span class="fu">amp_mergereplicates</span><span class="op">(</span><span class="va">d</span>,</span>
-<span class="r-in">  merge_var <span class="op">=</span> <span class="st">"group"</span>,</span>
-<span class="r-in">  round <span class="op">=</span> <span class="st">"up"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">dmerged</span><span class="op">$</span><span class="va">metadata</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># merge by "group" rounding up the resulting values</span></span></span>
+<span class="r-in"><span><span class="va">dmerged</span> <span class="op">&lt;-</span> <span class="fu">amp_mergereplicates</span><span class="op">(</span><span class="va">d</span>,</span></span>
+<span class="r-in"><span>  merge_var <span class="op">=</span> <span class="st">"group"</span>,</span></span>
+<span class="r-in"><span>  round <span class="op">=</span> <span class="st">"up"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dmerged</span><span class="op">$</span><span class="va">metadata</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                SampleID     Plant       Date Year  group</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> group1           group1 Aalborg E 2014-02-06 2014 group1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> group2           group2 Aalborg E 2014-08-19 2014 group2</span>
@@ -147,7 +147,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> group4           group4 Aalborg W 2014-05-05 2014 group4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16SAMP_4597 16SAMP_4597 Aalborg W 2014-08-18 2014   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16SAMP_4603 16SAMP_4603 Aalborg W 2014-11-12 2014   &lt;NA&gt;</span>
-<span class="r-in"><span class="va">dmerged</span></span>
+<span class="r-in"><span><span class="va">dmerged</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ampvis2 object with 3 elements. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Summary of OTU table:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads </span>
@@ -175,7 +175,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

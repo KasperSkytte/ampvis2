@@ -70,16 +70,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_load</span><span class="op">(</span>
-  <span class="va">otutable</span>,
-  metadata <span class="op">=</span> <span class="cn">NULL</span>,
-  taxonomy <span class="op">=</span> <span class="cn">NULL</span>,
-  fasta <span class="op">=</span> <span class="cn">NULL</span>,
-  tree <span class="op">=</span> <span class="cn">NULL</span>,
-  pruneSingletons <span class="op">=</span> <span class="cn">FALSE</span>,
-  removeAbsentOTUs <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">amp_load</span><span class="op">(</span></span>
+<span>  <span class="va">otutable</span>,</span>
+<span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  taxonomy <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fasta <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tree <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pruneSingletons <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  removeAbsentOTUs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -162,44 +162,44 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kasperskytte.github.io/ampvis2">ampvis2</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Load data by either giving file paths or by passing already loaded R objects</span></span>
-<span class="r-in"><span class="co">### example load with file paths</span></span>
-<span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">amp_load</span><span class="op">(</span></span>
-<span class="r-in">  otutable <span class="op">=</span> <span class="st">"path/to/otutable.tsv"</span>,</span>
-<span class="r-in">  metadata <span class="op">=</span> <span class="st">"path/to/metadata.xlsx"</span>,</span>
-<span class="r-in">  taxonomy <span class="op">=</span> <span class="st">"path/to/taxonomy.txt"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### example load with R objects</span></span>
-<span class="r-in"><span class="co"># Read the OTU-table as a data frame. It is important to set check.names = FALSE</span></span>
-<span class="r-in"><span class="va">myotutable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span><span class="st">"data/otutable.txt"</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Read the metadata, probably an excel sheet</span></span>
-<span class="r-in"><span class="va">mymetadata</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="st">"data/metadata.xlsx"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Read the taxonomy</span></span>
-<span class="r-in"><span class="va">mytaxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"data/taxonomy.csv"</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Combine the data with amp_load()</span></span>
-<span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">amp_load</span><span class="op">(</span></span>
-<span class="r-in">  otutable <span class="op">=</span> <span class="va">myotutable</span>,</span>
-<span class="r-in">  metadata <span class="op">=</span> <span class="va">mymetadata</span>,</span>
-<span class="r-in">  taxonomy <span class="op">=</span> <span class="va">mytaxonomy</span>,</span>
-<span class="r-in">  pruneSingletons <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  fasta <span class="op">=</span> <span class="st">"path/to/fastafile.fa"</span>, <span class="co"># optional</span></span>
-<span class="r-in">  tree <span class="op">=</span> <span class="st">"path/to/tree.tree"</span> <span class="co"># optional</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### Show a short summary about the data by simply typing the name of the object in the console</span></span>
-<span class="r-in"><span class="va">d</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### Minimal example metadata:</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_metadata"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">example_metadata</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kasperskytte.github.io/ampvis2">ampvis2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Load data by either giving file paths or by passing already loaded R objects</span></span></span>
+<span class="r-in"><span><span class="co">### example load with file paths</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">amp_load</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  otutable <span class="op">=</span> <span class="st">"path/to/otutable.tsv"</span>,</span></span>
+<span class="r-in"><span>  metadata <span class="op">=</span> <span class="st">"path/to/metadata.xlsx"</span>,</span></span>
+<span class="r-in"><span>  taxonomy <span class="op">=</span> <span class="st">"path/to/taxonomy.txt"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### example load with R objects</span></span></span>
+<span class="r-in"><span><span class="co"># Read the OTU-table as a data frame. It is important to set check.names = FALSE</span></span></span>
+<span class="r-in"><span><span class="va">myotutable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span><span class="st">"data/otutable.txt"</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Read the metadata, probably an excel sheet</span></span></span>
+<span class="r-in"><span><span class="va">mymetadata</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="st">"data/metadata.xlsx"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Read the taxonomy</span></span></span>
+<span class="r-in"><span><span class="va">mytaxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"data/taxonomy.csv"</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Combine the data with amp_load()</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">amp_load</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  otutable <span class="op">=</span> <span class="va">myotutable</span>,</span></span>
+<span class="r-in"><span>  metadata <span class="op">=</span> <span class="va">mymetadata</span>,</span></span>
+<span class="r-in"><span>  taxonomy <span class="op">=</span> <span class="va">mytaxonomy</span>,</span></span>
+<span class="r-in"><span>  pruneSingletons <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  fasta <span class="op">=</span> <span class="st">"path/to/fastafile.fa"</span>, <span class="co"># optional</span></span></span>
+<span class="r-in"><span>  tree <span class="op">=</span> <span class="st">"path/to/tree.tree"</span> <span class="co"># optional</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### Show a short summary about the data by simply typing the name of the object in the console</span></span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### Minimal example metadata:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_metadata"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">example_metadata</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   SampleID    Plant     Date                 Year</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -211,10 +211,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 16SAMP_4591 Aalborg W 2014-05-05 <span style="color: #949494;">00:00:00</span>  <span style="text-decoration: underline;">2</span>014</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> 16SAMP_4597 Aalborg W 2014-08-18 <span style="color: #949494;">00:00:00</span>  <span style="text-decoration: underline;">2</span>014</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> 16SAMP_4603 Aalborg W 2014-11-12 <span style="color: #949494;">00:00:00</span>  <span style="text-decoration: underline;">2</span>014</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### Minimal example otutable:</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_otutable"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">example_otutable</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### Minimal example otutable:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_otutable"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">example_otutable</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        16SAMP_3893 16SAMP_3913 16SAMP_3941 16SAMP_3946 16SAMP_3953 16SAMP_4591</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU_1           23          15         273          51         127         190</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU_2          675         565         331         411         430         780</span>
@@ -259,10 +259,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU_8                g__Nitrospira s__sublineage I  OTU_8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU_9                 g__QEDR3BF09             s__  OTU_9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU_10                     g__MK04             s__ OTU_10</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### Minimal example taxonomy:</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_taxonomy"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">example_taxonomy</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### Minimal example taxonomy:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_taxonomy"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">example_taxonomy</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Kingdom            Phylum                 Class</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU_1  k__Bacteria    p__Chloroflexi             c__SJA-15</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU_2  k__Bacteria p__Actinobacteria     c__Actinobacteria</span>
@@ -296,16 +296,16 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU_8  s__sublineage I  OTU_8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU_9              s__  OTU_9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU_10             s__ OTU_10</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># load example data</span></span>
-<span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">amp_load</span><span class="op">(</span></span>
-<span class="r-in">  otutable <span class="op">=</span> <span class="va">example_otutable</span>,</span>
-<span class="r-in">  metadata <span class="op">=</span> <span class="va">example_metadata</span>,</span>
-<span class="r-in">  taxonomy <span class="op">=</span> <span class="va">example_taxonomy</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># show a summary of the data</span></span>
-<span class="r-in"><span class="va">d</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># load example data</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">amp_load</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  otutable <span class="op">=</span> <span class="va">example_otutable</span>,</span></span>
+<span class="r-in"><span>  metadata <span class="op">=</span> <span class="va">example_metadata</span>,</span></span>
+<span class="r-in"><span>  taxonomy <span class="op">=</span> <span class="va">example_taxonomy</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># show a summary of the data</span></span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ampvis2 object with 3 elements. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Summary of OTU table:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads </span>
@@ -333,7 +333,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

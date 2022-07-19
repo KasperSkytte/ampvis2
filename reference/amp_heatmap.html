@@ -70,38 +70,38 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_heatmap</span><span class="op">(</span>
-  <span class="va">data</span>,
-  group_by <span class="op">=</span> <span class="cn">NULL</span>,
-  facet_by <span class="op">=</span> <span class="cn">NULL</span>,
-  normalise <span class="op">=</span> <span class="cn">TRUE</span>,
-  tax_aggregate <span class="op">=</span> <span class="st">"Phylum"</span>,
-  tax_add <span class="op">=</span> <span class="cn">NULL</span>,
-  tax_show <span class="op">=</span> <span class="fl">10</span>,
-  showRemainingTaxa <span class="op">=</span> <span class="cn">FALSE</span>,
-  tax_class <span class="op">=</span> <span class="cn">NULL</span>,
-  tax_empty <span class="op">=</span> <span class="st">"best"</span>,
-  order_x_by <span class="op">=</span> <span class="cn">NULL</span>,
-  order_y_by <span class="op">=</span> <span class="cn">NULL</span>,
-  plot_values <span class="op">=</span> <span class="cn">TRUE</span>,
-  plot_values_size <span class="op">=</span> <span class="fl">4</span>,
-  plot_legendbreaks <span class="op">=</span> <span class="cn">NULL</span>,
-  plot_colorscale <span class="op">=</span> <span class="st">"log10"</span>,
-  plot_na <span class="op">=</span> <span class="cn">TRUE</span>,
-  measure <span class="op">=</span> <span class="st">"mean"</span>,
-  min_abundance <span class="op">=</span> <span class="fl">0.1</span>,
-  max_abundance <span class="op">=</span> <span class="cn">NULL</span>,
-  sort_by <span class="op">=</span> <span class="cn">NULL</span>,
-  normalise_by <span class="op">=</span> <span class="cn">NULL</span>,
-  scale_by <span class="op">=</span> <span class="cn">NULL</span>,
-  color_vector <span class="op">=</span> <span class="cn">NULL</span>,
-  round <span class="op">=</span> <span class="fl">1</span>,
-  textmap <span class="op">=</span> <span class="cn">FALSE</span>,
-  plot_functions <span class="op">=</span> <span class="cn">FALSE</span>,
-  function_data <span class="op">=</span> <span class="cn">NULL</span>,
-  functions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MiDAS"</span>, <span class="st">"Filamentous"</span>, <span class="st">"AOB"</span>, <span class="st">"NOB"</span>, <span class="st">"PAO"</span>, <span class="st">"GAO"</span><span class="op">)</span>,
-  rel_widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.75</span>, <span class="fl">0.25</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">amp_heatmap</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  group_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  facet_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  normalise <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  tax_aggregate <span class="op">=</span> <span class="st">"Phylum"</span>,</span>
+<span>  tax_add <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tax_show <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  showRemainingTaxa <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  tax_class <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tax_empty <span class="op">=</span> <span class="st">"best"</span>,</span>
+<span>  order_x_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  order_y_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot_values <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  plot_values_size <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  plot_legendbreaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot_colorscale <span class="op">=</span> <span class="st">"log10"</span>,</span>
+<span>  plot_na <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  measure <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  min_abundance <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  max_abundance <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sort_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  normalise_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  scale_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  color_vector <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  round <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  textmap <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot_functions <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  function_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  functions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MiDAS"</span>, <span class="st">"Filamentous"</span>, <span class="st">"AOB"</span>, <span class="st">"NOB"</span>, <span class="st">"PAO"</span>, <span class="st">"GAO"</span><span class="op">)</span>,</span>
+<span>  rel_widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.75</span>, <span class="fl">0.25</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -240,17 +240,18 @@
     
 
 <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code><a href="amp_timeseries.html">amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href="amp_filter_taxa.html">amp_filter_taxa</a></code> and <code><a href="amp_filter_samples.html">amp_filter_samples</a></code> functions, and then set <code>normalise = FALSE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>normalise = FALSE</code> will skip the transformation in the plotting function, see the example below.</p>
-<div class="sourceCode"><pre><code><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span>
-<span class="va">subsettedData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span><span class="va">MiDAS</span>,
-                                    <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span>,
-                                    normalise <span class="op">=</span> <span class="cn">TRUE</span>
-                                    <span class="op">)</span>
-<span class="fu"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">subsettedData</span>,
-            group_by <span class="op">=</span> <span class="st">"Plant"</span>,
-            tax_aggregate <span class="op">=</span> <span class="st">"Phylum"</span>,
-            tax_add <span class="op">=</span> <span class="st">"Genus"</span>,
-            normalise <span class="op">=</span> <span class="cn">FALSE</span>
-            <span class="op">)</span></code></pre></div>
+<div class="sourceCode"><pre><code><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span></span>
+<span><span class="va">subsettedData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span><span class="va">MiDAS</span>,</span>
+<span>                                    <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span>,</span>
+<span>                                    normalise <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>                                    <span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">subsettedData</span>,</span>
+<span>            group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
+<span>            tax_aggregate <span class="op">=</span> <span class="st">"Phylum"</span>,</span>
+<span>            tax_add <span class="op">=</span> <span class="st">"Genus"</span>,</span>
+<span>            normalise <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>            <span class="op">)</span></span></code></pre></div>
 
     </div>
     <div id="saving-plot-with-ggsave">
@@ -277,62 +278,71 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load example data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Heatmap grouped by WWTP</span></span>
-<span class="r-in"><span class="fu">amp_heatmap</span><span class="op">(</span><span class="va">AalborgWWTPs</span>, group_by <span class="op">=</span> <span class="st">"Plant"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load example data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Heatmap grouped by WWTP</span></span></span>
+<span class="r-in"><span><span class="fu">amp_heatmap</span><span class="op">(</span><span class="va">AalborgWWTPs</span>, group_by <span class="op">=</span> <span class="st">"Plant"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="amp_heatmap-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year,</span></span>
-<span class="r-in"><span class="co"># values not plotted for visibility, phylum name added, colorscale adjusted manually,</span></span>
-<span class="r-in"><span class="co"># and show the sum of remaining taxa not part of the top 20 most abundant taxa</span></span>
-<span class="r-in"><span class="fu">amp_heatmap</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span>
-<span class="r-in">  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
-<span class="r-in">  facet_by <span class="op">=</span> <span class="st">"Year"</span>,</span>
-<span class="r-in">  plot_values <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  tax_show <span class="op">=</span> <span class="fl">20</span>,</span>
-<span class="r-in">  showRemainingTaxa <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span>
-<span class="r-in">  tax_add <span class="op">=</span> <span class="st">"Phylum"</span>,</span>
-<span class="r-in">  color_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
-<span class="r-in">  plot_colorscale <span class="op">=</span> <span class="st">"sqrt"</span>,</span>
-<span class="r-in">  plot_legendbreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Heatmap of 20 most abundant Genera (by mean) grouped by WWTP, split by Year,</span></span></span>
+<span class="r-in"><span><span class="co"># values not plotted for visibility, phylum name added, colorscale adjusted manually,</span></span></span>
+<span class="r-in"><span><span class="co"># and show the sum of remaining taxa not part of the top 20 most abundant taxa</span></span></span>
+<span class="r-in"><span><span class="fu">amp_heatmap</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
+<span class="r-in"><span>  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span></span>
+<span class="r-in"><span>  facet_by <span class="op">=</span> <span class="st">"Year"</span>,</span></span>
+<span class="r-in"><span>  plot_values <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  tax_show <span class="op">=</span> <span class="fl">20</span>,</span></span>
+<span class="r-in"><span>  showRemainingTaxa <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span></span>
+<span class="r-in"><span>  tax_add <span class="op">=</span> <span class="st">"Phylum"</span>,</span></span>
+<span class="r-in"><span>  color_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"red"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  plot_colorscale <span class="op">=</span> <span class="st">"sqrt"</span>,</span></span>
+<span class="r-in"><span>  plot_legendbreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="amp_heatmap-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Heatmap with known functional traits about the Genera shown to the right</span></span>
-<span class="r-in"><span class="co"># By default this information is retrieved directly from midasfieldguide.org</span></span>
-<span class="r-in"><span class="co"># but you can provide your own with the function_data argument as shown with</span></span>
-<span class="r-in"><span class="co"># the textmap further down</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">heatmapwfunctions</span> <span class="op">&lt;-</span> <span class="fu">amp_heatmap</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span>
-<span class="r-in">    group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
-<span class="r-in">    tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span>
-<span class="r-in">    plot_functions <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">    functions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PAO"</span>, <span class="st">"GAO"</span>, <span class="st">"AOB"</span>, <span class="st">"NOB"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">heatmapwfunctions</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Heatmap with known functional traits about the Genera shown to the right</span></span></span>
+<span class="r-in"><span><span class="co"># By default this information is retrieved directly from midasfieldguide.org</span></span></span>
+<span class="r-in"><span><span class="co"># but you can provide your own with the function_data argument as shown with</span></span></span>
+<span class="r-in"><span><span class="co"># the textmap further down</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">heatmapwfunctions</span> <span class="op">&lt;-</span> <span class="fu">amp_heatmap</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
+<span class="r-in"><span>    group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span></span>
+<span class="r-in"><span>    tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span></span>
+<span class="r-in"><span>    plot_functions <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>    functions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PAO"</span>, <span class="st">"GAO"</span>, <span class="st">"AOB"</span>, <span class="st">"NOB"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">heatmapwfunctions</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "hmfunplot"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># To save the plot with ggsave() wrap the plot object in print()</span></span>
-<span class="r-in"><span class="co"># ggsave("plot.png", print(heatmapwfunctions))</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.</span></span>
-<span class="r-in"><span class="va">textmap</span> <span class="op">&lt;-</span> <span class="fu">amp_heatmap</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span>
-<span class="r-in">  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
-<span class="r-in">  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span>
-<span class="r-in">  plot_functions <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  function_data <span class="op">=</span> <span class="va">midasfunctions</span>,</span>
-<span class="r-in">  functions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PAO"</span>, <span class="st">"GAO"</span>, <span class="st">"AOB"</span>, <span class="st">"NOB"</span><span class="op">)</span>,</span>
-<span class="r-in">  textmap <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in amp_heatmap(AalborgWWTPs, group_by = "Plant", tax_aggregate = "Genus",     plot_functions = TRUE, function_data = midasfunctions, functions = c("PAO",         "GAO", "AOB", "NOB"), textmap = TRUE):</span> object 'midasfunctions' not found</span>
-<span class="r-in"><span class="va">textmap</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'textmap' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To save the plot with ggsave() wrap the plot object in print()</span></span></span>
+<span class="r-in"><span><span class="co"># ggsave("plot.png", print(heatmapwfunctions))</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.</span></span></span>
+<span class="r-in"><span><span class="va">textmap</span> <span class="op">&lt;-</span> <span class="fu">amp_heatmap</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
+<span class="r-in"><span>  group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span></span>
+<span class="r-in"><span>  tax_aggregate <span class="op">=</span> <span class="st">"Genus"</span>,</span></span>
+<span class="r-in"><span>  plot_functions <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  function_data <span class="op">=</span> <span class="va">midasfunctions</span>,</span></span>
+<span class="r-in"><span>  functions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PAO"</span>, <span class="st">"GAO"</span>, <span class="st">"AOB"</span>, <span class="st">"NOB"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  textmap <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">textmap</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          Aalborg East Aalborg West  PAO  GAO  AOB  NOB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tetrasphaera                 5.478941     6.842382  POS  NEG  NEG  NEG</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Trichococcus                 7.098638     3.028602   NT   NT   NT   NT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> uncultured                   5.236024     4.304019 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Candidatus Microthrix        2.769444     6.503052 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rhodoferax                   3.361297     2.403885  NEG   NT   NT   NT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rhodobacter                  1.847766     2.967430   NT   NT   NT   NT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Candidatus Promineofilum     1.317348     3.028949 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dechloromonas                1.220824     2.503898  VAR  VAR   NT   NT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Candidatus Defluviifilum     1.824867     1.502981 &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Propionicimonas              1.229790     1.726184   NT   NT   NT   NT</span>
 </code></pre></div>
     </div>
   </div>
@@ -347,7 +357,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

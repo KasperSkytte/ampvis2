@@ -70,53 +70,53 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_ordinate</span><span class="op">(</span>
-  <span class="va">data</span>,
-  filter_species <span class="op">=</span> <span class="fl">0.1</span>,
-  type <span class="op">=</span> <span class="st">"PCA"</span>,
-  distmeasure <span class="op">=</span> <span class="st">"bray"</span>,
-  transform <span class="op">=</span> <span class="st">"hellinger"</span>,
-  constrain <span class="op">=</span> <span class="cn">NULL</span>,
-  x_axis <span class="op">=</span> <span class="fl">1</span>,
-  y_axis <span class="op">=</span> <span class="fl">2</span>,
-  print_caption <span class="op">=</span> <span class="cn">FALSE</span>,
-  sample_color_by <span class="op">=</span> <span class="cn">NULL</span>,
-  sample_color_order <span class="op">=</span> <span class="cn">NULL</span>,
-  sample_shape_by <span class="op">=</span> <span class="cn">NULL</span>,
-  sample_colorframe <span class="op">=</span> <span class="cn">FALSE</span>,
-  sample_colorframe_label <span class="op">=</span> <span class="cn">NULL</span>,
-  sample_colorframe_label_size <span class="op">=</span> <span class="fl">3</span>,
-  sample_label_by <span class="op">=</span> <span class="cn">NULL</span>,
-  sample_label_size <span class="op">=</span> <span class="fl">4</span>,
-  sample_label_segment_color <span class="op">=</span> <span class="st">"black"</span>,
-  sample_point_size <span class="op">=</span> <span class="fl">2</span>,
-  sample_trajectory <span class="op">=</span> <span class="cn">NULL</span>,
-  sample_trajectory_group <span class="op">=</span> <span class="cn">NULL</span>,
-  sample_plotly <span class="op">=</span> <span class="cn">NULL</span>,
-  species_plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  species_nlabels <span class="op">=</span> <span class="fl">0</span>,
-  species_label_taxonomy <span class="op">=</span> <span class="st">"Genus"</span>,
-  species_label_size <span class="op">=</span> <span class="fl">3</span>,
-  species_label_color <span class="op">=</span> <span class="st">"grey10"</span>,
-  species_rescale <span class="op">=</span> <span class="cn">FALSE</span>,
-  species_point_size <span class="op">=</span> <span class="fl">2</span>,
-  species_shape <span class="op">=</span> <span class="fl">20</span>,
-  species_plotly <span class="op">=</span> <span class="cn">FALSE</span>,
-  envfit_factor <span class="op">=</span> <span class="cn">NULL</span>,
-  envfit_numeric <span class="op">=</span> <span class="cn">NULL</span>,
-  envfit_signif_level <span class="op">=</span> <span class="fl">0.005</span>,
-  envfit_textsize <span class="op">=</span> <span class="fl">3</span>,
-  envfit_textcolor <span class="op">=</span> <span class="st">"darkred"</span>,
-  envfit_numeric_arrows_scale <span class="op">=</span> <span class="fl">1</span>,
-  envfit_arrowcolor <span class="op">=</span> <span class="st">"darkred"</span>,
-  envfit_show <span class="op">=</span> <span class="cn">TRUE</span>,
-  repel_labels <span class="op">=</span> <span class="cn">TRUE</span>,
-  opacity <span class="op">=</span> <span class="fl">0.8</span>,
-  tax_empty <span class="op">=</span> <span class="st">"best"</span>,
-  detailed_output <span class="op">=</span> <span class="cn">FALSE</span>,
-  num_threads <span class="op">=</span> <span class="fl">1L</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">amp_ordinate</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  filter_species <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"PCA"</span>,</span>
+<span>  distmeasure <span class="op">=</span> <span class="st">"bray"</span>,</span>
+<span>  transform <span class="op">=</span> <span class="st">"hellinger"</span>,</span>
+<span>  constrain <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  x_axis <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  y_axis <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  print_caption <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  sample_color_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sample_color_order <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sample_shape_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sample_colorframe <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  sample_colorframe_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sample_colorframe_label_size <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  sample_label_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sample_label_size <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  sample_label_segment_color <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  sample_point_size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  sample_trajectory <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sample_trajectory_group <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sample_plotly <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  species_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  species_nlabels <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  species_label_taxonomy <span class="op">=</span> <span class="st">"Genus"</span>,</span>
+<span>  species_label_size <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  species_label_color <span class="op">=</span> <span class="st">"grey10"</span>,</span>
+<span>  species_rescale <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  species_point_size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  species_shape <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  species_plotly <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  envfit_factor <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  envfit_numeric <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  envfit_signif_level <span class="op">=</span> <span class="fl">0.005</span>,</span>
+<span>  envfit_textsize <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  envfit_textcolor <span class="op">=</span> <span class="st">"darkred"</span>,</span>
+<span>  envfit_numeric_arrows_scale <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  envfit_arrowcolor <span class="op">=</span> <span class="st">"darkred"</span>,</span>
+<span>  envfit_show <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  repel_labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  opacity <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  tax_empty <span class="op">=</span> <span class="st">"best"</span>,</span>
+<span>  detailed_output <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  num_threads <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -336,14 +336,15 @@ Default is <code>bray</code>.</p></dd>
     <h2>Using a custom distance matrix</h2>
     
 
-<p>If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in <code>amp_ordinate</code>, it can be done by setting <code>filter_species = 0</code>, <code>transform = "none"</code>, <code>distmeasure = "none"</code>, and then override the abundance table (<code>$abund</code>) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.</p><div class="sourceCode"><pre><code><span class="co">#Override the abundance table in the ampvis2 object with a custom distance matrix</span>
-<span class="va">ampvis2_object</span><span class="op">$</span><span class="va">abund</span> <span class="op">&lt;-</span> <span class="va">custom_dist_matrix</span>
-<span class="co">#set filter_species = 0, transform = "none", and distmeasure = "none"</span>
-<span class="fu"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span><span class="op">(</span><span class="va">ampvis2_object</span>,
-             type <span class="op">=</span> <span class="st">"pcoa"</span>,
-             filter_species <span class="op">=</span> <span class="fl">0</span>,
-             transform <span class="op">=</span> <span class="st">"none"</span>,
-             distmeasure <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<p>If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in <code>amp_ordinate</code>, it can be done by setting <code>filter_species = 0</code>, <code>transform = "none"</code>, <code>distmeasure = "none"</code>, and then override the abundance table (<code>$abund</code>) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.</p><div class="sourceCode"><pre><code><span></span>
+<span><span class="co">#Override the abundance table in the ampvis2 object with a custom distance matrix</span></span>
+<span><span class="va">ampvis2_object</span><span class="op">$</span><span class="va">abund</span> <span class="op">&lt;-</span> <span class="va">custom_dist_matrix</span></span>
+<span><span class="co">#set filter_species = 0, transform = "none", and distmeasure = "none"</span></span>
+<span><span class="fu"><a href="../reference/amp_ordinate.html">amp_ordinate</a></span><span class="op">(</span><span class="va">ampvis2_object</span>,</span>
+<span>             type <span class="op">=</span> <span class="st">"pcoa"</span>,</span>
+<span>             filter_species <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>             transform <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>             distmeasure <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
 
     </div>
     <div id="references">
@@ -364,32 +365,32 @@ Default is <code>bray</code>.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load example data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># PCA with data transformation, colored by WWTP</span></span>
-<span class="r-in"><span class="fu">amp_ordinate</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span>
-<span class="r-in">  type <span class="op">=</span> <span class="st">"PCA"</span>,</span>
-<span class="r-in">  transform <span class="op">=</span> <span class="st">"hellinger"</span>,</span>
-<span class="r-in">  sample_color_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
-<span class="r-in">  sample_colorframe <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load example data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># PCA with data transformation, colored by WWTP</span></span></span>
+<span class="r-in"><span><span class="fu">amp_ordinate</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
+<span class="r-in"><span>  type <span class="op">=</span> <span class="st">"PCA"</span>,</span></span>
+<span class="r-in"><span>  transform <span class="op">=</span> <span class="st">"hellinger"</span>,</span></span>
+<span class="r-in"><span>  sample_color_by <span class="op">=</span> <span class="st">"Plant"</span>,</span></span>
+<span class="r-in"><span>  sample_colorframe <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 8628 OTUs not present in more than 0.1% relative abundance in any sample have been filtered </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Before: 9430 OTUs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> After: 802 OTUs</span>
 <span class="r-plt img"><img src="amp_ordinate-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Interactive CCA with data transformation constrained to seasonal period</span></span>
-<span class="r-in"><span class="fu">amp_ordinate</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span>
-<span class="r-in">  type <span class="op">=</span> <span class="st">"CCA"</span>,</span>
-<span class="r-in">  transform <span class="op">=</span> <span class="st">"Hellinger"</span>,</span>
-<span class="r-in">  constrain <span class="op">=</span> <span class="st">"Period"</span>,</span>
-<span class="r-in">  sample_color_by <span class="op">=</span> <span class="st">"Period"</span>,</span>
-<span class="r-in">  sample_colorframe <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  sample_colorframe_label <span class="op">=</span> <span class="st">"Period"</span>,</span>
-<span class="r-in">  sample_plotly <span class="op">=</span> <span class="st">"all"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Interactive CCA with data transformation constrained to seasonal period</span></span></span>
+<span class="r-in"><span><span class="fu">amp_ordinate</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
+<span class="r-in"><span>  type <span class="op">=</span> <span class="st">"CCA"</span>,</span></span>
+<span class="r-in"><span>  transform <span class="op">=</span> <span class="st">"Hellinger"</span>,</span></span>
+<span class="r-in"><span>  constrain <span class="op">=</span> <span class="st">"Period"</span>,</span></span>
+<span class="r-in"><span>  sample_color_by <span class="op">=</span> <span class="st">"Period"</span>,</span></span>
+<span class="r-in"><span>  sample_colorframe <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  sample_colorframe_label <span class="op">=</span> <span class="st">"Period"</span>,</span></span>
+<span class="r-in"><span>  sample_plotly <span class="op">=</span> <span class="st">"all"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -404,7 +405,7 @@ Default is <code>bray</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

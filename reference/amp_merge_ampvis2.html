@@ -70,13 +70,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_merge_ampvis2</span><span class="op">(</span>
-  <span class="va">...</span>,
-  by_refseq <span class="op">=</span> <span class="cn">TRUE</span>,
-  refseq_names <span class="op">=</span> <span class="cn">NULL</span>,
-  rename_unmatched <span class="op">=</span> <span class="cn">TRUE</span>,
-  unmatched_prefix <span class="op">=</span> <span class="st">"unmatched"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">amp_merge_ampvis2</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  by_refseq <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  refseq_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rename_unmatched <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  unmatched_prefix <span class="op">=</span> <span class="st">"unmatched"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -117,13 +117,13 @@ When <code>by_refseq = TRUE</code> the full DNA sequences will be used as the ne
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># summary of samples from 2010-2012</span></span>
-<span class="r-in"><span class="fu"><a href="amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">MiDAS</span>,</span>
-<span class="r-in">  <span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2010"</span>, <span class="st">"2011"</span>, <span class="st">"2012"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># summary of samples from 2010-2012</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">MiDAS</span>,</span></span>
+<span class="r-in"><span>  <span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2010"</span>, <span class="st">"2011"</span>, <span class="st">"2012"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 488 samples and 2220 OTUs have been filtered </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Before: 658 samples and 14969 OTUs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> After: 170 samples and 12749 OTUs</span>
@@ -142,35 +142,35 @@ When <code>by_refseq = TRUE</code> the full DNA sequences will be used as the ne
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Metadata variables:</span> 5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  SampleID, Plant, Date, Year, Period</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># now merge individual objects and verify summary is the same</span></span>
-<span class="r-in"><span class="va">d_2010</span> <span class="op">&lt;-</span> <span class="fu"><a href="amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">MiDAS</span>,</span>
-<span class="r-in">  <span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"2010"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># now merge individual objects and verify summary is the same</span></span></span>
+<span class="r-in"><span><span class="va">d_2010</span> <span class="op">&lt;-</span> <span class="fu"><a href="amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">MiDAS</span>,</span></span>
+<span class="r-in"><span>  <span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"2010"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 594 samples and 5022 OTUs have been filtered </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Before: 658 samples and 14969 OTUs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> After: 64 samples and 9947 OTUs</span>
-<span class="r-in"><span class="va">d_2011</span> <span class="op">&lt;-</span> <span class="fu"><a href="amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">MiDAS</span>,</span>
-<span class="r-in">  <span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"2011"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">d_2011</span> <span class="op">&lt;-</span> <span class="fu"><a href="amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">MiDAS</span>,</span></span>
+<span class="r-in"><span>  <span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"2011"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 610 samples and 4989 OTUs have been filtered </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Before: 658 samples and 14969 OTUs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> After: 48 samples and 9980 OTUs</span>
-<span class="r-in"><span class="va">d_2012</span> <span class="op">&lt;-</span> <span class="fu"><a href="amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">MiDAS</span>,</span>
-<span class="r-in">  <span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"2012"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">d_2012</span> <span class="op">&lt;-</span> <span class="fu"><a href="amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">MiDAS</span>,</span></span>
+<span class="r-in"><span>  <span class="va">Year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"2012"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 600 samples and 4127 OTUs have been filtered </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Before: 658 samples and 14969 OTUs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> After: 58 samples and 10842 OTUs</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">amp_merge_ampvis2</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">d_2010</span>,</span>
-<span class="r-in">  <span class="va">d_2011</span>,</span>
-<span class="r-in">  <span class="va">d_2012</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">amp_merge_ampvis2</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">d_2010</span>,</span></span>
+<span class="r-in"><span>  <span class="va">d_2011</span>,</span></span>
+<span class="r-in"><span>  <span class="va">d_2012</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ampvis2 object with 5 elements. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Summary of OTU table:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads </span>
@@ -200,7 +200,7 @@ When <code>by_refseq = TRUE</code> the full DNA sequences will be used as the ne
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

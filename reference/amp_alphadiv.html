@@ -70,9 +70,9 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_alphadiv</span><span class="op">(</span><span class="va">data</span>, measure <span class="op">=</span> <span class="cn">NULL</span>, richness <span class="op">=</span> <span class="cn">FALSE</span>, rarefy <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">amp_alpha_diversity</span><span class="op">(</span><span class="va">data</span>, measure <span class="op">=</span> <span class="cn">NULL</span>, richness <span class="op">=</span> <span class="cn">FALSE</span>, rarefy <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">amp_alphadiv</span><span class="op">(</span><span class="va">data</span>, measure <span class="op">=</span> <span class="cn">NULL</span>, richness <span class="op">=</span> <span class="cn">FALSE</span>, rarefy <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">amp_alpha_diversity</span><span class="op">(</span><span class="va">data</span>, measure <span class="op">=</span> <span class="cn">NULL</span>, richness <span class="op">=</span> <span class="cn">FALSE</span>, rarefy <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -125,20 +125,20 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load example data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Subsample/rarefy to 20000 reads and then calculate</span></span>
-<span class="r-in"><span class="co"># Shannon and Simpson alpha-diversity indices</span></span>
-<span class="r-in"><span class="va">alphadiversityresult</span> <span class="op">&lt;-</span> <span class="fu">amp_alphadiv</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span>
-<span class="r-in">  measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"shannon"</span>, <span class="st">"simpson"</span><span class="op">)</span>,</span>
-<span class="r-in">  rarefy <span class="op">=</span> <span class="fl">20000</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load example data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"AalborgWWTPs"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Subsample/rarefy to 20000 reads and then calculate</span></span></span>
+<span class="r-in"><span><span class="co"># Shannon and Simpson alpha-diversity indices</span></span></span>
+<span class="r-in"><span><span class="va">alphadiversityresult</span> <span class="op">&lt;-</span> <span class="fu">amp_alphadiv</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
+<span class="r-in"><span>  measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"shannon"</span>, <span class="st">"simpson"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  rarefy <span class="op">=</span> <span class="fl">20000</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following sample(s) have not been rarefied (less than 20000 reads):</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 16SAMP-703, 16SAMP-739, 16SAMP-10907</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Explore the results in the data frame</span></span>
-<span class="r-in"><span class="co"># View(alphadiversityresult)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Explore the results in the data frame</span></span></span>
+<span class="r-in"><span><span class="co"># View(alphadiversityresult)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -153,7 +153,7 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

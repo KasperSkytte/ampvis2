@@ -70,23 +70,23 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">amp_filter_samples</span><span class="op">(</span>
-  <span class="va">data</span>,
-  <span class="va">...</span>,
-  minreads <span class="op">=</span> <span class="fl">0</span>,
-  rarefy <span class="op">=</span> <span class="cn">NULL</span>,
-  normalise <span class="op">=</span> <span class="cn">FALSE</span>,
-  removeAbsentOTUs <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-
-<span class="fu">amp_subset_samples</span><span class="op">(</span>
-  <span class="va">data</span>,
-  <span class="va">...</span>,
-  minreads <span class="op">=</span> <span class="fl">0</span>,
-  rarefy <span class="op">=</span> <span class="cn">NULL</span>,
-  normalise <span class="op">=</span> <span class="cn">FALSE</span>,
-  removeAbsentOTUs <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">amp_filter_samples</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  minreads <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  rarefy <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  normalise <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  removeAbsentOTUs <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">amp_subset_samples</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  minreads <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  rarefy <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  normalise <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  removeAbsentOTUs <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -130,17 +130,18 @@
     
 
 <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code><a href="amp_heatmap.html">amp_heatmap</a></code>, <code><a href="amp_timeseries.html">amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href="amp_filter_taxa.html">amp_filter_taxa</a></code> and <code>amp_filter_samples</code> functions, and then set <code>normalise = FALSE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>normalise = FALSE</code> will skip the transformation in the plotting function, see the example below.</p>
-<div class="sourceCode"><pre><code><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span>
-<span class="va">subsettedData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span><span class="va">MiDAS</span>,
-                                    <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span>,
-                                    normalise <span class="op">=</span> <span class="cn">TRUE</span>
-                                    <span class="op">)</span>
-<span class="fu"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">subsettedData</span>,
-            group_by <span class="op">=</span> <span class="st">"Plant"</span>,
-            tax_aggregate <span class="op">=</span> <span class="st">"Phylum"</span>,
-            tax_add <span class="op">=</span> <span class="st">"Genus"</span>,
-            normalise <span class="op">=</span> <span class="cn">FALSE</span>
-            <span class="op">)</span></code></pre></div>
+<div class="sourceCode"><pre><code><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span></span>
+<span><span class="va">subsettedData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/amp_filter_samples.html">amp_filter_samples</a></span><span class="op">(</span><span class="va">MiDAS</span>,</span>
+<span>                                    <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span>,</span>
+<span>                                    normalise <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>                                    <span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/amp_heatmap.html">amp_heatmap</a></span><span class="op">(</span><span class="va">subsettedData</span>,</span>
+<span>            group_by <span class="op">=</span> <span class="st">"Plant"</span>,</span>
+<span>            tax_aggregate <span class="op">=</span> <span class="st">"Phylum"</span>,</span>
+<span>            tax_add <span class="op">=</span> <span class="st">"Genus"</span>,</span>
+<span>            normalise <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>            <span class="op">)</span></span></code></pre></div>
 
     </div>
     <div id="references">
@@ -161,11 +162,11 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load example data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Show a short summary about the data by simply typing the name of the object in the console</span></span>
-<span class="r-in"><span class="va">MiDAS</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load example data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"MiDAS"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Show a short summary about the data by simply typing the name of the object in the console</span></span></span>
+<span class="r-in"><span><span class="va">MiDAS</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ampvis2 object with 5 elements. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Summary of OTU table:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads </span>
@@ -181,15 +182,15 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Metadata variables:</span> 5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  SampleID, Plant, Date, Year, Period</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Keep only samples containing Aalborg West or East in the Plant column</span></span>
-<span class="r-in"><span class="va">MiDASsubset</span> <span class="op">&lt;-</span> <span class="fu">amp_filter_samples</span><span class="op">(</span><span class="va">MiDAS</span>, <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Keep only samples containing Aalborg West or East in the Plant column</span></span></span>
+<span class="r-in"><span><span class="va">MiDASsubset</span> <span class="op">&lt;-</span> <span class="fu">amp_filter_samples</span><span class="op">(</span><span class="va">MiDAS</span>, <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 590 samples and 5512 OTUs have been filtered </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Before: 658 samples and 14969 OTUs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> After: 68 samples and 9457 OTUs</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Summary</span></span>
-<span class="r-in"><span class="va">MiDASsubset</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Summary</span></span></span>
+<span class="r-in"><span><span class="va">MiDASsubset</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ampvis2 object with 5 elements. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Summary of OTU table:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads </span>
@@ -205,19 +206,19 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Metadata variables:</span> 5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  SampleID, Plant, Date, Year, Period</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Keep only samples containing Aalborg West or East in the Plant column</span></span>
-<span class="r-in"><span class="co"># and remove the sample "16SAMP-749". Remove any sample(s) with less than 20000 total reads</span></span>
-<span class="r-in"><span class="va">MiDASsubset2</span> <span class="op">&lt;-</span> <span class="fu">amp_filter_samples</span><span class="op">(</span><span class="va">MiDAS</span>,</span>
-<span class="r-in">  <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="va">SampleID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"16SAMP-749"</span><span class="op">)</span>,</span>
-<span class="r-in">  minreads <span class="op">=</span> <span class="fl">20000</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Keep only samples containing Aalborg West or East in the Plant column</span></span></span>
+<span class="r-in"><span><span class="co"># and remove the sample "16SAMP-749". Remove any sample(s) with less than 20000 total reads</span></span></span>
+<span class="r-in"><span><span class="va">MiDASsubset2</span> <span class="op">&lt;-</span> <span class="fu">amp_filter_samples</span><span class="op">(</span><span class="va">MiDAS</span>,</span></span>
+<span class="r-in"><span>  <span class="va">Plant</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aalborg West"</span>, <span class="st">"Aalborg East"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="va">SampleID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"16SAMP-749"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  minreads <span class="op">=</span> <span class="fl">20000</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 594 samples and 5601 OTUs have been filtered </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Before: 658 samples and 14969 OTUs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> After: 64 samples and 9368 OTUs</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Summary</span></span>
-<span class="r-in"><span class="va">MiDASsubset2</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Summary</span></span></span>
+<span class="r-in"><span><span class="va">MiDASsubset2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ampvis2 object with 5 elements. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="text-decoration: underline;">Summary of OTU table:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Samples         OTUs  Total#Reads    Min#Reads    Max#Reads Median#Reads </span>
@@ -247,7 +248,7 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
