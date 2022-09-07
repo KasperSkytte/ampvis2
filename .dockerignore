@@ -1,0 +1,14 @@
+#ignore everything
+**
+
+#except
+!data/
+!inst/
+!man/
+!R/
+!tests/
+!vignettes/
+!.Rbuildignore
+!DESCRIPTION
+!LICENSE
+!NAMESPACE
