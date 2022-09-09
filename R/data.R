@@ -95,7 +95,7 @@ NULL
 
 #' Functional information about microbes at Genus level
 #'
-#' Grabbed from midasfieldguide.org at 2020-12-01
+#' Grabbed from midasfieldguide.org at 2022-07-19
 #'
 #' @name midasfunctions
 #' @docType data
