@@ -549,12 +549,12 @@ filter_otus <- function(data, filter_otus = 0) {
       
       #dont normalise
       if (isTRUE(abundAreCounts(data))) {
-        abund_tmp[, .rel_abund := count/sum(count), by = ".SampleID"]
+        abund_tmp[, .rel_abund := count/sum(count)*100, by = ".SampleID"]
       } else if (isFALSE(abundAreCounts(data))) {
         abund_tmp[, .rel_abund := count]
       }
       
-      abund_tmp <- abund_tmp[,.SD[any(.rel_abund >= filter_otus/100)], by = "OTU"]
+      abund_tmp <- abund_tmp[,.SD[any(.rel_abund >= filter_otus)], by = "OTU"]
       OTUs_keep <- abund_tmp[, unique(as.character(OTU))]
       
       data$abund <- data$abund[OTUs_keep, , drop = FALSE]
