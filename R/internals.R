@@ -348,7 +348,8 @@ dist.JSD <- function(abund, pseudocount = 0.000001) {
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @keywords internal
 getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
-  if (is.null(tax_aggregate) & is.null(tax_add)) {
+  #OTU level if both NULL
+  if (is.null(tax_aggregate) && is.null(tax_add)) {
     tax_aggregate <- colnames(tax)[ncol(tax)]
   }
   # find the lowest taxonomic level of tax_aggregate and tax_add
@@ -357,8 +358,8 @@ getLowestTaxLvl <- function(tax, tax_aggregate = NULL, tax_add = NULL) {
     levels = colnames(tax)
   )
   lowestlevel <- as.character(taxlevels[max(as.numeric(c(
-    taxlevels[which(taxlevels %in% tax_aggregate)],
-    taxlevels[which(taxlevels %in% tax_add)]
+    taxlevels[taxlevels %in% tax_aggregate],
+    taxlevels[taxlevels %in% tax_add]
   )))])
   return(lowestlevel)
 }
@@ -736,6 +737,32 @@ matchOTUs <- function(
   names(data$refseq) <- merged_seqs[["name"]]
   
   return(data)
+}
+
+#' @title Unzip file
+#' @description If the specified file has zip signature will unzip it to a tempfile and return the path to the decompressed file. The extension is kept from the file within the archive and only one file inside the archive is allowed.
+#'
+#' @param file data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
+#'
+#' @return Path to the decompressed file. If not a zip file, returns \code{file} without doing anything.
+unzip_file <- function(file) {
+  #replace extension with that of the file inside the zip archive
+  zip_signature <- charToRaw("PK\x03\x04")
+  file_signature <- readBin(file, raw(), 8L)
+  if (identical(head(file_signature, 4L), zip_signature)) {
+    archive_files <- unzip(file, list = TRUE)
+    if (is.data.frame(archive_files)) {
+      archive_files <- archive_files[, 1L, drop = TRUE]
+    }
+    if (length(archive_files) == 0L) {
+      stop("No files in the zip file", call = FALSE)
+    } else if (length(archive_files) > 1L) {
+      stop("Compressed zip files containing more than 1 file are not supported. Decompress manually and supply a path to a single file.", call. = FALSE)
+    } else if (length(archive_files) == 1L) {
+      file <- unzip(file, exdir = tempdir())
+    }
+  }
+  return(file)
 }
 
 #' Replacement for ":::" to suppress R CMD CHECK warnings

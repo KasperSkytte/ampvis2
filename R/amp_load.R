@@ -138,26 +138,9 @@ amp_load <- function(otutable,
       if (ext %in% c("csv", "txt", "tsv", "gz", "zip", "bz2", "sintax", "")) {
         fread_args <- add_args[names(add_args) %chin% names(formals(fread))]
         
-        # if it's a zip file replace extension with that of the filename 
-        # inside the archive to detect whether it's a sintax file
         # Currently, sintax format taxonomy CANNOT be loaded if gzip or bz2, only zip
-        zip_signature = charToRaw("PK\x03\x04")
-        file_signature = readBin(x, raw(), 8L)
-        if (identical(head(file_signature, 4L), zip_signature)) {
-          archive_files = unzip(x, list = TRUE)
-          if (is.data.frame(archive_files)) {
-            archive_files = archive_files[, 1L, drop = TRUE]
-          }
-          if (length(archive_files) > 1L) {
-            stop("Compressed zip files containing more than 1 file are not supported. Decompress manually and supply a path to a single file.", call. = FALSE)
-          }
-          tmpdir <- tempdir()
-          unzip(x, exdir = tmpdir)
-          decomp_file = file.path(tmpdir, archive_files[[1]])
-          x = decomp_file
-          ext <- tools::file_ext(archive_files[[1]])
-          on.exit(unlink(decomp_file), add = TRUE)
-        }
+        x <- unzip_file(x)
+        ext <- tools::file_ext(x)
         
         # if ext is .sintax expect sintax format and parse accordingly
         if (ext %in% "sintax") {
@@ -571,7 +554,7 @@ amp_load <- function(otutable,
     if (is.character(fasta) &
       length(fasta) == 1 &
       is.null(dim(fasta))) {
-      refseq <- ape::read.FASTA(fasta, ...)[data$tax$OTU]
+      refseq <- ape::read.FASTA(unzip_file(fasta), ...)[data$tax$OTU]
     } else if (!inherits(fasta, c("DNAbin", "AAbin"))) {
       stop("fasta must be of class \"DNAbin\" or \"AAbin\" as loaded with the ape::read.FASTA() function.", call. = FALSE)
     } else if(inherits(fasta, c("DNAbin", "AAbin"))) {
@@ -589,7 +572,7 @@ amp_load <- function(otutable,
     if (is.character(tree) &
       length(tree) == 1 &
       is.null(dim(tree))) {
-      tree <- ape::read.tree(tree, ...)
+      tree <- ape::read.tree(unzip_file(tree), ...)
     } else if (!inherits(tree, "phylo")) {
       stop("The provided phylogenetic tree must be of class \"phylo\" as loaded with the ape::read.tree() function.", call. = FALSE)
     }
