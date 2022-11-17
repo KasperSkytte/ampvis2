@@ -52,9 +52,27 @@ amp_frequency <- function(data,
                           detailed_output = FALSE) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
+  
+  # Aggregate only at the lowest level. No tax_add here
+  if(length(tax_aggregate) > 1) {
+    tax_aggregate <- getLowestTaxLvl(
+      tax = data$tax,
+      tax_aggregate = tax_aggregate,
+      tax_add = NULL
+    )
+    warning(
+      "tax_aggregate has length > 1, detecting and using only the lowest taxonomic level: ",
+      tax_aggregate
+    )
+  }
 
   ## Clean up the taxonomy
-  data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
+  data <- amp_rename(
+    data = data,
+    tax_class = tax_class,
+    tax_empty = tax_empty,
+    tax_level = tax_aggregate
+  )
 
   # normalise counts
   if (isTRUE(normalise)) {
@@ -75,20 +93,26 @@ amp_frequency <- function(data,
   ## Add group information
   suppressWarnings(
     if (group_by != "Sample") {
-      if (length(group_by) > 1) {
-        grp <- data.frame(Sample = rownames(data$metadata), .Group = apply(data$metadata[, group_by], 1, paste, collapse = " "))
-      } else {
-        grp <- data.frame(Sample = rownames(data$metadata), .Group = data$metadata[, group_by])
-      }
+      grp <- data.frame(
+        Sample = rownames(data$metadata),
+        .Group = apply(data$metadata[, group_by], 1, paste, collapse = " ")
+      )
       abund1$.Group <- grp$.Group[match(abund1$Sample, grp$Sample)]
       abund2 <- abund1
     } else {
-      abund2 <- data.frame(abund1, .Group = abund1$Sample)
+      abund2 <- data.frame(
+        abund1,
+        .Group = abund1$Sample
+      )
     }
   )
 
   ## Take the average to group level
-  abund3 <- data.table(abund2)[, Abundance := mean(Sum), by = list(Display, .Group)] %>%
+  abund3 <- data.table(abund2)[
+    ,
+    Abundance := mean(Sum),
+    by = list(Display, .Group)
+  ] %>%
     setkey(Display, .Group) %>%
     unique() %>%
     filter(Abundance > 0) %>%

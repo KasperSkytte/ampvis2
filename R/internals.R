@@ -428,15 +428,18 @@ aggregate_abund <- function(abund,
     ))
   }
 
+  # Add extra tax levels if tax_add is provided
   abundTax <- data.table::data.table(
     newabund,
     Display = apply(
-      newtax[, c(tax_add, tax_aggregate), drop = FALSE],
+      newtax[, union(tax_add, tax_aggregate), drop = FALSE],
       1,
       paste,
       collapse = "; "
     )
   )
+  
+  # Let's melt
   abundAggr <- data.table::melt(
     abundTax,
     id.vars = "Display",

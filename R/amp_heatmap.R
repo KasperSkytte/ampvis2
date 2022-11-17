@@ -175,16 +175,9 @@ amp_heatmap <- function(data,
     tax_level = tax_aggregate
   )
 
-  # tax_add and tax_aggregate can't be the same
-  if (!is.null(tax_aggregate) & !is.null(tax_add)) {
-    if (identical(tax_aggregate, tax_add)) {
-      stop("tax_aggregate and tax_add cannot be the same", call. = FALSE)
-    }
-  }
-
-  # Checks an data if plot_functions = TRUE
+  # Checks data if plot_functions = TRUE
   if (isTRUE(plot_functions)) {
-    if (!any("Genus" %in% c(tax_add, tax_aggregate))) {
+    if (!any("Genus" %in% c(tax_aggregate, tax_add))) {
       stop("One of the arguments tax_add or tax_aggregate must contain \"Genus\"", call. = FALSE)
     }
 
@@ -244,17 +237,6 @@ amp_heatmap <- function(data,
   if (isTRUE(normalise)) {
     data <- normaliseTo100(data)
   }
-
-  ## Make a name variable that can be used instead of tax_aggregate to display multiple levels
-  suppressWarnings(
-    if (!is.null(tax_add)) {
-      if (tax_add != tax_aggregate) {
-        data$tax <- data.frame(data$tax, Display = apply(data$tax[, c(tax_add, tax_aggregate)], 1, paste, collapse = "; "))
-      }
-    } else {
-      data$tax <- data.frame(data$tax, Display = data$tax[, tax_aggregate])
-    }
-  )
 
   # Aggregate to a specific taxonomic level
   abund3 <- aggregate_abund(

@@ -69,13 +69,6 @@ amp_otu_network <- function(data,
     tax_level = tax_aggregate
   )
 
-  # tax_add and tax_aggregate can't be the same
-  if (!is.null(tax_aggregate) & !is.null(tax_add)) {
-    if (tax_aggregate == tax_add) {
-      stop("tax_aggregate and tax_add cannot be the same", call. = FALSE)
-    }
-  }
-
   ## SampleID column is used to merge data later, so it must be there!
   colnames(data$metadata)[1] <- "SampleID"
 
@@ -83,17 +76,6 @@ amp_otu_network <- function(data,
   if (isTRUE(normalise)) {
     data <- normaliseTo100(data)
   }
-
-  ## Make a name variable that can be used instead of tax_aggregate to display multiple levels
-  suppressWarnings(
-    if (!is.null(tax_add)) {
-      if (tax_add != tax_aggregate) {
-        data$tax <- data.frame(data$tax, Display = apply(data$tax[, c(tax_add, tax_aggregate)], 1, paste, collapse = "; "))
-      }
-    } else {
-      data$tax <- data.frame(data$tax, Display = data$tax[, tax_aggregate])
-    }
-  )
 
   # Aggregate to a specific taxonomic level
   abund3 <- aggregate_abund(

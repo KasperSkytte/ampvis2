@@ -65,52 +65,52 @@ amp_boxplot <- function(data,
                         plot_log = FALSE,
                         adjust_zero = NULL,
                         normalise = TRUE) {
-
+  
   ### Data must be in ampvis2 format
   is_ampvis2(data)
-
+  
   ## Clean up the taxonomy
-  data <- amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty, tax_level = tax_aggregate)
-
-  # tax_add and tax_aggregate can't be the same
-  if (!is.null(tax_aggregate) & !is.null(tax_add)) {
-    if (tax_aggregate == tax_add) {
-      stop("tax_aggregate and tax_add cannot be the same", call. = FALSE)
-    }
-  }
-
+  data <- amp_rename(
+    data = data,
+    tax_class = tax_class,
+    tax_empty = tax_empty,
+    tax_level = lowest_taxlevel
+  )
+  
   # normalise counts
   if (isTRUE(normalise)) {
     data <- normaliseTo100(data)
   }
-
-  ## Make a name variable that can be used instead of tax_aggregate to display multiple levels
-  suppressWarnings(
-    if (!is.null(tax_add)) {
-      if (tax_add != tax_aggregate) {
-        data$tax <- data.frame(data$tax, Display = apply(data$tax[, c(tax_add, tax_aggregate)], 1, paste, collapse = "; "))
-      }
-    } else {
-      data$tax <- data.frame(data$tax, Display = data$tax[, tax_aggregate])
-    }
-  )
-
+  
   # Aggregate to a specific taxonomic level
-  abund3 <- cbind.data.frame(Display = data$tax[, "Display"], data$abund) %>%
-    tidyr::gather(key = Sample, value = Abundance, -Display) %>%
-    as.data.table()
-
-  abund3 <- abund3[, "Abundance" := sum(Abundance), by = list(Display, Sample)] %>%
-    setkey(Display, Sample) %>%
+  abund3 <- aggregate_abund(
+    abund = data$abund,
+    tax = data$tax,
+    tax_aggregate = tax_aggregate,
+    tax_add = tax_add,
+    calcSums = TRUE,
+    format = "long"
+  ) %>%
     as.data.frame()
 
   ## Add group information
   suppressWarnings(
     if (group_by != "Sample") {
       if (length(group_by) > 1) {
-        grp <- data.frame(Sample = rownames(data$metadata), .Group = apply(data$metadata[, group_by], 1, paste, collapse = " "))
+        grp <- data.frame(
+          Sample = rownames(data$metadata),
+          .Group = apply(
+            data$metadata[, group_by],
+            1,
+            paste,
+            collapse = " "
+          )
+        )
       } else {
-        grp <- data.frame(Sample = rownames(data$metadata), .Group = data$metadata[, group_by])
+        grp <- data.frame(
+          Sample = rownames(data$metadata),
+          .Group = data$metadata[, group_by]
+        )
       }
       abund3$.Group <- grp$.Group[match(abund3$Sample, grp$Sample)]
       abund5 <- abund3

@@ -60,6 +60,19 @@ amp_octave <- function(data,
   if (!abundAreCounts(data)) {
     stop("amp_octave can only be used with read counts, not relative abundances", call. = FALSE)
   }
+  
+  # Aggregate only at the lowest level. No tax_add here
+  if(length(tax_aggregate) > 1) {
+    tax_aggregate <- getLowestTaxLvl(
+      tax = data$tax,
+      tax_aggregate = tax_aggregate,
+      tax_add = NULL
+    )
+    warning(
+      "tax_aggregate has length > 1, detecting and using only the lowest taxonomic level: ",
+      tax_aggregate
+    )
+  }
 
   # check if samples in metadata and abund match, and that their order is the same
   if (!identical(colnames(data$abund), data$metadata[[1]])) {
@@ -88,11 +101,10 @@ amp_octave <- function(data,
   }
 
   # Aggregate OTUs to a specific taxonomic level
-  lowestTaxLevel <- getLowestTaxLvl(data$tax, tax_aggregate)
   abundAggr <- aggregate_abund(
     abund = data$abund,
     tax = data$tax,
-    tax_aggregate = lowestTaxLevel,
+    tax_aggregate = tax_aggregate,
     tax_add = NULL,
     calcSums = FALSE,
     format = "long"
@@ -161,7 +173,7 @@ amp_octave <- function(data,
       if (tax_aggregate == "OTU") {
         ylab("Number of distinct OTU's")
       } else {
-        ylab(paste0("Number of distinct taxa (", lowestTaxLevel, " level)"))
+        ylab(paste0("Number of distinct taxa (", tax_aggregate, " level)"))
       }
     } +
     {
