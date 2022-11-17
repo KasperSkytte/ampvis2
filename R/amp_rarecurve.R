@@ -13,6 +13,7 @@
 #' @import ggplot2
 #' @importFrom vegan rarefy
 #' @importFrom plyr ldply
+#' @importFrom stats reformulate
 #'
 #' @return A ggplot2 object.
 #'

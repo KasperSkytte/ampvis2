@@ -9,6 +9,7 @@
 #'
 #' @return A ggplot2 object.
 #' @import ggplot2
+#' @importFrom stats sd
 #'
 #' @export
 #'

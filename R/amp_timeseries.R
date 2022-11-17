@@ -28,6 +28,7 @@
 #' @importFrom tidyr gather
 #' @importFrom data.table as.data.table setkey setDT
 #' @importFrom plotly ggplotly
+#' @importFrom stats median
 #'
 #' @return A ggplot2 object.
 #'

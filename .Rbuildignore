@@ -17,3 +17,5 @@
 ^docker-rstudio$
 ^Dockerfile$
 ^.devcontainer$
+^.dockerignore$
+^.gitattributes$

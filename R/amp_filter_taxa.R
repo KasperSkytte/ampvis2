@@ -89,13 +89,13 @@ amp_filter_taxa <- function(data,
   is_ampvis2(data)
 
   if (!is.null(data$refseq)) {
-    if (!class(data$refseq) == "DNAbin") {
+    if (isFALSE(inherits(data$refseq, "DNAbin"))) {
       stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().", call. = FALSE)
     }
   }
 
   if (!is.null(data$tree)) {
-    if (!class(data$tree) == "phylo") {
+    if (isFALSE(inherits(data$tree, "phylo"))) {
       stop("The tree element is not of class \"phylo\". The tree must be loaded with ape::read.tree().", call. = FALSE)
     }
   }

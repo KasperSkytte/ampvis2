@@ -18,6 +18,7 @@
 #' @importFrom dplyr intersect mutate_at
 #' @importFrom data.table fread setDF rbindlist
 #' @importFrom tools file_ext
+#' @importFrom utils head
 #'
 #' @export
 #'

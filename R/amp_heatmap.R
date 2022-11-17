@@ -109,6 +109,8 @@
 #'
 #' # To save the plot with ggsave() wrap the plot object in print()
 #' # ggsave("plot.png", print(heatmapwfunctions))
+#' # The special class is essentially just a list of ggplots, allowing you to 
+#' # customize them individually with standard ggplot functions.
 #'
 #' # A raw text version of the heatmap can be printed or saved as a data frame with textmap = TRUE.
 #' textmap <- amp_heatmap(AalborgWWTPs,
@@ -126,6 +128,7 @@
 #' @importFrom data.table as.data.table data.table setkey dcast melt setDT setDF rbindlist
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom scales squish
+#' @importFrom stats dist hclust median reformulate
 #'
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}

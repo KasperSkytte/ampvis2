@@ -15,7 +15,7 @@
 #' rarefied
 amp_rarefy <- function(data, rarefy) {
   ### Data must be in ampvis2 format
-  if (class(data) != "ampvis2") {
+  if (isFALSE(inherits(data, "ampvis2"))) {
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
   }
 
@@ -200,6 +200,7 @@ extractFunctions <- function(FGList) {
 #' @param num_threads The number of threads to be used for calculating UniFrac distances. If set to more than \code{1} then this is set by using \code{\link[doParallel]{registerDoParallel}}. (\emph{default:} \code{1})
 #'
 #' @importFrom ape is.rooted node.depth node.depth.edgelength reorder.phylo
+#' @importFrom utils combn
 #' @return A distance matrix of class \code{dist}.
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @keywords internal
@@ -215,10 +216,10 @@ dist.unifrac <- function(abund,
   }
 
   # check tree
-  if (!class(tree) == "phylo") {
+  if (isFALSE(inherits(tree, "phylo"))) {
     stop("The provided phylogenetic tree must be of class \"phylo\" as loaded with the ape::read.tree() function.", call. = FALSE)
   }
-  if (!ape::is.rooted(tree)) {
+  if (isFALSE(ape::is.rooted(tree))) {
     stop("Tree is not rooted!", call. = FALSE)
     # message("Tree is not rooted, performing a midpoint root")
     # tree <- phytools::midpoint.root(tree)
@@ -311,6 +312,7 @@ dist.unifrac <- function(abund,
 # This is based on http://enterotype.embl.de/enterotypes.html
 # Abundances of 0 will be set to the pseudocount value to avoid 0-value denominators
 # Unfortunately this code is SLOOOOOOOOW
+#' @importFrom stats as.dist
 #' @keywords internal
 dist.JSD <- function(abund, pseudocount = 0.000001) {
   inMatrix <- t(abund)
@@ -408,7 +410,7 @@ aggregate_abund <- function(abund,
     tax_aggregate = tax_aggregate,
     tax_add = tax_add
   )
-
+  
   # Remove all OTUs that are not assigned at the chosen taxonomic level
   # and print a status message with the number of removed OTUs
   newtax <- tax[which(nchar(tax[[lowestTaxLevel]]) > 1 &
@@ -615,10 +617,11 @@ filter_species <- filter_otus
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @keywords internal
 is_ampvis2 <- function(data) {
-  if (!inherits(data, "ampvis2")) {
+  if (isFALSE(inherits(data, "ampvis2"))) {
     stop("The provided data is not in ampvis2 format. Use amp_load() to load your data before using ampvis2 functions. (Or class(data) <- \"ampvis2\", if you know what you are doing.)", call. = FALSE)
+  } else if(isTRUE(inherits(data, "ampvis2"))) {
+    invisible(TRUE)
   }
-  invisible(TRUE)
 }
 #' @title Valid taxonomic levels
 #'
@@ -744,6 +747,7 @@ matchOTUs <- function(
 #'
 #' @param file data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #'
+#' @importFrom utils head unzip
 #' @return Path to the decompressed file. If not a zip file, returns \code{file} without doing anything.
 unzip_file <- function(file) {
   #replace extension with that of the file inside the zip archive

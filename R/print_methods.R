@@ -76,6 +76,7 @@ print.coreplot <- function(x, ...) {
 #' @param ... not used
 #'
 #' @importFrom crayon underline
+#' @importFrom stats median
 #' @export
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @keywords internal

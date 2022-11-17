@@ -10,6 +10,7 @@
 #'
 #' @importFrom magrittr %>%
 #' @importFrom data.table data.table dcast melt %chin%
+#' @importFrom stats as.formula na.omit
 #' @export
 #'
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}

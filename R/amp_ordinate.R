@@ -111,6 +111,7 @@
 #' @importFrom vegan cca decorana decostand envfit metaMDS rda scores vegdist
 #' @importFrom purrr imap
 #' @importFrom tidyr unite
+#' @importFrom grDevices chull
 #'
 #' @export
 #'

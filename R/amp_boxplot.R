@@ -30,6 +30,7 @@
 #' @importFrom dplyr arrange desc group_by summarise
 #' @importFrom tidyr gather
 #' @importFrom data.table as.data.table setkey
+#' @importFrom stats median
 #'
 #' @export
 #'

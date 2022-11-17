@@ -40,7 +40,7 @@ amp_export_fasta <- function(data,
   }
 
   ### Check if refseq data is in the right format
-  if (!is.null(data$refseq) & !class(data$refseq) == "DNAbin") {
+  if (!is.null(data$refseq) & isFALSE(inherits(data$refseq, "DNAbin"))) {
     stop("The refseq element is not of class \"DNAbin\". The reference sequences must be loaded with ape::read.dna().", call. = FALSE)
   }
 
