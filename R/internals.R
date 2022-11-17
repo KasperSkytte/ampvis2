@@ -752,6 +752,7 @@ matchOTUs <- function(
 #'
 #' @importFrom utils head unzip
 #' @return Path to the decompressed file. If not a zip file, returns \code{file} without doing anything.
+#' @keywords internal
 unzip_file <- function(file) {
   #replace extension with that of the file inside the zip archive
   zip_signature <- charToRaw("PK\x03\x04")

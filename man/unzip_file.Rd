@@ -15,3 +15,4 @@ Path to the decompressed file. If not a zip file, returns \code{file} without do
 \description{
 If the specified file has zip signature will unzip it to a tempfile and return the path to the decompressed file. The extension is kept from the file within the archive and only one file inside the archive is allowed.
 }
+\keyword{internal}
