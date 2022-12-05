@@ -109,11 +109,11 @@
 <h2 id="rstudio-docker-container">RStudio Docker container<a class="anchor" aria-label="anchor" href="#rstudio-docker-container"></a>
 </h2>
 <p>A Docker container based on the <a href="https://hub.docker.com/r/rocker/rstudio" class="external-link">rocker/rstudio</a> image is also provided with ampvis2 preinstalled. This is ideal for complete reproducibility and portability. All you need to do is <a href="https://docs.docker.com/" class="external-link">install Docker</a> and then run:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">docker</span> run -d \</span>
-<span id="cb2-2"><a href="#cb2-2"></a>  -e <span class="st">"PASSWORD=supersafepassword"</span> \</span>
-<span id="cb2-3"><a href="#cb2-3"></a>  -v <span class="st">"local/folder/to/mount"</span>:/home/rstudio \</span>
-<span id="cb2-4"><a href="#cb2-4"></a>  -p 8787:8787 \</span>
-<span id="cb2-5"><a href="#cb2-5"></a>  ghcr.io/kasperskytte/ampvis2:main</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-e</span> <span class="st">"PASSWORD=supersafepassword"</span> <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> <span class="st">"local/folder/to/mount"</span>:/home/rstudio <span class="dt">\</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-p</span> 8787:8787 <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  ghcr.io/kasperskytte/ampvis2:main</span></code></pre></div>
 <p>Access RStudio server through a browser at <code>http://localhost:8787</code> with username <code>rstudio</code>. Ideally use a specific version tag, fx <code>v2.7.31</code>, instead of <code>main</code> to not just pull the latest image every time.</p>
 </div>
 <div class="section level2">
