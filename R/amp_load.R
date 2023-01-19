@@ -473,9 +473,6 @@ amp_load <- function(otutable,
   metadata[[1]] <- as.character(metadata[[1]])
   rownames(metadata) <- metadata[[1]]
 
-  # only alphanumeric characters in metadata column names, otherwise replace with "_"
-  colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "[^[:alnum:]]", "_")
-
   abund0 <- abund
   nOTUsbefore <- nrow(abund) #used if removeAbsentOTUs = TRUE
   metadata0 <- metadata
