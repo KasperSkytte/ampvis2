@@ -67,8 +67,11 @@ amp_rarefy <- function(data, rarefy) {
 amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "Genus") {
   tax <- data[["tax"]]
 
+  #don't touch OTUs
+  OTUcol <- which(colnames(tax) == "OTU")
+
   ## First make sure that all entries are strings
-  tax[] <- lapply(tax, as.character)
+  tax[, -OTUcol] <- lapply(tax[, -OTUcol, drop = FALSE], as.character)
 
   ## Change a specific phylum to class level
   if (!is.null(tax_class)) {
@@ -80,7 +83,7 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
   }
 
   ## Remove QIIME taxonomy format prefixes across all levels
-  tax[] <- lapply(tax, gsub, pattern = "^[dkpcofgs]_+", replacement = "")
+  tax[, -OTUcol] <- lapply(tax[, -OTUcol, drop = FALSE], gsub, pattern = "^[dkpcofgs]_+", replacement = "")
 
   ## Check if there is a species level otherwise add it for consistency
   if (is.null(tax$Species)) {
@@ -114,7 +117,8 @@ amp_rename <- function(data, tax_class = NULL, tax_empty = "best", tax_level = "
     }
   }
 
-  ## Handle empty taxonomic strings
+  ## Handle empty taxonomic strings, hard coded tax levels for now, ideally use
+  ## tax_levels in some way
   rn <- rownames(tax) # damn rownames are silently dropped by mutate()
   if (tax_empty == "best") {
     tax <- mutate(tax, Kingdom, Kingdom = ifelse(Kingdom == "", "Unclassified", Kingdom)) %>%
