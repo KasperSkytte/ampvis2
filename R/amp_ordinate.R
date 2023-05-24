@@ -455,7 +455,7 @@ amp_ordinate <- function(data,
   }
 
   ##### Data for ggplot  #####
-  dsites <- cbind.data.frame(data$metadata, sitescores)
+  dsites <- merge(data$metadata, sitescores, by.x = 1, by.y = 0)
 
   if (!is.null(sample_color_order)) {
     dsites[, sample_color_by] <- factor(dsites[, sample_color_by], levels = sample_color_order)
@@ -659,7 +659,7 @@ amp_ordinate <- function(data,
 
   ##### Sample_trajectory  #####
   if (!is.null(sample_trajectory)) {
-    traj <- dsites[order(dsites[, sample_trajectory, drop = FALSE]), ]
+    traj <- dsites[do.call(base::order, dsites[, sample_trajectory, drop = FALSE]), ]
     if (is.null(sample_trajectory_group)) {
       plot <- plot + geom_path(data = traj)
     } else if (!is.null(sample_trajectory_group)) {
