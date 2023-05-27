@@ -18,7 +18,7 @@
 #'    \item \code{"OTU"}: Display the OTU name.
 #'    }
 #' @param tax_class Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.
-#' @param measure Calculate and display either \code{"mean"}, \code{"max"} or \code{"median"} across the groups. (\emph{default:} \code{"mean"})
+#' @param measure Generic function name to use for sorting most abundant taxa, fx \code{mean}, \code{median}, or \code{sum}. (\emph{default:} \code{mean})
 #' @param sort_by Sorts the heatmap by the most abundant taxa in a specific sample or group of samples. Provide a sample name or a specific value of the group defined by the \code{"group_by"} argument, e.g. \code{"Treatment A"}.
 #' @param order_x_by Reorder the x axis by providing a character vector of the x axis values in the desired order, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
 #' @param order_y_by Reorder the y axis by providing a character vector of the y axis values in the desired order, or \code{"cluster"} for hierarchical clustering by \code{\link[stats]{hclust}}.
@@ -150,7 +150,7 @@ amp_heatmap <- function(data,
                         plot_legendbreaks = NULL,
                         plot_colorscale = "log10",
                         plot_na = TRUE,
-                        measure = "mean",
+                        measure = mean,
                         min_abundance = 0.1,
                         max_abundance = NULL,
                         sort_by = NULL,
@@ -269,37 +269,15 @@ amp_heatmap <- function(data,
       abund5 <- data.frame(abund3, .Group = abund3$Sample)
     }
   )
-
-  ## Take the average to group level
-  if (measure == "mean") {
-    abund6 <- data.table(abund5)[, Abundance := mean(Sum), by = list(Display, .Group)] %>%
-      setkey(Display, .Group) %>%
-      unique() %>%
-      as.data.frame()
-    TotalCounts <- group_by(abund6, Display) %>%
-      summarise(Abundance = sum(Abundance)) %>%
-      arrange(desc(Abundance))
-  }
-
-  if (measure == "max") {
-    abund6 <- data.table(abund5)[, Abundance := max(Sum), by = list(Display, .Group)] %>%
-      setkey(Display, .Group) %>%
-      unique() %>%
-      as.data.frame()
-    TotalCounts <- group_by(abund6, Display) %>%
-      summarise(Abundance = max(Abundance)) %>%
-      arrange(desc(Abundance))
-  }
-
-  if (measure == "median") {
-    abund6 <- data.table(abund5)[, Abundance := median(Sum), by = list(Display, .Group)] %>%
-      setkey(Display, .Group) %>%
-      unique() %>%
-      as.data.frame()
-    TotalCounts <- group_by(abund6, Display) %>%
-      summarise(Abundance = median(Abundance)) %>%
-      arrange(desc(Abundance))
-  }
+  
+  ## Sort by chosen measure (median/mean/sum etc)
+  abund6 <- data.table(abund5)[, Abundance := match.fun(measure)(Sum), by = list(Display, .Group)] %>%
+    setkey(Display, .Group) %>%
+    unique() %>%
+    as.data.frame()
+  TotalCounts <- group_by(abund6, Display) %>%
+    summarise(Abundance = match.fun(measure)(Abundance)) %>%
+    arrange(desc(Abundance))
 
   if (!is.null(sort_by)) {
     if (is.null(group_by)) {

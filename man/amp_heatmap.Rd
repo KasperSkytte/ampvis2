@@ -22,7 +22,7 @@ amp_heatmap(
   plot_legendbreaks = NULL,
   plot_colorscale = "log10",
   plot_na = TRUE,
-  measure = "mean",
+  measure = mean,
   min_abundance = 0.1,
   max_abundance = NULL,
   sort_by = NULL,
@@ -77,7 +77,7 @@ amp_heatmap(
 
 \item{plot_na}{(\emph{logical}) Whether to color missing values with the lowest color in the scale or not. (\emph{default:} \code{TRUE})}
 
-\item{measure}{Calculate and display either \code{"mean"}, \code{"max"} or \code{"median"} across the groups. (\emph{default:} \code{"mean"})}
+\item{measure}{Generic function name to use for sorting most abundant taxa, fx \code{mean}, \code{median}, or \code{sum}. (\emph{default:} \code{mean})}
 
 \item{min_abundance}{All values below this value are given the same color. (\emph{default:} \code{0.1})}
 
