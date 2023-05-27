@@ -20,7 +20,7 @@
 #' @param plot_log (\emph{logical}) Log10-scale the plot. (\emph{default:} \code{FALSE})
 #' @param adjust_zero Keep abundances of 0 in the calculation of medians by adding this value. (\emph{default:} \code{NULL})
 #' @param point_size The size of points. (\emph{default:} \code{1})
-#' @param sort_by Sort the boxplots by \code{"median"}, \code{"mean"} or \code{"total"}. (\emph{default:} \code{"median"})
+#' @param sort_by Generic function name to use for sorting most abundant taxa, fx \code{mean}, \code{median}, or \code{sum}. (\emph{default:} \code{median})
 #' @param plot_type Plot type. \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"boxplot"})
 #' @param normalise (\emph{logical}) Transform the OTU read counts to be in percent per sample. (\emph{default:} \code{TRUE})
 #'
@@ -50,8 +50,8 @@
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 amp_boxplot <- function(data,
-                        group_by = "Sample",
-                        sort_by = "median",
+                        group_by = NULL,
+                        sort_by = median,
                         plot_type = "boxplot",
                         point_size = 1,
                         tax_aggregate = "Genus",
@@ -74,7 +74,7 @@ amp_boxplot <- function(data,
     data = data,
     tax_class = tax_class,
     tax_empty = tax_empty,
-    tax_level = lowest_taxlevel
+    tax_level = tax_aggregate
   )
   
   # normalise counts
@@ -82,8 +82,15 @@ amp_boxplot <- function(data,
     data <- normaliseTo100(data)
   }
   
-  # Aggregate to a specific taxonomic level
-  abund3 <- aggregate_abund(
+  # Group by sample if group_by is NULL, always coerce to factor
+  sampleIDvarname <- colnames(data$metadata)[1] # also used later
+  if(is.null(group_by)) {
+    group_by <- sampleIDvarname
+  }
+  data$metadata[group_by] <- lapply(data$metadata[group_by], factor)
+  
+  # Aggregate to a specific taxonomic level and merge with chosen metadata group_by var(s)
+  abund5 <- aggregate_abund(
     abund = data$abund,
     tax = data$tax,
     tax_aggregate = tax_aggregate,
@@ -91,70 +98,45 @@ amp_boxplot <- function(data,
     calcSums = TRUE,
     format = "long"
   ) %>%
-    as.data.frame()
-
-  ## Add group information
-  suppressWarnings(
-    if (group_by != "Sample") {
-      if (length(group_by) > 1) {
-        grp <- data.frame(
-          Sample = rownames(data$metadata),
-          .Group = apply(
-            data$metadata[, group_by],
-            1,
-            paste,
-            collapse = " "
-          )
+    as.data.frame() %>% 
+    merge(
+      data.frame(
+        Sample = data$metadata[[1]],
+        .Group = apply(
+          data$metadata[, group_by, drop = FALSE],
+          1,
+          paste,
+          collapse = " "
         )
-      } else {
-        grp <- data.frame(
-          Sample = rownames(data$metadata),
-          .Group = data$metadata[, group_by]
-        )
-      }
-      abund3$.Group <- grp$.Group[match(abund3$Sample, grp$Sample)]
-      abund5 <- abund3
-    } else {
-      abund5 <- data.frame(abund3, .Group = abund3$Sample)
-    }
-  )
-
-  ## Find the x most abundant levels and sort
-  TotalCounts <- group_by(abund5, Display) %>%
-    summarise(Median = median(Abundance), Total = sum(Abundance), Mean = mean(Abundance))
-  if (sort_by == "median") {
-    TotalCounts %<>% arrange(desc(Median)) %>% as.data.frame()
-  }
-  if (sort_by == "mean") {
-    TotalCounts %<>% arrange(desc(Mean)) %>% as.data.frame()
-  }
-  if (sort_by == "total") {
-    TotalCounts %<>% arrange(desc(Total)) %>% as.data.frame()
-  }
-
+      ),
+      by = "Sample"
+    )
+  
+  ## Sort by chosen measure (median/mean/sum etc)
+  TotalCounts <- abund5 %>% 
+    group_by(Display) %>%
+    summarise(measure = match.fun(sort_by)(Sum)) %>% 
+    arrange(desc(measure))
   abund5$Display <- factor(abund5$Display, levels = rev(TotalCounts$Display))
-
-  ## Subset to the x most abundant levels
+  
+  ## Subset to X most abundant levels
   if (is.numeric(tax_show)) {
     if (tax_show > nrow(TotalCounts)) {
+      warning(paste0("There are only ", nrow(TotalCounts), " taxa, showing all"), call. = FALSE)
       tax_show <- nrow(TotalCounts)
     }
-    abund7 <- subset(abund5, abund5$Display %in% TotalCounts[1:tax_show, "Display"])
-  }
-  ## Subset to a list of level names
-  if (!is.numeric(tax_show)) {
-    if (length(tax_show) > 1) {
-      abund7 <- subset(abund5, as.character(abund5$Display) %in% tax_show)
-    }
-    if ((length(tax_show) == 1) && (tax_show != "all")) {
-      abund7 <- subset(abund5, as.character(abund5$Display) %in% tax_show)
-    }
-    ### Or just show all
-    if ((length(tax_show) == 1) && (tax_show == "all")) {
-      tax_show <- nrow(TotalCounts)
-      abund7 <- subset(abund5, abund5$Display %in% TotalCounts[1:tax_show, "Display"])
+    abund7 <- filter(abund5, Display %in% unique(TotalCounts$Display)[1:tax_show])
+  } else if (!is.numeric(tax_show)) {
+    tax_show <- as.character(tax_show)
+    if (all(tolower(tax_show) == "all")) {
+      abund7 <- abund5
+    } else {
+      abund7 <- filter(abund5, Display %in% tax_show)
     }
   }
+  
+  # filter returns a tibble in older versions
+  abund7 <- as.data.frame(abund7)
 
   ## Add a small constant to handle ggplot2 removal of 0 values in log scaled plots
   if (!is.null(adjust_zero)) {
@@ -168,10 +150,10 @@ amp_boxplot <- function(data,
   }
 
   ## plot the data
-  if (group_by == "Sample") {
+  if (group_by == sampleIDvarname) {
     p <- ggplot(abund7, aes(x = Display, y = Abundance))
   }
-  if (group_by != "Sample") {
+  if (group_by != sampleIDvarname) {
     if (!is.null(order_group)) {
       abund7$.Group <- factor(abund7$.Group, levels = rev(order_group))
     }
@@ -191,7 +173,7 @@ amp_boxplot <- function(data,
     isFALSE(normalise)) {
     p <- p + ylab("Read counts")
   } else {
-    p <- p + ylab("Read Abundance (%)")
+    p <- p + ylab("Relative Abundance (%)")
   }
 
   if (plot_flip == F) {

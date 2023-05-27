@@ -6,8 +6,8 @@
 \usage{
 amp_boxplot(
   data,
-  group_by = "Sample",
-  sort_by = "median",
+  group_by = NULL,
+  sort_by = median,
   plot_type = "boxplot",
   point_size = 1,
   tax_aggregate = "Genus",
@@ -28,7 +28,7 @@ amp_boxplot(
 
 \item{group_by}{Group the samples by a variable in the metadata.}
 
-\item{sort_by}{Sort the boxplots by \code{"median"}, \code{"mean"} or \code{"total"}. (\emph{default:} \code{"median"})}
+\item{sort_by}{Generic function name to use for sorting most abundant taxa, fx \code{mean}, \code{median}, or \code{sum}. (\emph{default:} \code{median})}
 
 \item{plot_type}{Plot type. \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"boxplot"})}
 
