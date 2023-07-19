@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.1</span>
       </span>
     </div>
 
@@ -158,11 +158,11 @@ Default is <code>bray</code>.</p></dd>
 
 
 <dt>x_axis</dt>
-<dd><p>Which axis from the ordination results to plot as the first axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. (<em>default:</em> <code>1</code>)</p></dd>
+<dd><p>(<em>integer</em>) Which axis from the ordination results to plot as the first axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. With nMDS the number of dimensions (<code>k</code> argument to the <code><a href="https://rdrr.io/pkg/vegan/man/metaMDS.html" class="external-link">metaMDS</a></code> function) is set to that of the highest number of either <code>x_axis</code> or <code>y_axis</code>. (<em>default:</em> <code>1</code>)</p></dd>
 
 
 <dt>y_axis</dt>
-<dd><p>Which axis from the ordination results to plot as the second axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. (<em>default:</em> <code>2</code>)</p></dd>
+<dd><p>(<em>integer</em>) Which axis from the ordination results to plot as the second axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. With nMDS the number of dimensions (<code>k</code> argument to the <code><a href="https://rdrr.io/pkg/vegan/man/metaMDS.html" class="external-link">metaMDS</a></code> function) is set to that of the highest number of either <code>x_axis</code> or <code>y_axis</code>. (<em>default:</em> <code>2</code>)</p></dd>
 
 
 <dt>print_caption</dt>
