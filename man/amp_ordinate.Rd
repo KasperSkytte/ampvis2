@@ -83,9 +83,9 @@ Default is \code{bray}.}
 
 \item{constrain}{(\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.}
 
-\item{x_axis}{Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})}
+\item{x_axis}{(\emph{integer}) Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. With nMDS the number of dimensions (\code{k} argument to the \code{\link[vegan]{metaMDS}} function) is set to that of the highest number of either \code{x_axis} or \code{y_axis}. (\emph{default:} \code{1})}
 
-\item{y_axis}{Which axis from the ordination results to plot as the second axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{2})}
+\item{y_axis}{(\emph{integer}) Which axis from the ordination results to plot as the second axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. With nMDS the number of dimensions (\code{k} argument to the \code{\link[vegan]{metaMDS}} function) is set to that of the highest number of either \code{x_axis} or \code{y_axis}. (\emph{default:} \code{2})}
 
 \item{print_caption}{Auto-generate a figure caption based on the arguments used. The caption includes a description of how the result has been generated as well as references for the methods used.}
 

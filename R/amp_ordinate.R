@@ -26,8 +26,8 @@
 #' Default is \code{bray}.
 #' @param transform (\emph{recommended}) Transforms the abundances before ordination, choose one of the following: \code{"total"}, \code{"max"}, \code{"freq"}, \code{"normalize"}, \code{"range"}, \code{"standardize"}, \code{"pa"} (presence/absense), \code{"chi.square"}, \code{"hellinger"}, \code{"log"}, or \code{"sqrt"}, see details in \code{\link[vegan]{decostand}}. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (\emph{default:} \code{"hellinger"})
 #' @param constrain (\emph{required for RDA and CCA}) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx \code{c("Year", "Temperature")}, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.
-#' @param x_axis Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{1})
-#' @param y_axis Which axis from the ordination results to plot as the second axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. (\emph{default:} \code{2})
+#' @param x_axis (\emph{integer}) Which axis from the ordination results to plot as the first axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. With nMDS the number of dimensions (\code{k} argument to the \code{\link[vegan]{metaMDS}} function) is set to that of the highest number of either \code{x_axis} or \code{y_axis}. (\emph{default:} \code{1})
+#' @param y_axis (\emph{integer}) Which axis from the ordination results to plot as the second axis. Have a look at the \code{$screeplot} with \code{detailed_output = TRUE} to validate axes. With nMDS the number of dimensions (\code{k} argument to the \code{\link[vegan]{metaMDS}} function) is set to that of the highest number of either \code{x_axis} or \code{y_axis}. (\emph{default:} \code{2})
 #' @param print_caption Auto-generate a figure caption based on the arguments used. The caption includes a description of how the result has been generated as well as references for the methods used.
 #' @param sample_color_by Color sample points by a variable in the metadata.
 #' @param sample_color_order Order the colors in \code{sample_color_by} by the order in a vector.
@@ -322,7 +322,15 @@ amp_ordinate <- function(data,
     if (nrow(data$abund) > 100) {
       message("Performing non-Metric Multidimensional Scaling on more than 100 samples, this may take some time ... ")
     }
-    model <- vegan::metaMDS(data$abund, distance = distmeasure, trace = FALSE, autotransform = FALSE, ...)
+    model <- vegan::metaMDS(
+      data$abund,
+      distance = distmeasure,
+      trace = FALSE,
+      autotransform = FALSE,
+      choices = c(x_axis, y_axis),
+      k = max(c(x_axis, y_axis)),
+      ...
+    )
     if (nrow(data$abund) > 100) {
       message("Done.")
     }
@@ -333,7 +341,7 @@ amp_ordinate <- function(data,
 
     # Calculate species- and site scores
     # Speciesscores may not be available with MDS
-    sitescores <- vegan::scores(model, display = "sites")
+    sitescores <- vegan::scores(model, display = "sites", choices = c(x_axis, y_axis))
     if (!length(model$species) > 1) {
       speciesscores <- NULL
       if (species_plot == TRUE | species_plotly == TRUE) {
