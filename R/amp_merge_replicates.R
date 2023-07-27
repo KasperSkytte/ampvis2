@@ -40,7 +40,7 @@ amp_merge_replicates <- function(data,
 
   ### merge_var must be a length 1 string and present in data
   if (!is.character(merge_var) || length(merge_var) != 1) {
-    stop("\"merge_var\" must be a character string of length 1", call. = FALSE)
+    stop("\"merge_var\" must be a character vector of length 1", call. = FALSE)
   }
 
   if (!any(colnames(data$metadata) == merge_var)) {
@@ -59,28 +59,24 @@ amp_merge_replicates <- function(data,
   groups <- data$metadata[which(data$metadata[, merge_var] != ""), merge_var]
   groups <- unique(na.omit(groups))
 
-  # retain name of first column
-  nameoffirstcol <- colnames(data$metadata)[1]
-
   # add a group column to the abundance table to define the groups
   tempabund <- data$metadata[, c(1, which(colnames(data$metadata) == merge_var))] %>%
     merge(as.data.frame(t(data$abund)), by.x = 1, by.y = 0, sort = FALSE) %>%
     {
       .[, 1] <- ifelse(.[, 2] %chin% groups, .[, 2], .[, 1])
-      colnames(.)[1] <- nameoffirstcol
+      colnames(.)[1] <- merge_var
       .[, -2]
     } %>%
     data.table::data.table()
 
   # melt to long format, calculate mean per group and
   # taxon, and cast back to wide format
-  sample_id <- names(data$metadata)[1]
-  newabund <- data.table::melt(tempabund, id.vars = sample_id)[
+  newabund <- data.table::melt(tempabund, id.vars = merge_var)[
     ,
     .(value = mean(value)),
-    by = c(nameoffirstcol, "variable")
+    by = c(merge_var, "variable")
   ] %>%
-    data.table::dcast(as.formula(paste(nameoffirstcol, "variable", sep = "~")))
+    data.table::dcast(as.formula(paste(merge_var, "variable", sep = "~")))
 
   # transpose the new abundance table, remove first column and round up or down
   out <- data
@@ -106,8 +102,16 @@ amp_merge_replicates <- function(data,
     } %>%
     as.data.frame()
 
-  # make new metadata keeping only the first of all samples in each sample group
+  # create new metadata by removing duplicates and only keep
+  # the first row in each new sample group. Move merge variable to first column
+  # and use as new sample ID's
   out$metadata[[1]] <- tempabund[[1]]
+  out$metadata <- out$metadata[
+    ,
+    colnames(out$metadata) != merge_var,
+    drop = FALSE
+  ]
+  colnames(out$metadata)[1] <- merge_var
   out$metadata <- out$metadata[!duplicated(out$metadata[[1]]), ]
   rownames(out$metadata) <- out$metadata[[1]]
 
