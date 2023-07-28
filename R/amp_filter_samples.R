@@ -153,7 +153,7 @@ amp_filter_samples <- function(data,
 
   # make sure the order of sample names are identical between abund and metadata
   data$abund <- data$abund[, rownames(data$metadata), drop = FALSE]
-  data$tax <- data$tax[rownames(data$abund), , drop = FALSE]
+  data$tax <- na.omit(data$tax[rownames(data$abund), , drop = FALSE])
 
   # Subset sequences
   if (!is.null(data$refseq)) {
