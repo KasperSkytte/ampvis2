@@ -74,7 +74,7 @@ amp_ordinate(
   \item \code{"wunifrac"} (PCoA only): Weighted UniFrac distances. Requires a rooted phylogenetic tree.
   \item \code{"unifrac"} (PCoA only): Unweighted UniFrac distances. Requires a phylogenetic tree.
   \item \code{"jsd"} (PCoA only): Jensen-Shannon Divergence, based on \url{http://enterotype.embl.de/enterotypes.html}.
-  \item Any of the distance measures supported by \code{\link[vegan]{vegdist}}: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"jaccard"}, \code{"gower"}, \code{"altGower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"cao"}, \code{"mahalanobis"}.
+  \item Any of the distance measures supported by \code{\link[vegan]{vegdist}}: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"bray"}, \code{"kulczynski"}, \code{"gower"}, \code{"morisita"}, \code{"horn"}, \code{"mountford"}, \code{"jaccard"}, \code{"raup"}, \code{"binomial"}, \code{"chao"}, \code{"altGower"}, \code{"cao"}, \code{"mahalanobis"}, \code{"clark"}, \code{"chisq"}, \code{"chord"}, \code{"hellinger"}, \code{"aitchison"}, \code{"robust.aitchison"}.
  }
 You can also write your own math formula, see details in \code{\link[vegan]{vegdist}}.
 Default is \code{bray}.}
