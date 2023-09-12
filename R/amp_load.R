@@ -334,7 +334,10 @@ import <- function(x, ...) {
 #'   fasta = "path/to/fastafile.fa", # optional
 #'   tree = "path/to/tree.tree" # optional
 #' )
-#'
+#' 
+#' ### Load a phyloseq object
+#' d <- amp_load(physeq_object)
+#' 
 #' ### Show a short summary about the data by simply typing the name of the object in the console
 #' d
 #' }
