@@ -1,3 +1,251 @@
+### the following functions are only useful in the context of amp_load()
+#' @title Extract/parse taxonomy from a data.frame
+#' 
+#' @param x Data frame or file path
+#'
+#' @return A data frame
+parseTaxonomy <- function(x) {
+  #assert object is a data frame here
+  
+  # create empty dummy taxonomy data frame to fill into
+  tax <- as.data.frame(
+    matrix(
+      nrow = nrow(x),
+      ncol = length(tax_levels),
+      dimnames = list(rownames(x), tax_levels)
+    )
+  )
+  tax[["OTU"]] <- rownames(tax)
+  
+  # rename all taxonomy columns except OTU column
+  taxcols <- tolower(colnames(x)) %in% c("domain", tolower(tax_levels[-8]))
+  colnames(x)[taxcols] <- stringr::str_to_title(colnames(x)[taxcols])
+  
+  # identify which columns contain taxonomy
+  taxcolnames <- dplyr::intersect(tax_levels, colnames(x))
+  
+  # allow both Kingdom or Domain column, but not both at once
+  if (all(c("Domain", "Kingdom") %in% taxcolnames)) {
+    stop("Cannot have both Domain and Kingdom columns at the same time in taxonomy.", call. = FALSE)
+  } else if (any("Domain" %in% taxcolnames)) {
+    tax_levels[1] <- "Domain" -> colnames(tax)[1]
+  }
+  
+  # fill into dummy taxonomy by merging by OTU
+  tax <- merge(
+    tax[, !colnames(tax) %in% taxcolnames[!taxcolnames %in% "OTU"], drop = FALSE],
+    x[, taxcolnames, drop = FALSE],
+    by = "OTU",
+    sort = FALSE,
+    all.x = TRUE,
+    all.y = FALSE
+  )
+  rownames(tax) <- tax[["OTU"]]
+  
+  if (length(taxcolnames) == 1L & all(taxcolnames %in% "OTU")) {
+    warning("Could not find or parse taxonomy, creating a dummy taxonomy table with only OTUs.", call. = FALSE)
+  }
+  
+  # select and sort columns correctly in Kingdom/Domain -> Species order
+  tax <- tax[, tax_levels, drop = FALSE]
+  
+  # remove whitespaces at the either side
+  tax[] <- lapply(tax, stringr::str_replace_all, pattern = "^\\s+|\\s+$", replacement = "")
+  
+  # only character columns allowed and convert any NA to empty string
+  tax[] <- lapply(tax, as.character)
+  tax[is.na(tax)] <- ""
+  
+  return(tax)
+}
+
+#' @title Detect OTU/ASV column in a data frame
+#'
+#' @param x A data frame
+#'
+#' @return A data frame
+findOTUcol <- function(x) {
+  DF <- as.data.frame(x)
+  otucol <- tolower(colnames(DF)) %in% c("otu", "asv", "#otu id")
+  if (sum(otucol) > 1L) {
+    stop(
+      paste(
+        "More than one column in",
+        deparse(substitute(x)),
+        "is named OTU/ASV, don't know which one to use."
+      ),
+      call. = FALSE
+    )
+  }
+  if (any(otucol)) {
+    rownames(DF) <- as.character(DF[, which(otucol)])
+    colnames(DF)[which(otucol)] <- "OTU"
+  } else if (!any(otucol)) {
+    warning(
+      paste0(
+        "Could not find a column named OTU/ASV in ",
+        deparse(substitute(x)),
+        ", using rownames as OTU ID's"
+      ),
+      call. = FALSE
+    )
+    DF[["OTU"]] <- rownames(DF)
+  }
+  return(DF)
+}
+
+#' @title Import any file format
+#' @description
+#' Excel, txt, CSV, TSV, BIOM, sintax. If already a data frame, will return as-is.
+#'
+#' @param x File path or data frame.
+#' @param ... Additional arguments passed on to read_excel() and fread().
+#'
+#' @return A data frame
+import <- function(x, ...) {
+  #enlist additional arguments to be able to parse correctly
+  add_args <- list(...)
+  
+  # check if x is a length 1 string (i.e. a file path)
+  if (is.character(x) &
+      length(x) == 1 &
+      is.null(dim(x))) {
+    ext <- tolower(tools::file_ext(x))
+    
+    # use fread() if it's a delimited text file
+    if (ext %in% c("csv", "txt", "tsv", "gz", "zip", "bz2", "sintax", "")) {
+      fread_args <- add_args[names(add_args) %chin% names(formals(fread))]
+      
+      # Currently, sintax format taxonomy CANNOT be loaded if gzip or bz2, only zip
+      x <- unzip_file(x)
+      ext <- tools::file_ext(x)
+      
+      # if ext is .sintax expect sintax format and parse accordingly
+      if (ext %in% "sintax") {
+        DF <- do.call(
+          fread,
+          c(
+            input = x,
+            sep = "\t",
+            fill = TRUE,
+            header = FALSE,
+            data.table = TRUE,
+            fread_args
+          )
+        )[, c(1, 4)]
+        colnames(DF) <- c("OTU", "tax")
+        
+        # Separate each taxonomic level into individual columns.
+        # This has to be done in separate lines as taxonomic 
+        # levels can be blank in between two other levels.
+        DF[, "Kingdom" := gsub("[dk]:", "k__", stringr::str_extract(tax, "[dk]:[^,]*"))]
+        DF[, "Phylum" := gsub("p:", "p__", stringr::str_extract(tax, "p:[^,]*"))]
+        DF[, "Class" := gsub("c:", "c__", stringr::str_extract(tax, "c:[^,]*"))]
+        DF[, "Order" := gsub("o:", "o__", stringr::str_extract(tax, "o:[^,]*"))]
+        DF[, "Family" := gsub("f:", "f__", stringr::str_extract(tax, "f:[^,]*"))]
+        DF[, "Genus" := gsub("g:", "g__", stringr::str_extract(tax, "g:[^,]*"))]
+        DF[, "Species" := gsub("s:", "s__", stringr::str_extract(tax, "s:[^,]*"))]
+        DF <- DF[, -2]
+        
+        # coerce to data.frame
+        data.table::setDF(DF, rownames = DF[, OTU])
+      } else {
+        DF <- do.call(
+          fread,
+          c(
+            input = x,
+            data.table = FALSE,
+            fill = TRUE,
+            fread_args
+          ))
+      }
+      # use read_excel() if xls, xlsx
+    } else if (ext %in% c("xls", "xlsx")) {
+      checkReqPkg("readxl")
+      DF <- readxl::read_excel(x, ...)
+      # if ext is .biom expect BIOM format and parse correctly
+    } else if (ext %in% "biom") {
+      checkReqPkg(
+        "biomformat",
+        " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"biomformat\")"
+      )
+      
+      biom <- biomformat::read_biom(x)
+      
+      # extract read counts
+      abund <- biomformat::biom_data(biom) %>%
+        as.matrix(check.names = FALSE) %>%
+        as.data.frame(check.names = FALSE)
+      
+      # if only one sample biom_data() drops the name of it for some reason
+      if (ncol(abund) == 1L) {
+        colnames(abund) <- biom$columns[[1]][["id"]]
+      }
+      
+      # extract the taxonomy
+      taxlist <- lapply(biom$rows, function(x) {
+        x$metadata$taxonomy
+      })
+      
+      # check if taxonomy is empty for all OTU's, use ID's as OTU's if so
+      if (all(is.null(unlist(taxlist, use.names = FALSE)))) {
+        warning("Could not find the taxonomy of one or more OTU's in the provided .biom file", call. = FALSE)
+        DF <- abund
+      } else {
+        # extract OTU names
+        names(taxlist) <- lapply(biom$rows, function(x) {
+          x$id
+        })
+        
+        # coerce to data frame
+        tax <- as.data.frame(t(as.data.frame(taxlist, check.names = FALSE, stringsAsFactors = FALSE)))
+        
+        # rename taxonomic levels
+        colnames(tax) <- tax_levels[1:ncol(tax)]
+        
+        if (ncol(tax) < 7L) {
+          warning("Taxonomy had less than 7 levels for all OTU's (Kingdom->Species), filling with NA from Species level and up.", call. = FALSE)
+        }
+        
+        # combine abundances and taxonomy and return
+        DF <- cbind(abund, tax) # no need for merge()
+      }
+      
+      # extract the sample metadata
+      metadatalist <- lapply(biom$columns, function(x) {
+        x$metadata
+      })
+      
+      # check whether metadata is empty
+      if (all(is.null(unlist(metadatalist, use.names = FALSE)))) {
+        warning("Could not find any sample metadata in the provided .biom file", call. = FALSE)
+        metadata <- NULL
+      } else {
+        # extract sample names
+        names(metadatalist) <- lapply(biom$columns, function(x) {
+          x$id
+        })
+        
+        # coerce to data table, then data frame
+        metadata <- setDF(rbindlist(metadatalist, idcol = "SampleID"))
+        
+        # append metadata to DF as an attribute
+        # (best solution for now)
+        attr(DF, "metadata") <- metadata
+      }
+    } else {
+      stop(paste0("Unsupported file type \".", ext, "\""), call. = FALSE)
+    }
+  } else {
+    DF <- x
+  }
+  DF <- as.data.frame(DF, check.names = FALSE)
+  if (sum(dim(DF)) == 0L) {
+    stop(paste(deparse(substitute(x)), "is empty"), call. = FALSE)
+  }
+  return(DF)
+}
+
 #' Load data for ampvis2 functions
 #'
 #' This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis2 functions can be used.
@@ -123,239 +371,8 @@ amp_load <- function(otutable,
                      pruneSingletons = FALSE,
                      removeAbsentOTUs = TRUE,
                      ...) {
-  #enlist additional arguments to be able to parse correctly
-  add_args <- list(...)
-  ### the following functions are only useful in the context of amp_load()
-  # function to check if provided object looks like a file path
-  # and if so try to read the file, otherwise expect a data.frame
-  import <- function(x, ...) {
-    # check if x is a length 1 string (i.e. a file path)
-    if (is.character(x) &
-      length(x) == 1 &
-      is.null(dim(x))) {
-      ext <- tolower(tools::file_ext(x))
-      
-      # use fread() if it's a delimited text file
-      if (ext %in% c("csv", "txt", "tsv", "gz", "zip", "bz2", "sintax", "")) {
-        fread_args <- add_args[names(add_args) %chin% names(formals(fread))]
-        
-        # Currently, sintax format taxonomy CANNOT be loaded if gzip or bz2, only zip
-        x <- unzip_file(x)
-        ext <- tools::file_ext(x)
-        
-        # if ext is .sintax expect sintax format and parse accordingly
-        if (ext %in% "sintax") {
-          DF <- do.call(
-            fread,
-            c(
-              input = x,
-              sep = "\t",
-              fill = TRUE,
-              header = FALSE,
-              data.table = TRUE,
-              fread_args
-            )
-          )[, c(1, 4)]
-          colnames(DF) <- c("OTU", "tax")
-
-          # Separate each taxonomic level into individual columns.
-          # This has to be done in separate lines as taxonomic 
-          # levels can be blank in between two other levels.
-          DF[, "Kingdom" := gsub("[dk]:", "k__", stringr::str_extract(tax, "[dk]:[^,]*"))]
-          DF[, "Phylum" := gsub("p:", "p__", stringr::str_extract(tax, "p:[^,]*"))]
-          DF[, "Class" := gsub("c:", "c__", stringr::str_extract(tax, "c:[^,]*"))]
-          DF[, "Order" := gsub("o:", "o__", stringr::str_extract(tax, "o:[^,]*"))]
-          DF[, "Family" := gsub("f:", "f__", stringr::str_extract(tax, "f:[^,]*"))]
-          DF[, "Genus" := gsub("g:", "g__", stringr::str_extract(tax, "g:[^,]*"))]
-          DF[, "Species" := gsub("s:", "s__", stringr::str_extract(tax, "s:[^,]*"))]
-          DF <- DF[, -2]
-          
-          # coerce to data.frame
-          data.table::setDF(DF, rownames = DF[, OTU])
-        } else {
-          DF <- do.call(
-            fread,
-            c(
-              input = x,
-              data.table = FALSE,
-              fill = TRUE,
-              fread_args
-            ))
-        }
-        # use read_excel() if xls, xlsx
-      } else if (ext %in% c("xls", "xlsx")) {
-        checkReqPkg("readxl")
-        DF <- readxl::read_excel(x, ...)
-        # if ext is .biom expect BIOM format and parse correctly
-      } else if (ext %in% "biom") {
-        checkReqPkg(
-          "biomformat",
-          " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"biomformat\")"
-        )
-
-        biom <- biomformat::read_biom(x)
-
-        # extract read counts
-        abund <- biomformat::biom_data(biom) %>%
-          as.matrix(check.names = FALSE) %>%
-          as.data.frame(check.names = FALSE)
-
-        # if only one sample biom_data() drops the name of it for some reason
-        if (ncol(abund) == 1L) {
-          colnames(abund) <- biom$columns[[1]][["id"]]
-        }
-
-        # extract the taxonomy
-        taxlist <- lapply(biom$rows, function(x) {
-          x$metadata$taxonomy
-        })
-
-        # check if taxonomy is empty for all OTU's, use ID's as OTU's if so
-        if (all(is.null(unlist(taxlist, use.names = FALSE)))) {
-          warning("Could not find the taxonomy of one or more OTU's in the provided .biom file", call. = FALSE)
-          DF <- abund
-        } else {
-          # extract OTU names
-          names(taxlist) <- lapply(biom$rows, function(x) {
-            x$id
-          })
-
-          # coerce to data frame
-          tax <- as.data.frame(t(as.data.frame(taxlist, check.names = FALSE, stringsAsFactors = FALSE)))
-
-          # rename taxonomic levels
-          colnames(tax) <- tax_levels[1:ncol(tax)]
-
-          if (ncol(tax) < 7L) {
-            warning("Taxonomy had less than 7 levels for all OTU's (Kingdom->Species), filling with NA from Species level and up.", call. = FALSE)
-          }
-
-          # combine abundances and taxonomy and return
-          DF <- cbind(abund, tax) # no need for merge()
-        }
-
-        # extract the sample metadata
-        metadatalist <- lapply(biom$columns, function(x) {
-          x$metadata
-        })
-
-        # check whether metadata is empty
-        if (all(is.null(unlist(metadatalist, use.names = FALSE)))) {
-          warning("Could not find any sample metadata in the provided .biom file", call. = FALSE)
-          metadata <- NULL
-        } else {
-          # extract sample names
-          names(metadatalist) <- lapply(biom$columns, function(x) {
-            x$id
-          })
-
-          # coerce to data table, then data frame
-          metadata <- setDF(rbindlist(metadatalist, idcol = "SampleID"))
-
-          # append metadata to DF as an attribute
-          # (best solution for now)
-          attr(DF, "metadata") <- metadata
-        }
-      } else {
-        stop(paste0("Unsupported file type \".", ext, "\""), call. = FALSE)
-      }
-    } else {
-      DF <- x
-    }
-    DF <- as.data.frame(DF, check.names = FALSE)
-    if (sum(dim(DF)) == 0L) {
-      stop(paste(deparse(substitute(x)), "is empty"), call. = FALSE)
-    }
-    return(DF)
-  }
-
-  # function to detect OTU/ASV column
-  findOTUcol <- function(x) {
-    DF <- as.data.frame(x)
-    otucol <- tolower(colnames(DF)) %in% c("otu", "asv", "#otu id")
-    if (sum(otucol) > 1L) {
-      stop(
-        paste(
-          "More than one column in",
-          deparse(substitute(x)),
-          "is named OTU/ASV, don't know which one to use."
-        ),
-        call. = FALSE
-      )
-    }
-    if (any(otucol)) {
-      rownames(DF) <- as.character(DF[, which(otucol)])
-      colnames(DF)[which(otucol)] <- "OTU"
-    } else if (!any(otucol)) {
-      warning(
-        paste0(
-          "Could not find a column named OTU/ASV in ",
-          deparse(substitute(x)),
-          ", using rownames as OTU ID's"
-        ),
-        call. = FALSE
-      )
-      DF[["OTU"]] <- rownames(DF)
-    }
-    return(DF)
-  }
-
-  # function to extract and parse taxonomy correctly
-  parseTaxonomy <- function(x) {
-    # create empty dummy taxonomy data frame to fill into
-    tax <- as.data.frame(
-      matrix(
-        nrow = nrow(x),
-        ncol = length(tax_levels),
-        dimnames = list(rownames(x), tax_levels)
-      )
-    )
-    tax[["OTU"]] <- rownames(tax)
-
-    # rename all taxonomy columns except OTU column
-    taxcols <- tolower(colnames(x)) %in% c("domain", tolower(tax_levels[-8]))
-    colnames(x)[taxcols] <- stringr::str_to_title(colnames(x)[taxcols])
-
-    # identify which columns contain taxonomy
-    taxcolnames <- dplyr::intersect(tax_levels, colnames(x))
-
-    # allow both Kingdom or Domain column, but not both at once
-    if (all(c("Domain", "Kingdom") %in% taxcolnames)) {
-      stop("Cannot have both Domain and Kingdom columns at the same time in taxonomy.", call. = FALSE)
-    } else if (any("Domain" %in% taxcolnames)) {
-      tax_levels[1] <- "Domain" -> colnames(tax)[1]
-    }
-
-    # fill into dummy taxonomy by merging by OTU
-    tax <- merge(
-      tax[, !colnames(tax) %in% taxcolnames[!taxcolnames %in% "OTU"], drop = FALSE],
-      x[, taxcolnames, drop = FALSE],
-      by = "OTU",
-      sort = FALSE,
-      all.x = TRUE,
-      all.y = FALSE
-    )
-    rownames(tax) <- tax[["OTU"]]
-
-    if (length(taxcolnames) == 1L & all(taxcolnames %in% "OTU")) {
-      warning("Could not find or parse taxonomy, creating a dummy taxonomy table with only OTUs.", call. = FALSE)
-    }
-
-    # select and sort columns correctly in Kingdom/Domain -> Species order
-    tax <- tax[, tax_levels, drop = FALSE]
-
-    # remove whitespaces at the either side
-    tax[] <- lapply(tax, stringr::str_replace_all, pattern = "^\\s+|\\s+$", replacement = "")
-
-    # only character columns allowed and convert any NA to empty string
-    tax[] <- lapply(tax, as.character)
-    tax[is.na(tax)] <- ""
-
-    return(tax)
-  }
-
   ### import and check otutable (with or without taxonomy)
-  otutable <- import(otutable)
+  otutable <- import(otutable, ...)
   otutable <- findOTUcol(otutable)
 
   ### extract read abundances from otutable (same if taxonomy present or not)
