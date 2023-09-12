@@ -99,7 +99,7 @@ print.ampvis2 <- function(x, ...) {
   print.table(c(
     "Samples" = as.character(ncol(x$abund)),
     "OTUs" = as.character(nrow(x$abund)),
-    readstats
+    unlist(readstats, use.names = TRUE)
   ),
   justify = "right"
   )
