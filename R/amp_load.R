@@ -250,9 +250,9 @@ import <- function(x, ...) {
 #'
 #' This function reads an OTU-table and corresponding sample metadata, and returns a list for use in all ampvis2 functions. It is therefore required to load data with \code{\link{amp_load}} before any other ampvis2 functions can be used.
 #'
-#' @param otutable (\emph{required}) OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file (bzip2 and gzip requires \code{data.table} 1.14.3 or later). Can also be a path to a BIOM file, which will then be parsed using the \href{https://github.com/joey711/biomformat}{biomformat} package, so both the JSON and HDF5 versions of the BIOM format are supported.
-#' @param metadata (\emph{recommended}) Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file (bzip2 and gzip requires \code{data.table} 1.14.3 or later). If \code{otutable} is a BIOM file and contains sample metadata, \code{metadata} will take precedence if provided. (\emph{default:} \code{NULL})
-#' @param taxonomy (\emph{recommended}) Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain->Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file (bzip2 and gzip requires \code{data.table} 1.14.3 or later). Can also be a path to a .sintax taxonomy table from a \href{http://www.drive5.com/usearch/}{USEARCH} analysis \href{http://www.drive5.com/usearch/manual/ex_miseq.html}{pipeline}, file extension must be \code{.sintax}. bzip2 or gzip compression is currently NOT supported if sintax format. (\emph{default:} \code{NULL})
+#' @param otutable (\emph{required}) File path, data frame, or a phyloseq-class object. OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -> Species). If a file path is provided it will be attempted being read by either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file (bzip2 and gzip requires \code{data.table} 1.14.3 or later). Can also be a path to a BIOM file, which will then be parsed using the \href{https://github.com/joey711/biomformat}{biomformat} package, so both the JSON and HDF5 versions of the BIOM format are supported.
+#' @param metadata (\emph{recommended}) File path or a data frame. Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file (bzip2 and gzip requires \code{data.table} 1.14.3 or later). If \code{otutable} is a BIOM file and contains sample metadata, \code{metadata} will take precedence if provided. (\emph{default:} \code{NULL})
+#' @param taxonomy (\emph{recommended}) File path or a data frame. Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain->Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either \code{\link[data.table]{fread}} or \code{\link[readxl]{read_excel}}, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file (bzip2 and gzip requires \code{data.table} 1.14.3 or later). Can also be a path to a .sintax taxonomy table from a \href{http://www.drive5.com/usearch/}{USEARCH} analysis \href{http://www.drive5.com/usearch/manual/ex_miseq.html}{pipeline}, file extension must be \code{.sintax}. bzip2 or gzip compression is currently NOT supported if sintax format. (\emph{default:} \code{NULL})
 #' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})
 #' @param tree (\emph{optional}) Path to a phylogenetic tree file which will be read using \code{\link[ape]{read.tree}}, or an object of class \code{"phylo"}. (\emph{default:} \code{NULL})
 #' @param pruneSingletons (\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})
@@ -270,7 +270,7 @@ import <- function(x, ...) {
 #'
 #' @export
 #'
-#' @details The \code{\link{amp_load}} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis2 functions. It is important that the provided data frames match the requirements as described in the following sections to work properly.
+#' @details The \code{\link{amp_load}} function validates and corrects the provided data frames in different ways to make it suitable for the rest of the ampvis2 functions. It is important that the provided data frames match the requirements as described in the following sections to work properly. If a \code{phyloseq}-class object is provided the metadata, taxonomy, fasta, and tree arguments are ignored as they are expected to be provided in the \code{phyloseq} object.
 #'
 #' @section The OTU-table:
 #' The OTU-table contains information about the OTUs, their read counts in each sample, and optionally their assigned taxonomy. The provided OTU-table must be a data frame with the following requirements:
@@ -371,6 +371,78 @@ amp_load <- function(otutable,
                      pruneSingletons = FALSE,
                      removeAbsentOTUs = TRUE,
                      ...) {
+  ### Check whether otutable is a phyloseq object
+  if(inherits(otutable, "phyloseq")) {
+    message("Phyloseq object provided. Ignoring anything provided for the metadata, taxonomy, fasta, or tree arguments, using those from the phyloseq object instead.")
+    physeq <- otutable
+    checkReqPkg(
+      "phyloseq",
+      " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"phyloseq\")"
+    )
+    #ampvis2 requires taxonomy and abundance table, phyloseq checks for the latter
+    if(is.null(otutable@tax_table))
+      stop("No taxonomy found in the phyloseq object and is required for ampvis2", call. = FALSE)
+    
+    #OTUs must be in rows, not columns
+    if(phyloseq::taxa_are_rows(physeq)) {
+      otutable <- as.data.frame(phyloseq::otu_table(physeq)@.Data)
+    } else {
+      otutable <- as.data.frame(t(phyloseq::otu_table(physeq)@.Data))
+    }
+    
+    #tax_table is assumed to have OTUs in rows too
+    taxonomy <- phyloseq::tax_table(physeq)@.Data
+    
+    #extract sample_data (metadata)
+    if(!is.null(physeq@sam_data)) {
+      metadata <- data.frame(
+        phyloseq::sample_data(physeq),
+        row.names = phyloseq::sample_names(physeq), 
+        stringsAsFactors = FALSE, 
+        check.names = FALSE
+      )
+      
+      #check if any columns match exactly with rownames
+      #if none matched assume row names are sample identifiers
+      samplesCol <- unlist(lapply(metadata, function(x) {
+        identical(x, rownames(metadata))}))
+      
+      if(any(samplesCol)) {
+        #error if a column matched and it's not the first
+        if(!samplesCol[[1]])
+          stop("Sample ID's must be in the first column in the sample metadata, please reorder", call. = FALSE)
+      } else {
+        #assume rownames are sample identifiers, merge at the end with name "SampleID"
+        if(any(colnames(metadata) %in% "SampleID"))
+          stop("A column in the sample metadata is already named \"SampleID\" but does not seem to contain sample ID's", call. = FALSE)
+        metadata$SampleID <- rownames(metadata)
+        
+        #reorder columns so SampleID is the first
+        metadata <- metadata[, c(which(colnames(metadata) %in% "SampleID"), 1:(ncol(metadata)-1L)), drop = FALSE]
+      }
+    } else
+      metadata <- NULL
+    
+    #extract phylogenetic tree, assumed to be of class "phylo"
+    if(!is.null(physeq@phy_tree)) {
+      tree <- phyloseq::phy_tree(physeq)
+    } else
+      tree <- NULL
+    
+    #extract OTU DNA sequences, assumed to be of class "XStringSet"
+    if(!is.null(physeq@refseq)) {
+      checkReqPkg(
+        "Biostrings",
+        " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"Biostrings\")"
+      )
+      #convert XStringSet to DNAbin using a temporary file (easiest)
+      fasta <- tempfile(pattern = "ampvis2_", fileext = ".fa")
+      Biostrings::writeXStringSet(physeq@refseq, filepath = fasta)
+    } else
+      fasta <- NULL
+    
+  }
+  
   ### import and check otutable (with or without taxonomy)
   otutable <- import(otutable, ...)
   otutable <- findOTUcol(otutable)
@@ -607,111 +679,5 @@ amp_load <- function(otutable,
       class = "ampvis2",
       normalised = FALSE
     )
-  )
-}
-
-#' @title Convert a phyloseq-class object to an ampvis2-class object
-#' @description
-#' Does as the title says. The phyloseq package is required and must first be installed using the BiocManager package.
-#' 
-#' @param physeq Phyloseq object to import
-#' 
-#' @return A list of class \code{"ampvis2"} with 3 to 5 elements.
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' require("ampvis2")
-#' require("phyloseq")
-#' 
-#' #print object summary
-#' phyloseq_object
-#' 
-#' #convert
-#' ampvis2_object <- phyloseq_to_ampvis2(phyloseq_object)
-#' 
-#' #print object summary
-#' ampvis2_object
-#' }
-phyloseq_to_ampvis2 <- function(physeq) {
-  checkReqPkg(
-    "phyloseq",
-    " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"phyloseq\")"
-  )
-  #check object for class
-  if(!any(class(physeq) %in% "phyloseq"))
-    stop("physeq object must be of class \"phyloseq\"", call. = FALSE)
-  
-  #ampvis2 requires taxonomy and abundance table, phyloseq checks for the latter
-  if(is.null(physeq@tax_table))
-    stop("No taxonomy found in the phyloseq object and is required for ampvis2", call. = FALSE)
-  
-  #OTUs must be in rows, not columns
-  if(phyloseq::taxa_are_rows(physeq)) {
-    abund <- as.data.frame(phyloseq::otu_table(physeq)@.Data)
-  } else {
-    abund <- as.data.frame(t(phyloseq::otu_table(physeq)@.Data))
-  }
-  
-  #tax_table is assumed to have OTUs in rows too
-  taxonomy <- phyloseq::tax_table(physeq)@.Data %>%
-    findOTUcol() %>%
-    parseTaxonomy()
-  
-  #extract sample_data (metadata)
-  if(!is.null(physeq@sam_data)) {
-    metadata <- data.frame(
-      phyloseq::sample_data(physeq),
-      row.names = phyloseq::sample_names(physeq), 
-      stringsAsFactors = FALSE, 
-      check.names = FALSE
-    )
-    
-    #check if any columns match exactly with rownames
-    #if none matched assume row names are sample identifiers
-    samplesCol <- unlist(lapply(metadata, function(x) {
-      identical(x, rownames(metadata))}))
-    
-    if(any(samplesCol)) {
-      #error if a column matched and it's not the first
-      if(!samplesCol[[1]])
-        stop("Sample ID's must be in the first column in the sample metadata, please reorder", call. = FALSE)
-    } else {
-      #assume rownames are sample identifiers, merge at the end with name "SampleID"
-      if(any(colnames(metadata) %in% "SampleID"))
-        stop("A column in the sample metadata is already named \"SampleID\" but does not seem to contain sample ID's", call. = FALSE)
-      metadata$SampleID <- rownames(metadata)
-      
-      #reorder columns so SampleID is the first
-      metadata <- metadata[, c(which(colnames(metadata) %in% "SampleID"), 1:(ncol(metadata)-1L)), drop = FALSE]
-    }
-  } else
-    metadata <- NULL
-  
-  #extract phylogenetic tree, assumed to be of class "phylo"
-  if(!is.null(physeq@phy_tree)) {
-    tree <- phyloseq::phy_tree(physeq)
-  } else
-    tree <- NULL
-  
-  #extract OTU DNA sequences, assumed to be of class "XStringSet"
-  if(!is.null(physeq@refseq)) {
-    checkReqPkg(
-      "Biostrings",
-      " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"Biostrings\")"
-    )
-    #convert XStringSet to DNAbin using a temporary file (easiest)
-    fastaTempFile <- tempfile(pattern = "ampvis2_", fileext = ".fa")
-    Biostrings::writeXStringSet(physeq@refseq, filepath = fastaTempFile)
-  } else
-    fastaTempFile <- NULL
-  
-  #load as normally with amp_load
-  ampvis2::amp_load(
-    otutable = abund,
-    metadata = metadata,
-    taxonomy = taxonomy,
-    tree = tree,
-    fasta = fastaTempFile
   )
 }
