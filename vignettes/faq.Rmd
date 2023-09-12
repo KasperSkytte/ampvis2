@@ -37,18 +37,3 @@ amp_ordinate(ampvis2_object,
              transform = "none",
              distmeasure = "none")
 ```
-
-## Loading phyloseq objects
-Simply source the `phyloseq_to_ampvis2()` function from [this gist](https://gist.github.com/KasperSkytte/8d0ca4206a66be7ff6d76fc4ab8e66c6), either by copy/pasting into R, or by using `devtools::source_gist()` as shown below. You need both the `phyloseq` and `ampvis2` packages installed for it to work.
-
-```{r, eval = FALSE}
-#require the devtools package to source gist
-if(!require("devtools"))
-  install.packages("devtools")
-#source the phyloseq_to_ampvis2() function from the gist
-devtools::source_gist("8d0ca4206a66be7ff6d76fc4ab8e66c6")
-
-#go converty
-ampvis2_obj <- phyloseq_to_ampvis2(phyloseq_obj)
-```
-
