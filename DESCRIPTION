@@ -52,8 +52,8 @@ Imports:
     parallel
 Remotes: 
     github::kasperskytte/biomformat,
-    bioc::phyloseq,
-    bioc::Biostrings
+    bioc::3.17/phyloseq,
+    bioc::3.17/Biostrings
 Suggests: 
     testthat (>= 3.0.0),
     devtools,
