@@ -142,10 +142,16 @@
     <loc>https://kasperskytte.github.io/ampvis2/reference/filter_otus.html</loc>
   </url>
   <url>
+    <loc>https://kasperskytte.github.io/ampvis2/reference/findOTUcol.html</loc>
+  </url>
+  <url>
     <loc>https://kasperskytte.github.io/ampvis2/reference/getLowestTaxLvl.html</loc>
   </url>
   <url>
     <loc>https://kasperskytte.github.io/ampvis2/reference/getMiDASFGData.html</loc>
+  </url>
+  <url>
+    <loc>https://kasperskytte.github.io/ampvis2/reference/import.html</loc>
   </url>
   <url>
     <loc>https://kasperskytte.github.io/ampvis2/reference/index.html</loc>
@@ -161,6 +167,9 @@
   </url>
   <url>
     <loc>https://kasperskytte.github.io/ampvis2/reference/normaliseTo100.html</loc>
+  </url>
+  <url>
+    <loc>https://kasperskytte.github.io/ampvis2/reference/parseTaxonomy.html</loc>
   </url>
   <url>
     <loc>https://kasperskytte.github.io/ampvis2/reference/pipe.html</loc>
