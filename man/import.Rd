@@ -17,3 +17,4 @@ A data frame
 \description{
 Excel, txt, CSV, TSV, BIOM, sintax. If already a data frame, will return as-is.
 }
+\keyword{internal}

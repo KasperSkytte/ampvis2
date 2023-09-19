@@ -51,7 +51,9 @@ Imports:
     cli,
     parallel
 Remotes: 
-    github::kasperskytte/biomformat
+    github::kasperskytte/biomformat,
+    bioc::phyloseq,
+    bioc::Biostrings
 Suggests: 
     testthat (>= 3.0.0),
     devtools,
@@ -67,6 +69,8 @@ Suggests:
     biomformat,
     doParallel,
     foreach,
-    patchwork
+    patchwork,
+    phyloseq,
+    Biostrings
 RoxygenNote: 7.2.3
 Config/testthat/edition: 3

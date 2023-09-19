@@ -15,3 +15,4 @@ A data frame
 \description{
 Detect OTU/ASV column in a data frame
 }
+\keyword{internal}

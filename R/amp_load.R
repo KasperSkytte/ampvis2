@@ -4,6 +4,7 @@
 #' @param x Data frame or file path
 #'
 #' @return A data frame
+#' @keywords internal
 parseTaxonomy <- function(x) {
   #assert object is a data frame here
   
@@ -64,6 +65,7 @@ parseTaxonomy <- function(x) {
 #' @param x A data frame
 #'
 #' @return A data frame
+#' @keywords internal
 findOTUcol <- function(x) {
   DF <- as.data.frame(x)
   otucol <- tolower(colnames(DF)) %in% c("otu", "asv", "#otu id")
@@ -102,6 +104,7 @@ findOTUcol <- function(x) {
 #' @param ... Additional arguments passed on to read_excel() and fread().
 #'
 #' @return A data frame
+#' @keywords internal
 import <- function(x, ...) {
   #enlist additional arguments to be able to parse correctly
   add_args <- list(...)

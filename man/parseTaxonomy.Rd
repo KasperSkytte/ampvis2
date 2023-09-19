@@ -15,3 +15,4 @@ A data frame
 \description{
 Extract/parse taxonomy from a data.frame
 }
+\keyword{internal}
