@@ -390,20 +390,20 @@ amp_load <- function(otutable,
       stop("No taxonomy found in the phyloseq object and is required for ampvis2", call. = FALSE)
     
     #OTUs must be in rows, not columns
-    if(phyloseq::taxa_are_rows(physeq)) {
-      otutable <- as.data.frame(phyloseq::otu_table(physeq)@.Data)
+    if(taxa_are_rows(physeq)) {
+      otutable <- as.data.frame(otu_table(physeq)@.Data)
     } else {
-      otutable <- as.data.frame(t(phyloseq::otu_table(physeq)@.Data))
+      otutable <- as.data.frame(t(otu_table(physeq)@.Data))
     }
     
     #tax_table is assumed to have OTUs in rows too
-    taxonomy <- phyloseq::tax_table(physeq)@.Data
+    taxonomy <- tax_table(physeq)@.Data
     
     #extract sample_data (metadata)
     if(!is.null(physeq@sam_data)) {
       metadata <- data.frame(
-        phyloseq::sample_data(physeq),
-        row.names = phyloseq::sample_names(physeq), 
+        sample_data(physeq),
+        row.names = sample_names(physeq), 
         stringsAsFactors = FALSE, 
         check.names = FALSE
       )
@@ -431,7 +431,7 @@ amp_load <- function(otutable,
     
     #extract phylogenetic tree, assumed to be of class "phylo"
     if(!is.null(physeq@phy_tree)) {
-      tree <- phyloseq::phy_tree(physeq)
+      tree <- phy_tree(physeq)
     } else
       tree <- NULL
     
@@ -443,7 +443,7 @@ amp_load <- function(otutable,
       )
       #convert XStringSet to DNAbin using a temporary file (easiest)
       fasta <- tempfile(pattern = "ampvis2_", fileext = ".fa")
-      Biostrings::writeXStringSet(physeq@refseq, filepath = fasta)
+      writeXStringSet(physeq@refseq, filepath = fasta)
     } else
       fasta <- NULL
     
