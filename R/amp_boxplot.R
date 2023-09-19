@@ -98,7 +98,7 @@ amp_boxplot <- function(data,
     calcSums = TRUE,
     format = "long"
   ) %>%
-    as.data.frame() %>% 
+    as.data.frame() %>%
     merge(
       data.frame(
         Sample = data$metadata[[1]],
@@ -113,25 +113,28 @@ amp_boxplot <- function(data,
     )
   
   ## Sort by chosen measure (median/mean/sum etc)
-  TotalCounts <- abund5 %>% 
-    group_by(Display) %>%
-    summarise(measure = match.fun(sort_by)(Sum)) %>% 
-    arrange(desc(measure))
-  abund5$Display <- factor(abund5$Display, levels = rev(TotalCounts$Display))
+  abund6 <- data.table(abund5)[, Abundance := match.fun(sort_by)(Sum), by = list(Display, .Group)] %>%
+    setkey(Display, .Group) %>%
+    unique() %>%
+    as.data.frame()
+  TotalCounts <- group_by(abund6, Display) %>%
+    summarise(Abundance = match.fun(sort_by)(Abundance)) %>%
+    arrange(desc(Abundance))
+  abund6$Display <- factor(abund6$Display, levels = rev(TotalCounts$Display))
   
-  ## Subset to X most abundant levels
+    ## Subset to X most abundant levels
   if (is.numeric(tax_show)) {
     if (tax_show > nrow(TotalCounts)) {
       warning(paste0("There are only ", nrow(TotalCounts), " taxa, showing all"), call. = FALSE)
       tax_show <- nrow(TotalCounts)
     }
-    abund7 <- filter(abund5, Display %in% unique(TotalCounts$Display)[1:tax_show])
+    abund7 <- filter(abund6, Display %in% unique(TotalCounts$Display)[1:tax_show])
   } else if (!is.numeric(tax_show)) {
     tax_show <- as.character(tax_show)
     if (all(tolower(tax_show) == "all")) {
-      abund7 <- abund5
+      abund7 <- abund6
     } else {
-      abund7 <- filter(abund5, Display %in% tax_show)
+      abund7 <- filter(abund6, Display %in% tax_show)
     }
   }
   
