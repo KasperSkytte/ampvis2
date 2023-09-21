@@ -154,13 +154,13 @@ amp_boxplot <- function(data,
 
   ## plot the data
   if (group_by == sampleIDvarname) {
-    p <- ggplot(abund7, aes(x = Display, y = Abundance))
+    p <- ggplot(abund7, aes(x = Display, y = Sum))
   }
   if (group_by != sampleIDvarname) {
     if (!is.null(order_group)) {
       abund7$.Group <- factor(abund7$.Group, levels = rev(order_group))
     }
-    p <- ggplot(abund7, aes(x = Display, y = Abundance, color = .Group))
+    p <- ggplot(abund7, aes(x = Display, y = Sum, color = .Group))
   }
 
   p <- p +

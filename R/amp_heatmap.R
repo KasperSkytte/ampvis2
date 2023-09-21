@@ -538,6 +538,7 @@ amp_heatmap <- function(data,
         value.name = "Value",
         variable.name = "Function"
       )
+      #hard coded for now, ideally pull from data (values will likely never change though)
       nameFuncM$Value <- factor(nameFuncM$Value, levels = c("POS", "VAR", "NEG", "NT"))
       nameFuncM$Genus <- factor(nameFuncM$Genus, levels = names$Genus)
 
