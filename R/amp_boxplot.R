@@ -153,21 +153,20 @@ amp_boxplot <- function(data,
   }
 
   ## plot the data
-  if (group_by == sampleIDvarname) {
+  if (!is.null(order_group)) {
+    abund7$.Group <- factor(abund7$.Group, levels = rev(order_group))
+  }
+  if (all(group_by %in% sampleIDvarname))
     p <- ggplot(abund7, aes(x = Display, y = Sum))
-  }
-  if (group_by != sampleIDvarname) {
-    if (!is.null(order_group)) {
-      abund7$.Group <- factor(abund7$.Group, levels = rev(order_group))
-    }
+  else
     p <- ggplot(abund7, aes(x = Display, y = Sum, color = .Group))
-  }
 
   p <- p +
     guides(col = guide_legend(reverse = TRUE)) +
     xlab("") +
     theme_classic() +
     theme(
+      legend.title = element_blank(),
       panel.grid.major.x = element_line(color = "grey90"),
       panel.grid.major.y = element_line(color = "grey90")
     )
