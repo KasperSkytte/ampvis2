@@ -3,7 +3,7 @@
 #' Generates boxplots of the most abundant taxa.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param group_by Group the samples by a variable in the metadata.
+#' @param group_by Group the samples by a categorical/discrete variable in the metadata.
 #' @param order_group A vector to order the groups by.
 #' @param order_y A vector to order the y-axis by.
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Genus"})

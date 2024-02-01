@@ -3,7 +3,7 @@
 #' Generates network plot of taxa and samples based on ggnet2.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param color_by A metadata variable to color the samples by.
+#' @param color_by A ??? metadata variable to color the samples by.
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})
 #' @param tax_add Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})
 #' @param tax_show The number of taxa to show, or a vector of taxa names. (\emph{default:} \code{10})

@@ -3,7 +3,7 @@
 #' @description Core community plot to investigate how many of the most abundant OTU's comprise the "core" of groups of samples, their abundances etc.
 #'
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
-#' @param group_by (\emph{required}) Character vector of one or more variable name(s) in the sample metadata which contain the desired grouping of samples, fx where the samples have been taken. Can also be done by sample, just provide the name of the first variable containing unique sample ID's if so.
+#' @param group_by (\emph{required}) Character vector of one or more categorical/discrete variable name(s) in the sample metadata which contain the desired grouping of samples, fx where the samples have been taken. Can also be done by sample, just provide the name of the first variable containing unique sample ID's if so.
 #' @param core_pct Threshold in percent for defining "abundant" a.k.a. "core" OTU's for each group. (\emph{default:} \code{80})
 #' @param margin_plots Character vector defining which margin plots to show. Margin plots display the cumulative read abundances of all OTU's per group sharing either x or y axis with the main plot. Any of:
 #' \itemize{
