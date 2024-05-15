@@ -5,16 +5,32 @@
 \alias{amp_alpha_diversity}
 \title{Alpha-diversity analysis}
 \usage{
-amp_alphadiv(data, measure = NULL, richness = FALSE, rarefy = NULL)
+amp_alphadiv(
+  data,
+  measure = NULL,
+  richness = FALSE,
+  rarefy = NULL,
+  plot = FALSE,
+  plot_scatter = FALSE,
+  plot_group_by = NULL
+)
 
-amp_alpha_diversity(data, measure = NULL, richness = FALSE, rarefy = NULL)
+amp_alpha_diversity(
+  data,
+  measure = NULL,
+  richness = FALSE,
+  rarefy = NULL,
+  plot = FALSE,
+  plot_scatter = FALSE,
+  plot_group_by = NULL
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{\link{amp_load}}.}
 
 \item{measure}{Alpha-diversity measure(s) to be included if not all. A vector of one or more of:
 \itemize{
-  \item \code{"observed"}
+  \item \code{"uniqueotus"}
   \item \code{"shannon"}
   \item \code{"simpson"}
   \item \code{"invsimpson"}
@@ -23,9 +39,15 @@ amp_alpha_diversity(data, measure = NULL, richness = FALSE, rarefy = NULL)
 \item{richness}{(\emph{logical}) Also calculate sample richness estimates (Chao1 and ACE) as calculated by \code{\link[vegan]{estimateR}}. (\emph{default:} \code{FALSE})}
 
 \item{rarefy}{Rarefy species richness to this value before calculating alpha diversity and/or richness. Passed directly as the \code{sample} argument to \code{\link[vegan]{rrarefy}}. (\emph{default:} \code{NULL})}
+
+\item{plot}{(\emph{logical}) Produce a boxplot instead of a table. (\emph{default:} \code{FALSE})}
+
+\item{plot_scatter}{(\emph{logical}) If \code{TRUE} produce a scatter plot instead of a boxplot. (\emph{default:} \code{FALSE})}
+
+\item{plot_group_by}{Group the samples by a categorical variable in the metadata. If \code{NULL} then all samples are shown in a single group.}
 }
 \value{
-A data frame.
+A data frame or a ggplot if \code{plot} is set to TRUE
 }
 \description{
 Calculate alpha-diversity indices for each sample and combines with the metadata.
@@ -39,13 +61,23 @@ data("AalborgWWTPs")
 
 # Subsample/rarefy to 20000 reads and then calculate
 # Shannon and Simpson alpha-diversity indices
-alphadiversityresult <- amp_alphadiv(AalborgWWTPs,
+alphadiversityresult <- amp_alphadiv(
+  AalborgWWTPs,
   measure = c("shannon", "simpson"),
   rarefy = 20000
 )
 
 # Explore the results in the data frame
 # View(alphadiversityresult)
+
+# Generate a plot instead
+amp_alphadiv(
+  AalborgWWTPs,
+  measure = c("shannon", "simpson"),
+  rarefy = 20000,
+  plot = TRUE,
+  plot_group_by = "Plant"
+)
 }
 \references{
 McMurdie, P.J. & Holmes, S. (2014). Waste not, want not: Why

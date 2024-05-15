@@ -5,17 +5,21 @@
 #' @param data (\emph{required}) Data list as loaded with \code{\link{amp_load}}.
 #' @param measure Alpha-diversity measure(s) to be included if not all. A vector of one or more of:
 #' \itemize{
-#'   \item \code{"observed"}
+#'   \item \code{"uniqueotus"}
 #'   \item \code{"shannon"}
 #'   \item \code{"simpson"}
 #'   \item \code{"invsimpson"}
 #' }
 #' @param richness (\emph{logical}) Also calculate sample richness estimates (Chao1 and ACE) as calculated by \code{\link[vegan]{estimateR}}. (\emph{default:} \code{FALSE})
 #' @param rarefy Rarefy species richness to this value before calculating alpha diversity and/or richness. Passed directly as the \code{sample} argument to \code{\link[vegan]{rrarefy}}. (\emph{default:} \code{NULL})
-#'
+#' @param plot (\emph{logical}) Produce a boxplot instead of a table. (\emph{default:} \code{FALSE})
+#' @param plot_scatter (\emph{logical}) If \code{TRUE} produce a scatter plot instead of a boxplot. (\emph{default:} \code{FALSE})
+#' @param plot_group_by Group the samples by a categorical variable in the metadata. If \code{NULL} then all samples are shown in a single group.
+
 #' @export
 #' @importFrom dplyr arrange select
 #' @importFrom vegan diversity estimateR
+#' @importFrom data.table setDT melt
 #'
 #' @details The alpha-diversity indices are calculated per sample using the vegan function \code{\link[vegan]{diversity}}, where the read abundances are first rarefied using \code{\link[vegan]{rrarefy}} by the size of the \code{rarefy} argument. Refer to the vegan documentation for details about the different indices and how they are calculated. If no measure(s) are chosen, all diversity indices will be returned.
 #'
@@ -33,26 +37,42 @@
 #'
 #' # Subsample/rarefy to 20000 reads and then calculate
 #' # Shannon and Simpson alpha-diversity indices
-#' alphadiversityresult <- amp_alphadiv(AalborgWWTPs,
+#' alphadiversityresult <- amp_alphadiv(
+#'   AalborgWWTPs,
 #'   measure = c("shannon", "simpson"),
 #'   rarefy = 20000
 #' )
 #'
 #' # Explore the results in the data frame
 #' # View(alphadiversityresult)
-#' @return A data frame.
+#' 
+#' # Generate a plot instead
+#' amp_alphadiv(
+#'   AalborgWWTPs,
+#'   measure = c("shannon", "simpson"),
+#'   rarefy = 20000,
+#'   plot = TRUE,
+#'   plot_group_by = "Plant"
+#' )
+#' @return A data frame or a ggplot if \code{plot} is set to TRUE
 #' @author Kasper Skytte Andersen \email{ksa@@bio.aau.dk}
 #' @author Mads Albertsen \email{MadsAlbertsen85@@gmail.com}
 
 amp_alphadiv <- function(data,
                          measure = NULL,
                          richness = FALSE,
-                         rarefy = NULL) {
+                         rarefy = NULL,
+                         plot = FALSE,
+                         plot_scatter = FALSE,
+                         plot_group_by = NULL) {
   ### Data must be in ampvis2 format
   is_ampvis2(data)
 
+  # what's the name of the first column (sample IDs)?
+  sampleIDvarname <- colnames(data$metadata)[1]
+
   # check measures
-  validMeasures <- c("observed", "shannon", "simpson", "invsimpson")
+  validMeasures <- c("uniqueotus", "shannon", "simpson", "invsimpson")
   if (is.null(measure)) {
     measure <- validMeasures
   } else if (!is.null(measure) & any(!measure %in% validMeasures)) {
@@ -84,15 +104,15 @@ amp_alphadiv <- function(data,
       "any singletons. This is highly suspicious. Results of richness\n",
       "estimates (for example) are probably unreliable, or wrong, if you have already\n",
       "trimmed low-abundance taxa from the data.\n", "\n",
-      "We recommend that you find the un-trimmed data and retry.",
+      "We recommend that you find the untrimmed data and retry.",
       call. = FALSE
     )
   }
 
   tabund <- t(data$abund)
-  if (any("observed" %in% measure) | is.null(measure)) {
-    ObservedOTUs <- colSums(data$abund > 0) # not transposed
-    results$ObservedOTUs <- ObservedOTUs[names]
+  if (any("uniqueotus" %in% measure) | is.null(measure)) {
+    uniqueOTUs <- colSums(data$abund > 0) # not transposed
+    results$uniqueOTUs <- uniqueOTUs[names]
   }
   if (any("shannon" %in% measure)) {
     Shannon <- vegan::diversity(tabund, index = "shannon")
@@ -127,14 +147,66 @@ amp_alphadiv <- function(data,
     results$Chao1 <- richness[, "S.chao1"]
     results$ACE <- richness[, "S.ACE"]
   }
-
-  # arrange by RawReads no matter if rarefied or not, remove the column if rarefy is not set
-  results <- results %>%
-    dplyr::arrange(RawReads) %>%
+  
+  if (isTRUE(plot)) {
+    setDT(results)
+    plot_data <- melt(
+      results,
+      id.vars = c(sampleIDvarname, plot_group_by),
+      measure.vars = colnames(results)[tolower(colnames(results)) %in% tolower(measure)],
+      variable.name = "measure",
+      value.name = "value"
+    )
+    ggplot(
+      plot_data,
+      aes(
+        x = if(is.null(plot_group_by)) {
+          sampleIDvarname
+        } else {
+          eval(parse(text = plot_group_by))
+        },
+        y = value
+      )
+    ) +
     {
-      if (is.null(rarefy)) dplyr::select(., -RawReads) else .
-    }
-  return(results)
+      if (!isTRUE(plot_scatter)) {
+        geom_boxplot()
+      } else if (isTRUE(plot_scatter)) {
+        geom_point()
+      }
+    } +
+    scale_fill_viridis_d(
+      option = "turbo"
+    ) +
+    facet_wrap(~measure, nrow = 1, scales = "free_y") +
+    theme_classic() +
+    theme(
+      strip.background = element_rect(
+        colour = "gray8", fill = "gray98"
+      ),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_blank(),
+      panel.grid.major.y = element_line(color = "gray70"),
+      strip.text = element_text(size = 16),
+      axis.ticks.x = element_blank(),
+      axis.text.x = if(is.null(plot_group_by)) {
+        element_blank()
+      } else {
+        element_text(angle = 45, size = 14, hjust = 1, vjust = 1)
+      },
+      axis.text.y = element_text(size = 14),
+      axis.title = element_blank()
+    )
+
+  } else {
+    # arrange by RawReads no matter if rarefied or not, remove the column if rarefy is not set
+    results <- results %>%
+      dplyr::arrange(RawReads) %>%
+      {
+        if (is.null(rarefy)) dplyr::select(., -RawReads) else .
+      }
+    return(results)
+  }
 }
 
 #' @rdname amp_alphadiv

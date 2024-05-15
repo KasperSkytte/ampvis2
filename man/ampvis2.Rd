@@ -2,6 +2,7 @@
 % Please edit documentation in R/ampvis2.R
 \docType{package}
 \name{ampvis2}
+\alias{ampvis2-package}
 \alias{ampvis2}
 \title{\code{ampvis2} package}
 \description{
@@ -9,5 +10,23 @@
 }
 \details{
 Please use the online documentation webpage at \href{https://kasperskytte.github.io/ampvis2/}{https://kasperskytte.github.io/ampvis2}
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://kasperskytte.github.io/ampvis2}
+  \item Report bugs at \url{https://github.com/kasperskytte/ampvis2/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Kasper Skytte Andersen \email{ksa@bio.aau.dk} (\href{https://orcid.org/0000-0002-5423-0958}{ORCID})
+
+Authors:
+\itemize{
+  \item Mads Albertsen \email{MadsAlbertsen85@gmail.com} (\href{https://orcid.org/0000-0002-6151-190X}{ORCID})
+  \item Rasmus Hansen Kirkegaard \email{rhk@bio.aau.dk} (\href{https://orcid.org/0000-0003-3349-3617}{ORCID})
+}
+
 }
 \keyword{internal}

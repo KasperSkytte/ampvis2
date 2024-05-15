@@ -2,7 +2,7 @@ Package: ampvis2
 Type: Package
 Title: Tools for visualising amplicon data
 Description: ampvis2 is a small set of tools that allows effortless visualisation of amplicon data.
-Version: 2.8.7
+Version: 2.8.8
 Authors@R: c(
   person(
     c("Kasper", "Skytte"), "Andersen", 
@@ -68,5 +68,5 @@ Suggests:
     doParallel,
     foreach,
     patchwork
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Config/testthat/edition: 3
