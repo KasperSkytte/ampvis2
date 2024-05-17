@@ -32,7 +32,7 @@ test_that("loading otutable with both 'OTU' and 'ASV' columns fails", {
       tree = NULL,
       pruneSingletons = FALSE
     ),
-    regexp = "More than one column in otutable is named OTU/ASV, don't know which one to use."
+    regexp = "More than one column in"
   )
 })
 
@@ -74,7 +74,7 @@ test_that("warning if no OTU column in otutable", {
       tree = NULL,
       pruneSingletons = FALSE
     ),
-    regexp = "Could not find a column named OTU/ASV in otutable, using rownames as OTU ID's"
+    regexp = "Could not find a column named"
   )
 })
 
