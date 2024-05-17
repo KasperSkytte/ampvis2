@@ -66,15 +66,18 @@ parseTaxonomy <- function(x) {
 #'
 #' @return A data frame
 #' @keywords internal
-findOTUcol <- function(x) {
+findOTUcol <- function(
+  x,
+  OTUcolname = c("OTU", "ASV", "#OTU ID")
+) {
   DF <- as.data.frame(x)
-  otucol <- tolower(colnames(DF)) %in% c("otu", "asv", "#otu id")
+  otucol <- tolower(colnames(DF)) %in% tolower(OTUcolname)
   if (sum(otucol) > 1L) {
     stop(
       paste(
         "More than one column in",
         deparse(substitute(x)),
-        "is named OTU/ASV, don't know which one to use."
+        "contains OTUs/ASVs. I don't know which one to use."
       ),
       call. = FALSE
     )
@@ -85,9 +88,16 @@ findOTUcol <- function(x) {
   } else if (!any(otucol)) {
     warning(
       paste0(
-        "Could not find a column named OTU/ASV in ",
+        "Could not find a column named ",
+        if(length(OTUcolname) > 1L) "one of \"",
+        paste(OTUcolname, collapse = ", "),
+        "\" in ",
         deparse(substitute(x)),
-        ", using rownames as OTU ID's"
+        ". Using row names as OTU ID's",
+        if(identical(rownames(DF), as.character(1:nrow(DF))))
+          ", however they seem to be just numbers and are likely made by R"
+        else
+          "."
       ),
       call. = FALSE
     )
@@ -376,6 +386,8 @@ amp_load <- function(otutable,
                      tree = NULL,
                      pruneSingletons = FALSE,
                      removeAbsentOTUs = TRUE,
+                     otutable_OTUcolname = c("OTU", "ASV", "#OTU ID"),
+                     taxonomy_OTUcolname = c("OTU", "ASV", "#OTU ID"),
                      ...) {
   ### Check whether otutable is a phyloseq object
   if(inherits(otutable, "phyloseq")) {
@@ -451,12 +463,15 @@ amp_load <- function(otutable,
   
   ### import and check otutable (with or without taxonomy)
   otutable <- import(otutable, ...)
-  otutable <- findOTUcol(otutable)
+  otutable <- findOTUcol(otutable, OTUcolname = otutable_OTUcolname)
 
   ### extract read abundances from otutable (same if taxonomy present or not)
   taxcols <- tolower(colnames(otutable)) %in% c("domain", tolower(tax_levels))
   abund <- otutable[, !taxcols, drop = FALSE]
   abund[is.na(abund)] <- 0L
+
+  if(!all(sapply(abund, is.numeric)))
+    stop("Abundance table contains non-numeric columns", call. = FALSE)
 
   # warn if any empty sample(s)
   if (any(colSums(abund) == 0L)) {
@@ -468,7 +483,7 @@ amp_load <- function(otutable,
     tax <- parseTaxonomy(otutable)
   } else if (!is.null(taxonomy)) {
     taxonomy <- import(taxonomy)
-    taxonomy <- findOTUcol(taxonomy)
+    taxonomy <- findOTUcol(taxonomy, OTUcolname = taxonomy_OTUcolname)
     tax <- parseTaxonomy(taxonomy)
 
     # check if provided otutable and taxonomy match, message with missing/excess OTUs
