@@ -4,10 +4,12 @@
 \alias{findOTUcol}
 \title{Detect OTU/ASV column in a data frame}
 \usage{
-findOTUcol(x)
+findOTUcol(x, OTUcolname = c("OTU", "ASV", "#OTU ID"))
 }
 \arguments{
 \item{x}{A data frame}
+
+\item{OTUcolname}{Character vector with columns names to search for OTUs/ASVs}
 }
 \value{
 A data frame

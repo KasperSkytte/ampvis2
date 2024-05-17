@@ -63,6 +63,7 @@ parseTaxonomy <- function(x) {
 #' @title Detect OTU/ASV column in a data frame
 #'
 #' @param x A data frame
+#' @param OTUcolname Character vector with columns names to search for OTUs/ASVs
 #'
 #' @return A data frame
 #' @keywords internal
@@ -269,7 +270,9 @@ import <- function(x, ...) {
 #' @param fasta (\emph{optional}) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (\emph{default:} \code{NULL})
 #' @param tree (\emph{optional}) Path to a phylogenetic tree file which will be read using \code{\link[ape]{read.tree}}, or an object of class \code{"phylo"}. (\emph{default:} \code{NULL})
 #' @param pruneSingletons (\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})
-#' @param removeAbsentOTUs (\emph{logical}) Remove OTU's with 0 abundance in all samples. Absent OTUs are rarely in the input data itself, but can occur when some samples are removed because of a mismatch between samples in the OTU-table and sample metadata. (\emph{default:} \code{TRUE})
+#' @param removeAbsentOTUs (\emph{logical}) Remove OTU's with 0 abundance in all samples. Absent OTUs are rarely present in the input data itself, but can occur when some samples are removed because of a mismatch between samples in the OTU-table and sample metadata. (\emph{default:} \code{TRUE})
+#' @param otutable_OTUcolname Character vector with the name(s) of the column in the otutable that contains the OTUs/ASVs.
+#' @param taxonomy_OTUcolname Character vector with the name(s) of the column in the taxonomy that contains the OTUs/ASVs.
 #' @param ... (\emph{optional}) Additional arguments are passed on to any of the file reader functions used.
 #'
 #' @return A list of class \code{"ampvis2"} with 3 to 5 elements.

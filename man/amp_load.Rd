@@ -12,6 +12,8 @@ amp_load(
   tree = NULL,
   pruneSingletons = FALSE,
   removeAbsentOTUs = TRUE,
+  otutable_OTUcolname = c("OTU", "ASV", "#OTU ID"),
+  taxonomy_OTUcolname = c("OTU", "ASV", "#OTU ID"),
   ...
 )
 }
@@ -28,7 +30,11 @@ amp_load(
 
 \item{pruneSingletons}{(\emph{logical}) Remove OTU's only observed once in all samples. (\emph{default:} \code{FALSE})}
 
-\item{removeAbsentOTUs}{(\emph{logical}) Remove OTU's with 0 abundance in all samples. Absent OTUs are rarely in the input data itself, but can occur when some samples are removed because of a mismatch between samples in the OTU-table and sample metadata. (\emph{default:} \code{TRUE})}
+\item{removeAbsentOTUs}{(\emph{logical}) Remove OTU's with 0 abundance in all samples. Absent OTUs are rarely present in the input data itself, but can occur when some samples are removed because of a mismatch between samples in the OTU-table and sample metadata. (\emph{default:} \code{TRUE})}
+
+\item{otutable_OTUcolname}{Character vector with the name(s) of the column in the otutable that contains the OTUs/ASVs.}
+
+\item{taxonomy_OTUcolname}{Character vector with the name(s) of the column in the taxonomy that contains the OTUs/ASVs.}
 
 \item{...}{(\emph{optional}) Additional arguments are passed on to any of the file reader functions used.}
 }
