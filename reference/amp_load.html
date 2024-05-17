@@ -78,6 +78,8 @@
 <span>  tree <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pruneSingletons <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  removeAbsentOTUs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  otutable_OTUcolname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OTU"</span>, <span class="st">"ASV"</span>, <span class="st">"#OTU ID"</span><span class="op">)</span>,</span>
+<span>  taxonomy_OTUcolname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OTU"</span>, <span class="st">"ASV"</span>, <span class="st">"#OTU ID"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -109,7 +111,15 @@
 
 
 <dt>removeAbsentOTUs</dt>
-<dd><p>(<em>logical</em>) Remove OTU's with 0 abundance in all samples. Absent OTUs are rarely in the input data itself, but can occur when some samples are removed because of a mismatch between samples in the OTU-table and sample metadata. (<em>default:</em> <code>TRUE</code>)</p></dd>
+<dd><p>(<em>logical</em>) Remove OTU's with 0 abundance in all samples. Absent OTUs are rarely present in the input data itself, but can occur when some samples are removed because of a mismatch between samples in the OTU-table and sample metadata. (<em>default:</em> <code>TRUE</code>)</p></dd>
+
+
+<dt>otutable_OTUcolname</dt>
+<dd><p>Character vector with the name(s) of the column in the otutable that contains the OTUs/ASVs.</p></dd>
+
+
+<dt>taxonomy_OTUcolname</dt>
+<dd><p>Character vector with the name(s) of the column in the taxonomy that contains the OTUs/ASVs.</p></dd>
 
 
 <dt>...</dt>
