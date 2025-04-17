@@ -480,7 +480,7 @@ amp_heatmap <- function(data,
 
     if (plot_values == TRUE) {
       abund8 <- abund7
-      abund8$Abundance <- round(abund8$Abundance, round)
+      abund8$Abundance <- formatC(round(abund8$Abundance, round), format='f', digits=round)
       heatmap <- heatmap + geom_text(data = abund8, size = plot_values_size, colour = "grey10", check_overlap = TRUE) +
         theme(legend.position = "none")
     }
