@@ -9,7 +9,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -43,25 +43,25 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Network plot</h1>
-    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_otu_network.R" class="external-link"><code>R/amp_otu_network.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/main/R/amp_otu_network.R" class="external-link"><code>R/amp_otu_network.R</code></a></small>
     <div class="hidden name"><code>amp_otu_network.Rd</code></div>
     </div>
 
@@ -86,54 +86,54 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
+
+
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
 
 
-<dt>min_abundance</dt>
+<dt id="arg-min-abundance">min_abundance<a class="anchor" aria-label="anchor" href="#arg-min-abundance"></a></dt>
 <dd><p>Minimum taxa abundance pr. sample. (<em>default:</em> <code>0</code>)</p></dd>
 
 
-<dt>color_by</dt>
+<dt id="arg-color-by">color_by<a class="anchor" aria-label="anchor" href="#arg-color-by"></a></dt>
 <dd><p>A metadata variable to color the samples by.</p></dd>
 
 
-<dt>tax_aggregate</dt>
+<dt id="arg-tax-aggregate">tax_aggregate<a class="anchor" aria-label="anchor" href="#arg-tax-aggregate"></a></dt>
 <dd><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"Phylum"</code>)</p></dd>
 
 
-<dt>tax_add</dt>
+<dt id="arg-tax-add">tax_add<a class="anchor" aria-label="anchor" href="#arg-tax-add"></a></dt>
 <dd><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></dd>
 
 
-<dt>tax_show</dt>
+<dt id="arg-tax-show">tax_show<a class="anchor" aria-label="anchor" href="#arg-tax-show"></a></dt>
 <dd><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>10</code>)</p></dd>
 
 
-<dt>tax_class</dt>
+<dt id="arg-tax-class">tax_class<a class="anchor" aria-label="anchor" href="#arg-tax-class"></a></dt>
 <dd><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></dd>
 
 
-<dt>tax_empty</dt>
+<dt id="arg-tax-empty">tax_empty<a class="anchor" aria-label="anchor" href="#arg-tax-empty"></a></dt>
 <dd><p>How to show OTUs without taxonomic information. One of the following:</p><ul><li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
 <li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
 <li><p><code>"OTU"</code>: Display the OTU name.</p></li>
 </ul></dd>
 
 
-<dt>normalise</dt>
+<dt id="arg-normalise">normalise<a class="anchor" aria-label="anchor" href="#arg-normalise"></a></dt>
 <dd><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional arguments passed on to <code><a href="https://ggobi.github.io/ggally/reference/ggnet2.html" class="external-link">ggnet2</a></code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
+    <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -141,7 +141,7 @@
     </div>
     <div id="preserving-relative-abundances-in-a-subset-of-larger-data">
     <h2>Preserving relative abundances in a subset of larger data</h2>
-    
+
 
 <p>See <code>?<a href="amp_filter_samples.html">amp_filter_samples</a></code> or the <a href="https://kasperskytte.github.io/ampvis2/articles/faq.html#preserving-relative-abundances-in-a-subset-of-larger-data">ampvis2 FAQ</a>.</p>
     </div>
@@ -166,7 +166,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   method from   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   +.gg   ggplot2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ‘network’ 1.18.2 (2023-12-04), part of the Statnet Project</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ‘network’ 1.19.0 (2024-12-08), part of the Statnet Project</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> * ‘news(package="network")’ for changes since last version</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> * ‘citation("network")’ for citation information</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> * ‘https://statnet.org’ for help, support, and other information</span>
@@ -176,7 +176,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     attr, order</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> sna: Tools for Social Network Analysis</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Version 2.7-2 created on 2023-12-05.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Version 2.8 created on 2024-09-07.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> copyright (c) 2005, Carter T. Butts, University of California-Irvine</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  For citation information, type citation("sna").</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  Type help(package="sna") to get started.</span>
@@ -200,16 +200,16 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b0ba3a3eb751685982ccf010113f380a',
     indexName: 'ampvis2',
     inputSelector: 'input#search-input.form-control',

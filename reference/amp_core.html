@@ -9,7 +9,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -43,25 +43,25 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Grouped core community analysis</h1>
-    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_core.R" class="external-link"><code>R/amp_core.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/main/R/amp_core.R" class="external-link"><code>R/amp_core.R</code></a></small>
     <div class="hidden name"><code>amp_core.Rd</code></div>
     </div>
 
@@ -83,19 +83,21 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
+
+
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
 
 
-<dt>group_by</dt>
+<dt id="arg-group-by">group_by<a class="anchor" aria-label="anchor" href="#arg-group-by"></a></dt>
 <dd><p>(<em>required</em>) Character vector of one or more variable name(s) in the sample metadata which contain the desired grouping of samples, fx where the samples have been taken. Can also be done by sample, just provide the name of the first variable containing unique sample ID's if so.</p></dd>
 
 
-<dt>core_pct</dt>
+<dt id="arg-core-pct">core_pct<a class="anchor" aria-label="anchor" href="#arg-core-pct"></a></dt>
 <dd><p>Threshold in percent for defining "abundant" a.k.a. "core" OTU's for each group. (<em>default:</em> <code>80</code>)</p></dd>
 
 
-<dt>margin_plots</dt>
+<dt id="arg-margin-plots">margin_plots<a class="anchor" aria-label="anchor" href="#arg-margin-plots"></a></dt>
 <dd><p>Character vector defining which margin plots to show. Margin plots display the cumulative read abundances of all OTU's per group sharing either x or y axis with the main plot. Any of:</p><ul><li><p><code>"x"</code>: Only show x axis margin plot.</p></li>
 <li><p><code>"y"</code>: Only show y axis margin plot.</p></li>
 <li><p><code>"xy"</code> (<em>default</em>): Show both x and y margin plots.</p></li>
@@ -103,23 +105,21 @@
 </ul></dd>
 
 
-<dt>margin_plot_values_size</dt>
+<dt id="arg-margin-plot-values-size">margin_plot_values_size<a class="anchor" aria-label="anchor" href="#arg-margin-plot-values-size"></a></dt>
 <dd><p>The size of the values indicated in the margin plots on top of the bars. Set to <code>0</code> to disable. (<em>default:</em> <code>3</code>)</p></dd>
 
 
-<dt>widths</dt>
+<dt id="arg-widths">widths<a class="anchor" aria-label="anchor" href="#arg-widths"></a></dt>
 <dd><p>Numeric vector with relative widths of the main and y margin plots. (<em>default:</em> <code>c(5,1)</code>)</p></dd>
 
 
-<dt>heights</dt>
+<dt id="arg-heights">heights<a class="anchor" aria-label="anchor" href="#arg-heights"></a></dt>
 <dd><p>Numeric vector with relative widths of the main and x margin plots. (<em>default:</em> <code>c(1,5)</code>)</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>If no margin plots a <code>ggplot</code> object, otherwise a list with ggplot objects.</p>
+    <p>If no margin plots a <code>ggplot</code> object, otherwise a list with ggplot objects.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -127,7 +127,7 @@
     </div>
     <div id="saving-plot-with-ggsave">
     <h2>Saving plot with <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggsave</a></code></h2>
-    
+
 
 <p>When any margin plots are generated <code>amp_core</code> returns a list of ggplot objects to allow adjusting themes etc. of the individual subplots. The list is of class <code>coreplot</code> and a matching print function for the S3 class then stitches together the individual plots using the <a href="https://patchwork.data-imaginist.com/" class="external-link">patchwork</a> package. Therefore to save the plot with <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggsave</a></code> simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if no margin plots are generated, as the returned object is then a regular ggplot object.</p>
     </div>
@@ -188,16 +188,16 @@ Saunders, Aaron M; Albertsen, Mads; Vollertsen, Jes; Nielsen, Per H (2016): "The
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b0ba3a3eb751685982ccf010113f380a',
     indexName: 'ampvis2',
     inputSelector: 'input#search-input.form-control',

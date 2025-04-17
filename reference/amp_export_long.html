@@ -9,7 +9,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -43,25 +43,25 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Transform ampvis2 objects into a long-format data frame</h1>
-    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_export_long.R" class="external-link"><code>R/amp_export_long.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/main/R/amp_export_long.R" class="external-link"><code>R/amp_export_long.R</code></a></small>
     <div class="hidden name"><code>amp_export_long.Rd</code></div>
     </div>
 
@@ -79,23 +79,23 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
+
+
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
 
 
-<dt>metadata_vars</dt>
+<dt id="arg-metadata-vars">metadata_vars<a class="anchor" aria-label="anchor" href="#arg-metadata-vars"></a></dt>
 <dd><p>A character vector of sample metadata variables to include from <code>data$metadata</code>, or <code>NULL</code>. The first column (sample IDs) will always be included. Default includes all.</p></dd>
 
 
-<dt>tax_levels</dt>
+<dt id="arg-tax-levels">tax_levels<a class="anchor" aria-label="anchor" href="#arg-tax-levels"></a></dt>
 <dd><p>A character vector of taxonomic levels to include from <code>data$tax</code>, or <code>NULL</code>. The OTU column will always be included. Default includes all.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A <code>data.table</code> in long format.</p>
+    <p>A <code>data.table</code> in long format.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -210,16 +210,16 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b0ba3a3eb751685982ccf010113f380a',
     indexName: 'ampvis2',
     inputSelector: 'input#search-input.form-control',

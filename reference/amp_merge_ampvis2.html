@@ -9,7 +9,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -43,25 +43,25 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Merge ampvis2 object(s)</h1>
-    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_merge_ampvis2.R" class="external-link"><code>R/amp_merge_ampvis2.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/main/R/amp_merge_ampvis2.R" class="external-link"><code>R/amp_merge_ampvis2.R</code></a></small>
     <div class="hidden name"><code>amp_merge_ampvis2.Rd</code></div>
     </div>
 
@@ -81,31 +81,31 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>...</dt>
+
+
+<dl><dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>(required) Any number of ampvis2-class objects to merge</p></dd>
 
 
-<dt>by_refseq</dt>
+<dt id="arg-by-refseq">by_refseq<a class="anchor" aria-label="anchor" href="#arg-by-refseq"></a></dt>
 <dd><p>(recommended) Merge by exact matches between DNA reference sequences. The full DNA sequences will then be used as the new names in the output. (<em>default:</em> <code>TRUE</code>)</p></dd>
 
 
-<dt>refseq_names</dt>
+<dt id="arg-refseq-names">refseq_names<a class="anchor" aria-label="anchor" href="#arg-refseq-names"></a></dt>
 <dd><p>Path to a FASTA file or a <code>DNAbin</code> class object with sequences whose names will be used as OTU names by exact matches (i.e. same length, 100% sequence identity). (<em>default:</em> <code>NULL</code>)</p></dd>
 
 
-<dt>rename_unmatched</dt>
+<dt id="arg-rename-unmatched">rename_unmatched<a class="anchor" aria-label="anchor" href="#arg-rename-unmatched"></a></dt>
 <dd><p>Whether to rename any unmatched sequences or not when <code>refseq_names</code> is provided. (<em>default:</em> <code>TRUE</code>)</p></dd>
 
 
-<dt>unmatched_prefix</dt>
+<dt id="arg-unmatched-prefix">unmatched_prefix<a class="anchor" aria-label="anchor" href="#arg-unmatched-prefix"></a></dt>
 <dd><p>Prefix used to name any unmatched sequences when <code>refseq_names</code> is provided. An integer counting from 1 will be appended to this prefix, so for example the 123th unmatched sequence will be named <code>unmatched123</code>, and so on. (<em>default:</em> <code>"unmatched"</code>)</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>An ampvis2-class object</p>
+    <p>An ampvis2-class object</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -200,16 +200,16 @@ When <code>by_refseq = TRUE</code> the full DNA sequences will be used as the ne
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b0ba3a3eb751685982ccf010113f380a',
     indexName: 'ampvis2',
     inputSelector: 'input#search-input.form-control',

@@ -9,7 +9,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -43,25 +43,25 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Subset ampvis2 objects based on taxonomy</h1>
-    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_filter_taxa.R" class="external-link"><code>R/amp_filter_taxa.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/main/R/amp_filter_taxa.R" class="external-link"><code>R/amp_filter_taxa.R</code></a></small>
     <div class="hidden name"><code>amp_filter_taxa.Rd</code></div>
     </div>
 
@@ -77,27 +77,27 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
+
+
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
 
 
-<dt>tax_vector</dt>
+<dt id="arg-tax-vector">tax_vector<a class="anchor" aria-label="anchor" href="#arg-tax-vector"></a></dt>
 <dd><p>A character vector with the exact names of taxa to keep. This vector is matched as-is on all taxonomic ranks, so remember to use prefixes if used in your taxonomy, e.g. <code>c("p__Chloroflexi","p__Actinobacteria")</code>. (<em>default:</em> <code>NULL</code>)</p></dd>
 
 
-<dt>normalise</dt>
+<dt id="arg-normalise">normalise<a class="anchor" aria-label="anchor" href="#arg-normalise"></a></dt>
 <dd><p>(<em>logical</em>) Normalise the OTU read counts to 100 (ie percent) per sample <em>BEFORE</em> the subset. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>remove</dt>
+<dt id="arg-remove">remove<a class="anchor" aria-label="anchor" href="#arg-remove"></a></dt>
 <dd><p>(<em>logical</em>) If set to TRUE, then the taxa matching the provided vector will be removed instead of being the only ones kept in the data. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A modifed ampvis2 object</p>
+    <p>A modifed ampvis2 object</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -105,7 +105,7 @@
     </div>
     <div id="preserving-relative-abundances-in-a-subset-of-larger-data">
     <h2>Preserving relative abundances in a subset of larger data</h2>
-    
+
 
 <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code><a href="amp_heatmap.html">amp_heatmap</a></code>, <code><a href="amp_timeseries.html">amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code>amp_filter_taxa</code> and <code><a href="amp_filter_samples.html">amp_filter_samples</a></code> functions, and then set <code>raw = TRUE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>raw = TRUE</code> will skip the transformation in the plotting function, see the example below.</p>
 <div class="sourceCode"><pre><code><span></span>
@@ -199,16 +199,16 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b0ba3a3eb751685982ccf010113f380a',
     indexName: 'ampvis2',
     inputSelector: 'input#search-input.form-control',

@@ -9,7 +9,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -43,25 +43,25 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Ordination plot</h1>
-    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_ordinate.R" class="external-link"><code>R/amp_ordinate.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/main/R/amp_ordinate.R" class="external-link"><code>R/amp_ordinate.R</code></a></small>
     <div class="hidden name"><code>amp_ordinate.Rd</code></div>
     </div>
 
@@ -121,15 +121,17 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
+
+
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
 
 
-<dt>filter_species</dt>
+<dt id="arg-filter-species">filter_species<a class="anchor" aria-label="anchor" href="#arg-filter-species"></a></dt>
 <dd><p>Remove low abundant OTU's across all samples below this threshold in percent. Setting this to 0 may drastically increase computation time. (<em>default</em>: <code>0.1</code>)</p></dd>
 
 
-<dt>type</dt>
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>(<em>required</em>) Type of ordination method. One of:</p><ul><li><p><code>"PCA"</code>: (<em>default</em>) Principal Components Analysis</p></li>
 <li><p><code>"RDA"</code>: Redundancy Analysis (considered the constrained version of PCA)</p></li>
 <li><p><code>"CA"</code>: Correspondence Analysis</p></li>
@@ -140,7 +142,7 @@
 </ul><p><em>Note that PCoA is not performed by the vegan package, but the <code><a href="https://rdrr.io/pkg/ape/man/pcoa.html" class="external-link">pcoa</a></code> function from the APE package.</em></p></dd>
 
 
-<dt>distmeasure</dt>
+<dt id="arg-distmeasure">distmeasure<a class="anchor" aria-label="anchor" href="#arg-distmeasure"></a></dt>
 <dd><p>(<em>required for nMDS and PCoA</em>) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:</p><ul><li><p><code>"wunifrac"</code> (PCoA only): Weighted UniFrac distances. Requires a rooted phylogenetic tree.</p></li>
 <li><p><code>"unifrac"</code> (PCoA only): Unweighted UniFrac distances. Requires a phylogenetic tree.</p></li>
 <li><p><code>"jsd"</code> (PCoA only): Jensen-Shannon Divergence, based on <a href="http://enterotype.embl.de/enterotypes.html" class="external-link">http://enterotype.embl.de/enterotypes.html</a>.</p></li>
@@ -149,178 +151,176 @@
 Default is <code>bray</code>.</p></dd>
 
 
-<dt>transform</dt>
+<dt id="arg-transform">transform<a class="anchor" aria-label="anchor" href="#arg-transform"></a></dt>
 <dd><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href="https://rdrr.io/pkg/vegan/man/decostand.html" class="external-link">decostand</a></code>. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (<em>default:</em> <code>"hellinger"</code>)</p></dd>
 
 
-<dt>constrain</dt>
+<dt id="arg-constrain">constrain<a class="anchor" aria-label="anchor" href="#arg-constrain"></a></dt>
 <dd><p>(<em>required for RDA and CCA</em>) Variable(s) in the metadata for constrained analyses (RDA and CCA). Multiple variables can be provided by a vector, fx <code>c("Year", "Temperature")</code>, but keep in mind that the more variables selected the more the result will be similar to unconstrained analysis.</p></dd>
 
 
-<dt>x_axis</dt>
+<dt id="arg-x-axis">x_axis<a class="anchor" aria-label="anchor" href="#arg-x-axis"></a></dt>
 <dd><p>(<em>integer</em>) Which axis from the ordination results to plot as the first axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. With nMDS the number of dimensions (<code>k</code> argument to the <code><a href="https://rdrr.io/pkg/vegan/man/metaMDS.html" class="external-link">metaMDS</a></code> function) is set to that of the highest number of either <code>x_axis</code> or <code>y_axis</code>. (<em>default:</em> <code>1</code>)</p></dd>
 
 
-<dt>y_axis</dt>
+<dt id="arg-y-axis">y_axis<a class="anchor" aria-label="anchor" href="#arg-y-axis"></a></dt>
 <dd><p>(<em>integer</em>) Which axis from the ordination results to plot as the second axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. With nMDS the number of dimensions (<code>k</code> argument to the <code><a href="https://rdrr.io/pkg/vegan/man/metaMDS.html" class="external-link">metaMDS</a></code> function) is set to that of the highest number of either <code>x_axis</code> or <code>y_axis</code>. (<em>default:</em> <code>2</code>)</p></dd>
 
 
-<dt>print_caption</dt>
+<dt id="arg-print-caption">print_caption<a class="anchor" aria-label="anchor" href="#arg-print-caption"></a></dt>
 <dd><p>Auto-generate a figure caption based on the arguments used. The caption includes a description of how the result has been generated as well as references for the methods used.</p></dd>
 
 
-<dt>sample_color_by</dt>
+<dt id="arg-sample-color-by">sample_color_by<a class="anchor" aria-label="anchor" href="#arg-sample-color-by"></a></dt>
 <dd><p>Color sample points by a variable in the metadata.</p></dd>
 
 
-<dt>sample_color_order</dt>
+<dt id="arg-sample-color-order">sample_color_order<a class="anchor" aria-label="anchor" href="#arg-sample-color-order"></a></dt>
 <dd><p>Order the colors in <code>sample_color_by</code> by the order in a vector.</p></dd>
 
 
-<dt>sample_shape_by</dt>
+<dt id="arg-sample-shape-by">sample_shape_by<a class="anchor" aria-label="anchor" href="#arg-sample-shape-by"></a></dt>
 <dd><p>Shape sample points by a variable in the metadata.</p></dd>
 
 
-<dt>sample_colorframe</dt>
+<dt id="arg-sample-colorframe">sample_colorframe<a class="anchor" aria-label="anchor" href="#arg-sample-colorframe"></a></dt>
 <dd><p>Frame the sample points with a polygon by a variable in the metadata split by the variable defined by <code>sample_color_by</code>, or simply <code>TRUE</code> to frame the points colored by <code>sample_color_by</code>. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>sample_colorframe_label</dt>
+<dt id="arg-sample-colorframe-label">sample_colorframe_label<a class="anchor" aria-label="anchor" href="#arg-sample-colorframe-label"></a></dt>
 <dd><p>Label by a variable in the metadata.</p></dd>
 
 
-<dt>sample_colorframe_label_size</dt>
+<dt id="arg-sample-colorframe-label-size">sample_colorframe_label_size<a class="anchor" aria-label="anchor" href="#arg-sample-colorframe-label-size"></a></dt>
 <dd><p>Size of the color frame labels. (<em>default:</em> <code>3</code>)</p></dd>
 
 
-<dt>sample_label_by</dt>
+<dt id="arg-sample-label-by">sample_label_by<a class="anchor" aria-label="anchor" href="#arg-sample-label-by"></a></dt>
 <dd><p>Label sample points by a variable in the metadata.</p></dd>
 
 
-<dt>sample_label_size</dt>
+<dt id="arg-sample-label-size">sample_label_size<a class="anchor" aria-label="anchor" href="#arg-sample-label-size"></a></dt>
 <dd><p>Sample labels text size. (<em>default:</em> <code>4</code>)</p></dd>
 
 
-<dt>sample_label_segment_color</dt>
+<dt id="arg-sample-label-segment-color">sample_label_segment_color<a class="anchor" aria-label="anchor" href="#arg-sample-label-segment-color"></a></dt>
 <dd><p>Sample labels repel-segment color. (<em>default:</em> <code>"black"</code>)</p></dd>
 
 
-<dt>sample_point_size</dt>
+<dt id="arg-sample-point-size">sample_point_size<a class="anchor" aria-label="anchor" href="#arg-sample-point-size"></a></dt>
 <dd><p>Size of the sample points. (<em>default:</em> <code>2</code>)</p></dd>
 
 
-<dt>sample_trajectory</dt>
+<dt id="arg-sample-trajectory">sample_trajectory<a class="anchor" aria-label="anchor" href="#arg-sample-trajectory"></a></dt>
 <dd><p>Make a trajectory between sample points by a variable in the metadata.</p></dd>
 
 
-<dt>sample_trajectory_group</dt>
+<dt id="arg-sample-trajectory-group">sample_trajectory_group<a class="anchor" aria-label="anchor" href="#arg-sample-trajectory-group"></a></dt>
 <dd><p>Make a trajectory between sample points by the <code>sample_trajectory</code> argument, but within individual groups.</p></dd>
 
 
-<dt>sample_plotly</dt>
+<dt id="arg-sample-plotly">sample_plotly<a class="anchor" aria-label="anchor" href="#arg-sample-plotly"></a></dt>
 <dd><p>Enable interactive sample points so that they can be hovered to show additional information from the metadata. Provide a vector of the metadata variables to show, or <code>"all"</code> to display all. Click or double click the elements in the legend to hide/show parts of the data. To hide the legend use <code>plotly::layout(amp_ordinate(...), showlegend = FALSE)</code>, see more options at <a href="https://plot.ly/r/" class="external-link">https://plot.ly/r/</a>.</p></dd>
 
 
-<dt>species_plot</dt>
+<dt id="arg-species-plot">species_plot<a class="anchor" aria-label="anchor" href="#arg-species-plot"></a></dt>
 <dd><p>(<em>logical</em>) Plot species points or not. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>species_nlabels</dt>
+<dt id="arg-species-nlabels">species_nlabels<a class="anchor" aria-label="anchor" href="#arg-species-nlabels"></a></dt>
 <dd><p>Number of the most extreme species labels to plot (ordered by the sum of the numerical values of the x,y coordinates. Only makes sense with PCA/RDA).</p></dd>
 
 
-<dt>species_label_taxonomy</dt>
+<dt id="arg-species-label-taxonomy">species_label_taxonomy<a class="anchor" aria-label="anchor" href="#arg-species-label-taxonomy"></a></dt>
 <dd><p>Taxonomic level by which to label the species points. (<em>default:</em> <code>"Genus"</code>)</p></dd>
 
 
-<dt>species_label_size</dt>
+<dt id="arg-species-label-size">species_label_size<a class="anchor" aria-label="anchor" href="#arg-species-label-size"></a></dt>
 <dd><p>Size of the species text labels. (<em>default:</em> <code>3</code>)</p></dd>
 
 
-<dt>species_label_color</dt>
+<dt id="arg-species-label-color">species_label_color<a class="anchor" aria-label="anchor" href="#arg-species-label-color"></a></dt>
 <dd><p>Color of the species text labels. (<em>default:</em> <code>"grey10"</code>)</p></dd>
 
 
-<dt>species_rescale</dt>
+<dt id="arg-species-rescale">species_rescale<a class="anchor" aria-label="anchor" href="#arg-species-rescale"></a></dt>
 <dd><p>(<em>logical</em>) Rescale species points or not. Basically they will be multiplied by 0.8, for visual convenience only. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>species_point_size</dt>
+<dt id="arg-species-point-size">species_point_size<a class="anchor" aria-label="anchor" href="#arg-species-point-size"></a></dt>
 <dd><p>Size of the species points. (<em>default:</em> <code>2</code>)</p></dd>
 
 
-<dt>species_shape</dt>
+<dt id="arg-species-shape">species_shape<a class="anchor" aria-label="anchor" href="#arg-species-shape"></a></dt>
 <dd><p>The shape of the species points, fx <code>1</code> for hollow circles or <code>20</code> for dots. (<em>default:</em> <code>20</code>)</p></dd>
 
 
-<dt>species_plotly</dt>
+<dt id="arg-species-plotly">species_plotly<a class="anchor" aria-label="anchor" href="#arg-species-plotly"></a></dt>
 <dd><p>(<em>logical</em>) Enable interactive species points so that they can be hovered to show complete taxonomic information. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>envfit_factor</dt>
+<dt id="arg-envfit-factor">envfit_factor<a class="anchor" aria-label="anchor" href="#arg-envfit-factor"></a></dt>
 <dd><p>A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in <code><a href="https://rdrr.io/pkg/vegan/man/envfit.html" class="external-link">envfit</a></code>.</p></dd>
 
 
-<dt>envfit_numeric</dt>
+<dt id="arg-envfit-numeric">envfit_numeric<a class="anchor" aria-label="anchor" href="#arg-envfit-numeric"></a></dt>
 <dd><p>A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in <code><a href="https://rdrr.io/pkg/vegan/man/envfit.html" class="external-link">envfit</a></code>.</p></dd>
 
 
-<dt>envfit_signif_level</dt>
+<dt id="arg-envfit-signif-level">envfit_signif_level<a class="anchor" aria-label="anchor" href="#arg-envfit-signif-level"></a></dt>
 <dd><p>The significance threshold for displaying the results of <code>envfit_factor</code> or <code>envfit_numeric</code>. (<em>default:</em> <code>0.005</code>)</p></dd>
 
 
-<dt>envfit_textsize</dt>
+<dt id="arg-envfit-textsize">envfit_textsize<a class="anchor" aria-label="anchor" href="#arg-envfit-textsize"></a></dt>
 <dd><p>Size of the envfit text on the plot. (<em>default:</em> <code>3</code>)</p></dd>
 
 
-<dt>envfit_textcolor</dt>
+<dt id="arg-envfit-textcolor">envfit_textcolor<a class="anchor" aria-label="anchor" href="#arg-envfit-textcolor"></a></dt>
 <dd><p>Color of the envfit text on the plot. (<em>default:</em> <code>"darkred"</code>)</p></dd>
 
 
-<dt>envfit_numeric_arrows_scale</dt>
+<dt id="arg-envfit-numeric-arrows-scale">envfit_numeric_arrows_scale<a class="anchor" aria-label="anchor" href="#arg-envfit-numeric-arrows-scale"></a></dt>
 <dd><p>Scale the size of the numeric arrows. (<em>default:</em> <code>1</code>)</p></dd>
 
 
-<dt>envfit_arrowcolor</dt>
+<dt id="arg-envfit-arrowcolor">envfit_arrowcolor<a class="anchor" aria-label="anchor" href="#arg-envfit-arrowcolor"></a></dt>
 <dd><p>Color of the envfit arrows on the plot. (<em>default:</em> <code>"darkred"</code>)</p></dd>
 
 
-<dt>envfit_show</dt>
+<dt id="arg-envfit-show">envfit_show<a class="anchor" aria-label="anchor" href="#arg-envfit-show"></a></dt>
 <dd><p>(<em>logical</em>) Show the results on the plot or not. (<em>default:</em> <code>TRUE</code>)</p></dd>
 
 
-<dt>repel_labels</dt>
+<dt id="arg-repel-labels">repel_labels<a class="anchor" aria-label="anchor" href="#arg-repel-labels"></a></dt>
 <dd><p>(<em>logical</em>) Repel all labels to prevent cluttering of the plot. (<em>default:</em> <code>TRUE</code>)</p></dd>
 
 
-<dt>opacity</dt>
+<dt id="arg-opacity">opacity<a class="anchor" aria-label="anchor" href="#arg-opacity"></a></dt>
 <dd><p>Opacity of all plotted points and sample_colorframe. <code>0</code>: invisible, <code>1</code>: opaque. (<em>default:</em> <code>0.8</code>)</p></dd>
 
 
-<dt>tax_empty</dt>
+<dt id="arg-tax-empty">tax_empty<a class="anchor" aria-label="anchor" href="#arg-tax-empty"></a></dt>
 <dd><p>How to show OTUs without taxonomic information. One of the following:</p><ul><li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
 <li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
 <li><p><code>"OTU"</code>: Display the OTU name.</p></li>
 </ul></dd>
 
 
-<dt>detailed_output</dt>
+<dt id="arg-detailed-output">detailed_output<a class="anchor" aria-label="anchor" href="#arg-detailed-output"></a></dt>
 <dd><p>(<em>logical</em>) Return additional details or not (model, scores, figure caption, inputmatrix, screeplot etc). If <code>TRUE</code>, it is recommended to save to an object and then access the additional data by <code>View(object$data)</code>. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>num_threads</dt>
+<dt id="arg-num-threads">num_threads<a class="anchor" aria-label="anchor" href="#arg-num-threads"></a></dt>
 <dd><p>The number of threads to use whereever in the code parallelisation is possible. Any parallel computation is being performed by using <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></code>. (<em>default:</em> <code>1</code>)</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Pass additional arguments to the vegan ordination functions, fx the <code><a href="https://rdrr.io/pkg/vegan/man/cca.html" class="external-link">rda</a></code>, <code><a href="https://rdrr.io/pkg/vegan/man/cca.html" class="external-link">cca</a></code>, <code><a href="https://rdrr.io/pkg/vegan/man/metaMDS.html" class="external-link">metaMDS</a></code> functions, see the documentation.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
+    <p>A ggplot2 object. If <code>detailed_output = TRUE</code> a list with a ggplot2 object and additional data.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -334,7 +334,7 @@ Default is <code>bray</code>.</p></dd>
     </div>
     <div id="using-a-custom-distance-matrix">
     <h2>Using a custom distance matrix</h2>
-    
+
 
 <p>If you wan't to calculate a distance matrix manually and use it for PCoA or nMDS in <code>amp_ordinate</code>, it can be done by setting <code>filter_species = 0</code>, <code>transform = "none"</code>, <code>distmeasure = "none"</code>, and then override the abundance table (<code>$abund</code>) in the ampvis2 object, like below. The matrix must be a symmetrical matrix containing coefficients for all pairs of samples in the data.</p><div class="sourceCode"><pre><code><span></span>
 <span><span class="co">#Override the abundance table in the ampvis2 object with a custom distance matrix</span></span>
@@ -379,7 +379,7 @@ Default is <code>bray</code>.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Before: 9430 OTUs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> After: 802 OTUs</span>
 <span class="r-plt img"><img src="amp_ordinate-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># Interactive CCA with data transformation constrained to seasonal period</span></span></span>
 <span class="r-in"><span><span class="fu">amp_ordinate</span><span class="op">(</span><span class="va">AalborgWWTPs</span>,</span></span>
 <span class="r-in"><span>  type <span class="op">=</span> <span class="st">"CCA"</span>,</span></span>
@@ -390,7 +390,7 @@ Default is <code>bray</code>.</p></dd>
 <span class="r-in"><span>  sample_colorframe_label <span class="op">=</span> <span class="st">"Period"</span>,</span></span>
 <span class="r-in"><span>  sample_plotly <span class="op">=</span> <span class="st">"all"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -405,16 +405,16 @@ Default is <code>bray</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b0ba3a3eb751685982ccf010113f380a',
     indexName: 'ampvis2',
     inputSelector: 'input#search-input.form-control',

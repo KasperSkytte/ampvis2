@@ -9,7 +9,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -43,25 +43,25 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Octave plot</h1>
-    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_octave.R" class="external-link"><code>R/amp_octave.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/main/R/amp_octave.R" class="external-link"><code>R/amp_octave.R</code></a></small>
     <div class="hidden name"><code>amp_octave.Rd</code></div>
     </div>
 
@@ -81,31 +81,31 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
+
+
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
 
 
-<dt>tax_aggregate</dt>
+<dt id="arg-tax-aggregate">tax_aggregate<a class="anchor" aria-label="anchor" href="#arg-tax-aggregate"></a></dt>
 <dd><p>Aggregate (sum) OTU's to a specific taxonomic level initially. OTU's that have not been assigned at the chosen level will be removed with a message. (<em>default:</em> <code>"OTU"</code>)</p></dd>
 
 
-<dt>group_by</dt>
+<dt id="arg-group-by">group_by<a class="anchor" aria-label="anchor" href="#arg-group-by"></a></dt>
 <dd><p>Group the samples based on a categorical/discrete variable in the metadata. It is recommended to look at samples individually. Can be a character vector with variable names as-is or a numerical vector with variable positions in the metadata of any length. Set to <code>NULL</code> for grouping all samples together (not recommended). (<em>default:</em> <code>1</code>)</p></dd>
 
 
-<dt>scales</dt>
+<dt id="arg-scales">scales<a class="anchor" aria-label="anchor" href="#arg-scales"></a></dt>
 <dd><p>If <code>group_by</code> is set, should the axis scales of each subplot be fixed (<code>fixed</code>), free (<code>"free"</code>), or free in one dimension (<code>"free_x"</code> or <code>"free_y"</code>)? (<em>default:</em> <code>"fixed"</code>)</p></dd>
 
 
-<dt>num_threads</dt>
+<dt id="arg-num-threads">num_threads<a class="anchor" aria-label="anchor" href="#arg-num-threads"></a></dt>
 <dd><p>Maximum number of distinct groups as defined by <code>group_by</code> to process simultaneously using multicore processors. Only used if <code>group_by</code> is set and there are more than one distinct group in the given variable(s). Default is the number of available cores minus 1.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A ggplot2 object</p>
+    <p>A ggplot2 object</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -165,16 +165,16 @@ It is better to identify "bad" samples individually and remove them.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b0ba3a3eb751685982ccf010113f380a',
     indexName: 'ampvis2',
     inputSelector: 'input#search-input.form-control',

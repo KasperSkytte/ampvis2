@@ -9,7 +9,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -43,25 +43,25 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Heatmap</h1>
-    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_heatmap.R" class="external-link"><code>R/amp_heatmap.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/main/R/amp_heatmap.R" class="external-link"><code>R/amp_heatmap.R</code></a></small>
     <div class="hidden name"><code>amp_heatmap.Rd</code></div>
     </div>
 
@@ -106,138 +106,138 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
+
+
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
 
 
-<dt>group_by</dt>
+<dt id="arg-group-by">group_by<a class="anchor" aria-label="anchor" href="#arg-group-by"></a></dt>
 <dd><p>(<em>recommended</em>) Group the samples by a categorical variable in the metadata. If <code>NULL</code> then all samples are shown.</p></dd>
 
 
-<dt>facet_by</dt>
+<dt id="arg-facet-by">facet_by<a class="anchor" aria-label="anchor" href="#arg-facet-by"></a></dt>
 <dd><p>Facet the samples by a categorical variable in the metadata.</p></dd>
 
 
-<dt>normalise</dt>
+<dt id="arg-normalise">normalise<a class="anchor" aria-label="anchor" href="#arg-normalise"></a></dt>
 <dd><p>(<em>logical</em>) Transform the OTU read counts to be in percent per sample. (<em>default:</em> <code>TRUE</code>)</p></dd>
 
 
-<dt>tax_aggregate</dt>
+<dt id="arg-tax-aggregate">tax_aggregate<a class="anchor" aria-label="anchor" href="#arg-tax-aggregate"></a></dt>
 <dd><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"Phylum"</code>)</p></dd>
 
 
-<dt>tax_add</dt>
+<dt id="arg-tax-add">tax_add<a class="anchor" aria-label="anchor" href="#arg-tax-add"></a></dt>
 <dd><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></dd>
 
 
-<dt>tax_show</dt>
+<dt id="arg-tax-show">tax_show<a class="anchor" aria-label="anchor" href="#arg-tax-show"></a></dt>
 <dd><p>The number of taxa to show, or a vector of taxa names. (<em>default:</em> <code>10</code>)</p></dd>
 
 
-<dt>showRemainingTaxa</dt>
+<dt id="arg-showremainingtaxa">showRemainingTaxa<a class="anchor" aria-label="anchor" href="#arg-showremainingtaxa"></a></dt>
 <dd><p>Add an additional row at the bottom displaying the sum of all remaining taxa that are not part of the top <code>tax_show</code> most abundant taxa. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>tax_class</dt>
+<dt id="arg-tax-class">tax_class<a class="anchor" aria-label="anchor" href="#arg-tax-class"></a></dt>
 <dd><p>Converts a specific phylum to class level instead, e.g. <code>"p__Proteobacteria"</code>.</p></dd>
 
 
-<dt>tax_empty</dt>
+<dt id="arg-tax-empty">tax_empty<a class="anchor" aria-label="anchor" href="#arg-tax-empty"></a></dt>
 <dd><p>How to show OTUs without taxonomic information. One of the following:</p><ul><li><p><code>"remove"</code>: Remove OTUs without taxonomic information.</p></li>
 <li><p><code>"best"</code>: (<em>default</em>) Use the best classification possible.</p></li>
 <li><p><code>"OTU"</code>: Display the OTU name.</p></li>
 </ul></dd>
 
 
-<dt>order_x_by</dt>
+<dt id="arg-order-x-by">order_x_by<a class="anchor" aria-label="anchor" href="#arg-order-x-by"></a></dt>
 <dd><p>Reorder the x axis by providing a character vector of the x axis values in the desired order, or <code>"cluster"</code> for hierarchical clustering by <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></code>.</p></dd>
 
 
-<dt>order_y_by</dt>
+<dt id="arg-order-y-by">order_y_by<a class="anchor" aria-label="anchor" href="#arg-order-y-by"></a></dt>
 <dd><p>Reorder the y axis by providing a character vector of the y axis values in the desired order, or <code>"cluster"</code> for hierarchical clustering by <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></code>.</p></dd>
 
 
-<dt>plot_values</dt>
+<dt id="arg-plot-values">plot_values<a class="anchor" aria-label="anchor" href="#arg-plot-values"></a></dt>
 <dd><p>(<em>logical</em>) Plot the values on the heatmap or not. (<em>default:</em> <code>TRUE</code>)</p></dd>
 
 
-<dt>plot_values_size</dt>
+<dt id="arg-plot-values-size">plot_values_size<a class="anchor" aria-label="anchor" href="#arg-plot-values-size"></a></dt>
 <dd><p>The size of the plotted values. (<em>default:</em> <code>4</code>)</p></dd>
 
 
-<dt>plot_legendbreaks</dt>
+<dt id="arg-plot-legendbreaks">plot_legendbreaks<a class="anchor" aria-label="anchor" href="#arg-plot-legendbreaks"></a></dt>
 <dd><p>A vector of breaks for the abundance legend, fx <code>c(1, 10, 20)</code>.</p></dd>
 
 
-<dt>plot_colorscale</dt>
+<dt id="arg-plot-colorscale">plot_colorscale<a class="anchor" aria-label="anchor" href="#arg-plot-colorscale"></a></dt>
 <dd><p>The type of scale used for the coloring of abundances, either <code>"sqrt"</code> or <code>"log10"</code>. (<em>default:</em> <code>"log10"</code>)</p></dd>
 
 
-<dt>plot_na</dt>
+<dt id="arg-plot-na">plot_na<a class="anchor" aria-label="anchor" href="#arg-plot-na"></a></dt>
 <dd><p>(<em>logical</em>) Whether to color missing values with the lowest color in the scale or not. (<em>default:</em> <code>TRUE</code>)</p></dd>
 
 
-<dt>measure</dt>
+<dt id="arg-measure">measure<a class="anchor" aria-label="anchor" href="#arg-measure"></a></dt>
 <dd><p>Generic function name to use for sorting most abundant taxa, fx <code>mean</code>, <code>median</code>, or <code>sum</code>. (<em>default:</em> <code>mean</code>)</p></dd>
 
 
-<dt>min_abundance</dt>
+<dt id="arg-min-abundance">min_abundance<a class="anchor" aria-label="anchor" href="#arg-min-abundance"></a></dt>
 <dd><p>All values below this value are given the same color. (<em>default:</em> <code>0.1</code>)</p></dd>
 
 
-<dt>max_abundance</dt>
+<dt id="arg-max-abundance">max_abundance<a class="anchor" aria-label="anchor" href="#arg-max-abundance"></a></dt>
 <dd><p>All values above this value are given the same color.</p></dd>
 
 
-<dt>sort_by</dt>
+<dt id="arg-sort-by">sort_by<a class="anchor" aria-label="anchor" href="#arg-sort-by"></a></dt>
 <dd><p>Sorts the heatmap by the most abundant taxa in a specific sample or group of samples. Provide a sample name or a specific value of the group defined by the <code>"group_by"</code> argument, e.g. <code>"Treatment A"</code>.</p></dd>
 
 
-<dt>normalise_by</dt>
+<dt id="arg-normalise-by">normalise_by<a class="anchor" aria-label="anchor" href="#arg-normalise-by"></a></dt>
 <dd><p>A variable or a specific sample in the metadata to normalise the counts by.</p></dd>
 
 
-<dt>scale_by</dt>
+<dt id="arg-scale-by">scale_by<a class="anchor" aria-label="anchor" href="#arg-scale-by"></a></dt>
 <dd><p>Scale the abundances by a variable in the metadata.</p></dd>
 
 
-<dt>color_vector</dt>
+<dt id="arg-color-vector">color_vector<a class="anchor" aria-label="anchor" href="#arg-color-vector"></a></dt>
 <dd><p>Vector of colors for the colorscale, e.g. <code>c("white", "red")</code>.</p></dd>
 
 
-<dt>round</dt>
+<dt id="arg-round">round<a class="anchor" aria-label="anchor" href="#arg-round"></a></dt>
 <dd><p>Number of digits to show with the values. (<em>default:</em> <code>1</code>)</p></dd>
 
 
-<dt>textmap</dt>
+<dt id="arg-textmap">textmap<a class="anchor" aria-label="anchor" href="#arg-textmap"></a></dt>
 <dd><p>(<em>logical</em>) Return a data frame to print as raw text instead of a ggplot2 object. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>plot_functions</dt>
+<dt id="arg-plot-functions">plot_functions<a class="anchor" aria-label="anchor" href="#arg-plot-functions"></a></dt>
 <dd><p>Return a 2-column grid plot instead, showing known functional information about the Genus-level OTUs next to the heatmap. By default, this functional information is retrieved directly from <a href="midasfieldguide.org">midasfieldguide.org</a>. When using this feature, make sure that either <code>tax_aggregate</code> or <code>tax_add</code> is set to "Genus" and that Genus is the lowest level in either. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>function_data</dt>
+<dt id="arg-function-data">function_data<a class="anchor" aria-label="anchor" href="#arg-function-data"></a></dt>
 <dd><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A data frame with functional information at Genus level. The first column must be the Genus names and any other column(s) can be any property or metabolic function of the individual Genera. If <code>NULL</code> then data will be retrieved directly from <a href="midasfieldguide.org">midasfieldguide.org</a>. (<em>default:</em> <code>NULL</code>)</p></dd>
 
 
-<dt>functions</dt>
+<dt id="arg-functions">functions<a class="anchor" aria-label="anchor" href="#arg-functions"></a></dt>
 <dd><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A vector with the functions to be displayed (column names in the <code>functions_data</code> data frame). If data is succesfully retrieved from <a href="midasfieldguide.org">midasfieldguide.org</a> then available functions can be listed with <code>colnames(.ampvis2_midasfg_function_data)</code>. (<em>default:</em> <code>c("MiDAS","Filamentous", "AOB", "NOB", "PAO", "GAO")</code>)</p></dd>
 
 
-<dt>rel_widths</dt>
+<dt id="arg-rel-widths">rel_widths<a class="anchor" aria-label="anchor" href="#arg-rel-widths"></a></dt>
 <dd><p>If <code>plot_functions</code> is set to <code>TRUE</code>: A vector with the relative widths of the heatmap and function grid when <code>plot_functions = TRUE</code>. (<em>default:</em> <code>c(0.75, 0.25)</code>)</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A ggplot2 object, or a list of ggplot2 objects if <code>plot_functions = TRUE</code>. A data frame if <code>textmap = TRUE</code>.</p>
+    <p>A ggplot2 object, or a list of ggplot2 objects if <code>plot_functions = TRUE</code>. A data frame if <code>textmap = TRUE</code>.</p>
     </div>
     <div id="preserving-relative-abundances-in-a-subset-of-larger-data">
     <h2>Preserving relative abundances in a subset of larger data</h2>
-    
+
 
 <p>By default the raw read counts in the abundance matrix are normalised (transformed to percentages) by some plotting functions automatically (for example <code>amp_heatmap</code>, <code><a href="amp_timeseries.html">amp_timeseries</a></code>, and more). This means that the relative abundances shown will be calculated based on the remaining taxa after the subset, not including the removed taxa, if any. To circumvent this, set <code>normalise = TRUE</code> when subsetting with the <code><a href="amp_filter_taxa.html">amp_filter_taxa</a></code> and <code><a href="amp_filter_samples.html">amp_filter_samples</a></code> functions, and then set <code>normalise = FALSE</code> in the plotting function. This will transform the OTU counts to relative abundances BEFORE the subset, and setting <code>normalise = FALSE</code> will skip the transformation in the plotting function, see the example below.</p>
 <div class="sourceCode"><pre><code><span></span>
@@ -256,13 +256,13 @@
     </div>
     <div id="saving-plot-with-ggsave">
     <h2>Saving plot with <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggsave</a></code></h2>
-    
+
 
 <p>When <code>plot_functions = TRUE</code> a list of ggplot objects is returned to allow adjusting themes etc. of the individual subplots. The list is of class <code>hmfunplot</code> and a matching print function for the S3 class then stitches together the individual plots using the <a href="https://patchwork.data-imaginist.com/" class="external-link">patchwork</a> package. Therefore to save the plot with <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggsave</a></code> simply pass on the plot object explicitly and wrap it in print(), see examples. This is not necessary if <code>plot_functions = FALSE</code>, as the returned object is then a regular ggplot object.</p>
     </div>
     <div id="accessing-detailed-raw-data">
     <h2>Accessing detailed raw data</h2>
-    
+
 
 <p>The complete raw data used to generate any ggplot can always be accessed with <code>ggplot2_object$data</code> when the plot is saved as a ggplot2 object. Additionally, a "textmap" version of the generated heatmap can also be generated by setting <code>textmap = TRUE</code> to only extract the raw data as shown on the particular heatmap, see examples.</p>
     </div>
@@ -359,16 +359,16 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b0ba3a3eb751685982ccf010113f380a',
     indexName: 'ampvis2',
     inputSelector: 'input#search-input.form-control',

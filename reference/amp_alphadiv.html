@@ -9,7 +9,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -43,25 +43,25 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Alpha-diversity analysis</h1>
-    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_alphadiv.R" class="external-link"><code>R/amp_alphadiv.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/main/R/amp_alphadiv.R" class="external-link"><code>R/amp_alphadiv.R</code></a></small>
     <div class="hidden name"><code>amp_alphadiv.Rd</code></div>
     </div>
 
@@ -93,11 +93,13 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
+
+
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>(<em>required</em>) Data list as loaded with <code><a href="amp_load.html">amp_load</a></code>.</p></dd>
 
 
-<dt>measure</dt>
+<dt id="arg-measure">measure<a class="anchor" aria-label="anchor" href="#arg-measure"></a></dt>
 <dd><p>Alpha-diversity measure(s) to be included if not all. A vector of one or more of:</p><ul><li><p><code>"uniqueotus"</code></p></li>
 <li><p><code>"shannon"</code></p></li>
 <li><p><code>"simpson"</code></p></li>
@@ -105,31 +107,29 @@
 </ul></dd>
 
 
-<dt>richness</dt>
+<dt id="arg-richness">richness<a class="anchor" aria-label="anchor" href="#arg-richness"></a></dt>
 <dd><p>(<em>logical</em>) Also calculate sample richness estimates (Chao1 and ACE) as calculated by <code><a href="https://rdrr.io/pkg/vegan/man/specpool.html" class="external-link">estimateR</a></code>. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>rarefy</dt>
+<dt id="arg-rarefy">rarefy<a class="anchor" aria-label="anchor" href="#arg-rarefy"></a></dt>
 <dd><p>Rarefy species richness to this value before calculating alpha diversity and/or richness. Passed directly as the <code>sample</code> argument to <code><a href="https://rdrr.io/pkg/vegan/man/rarefy.html" class="external-link">rrarefy</a></code>. (<em>default:</em> <code>NULL</code>)</p></dd>
 
 
-<dt>plot</dt>
+<dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
 <dd><p>(<em>logical</em>) Produce a boxplot instead of a table. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>plot_scatter</dt>
+<dt id="arg-plot-scatter">plot_scatter<a class="anchor" aria-label="anchor" href="#arg-plot-scatter"></a></dt>
 <dd><p>(<em>logical</em>) If <code>TRUE</code> produce a scatter plot instead of a boxplot. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>plot_group_by</dt>
+<dt id="arg-plot-group-by">plot_group_by<a class="anchor" aria-label="anchor" href="#arg-plot-group-by"></a></dt>
 <dd><p>Group the samples by a categorical variable in the metadata. If <code>NULL</code> then all samples are shown in a single group.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A data frame or a ggplot if <code>plot</code> is set to TRUE</p>
+    <p>A data frame or a ggplot if <code>plot</code> is set to TRUE</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -194,16 +194,16 @@ rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b0ba3a3eb751685982ccf010113f380a',
     indexName: 'ampvis2',
     inputSelector: 'input#search-input.form-control',

@@ -9,7 +9,7 @@
 
   gtag('config', 'UA-93913019-2');
 </script></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -43,25 +43,25 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/kasperskytte/ampvis2" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Load data for ampvis2 functions</h1>
-    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/HEAD/R/amp_load.R" class="external-link"><code>R/amp_load.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/kasperskytte/ampvis2/blob/main/R/amp_load.R" class="external-link"><code>R/amp_load.R</code></a></small>
     <div class="hidden name"><code>amp_load.Rd</code></div>
     </div>
 
@@ -86,51 +86,51 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>otutable</dt>
+
+
+<dl><dt id="arg-otutable">otutable<a class="anchor" aria-label="anchor" href="#arg-otutable"></a></dt>
 <dd><p>(<em>required</em>) File path, data frame, or a phyloseq-class object. OTU-table with the read counts of all OTU's. Rows are OTU's, columns are samples, otherwise you must transpose. The taxonomy of the OTU's can be placed anywhere in the table and will be extracted by name (Kingdom/Domain -&gt; Species). If a file path is provided it will be attempted being read by either <code><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></code> or <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_excel</a></code>, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file (bzip2 and gzip requires <code>data.table</code> 1.14.3 or later). Can also be a path to a BIOM file, which will then be parsed using the <a href="https://github.com/joey711/biomformat" class="external-link">biomformat</a> package, so both the JSON and HDF5 versions of the BIOM format are supported.</p></dd>
 
 
-<dt>metadata</dt>
+<dt id="arg-metadata">metadata<a class="anchor" aria-label="anchor" href="#arg-metadata"></a></dt>
 <dd><p>(<em>recommended</em>) File path or a data frame. Sample metadata with any information about the samples. The first column must contain sample ID's matching those in the otutable. If none provided, dummy metadata will be created. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either <code><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></code> or <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_excel</a></code>, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file (bzip2 and gzip requires <code>data.table</code> 1.14.3 or later). If <code>otutable</code> is a BIOM file and contains sample metadata, <code>metadata</code> will take precedence if provided. (<em>default:</em> <code>NULL</code>)</p></dd>
 
 
-<dt>taxonomy</dt>
+<dt id="arg-taxonomy">taxonomy<a class="anchor" aria-label="anchor" href="#arg-taxonomy"></a></dt>
 <dd><p>(<em>recommended</em>) File path or a data frame. Taxonomy table where rows are OTU's and columns are up to 7 levels of taxonomy named Kingdom/Domain-&gt;Species. If taxonomy is also present in otutable, it will be discarded and only this will be used. Can be a data frame, matrix, or path to a delimited text file or excel file which will be read using either <code><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></code> or <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_excel</a></code>, respectively. Compressed files (zip, bzip2, gzip) are supported if not an excel file (bzip2 and gzip requires <code>data.table</code> 1.14.3 or later). Can also be a path to a .sintax taxonomy table from a <a href="http://www.drive5.com/usearch/" class="external-link">USEARCH</a> analysis <a href="http://www.drive5.com/usearch/manual/ex_miseq.html" class="external-link">pipeline</a>, file extension must be <code>.sintax</code>. bzip2 or gzip compression is currently NOT supported if sintax format. (<em>default:</em> <code>NULL</code>)</p></dd>
 
 
-<dt>fasta</dt>
+<dt id="arg-fasta">fasta<a class="anchor" aria-label="anchor" href="#arg-fasta"></a></dt>
 <dd><p>(<em>optional</em>) Path to a FASTA file with reference sequences for all OTU's in the OTU-table. (<em>default:</em> <code>NULL</code>)</p></dd>
 
 
-<dt>tree</dt>
+<dt id="arg-tree">tree<a class="anchor" aria-label="anchor" href="#arg-tree"></a></dt>
 <dd><p>(<em>optional</em>) Path to a phylogenetic tree file which will be read using <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html" class="external-link">read.tree</a></code>, or an object of class <code>"phylo"</code>. (<em>default:</em> <code>NULL</code>)</p></dd>
 
 
-<dt>pruneSingletons</dt>
+<dt id="arg-prunesingletons">pruneSingletons<a class="anchor" aria-label="anchor" href="#arg-prunesingletons"></a></dt>
 <dd><p>(<em>logical</em>) Remove OTU's only observed once in all samples. (<em>default:</em> <code>FALSE</code>)</p></dd>
 
 
-<dt>removeAbsentOTUs</dt>
+<dt id="arg-removeabsentotus">removeAbsentOTUs<a class="anchor" aria-label="anchor" href="#arg-removeabsentotus"></a></dt>
 <dd><p>(<em>logical</em>) Remove OTU's with 0 abundance in all samples. Absent OTUs are rarely present in the input data itself, but can occur when some samples are removed because of a mismatch between samples in the OTU-table and sample metadata. (<em>default:</em> <code>TRUE</code>)</p></dd>
 
 
-<dt>otutable_OTUcolname</dt>
+<dt id="arg-otutable-otucolname">otutable_OTUcolname<a class="anchor" aria-label="anchor" href="#arg-otutable-otucolname"></a></dt>
 <dd><p>Character vector with the name(s) of the column in the otutable that contains the OTUs/ASVs.</p></dd>
 
 
-<dt>taxonomy_OTUcolname</dt>
+<dt id="arg-taxonomy-otucolname">taxonomy_OTUcolname<a class="anchor" aria-label="anchor" href="#arg-taxonomy-otucolname"></a></dt>
 <dd><p>Character vector with the name(s) of the column in the taxonomy that contains the OTUs/ASVs.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>(<em>optional</em>) Additional arguments are passed on to any of the file reader functions used.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A list of class <code>"ampvis2"</code> with 3 to 5 elements.</p>
+    <p>A list of class <code>"ampvis2"</code> with 3 to 5 elements.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -138,7 +138,7 @@
     </div>
     <div id="the-otu-table">
     <h2>The OTU-table</h2>
-    
+
 
 <p>The OTU-table contains information about the OTUs, their read counts in each sample, and optionally their assigned taxonomy. The provided OTU-table must be a data frame with the following requirements:</p>
 <ul><li><p>The rows are OTU IDs and the columns are samples.</p></li>
@@ -150,7 +150,7 @@
     </div>
     <div id="the-metadata">
     <h2>The metadata</h2>
-    
+
 
 <p>The metadata contains additional information about the samples, for example where each sample was taken, date, pH, treatment etc, which is used to compare and group the samples during analysis. The amount of information in the metadata is unlimited, it can contain any number of columns (variables), however there are a few requirements:</p>
 <ul><li><p>The sample IDs must be in the first column. These sample IDs must match exactly to those in the OTU-table.</p></li>
@@ -174,7 +174,7 @@
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kasperskytte.github.io/ampvis2">ampvis2</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># Load data by either giving file paths or by passing already loaded R objects</span></span></span>
 <span class="r-in"><span><span class="co">### example load with file paths</span></span></span>
 <span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">amp_load</span><span class="op">(</span></span></span>
@@ -208,7 +208,7 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### Show a short summary about the data by simply typing the name of the object in the console</span></span></span>
 <span class="r-in"><span><span class="va">d</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### Minimal example metadata:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_metadata"</span><span class="op">)</span></span></span>
@@ -346,16 +346,16 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b0ba3a3eb751685982ccf010113f380a',
     indexName: 'ampvis2',
     inputSelector: 'input#search-input.form-control',
