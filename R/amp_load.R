@@ -178,7 +178,7 @@ import <- function(x, ...) {
       checkReqPkg("readxl")
       DF <- readxl::read_excel(x, ...)
       # if ext is .biom expect BIOM format and parse correctly
-    } else if (ext %in% "biom" | inherits(otutable, "biom")) {
+    } else if (ext %in% "biom") {
       checkReqPkg(
         "biomformat",
         " Please install with:\n  install.packages(\"BiocManager\"); BiocManager::install(\"biomformat\")"

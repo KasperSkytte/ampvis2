@@ -1,9 +1,6 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/kasperskytte/ampvis2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/kasperskytte/ampvis2/actions/workflows/R-CMD-check.yaml)
-
-[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/r-ampvis2/README.html)
-
 <!-- badges: end -->
 
 Tools for visualising amplicon data
@@ -18,19 +15,39 @@ First, install [R (3.5.x or later)](https://mirrors.dotsrc.org/cran/) and [RStud
 
 ``` r
 install.packages("remotes")
-remotes::install_github("kasperskytte/ampvis2", Ncpus = 4)
+remotes::install_github("kasperskytte/ampvis2")
 ```
 
-You can also [install ampvis2 into a conda environment](http://bioconda.github.io/recipes/r-ampvis2/README.html) from the [bioconda channel](https://bioconda.github.io/index.html), or use the Docker container:
-
-```
-docker pull quay.io/biocontainers/r-ampvis2:<tag>
-```
+Tip: For faster installation you can utilise multicore processors by setting the `Ncpus` argument, fx `remotes::install_github("kasperskytte/ampvis2", Ncpus = 6)`. Most CPU's today can run 8 processes simultaneously, so setting it to 6 is a good starting point unless you know you have a CPU with more (logical) cores than 8.
 
 Get started
 -----------
 
 For a quick guide on how to use ampvis2 go to the [Get Started](https://kasperskytte.github.io/ampvis2/articles/ampvis2.html) page. Detailed documentation of all ampvis2 functions can be found at the [Functions](https://kasperskytte.github.io/ampvis2/reference/index.html) page.
+
+RStudio Docker container
+------------------
+
+A Docker container based on the [rocker/rstudio](https://hub.docker.com/r/rocker/rstudio) image is also provided with ampvis2 preinstalled. This is ideal for complete reproducibility and portability. All you need to do is [install Docker](https://docs.docker.com/) and then run:
+
+``` bash
+docker run -d \
+  -e "PASSWORD=supersafepassword" \
+  -v "local/folder/to/mount":/home/rstudio \
+  -p 8787:8787 \
+  ghcr.io/kasperskytte/ampvis2:main
+```
+
+Access RStudio server through a browser at `http://localhost:8787` with username `rstudio`. Ideally use a specific version tag, fx `v2.7.31`, instead of `main` to not just pull the latest image every time.
+
+Blog posts about ampvis2
+------------------------
+
+Check out the blog posts at <http://albertsenlab.org/> about selected ampvis2 plotting functions. The posts include details as well as example code:
+
+-   [ampvis2: The bread and butter of our amplicon analyses: amp\_heatmap!](http://albertsenlab.org/ampvis2-heatmap/)
+-   [ampvis2: A guide to ordination and how to use amp\_ordinate in R](http://albertsenlab.org/ampvis2-ordination/)
+-   [Analysing amplicon data, how easy does it get?](http://albertsenlab.org/shinyampvis/)
 
 Shiny app
 -----
