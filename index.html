@@ -87,6 +87,8 @@
   <div class="contents col-md-9">
 
 
+<p><a href="http://bioconda.github.io/recipes/r-ampvis2/README.html" class="external-link"><img src="https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat" alt="install with bioconda"></a></p>
+<!-- badges: end -->
 <div class="section level1">
 <div class="page-header"><h1 id="tools-for-visualising-amplicon-data">Tools for visualising amplicon data<a class="anchor" aria-label="anchor" href="#tools-for-visualising-amplicon-data"></a>
 </h1></div>
@@ -97,34 +99,14 @@
 <p>First, install <a href="https://mirrors.dotsrc.org/cran/" class="external-link">R (3.5.x or later)</a> and <a href="https://www.rstudio.com/products/rstudio/download/#download" class="external-link">RStudio</a>. Windows users should also install <a href="https://mirrors.dotsrc.org/cran/bin/windows/Rtools/" class="external-link">RTools</a>. Then open RStudio as administrator (!) and run the commands below to install ampvis2 from the console:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"kasperskytte/ampvis2"</span><span class="op">)</span></span></code></pre></div>
-<p>Tip: For faster installation you can utilise multicore processors by setting the <code>Ncpus</code> argument, fx <code>remotes::install_github("kasperskytte/ampvis2", Ncpus = 6)</code>. Most CPU’s today can run 8 processes simultaneously, so setting it to 6 is a good starting point unless you know you have a CPU with more (logical) cores than 8.</p>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"kasperskytte/ampvis2"</span>, Ncpus <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<p>You can also <a href="http://bioconda.github.io/recipes/r-ampvis2/README.html" class="external-link">install ampvis2 into a conda environment</a> from the <a href="https://bioconda.github.io/index.html" class="external-link">bioconda channel</a>, or use the Docker container:</p>
+<pre><code>docker pull quay.io/biocontainers/r-ampvis2:&lt;tag&gt;</code></pre>
 </div>
 <div class="section level2">
 <h2 id="get-started">Get started<a class="anchor" aria-label="anchor" href="#get-started"></a>
 </h2>
 <p>For a quick guide on how to use ampvis2 go to the <a href="https://kasperskytte.github.io/ampvis2/articles/ampvis2.html">Get Started</a> page. Detailed documentation of all ampvis2 functions can be found at the <a href="https://kasperskytte.github.io/ampvis2/reference/index.html">Functions</a> page.</p>
-</div>
-<div class="section level2">
-<h2 id="rstudio-docker-container">RStudio Docker container<a class="anchor" aria-label="anchor" href="#rstudio-docker-container"></a>
-</h2>
-<p>A Docker container based on the <a href="https://hub.docker.com/r/rocker/rstudio" class="external-link">rocker/rstudio</a> image is also provided with ampvis2 preinstalled. This is ideal for complete reproducibility and portability. All you need to do is <a href="https://docs.docker.com/" class="external-link">install Docker</a> and then run:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="dt">\</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">-e</span> <span class="st">"PASSWORD=supersafepassword"</span> <span class="dt">\</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">-v</span> <span class="st">"local/folder/to/mount"</span>:/home/rstudio <span class="dt">\</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">-p</span> 8787:8787 <span class="dt">\</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  ghcr.io/kasperskytte/ampvis2:main</span></code></pre></div>
-<p>Access RStudio server through a browser at <code>http://localhost:8787</code> with username <code>rstudio</code>. Ideally use a specific version tag, fx <code>v2.7.31</code>, instead of <code>main</code> to not just pull the latest image every time.</p>
-</div>
-<div class="section level2">
-<h2 id="blog-posts-about-ampvis2">Blog posts about ampvis2<a class="anchor" aria-label="anchor" href="#blog-posts-about-ampvis2"></a>
-</h2>
-<p>Check out the blog posts at <a href="http://albertsenlab.org/" class="external-link uri">http://albertsenlab.org/</a> about selected ampvis2 plotting functions. The posts include details as well as example code:</p>
-<ul>
-<li><a href="http://albertsenlab.org/ampvis2-heatmap/" class="external-link">ampvis2: The bread and butter of our amplicon analyses: amp_heatmap!</a></li>
-<li><a href="http://albertsenlab.org/ampvis2-ordination/" class="external-link">ampvis2: A guide to ordination and how to use amp_ordinate in R</a></li>
-<li><a href="http://albertsenlab.org/shinyampvis/" class="external-link">Analysing amplicon data, how easy does it get?</a></li>
-</ul>
 </div>
 <div class="section level2">
 <h2 id="shiny-app">Shiny app<a class="anchor" aria-label="anchor" href="#shiny-app"></a>
@@ -165,9 +147,9 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Kasper Skytte Andersen <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5423-0958" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Mads Albertsen <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6151-190X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Rasmus Hansen Kirkegaard <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3349-3617" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Kasper Skytte Andersen <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5423-0958" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Mads Albertsen <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6151-190X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Rasmus Hansen Kirkegaard <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3349-3617" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 </ul>
 </div>
 
@@ -189,7 +171,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer>

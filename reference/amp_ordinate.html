@@ -146,13 +146,13 @@
 <dd><p>(<em>required for nMDS and PCoA</em>) Distance measure used for the distance-based ordination methods (nMDS and PCoA). Choose one of the following:</p><ul><li><p><code>"wunifrac"</code> (PCoA only): Weighted UniFrac distances. Requires a rooted phylogenetic tree.</p></li>
 <li><p><code>"unifrac"</code> (PCoA only): Unweighted UniFrac distances. Requires a phylogenetic tree.</p></li>
 <li><p><code>"jsd"</code> (PCoA only): Jensen-Shannon Divergence, based on <a href="http://enterotype.embl.de/enterotypes.html" class="external-link">http://enterotype.embl.de/enterotypes.html</a>.</p></li>
-<li><p>Any of the distance measures supported by <code><a href="https://rdrr.io/pkg/vegan/man/vegdist.html" class="external-link">vegdist</a></code>: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"gower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"jaccard"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"altGower"</code>, <code>"cao"</code>, <code>"mahalanobis"</code>, <code>"clark"</code>, <code>"chisq"</code>, <code>"chord"</code>, <code>"hellinger"</code>, <code>"aitchison"</code>, <code>"robust.aitchison"</code>.</p></li>
-</ul><p>You can also write your own math formula, see details in <code><a href="https://rdrr.io/pkg/vegan/man/vegdist.html" class="external-link">vegdist</a></code>.
+<li><p>Any of the distance measures supported by <code><a href="https://vegandevs.github.io/vegan/reference/vegdist.html" class="external-link">vegdist</a></code>: <code>"manhattan"</code>, <code>"euclidean"</code>, <code>"canberra"</code>, <code>"bray"</code>, <code>"kulczynski"</code>, <code>"gower"</code>, <code>"morisita"</code>, <code>"horn"</code>, <code>"mountford"</code>, <code>"jaccard"</code>, <code>"raup"</code>, <code>"binomial"</code>, <code>"chao"</code>, <code>"altGower"</code>, <code>"cao"</code>, <code>"mahalanobis"</code>, <code>"clark"</code>, <code>"chisq"</code>, <code>"chord"</code>, <code>"hellinger"</code>, <code>"aitchison"</code>, <code>"robust.aitchison"</code>.</p></li>
+</ul><p>You can also write your own math formula, see details in <code><a href="https://vegandevs.github.io/vegan/reference/vegdist.html" class="external-link">vegdist</a></code>.
 Default is <code>bray</code>.</p></dd>
 
 
 <dt id="arg-transform">transform<a class="anchor" aria-label="anchor" href="#arg-transform"></a></dt>
-<dd><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href="https://rdrr.io/pkg/vegan/man/decostand.html" class="external-link">decostand</a></code>. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (<em>default:</em> <code>"hellinger"</code>)</p></dd>
+<dd><p>(<em>recommended</em>) Transforms the abundances before ordination, choose one of the following: <code>"total"</code>, <code>"max"</code>, <code>"freq"</code>, <code>"normalize"</code>, <code>"range"</code>, <code>"standardize"</code>, <code>"pa"</code> (presence/absense), <code>"chi.square"</code>, <code>"hellinger"</code>, <code>"log"</code>, or <code>"sqrt"</code>, see details in <code><a href="https://vegandevs.github.io/vegan/reference/decostand.html" class="external-link">decostand</a></code>. Using the hellinger transformation is a good choice when performing PCA/RDA as it will produce a more ecologically meaningful result (read about the double-zero problem in Numerical Ecology). When the Hellinger transformation is used with CA/CCA it will help reducing the impact of low abundant species. When performing nMDS or PCoA (aka mMDS) it is not recommended to also use data transformation as this will obscure the chosen distance measure. (<em>default:</em> <code>"hellinger"</code>)</p></dd>
 
 
 <dt id="arg-constrain">constrain<a class="anchor" aria-label="anchor" href="#arg-constrain"></a></dt>
@@ -160,11 +160,11 @@ Default is <code>bray</code>.</p></dd>
 
 
 <dt id="arg-x-axis">x_axis<a class="anchor" aria-label="anchor" href="#arg-x-axis"></a></dt>
-<dd><p>(<em>integer</em>) Which axis from the ordination results to plot as the first axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. With nMDS the number of dimensions (<code>k</code> argument to the <code><a href="https://rdrr.io/pkg/vegan/man/metaMDS.html" class="external-link">metaMDS</a></code> function) is set to that of the highest number of either <code>x_axis</code> or <code>y_axis</code>. (<em>default:</em> <code>1</code>)</p></dd>
+<dd><p>(<em>integer</em>) Which axis from the ordination results to plot as the first axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. With nMDS the number of dimensions (<code>k</code> argument to the <code><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html" class="external-link">metaMDS</a></code> function) is set to that of the highest number of either <code>x_axis</code> or <code>y_axis</code>. (<em>default:</em> <code>1</code>)</p></dd>
 
 
 <dt id="arg-y-axis">y_axis<a class="anchor" aria-label="anchor" href="#arg-y-axis"></a></dt>
-<dd><p>(<em>integer</em>) Which axis from the ordination results to plot as the second axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. With nMDS the number of dimensions (<code>k</code> argument to the <code><a href="https://rdrr.io/pkg/vegan/man/metaMDS.html" class="external-link">metaMDS</a></code> function) is set to that of the highest number of either <code>x_axis</code> or <code>y_axis</code>. (<em>default:</em> <code>2</code>)</p></dd>
+<dd><p>(<em>integer</em>) Which axis from the ordination results to plot as the second axis. Have a look at the <code>$screeplot</code> with <code>detailed_output = TRUE</code> to validate axes. With nMDS the number of dimensions (<code>k</code> argument to the <code><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html" class="external-link">metaMDS</a></code> function) is set to that of the highest number of either <code>x_axis</code> or <code>y_axis</code>. (<em>default:</em> <code>2</code>)</p></dd>
 
 
 <dt id="arg-print-caption">print_caption<a class="anchor" aria-label="anchor" href="#arg-print-caption"></a></dt>
@@ -260,11 +260,11 @@ Default is <code>bray</code>.</p></dd>
 
 
 <dt id="arg-envfit-factor">envfit_factor<a class="anchor" aria-label="anchor" href="#arg-envfit-factor"></a></dt>
-<dd><p>A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in <code><a href="https://rdrr.io/pkg/vegan/man/envfit.html" class="external-link">envfit</a></code>.</p></dd>
+<dd><p>A vector of categorical environmental variables from the metadata to fit onto the ordination plot. See details in <code><a href="https://vegandevs.github.io/vegan/reference/envfit.html" class="external-link">envfit</a></code>.</p></dd>
 
 
 <dt id="arg-envfit-numeric">envfit_numeric<a class="anchor" aria-label="anchor" href="#arg-envfit-numeric"></a></dt>
-<dd><p>A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in <code><a href="https://rdrr.io/pkg/vegan/man/envfit.html" class="external-link">envfit</a></code>.</p></dd>
+<dd><p>A vector of numerical environmental variables from the metadata to fit arrows onto the ordination plot. The lengths of the arrows are scaled by significance. See details in <code><a href="https://vegandevs.github.io/vegan/reference/envfit.html" class="external-link">envfit</a></code>.</p></dd>
 
 
 <dt id="arg-envfit-signif-level">envfit_signif_level<a class="anchor" aria-label="anchor" href="#arg-envfit-signif-level"></a></dt>
@@ -315,7 +315,7 @@ Default is <code>bray</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Pass additional arguments to the vegan ordination functions, fx the <code><a href="https://rdrr.io/pkg/vegan/man/cca.html" class="external-link">rda</a></code>, <code><a href="https://rdrr.io/pkg/vegan/man/cca.html" class="external-link">cca</a></code>, <code><a href="https://rdrr.io/pkg/vegan/man/metaMDS.html" class="external-link">metaMDS</a></code> functions, see the documentation.</p></dd>
+<dd><p>Pass additional arguments to the vegan ordination functions, fx the <code><a href="https://vegandevs.github.io/vegan/reference/cca.html" class="external-link">rda</a></code>, <code><a href="https://vegandevs.github.io/vegan/reference/cca.html" class="external-link">cca</a></code>, <code><a href="https://vegandevs.github.io/vegan/reference/metaMDS.html" class="external-link">metaMDS</a></code> functions, see the documentation.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -324,7 +324,7 @@ Default is <code>bray</code>.</p></dd>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>The <code>amp_ordinate</code> function is primarily based on two packages; <code><a href="https://rdrr.io/pkg/vegan/man/vegan-package.html" class="external-link">vegan-package</a></code>, which performs the actual ordination, and the <code><a href="https://ggplot2.tidyverse.org/reference/ggplot2-package.html" class="external-link">ggplot2-package</a></code> to generate the plot. The function generates an ordination plot by the following process:</p><ol><li><p>Various input argument checks and error messages</p></li>
+    <p>The <code>amp_ordinate</code> function is primarily based on two packages; <code><a href="https://vegandevs.github.io/vegan/reference/vegan-package.html" class="external-link">vegan-package</a></code>, which performs the actual ordination, and the <code><a href="https://ggplot2.tidyverse.org/reference/ggplot2-package.html" class="external-link">ggplot2-package</a></code> to generate the plot. The function generates an ordination plot by the following process:</p><ol><li><p>Various input argument checks and error messages</p></li>
 <li><p>OTU-table filtering, where low abundant OTU's across all samples are removed (if not <code>filter_species = 0</code> is set)</p></li>
 <li><p>Data transformation (if not <code>transform = "none"</code> is set)</p></li>
 <li><p>Calculate distance matrix based on the chosen <code>distmeasure</code> if the chosen ordination method is PCoA/nMDS/DCA</p></li>
@@ -405,7 +405,7 @@ Default is <code>bray</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer></div>
