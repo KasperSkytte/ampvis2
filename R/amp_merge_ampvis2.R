@@ -57,7 +57,8 @@ amp_merge_ampvis2 <- function(
   rename_unmatched = TRUE,
   unmatched_prefix = "unmatched"
 ) {
-  obj_list <- list(...)
+  # collect objects and filter out NULLs
+  obj_list <- Filter(Negate(is.null), list(...))
 
   # all objects must be ampvis2-class objects
   if (!all(sapply(obj_list, inherits, "ampvis2"))) {
