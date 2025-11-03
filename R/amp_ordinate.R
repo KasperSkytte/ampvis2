@@ -544,6 +544,9 @@ amp_ordinate <- function(data,
     )
   }
 
+  # biplots should be drawn on equally-scaled axes, i.e. with ratio = 1
+  plot <- plot + coord_fixed(ratio = 1)
+  
   ##### Colorframe  #####
   if (!sample_colorframe == FALSE) {
     if (is.null(sample_color_by) & sample_colorframe == TRUE) {
