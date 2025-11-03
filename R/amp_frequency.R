@@ -95,7 +95,7 @@ amp_frequency <- function(data,
     if (group_by != "Sample") {
       grp <- data.frame(
         Sample = rownames(data$metadata),
-        .Group = apply(data$metadata[, group_by], 1, paste, collapse = " ")
+        .Group = apply(data$metadata[, group_by, drop = FALSE], 1, paste, collapse = " ")
       )
       abund1$.Group <- grp$.Group[match(abund1$Sample, grp$Sample)]
       abund2 <- abund1
