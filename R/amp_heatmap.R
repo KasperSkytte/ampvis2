@@ -320,7 +320,7 @@ amp_heatmap <- function(data,
 
   ## Normalise to a specific group or sample (The Abundance of the group is set as 1)
   if (!is.null(normalise_by)) {
-    if (!normalise_by %chin% unique(abund7$.Group)) {
+    if (!normalise_by %chin% as.character(unique(abund7$.Group))) {
       stop(paste0(normalise_by, " is not found among group names, cannot normalise"), call. = FALSE)
     }
     setDT(abund7)
